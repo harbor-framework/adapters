@@ -15,6 +15,11 @@ dependencies = [
 [project.scripts]
 swebench = "swebench_adapter.main:main"
 
+[dependency-groups]
+dev = [
+  "pytest>=9.0.3",
+]
+
 [build-system]
 requires = ["setuptools>=69"]
 build-backend = "setuptools.build_meta"
