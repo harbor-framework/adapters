@@ -5,7 +5,7 @@ description = "Harbor adapter for MMAU"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-    "harbor",
+    "harbor==0.23.0",
 ]
 
 [project.scripts]
@@ -17,6 +17,3 @@ build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/mmau"]
-
-[tool.uv.sources]
-harbor = { path = "../.." }

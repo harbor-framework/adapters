@@ -6,8 +6,6 @@ from pathlib import Path
 from adapter import LiveCodeBenchAdapter
 from datasets import load_dataset
 
-HARBOR_ROOT = Path(__file__).resolve().parent.parent.parent
-
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 logger = logging.getLogger(__name__)
 
@@ -21,8 +19,12 @@ def _to_safe_task_id(raw_id: str) -> str:
     return safe
 
 
-def main(dataset_version_name, sample_size, sample_seed):
-    task_dir = HARBOR_ROOT / "datasets" / "livecodebench" / dataset_version_name
+def main(dataset_version_name, sample_size, sample_seed, output_dir=None):
+    task_dir = (
+        Path(output_dir).expanduser().resolve()
+        if output_dir is not None
+        else Path.cwd() / "datasets" / "livecodebench" / dataset_version_name
+    )
     task_dir.mkdir(parents=True, exist_ok=True)
 
     # Load dataset once and pass it to the adapter
@@ -96,6 +98,11 @@ if __name__ == "__main__":
         default=42,
         help="Random seed for sampling the dataset",
     )
+    parser.add_argument(
+        "--output-dir",
+        type=Path,
+        help="Task output directory (default: ./datasets/livecodebench/<dataset-version> from the current directory)",
+    )
     args = parser.parse_args()
 
     if args.dataset_version == "oracle":
@@ -104,4 +111,4 @@ if __name__ == "__main__":
                 "You are trying to generate oracle tasks, but gold solutions directory not found: gold_solutions/"
             )
 
-    main(args.dataset_version, args.sample_size, args.sample_seed)
+    main(args.dataset_version, args.sample_size, args.sample_seed, args.output_dir)
