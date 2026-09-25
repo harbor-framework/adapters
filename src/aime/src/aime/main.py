@@ -13,11 +13,6 @@ if __package__ in (None, ""):
 else:
     from .adapter import AIMEAdapter
 
-# Add project root to Python path
-HARBOR_ROOT = Path(__file__).resolve().parents[4]
-if str(HARBOR_ROOT) not in sys.path:
-    sys.path.insert(0, str(HARBOR_ROOT))
-
 # --- CONFIGURATION ---
 
 JSON_URLS = [
@@ -63,7 +58,7 @@ def main() -> None:
     parser.add_argument(
         "--output-dir",
         type=str,
-        default=str(HARBOR_ROOT / "datasets" / "aime"),
+        default=str(Path("datasets") / "aime"),
         help="Output directory for generated tasks (default: datasets/aime)",
     )
     parser.add_argument(

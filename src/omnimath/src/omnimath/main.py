@@ -30,7 +30,7 @@ else:
     from .adapter import OmniMathAdapter
 
 LOGGER = logging.getLogger(__name__)
-DEFAULT_OUTPUT_DIR = Path(__file__).resolve().parents[4] / "datasets" / "omnimath"
+DEFAULT_OUTPUT_DIR = Path("datasets") / "omnimath"
 DEFAULT_DATASET = "KbsdJames/Omni-MATH"
 
 

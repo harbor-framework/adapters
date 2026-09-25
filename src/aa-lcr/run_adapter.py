@@ -53,7 +53,7 @@ def _parse_args() -> argparse.Namespace:
         "--cache-dir",
         type=Path,
         default=None,
-        help="Cache directory for downloaded data (default: adapters/aa-lcr/.cache)",
+        help="Cache directory for downloaded data (default: src/aa-lcr/.cache)",
     )
     return parser.parse_args()
 

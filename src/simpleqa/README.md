@@ -46,7 +46,7 @@ simpleqa/
 
 Adapter code structure:
 ```
-harbor/adapters/simpleqa/
+src/simpleqa/
 ├── README.md
 ├── pyproject.toml
 ├── uv.lock
@@ -80,10 +80,10 @@ harbor/adapters/simpleqa/
 
 ```bash
 # Use oracle agent (reference solution)
-uv run harbor run -d simpleqa
+uvx --from harbor==0.23.0 harbor run -d simpleqa
 
 # Use your specified agent and model
-uv run harbor run -d simpleqa -a <agent_name> -m "<model_name>"
+uvx --from harbor==0.23.0 harbor run -d simpleqa -a <agent_name> -m "<model_name>"
 ```
 
 ### Using Job Configurations
@@ -91,13 +91,13 @@ uv run harbor run -d simpleqa -a <agent_name> -m "<model_name>"
 ```bash
 # From the repository root
 # Run a job with the default adapter configuration
-uv run harbor run -c adapters/simpleqa/simpleqa_oracle.yaml -a <agent_name> -m "<model_name>"
+uvx --from harbor==0.23.0 harbor run -c src/simpleqa/simpleqa_oracle.yaml -a <agent_name> -m "<model_name>"
 
 # Or run a job without configuration yaml but instead with locally prepared dataset path
-uv run harbor run -p datasets/simpleqa -a <agent_name> -m "<model_name>"
+uvx --from harbor==0.23.0 harbor run -p datasets/simpleqa -a <agent_name> -m "<model_name>"
 
 # Resume a previously started job
-uv run harbor job resume -p /path/to/jobs/directory
+uvx --from harbor==0.23.0 harbor job resume -p /path/to/jobs/directory
 ```
 
 Results are saved in the `jobs/` directory by default (configurable via `jobs_dir` in the YAML config).
@@ -108,10 +108,10 @@ For quick testing or debugging a single task:
 
 ```bash
 # Run a single trial with oracle (pre-written solution)
-uv run harbor trial start -p datasets/simpleqa/<task_id>
+uvx --from harbor==0.23.0 harbor trial start -p datasets/simpleqa/<task_id>
 
 # Run a single trial with a specific agent and model
-uv run harbor trial start -p datasets/simpleqa/<task_id> -a <agent_name> -m "<model_name>"
+uvx --from harbor==0.23.0 harbor trial start -p datasets/simpleqa/<task_id> -a <agent_name> -m "<model_name>"
 ```
 
 Trial outputs are saved in the `trials/` directory by default (configurable via `--trials-dir`).
@@ -121,11 +121,12 @@ Trial outputs are saved in the `trials/` directory by default (configurable via 
 
 ```bash
 # From adapter directory
-cd adapters/simpleqa
+cd src/simpleqa
 
 uv run simpleqa --output-dir ../../datasets/simpleqa --num-tasks 50
 ```
 
+Without `--output-dir`, tasks are written to `datasets/simpleqa/` relative to the current working directory.
 
 ## Comparison with Original Benchmark (Parity)
 
@@ -174,18 +175,18 @@ export OPENAI_API_KEY="your_openai_api_key"
 
 Test Opus 4.6 with Claude Code agent on 50 tasks:
 ```bash
-cd adapters/simpleqa
+cd src/simpleqa
 uv run simpleqa --output-dir ../../datasets/simpleqa --num-tasks 50
 cd ../..
-uv run harbor run -c adapters/simpleqa/simpleqa_parity_claude_opus4_6.yaml
+uvx --from harbor==0.23.0 harbor run -c src/simpleqa/simpleqa_parity_claude_opus4_6.yaml
 ```
 
 Test oracle agent on full 4326 tasks:
 ```bash
-cd adapters/simpleqa
+cd src/simpleqa
 uv run simpleqa --output-dir ../../datasets/simpleqa_full
 cd ../..
-uv run harbor run -c adapters/simpleqa/simpleqa_oracle.yaml
+uvx --from harbor==0.23.0 harbor run -c src/simpleqa/simpleqa_oracle.yaml
 ```
 
 All 4,326 samples passed when evaluated with the judge model gpt-5-mini.
@@ -199,10 +200,10 @@ If a model weaker than GPT-5-mini is used as the judge model, it may produce unr
 ## Installation / Prerequisites
 
 - Docker installed and running
-- Harbor installed and working (see main repository README)
+- Harbor CLI available through `uvx --from harbor==0.23.0 harbor`
 - Python environment with dependencies:
   ```bash
-  uv sync --extra dev
+  uv sync --project src/simpleqa
   ```
 - Dataset-specific steps (e.g., creds, downloads):
   - API keys for agents/models (export as environment variables)

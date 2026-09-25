@@ -57,7 +57,7 @@ aime/
 
 The adapter code directory structure:
 ```
-harbor/adapters/aime/
+src/aime/
 ├── README.md 
 ├── pyproject.toml
 ├── uv.lock
@@ -88,12 +88,12 @@ Simply run
 
 ```bash
 # Use oracle agent (reference solution)
-uv run harbor run -d aime
+uvx --from harbor==0.23.0 harbor run -d aime
 
 # Use your specified agent and model
-uv run harbor run -d aime -a <agent_name> -m "<model_name>"
+uvx --from harbor==0.23.0 harbor run -d aime -a <agent_name> -m "<model_name>"
 ```
-from the harbor root to evaluate on the entire dataset.
+from the adapters repository root to evaluate on the entire dataset.
 
 However, if you choose to prepare the task directories locally and/or with custom versions/subsets for evaluation, use `harbor run` against the generated dataset path. Instructions for using the adapter code to prepare task directories are provided in the [Usage](#usage-create-task-directories) section.
 
@@ -102,13 +102,13 @@ If you created your task directories locally (e.g., `datasets/aime`), then you m
 
 ```bash
 # From the repository root, run with an example configuration yaml
-uv run harbor run -c adapters/aime/aime.yaml -a <agent_name> -m "<model_name>"
+uvx --from harbor==0.23.0 harbor run -c src/aime/aime.yaml -a <agent_name> -m "<model_name>"
 
 # Or run a job without configuration yaml but instead with locally prepared dataset path
-uv run harbor run -p datasets/aime -a <agent_name> -m "<model_name>"
+uvx --from harbor==0.23.0 harbor run -p datasets/aime -a <agent_name> -m "<model_name>"
 
 # Resume a previously started job
-uv run harbor run -p /path/to/jobs/directory --resume
+uvx --from harbor==0.23.0 harbor run -p /path/to/jobs/directory --resume
 ``` 
 
 Results are saved in the `jobs/` directory by default (configurable via `jobs_dir` in the YAML config).
@@ -119,10 +119,10 @@ For quick testing or debugging a single task:
 
 ```bash
 # Run a single trial with oracle (pre-written solution)
-uv run harbor trial start -p datasets/aime/<task_id>
+uvx --from harbor==0.23.0 harbor trial start -p datasets/aime/<task_id>
 
 # Run a single trial with a specific agent and model
-uv run harbor trial start -p datasets/aime/<task_id> -a <agent_name> -m "<model_name>"
+uvx --from harbor==0.23.0 harbor trial start -p datasets/aime/<task_id> -a <agent_name> -m "<model_name>"
 ```
 
 Trial outputs are saved in the `trials/` directory by default (configurable via `--trials-dir`).
@@ -131,14 +131,13 @@ Trial outputs are saved in the `trials/` directory by default (configurable via 
 ## Usage: Create Task Directories
 
 ```bash
-# From adapter directory
-cd adapters/aime
+# From the repository root
 
 # Generate all tasks
-uv run aime
+uv run --project src/aime aime
 ```
 
-Tasks are written to the current directory with one directory per task. Each task follows the structure shown in ["Generated Task Structure"](#generated-task-structure) above.
+Tasks are written to `datasets/aime/` relative to the current directory, with one directory per task. Each task follows the structure shown in ["Generated Task Structure"](#generated-task-structure) above.
 
 The adapter will:
 1. Download AIME problem data from the GAIR-NLP/AIME-Preview repository
@@ -161,10 +160,10 @@ Unlike most benchmarks supported in Harbor, AIME does not come with an official 
 ## Installation / Prerequisites
 
 - **Docker**: Docker must be installed and running on your system
-- **Harbor**: Harbor framework installed and configured (see main repository README)
+- **Harbor**: Harbor CLI available through `uvx --from harbor==0.23.0 harbor`
 - **Python Environment**: Python 3.8+ with required dependencies:
   ```bash
-  uv sync --extra dev
+  uv sync --project src/aime
   ```
 - **Network Access**: Internet connection required to download AIME problems from GitHub
 - **API Keys**: If using AI agents, ensure appropriate API keys are set as environment variables:

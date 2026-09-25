@@ -38,7 +38,7 @@ aa-lcr/
 
 Adapter code structure:
 ```
-harbor/adapters/aa-lcr/
+src/aa-lcr/
 ├── README.md
 ├── adapter.py                          # Main adapter code
 ├── run_adapter.py                      # CLI entry point
@@ -73,43 +73,43 @@ harbor/adapters/aa-lcr/
 
 ```bash
 # Run on entire dataset
-uv run harbor run -d aa-lcr -a <agent-name> -m <model-name>
+uvx --from harbor==0.23.0 harbor run -d aa-lcr -a <agent-name> -m <model-name>
 
 # Run single task
-uv run harbor run -t aa-lcr/aa-lcr-1 -a <agent-name> -m <model-name>
+uvx --from harbor==0.23.0 harbor run -t aa-lcr/aa-lcr-1 -a <agent-name> -m <model-name>
 ```
 
 ### Using Job Configuration
 
 ```bash
-uv run harbor run -c adapters/aa-lcr/aa-lcr_oracle.yaml
+uvx --from harbor==0.23.0 harbor run -c src/aa-lcr/aa-lcr_oracle.yaml
 ```
 
 ### Using Local Dataset Path
 
 ```bash
-uv run harbor run -p datasets/aa-lcr -a <agent-name> -m <model-name>
+uvx --from harbor==0.23.0 harbor run -p datasets/aa-lcr -a <agent-name> -m <model-name>
 ```
 
 ### Individual Trial
 
 ```bash
-uv run harbor trial start -p datasets/aa-lcr/aa-lcr-1 -a <agent-name> -m <model-name>
+uvx --from harbor==0.23.0 harbor trial start -p datasets/aa-lcr/aa-lcr-1 -a <agent-name> -m <model-name>
 ```
 
 ## Usage: Create Task Directories
 
 ```bash
-cd adapters/aa-lcr
+cd src/aa-lcr
 
 # Generate all 99 tasks
-uv run run_adapter.py --output-dir ../../datasets/aa-lcr
+uv run --no-project --with pandas --with huggingface-hub python run_adapter.py --output-dir ../../datasets/aa-lcr
 
 # Generate a subset
-uv run run_adapter.py --output-dir ../../datasets/aa-lcr --limit 10
+uv run --no-project --with pandas --with huggingface-hub python run_adapter.py --output-dir ../../datasets/aa-lcr --limit 10
 
 # Generate parity subset (20 tasks by default)
-uv run run_adapter.py --output-dir ../../datasets/aa-lcr --parity
+uv run --no-project --with pandas --with huggingface-hub python run_adapter.py --output-dir ../../datasets/aa-lcr --parity
 ```
 
 ## Installation / Prerequisites
@@ -119,7 +119,7 @@ uv run run_adapter.py --output-dir ../../datasets/aa-lcr --parity
 - `OPENAI_API_KEY` environment variable for LLM judge
 - `ANTHROPIC_API_KEY` for Anthropic-based agents (claude-code)
 - Docker installed and running
-- Harbor installed (see main repository README)
+- Harbor CLI available through `uvx --from harbor==0.23.0 harbor`
 
 ## Comparison with Original Benchmark (Parity)
 
@@ -147,15 +147,15 @@ export ANTHROPIC_API_KEY="your_anthropic_api_key"  # for claude-code/haiku
 export ANTHROPIC_BASE_URL="your_anthropic_base_url"  # if using proxy
 
 # Generate tasks
-cd adapters/aa-lcr
-uv run run_adapter.py --output-dir ../../datasets/aa-lcr
+cd src/aa-lcr
+uv run --no-project --with pandas --with huggingface-hub python run_adapter.py --output-dir ../../datasets/aa-lcr
 cd ../..
 
 # Run parity experiments
-uv run harbor run -c adapters/aa-lcr/aa-lcr_parity_codex.yaml --env-file .env
-uv run harbor run -c adapters/aa-lcr/aa-lcr_parity_claude_haiku.yaml --env-file .env
-uv run harbor run -c adapters/aa-lcr/aa-lcr_parity_terminus2_gpt5mini.yaml --env-file .env
-uv run harbor run -c adapters/aa-lcr/aa-lcr_parity_terminus2_haiku.yaml --env-file .env
+uvx --from harbor==0.23.0 harbor run -c src/aa-lcr/aa-lcr_parity_codex.yaml --env-file .env
+uvx --from harbor==0.23.0 harbor run -c src/aa-lcr/aa-lcr_parity_claude_haiku.yaml --env-file .env
+uvx --from harbor==0.23.0 harbor run -c src/aa-lcr/aa-lcr_parity_terminus2_gpt5mini.yaml --env-file .env
+uvx --from harbor==0.23.0 harbor run -c src/aa-lcr/aa-lcr_parity_terminus2_haiku.yaml --env-file .env
 ```
 
 ## Notes & Caveats

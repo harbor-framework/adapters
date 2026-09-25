@@ -13,14 +13,12 @@ if __package__ in (None, ""):
 else:
     from .adapter import SimpleQAAdapter
 
-HARBOR_ROOT = Path(__file__).resolve().parents[4]
-
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 logger = logging.getLogger(__name__)
 
 
 def _default_output_dir() -> Path:
-    return HARBOR_ROOT / "datasets" / "simpleqa"
+    return Path("datasets") / "simpleqa"
 
 
 def _parse_args() -> argparse.Namespace:
