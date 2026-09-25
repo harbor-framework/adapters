@@ -11,8 +11,6 @@ if __package__ in (None, ""):
 else:
     from .adapter import Seal0Adapter
 
-HARBOR_ROOT = Path(__file__).resolve().parents[4]
-
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 logger = logging.getLogger(__name__)
 
@@ -24,8 +22,8 @@ def main() -> None:
     parser.add_argument(
         "--output-dir",
         type=Path,
-        default=HARBOR_ROOT / "datasets" / "seal0",
-        help="Output directory for tasks (default: datasets/seal0)",
+        default=Path("datasets/seal0"),
+        help="Output directory for tasks (default: datasets/seal0 relative to the current directory)",
     )
     parser.add_argument(
         "--limit",

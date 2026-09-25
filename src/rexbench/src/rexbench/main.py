@@ -10,7 +10,7 @@ from .adapter import REXBENCH_REPO_URL, RexbenchAdapter
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 logger = logging.getLogger(__name__)
 
-DEFAULT_OUTPUT_DIR = Path(__file__).resolve().parents[4] / "datasets" / "rexbench"
+DEFAULT_OUTPUT_DIR = Path("datasets/rexbench")
 
 
 def parse_args() -> argparse.Namespace:
@@ -40,7 +40,7 @@ def parse_args() -> argparse.Namespace:
         type=Path,
         default=DEFAULT_OUTPUT_DIR,
         dest="output_dir",
-        help="Output directory for generated tasks (default: datasets/rexbench)",
+        help="Output directory for generated tasks (default: datasets/rexbench relative to the current directory)",
     )
     parser.add_argument(
         "--task-prefix",

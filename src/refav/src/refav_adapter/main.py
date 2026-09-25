@@ -3,13 +3,13 @@ Main entry point for the RefAV Harbor adapter.
 
 Usage:
     # Generate full dataset
-    python -m adapters.refav.main
+    uv run --project src/refav refav
 
     # Generate only parity subset
-    python -m adapters.refav.main --split parity
+    uv run --project src/refav refav --split parity
 
     # Generate specific tasks
-    python -m adapters.refav.main --task-ids val_02678d04_1090
+    uv run --project src/refav refav --task-ids val_02678d04_1090
 """
 
 import argparse
@@ -17,10 +17,8 @@ from pathlib import Path
 
 from .adapter import RefavAdapter
 
-# ── Default paths relative to adapter directory ──────────────────────────
-# Adapter root directory (adapters/refav/)
-_ADAPTER_DIR = Path(__file__).resolve().parent.parent.parent
-_DEFAULT_OUTPUT_DIR = _ADAPTER_DIR.parent.parent / "datasets" / "refav"
+# Default output relative to the current directory.
+_DEFAULT_OUTPUT_DIR = Path("datasets/refav")
 
 
 def main():
@@ -31,7 +29,7 @@ def main():
         "--output-dir",
         type=Path,
         default=_DEFAULT_OUTPUT_DIR,
-        help=f"Directory to write generated tasks (default: {_DEFAULT_OUTPUT_DIR})",
+        help=f"Directory to write generated tasks (default: {_DEFAULT_OUTPUT_DIR} relative to the current directory)",
     )
     parser.add_argument(
         "--limit",

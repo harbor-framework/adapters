@@ -20,8 +20,6 @@ from pathlib import Path
 from typing import Optional
 
 # ── Paths relative to this adapter directory ──────────────────────────
-# Adapter root directory (adapters/refav/)
-_ADAPTER_DIR = Path(__file__).resolve().parent.parent.parent
 # Task template is inside src/refav_adapter/task-template
 _TEMPLATE_DIR = Path(__file__).resolve().parent / "task-template"
 
@@ -114,13 +112,13 @@ class RefavAdapter:
 
         Resolution order:
         1. --source-dir if provided
-        2. datasets/refav relative to repo root
+        2. datasets/refav relative to the current directory
         3. Clone from GitHub (temporary, cleaned up after use)
         """
         if self.source_dir and self.source_dir.exists():
             return self.source_dir
-        # Check default location relative to adapter
-        default = _ADAPTER_DIR.parent.parent / "datasets" / "refav"
+        # Check default location relative to the current directory
+        default = Path("datasets/refav")
         if default.exists():
             return default
         # Attempt to clone the source benchmark

@@ -52,21 +52,21 @@ datasets/replicationbench/
 **Full evaluation** (recommended):
 ```bash
 # Run all tasks with a configuration file
-uv run harbor run -c adapters/replicationbench/replicationbench.yaml
+uvx --from harbor==0.23.0 harbor run -c src/replicationbench/replicationbench.yaml
 
 # With specific agent/model
-uv run harbor run -c adapters/replicationbench/replicationbench.yaml \
+uvx --from harbor==0.23.0 harbor run -c src/replicationbench/replicationbench.yaml \
   -a claude-code -m "anthropic/claude-3-7-sonnet-20250219"
 
 # Resume a job
-uv run harbor job resume -p jobs/<job-directory>
+uvx --from harbor==0.23.0 harbor job resume -p jobs/<job-directory>
 ```
 
 **Single task** (for testing):
 ```bash
 # Test a specific task
 export ANTHROPIC_API_KEY=your-key-here
-uv run harbor trial start -p datasets/replicationbench/bayes_cal__hot_temp \
+uvx --from harbor==0.23.0 harbor trial start -p datasets/replicationbench/bayes_cal__hot_temp \
   -a claude-code -m "anthropic/claude-3-7-sonnet-20250219"
 ```
 
@@ -75,15 +75,15 @@ Results are saved in `jobs/` (or `trials/`) with logs, outputs, and `reward.txt`
 ## Generating Tasks
 
 ```bash
-cd adapters/replicationbench
+cd /path/to/adapters
 
 # Generate all tasks
-uv run replicationbench
+uv run --project src/replicationbench replicationbench
 
 # Or with options
-uv run replicationbench \
+uv run --project src/replicationbench replicationbench \
   --replicationbench-dir /path/to/replicationbench-release \
-  --output-dir ../../datasets/replicationbench \
+  --output-dir datasets/replicationbench \
   --limit 50 \
   --force
 ```
@@ -121,15 +121,15 @@ For this adapter, parity was validated through a two-step transitive equivalence
 
 To reproduce Harbor adapter results:
 ```bash
-# Generate tasks (from this adapter directory)
-cd adapters/replicationbench
-uv run replicationbench
+# Generate tasks (from the adapters repository root)
+cd /path/to/adapters
+uv run --project src/replicationbench replicationbench
 
-# Run evaluation (from harbor root directory)
-harbor run -c adapters/replicationbench/replicationbench.yaml
+# Run evaluation (from the adapters repository root)
+uvx --from harbor==0.23.0 harbor run -c src/replicationbench/replicationbench.yaml
 
 # Or with specific agent/model overrides
-harbor run -c adapters/replicationbench/replicationbench.yaml -a claude-code -m "anthropic/claude-haiku-4-5-20251001"
+uvx --from harbor==0.23.0 harbor run -c src/replicationbench/replicationbench.yaml -a claude-code -m "anthropic/claude-haiku-4-5-20251001"
 ```
 
 **Interpreting Results:**
@@ -147,7 +147,8 @@ harbor run -c adapters/replicationbench/replicationbench.yaml -a claude-code -m 
 ## Prerequisites
 
 - Docker installed and running
-- Harbor installed: `uv sync --extra dev` from repo root
+- Harbor installed: `uv tool install --python 3.12 harbor==0.23.0`
+- Adapter installed from the repository root: `uv sync --project src/replicationbench`
 - API keys for LLM agents:
   ```bash
   export ANTHROPIC_API_KEY=your-key-here

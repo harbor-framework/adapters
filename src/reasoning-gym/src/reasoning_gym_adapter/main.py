@@ -15,7 +15,6 @@ if __package__ in (None, ""):
 else:
     from .adapter import ReasoningGymAdapter
 
-HARBOR_ROOT = Path(__file__).resolve().parents[4]
 ADAPTER_ROOT = Path(__file__).resolve().parents[2]
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
@@ -23,7 +22,7 @@ logger = logging.getLogger(__name__)
 
 
 def _default_output_dir() -> Path:
-    return HARBOR_ROOT / "datasets" / "reasoning-gym"
+    return Path("datasets/reasoning-gym")
 
 
 def _parse_args() -> argparse.Namespace:
@@ -35,13 +34,13 @@ def _parse_args() -> argparse.Namespace:
         "--config",
         type=Path,
         required=True,
-        help="Path to YAML config file (e.g., adapters/reasoning-gym/hard.yaml)",
+        help="Path to YAML config file (e.g., src/reasoning-gym/hard.yaml)",
     )
     parser.add_argument(
         "--output-dir",
         type=Path,
         default=_default_output_dir(),
-        help="Directory to write generated tasks (defaults to datasets/reasoning-gym)",
+        help="Directory to write generated tasks (default: datasets/reasoning-gym relative to the current directory)",
     )
     parser.add_argument(
         "--category",

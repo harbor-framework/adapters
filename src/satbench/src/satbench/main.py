@@ -6,8 +6,7 @@ from pathlib import Path
 
 from .adapter import SATBenchAdapter
 
-HARBOR_ROOT = Path(__file__).resolve().parents[4]
-DEFAULT_OUTPUT_DIR = HARBOR_ROOT / "datasets" / "satbench"
+DEFAULT_OUTPUT_DIR = Path("datasets/satbench")
 
 
 def _parse_args() -> argparse.Namespace:
@@ -19,7 +18,7 @@ def _parse_args() -> argparse.Namespace:
         "--output-dir",
         type=Path,
         default=DEFAULT_OUTPUT_DIR,
-        help="Directory to write generated tasks (defaults to datasets/satbench)",
+        help="Directory to write generated tasks (default: datasets/satbench relative to the current directory)",
     )
     parser.add_argument(
         "--limit",

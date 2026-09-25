@@ -3,13 +3,14 @@
 Check if reasoning-gym entries in registry.json match the actual directory listing.
 """
 
+import argparse
 import json
 from pathlib import Path
 from typing import Set
 
 # Paths
-REGISTRY_PATH = Path(__file__).parent.parent.parent / "registry.json"
-DATASETS_PATH = Path.home() / "src/harbor-datasets/datasets/reasoning-gym"
+REGISTRY_PATH = Path("registry.json")
+DATASETS_PATH = Path("datasets/reasoning-gym")
 
 
 def load_registry_tasks(dataset_name: str, version: str = "parity") -> Set[str]:
@@ -83,6 +84,24 @@ def compare_tasks(dataset_name: str, difficulty: str):
 
 def main():
     """Main function to check both easy and hard datasets."""
+    global REGISTRY_PATH, DATASETS_PATH
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--registry-path",
+        type=Path,
+        default=REGISTRY_PATH,
+        help="Path to registry JSON (default: registry.json in the current directory)",
+    )
+    parser.add_argument(
+        "--datasets-path",
+        type=Path,
+        default=DATASETS_PATH,
+        help="Dataset directory containing easy/ and hard/ (default: datasets/reasoning-gym relative to the current directory)",
+    )
+    args = parser.parse_args()
+    REGISTRY_PATH = args.registry_path
+    DATASETS_PATH = args.datasets_path
+
     if not REGISTRY_PATH.exists():
         print(f"Error: Registry file not found at {REGISTRY_PATH}")
         return 1

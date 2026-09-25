@@ -65,7 +65,7 @@ datasets/satbench/
 
 The adapter code structure:
 ```
-adapters/satbench/
+src/satbench/
 ├── README.md
 ├── adapter_metadata.json
 ├── parity_experiment.json
@@ -99,19 +99,19 @@ Harbor Registry & Datasets makes running adapter evaluation easy and flexible.
 
 ```bash
 # Use oracle agent (reference solution)
-uv run harbor run -d satbench
+uvx --from harbor==0.23.0 harbor run -d satbench
 
 # Use your specified agent and model
-uv run harbor run -d satbench -a <agent_name> -m "<model_name>"
+uvx --from harbor==0.23.0 harbor run -d satbench -a <agent_name> -m "<model_name>"
 ```
 from the repository root to evaluate on the entire dataset.
 
 ### Using Job Configurations
-The file `adapters/satbench/satbench.yaml` contains configuration for running `harbor run`.
+The file `src/satbench/satbench.yaml` contains configuration for running `harbor run`.
 
 ```bash
 # From the repository root
-uv run harbor run -c adapters/satbench/satbench.yaml
+uvx --from harbor==0.23.0 harbor run -c src/satbench/satbench.yaml
 ```
 
 Results are saved in the `jobs/` directory by default (configurable via `jobs_dir` in the YAML config).
@@ -122,10 +122,10 @@ For quick testing or debugging a single task:
 
 ```bash
 # Run a single trial with oracle (pre-written solution)
-uv run harbor trial start -p datasets/satbench/0
+uvx --from harbor==0.23.0 harbor trial start -p datasets/satbench/0
 
 # Run a single trial with a specific agent and model
-uv run harbor trial start -p datasets/satbench/0 -a <agent_name> -m "<model_name>"
+uvx --from harbor==0.23.0 harbor trial start -p datasets/satbench/0 -a <agent_name> -m "<model_name>"
 ```
 
 Trial outputs are saved in the `trials/` directory by default (configurable via `--trials-dir`).
@@ -134,17 +134,17 @@ Trial outputs are saved in the `trials/` directory by default (configurable via 
 ## Usage: Create Task Directories
 
 ```bash
-# From adapter directory
-cd adapters/satbench
+# From the adapters repository root
+cd /path/to/adapters
 
-uv run satbench
+uv run --project src/satbench satbench
 # or
-uv run satbench \
+uv run --project src/satbench satbench \
   --limit 50
 ```
 
 **Parameters**:
-- `--output-dir`: Output directory (defaults to `../../datasets/satbench`)
+- `--output-dir`: Output directory (defaults to `datasets/satbench` relative to the current directory)
 - `--limit`: Limit number of tasks to generate (default: all tasks)
 - `--overwrite`: Overwrite existing tasks
 - `--task-ids`: Only generate specific task IDs
@@ -171,9 +171,9 @@ Reproduction requirements and steps:
 
 - Commands to run in Harbor to reproduce adapter-side results:
   ```bash
-  cd adapters/satbench;
-  uv run satbench --parity # generate datasets for parity experiments
-  uv run --directory ../.. harbor run -p datasets/satbench -a codex -m gpt-5-nano-2025-08-07 # run evaluation
+  cd /path/to/adapters
+  uv run --project src/satbench satbench --parity # generate datasets for parity experiments
+  uvx --from harbor==0.23.0 harbor run -p datasets/satbench -a codex -m gpt-5-nano-2025-08-07 # run evaluation
   ```
 The reported metric is the accuracy. The raw results are uploaded to [huggingface](https://huggingface.co/datasets/harborframework/parity-experiments/discussions/19).
 
@@ -190,7 +190,8 @@ The full dataset has been uploaded: https://github.com/laude-institute/harbor-da
 
 List environment setup specific to this adapter (edit as needed):
 - Docker installed and running
-- Harbor installed and working (see main repository README)
+- Harbor installed and working: `uv tool install --python 3.12 harbor==0.23.0`
+- Adapter installed from the repository root: `uv sync --project src/satbench`
 - Dataset-specific steps:
   - Internet connection and downloading dataset from HuggingFace during evaluation.
   - API keys for agents/models (export as environment variables, e.g., `ANTHROPIC_API_KEY`).

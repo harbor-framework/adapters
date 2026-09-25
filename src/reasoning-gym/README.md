@@ -40,31 +40,37 @@ To run the named dataset in the harbor dataset registry (see the Parity section 
 
 ```bash
 # Use oracle agent (reference solution)
-uv run harbor run -d reasoning-gym-easy
+uvx --from harbor==0.23.0 harbor run -d reasoning-gym-easy
 
 # Use your specified agent and model
-uv run harbor run -d reasoning-gym-hard -a <agent_name> -m "<model_name>"
+uvx --from harbor==0.23.0 harbor run -d reasoning-gym-hard -a <agent_name> -m "<model_name>"
 ```
 
-from the harbor root to evaluate on the dataset. Note that running reasoning-gym usually requires preparation of tasks from the task generators, so you'll need to run the adapter code and prepare the task directories usually. The registered dataset is just for reference or quick start. See below for task preparation detail.
+from the adapters repository root to evaluate on the dataset. Note that running reasoning-gym usually requires preparation of tasks from the task generators, so you'll need to run the adapter code and prepare the task directories usually. The registered dataset is just for reference or quick start. See below for task preparation detail.
 
 ### Running with locally generated Reasoning-gym configuration
 
 To run using a local path if you decide to generate a different reasoning-gym configuration
 
 ```
-harbor run -p /path/to/harbor-datasets/reasoning-gym/my-own/config/ -a <agent_name> -m "<model_name>"
+uvx --from harbor==0.23.0 harbor run -p /path/to/harbor-datasets/reasoning-gym/my-own/config/ -a <agent_name> -m "<model_name>"
 ```
 
 ## Usage: Create harbor-compatible tasks from your own configuration
 
 ```bash
-cd adapters/reasoning-gym
+cd src/reasoning-gym
 uv run reasoning-gym --config my-own-config.yaml --output-dir /path/to/my/rg-tasks/
-uv run harbor run -p /path/to/my/rg-tasks/ -a <agent_name> -m "<model_name>"
+uvx --from harbor==0.23.0 harbor run -p /path/to/my/rg-tasks/ -a <agent_name> -m "<model_name>"
 ```
 
-Tasks are written to `datasets/reasoning-gym/` with one directory per task. Each task follows the structure shown in ["Generated Task Structure"](#generated-task-structure) above.
+Tasks are written to `datasets/reasoning-gym/` relative to the current directory by default with one directory per task. Each task follows the structure shown in ["Generated Task Structure"](#generated-task-structure) above.
+
+```bash
+# From the adapters repository root, check a local registry against task directories
+python src/reasoning-gym/check_reasoning_gym_registry.py \
+  --registry-path /path/to/registry.json --datasets-path /path/to/reasoning-gym
+```
 
 ## Comparison with Original Benchmark (Parity)
 
@@ -80,7 +86,7 @@ Full parity experiment results: <https://huggingface.co/datasets/harborframework
 Commands used to generate parity datasets.
 
 ```
-cd adapters/reasoning-gym
+cd src/reasoning-gym
 uv run reasoning-gym --config easy.yaml --size 3 --output-dir ~/src/harbor-datasets/datasets/reasoning-gym/easy/
 uv run reasoning-gym --config hard.yaml --size 3 --output-dir ~/src/harbor-datasets/datasets/reasoning-gym/hard/ --difficulty hard
 ```
@@ -93,14 +99,14 @@ Reproduction requirements and steps (mandatory):
 git clone https://github.com/aht/reasoning-gym.git
 uv pip install -e .
 uv pip install -r requirements-eval.txt
-uv run eval/eval.py --config /workspace/harbor/adapters/reasoning-gym/easy.yaml --max-concurrent 16
+uv run eval/eval.py --config /path/to/adapters/src/reasoning-gym/easy.yaml --max-concurrent 16
 ```
 
 - Which commands to run in Harbor to reproduce adapter-side results:
 
 ```
-uv run harbor run -d reasoning-gym-easy -a codex -m openai/gpt-5.1-codex-mini --env daytona -n 16
-uv run harbor run -d reasoning-gym-hard -a codex -m openai/gpt-5.1-codex-mini --env daytona -n 16
+uvx --from harbor==0.23.0 harbor run -d reasoning-gym-easy -a codex -m openai/gpt-5.1-codex-mini --env daytona -n 16
+uvx --from harbor==0.23.0 harbor run -d reasoning-gym-hard -a codex -m openai/gpt-5.1-codex-mini --env daytona -n 16
 ```
 
 ## Notes & Caveats
@@ -124,12 +130,12 @@ TASK_TO_SKIP = [
 List environment setup specific to this adapter (edit as needed):
 
 - Docker installed and running
-- Harbor installed and working (see main repository README)
+- Harbor installed and working: `uv tool install --python 3.12 harbor==0.23.0`
 - Codex agent installed on local computer for forked original evaluation (<https://developers.openai.com/codex/cli/>)
 - Python environment with dependencies:
 
   ```bash
-  uv sync --extra dev
+  uv sync --project src/reasoning-gym
   ```
 
 - Dataset-specific steps (e.g., creds, downloads):

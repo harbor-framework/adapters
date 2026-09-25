@@ -20,7 +20,7 @@ logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 logger = logging.getLogger(__name__)
 
 QUIXBUGS_REPO_URL = "https://github.com/Hangzhi/QuixBugs-bench.git"
-DEFAULT_OUTPUT_DIR = Path(__file__).resolve().parents[4] / "datasets" / "quixbugs"
+DEFAULT_OUTPUT_DIR = Path("datasets/quixbugs")
 
 
 def clone_quixbugs_repo(temp_dir: Path, repo_url: str = QUIXBUGS_REPO_URL) -> Path:
@@ -95,7 +95,7 @@ def main() -> int:
         "--output-dir",
         type=Path,
         default=DEFAULT_OUTPUT_DIR,
-        help="Output directory for generated tasks (default: datasets/quixbugs)",
+        help="Output directory for generated tasks (default: datasets/quixbugs relative to the current directory)",
     )
     parser.add_argument(
         "--language",

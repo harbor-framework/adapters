@@ -46,7 +46,7 @@ seal0/
 Adapter code directory:
 
 ```
-harbor/adapters/seal0/
+src/seal0/
 ├── README.md
 ├── adapter_metadata.json
 ├── parity_experiment.json
@@ -81,28 +81,28 @@ Simply run:
 
 ```bash
 # Use oracle agent (reference solution)
-uv run harbor run -d seal0
+uvx --from harbor==0.23.0 harbor run -d seal0
 
 # Use your specified agent and model
-uv run harbor run -d seal0 -a <agent_name> -m "<model_name>"
+uvx --from harbor==0.23.0 harbor run -d seal0 -a <agent_name> -m "<model_name>"
 ```
 
-from the harbor root to evaluate on the entire dataset.
+from the adapters repository root to evaluate on the entire dataset.
 
 ### Using Job Configurations
 
-The example configuration file for the adapter is provided at `harbor/adapters/seal0/seal0.yaml`.
+The example configuration file for the adapter is provided at `src/seal0/seal0.yaml`.
 
 ```bash
 # From the repository root
 # Run a job with the default adapter configuration
-uv run harbor run -c adapters/seal0/seal0.yaml -a <agent_name> -m "<model_name>"
+uvx --from harbor==0.23.0 harbor run -c src/seal0/seal0.yaml -a <agent_name> -m "<model_name>"
 
 # Or run a job with locally prepared dataset path
-uv run harbor run -p datasets/seal0 -a <agent_name> -m "<model_name>"
+uvx --from harbor==0.23.0 harbor run -p datasets/seal0 -a <agent_name> -m "<model_name>"
 
 # Resume a previously started job
-uv run harbor job resume -p /path/to/jobs/directory
+uvx --from harbor==0.23.0 harbor job resume -p /path/to/jobs/directory
 ```
 
 Results are saved in the `jobs/` directory by default (configurable via `jobs_dir` in the YAML config).
@@ -113,10 +113,10 @@ For quick testing or debugging a single task:
 
 ```bash
 # Run a single trial with oracle (pre-written solution)
-uv run harbor trial start -p datasets/seal0/<task_id>
+uvx --from harbor==0.23.0 harbor trial start -p datasets/seal0/<task_id>
 
 # Run a single trial with a specific agent and model
-uv run harbor trial start -p datasets/seal0/<task_id> -a <agent_name> -m "<model_name>"
+uvx --from harbor==0.23.0 harbor trial start -p datasets/seal0/<task_id> -a <agent_name> -m "<model_name>"
 ```
 
 Trial outputs are saved in the `trials/` directory by default (configurable via `--trials-dir`).
@@ -125,7 +125,7 @@ Trial outputs are saved in the `trials/` directory by default (configurable via 
 
 ```bash
 # From adapter directory
-cd adapters/seal0
+cd src/seal0
 
 # Install dependencies
 uv sync
@@ -168,7 +168,7 @@ python run_sealqa.py --subset seal_0 --model claude-haiku-4-5 --num-trials 3
 
 ```bash
 # Run all 111 Seal-0 tasks with claude-code and claude-haiku-4-5
-uv run harbor run -d seal0 -a claude-code -m "anthropic/claude-haiku-4-5"
+uvx --from harbor==0.23.0 harbor run -d seal0 -a claude-code -m "anthropic/claude-haiku-4-5"
 ```
 
 ## Notes & Caveats
@@ -183,11 +183,11 @@ uv run harbor run -d seal0 -a claude-code -m "anthropic/claude-haiku-4-5"
 ## Installation / Prerequisites
 
 - Docker installed and running
-- Harbor installed and working (see main repository README)
+- Harbor installed and working: `uv tool install --python 3.12 harbor==0.23.0`
 - Python 3.12+ with `uv` for package management
 - Dependencies for task generation:
   ```bash
-  cd adapters/seal0
+  cd src/seal0
   uv sync
   ```
 - API keys (export as environment variables):
@@ -197,7 +197,7 @@ uv run harbor run -d seal0 -a claude-code -m "anthropic/claude-haiku-4-5"
 
 - **`ANTHROPIC_API_KEY` not set**: The evaluator will fall back to string matching. Set the key to use LLM-as-judge for more accurate grading.
 - **Docker pull fails**: Ensure you have network access to `ghcr.io` and Docker is running.
-- **`datasets` import error**: Install adapter dependencies with `cd adapters/seal0 && uv sync`.
+- **`datasets` import error**: Install adapter dependencies with `cd src/seal0 && uv sync`.
 - **Task generation produces 0 tasks**: Verify the HuggingFace dataset is accessible.
 
 ## Citation

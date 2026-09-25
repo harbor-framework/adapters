@@ -23,9 +23,7 @@ if __package__ in (None, ""):
 else:
     from .adapter import ReplicationBenchAdapter
 
-DEFAULT_OUTPUT_DIR = (
-    Path(__file__).resolve().parents[4] / "datasets" / "replicationbench"
-)
+DEFAULT_OUTPUT_DIR = Path("datasets/replicationbench")
 
 logger = logging.getLogger(__name__)
 
@@ -99,7 +97,7 @@ def main() -> int:
         "--output-dir",
         type=Path,
         default=DEFAULT_OUTPUT_DIR,
-        help="Output directory for generated tasks (default: datasets/replicationbench)",
+        help="Output directory for generated tasks (default: datasets/replicationbench relative to the current directory)",
     )
     parser.add_argument(
         "--overwrite",

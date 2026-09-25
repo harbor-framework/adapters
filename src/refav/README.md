@@ -53,7 +53,7 @@ refav/
 
 Adapter code directory structure:
 ```
-adapters/refav/
+src/refav/
 ├── README.md
 ├── adapter_metadata.json
 ├── pyproject.toml
@@ -85,29 +85,29 @@ adapters/refav/
 
 ```bash
 # Oracle agent (full dataset)
-uv run harbor run -d cmu/refav -a oracle
+uvx --from harbor==0.23.0 harbor run -d cmu/refav -a oracle
 
 # Oracle agent (parity subset via config)
-uv run harbor run -c adapters/refav/refav-parity.yaml -a oracle
+uvx --from harbor==0.23.0 harbor run -c src/refav/refav-parity.yaml -a oracle
 
 # Codex agent (parity subset)
-uv run harbor run -c adapters/refav/refav-parity.yaml -a codex
+uvx --from harbor==0.23.0 harbor run -c src/refav/refav-parity.yaml -a codex
 
 # Codex agent (full dataset)
-uv run harbor run -d cmu/refav -a codex -m gpt-5.4-2026-03-05
+uvx --from harbor==0.23.0 harbor run -d cmu/refav -a codex -m gpt-5.4-2026-03-05
 ```
 
 ### Using Local Dataset Path
 
 ```bash
 # Oracle (all 1500 tasks)
-harbor run -p datasets/refav --force-build -y
+uvx --from harbor==0.23.0 harbor run -p datasets/refav --force-build -y
 
 # Codex on parity subset (via config)
-uv run harbor run -c adapters/refav/refav-parity.yaml -a codex -m gpt-5.4-2026-03-05
+uvx --from harbor==0.23.0 harbor run -c src/refav/refav-parity.yaml -a codex -m gpt-5.4-2026-03-05
 
 # Codex on parity subset (via CLI flags)
-harbor run -p datasets/refav -a codex -m gpt-5.4-2026-03-05 \
+uvx --from harbor==0.23.0 harbor run -p datasets/refav -a codex -m gpt-5.4-2026-03-05 \
     --force-build --timeout-multiplier 2.0 --agent-setup-timeout-multiplier 3.0 \
     --ak "reasoning_effort=low" -n 1 --n-tasks 50 -y
 ```
@@ -116,10 +116,10 @@ harbor run -p datasets/refav -a codex -m gpt-5.4-2026-03-05 \
 
 ```bash
 # Single task with oracle
-harbor trial start -p datasets/refav/val_27c03d98_1426 --force-build
+uvx --from harbor==0.23.0 harbor trial start -p datasets/refav/val_27c03d98_1426 --force-build
 
 # Single task with codex
-harbor trial start -p datasets/refav/val_27c03d98_1426 \
+uvx --from harbor==0.23.0 harbor trial start -p datasets/refav/val_27c03d98_1426 \
     -a codex -m gpt-5.4-2026-03-05 \
     --agent-kwarg "reasoning_effort=low" \
     --agent-setup-timeout-multiplier 3.0 --timeout-multiplier 2.0 --force-build
@@ -128,9 +128,9 @@ harbor trial start -p datasets/refav/val_27c03d98_1426 \
 ## Usage: Create Task Directories
 
 ```bash
-cd adapters/refav
+cd src/refav
 
-# Generate full dataset (default output: ../../datasets/refav)
+# Generate full dataset in the repository's datasets/refav directory
 uv run refav --output-dir ../../datasets/refav --source-dir /path/to/existing/data
 
 # Generate only the parity subset
@@ -138,7 +138,7 @@ uv run refav --output-dir ../../datasets/refav --split parity --source-dir /path
 ```
 
 Available flags:
-- `--output-dir` — Directory to write generated tasks (default: `datasets/refav`)
+- `--output-dir` — Directory to write generated tasks (default: `datasets/refav` relative to the current directory)
 - `--split` — `val` for full dataset, `parity` for parity subset (default: `val`)
 - `--limit` — Generate only the first N tasks
 - `--overwrite` — Overwrite existing tasks
@@ -206,7 +206,7 @@ The parity subset consists of 50 tasks selected from the 1,054 tasks with non-em
 
 To generate only the parity subset:
 ```bash
-cd adapters/refav
+cd src/refav
 uv run refav --output-dir ../../datasets/refav --split parity --source-dir /path/to/existing/data
 ```
 
@@ -217,7 +217,7 @@ uv run refav --output-dir ../../datasets/refav --split parity --source-dir /path
 export CODEX_CONFIG_TOML=$(base64 <<< 'your codex config.toml content')
 export OPENAI_API_KEY="your-api-key"
 
-harbor run -p datasets/refav -a codex -m gpt-5.4-2026-03-05 \
+uvx --from harbor==0.23.0 harbor run -p datasets/refav -a codex -m gpt-5.4-2026-03-05 \
     --force-build \
     --agent-setup-timeout-multiplier 3.0 \
     --timeout-multiplier 2.0 \
@@ -256,10 +256,10 @@ Oracle solutions use pre-computed ground truth `{track_uuid: [timestamps]}` dict
 
 ```bash
 # Quick verification (50 tasks)
-harbor run -p datasets/refav -a oracle --force-build -y --n-tasks 50
+uvx --from harbor==0.23.0 harbor run -p datasets/refav -a oracle --force-build -y --n-tasks 50
 
 # Full verification (all 1500 tasks)
-harbor run -p datasets/refav -a oracle --force-build -y
+uvx --from harbor==0.23.0 harbor run -p datasets/refav -a oracle --force-build -y
 ```
 
 Note: use `--force-build` to ensure Docker images are built from local Dockerfiles rather than attempting to pull pre-built images.
@@ -274,12 +274,12 @@ CLI agents read `instruction.md` (which contains the full task description, atom
 
 ```bash
 # Run with codex
-harbor run -p datasets/refav -a codex -m gpt-5.4-2026-03-05 \
+uvx --from harbor==0.23.0 harbor run -p datasets/refav -a codex -m gpt-5.4-2026-03-05 \
     --force-build --timeout-multiplier 2.0 --agent-setup-timeout-multiplier 3.0 \
     --ak "reasoning_effort=low" -n 1 -y --n-tasks 50
 
 # Run with claude-code
-harbor run -p datasets/refav -a claude-code -m claude-sonnet-4-20250514 \
+uvx --from harbor==0.23.0 harbor run -p datasets/refav -a claude-code -m claude-sonnet-4-20250514 \
     --force-build --timeout-multiplier 2.0 -y --n-tasks 50
 ```
 
@@ -367,10 +367,10 @@ Note: Codex and other CLI agents bypass `solve.sh` entirely — they write `/dat
 ## Installation / Prerequisites
 
 - Docker installed and running
-- Harbor installed (`pip install harbor` or `uv tool install harbor`)
+- Harbor installed (`uv tool install --python 3.12 harbor==0.23.0`)
 - Python environment with dependencies:
   ```bash
-  cd adapters/refav
+  cd src/refav
   uv sync
   ```
 - For Codex agent runs: `OPENAI_API_KEY` environment variable or Codex `config.toml` configured
