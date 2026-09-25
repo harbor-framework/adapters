@@ -24,7 +24,8 @@ ML_DEV_BENCH_COMMIT = "c2bd0c239f960368b11b2fd83d76f2ccfb69b7c4"
 ML_DEV_BENCH_ARCHIVE_URL = (
     f"https://github.com/ml-dev-bench/ml-dev-bench/archive/{ML_DEV_BENCH_COMMIT}.zip"
 )
-DEFAULT_OUTPUT_DIR = Path(__file__).resolve().parents[4] / "datasets" / "ml_dev_bench"
+DEFAULT_OUTPUT_DIR = Path("datasets/ml_dev_bench")
+DEFAULT_FETCH_DIR = Path(".ml-dev-bench")
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -80,12 +81,15 @@ def parse_args() -> argparse.Namespace:
         "--output-dir",
         type=Path,
         default=DEFAULT_OUTPUT_DIR,
-        help=f"Output directory for Harbor tasks (default: {DEFAULT_OUTPUT_DIR})",
+        help=(
+            "Output directory for Harbor tasks (relative paths use the current "
+            f"directory; default: {DEFAULT_OUTPUT_DIR})"
+        ),
     )
     parser.add_argument(
         "--ml-dev-bench-path",
         type=Path,
-        help="Path to ML-Dev-Bench repository. If omitted, searches current/parent dirs for ml-dev-bench, or downloads into adapters/ml_dev_bench/.ml-dev-bench",
+        help="Path to ML-Dev-Bench repository. If omitted, searches current/parent dirs for ml-dev-bench, or downloads into .ml-dev-bench in the current directory",
     )
     parser.add_argument(
         "--task-id",
@@ -133,7 +137,7 @@ def main() -> None:
     # Find or download ML-Dev-Bench repository if not provided
     if args.ml_dev_bench_path is None:
         if args.force_download:
-            default_fetch_dir = Path(__file__).resolve().parents[2] / ".ml-dev-bench"
+            default_fetch_dir = DEFAULT_FETCH_DIR
             args.ml_dev_bench_path = _fetch_ml_dev_bench(default_fetch_dir, force=True)
         else:
             current = Path.cwd()
@@ -147,9 +151,7 @@ def main() -> None:
                     ml_dev_bench_path = candidate
                     break
             if ml_dev_bench_path is None:
-                default_fetch_dir = (
-                    Path(__file__).resolve().parents[2] / ".ml-dev-bench"
-                )
+                default_fetch_dir = DEFAULT_FETCH_DIR
                 args.ml_dev_bench_path = _fetch_ml_dev_bench(default_fetch_dir)
             else:
                 args.ml_dev_bench_path = ml_dev_bench_path

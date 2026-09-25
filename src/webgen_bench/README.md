@@ -71,10 +71,10 @@ Once the dataset is registered in Harbor's registry, run from the repository roo
 
 ```bash
 # Use oracle agent (reference solution)
-uv run harbor run -d webgen-bench
+uv run --project src/webgen_bench harbor run -d webgen-bench
 
 # Use a specific agent and model
-uv run harbor run -d webgen-bench -a aider -m "openai/gpt-5-mini" \
+uv run --project src/webgen_bench harbor run -d webgen-bench -a aider -m "openai/gpt-5-mini" \
   --ae VLM_API_KEY=$VLM_API_KEY \
   --ae VLM_API_BASE_URL=$VLM_API_BASE_URL \
   --ae VLM_MODEL=$VLM_MODEL
@@ -84,20 +84,20 @@ uv run harbor run -d webgen-bench -a aider -m "openai/gpt-5-mini" \
 
 ### Using Job Configurations
 
-A pre-built configuration file is provided at `adapters/webgen_bench/run_webgen_bench_aider_gpt5_mini.yaml`:
+A pre-built configuration file is provided at `src/webgen_bench/run_webgen_bench_aider_gpt5_mini.yaml`:
 
 ```bash
 # From the repository root — run a job with the default adapter configuration
-uv run harbor run -c adapters/webgen_bench/run_webgen_bench_aider_gpt5_mini.yaml
+uv run --project src/webgen_bench harbor run -c src/webgen_bench/run_webgen_bench_aider_gpt5_mini.yaml
 
 # Or point directly at a locally prepared dataset
-uv run harbor run -p datasets/webgen-bench -a aider -m "openai/gpt-5-mini" \
+uv run --project src/webgen_bench harbor run -p datasets/webgen-bench -a aider -m "openai/gpt-5-mini" \
   --ae VLM_API_KEY=$VLM_API_KEY \
   --ae VLM_API_BASE_URL=$VLM_API_BASE_URL \
   --ae VLM_MODEL=$VLM_MODEL
 
 # Resume a previously started job
-uv run harbor job resume -p /path/to/jobs/directory
+uv run --project src/webgen_bench harbor job resume -p /path/to/jobs/directory
 ```
 
 Results are saved in the `jobs/` directory by default (configurable via `jobs_dir` in the YAML config).
@@ -108,10 +108,10 @@ For quick testing or debugging a single task:
 
 ```bash
 # Run a single task with the oracle solution
-uv run harbor trial start -p datasets/webgen-bench/webgen-bench-000001
+uv run --project src/webgen_bench harbor trial start -p datasets/webgen-bench/webgen-bench-000001
 
 # Run a single task with a specific agent and model
-uv run harbor trial start -p datasets/webgen-bench/webgen-bench-000001 \
+uv run --project src/webgen_bench harbor trial start -p datasets/webgen-bench/webgen-bench-000001 \
   -a aider -m "openai/gpt-5-mini" \
   --ae VLM_API_KEY=$VLM_API_KEY \
   --ae VLM_API_BASE_URL=$VLM_API_BASE_URL \
@@ -123,31 +123,31 @@ Trial outputs are saved in the `trials/` directory by default (configurable via 
 ## Usage: Create Task Directories
 
 ```bash
-cd adapters/webgen_bench
+# From the repository root
 
-# Convert all test-split tasks from HuggingFace (default: datasets/webgen-bench at repo root)
-uv run webgen-bench --output-dir ../../datasets/webgen-bench
+# Convert all test-split tasks from HuggingFace (default: datasets/webgen-bench relative to the current directory)
+uv run --project src/webgen_bench webgen-bench
 
 # Convert only a few tasks
-uv run webgen-bench --output-dir ../../datasets/webgen-bench --limit 10
+uv run --project src/webgen_bench webgen-bench --limit 10
 
 # Convert specific task IDs
-uv run webgen-bench --output-dir ../../datasets/webgen-bench 000001 000002 000003
+uv run --project src/webgen_bench webgen-bench 000001 000002 000003
 
 # Use train split
-uv run webgen-bench --output-dir ../../datasets/webgen-bench --split train --limit 20
+uv run --project src/webgen_bench webgen-bench --split train --limit 20
 
 # Load from a local JSONL file (offline)
-uv run webgen-bench --output-dir ../../datasets/webgen-bench --jsonl /path/to/test.jsonl
+uv run --project src/webgen_bench webgen-bench --jsonl /path/to/test.jsonl
 
 # Overwrite existing task directories
-uv run webgen-bench --output-dir ../../datasets/webgen-bench --overwrite
+uv run --project src/webgen_bench webgen-bench --overwrite
 ```
 
 Available arguments and flags:
 - `task_ids` — Optional positional list of task IDs to convert (e.g. `000001 000002`); converts all tasks if omitted
 - `--task-id-file` — Path to a newline-delimited file of task IDs to convert (lines starting with `#` are ignored)
-- `--output-dir` — Directory to write generated tasks (defaults to `datasets/webgen-bench` at the repo root)
+- `--output-dir` — Directory to write generated tasks (defaults to `datasets/webgen-bench` relative to the current directory)
 - `--limit` — Generate only the first N tasks
 - `--overwrite` — Overwrite existing task directories
 - `--split` — Dataset split to use (`test` or `train`, default: `test`)
@@ -200,13 +200,11 @@ python compute_acc.py --results results.json
 ### Reproducing Harbor Adapter Results
 
 ```bash
-# Prepare task directories
-cd adapters/webgen_bench
-uv run webgen-bench --output-dir ../../datasets/webgen-bench
+# Prepare task directories from the repository root
+uv run --project src/webgen_bench webgen-bench
 
 # Run evaluation
-cd ../..
-uv run harbor run -c adapters/webgen_bench/run_webgen_bench_aider_gpt5_mini.yaml \
+uv run --project src/webgen_bench harbor run -c src/webgen_bench/run_webgen_bench_aider_gpt5_mini.yaml \
   --ae VLM_API_KEY=$VLM_API_KEY \
   --ae VLM_API_BASE_URL=$VLM_API_BASE_URL \
   --ae VLM_MODEL=$VLM_MODEL
@@ -214,7 +212,7 @@ uv run harbor run -c adapters/webgen_bench/run_webgen_bench_aider_gpt5_mini.yaml
 
 ## Environment Variables
 
-Add the following to your `.env` file in the Harbor root (or export them before running):
+Add the following to your `.env` file in the repository root (or export them before running):
 
 ```bash
 VLM_API_KEY=<your-api-key>
@@ -242,19 +240,19 @@ harbor run ... \
 Adapters are managed as standalone uv Python packages. Install dependencies from the adapter directory:
 
 ```bash
-cd adapters/webgen_bench
+cd src/webgen_bench
 uv sync
 ```
 
 Additional requirements:
 - Docker installed and running (required for task container builds)
-- Harbor installed and working (see the main repository README)
+- Python 3.12 or newer; Harbor 0.23.0 is included in the adapter dependencies
 - API key for the VLM judge (see [Environment Variables](#environment-variables) above)
 - API key for the generation agent (e.g. `OPENAI_API_KEY` for Aider + GPT)
 
 ## Oracle Solutions
 
-The `solution/solve.sh` script deploys a pre-generated reference web application to `/app`. Oracle solutions are currently staged under `adapters/webgen_bench/solutions/<id>/`.
+The `solution/solve.sh` script deploys a pre-generated reference web application to `/app`. Oracle solutions are currently staged under `src/webgen_bench/solutions/<id>/`.
 
 **Current status**: oracle solutions exist for all tasks and currently pass approximately **20–30%** of `ui_instruct` tests on average. It's a work in progress. The relatively low score reflects the inherent difficulty of the benchmark and does not indicate a verifier defect. Additionally, because the WebVoyager VLM judge uses non-zero temperature, repeated runs on the same oracle output will not always produce identical scores.
 
@@ -284,7 +282,7 @@ Check that `VLM_API_KEY` is set and that your quota/rate-limit allows the number
 Verify that `VLM_API_BASE_URL` points to a live endpoint and that the model name matches what the endpoint expects. A misconfigured URL causes the judge to silently treat every answer as NO.
 
 **`uv run webgen-bench` fails with `ModuleNotFoundError`**  
-Run `uv sync` from `adapters/webgen_bench/` first to install the package and its dependencies.
+Run `uv sync` from `src/webgen_bench/` first to install the package and its dependencies.
 
 ## Citation
 

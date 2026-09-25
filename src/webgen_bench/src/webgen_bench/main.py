@@ -16,7 +16,7 @@ from .adapter import WebGenBenchAdapter, WebGenBenchDataset
 
 LOGGER = logging.getLogger(__name__)
 
-DEFAULT_OUTPUT_DIR = Path(__file__).resolve().parents[4] / "datasets" / "webgen-bench"
+DEFAULT_OUTPUT_DIR = Path("datasets") / "webgen-bench"
 
 
 def _read_ids_from_file(path: Path) -> list[str]:
