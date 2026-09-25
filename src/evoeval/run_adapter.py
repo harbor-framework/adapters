@@ -3,12 +3,12 @@
 Run the EvoEval adapter to generate tasks in sandboxes format.
 
 Usage:
-    uv run python -m adapters.evoeval.run_adapter
+    uv run --project src/evoeval python src/evoeval/run_adapter.py
 
 To run with oracle agent, use:
-    uv run sb jobs start \
+    uv run --project src/evoeval harbor run \
         --agent oracle \
-        --dataset-path tasks/evoeval \
+        --path datasets/evoeval \
         --no-force-build \
         -n 10
 """
@@ -17,10 +17,10 @@ import argparse
 import logging
 from pathlib import Path
 
-from .adapter import EvoEvalAdapter
-
-# Sandboxes root is two levels up
-SANDBOXES_ROOT = Path(__file__).resolve().parent.parent.parent
+if __package__:
+    from .adapter import EvoEvalAdapter
+else:
+    from adapter import EvoEvalAdapter
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 logger = logging.getLogger(__name__)
@@ -40,7 +40,7 @@ def main():
         "--output-dir",
         type=Path,
         default=None,
-        help="Output directory for generated tasks (default: sandboxes/tasks/evoeval)",
+        help="Output directory for generated tasks (default: datasets/evoeval, relative to cwd)",
     )
     parser.add_argument(
         "--dataset-name",
@@ -55,7 +55,7 @@ def main():
     if args.output_dir:
         task_dir = args.output_dir.resolve()
     else:
-        task_dir = SANDBOXES_ROOT / "tasks" / "evoeval"
+        task_dir = Path("datasets/evoeval").resolve()
 
     task_dir.mkdir(parents=True, exist_ok=True)
     logger.info(f"Output directory: {task_dir}")

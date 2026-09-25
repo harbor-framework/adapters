@@ -3,25 +3,12 @@ Convert BixBench capsules to Harbor task directories
 """
 
 import argparse
-import subprocess
 from pathlib import Path
 
 from .adapter import BixBenchAdapter
 
-DEFAULT_OUTPUT_DIR = Path(__file__).resolve().parents[4] / "datasets" / "bixbench"
-HARBOR_ROOT = Path(__file__).resolve().parents[4]
-
-
-def _default_commit() -> str | None:
-    """Return the current Harbor git SHA when available."""
-    try:
-        return subprocess.check_output(
-            ["git", "rev-parse", "HEAD"],
-            cwd=HARBOR_ROOT,
-            text=True,
-        ).strip()
-    except (OSError, subprocess.CalledProcessError):
-        return None
+DEFAULT_OUTPUT_DIR = Path("datasets/bixbench")
+DEFAULT_COMMIT = "71c77fdd119df12eb6ab56e5bc0f29bf62fad338"
 
 
 def main() -> None:
@@ -34,8 +21,8 @@ def main() -> None:
     parser.add_argument(
         "--commit",
         type=str,
-        default=_default_commit(),
-        help="Full Harbor commit hash to use for remote environment helpers (default: current HEAD)",
+        default=DEFAULT_COMMIT,
+        help=f"Full Harbor commit hash to use for remote environment helpers (default: {DEFAULT_COMMIT})",
     )
     parser.add_argument(
         "--output-dir",

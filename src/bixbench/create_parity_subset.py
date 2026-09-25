@@ -1,4 +1,5 @@
-# uv run adapters/bixbench/create_parity_subset.py
+# uv run --project src/bixbench python src/bixbench/create_parity_subset.py --registry-path /path/to/registry.json
+import argparse
 import json
 import random
 from pathlib import Path
@@ -7,8 +8,9 @@ SEED = 42
 N_TASKS = 50
 DATASET_NAME = "bixbench"
 
-this_dir = Path(__file__).parent
-registry_path = this_dir.parent.parent / "registry.json"
+parser = argparse.ArgumentParser()
+parser.add_argument("--registry-path", type=Path, default=Path("registry.json"))
+registry_path = parser.parse_args().registry_path
 
 with open(registry_path, "r") as f:
     registry = json.load(f)

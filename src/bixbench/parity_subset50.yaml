@@ -1,4 +1,4 @@
-# uv run harbor run -c adapters/bixbench/parity_subset50.yaml
+# uv run --project src/bixbench --with harbor==0.23.0 harbor run -c src/bixbench/parity_subset50.yaml
 n_attempts: 3
 orchestrator:
   retry:

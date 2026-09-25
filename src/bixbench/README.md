@@ -58,10 +58,10 @@ datasets/bixbench/
 
 Each task corresponds to a single BixBench problem with its associated questions and data files.
 
-The adapter template directory mirrors this layout under `harbor/adapters/bixbench/src/bixbench/task-template/`:
+The adapter template directory mirrors this layout under `src/bixbench/src/bixbench/task-template/`:
 
 ```
-adapters/bixbench/
+src/bixbench/
 ├── bixbench.yaml  # job configuration file to run full 205 tasks with the jupyter agent
 ├── bixbench-cli.yaml  # job configuration file to run full 205 tasks with the terminal agent (codex+gpt5)
 ├── create_parity_subset.py  # create 50 tasks subset deterministically
@@ -112,39 +112,39 @@ Simply run
 
 ```bash
 # Use oracle agent
-uv run harbor run -d bixbench
+uv run --project src/bixbench --with harbor==0.23.0 harbor run -d bixbench
 
 # Use the SimpleAgent from the original benchmark (no image, gpt-4o)
-uv run harbor run -d bixbench \
+uv run --project src/bixbench --with harbor==0.23.0 harbor run -d bixbench \
        --agent-import-path bixbench.custom_agent:BixbenchJupyterAgent
 
 # Use your specified agent and model
-uv run harbor run -d bixbench -a <agent_name> -m "<model_name>"
+uv run --project src/bixbench --with harbor==0.23.0 harbor run -d bixbench -a <agent_name> -m "<model_name>"
 ```
 
-from the harbor root to evaluate on the entire dataset.
+from the adapters repository root to evaluate on the entire dataset.
 
 However, if you choose to prepare the task directories locally and/or with custom versions/subsets for evaluation, you may either use `harbor run` or `harbor trial`. Instructions for using the adapter code to prepare task directories are provided in the [Usage](#usage-create-task-directories) section.
 
 ### Using Job Configurations
 
-From harbor root directory
+From the adapters repository root directory
 
 ```bash
 # Run the jupyter notebook agent version
-uv run harbor run -c adapters/bixbench/bixbench.yaml
+uv run --project src/bixbench --with harbor==0.23.0 harbor run -c src/bixbench/bixbench.yaml
 # Run the terminal agent version
-uv run harbor run -c adapters/bixbench/bixbench-cli.yaml
+uv run --project src/bixbench --with harbor==0.23.0 harbor run -c src/bixbench/bixbench-cli.yaml
 ```
 
 Or without config:
 ```bash
-uv run harbor run -p datasets/bixbench --agent-import-path bixbench.custom_agent:BixbenchJupyterAgent
+uv run --project src/bixbench --with harbor==0.23.0 harbor run -p datasets/bixbench --agent-import-path bixbench.custom_agent:BixbenchJupyterAgent
 ```
 
 # Resume a previously started job
 ```bash
-uv run harbor job resume -p /path/to/jobs/directory
+uv run --project src/bixbench --with harbor==0.23.0 harbor job resume -p /path/to/jobs/directory
 ```
 
 Results are saved in the `jobs/` directory by default (configurable via `jobs_dir` in the YAML config).
@@ -153,7 +153,7 @@ Results are saved in the `jobs/` directory by default (configurable via `jobs_di
 
 ```bash
 # Test oracle solution (task_id is question_id, e.g., bix-37-q4)
-uv run harbor trial start -p datasets/bixbench/{task_id} -a oracle
+uv run --project src/bixbench --with harbor==0.23.0 harbor trial start -p datasets/bixbench/{task_id} -a oracle
 ```
 
 Trial outputs are saved in the `trials/` directory by default (configurable via `--trials-dir`).
@@ -163,26 +163,25 @@ Trial outputs are saved in the `trials/` directory by default (configurable via 
 ## Usage: Create Task Directories
 
 ```bash
-# From adapter directory
-cd adapters/bixbench
+# From the adapters repository root
 
 # Generate all bixbench tasks
-uv run bixbench --overwrite
+uv run --project src/bixbench bixbench --overwrite
 
 # Generate all bixbench-cli tasks
-uv run bixbench --overwrite --cli
+uv run --project src/bixbench bixbench --overwrite --cli
 
 # Generate a single task (by question id)
-uv run bixbench --overwrite --question-id bix-37-q4
+uv run --project src/bixbench bixbench --overwrite --question-id bix-37-q4
 ```
 
-By default the adapter uses the current Harbor git commit for remote environment helpers. Pass `--commit {commit}` explicitly if you want generated tasks pinned to a different Harbor revision.
+By default the adapter uses Harbor commit `71c77fdd119df12eb6ab56e5bc0f29bf62fad338` for remote environment helpers. Pass `--commit {commit}` explicitly if you want generated tasks pinned to a different Harbor revision.
 
 ### Command-Line Options
 
 - `--question-id`: Single BixBench task ID (e.g., `bix-37-q4`). If omitted, converts all tasks.
-- `--commit`: Harbor commit hash used for remote environment helper files. Defaults to the current repo HEAD.
-- `--output-dir`: Output directory for Harbor tasks (default: `../../datasets/bixbench`)
+- `--commit`: Harbor commit hash used for remote environment helper files. Defaults to `71c77fdd119df12eb6ab56e5bc0f29bf62fad338`.
+- `--output-dir`: Output directory for Harbor tasks (default: `datasets/bixbench`, relative to cwd)
 - `--overwrite`: Overwrite existing task directories
 - `--limit`: Maximum number of tasks to convert
 - `--task-ids`: Specific question IDs to convert
@@ -236,12 +235,11 @@ uv run bixbench/postprocessing.py --config_file bixbench/run_configuration/postp
 ```
 To run the adapted benchmark (bixbench):
 ```bash
-# inside harbor/ (requires OPENAI_API_KEY), taking roughly four hours for three runs plus verification
+# inside the adapters repository (requires OPENAI_API_KEY), taking roughly four hours for three runs plus verification
 # include three attempts
-uv run harbor run -c adapters/bixbench/parity_subset50.yaml
+uv run --project src/bixbench --with harbor==0.23.0 harbor run -c src/bixbench/parity_subset50.yaml
 # group and report per run stats
-cd adapters/bixbench
-uv run split_trials.py --jobdir {jobdir}
+uv run --project src/bixbench python src/bixbench/split_trials.py --jobdir {jobdir}
 ```
 
 For parity experiments only, we randomly subsample 50 tasks out of 205 tasks, and repeat each task in three runs. The sampling is done via `create_parity_subset.py` and with `SEED=42`.
@@ -251,16 +249,14 @@ For parity experiments only, we randomly subsample 50 tasks out of 205 tasks, an
 ## Installation / Prerequisites
 
 - Docker (required)
-- Python ≥ 3.11
+- Python ≥ 3.12
 - Harbor and dependencies installed:
   ```bash
-  cd harbor
-  uv sync --group dev
+  uv tool install "harbor==0.23.0"
   ```
 - BixBench adapter dependencies:
   ```bash
-  cd harbor/adapters/bixbench
-  uv sync
+  uv sync --project src/bixbench
   ```
 - HuggingFace authentication (for dataset access):
   ```bash
