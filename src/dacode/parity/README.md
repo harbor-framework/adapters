@@ -59,8 +59,9 @@ mv results/dacode_orig_run1* output/dacode_orig_run1/.
 
 ## Harbor
 ```bash
-export PYTHONPATH=.:./adapters/dacode/parity/da_harbor_agent
-harbor run -p ./datasets/dacode \
+# From the adapters repository root
+export PYTHONPATH="$PWD/src/dacode/parity/da_harbor_agent"
+uv run --project src/dacode --extra harbor harbor run -p ./datasets/dacode \
    --agent-import-path "da_agent:DAAgent" \
    --model Azure/gpt-4o \
    --n-concurrent 4
@@ -69,7 +70,7 @@ harbor run -p ./datasets/dacode \
 
 ** Using OpenHands **
 ```bash
-harbor run -p ./datasets/dacode \
+uv run --project src/dacode --extra harbor harbor run -p ./datasets/dacode \
    --agent openhands --agent-kwarg version=1.1.0 \
    --model litellm_proxy/Azure/gpt-4o \
    --n-concurrent 2
@@ -80,7 +81,7 @@ OpenHands is significantly worse than DA-Agent. Probably because DA-Agent was de
 
 ** Using Claude Code **
 ```bash
-harbor jobs start -p ./datasets/dacode --artifact /app/output \
+uv run --project src/dacode --extra harbor harbor jobs start -p ./datasets/dacode --artifact /app/output \
  --job-name dacode-plain \
  --agent claude-code --ae "CLAUDE_CODE_DISABLE_EXPERIMENTAL_BETAS=1" --ak "version=2.1.56"  \
  --model gcp/claude-sonnet-4-5    --n-concurrent 4
@@ -90,7 +91,7 @@ harbor jobs start -p ./datasets/dacode --artifact /app/output \
 
 ## Stats
 ```bash
-harbor stats diff -a "adapters/dacode/parity/parity-experiments/dacode_harbor_run*" -b "adapters/dacode/parity/parity-experiments/dacode_orig_run*"
+uv run --project src/dacode --extra harbor harbor stats diff -a "src/dacode/parity/parity-experiments/dacode_harbor_run*" -b "src/dacode/parity/parity-experiments/dacode_orig_run*"
 Group A: 3 result.json files
 Group B: 3 result.json files
 Group A: 1437 trials across 479 tasks
@@ -119,7 +120,7 @@ Orig: 0.4016784375474007,  0.39359287474769633, 0.36610448299056086
 
 ## Confidence Intervals
 ```bash
-harbor stats ci "adapters/dacode/parity/parity-experiments/dacode_harbor_run*"
+uv run --project src/dacode --extra harbor harbor stats ci "src/dacode/parity/parity-experiments/dacode_harbor_run*"
 Found 3 result.json files
 Loaded 1437 trials across 479 tasks
 Hierarchical Bootstrap Confidence Interval
@@ -139,7 +140,7 @@ Hierarchical Bootstrap Confidence Interval
 ```
 
 ```bash
-harbor stats ci "adapters/dacode/parity/parity-experiments/dacode_orig_run*"
+uv run --project src/dacode --extra harbor harbor stats ci "src/dacode/parity/parity-experiments/dacode_orig_run*"
 Found 3 result.json files
 Loaded 1437 trials across 479 tasks
 Hierarchical Bootstrap Confidence Interval
@@ -160,10 +161,10 @@ Hierarchical Bootstrap Confidence Interval
 
 # BUILD
 ```bash
-uv run python run_adapter.py --clean --dacode-root ../../../../dacode_repo --no-clone-dacode --output-dir ../../../harbor/datasets/dacode
+uv run --project src/dacode python src/dacode/run_adapter.py --clean --dacode-root /path/to/dacode_repo --no-clone-dacode --output-dir datasets/dacode
 ```
 
 # ORACLE
 ```bash
-harbor run --path datasets/dacode --agent oracle --n-concurrent 4
+uv run --project src/dacode --extra harbor harbor run --path datasets/dacode --agent oracle --n-concurrent 4
 ```

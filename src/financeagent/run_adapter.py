@@ -10,8 +10,6 @@ from typing import Iterable, Union
 
 from adapter import FinanceAgentAdapter  # noqa: E402
 
-HARBOR_ROOT = Path(__file__).resolve().parent.parent.parent
-
 FINANCEAGENT_REPO_URL = "https://github.com/vals-ai/finance-agent.git"
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
@@ -20,7 +18,7 @@ logger = logging.getLogger(__name__)
 
 def _default_output_dir(version: str = "terminal") -> Path:
     """Get default output directory based on version."""
-    return HARBOR_ROOT / "datasets" / f"financeagent_{version}"
+    return Path("datasets") / f"financeagent_{version}"
 
 
 def _read_ids_from_file(path: Path) -> list[str]:

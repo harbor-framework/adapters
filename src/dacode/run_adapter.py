@@ -14,15 +14,6 @@ import gdown
 from adapter import DACodeAdapter
 
 
-# Ensure repository root is on sys.path so package imports work
-SCRIPT_DIR = Path(__file__).resolve().parent
-REPO_ROOT = SCRIPT_DIR.parent.parent
-if str(REPO_ROOT) not in sys.path:
-    sys.path.insert(0, str(REPO_ROOT))
-
-
-HARBOR_ROOT = Path(__file__).resolve().parent.parent.parent
-
 DACODE_REPO_URL = "https://github.com/yiyihum/da-code.git"
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
@@ -30,7 +21,7 @@ logger = logging.getLogger(__name__)
 
 
 def _default_output_dir() -> Path:
-    return HARBOR_ROOT / "datasets" / "dacode"
+    return Path("datasets") / "dacode"
 
 
 def _read_ids_from_file(path: Path) -> list[str]:

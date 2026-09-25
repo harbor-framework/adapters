@@ -77,25 +77,25 @@ Harbor Registry & Datasets makes running adapter evaluation easy and flexible.
 
 ```bash
 # Use oracle agent (reference solution)
-uv run harbor run -d cooperbench --agent oracle -e modal --env-file .env
+uvx --from harbor==0.23.0 harbor run -d cooperbench --agent oracle -e modal --env-file .env
 
 # Use nop agent with openhands-sdk sidecars
-uv run harbor run -d cooperbench --agent nop -e modal \
+uvx --from harbor==0.23.0 harbor run -d cooperbench --agent nop -e modal \
   --env-file .env --n-concurrent 10
 ```
 
 ### Using Job Configurations
 
 The example configuration file for the adapter is provided under
-`adapters/cooperbench/`. You may use `-c` to run evaluation after preparing
+`src/cooperbench/`. You may use `-c` to run evaluation after preparing
 task directories locally.
 
 ```bash
 # Run with the adapter configuration
-uv run harbor run -c adapters/cooperbench/cooperbench.yaml
+uvx --from harbor==0.23.0 harbor run -c src/cooperbench/cooperbench.yaml
 
 # Or run with locally prepared dataset path
-uv run harbor run -p datasets/cooperbench --agent nop -e modal --env-file .env
+uvx --from harbor==0.23.0 harbor run -p datasets/cooperbench --agent nop -e modal --env-file .env
 ```
 
 CooperBench env vars (API keys, model name) must reach Docker Compose
@@ -114,11 +114,11 @@ file. Set `COOPERBENCH_MODEL` to override the default model (`gpt-4o`).
 
 ```bash
 # Run flash subset (50 tasks)
-uv run harbor run -p datasets/cooperbench --agent nop -e modal \
+uvx --from harbor==0.23.0 harbor run -p datasets/cooperbench --agent nop -e modal \
   --env-file .env --n-concurrent 10 --max-retries 1
 
 # Oracle test (validates infrastructure)
-uv run harbor run -p datasets/cooperbench --agent oracle -e modal \
+uvx --from harbor==0.23.0 harbor run -p datasets/cooperbench --agent oracle -e modal \
   --env-file .env --n-concurrent 28
 ```
 
@@ -128,29 +128,29 @@ For quick testing or debugging a single task:
 
 ```bash
 # Run a single trial with oracle
-uv run harbor trial start -p datasets/cooperbench/cb-jinja-t1621-f1-6 \
+uvx --from harbor==0.23.0 harbor trial start -p datasets/cooperbench/cb-jinja-t1621-f1-6 \
   --agent oracle -e modal --env-file .env
 
 # Run a single trial with nop + sidecars
-uv run harbor trial start -p datasets/cooperbench/cb-jinja-t1621-f1-6 \
+uvx --from harbor==0.23.0 harbor trial start -p datasets/cooperbench/cb-jinja-t1621-f1-6 \
   --agent nop -e modal --env-file .env
 ```
 
 ## Usage: Create Task Directories
 
 ```bash
-cd adapters/cooperbench
+# From the adapters repository root
 
 # Generate flash subset with openhands-sdk harness
-uv run cooperbench --agent-harness openhands-sdk \
+uv run --project src/cooperbench cooperbench --agent-harness openhands-sdk \
   --subset flash
 
 # Generate all 652 tasks
-uv run cooperbench --agent-harness openhands-sdk
+uv run --project src/cooperbench cooperbench --agent-harness openhands-sdk
 ```
 
 Available flags:
-- `--output-dir` — Directory to write generated tasks (default: `datasets/cooperbench`)
+- `--output-dir` — Directory to write generated tasks (default: `datasets/cooperbench` relative to the current working directory)
 - `--agent-harness` — Agent harness to use (`openhands-sdk` or `mini-swe-agent`)
 - `--subset` — Bundled subset name (`lite`, `flash`) or path to a subset JSON file
 - `--limit` — Maximum number of features to load
@@ -199,12 +199,11 @@ python run_cooperbench.py \
 
 **Harbor adapter:**
 ```bash
-cd adapters/cooperbench
-uv run cooperbench --agent-harness openhands-sdk \
+# From the adapters repository root
+uv run --project src/cooperbench cooperbench --agent-harness openhands-sdk \
   --subset flash
 
-cd ../..
-uv run harbor run -p datasets/cooperbench --agent nop -e modal \
+uvx --from harbor==0.23.0 harbor run -p datasets/cooperbench --agent nop -e modal \
   --env-file .env --n-concurrent 10 --max-retries 1
 ```
 
@@ -266,14 +265,14 @@ uv run harbor run -p datasets/cooperbench --agent nop -e modal \
 
 ```bash
 # Install harbor
-uv tool install harbor
+uv tool install harbor==0.23.0
 
 # Set up Modal profile
 modal profile activate <your-profile>
 
 # Install adapter dependencies
-cd adapters/cooperbench
-uv sync
+# From the adapters repository root
+uv sync --project src/cooperbench
 ```
 
 ## Troubleshooting

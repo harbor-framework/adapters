@@ -4,17 +4,10 @@ import argparse
 import sys
 from pathlib import Path
 
-# Support running from repo root or from inside adapters/crmarena/
-_ADAPTER_DIR = Path(__file__).resolve().parent
-_HARBOR_ROOT = _ADAPTER_DIR.parent.parent
-for _p in (_HARBOR_ROOT, _ADAPTER_DIR):
-    if str(_p) not in sys.path:
-        sys.path.insert(0, str(_p))
-
-try:
-    from adapters.crmarena.adapter import TASK_TYPES, CRMArenaLoader, CRMArenaToHarbor  # noqa: E402
-except ModuleNotFoundError:
-    from adapter import TASK_TYPES, CRMArenaLoader, CRMArenaToHarbor  # type: ignore[no-redef]  # noqa: E402
+if __package__:
+    from .adapter import TASK_TYPES, CRMArenaLoader, CRMArenaToHarbor
+else:
+    from adapter import TASK_TYPES, CRMArenaLoader, CRMArenaToHarbor
 
 
 def main() -> None:
@@ -80,7 +73,7 @@ Available task types:
         "--template-dir",
         type=Path,
         default=None,
-        help="Override the template directory (default: adapters/crmarena/template/).",
+        help="Override the template directory (default: src/crmarena/template/).",
     )
     parser.add_argument(
         "--overwrite",

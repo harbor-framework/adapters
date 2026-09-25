@@ -4,9 +4,9 @@ FinanceAgent - A custom Harbor agent for financial research tasks.
 This agent wraps the finance-agent from https://github.com/vals-ai/finance-agent
 
 Usage:
-    uv run harbor trials start \
+    PYTHONPATH="$PWD/src" uv run --project src/financeagent --extra harbor harbor trials start \
         -p datasets/financeagent/financeagent-0 \
-        --agent-import-path "adapters.financeagent.finance_agent:FinanceAgent" \
+        --agent-import-path "financeagent.finance_agent:FinanceAgent" \
         -m "openai/gpt-4o"
 """
 
