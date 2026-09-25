@@ -2,7 +2,7 @@ import os
 import shlex
 from pathlib import Path
 
-from harbor.agents.installed.base import BaseInstalledAgent, ExecInput
+from harbor.agents.installed.base import BaseInstalledAgent, with_prompt_template
 from harbor.environments.base import BaseEnvironment
 from harbor.models.agent.context import AgentContext
 
@@ -24,9 +24,11 @@ class DAAgent(BaseInstalledAgent):
     def name() -> str:
         return "da-agent"
 
-    @property
-    def _install_agent_template_path(self) -> Path:
-        return Path(__file__).parent / "install-da-agent.sh.j2"
+    async def install(self, environment: BaseEnvironment) -> None:
+        await self.exec_as_agent(
+            environment,
+            command=(self._repo_path / "install-da-agent.sh.j2").read_text(),
+        )
 
     async def setup(self, environment: BaseEnvironment) -> None:
         # First run the base setup (install dependencies)
@@ -67,7 +69,13 @@ class DAAgent(BaseInstalledAgent):
     def populate_context_post_run(self, context: AgentContext) -> None:
         pass
 
-    def create_run_agent_commands(self, instruction: str) -> list[ExecInput]:
+    @with_prompt_template
+    async def run(
+        self,
+        instruction: str,
+        environment: BaseEnvironment,
+        context: AgentContext,
+    ) -> None:
         escaped_instruction = shlex.quote(instruction)
 
         env = {}
@@ -80,19 +88,18 @@ class DAAgent(BaseInstalledAgent):
         env["PYTHONPATH"] = "/"
 
         # Build the command to run the agent
-        return [
-            ExecInput(
-                command=(
-                    f"python /da_harbor_agent/run_agent.py "
-                    f"-t {escaped_instruction} "
-                    f"-m {self.model_name} "
-                    f"--max_steps 20 "
-                    f"--max_memory_length 15 "
-                    f"--max_tokens 1500 "
-                    f"--temperature 0.0 "
-                    f"--top_p 0.9 "
-                    f"2>&1 | tee /logs/agent/da_agent.txt"
-                ),
-                env=env,
-            )
-        ]
+        await self.exec_as_agent(
+            environment,
+            command=(
+                f"python /da_harbor_agent/run_agent.py "
+                f"-t {escaped_instruction} "
+                f"-m {self.model_name} "
+                f"--max_steps 20 "
+                f"--max_memory_length 15 "
+                f"--max_tokens 1500 "
+                f"--temperature 0.0 "
+                f"--top_p 0.9 "
+                f"2>&1 | tee /logs/agent/da_agent.txt"
+            ),
+            env=env,
+        )
