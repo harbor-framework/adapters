@@ -76,7 +76,7 @@ gaia2/
 The adapter code directory:
 
 ```text
-harbor/adapters/gaia2/
+adapters/src/gaia2/
 ├── README.md
 ├── adapter.py
 ├── run_adapter.py
@@ -136,55 +136,57 @@ treated as parity with the original ARE ReAct agent.
 
 ## Run Evaluation / Harness in Harbor
 
+Run these commands from the adapters repository root.
+
 Harbor Registry & Datasets makes running adapter evaluation easy and flexible.
 
 ### Running with Datasets Registry
 
 ```bash
 # Use oracle agent (reference solution)
-uv run harbor run -d gaia2
+uvx --from harbor==0.23.0 harbor run -d gaia2
 
 # Use your specified agent and model
-uv run harbor run -d gaia2 -a <agent_name> -m "<model_name>"
+uvx --from harbor==0.23.0 harbor run -d gaia2 -a <agent_name> -m "<model_name>"
 ```
 
 ### Using Job Configurations
 
 ```bash
 # Run with the default adapter configuration
-uv run harbor run -c adapters/gaia2/gaia2.yaml -a <agent_name> -m "<model_name>"
+uvx --from harbor==0.23.0 harbor run -c src/gaia2/gaia2.yaml -a <agent_name> -m "<model_name>"
 
 # Or run with locally prepared dataset path
-uv run harbor run -p datasets/gaia2 -a <agent_name> -m "<model_name>"
+uvx --from harbor==0.23.0 harbor run -p datasets/gaia2 -a <agent_name> -m "<model_name>"
 
 # Resume a previously started job
-uv run harbor jobs resume -p /path/to/jobs/directory
+uvx --from harbor==0.23.0 harbor jobs resume -p /path/to/jobs/directory
 ```
 
 ### Running Individual Trials
 
 ```bash
 # Run a single trial with oracle (pre-written solution)
-uv run harbor trials start -p datasets/gaia2/<task_id>
+uvx --from harbor==0.23.0 harbor trials start -p datasets/gaia2/<task_id>
 
 # Run a single trial with a specific agent and model
-uv run harbor trials start -p datasets/gaia2/<task_id> -a <agent_name> -m "<model_name>"
+uvx --from harbor==0.23.0 harbor trials start -p datasets/gaia2/<task_id> -a <agent_name> -m "<model_name>"
 ```
 
 ## Usage: Create Task Directories
 
 ```bash
 # Generate the full 800-task dataset (default)
-uv run python adapters/gaia2/run_adapter.py --cleanup --overwrite
+uv run --no-project --with datasets python src/gaia2/run_adapter.py --cleanup --overwrite
 
 # Generate the full 800-task CLI MCP variant
-uv run python adapters/gaia2/run_adapter.py --cli --cleanup --overwrite
+uv run --no-project --with datasets python src/gaia2/run_adapter.py --cli --cleanup --overwrite
 
 # Generate a small smoke test (search config, 1 task)
-uv run python adapters/gaia2/run_adapter.py --configs search --limit 1 --overwrite
+uv run --no-project --with datasets python src/gaia2/run_adapter.py --configs search --limit 1 --overwrite
 
 # Generate a small CLI smoke test
-uv run python adapters/gaia2/run_adapter.py \
+uv run --no-project --with datasets python src/gaia2/run_adapter.py \
   --cli \
   --configs search \
   --limit 1 \
@@ -192,18 +194,18 @@ uv run python adapters/gaia2/run_adapter.py \
   --overwrite
 
 # Generate only the 100-task parity subset
-uv run python adapters/gaia2/generate_parity_sample.py
+uv run --no-project --with datasets python src/gaia2/generate_parity_sample.py
 
-uv run python adapters/gaia2/run_adapter.py \
-  --ids-file adapters/gaia2/parity_sample_source_ids.txt \
+uv run --no-project --with datasets python src/gaia2/run_adapter.py \
+  --ids-file src/gaia2/parity_sample_source_ids.txt \
   --output-dir datasets/gaia2-parity \
   --configs execution search adaptability time ambiguity \
   --cleanup \
   --overwrite
 ```
 
-Tasks are written to `datasets/gaia2/` with one directory per task.
-With `--cli`, tasks are written to `datasets/gaia2-cli/` by default.
+Tasks are written to `datasets/gaia2/` under the adapters repository root with one directory per task.
+With `--cli`, tasks are written to `datasets/gaia2-cli/` under the adapters repository root by default.
 
 ## Comparison with Original Benchmark (Parity)
 
@@ -227,11 +229,11 @@ The Harbor adapter produces equivalent results to the original ARE harness
 
 ```bash
 # Generate parity subset IDs
-uv run python adapters/gaia2/generate_parity_sample.py
+uv run --no-project --with datasets python src/gaia2/generate_parity_sample.py
 
 # Generate parity task directories
-uv run python adapters/gaia2/run_adapter.py \
-  --ids-file adapters/gaia2/parity_sample_source_ids.txt \
+uv run --no-project --with datasets python src/gaia2/run_adapter.py \
+  --ids-file src/gaia2/parity_sample_source_ids.txt \
   --output-dir datasets/gaia2-parity \
   --configs execution search adaptability time ambiguity \
   --cleanup \
@@ -239,7 +241,7 @@ uv run python adapters/gaia2/run_adapter.py \
 
 # Run parity job
 export OPENAI_API_KEY="<OpenRouter or OpenAI compatible key>"
-uv run harbor run -c adapters/gaia2/gaia2-parity.yaml
+PYTHONPATH="$PWD/src/gaia2" uvx --from harbor==0.23.0 harbor run -c src/gaia2/gaia2-parity.yaml
 ```
 
 ## CLI Variant
@@ -260,11 +262,11 @@ Typical workflow:
 
 ```bash
 # Generate CLI-mode tasks
-uv run python adapters/gaia2/run_adapter.py --cli --cleanup --overwrite
+uv run --no-project --with datasets python src/gaia2/run_adapter.py --cli --cleanup --overwrite
 
 # Run the CLI benchmark variant
 export OPENAI_API_KEY="<judge key>"
-uv run harbor run -p datasets/gaia2-cli -a opencode -m "openai/gpt-5-mini"
+uvx --from harbor==0.23.0 harbor run -p datasets/gaia2-cli -a opencode -m "openai/gpt-5-mini"
 ```
 
 CLI results should be reported as `gaia2-cli`, not as a parity replacement for
@@ -330,10 +332,10 @@ using the same model and scenario set.
 ## Installation / Prerequisites
 
 - Docker installed and running.
-- Harbor repository dependencies installed:
+- Harbor installed:
 
 ```bash
-uv sync --extra dev
+uv tool install harbor==0.23.0
 ```
 
 - Enough local storage to build GAIA2 task images. The generated task

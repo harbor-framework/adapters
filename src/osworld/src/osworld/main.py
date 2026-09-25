@@ -5,9 +5,7 @@ from pathlib import Path
 
 from .adapter import OsworldAdapter
 
-DEFAULT_OUTPUT_DIR = (
-    Path(__file__).resolve().parents[4] / "datasets" / "osworld-verified"
-)
+DEFAULT_OUTPUT_DIR = Path("datasets") / "osworld-verified"
 
 
 def main() -> None:

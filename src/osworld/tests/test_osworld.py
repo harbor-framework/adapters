@@ -21,7 +21,8 @@ from harbor.models.job.config import JobConfig
 from harbor.models.task.task import Task
 from harbor.utils.trajectory_validator import TrajectoryValidator
 
-ADAPTER_SRC = Path(__file__).parents[3] / "adapters/osworld/src"
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+ADAPTER_SRC = PROJECT_ROOT / "src"
 TEMPLATE_TESTS = ADAPTER_SRC / "osworld/task-template/tests"
 sys.path.insert(0, str(TEMPLATE_TESTS))
 sys.path.insert(0, str(ADAPTER_SRC))
@@ -119,9 +120,7 @@ def test_osworld_prompt_matches_upstream_screenshot_a11y_pyautogui() -> None:
 
 
 def test_osworld_parity_script_runs_pyautogui_by_default() -> None:
-    parity_script = (
-        Path(__file__).parents[3] / "adapters/osworld/parity.sh"
-    ).read_text(encoding="utf-8")
+    parity_script = (PROJECT_ROOT / "parity.sh").read_text(encoding="utf-8")
 
     assert "OBS_TYPE=screenshot_a11y_tree" in parity_script
     assert "ACTION_SPACE=pyautogui" in parity_script
@@ -1704,16 +1703,16 @@ def test_osworld_adapter_does_not_copy_text_only_oracle_attempt(
 
 
 def test_osworld_task_template_uses_upstream_docker_image_and_qcow2() -> None:
-    dockerfile = Path(
-        "adapters/osworld/src/osworld/task-template/environment/Dockerfile"
+    dockerfile = (
+        ADAPTER_SRC / "osworld/task-template/environment/Dockerfile"
     ).read_text()
     compose = yaml.safe_load(
-        Path(
-            "adapters/osworld/src/osworld/task-template/environment/docker-compose.yaml"
+        (
+            ADAPTER_SRC / "osworld/task-template/environment/docker-compose.yaml"
         ).read_text()
     )
-    entrypoint = Path(
-        "adapters/osworld/src/osworld/task-template/environment/osworld-entrypoint.sh"
+    entrypoint = (
+        ADAPTER_SRC / "osworld/task-template/environment/osworld-entrypoint.sh"
     ).read_text()
 
     assert dockerfile.startswith("FROM happysixd/osworld-docker")
@@ -1735,14 +1734,14 @@ def test_osworld_task_template_uses_upstream_docker_image_and_qcow2() -> None:
 
 
 def test_osworld_task_template_installs_ocr_dependency_only_on_demand() -> None:
-    dockerfile = Path(
-        "adapters/osworld/src/osworld/task-template/environment/Dockerfile"
+    dockerfile = (
+        ADAPTER_SRC / "osworld/task-template/environment/Dockerfile"
     ).read_text(encoding="utf-8")
-    verifier = Path(
-        "adapters/osworld/src/osworld/task-template/tests/verifier.py"
-    ).read_text(encoding="utf-8")
-    docs_metric = Path(
-        "adapters/osworld/src/osworld/task-template/tests/evaluators/upstream/metrics/docs.py"
+    verifier = (ADAPTER_SRC / "osworld/task-template/tests/verifier.py").read_text(
+        encoding="utf-8"
+    )
+    docs_metric = (
+        ADAPTER_SRC / "osworld/task-template/tests/evaluators/upstream/metrics/docs.py"
     ).read_text(encoding="utf-8")
 
     assert "easyocr \\" not in dockerfile
@@ -1831,7 +1830,7 @@ def test_osworld_adapter_overwrite_removes_stale_excluded_google_drive_tasks(
 
 def test_osworld_verified_run_config_is_valid_haiku_20_task_eval() -> None:
     raw_config = yaml.safe_load(
-        Path("adapters/osworld/run_osworld_verified.yaml").read_text()
+        (PROJECT_ROOT / "run_osworld_verified.yaml").read_text()
     )
     assert "orchestrator" not in raw_config
 
@@ -1857,7 +1856,7 @@ def test_osworld_verified_run_config_is_valid_haiku_20_task_eval() -> None:
 
 def test_osworld_oracle_farm_run_config_uses_plain_docker() -> None:
     raw_config = yaml.safe_load(
-        Path("adapters/osworld/run_osworld_oracle_farm.yaml").read_text()
+        (PROJECT_ROOT / "run_osworld_oracle_farm.yaml").read_text()
     )
     config = JobConfig.model_validate(raw_config)
 

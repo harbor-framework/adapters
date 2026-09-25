@@ -10,10 +10,10 @@ from pathlib import Path
 
 from datasets import load_dataset
 
-try:
-    from adapters.gaia2.adapter import Gaia2Adapter
-except ModuleNotFoundError:
+if __package__ in (None, ""):
     from adapter import Gaia2Adapter
+else:
+    from .adapter import Gaia2Adapter
 
 
 SCRIPT_DIR = Path(__file__).resolve().parent

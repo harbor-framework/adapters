@@ -75,7 +75,7 @@ datasets/tau3-bench/
 Adapter source layout:
 
 ```text
-adapters/tau3-bench/
+src/tau3-bench/
 ├── README.md
 ├── adapter_metadata.json
 ├── parity_experiment.json
@@ -98,34 +98,35 @@ Create or point to a local checkout of the official benchmark first:
 git clone https://github.com/sierra-research/tau2-bench.git ../tau2-bench
 ```
 
-Then generate Harbor tasks:
+Then generate Harbor tasks from the adapters repository root:
 
 ```bash
-cd adapters/tau3-bench
-uv run tau3-bench --output-dir ../../datasets/tau3-bench --overwrite
+uv run --project src/tau3-bench tau3-bench --output-dir datasets/tau3-bench --overwrite
 ```
 
 The adapter also checks `TAU2_BENCH_ROOT`:
 
 ```bash
 export TAU2_BENCH_ROOT=/path/to/tau2-bench
-uv run tau3-bench --output-dir ../../datasets/tau3-bench --overwrite
+uv run --project src/tau3-bench tau3-bench --output-dir datasets/tau3-bench --overwrite
 ```
 
 Available flags:
 
 - `--output-dir`: Directory to write generated tasks. Defaults to
-  `datasets/tau3-bench`.
+  `datasets/tau3-bench` under the current working directory.
 - `--limit`: Generate only the first N tasks.
 - `--overwrite`: Replace existing generated task directories.
 - `--task-ids`: Generate only specific Harbor task IDs or source task IDs.
 
 ## Run Evaluation
 
+Run these commands from the adapters repository root.
+
 Run the full local dataset with the parity configuration:
 
 ```bash
-uv run harbor run -c adapters/tau3-bench/run_tau3-bench.yaml
+PYTHONPATH="$PWD/src/tau3-bench" uv run --project src/tau3-bench harbor run -c src/tau3-bench/run_tau3-bench.yaml
 ```
 
 The parity config lists `tau3_llm_agent` three times with
@@ -143,15 +144,15 @@ generic attempts, so each Harbor trial can carry the same index.
 Run against locally prepared tasks with another agent:
 
 ```bash
-uv run harbor run -p datasets/tau3-bench -a <agent_name> -m "<model_name>"
+uv run --project src/tau3-bench harbor run -p datasets/tau3-bench -a <agent_name> -m "<model_name>"
 ```
 
-If you want to run with `tau3-llm-agent`, use `--agent-import-path adapters.tau3-bench.tau3_llm_agent:Tau3LLMAgent` instead of `-a`.
+If you want to run with `tau3-llm-agent`, prefix the command with `PYTHONPATH="$PWD/src/tau3-bench"` and use `--agent-import-path tau3_llm_agent:Tau3LLMAgent` instead of `-a`.
 
 Run one task:
 
 ```bash
-uv run harbor trial start -p datasets/tau3-bench/tau3-airline-0 -a oracle
+uv run --project src/tau3-bench harbor trial start -p datasets/tau3-bench/tau3-airline-0 -a oracle
 ```
 
 Results are written under `jobs/` or `trials/` depending on the command.
@@ -239,23 +240,23 @@ tau2 run --domain $DOMAIN \
          --max-concurrency 15 \
          (--retrieval-config bm25) # for banking_knowledge domain
 ```
-- **Harbor Side**: the Harbor adapter-side parity run uses `adapters/tau3-bench/run_tau3-bench.yaml`. `OPENAI_API_KEY` is required for the parity agent, simulated user, and natural-language assertion evaluator when those components use OpenAI models. `OPENAI_BASE_URL`, `TAU2_USER_MODEL`, `TAU2_USER_REASONING_EFFORT`, and `TAU2_NL_ASSERTIONS_MODEL` can be set to reproduce a specific endpoint/model configuration.
-- All of the above result data were calculated using `adapters/tau3-bench/metric.py`.
+- **Harbor Side**: the Harbor adapter-side parity run uses `src/tau3-bench/run_tau3-bench.yaml`. `OPENAI_API_KEY` is required for the parity agent, simulated user, and natural-language assertion evaluator when those components use OpenAI models. `OPENAI_BASE_URL`, `TAU2_USER_MODEL`, `TAU2_USER_REASONING_EFFORT`, and `TAU2_NL_ASSERTIONS_MODEL` can be set to reproduce a specific endpoint/model configuration.
+- All of the above result data were calculated using `src/tau3-bench/metric.py`.
 
 ## Installation / Prerequisites
 
 - Python 3.12+
 - Docker installed and running
-- Harbor dependencies installed from the repository root:
+- Harbor and adapter dependencies installed from the adapters repository root:
 
 ```bash
-uv sync --all-extras --dev
+uv sync --project src/tau3-bench
 ```
 
 - Adapter package synced when working inside the adapter directory:
 
 ```bash
-cd adapters/tau3-bench
+cd src/tau3-bench
 uv sync
 ```
 

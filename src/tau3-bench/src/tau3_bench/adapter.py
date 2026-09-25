@@ -102,7 +102,7 @@ class Tau3BenchAdapter:
                 return self._clone_tau2_root(candidate)
             return candidate
 
-        repo_root = Path(__file__).resolve().parents[4]
+        repo_root = Path.cwd().resolve()
         env_root = os.getenv("TAU2_BENCH_ROOT")
         candidates: list[Path] = []
         if env_root:

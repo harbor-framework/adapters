@@ -104,7 +104,7 @@ class KumoVanillaAgent(BaseAgent):
     """A Harbor-side reimplementation of KUMO's VanillaAgent for parity experiments.
 
     Run with:
-      `--agent-import-path adapters.kumo.kumo_vanilla_agent:KumoVanillaAgent`
+      `PYTHONPATH="$PWD/src/kumo" uvx --from harbor==0.23.0 harbor trials start --agent-import-path kumo_vanilla_agent:KumoVanillaAgent`
     """
 
     capabilities = AgentCapabilities(atif=True)

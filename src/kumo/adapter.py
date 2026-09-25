@@ -267,7 +267,7 @@ class KumoAdapter:
             raise ValueError(
                 "Failed to render upstream domain-specific system prompt. "
                 "Ensure --source-dir points to a full KUMO repo checkout (not just env/), "
-                "and that the repo revision matches adapters/kumo/dataset_lock.json."
+                "and that the repo revision matches src/kumo/dataset_lock.json."
             )
         self._write_text(task_dir / "environment" / "system_prompt.txt", system_prompt)
 
@@ -276,7 +276,7 @@ class KumoAdapter:
             raise ValueError(
                 "Failed to compute upstream oracle action count (OracleSearchEngine). "
                 "Ensure --source-dir points to a full KUMO repo checkout and that the "
-                "repo revision matches adapters/kumo/dataset_lock.json."
+                "repo revision matches src/kumo/dataset_lock.json."
             )
 
         secret = {

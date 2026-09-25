@@ -60,13 +60,13 @@ osworld-verified/
 ```
 
 The adapter template lives in
-`adapters/osworld/src/osworld/task-template/` and is rendered once per upstream
+`src/osworld/src/osworld/task-template/` and is rendered once per upstream
 task.
 
 The adapter code is packaged with the standard Harbor `src` layout:
 
 ```text
-adapters/osworld/
+src/osworld/
 +-- README.md
 +-- adapter_metadata.json
 +-- parity_experiment.json
@@ -91,8 +91,8 @@ Once the generated dataset is registered in `harbor-datasets`, it can be run by
 dataset name through the normal Harbor registry flow:
 
 ```bash
-uv run harbor run -d xlang-ai/osworld-verified
-PYTHONPATH=adapters/osworld/src uv run harbor run -d xlang-ai/osworld-verified \
+uv run --project src/osworld harbor run -d xlang-ai/osworld-verified
+uv run --project src/osworld harbor run -d xlang-ai/osworld-verified \
   --agent-import-path osworld.custom_agent:OSWorldAgent \
   -m anthropic/claude-sonnet-4-6
 ```
@@ -108,10 +108,10 @@ Create the shared image cache once per Docker host:
 docker volume create harbor-osworld-cache
 ```
 
-Run the development benchmark config from the Harbor repository root:
+Run the development benchmark config from the adapters repository root:
 
 ```bash
-PYTHONPATH=adapters/osworld/src uv run harbor run -c adapters/osworld/run_osworld_verified.yaml
+uv run --project src/osworld harbor run -c src/osworld/run_osworld_verified.yaml
 ```
 
 Results are saved in the `jobs/` directory by default, configurable via
@@ -122,7 +122,7 @@ Results are saved in the `jobs/` directory by default, configurable via
 Run one exported task:
 
 ```bash
-PYTHONPATH=adapters/osworld/src uv run harbor trial start \
+uv run --project src/osworld harbor trial start \
   -p datasets/osworld-verified/chrome__bb5e4c0d-f964-439c-97b6-bdb9747de3f4 \
   --agent-import-path osworld.custom_agent:OSWorldAgent \
   -m anthropic/claude-sonnet-4-6
@@ -136,9 +136,11 @@ Trial outputs are saved in the `trials/` directory by default, configurable via
 Export the default 361-task no-Google-Drive split:
 
 ```bash
-cd adapters/osworld
+cd src/osworld
 uv run osworld --output-dir ../../datasets/osworld-verified --overwrite
 ```
+
+Without `--output-dir`, tasks are written to `datasets/osworld-verified` under the current working directory.
 
 Useful flags:
 
@@ -169,11 +171,11 @@ OSWorld `PromptAgent` against `happysixd/osworld-docker` plus the
 `client_password=password`.
 
 ```bash
-cd adapters/osworld
+cd src/osworld
 ./parity.sh
 
 cd ../..
-PYTHONPATH=adapters/osworld/src uv run harbor run -c adapters/osworld/run_osworld_verified.yaml
+uv run --project src/osworld harbor run -c src/osworld/run_osworld_verified.yaml
 ```
 
 The detailed parity record is in `parity_experiment.json`. Scores are reported
@@ -248,13 +250,13 @@ The normal adapter export path does not download this oracle dataset implicitly.
 - Python 3.12 and `uv`
 - Docker installed and running
 - Linux host with KVM enabled for realistic runtime
-- Harbor installed from this repository
+- Harbor installed with this adapter's dependencies
 - Model provider credentials for the selected agent/model
 
 Install adapter dependencies:
 
 ```bash
-cd adapters/osworld
+cd src/osworld
 uv sync
 ```
 

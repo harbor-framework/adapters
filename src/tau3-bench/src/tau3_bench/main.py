@@ -10,7 +10,7 @@ except ImportError:
 
 
 def _default_output_dir() -> Path:
-    return Path(__file__).resolve().parents[4] / "datasets" / "tau3-bench"
+    return Path("datasets") / "tau3-bench"
 
 
 def main() -> None:
