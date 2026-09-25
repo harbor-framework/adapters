@@ -30,7 +30,7 @@ Adapters are managed as standalone uv Python packages. Sync dependencies from
 this adapter's directory:
 
 ```bash
-cd adapters/gdb
+cd src/gdb
 uv sync
 ```
 
@@ -44,7 +44,7 @@ uv remove <package>  # remove a dependency
 Runtime requirements:
 
 - Docker installed and running
-- Harbor installed and working (see main repository README)
+- Harbor evaluation commands use `uvx --from harbor==0.23.0`.
 - Python 3.11+ (managed via `uv`)
 - Download the GDB dataset (~1.5 GB) once:
   ```bash
@@ -58,32 +58,32 @@ Runtime requirements:
 ## Usage: Create Task Directories
 
 ```bash
-cd adapters/gdb
+# From the adapters repository root
 
 # Generate all tasks (full dataset = ~33,786 tasks across 39 benchmarks)
-uv run gdb-adapter \
+uv run --project src/gdb gdb-adapter \
     --dataset-root /path/to/gdb-dataset \
-    --output-dir ../../datasets/gdb
+    --output-dir datasets/gdb
 
 # Generate parity subset (2 samples per benchmark = 78 tasks)
-uv run gdb-adapter \
+uv run --project src/gdb gdb-adapter \
     --dataset-root /path/to/gdb-dataset \
     --split parity
 
 # Generate specific benchmarks only
-uv run gdb-adapter \
+uv run --project src/gdb gdb-adapter \
     --dataset-root /path/to/gdb-dataset \
     --benchmarks svg-1 svg-2 category-1
 
 # Generate only specific Harbor task IDs
-uv run gdb-adapter \
+uv run --project src/gdb gdb-adapter \
     --dataset-root /path/to/gdb-dataset \
     --task-ids gdb-svg-1-s0 gdb-svg-2-s0
 ```
 
 Available flags:
 
-- `--output-dir` — directory to write generated tasks (default `datasets/gdb`)
+- `--output-dir` — directory to write generated tasks (default `datasets/gdb` relative to the current working directory)
 - `--limit` — maximum number of tasks to generate overall
 - `--overwrite` — overwrite existing tasks
 - `--task-ids` — only generate these local Harbor task IDs
@@ -100,10 +100,10 @@ The full registered dataset package name is `lica-world/gdb` (33,786 tasks acros
 
 ```bash
 # Use oracle agent (reference solution)
-uv run harbor run -d lica-world/gdb
+uvx --from harbor==0.23.0 harbor run -d lica-world/gdb
 
 # Use a specific agent and model
-uv run harbor run -d lica-world/gdb -a claude-code -m anthropic/claude-sonnet-4-20250514
+uvx --from harbor==0.23.0 harbor run -d lica-world/gdb -a claude-code -m anthropic/claude-sonnet-4-20250514
 ```
 
 For parity experiments, use `run_gdb_parity.yaml` or generate the local 78-task subset with `--split parity`.
@@ -112,25 +112,25 @@ For parity experiments, use `run_gdb_parity.yaml` or generate the local 78-task 
 
 ```bash
 # Run with the default adapter configuration yaml
-uv run harbor run -c adapters/gdb/run_gdb.yaml \
+uvx --from harbor==0.23.0 harbor run -c src/gdb/run_gdb.yaml \
     -a claude-code -m anthropic/claude-sonnet-4-20250514
 
 # Or run against a locally prepared dataset path
-uv run harbor run -p datasets/gdb \
+uvx --from harbor==0.23.0 harbor run -p datasets/gdb \
     -a claude-code -m anthropic/claude-sonnet-4-20250514
 
 # Resume a previously started job
-uv run harbor job resume -p /path/to/jobs/directory
+uvx --from harbor==0.23.0 harbor job resume -p /path/to/jobs/directory
 ```
 
 ### Running Individual Trials
 
 ```bash
 # Single task with oracle
-uv run harbor trial start -p datasets/gdb/gdb-svg-1-s0 -a oracle
+uvx --from harbor==0.23.0 harbor trial start -p datasets/gdb/gdb-svg-1-s0 -a oracle
 
 # Single task with a specific agent
-uv run harbor trial start -p datasets/gdb/gdb-category-1-s0 \
+uvx --from harbor==0.23.0 harbor trial start -p datasets/gdb/gdb-category-1-s0 \
     -a claude-code -m anthropic/claude-sonnet-4-20250514
 ```
 
@@ -221,11 +221,11 @@ bash parity/run_parity.sh               # runs --provider claude_code --n 2
 **Harbor side** (from this repo):
 
 ```bash
-cd harbor/adapters/gdb
-uv run gdb-adapter --dataset-root /path/to/gdb-dataset --split parity
+cd src/gdb
+uv run gdb-adapter --dataset-root /path/to/gdb-dataset --split parity --output-dir ../../datasets/gdb
 
 export ANTHROPIC_API_KEY=sk-...
-uv run harbor run \
+uvx --from harbor==0.23.0 harbor run \
   -p ../../datasets/gdb \
   -a claude-code \
   -m anthropic/claude-sonnet-4-20250514 \

@@ -3,7 +3,7 @@ from pathlib import Path
 
 from .adapter import PixiuAdapter
 
-HARBOR_ROOT = Path(__file__).resolve().parents[4]
+DEFAULT_OUTPUT_DIR = Path("datasets") / "pixiu"
 
 
 def parse_args() -> argparse.Namespace:
@@ -11,7 +11,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--output-dir",
         type=Path,
-        default=HARBOR_ROOT / "datasets" / "pixiu",
+        default=DEFAULT_OUTPUT_DIR,
         help="Directory where generated Harbor tasks will be stored.",
     )
     parser.add_argument(

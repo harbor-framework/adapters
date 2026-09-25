@@ -66,7 +66,7 @@ locomo/
 Adapter directory layout:
 
 ```
-adapters/locomo/
+adapters/src/locomo/
 ├── README.md
 ├── locomo.yaml                              # oracle / default job config
 ├── run_locomo_parity_codex.yaml             # parity job config (standard codex + gpt-5-mini)
@@ -96,47 +96,47 @@ adapters/locomo/
 
 ```bash
 # Oracle agent (reference solution)
-uv run harbor run -d locomo
+uvx --from harbor==0.23.0 harbor run -d locomo
 
 # Specific agent / model
-uv run harbor run -d locomo -a <agent_name> -m "<model_name>"
+uvx --from harbor==0.23.0 harbor run -d locomo -a <agent_name> -m "<model_name>"
 ```
 
 ### Using Job Configurations
 
 ```bash
 # Oracle sanity check using the bundled config
-uv run harbor run -c adapters/locomo/locomo.yaml
+uvx --from harbor==0.23.0 harbor run -c src/locomo/locomo.yaml
 
 # Pass an agent / model override
-uv run harbor run -c adapters/locomo/locomo.yaml -a <agent_name> -m "<model_name>"
+uvx --from harbor==0.23.0 harbor run -c src/locomo/locomo.yaml -a <agent_name> -m "<model_name>"
 
 # Or run against a locally generated dataset
-uv run harbor run -p datasets/locomo -a <agent_name> -m "<model_name>"
+uvx --from harbor==0.23.0 harbor run -p datasets/locomo -a <agent_name> -m "<model_name>"
 
 # Resume a previously started job
-uv run harbor job resume -p /path/to/jobs/directory
+uvx --from harbor==0.23.0 harbor job resume -p /path/to/jobs/directory
 ```
 
 ### Running Individual Trial
 
 ```bash
-uv run harbor trial start -p datasets/locomo/locomo_conv-26
-uv run harbor trial start -p datasets/locomo/locomo_conv-26 -a <agent_name> -m "<model_name>"
+uvx --from harbor==0.23.0 harbor trial start -p datasets/locomo/locomo_conv-26
+uvx --from harbor==0.23.0 harbor trial start -p datasets/locomo/locomo_conv-26 -a <agent_name> -m "<model_name>"
 ```
 
 ## Usage: Create Task Directories
 
 ```bash
-cd adapters/locomo
-uv sync
-uv run locomo                                       # all 10 conversations
-uv run locomo --task-ids conv-26 --overwrite        # one conversation
-uv run locomo --limit 2 --overwrite                 # first two conversations
+# From the adapters repository root
+uv sync --project src/locomo
+uv run --project src/locomo locomo                                       # all 10 conversations
+uv run --project src/locomo locomo --task-ids conv-26 --overwrite        # one conversation
+uv run --project src/locomo locomo --limit 2 --overwrite                 # first two conversations
 ```
 
 Available flags:
-- `--output-dir` — directory to write generated tasks (defaults to `datasets/locomo` at the repo root)
+- `--output-dir` — directory to write generated tasks (defaults to `datasets/locomo` relative to the current working directory)
 - `--limit` — generate only the first N conversations after filtering
 - `--overwrite` — overwrite existing task directories
 - `--task-ids` — only generate these conversation IDs (e.g. `conv-26`)
@@ -161,7 +161,7 @@ All six metrics — overall F1 and cats 1 through 5 — pass the per-run range-o
 **Reproduction.** Upstream side: clone <https://github.com/boqiny/locomo> on branch `harbor-parity` and run `MODEL=codex/gpt-5-mini RUNS=5 BATCH_SIZE=200 bash scripts/run_harbor_parity.sh`. The fork adds a `codex/<inner_model>` dispatch in `global_methods.run_chatgpt` that shells out to `codex exec` with an isolated `CODEX_HOME` for API-key auth and a 30s+ exponential backoff. Harbor side, from the repository root:
 
 ```bash
-uv run harbor run -c adapters/locomo/run_locomo_parity_codex.yaml   # repeat 5 times
+uvx --from harbor==0.23.0 harbor run -c src/locomo/run_locomo_parity_codex.yaml   # repeat 5 times
 ```
 
 Both sides require `OPENAI_API_KEY` (and optionally `OPENAI_BASE_URL`) exported in the shell.
@@ -180,13 +180,13 @@ Both sides require `OPENAI_API_KEY` (and optionally `OPENAI_BASE_URL`) exported 
 ## Installation / Prerequisites
 
 ```bash
-cd adapters/locomo
-uv sync
+# From the adapters repository root
+uv sync --project src/locomo
 ```
 
 Runtime requirements:
 - Docker installed and running
-- Harbor installed (see main repository README)
+- Harbor evaluation commands use `uvx --from harbor==0.23.0`.
 
 ## Troubleshooting
 

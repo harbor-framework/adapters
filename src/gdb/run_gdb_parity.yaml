@@ -17,13 +17,13 @@
 #         # yields "gdb-<bid>-s0" and "gdb-<bid>-s1"
 #
 # The adapter implements this directly via ``--split parity`` (equivalent to
-# ``--n-per-benchmark 2``), see ``adapters/gdb/src/gdb_adapter/adapter.py``.
+# ``--n-per-benchmark 2``), see ``src/gdb/src/gdb_adapter/adapter.py``.
 #
 # To regenerate exactly these 78 task directories:
 #
-#     cd adapters/gdb
+#     cd src/gdb
 #     uv sync
-#     uv run gdb-adapter --dataset-root /path/to/gdb-dataset --split parity
+#     uv run gdb-adapter --dataset-root /path/to/gdb-dataset --split parity --output-dir ../../datasets/gdb
 #
 # Each side of the Scenario 2 parity experiment (upstream lica-bench vs. this
 # Harbor adapter) was executed 3 independent runs × 78 tasks = 234 trials per
@@ -31,7 +31,7 @@
 # ``parity_experiment.json`` and the README.
 #
 # Usage:
-#   uv run harbor run -c adapters/gdb/run_gdb_parity.yaml
+#   uvx --from harbor==0.23.0 harbor run -c src/gdb/run_gdb_parity.yaml
 
 jobs_dir: jobs
 n_attempts: 1

@@ -3,8 +3,8 @@ from pathlib import Path
 
 from .adapter import LOCOMOAdapter
 
-# Default output dir: <repo>/datasets/<adapter_id>
-DEFAULT_OUTPUT_DIR = Path(__file__).resolve().parents[4] / "datasets" / "locomo"
+# Default output dir relative to the current working directory.
+DEFAULT_OUTPUT_DIR = Path("datasets") / "locomo"
 
 
 def main() -> None:

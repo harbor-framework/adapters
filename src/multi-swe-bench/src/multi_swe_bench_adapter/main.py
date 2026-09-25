@@ -14,9 +14,7 @@ else:
 logging.basicConfig(level=logging.INFO, format="%(name)s - %(levelname)s: %(message)s")
 logger = logging.getLogger(__name__)
 
-DEFAULT_OUTPUT_DIR = (
-    Path(__file__).resolve().parents[4] / "datasets" / "multi-swe-bench"
-)
+DEFAULT_OUTPUT_DIR = Path("datasets") / "multi-swe-bench"
 
 
 def main() -> None:

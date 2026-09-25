@@ -43,7 +43,7 @@ Notable features implemented in this Harbor adapter:
 
 After running the adapter, tasks are written to:
 
-- **Default output dir**: `datasets/qcircuitbench/`
+- **Default output dir**: `datasets/qcircuitbench/` relative to the current working directory
 
 Each task directory follows the Harbor task structure:
 
@@ -68,7 +68,7 @@ The adapter code directory layout is:
 
 ```
 
-harbor/adapters/qcircuitbench/
+adapters/src/qcircuitbench/
 ├── README.md
 ├── adapter_metadata.json
 ├── parity_experiment.json
@@ -102,10 +102,10 @@ Simply run:
 
 ```bash
 # Use oracle agent (reference solution)
-uv run harbor run -d qcircuitbench
+uvx --from harbor==0.23.0 harbor run -d qcircuitbench
 
 # Use your specified agent and model
-uv run harbor run -d qcircuitbench -a <agent_name> -m "<model_name>"
+uvx --from harbor==0.23.0 harbor run -d qcircuitbench -a <agent_name> -m "<model_name>"
 ````
 
 ### Using Job Configurations
@@ -113,15 +113,15 @@ uv run harbor run -d qcircuitbench -a <agent_name> -m "<model_name>"
 If you created your task directories locally (e.g., `datasets/qcircuitbench`), then you may find these scripts helpful:
 
 ```bash
-# From the harbor repository root
+# From the adapters repository root
 # Run with a config YAML
-uv run harbor run -c adapters/qcircuitbench/run_qcircuitbench.yaml -a <agent_name> -m "<model_name>"
+uvx --from harbor==0.23.0 harbor run -c src/qcircuitbench/run_qcircuitbench.yaml -a <agent_name> -m "<model_name>"
 
 # Or run directly with a locally prepared dataset path
-uv run harbor run -p datasets/qcircuitbench -a <agent_name> -m "<model_name>"
+uvx --from harbor==0.23.0 harbor run -p datasets/qcircuitbench -a <agent_name> -m "<model_name>"
 
 # Resume a previously started job
-uv run harbor job resume -p /path/to/jobs/directory
+uvx --from harbor==0.23.0 harbor job resume -p /path/to/jobs/directory
 ```
 
 Results are saved in the `jobs/` directory by default (configurable via `jobs_dir` in YAML).
@@ -132,10 +132,10 @@ For quick testing/debugging of one task:
 
 ```bash
 # Run a single trial with oracle (reference solution)
-uv run harbor trial start -p datasets/qcircuitbench/<task_id>
+uvx --from harbor==0.23.0 harbor trial start -p datasets/qcircuitbench/<task_id>
 
 # Run a single trial with a specific agent and model
-uv run harbor trial start -p datasets/qcircuitbench/<task_id> -a <agent_name> -m "<model_name>"
+uvx --from harbor==0.23.0 harbor trial start -p datasets/qcircuitbench/<task_id> -a <agent_name> -m "<model_name>"
 ```
 
 Trial outputs are saved in the `trials/` directory by default (configurable via `--trials-dir`).
@@ -143,8 +143,8 @@ Trial outputs are saved in the `trials/` directory by default (configurable via 
 ## Usage: Create Task Directories
 
 ```bash
-# From the harbor repository root
-cd adapters/qcircuitbench
+# From the adapters repository root
+cd src/qcircuitbench
 
 # Generate all tasks (default: 28)
 uv run qcircuitbench --output-dir ../../datasets/qcircuitbench
@@ -189,16 +189,16 @@ This runs generation + verification and records per-task `result_score` used to 
 First prepare tasks locally:
 
 ```bash
-# in harbor repo
-cd adapters/qcircuitbench
+# in adapters repo
+cd src/qcircuitbench
 uv run qcircuitbench --output-dir ../../datasets/qcircuitbench
 ```
 
 Then run Harbor jobs:
 
 ```bash
-# from harbor root (requires OPENAI_API_KEY)
-uv run harbor run -p datasets/qcircuitbench -a codex -m "gpt-5.2"
+# from adapters repository root (requires OPENAI_API_KEY)
+uvx --from harbor==0.23.0 harbor run -p datasets/qcircuitbench -a codex -m "gpt-5.2"
 ```
 
 #### C) How to interpret results
@@ -219,11 +219,11 @@ uv run harbor run -p datasets/qcircuitbench -a codex -m "gpt-5.2"
 ## Installation / Prerequisites
 
 * **Docker** installed and running
-* **Harbor** installed and working (see Harbor repo README)
-* Python environment (recommended with `uv`):
+* **Harbor** evaluation commands use `uvx --from harbor==0.23.0`.
+* Adapter dependencies from the adapters repository root (recommended with `uv`):
 
   ```bash
-  uv sync --extra dev
+  uv sync --project src/qcircuitbench
   ```
 * Credentials for models/agents:
 

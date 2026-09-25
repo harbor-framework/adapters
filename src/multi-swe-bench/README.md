@@ -63,7 +63,7 @@ datasets/multi-swe-bench/
 The adapter source code is organized as:
 
 ```
-adapters/multi-swe-bench/
+adapters/src/multi-swe-bench/
 ├── README.md                     # This documentation
 ├── adapter_metadata.json         # Adapter metadata
 ├── parity_experiment.json        # Parity validation results
@@ -94,10 +94,10 @@ Harbor Registry & Datasets makes running adapter evaluation easy and flexible.
 
 ```bash
 # Use oracle agent (reference solution)
-uv run harbor run -d multi-swe-bench
+uvx --from harbor==0.23.0 harbor run -d multi-swe-bench
 
 # Use your specified agent and model
-uv run harbor run -d multi-swe-bench -a <agent_name> -m "<model_name>"
+uvx --from harbor==0.23.0 harbor run -d multi-swe-bench -a <agent_name> -m "<model_name>"
 ```
 
 ### Using Job Configurations
@@ -106,13 +106,13 @@ You can customize the job configuration to select specific languages, limit task
 
 ```bash
 # Prepare task directories first
-uv run multi-swe-bench --output-dir ./datasets/multi-swe-bench --all
+uv run --project src/multi-swe-bench multi-swe-bench --output-dir ./datasets/multi-swe-bench --all
 
 # Run a job with a locally prepared dataset path
-uv run harbor run -p datasets/multi-swe-bench -a <agent_name> -m "<model_name>"
+uvx --from harbor==0.23.0 harbor run -p datasets/multi-swe-bench -a <agent_name> -m "<model_name>"
 
 # Resume a previously started job
-uv run harbor job resume -p /path/to/jobs/directory
+uvx --from harbor==0.23.0 harbor job resume -p /path/to/jobs/directory
 ```
 
 Results are saved in the `jobs/` directory by default.
@@ -123,40 +123,40 @@ For quick testing or debugging a single task:
 
 ```bash
 # Run a single trial with oracle (pre-written solution)
-uv run harbor trial start -p datasets/multi-swe-bench/<task_id>
+uvx --from harbor==0.23.0 harbor trial start -p datasets/multi-swe-bench/<task_id>
 
 # Example: test a specific Go task
-uv run harbor trial start -p datasets/multi-swe-bench/cli_cli_pr513
+uvx --from harbor==0.23.0 harbor trial start -p datasets/multi-swe-bench/cli_cli_pr513
 
 # Run a single trial with a specific agent and model
-uv run harbor trial start -p datasets/multi-swe-bench/cli_cli_pr513 -a <agent_name> -m "<model_name>"
+uvx --from harbor==0.23.0 harbor trial start -p datasets/multi-swe-bench/cli_cli_pr513 -a <agent_name> -m "<model_name>"
 ```
 
 Trial outputs are saved in the `trials/` directory by default.
 
 ## Usage: Create Task Directories
 
-Generate Multi-SWE-bench tasks locally using the adapter script:
+Generate Multi-SWE-bench tasks locally using the adapter script from the adapters repository root:
 
 ```bash
 # Generate all tasks (1,632 tasks across 7 languages)
-uv run multi-swe-bench --output-dir ./datasets/multi-swe-bench --all
+uv run --project src/multi-swe-bench multi-swe-bench --output-dir ./datasets/multi-swe-bench --all
 
 # Generate a single task
-uv run multi-swe-bench --output-dir ./datasets/multi-swe-bench --no-all --instance-id "cli/cli-513"
+uv run --project src/multi-swe-bench multi-swe-bench --output-dir ./datasets/multi-swe-bench --no-all --instance-id "cli/cli-513"
 
 # Generate tasks for a specific language
-uv run multi-swe-bench --output-dir ./datasets/multi-swe-bench --language go
+uv run --project src/multi-swe-bench multi-swe-bench --output-dir ./datasets/multi-swe-bench --language go
 
 # Generate a limited number of tasks
-uv run multi-swe-bench --output-dir ./datasets/multi-swe-bench --limit 10
+uv run --project src/multi-swe-bench multi-swe-bench --output-dir ./datasets/multi-swe-bench --limit 10
 ```
 
 **Available options:**
 
 | Option | Description | Default |
 |--------|-------------|---------|
-| `--output-dir PATH` | Output directory for Harbor tasks | `datasets/multi-swe-bench` |
+| `--output-dir PATH` | Output directory for Harbor tasks | `datasets/multi-swe-bench` relative to the current working directory |
 | `--instance-id ID` | Process a single instance | |
 | `--all / --no-all` | Process all instances | `True` |
 | `--overwrite` | Overwrite existing tasks | `False` |
@@ -194,10 +194,10 @@ cd codex-agent
 **Reproduce Harbor adapter:**
 ```bash
 # Generate parity subset tasks
-uv run multi-swe-bench --output-dir ./datasets/multi-swe-bench --all
+uv run --project src/multi-swe-bench multi-swe-bench --output-dir ./datasets/multi-swe-bench --all
 
 # Run evaluation with the same agent and model used for parity
-uv run harbor run -p datasets/multi-swe-bench -a codex -m "openai/gpt-5-mini"
+uvx --from harbor==0.23.0 harbor run -p datasets/multi-swe-bench -a codex -m "openai/gpt-5-mini"
 ```
 
 ## Notes & Caveats
@@ -213,12 +213,12 @@ uv run harbor run -p datasets/multi-swe-bench -a codex -m "openai/gpt-5-mini"
 
 **Required:**
 - **Docker**: Docker installed and running (for containerized task execution)
-- **Harbor**: Harbor framework installed (see main repository [README](../../README.md))
+- **Harbor**: Evaluation commands use `uvx --from harbor==0.23.0`.
 - **Python 3.9+**: With dependencies installed:
   ```bash
-  uv sync --extra dev
+  uv sync --project src/multi-swe-bench
   # or
-  pip install -e .
+  pip install -e src/multi-swe-bench
   ```
 - **Multi-SWE-bench Docker images**: Official images from the Multi-SWE-bench team:
   ```bash
@@ -241,7 +241,7 @@ If the dataset cannot be loaded:
 
 Make sure to run from the adapter directory:
 ```bash
-cd adapters/multi-swe-bench
+cd src/multi-swe-bench
 uv run multi-swe-bench ...
 ```
 

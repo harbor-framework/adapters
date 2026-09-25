@@ -22,7 +22,7 @@ else:
     from .adapter import QCircuitBenchAdapter
 
 DEFAULT_REPO_URL = "https://github.com/EstelYang/QCircuitBench.git"
-DEFAULT_OUTPUT_DIR = Path(__file__).resolve().parents[4] / "datasets" / "qcircuitbench"
+DEFAULT_OUTPUT_DIR = Path("datasets") / "qcircuitbench"
 
 
 def _parse_algorithms(value: Optional[str]) -> Optional[List[str]]:

@@ -57,29 +57,29 @@ datasets/featbench/
 ```
 
 Each task corresponds to a single FeatBench instance.
-The adapter template directory mirrors this layout under `adapters/featbench/src/featbench/task-template/`.
+The adapter template directory mirrors this layout under `src/featbench/src/featbench/task-template/`.
 
 ---
 
 ## Usage: Create Task Directories
 
 ```bash
-cd adapters/featbench
+# From the adapters repository root
 
 # Generate all instances (outputs to datasets/featbench by default)
-uv run featbench --all
+uv run --project src/featbench featbench --all
 
 # Generate a subset
-uv run featbench --all --limit 10
+uv run --project src/featbench featbench --all --limit 10
 
 # Generate a single instance
-uv run featbench --instance-id conan-io__conan-17603
+uv run --project src/featbench featbench --instance-id conan-io__conan-17603
 
 # Specify a custom output directory
-uv run featbench --all --output-dir /path/to/output
+uv run --project src/featbench featbench --all --output-dir /path/to/output
 ```
 
-Tasks are written under `datasets/featbench/`, one directory per task.
+Tasks are written under `datasets/featbench/` relative to the current working directory, one directory per task.
 
 ---
 
@@ -93,32 +93,32 @@ Simply run
 
 ```bash
 # Use oracle agent (reference solution)
-uv run harbor jobs start -d featbench
+uvx --from harbor==0.23.0 harbor jobs start -d featbench
 
 # Use your specified agent and model
-uv run harbor jobs start -d featbench -a <agent_name> -m "<model_name>"
+uvx --from harbor==0.23.0 harbor jobs start -d featbench -a <agent_name> -m "<model_name>"
 ```
 
-from the harbor root to evaluate on the entire dataset.
+from the adapters repository root to evaluate on the entire dataset.
 
 However, if you choose to prepare the task directories locally and/or with custom versions/subsets for evaluation, you may either use `harbor jobs` or `harbor trials`.
 
 ### Using Job Configurations
 ```bash
-uv run harbor jobs start -c adapters/featbench/featbench.yaml -a <agent_name> -m "<model_name>"
+uvx --from harbor==0.23.0 harbor jobs start -c src/featbench/featbench.yaml -a <agent_name> -m "<model_name>"
 ```
 
 Or without config:
 ```bash
-uv run harbor jobs start -p datasets/featbench -a <agent_name> -m "<model_name>"
+uvx --from harbor==0.23.0 harbor jobs start -p datasets/featbench -a <agent_name> -m "<model_name>"
 ```
 
 Results will appear under `jobs/` by default.
 
 ### Running Individual Trials
 ```bash
-uv run harbor trials start -p datasets/featbench/<task_id> -a oracle
-uv run harbor trials start -p datasets/featbench/<task_id> -a <agent> -m "<model>"
+uvx --from harbor==0.23.0 harbor trials start -p datasets/featbench/<task_id> -a oracle
+uvx --from harbor==0.23.0 harbor trials start -p datasets/featbench/<task_id> -a <agent> -m "<model>"
 ```
 
 ---
@@ -151,7 +151,7 @@ TRAE_TEMPERATURE=0.0
 TRAE_MAX_TOKENS=32768
 TRAE_TOP_P=1.0
 
-uv run harbor jobs start \
+uvx --from harbor==0.23.0 harbor jobs start \
   -p datasets/featbench/ \
   -a trae-agent \
   -m openrouter/gpt-5-mini \
@@ -210,10 +210,11 @@ Oracle runs excluding the above deterministic failures and flaky tests achieve 1
 
 - Docker (required)
 - Python >= 3.13
-- Harbor and dependencies installed:
+- Adapter dependencies installed from the adapters repository root:
   ```bash
-  uv sync
+  uv sync --project src/featbench
   ```
+- Harbor evaluation commands use `uvx --from harbor==0.23.0`.
 - Adapter-specific dependencies (installed automatically by `uv run` from the adapter's `pyproject.toml`):
   - `swebench` (custom fork with FeatBench support)
 

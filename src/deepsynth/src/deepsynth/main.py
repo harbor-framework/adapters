@@ -19,7 +19,7 @@ if __package__ in (None, ""):
 else:
     from .adapter import DeepSynthAdapter
 
-HARBOR_ROOT = Path(__file__).resolve().parents[4]
+DEFAULT_OUTPUT_DIR = Path("datasets") / "deepsynth"
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 logger = logging.getLogger(__name__)
@@ -86,7 +86,7 @@ def main():
     parser.add_argument(
         "--output-dir",
         type=Path,
-        default=HARBOR_ROOT / "datasets" / "deepsynth",
+        default=DEFAULT_OUTPUT_DIR,
         help="Output directory for tasks (default: datasets/deepsynth)",
     )
     parser.add_argument(

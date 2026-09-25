@@ -27,8 +27,7 @@ if __package__ in (None, ""):
 else:
     from .adapter import GDBAdapter
 
-HARBOR_ROOT = Path(__file__).resolve().parents[4]
-DEFAULT_OUTPUT = HARBOR_ROOT / "datasets" / "gdb"
+DEFAULT_OUTPUT = Path("datasets") / "gdb"
 
 # Matches ``gdb-<bid>-s<digits>`` where <bid> can include multiple ``-``
 # separated segments (e.g. ``layout-1`` today, ``layout-sketch-1`` hypothet-

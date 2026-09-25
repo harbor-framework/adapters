@@ -86,7 +86,7 @@ pixiu/
 The adapter code directory structure:
 
 ```
-harbor/adapters/pixiu/
+adapters/src/pixiu/
 ├── README.md 
 ├── parity_experiment.json
 ├── pyproject.toml
@@ -124,13 +124,13 @@ Simply run
 
 ```bash
 # Use oracle agent (reference solution)
-uv run harbor run -d pixiu
+uvx --from harbor==0.23.0 harbor run -d pixiu
 
 # Use your specified agent and model
-uv run harbor run -d pixiu -a <agent_name> -m "<model_name>"
+uvx --from harbor==0.23.0 harbor run -d pixiu -a <agent_name> -m "<model_name>"
 ```
 
-from the harbor root to evaluate on the **parity dataset**.
+from the adapters repository root to evaluate on the **parity dataset**.
 
 **Dataset size**: The full PIXIU/FinBen benchmark has **54,083 tasks** across the 29 subcategories. For parity evaluation we use a **parity set of 435 tasks**: the first 15 tasks from each subcategory (no shuffling). The dataset registry and runs with `-d pixiu` both use this parity set only. To run the **full benchmark**, prepare all task directories locally following the adapter code; see [Usage: Create Task Directories](#usage-create-task-directories) for more details.
 
@@ -139,18 +139,18 @@ The PIXIU parity dataset has been uploaded to https://github.com/laude-institute
 
 ### Using Job Configurations
 
-The example configuration file for the adapter is provided under `harbor/adapters/pixiu/run_pixiu.yaml`. You may either use `-c path/to/configuration.yaml` or `-p path/to/pixiu` to run evaluation on the entire benchmark after preparing the task directories locally.
+The example configuration file for the adapter is provided under `src/pixiu/run_pixiu.yaml`. You may either use `-c path/to/configuration.yaml` or `-p path/to/pixiu` to run evaluation on the entire benchmark after preparing the task directories locally.
 
 ```bash
 # From the repository root
 # Run a job with the default adapter configuration
-uv run harbor run -c adapters/pixiu/run_pixiu.yaml -a <agent_name> -m "<model_name>"
+uvx --from harbor==0.23.0 harbor run -c src/pixiu/run_pixiu.yaml -a <agent_name> -m "<model_name>"
 
 # Or run a job without configuration yaml but instead with locally prepared dataset path
-uv run harbor run -p datasets/pixiu -a <agent_name> -m "<model_name>"
+uvx --from harbor==0.23.0 harbor run -p datasets/pixiu -a <agent_name> -m "<model_name>"
 
 # Resume a previously started job
-uv run harbor job resume -p /path/to/jobs/directory
+uvx --from harbor==0.23.0 harbor job resume -p /path/to/jobs/directory
 ``` 
 
 Results are saved in the `jobs/` directory by default (configurable via `jobs_dir` in the YAML config).
@@ -161,10 +161,10 @@ For quick testing or debugging a single task:
 
 ```bash
 # Run a single trial with oracle (pre-written solution)
-uv run harbor trial start -p datasets/pixiu/en-fpb/pixiu-fpb-fpb3876
+uvx --from harbor==0.23.0 harbor trial start -p datasets/pixiu/en-fpb/pixiu-fpb-fpb3876
 
 # Run a single trial with a specific agent and model
-uv run harbor trial start -p datasets/pixiu/en-fpb/pixiu-fpb-fpb3876 -a <agent_name> -m "<model_name>"
+uvx --from harbor==0.23.0 harbor trial start -p datasets/pixiu/en-fpb/pixiu-fpb-fpb3876 -a <agent_name> -m "<model_name>"
 ```
 
 Trial outputs are saved in the `trials/` directory by default (configurable via `--trials-dir`).
@@ -173,7 +173,7 @@ Trial outputs are saved in the `trials/` directory by default (configurable via 
 
 ```bash
 # From adapter directory
-cd adapters/pixiu
+cd src/pixiu
 
 # Python or uv
 uv run pixiu \
@@ -199,7 +199,7 @@ Tasks are written to `datasets/pixiu/` with one directory per task. Each task fo
 | `--split` | PIXIU split to convert (`train`, `validation`, `test`). Note: For `cra-ccfraud`, `cra-ccf`, and `taiwan` subcategories, we use `validation` split; for all other subcategories, we use `test` split. |
 | `--limit` | Maximum number of samples to materialize (default 100). Use `-1` to generate all samples in the subcategory. |
 | `--dataset-name` | HuggingFace dataset identifier for the subcategory (default `TheFinAI/flare-headlines`). |
-| `--output-dir` | Target directory for generated tasks. |
+| `--output-dir` | Target directory for generated tasks (default: `datasets/pixiu` relative to the current working directory). |
 
 ## Comparison with Original Benchmark (Parity)
 
@@ -437,16 +437,16 @@ No subcategory shows evidence of systematic degradation caused by the Harbor fra
 **Harbor Adapter**:
 - Run the following command to reproduce adapter-side results:
   ```bash
-  uv run harbor run -p datasets/pixiu/task_name/ -a codex -m "gpt-5-mini" --force-build
+  uvx --from harbor==0.23.0 harbor run -p datasets/pixiu/task_name/ -a codex -m "gpt-5-mini" --force-build
   ```
 - Or use the configuration file:
   ```bash
-  uv run harbor run -c adapters/pixiu/run_pixiu.yaml
+  uvx --from harbor==0.23.0 harbor run -c src/pixiu/run_pixiu.yaml
   ```
 - Results are saved in `jobs/` directory
 - Use `aggregate_metrics.py` to aggregate metrics across all trials:
   ```bash
-  python adapters/pixiu/aggregate_metrics.py jobs/<job_id>/ --output aggregate_results/task_name.json
+  python src/pixiu/src/pixiu/aggregate_metrics.py jobs/<job_id>/ --output aggregate_results/task_name.json
   ```
 
 **Results Interpretation**: 
@@ -504,10 +504,10 @@ The oracle was run against the full benchmark (not just the 435-task parity subs
 List environment setup specific to this adapter:
 
 - **Docker installed and running**: Required for task execution
-- **Harbor installed and working**: See main repository README
-- **Python environment with dependencies**:
+- **Harbor**: Evaluation commands use `uvx --from harbor==0.23.0`.
+- **Adapter dependencies from the adapters repository root**:
   ```bash
-  uv sync --extra dev
+  uv sync --project src/pixiu
   ```
 
 ### Environment Requirements (CUDA, PyTorch, Transformers, PEFT)
@@ -600,10 +600,10 @@ python -c "import torch; print(torch.version.cuda)"  # Check PyTorch CUDA versio
   - **BARTScore setup** (for summarization):
     1. Clone the BARTScore repository into the adapter directory:
        ```bash
-       cd adapters/pixiu
+       cd src/pixiu
        git clone https://github.com/neulab/BARTScore.git
        ```
-    2. Download the [BART checkpoint](https://drive.google.com/u/0/uc?id=1_7JfF7KOInb7ZrxKHIigTMR4ChVET01m&export=download) (trained on ParaBank2) and place it at `adapters/pixiu/BARTScore/bart_score.pth`
+    2. Download the [BART checkpoint](https://drive.google.com/u/0/uc?id=1_7JfF7KOInb7ZrxKHIigTMR4ChVET01m&export=download) (trained on ParaBank2) and place it at `src/pixiu/BARTScore/bart_score.pth`
     - The adapter automatically tries to locate BARTScore from the PIXIU repository if available
     - If BARTScore is not found, the `bart_score` metric will be set to 0.0 (graceful degradation)
 
@@ -621,7 +621,7 @@ python -c "import torch; print(torch.version.cuda)"  # Check PyTorch CUDA versio
 - **Solution**: Install `seqeval`: `pip install seqeval`
 
 **Issue**: BARTScore returns 0.0
-- **Solution**: Ensure the BARTScore repository is cloned (`git clone https://github.com/neulab/BARTScore.git` under `adapters/pixiu/`) and the BART checkpoint is downloaded to `adapters/pixiu/BARTScore/bart_score.pth`
+- **Solution**: Ensure the BARTScore repository is cloned (`git clone https://github.com/neulab/BARTScore.git` under `src/pixiu/`) and the BART checkpoint is downloaded to `src/pixiu/BARTScore/bart_score.pth`
 
 **Issue**: Docker build failures
 - **Solution**: Ensure Docker is running and you have sufficient disk space
