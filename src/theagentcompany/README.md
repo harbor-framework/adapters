@@ -89,7 +89,7 @@ git clone --depth 1 https://github.com/TheAgentCompany/TheAgentCompany
 ### 3. Install Harbor
 
 ```bash
-uv sync --extra dev
+uv tool install harbor==0.23.0
 ```
 
 ### 4. Export `SERVER_HOSTNAME`
@@ -114,53 +114,55 @@ export SERVER_HOSTNAME=the-agent-company.com   # if you've added this to your DN
 
 ### Generate Tasks
 
+Install the generator dependency with `python -m pip install pyyaml`. The default output is `datasets/theagentcompany`, relative to the current working directory.
+
 ```bash
-cd adapters/theagentcompany
+# From the adapters repository root
 
 # Generate all 174 tasks
-uv run run_adapter.py \
+python src/theagentcompany/run_adapter.py \
   --tac-repo /path/to/TheAgentCompany \
-  --output-dir ../../datasets/theagentcompany
+  --output-dir datasets/theagentcompany
 
 # Generate a single task
-uv run run_adapter.py \
+python src/theagentcompany/run_adapter.py \
   --tac-repo /path/to/TheAgentCompany \
   --task-name admin-arrange-meeting-rooms
 
 # Generate multiple specific tasks
-uv run run_adapter.py \
+python src/theagentcompany/run_adapter.py \
   --tac-repo /path/to/TheAgentCompany \
   --task-name admin-arrange-meeting-rooms sde-implement-raft-in-go hr-salary-analysis
 
 # Limit to first N tasks
-uv run run_adapter.py \
+python src/theagentcompany/run_adapter.py \
   --tac-repo /path/to/TheAgentCompany \
   --limit 10
 
 # Auto-clone repo (no --tac-repo needed; slower)
-uv run run_adapter.py --output-dir ../../datasets/theagentcompany
+python src/theagentcompany/run_adapter.py --output-dir datasets/theagentcompany
 
 # Overwrite existing tasks
-uv run run_adapter.py --tac-repo /path/to/TheAgentCompany --overwrite
+python src/theagentcompany/run_adapter.py --tac-repo /path/to/TheAgentCompany --overwrite
 ```
 
 ## Run Evaluation
 
 ```bash
 # Run a single task with openhands
-uv run harbor trial start \
+uvx --from harbor==0.23.0 harbor trial start \
   -p datasets/theagentcompany/admin-arrange-meeting-rooms \
   --agent openhands \
   --model claude-sonnet-4-5-20250929
 
 # Run a batch job
-uv run harbor jobs start \
+uvx --from harbor==0.23.0 harbor jobs start \
   -p datasets/theagentcompany \
   --agent openhands \
   --model claude-sonnet-4-5-20250929
 
 # Run with registry (after dataset PR merged)
-uv run harbor jobs start \
+uvx --from harbor==0.23.0 harbor jobs start \
   -d theagentcompany@1.0 \
   --registry-path registry.json \
   --agent openhands \
@@ -229,21 +231,20 @@ same agent/model.
 #    api-server) — see Prerequisites section above.
 
 # 2. Generate Harbor tasks
-cd adapters/theagentcompany
-uv run run_adapter.py \
+# From the adapters repository root
+python src/theagentcompany/run_adapter.py \
   --tac-repo /path/to/TheAgentCompany \
-  --output-dir ../../datasets/theagentcompany
+  --output-dir datasets/theagentcompany
 
 # 3. Run Harbor parity (3 trials × 37 parity-sample tasks)
-cd ../..
 # The parity sample task IDs are listed in
-# adapters/theagentcompany/parity_sample_task_ids.txt
-uv run harbor jobs start \
+# src/theagentcompany/parity_sample_task_ids.txt
+uvx --from harbor==0.23.0 harbor jobs start \
   -p datasets/theagentcompany \
   --agent openhands \
   --model openai/gpt-5-mini \
   --ae LLM_REASONING_EFFORT=high \
-  --task-list adapters/theagentcompany/parity_sample_task_ids.txt
+  --task-list src/theagentcompany/parity_sample_task_ids.txt
 
 # The LITELLM_* variables used by LLM-graded checkpoints are read from the host
 # environment via the LLM_API_KEY / LLM_BASE_URL / LLM_MODEL placeholders in

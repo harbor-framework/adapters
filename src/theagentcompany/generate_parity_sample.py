@@ -30,7 +30,7 @@ def main():
         "--tasks-dir",
         type=Path,
         default=None,
-        help="Harbor-format tasks dir (for reading task.toml); defaults to ../../datasets/theagentcompany",
+        help="Harbor-format tasks dir (for reading task.toml); defaults to datasets/theagentcompany relative to cwd",
     )
     parser.add_argument("--n-medium", type=int, default=15)
     parser.add_argument("--n-hard", type=int, default=20)
@@ -40,7 +40,7 @@ def main():
     )
     args = parser.parse_args()
 
-    tasks_dir = args.tasks_dir or SCRIPT_DIR / "../../datasets/theagentcompany"
+    tasks_dir = args.tasks_dir or Path("datasets/theagentcompany")
 
     # Collect tasks by difficulty
     by_diff = {"easy": [], "medium": [], "hard": []}
@@ -57,7 +57,7 @@ def main():
     if total == 0:
         raise SystemExit(
             f"No task.toml files found under {tasks_dir}. Run the adapter first "
-            "(uv run run_adapter.py) to generate Harbor tasks, then rerun this script."
+            "(python src/theagentcompany/run_adapter.py from the repo root) to generate Harbor tasks, then rerun this script."
         )
     print(f"Total tasks: {total}")
     for d in ["easy", "medium", "hard"]:

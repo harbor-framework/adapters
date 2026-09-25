@@ -51,7 +51,7 @@ datasets/textarena/
 ## Adapter Directory Structure
 
 ```
-harbor/adapters/textarena/
+src/textarena/
 ├── README.md
 ├── ORACLE_SOLUTIONS.md           # Oracle solution documentation
 ├── pyproject.toml
@@ -90,7 +90,7 @@ harbor/adapters/textarena/
 ```bash
 # Register the dataset first (if not already registered)
 # Then run:
-uv run harbor run -d textarena -a <agent_name> -m "<model_name>"
+uvx --from harbor==0.23.0 harbor run -d textarena -a <agent_name> -m "<model_name>"
 ```
 
 ### Using Job Configurations
@@ -99,7 +99,7 @@ You can run using the provided configuration or directly pointing to the dataset
 
 ```bash
 # Run all TextArena tasks
-uv run harbor run -p datasets/textarena -a terminus-2 -m "anthropic/claude-haiku-4-5"
+uvx --from harbor==0.23.0 harbor run -p datasets/textarena -a terminus-2 -m "anthropic/claude-haiku-4-5"
 ```
 
 ### Running Individual Trials
@@ -108,7 +108,7 @@ For quick testing or debugging a single task:
 
 ```bash
 # Example: Run GuessTheNumber
-uv run harbor trial start -p datasets/textarena/guessthenumber-v0 -a terminus-2 -m "anthropic/claude-haiku-4-5"
+uvx --from harbor==0.23.0 harbor trial start -p datasets/textarena/guessthenumber-v0 -a terminus-2 -m "anthropic/claude-haiku-4-5"
 ```
 
 ## Usage: Create Task Directories
@@ -116,19 +116,20 @@ uv run harbor trial start -p datasets/textarena/guessthenumber-v0 -a terminus-2 
 To regenerate the tasks (e.g., after modifying the adapter):
 
 ```bash
-cd adapters/textarena
+# From the adapters repository root
+uv sync --project src/textarena
 
 # Generate all 62 games (default output: datasets/textarena/)
-uv run textarena
+uv run --project src/textarena textarena
 
 # Generate 38 games with oracle solutions
-uv run textarena --envs-list src/textarena/oracle_tasks.json
+uv run --project src/textarena textarena --envs-list src/textarena/src/textarena/oracle_tasks.json
 
 # Generate a single task
-uv run textarena --task-ids guessthenumber-v0
+uv run --project src/textarena textarena --task-ids guessthenumber-v0
 ```
 
-Tasks are written to `datasets/textarena/` by default. See [ORACLE_SOLUTIONS.md](ORACLE_SOLUTIONS.md) for details on which games have oracle solutions.
+Tasks are written to `datasets/textarena/` relative to the current working directory by default. See [ORACLE_SOLUTIONS.md](ORACLE_SOLUTIONS.md) for details on which games have oracle solutions.
 
 ## Comparison with Original Benchmark (Parity)
 
@@ -150,10 +151,11 @@ export ANTHROPIC_API_KEY=sk-ant-...
 
 ```bash
 # Generate all 62 tasks
-cd adapters/textarena && uv run textarena
+# From the adapters repository root
+uv run --project src/textarena textarena
 
 # Run evaluation with Terminus-2 agent
-uv run harbor run -c adapters/textarena/run_textarena_full.yaml
+uvx --from harbor==0.23.0 harbor run -c src/textarena/run_textarena_full.yaml
 ```
 
 ### Original Benchmark Side

@@ -61,7 +61,7 @@ datasets/strongreject/
 
 The adapter code directory structure:
 ```text
-harbor/adapters/strongreject/
+src/strongreject/
 ├── README.md
 ├── pyproject.toml
 ├── uv.lock
@@ -100,10 +100,10 @@ For brevity, we run parity tests on a sample of 150 tasks (50 forbidden prompts 
 
 ```bash
 # Use oracle agent (reference solution)
-uv run harbor run -d strongreject@parity
+uvx --from harbor==0.23.0 harbor run -d strongreject@parity
 
 # Use your specified agent and model
-uv run harbor run -d strongreject@parity -a <agent_name> -m "<model_name>"
+uvx --from harbor==0.23.0 harbor run -d strongreject@parity -a <agent_name> -m "<model_name>"
 ```
 
 
@@ -114,13 +114,13 @@ If you created your task directories locally (e.g., `datasets/strongreject`), th
 ```bash
 # From the repository root
 # Run a job with the default adapter configuration
-uv run harbor run -c adapters/strongreject/strongreject.yaml -a <agent_name> -m "<model_name>"
+uvx --from harbor==0.23.0 harbor run -c src/strongreject/strongreject.yaml -a <agent_name> -m "<model_name>"
 
 # Or run a job with locally prepared dataset path
-uv run harbor run -p datasets/strongreject -a <agent_name> -m "<model_name>"
+uvx --from harbor==0.23.0 harbor run -p datasets/strongreject -a <agent_name> -m "<model_name>"
 
 # Resume a previously started job
-uv run harbor job resume -p /path/to/jobs/directory
+uvx --from harbor==0.23.0 harbor job resume -p /path/to/jobs/directory
 ```
 
 Results are saved in the `jobs/` directory by default (configurable via `jobs_dir` in the YAML config).
@@ -131,10 +131,10 @@ For quick testing or debugging a single task:
 
 ```bash
 # Run a single trial with oracle (pre-written solution)
-uv run harbor trial start -p datasets/strongreject/<task_id>
+uvx --from harbor==0.23.0 harbor trial start -p datasets/strongreject/<task_id>
 
 # Run a single trial with a specific agent and model
-uv run harbor trial start -p datasets/strongreject/<task_id> -a <agent_name> -m "<model_name>"
+uvx --from harbor==0.23.0 harbor trial start -p datasets/strongreject/<task_id> -a <agent_name> -m "<model_name>"
 ```
 
 Trial outputs are saved in the `trials/` directory by default (configurable via `--trials-dir`).
@@ -145,7 +145,7 @@ Trial outputs are saved in the `trials/` directory by default (configurable via 
 
 ```bash
 # From adapter directory
-cd adapters/strongreject
+cd src/strongreject
 
 # Generate the full benchmark with ALL jailbreaks (313 prompts × 39 methods = 12,207 tasks)
 uv run strongreject --output-dir ../../datasets/strongreject --jailbreaks all
@@ -175,7 +175,7 @@ uv run strongreject --list-jailbreaks
 uv run strongreject --output-dir ../../datasets/strongreject --sample 10 --seed 42 --jailbreaks prefix_injection pap_logical_appeal poems
 ```
 
-Tasks are written to `datasets/strongreject/` with one directory per task. Each task follows the structure shown in ["Generated Task Structure"](#generated-task-structure) above.
+By default, tasks are written to `datasets/strongreject/` relative to the current working directory, with one directory per task. Each task follows the structure shown in ["Generated Task Structure"](#generated-task-structure) above.
 
 ## Jailbreak Methods
 
@@ -230,14 +230,14 @@ The Harbor adapter uses the official StrongReject rubric-based evaluation method
 
 2. Generate tasks:
    ```bash
-   cd adapters/strongreject
+   cd src/strongreject
    uv run strongreject --output-dir ../../datasets/strongreject --sample 50 --seed 42 --jailbreaks prefix_injection pap_logical_appeal poems
    ```
 
 2. Run evaluation using Codex+GPT-5-nano:
    ```bash
    cd ../..
-   uv run harbor run -c adapters/strongreject/strongreject_parity_codex_gpt-5-nano.yaml
+   uvx --from harbor==0.23.0 harbor run -c src/strongreject/strongreject_parity_codex_gpt-5-nano.yaml
    ```
 
 ## Notes & Caveats
@@ -250,10 +250,10 @@ The Harbor adapter uses the official StrongReject rubric-based evaluation method
 ## Installation / Prerequisites
 
 - Docker installed and running
-- Harbor installed and working (see main repository README)
-- Python environment with dependencies:
+- Harbor evaluation commands use `uvx --from harbor==0.23.0 harbor`.
+- Python 3.13+ with adapter dependencies, from the adapters repository root:
   ```bash
-  uv sync --extra dev
+  uv sync --project src/strongreject
   ```
 - **Required environment variables**:
   - `OPENAI_API_KEY`: Required for the LLM judge evaluation (gpt-4o-mini)

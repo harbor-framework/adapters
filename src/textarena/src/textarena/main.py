@@ -12,8 +12,8 @@ from pathlib import Path
 
 from .adapter import TextarenaAdapter
 
-# Default output dir: <repo>/datasets/textarena
-DEFAULT_OUTPUT_DIR = Path(__file__).resolve().parents[4] / "datasets" / "textarena"
+# Default output dir relative to the current working directory.
+DEFAULT_OUTPUT_DIR = Path("datasets") / "textarena"
 
 
 def main() -> None:

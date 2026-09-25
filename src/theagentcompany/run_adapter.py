@@ -14,9 +14,7 @@ from pathlib import Path
 from adapter import TheAgentCompanyToHarbor
 
 TAC_REPO_URL = "https://github.com/TheAgentCompany/TheAgentCompany"
-DEFAULT_OUTPUT_DIR = (
-    Path(__file__).resolve().parent.parent.parent / "datasets" / "theagentcompany"
-)
+DEFAULT_OUTPUT_DIR = Path("datasets") / "theagentcompany"
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 logger = logging.getLogger(__name__)

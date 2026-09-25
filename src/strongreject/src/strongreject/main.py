@@ -34,7 +34,7 @@ else:
     from .adapter import StrongRejectAdapter
     from .jailbreaks import get_jailbreak_categories, list_jailbreaks
 
-DEFAULT_OUTPUT_DIR = Path(__file__).resolve().parents[4] / "datasets" / "strongreject"
+DEFAULT_OUTPUT_DIR = Path("datasets") / "strongreject"
 
 # --- LOGGING SETUP ---
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")

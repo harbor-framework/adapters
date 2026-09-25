@@ -2,8 +2,8 @@
 Main CLI entrypoint for the SpreadsheetBench Verified adapter.
 
 Usage:
-    uv run python -m spreadsheetbench_verified.main \
-        --output-dir ../../datasets/spreadsheetbench-verified
+    uv run --project src/spreadsheetbench-verified spreadsheetbench-verified \
+        --output-dir datasets/spreadsheetbench-verified
 
 CLI arguments:
 - --output-dir: destination for generated Harbor task directories;
@@ -21,9 +21,7 @@ from pathlib import Path
 
 from .adapter import DEFAULT_DATASET_NAME, SpreadsheetBenchVerifiedAdapter
 
-DEFAULT_OUTPUT_DIR = (
-    Path(__file__).resolve().parents[4] / "datasets" / "spreadsheetbench-verified"
-)
+DEFAULT_OUTPUT_DIR = Path("datasets") / "spreadsheetbench-verified"
 
 
 def main() -> None:
