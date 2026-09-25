@@ -13,8 +13,7 @@ from pathlib import Path
 
 from .adapter import CompileBenchAdapter
 
-HARBOR_ROOT = Path(__file__).resolve().parents[4]
-DEFAULT_OUTPUT_DIR = HARBOR_ROOT / "datasets" / "compilebench"
+DEFAULT_OUTPUT_DIR = Path.cwd() / "datasets" / "compilebench"
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 logger = logging.getLogger(__name__)
@@ -89,7 +88,9 @@ def main() -> None:
     try:
         adapter.run(tasks=task_ids, overwrite=args.overwrite)
         logger.info(f"Tasks successfully fetched to: {args.output_dir}")
-        logger.info("You can now run `uv run harbor run -d compilebench`")
+        logger.info(
+            "You can now run `uvx --from harbor==0.23.0 harbor run -d compilebench`"
+        )
     except Exception as e:
         logger.error(f"Error fetching tasks: {e}", exc_info=True)
         sys.exit(1)

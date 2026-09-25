@@ -10,8 +10,7 @@ from pathlib import Path
 
 from .adapter import CodePDEAdapter
 
-HARBOR_ROOT = Path(__file__).resolve().parents[4]
-DEFAULT_OUTPUT_DIR = HARBOR_ROOT / "datasets" / "codepde"
+DEFAULT_OUTPUT_DIR = Path.cwd() / "datasets" / "codepde"
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format="%(name)s - %(levelname)s: %(message)s")

@@ -7,15 +7,12 @@ from pathlib import Path
 
 from .adapter import CLBenchAdapter
 
-SCRIPT_DIR = Path(__file__).resolve().parent
-REPO_ROOT = SCRIPT_DIR.parents[3]
-
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 logger = logging.getLogger(__name__)
 
 
 def _default_output_dir() -> Path:
-    return REPO_ROOT / "datasets" / "clbench"
+    return Path.cwd() / "datasets" / "clbench"
 
 
 def _parse_args() -> argparse.Namespace:

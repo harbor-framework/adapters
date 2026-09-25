@@ -54,7 +54,7 @@ datasets/clbench/
 Adapter code layout:
 
 ```
-adapters/clbench/
+src/clbench/
 ├── README.md                     # Adapter documentation and reproduction steps
 ├── adapter_metadata.json         # Harbor adapter metadata
 ├── clbench-parity-50-once.yaml   # Fixed 50-task Harbor parity run config
@@ -74,29 +74,31 @@ adapters/clbench/
 ### Create task directories
 
 ```bash
-# From adapter directory
-cd adapters/clbench
+# From the adapters repository root
+uv sync --project src/clbench --python 3.12
 
 # Generate all 1,899 tasks
-uv run clbench --overwrite
+uv run --project src/clbench clbench --overwrite
 
 # Generate first N tasks
-uv run clbench --limit 10 --overwrite
+uv run --project src/clbench clbench --limit 10 --overwrite
 
 # Generate specific tasks by index
-uv run clbench --task-ids 0 1 2 3 4 --overwrite
+uv run --project src/clbench clbench --task-ids 0 1 2 3 4 --overwrite
 
 # Generate the fixed 50-task parity subset
-uv run clbench --split parity --overwrite
+uv run --project src/clbench clbench --split parity --overwrite
 
 # Use custom output directory
-uv run clbench --output-dir /path/to/output --overwrite
+uv run --project src/clbench clbench --output-dir /path/to/output --overwrite
 ```
+
+The default output directory is `datasets/clbench`, relative to the current working directory.
 
 ### Set required environment variables
 
 **Requirements:**
-- HuggingFace `datasets` library: `pip install datasets`
+- Adapter dependencies: `uv sync --project src/clbench --python 3.12`
 - `OPENAI_API_KEY` for oracle and judge evaluation
 - `OPENAI_BASE_URL` (optional, for custom endpoints)
 
@@ -106,32 +108,32 @@ uv run clbench --output-dir /path/to/output --overwrite
 
 ```bash
 # Use oracle agent (LLM-based reference solution)
-uv run harbor run -d clbench -a oracle
+uvx --from harbor==0.23.0 harbor run -d clbench -a oracle
 
 # Use your specified agent and model
-uv run harbor run -d clbench -a <agent> -m "<model>"
+uvx --from harbor==0.23.0 harbor run -d clbench -a <agent> -m "<model>"
 ```
 
 ### Config files
 
 ```bash
-# From the repository root
+# From the adapters repository root
 
 # Run the reference config
-uv run harbor run -c adapters/clbench/run_clbench.yaml
+uvx --from harbor==0.23.0 harbor run -c src/clbench/run_clbench.yaml
 
 # Run with custom agent and model
-uv run harbor run -p datasets/clbench -a <agent> -m "<model>"
+uvx --from harbor==0.23.0 harbor run -p datasets/clbench -a <agent> -m "<model>"
 ```
 
 ### Individual trials
 
 ```bash
 # Run a single trial with oracle
-uv run harbor run -p datasets/clbench/clbench-task-0 -a oracle
+uvx --from harbor==0.23.0 harbor run -p datasets/clbench/clbench-task-0 -a oracle
 
 # Run a single trial with a specific agent
-uv run harbor run -p datasets/clbench/clbench-task-0 -a <agent> -m "<model>"
+uvx --from harbor==0.23.0 harbor run -p datasets/clbench/clbench-task-0 -a <agent> -m "<model>"
 ```
 
 ## Environment Variables
@@ -156,7 +158,7 @@ The judge prompt also includes rubric-equivalence tolerance for non-substantive 
 
 ## Oracle Solution
 
-The oracle (`src/clbench/task-template/solution/oracle.py`) calls an LLM with the full context messages and writes the response to `result.json`.
+The oracle (`src/clbench/src/clbench/task-template/solution/oracle.py`) calls an LLM with the full context messages and writes the response to `result.json`.
 
 **Oracle Design**
 
@@ -175,7 +177,7 @@ To run full oracle validation over all 1,899 tasks:
 export OPENAI_API_KEY=<your_key>
 export ORACLE_MODEL=gpt-4o-mini
 export JUDGE_MODEL=gpt-4o-mini
-ORACLE_MODE=true uv run harbor run -c adapters/clbench/run_clbench.yaml --n-concurrent 10
+ORACLE_MODE=true uvx --from harbor==0.23.0 harbor run -c src/clbench/run_clbench.yaml --n-concurrent 10
 ```
 
 **Validation Status**: The oracle validation path has been run across the full 1,899-task benchmark.
@@ -186,7 +188,7 @@ ORACLE_MODE=true uv run harbor run -c adapters/clbench/run_clbench.yaml --n-conc
 
 Parity was validated on a fixed 50-task CL-bench subset. Both sides used `codex@0.118.0` with `gpt-5.2` in Docker (`infer_codex.py` for original, Harbor adapter for Harbor). Solving rate = num_success / 50.
 
-The parity set is fixed by explicit CL-bench task indices and is reproduced by `adapters/clbench/clbench-parity-50-once.yaml`. The 50-task subset was selected before scoring; no tasks are filtered by result. The exact indices are: `13, 51, 54, 61, 65, 178, 189, 191, 209, 228, 285, 318, 326, 407, 440, 447, 451, 457, 476, 501, 563, 569, 689, 696, 778, 859, 864, 865, 919, 1034, 1116, 1149, 1206, 1209, 1232, 1309, 1330, 1385, 1429, 1436, 1466, 1508, 1516, 1518, 1554, 1563, 1650, 1657, 1780, 1827`.
+The parity set is fixed by explicit CL-bench task indices and is reproduced by `src/clbench/clbench-parity-50-once.yaml`. The 50-task subset was selected before scoring; no tasks are filtered by result. The exact indices are: `13, 51, 54, 61, 65, 178, 189, 191, 209, 228, 285, 318, 326, 407, 440, 447, 451, 457, 476, 501, 563, 569, 689, 696, 778, 859, 864, 865, 919, 1034, 1116, 1149, 1206, 1209, 1232, 1309, 1330, 1385, 1429, 1436, 1466, 1508, 1516, 1518, 1554, 1563, 1650, 1657, 1780, 1827`.
 
 Scores are reported as `mean ± sample SEM`, following the Harbor adapter reporting format. Run ranges overlap (`original: 10–14%`, `Harbor: 8–12%`), satisfying the Harbor parity range-overlap criterion.
 
@@ -250,11 +252,10 @@ Related artifacts:
 
 3. Run Harbor adapter (same 50 tasks, 3 single-attempt runs):
    ```bash
-   cd adapters/clbench
-   uv run clbench --split parity --overwrite
-   cd ../..
+   # From the adapters repository root
+   uv run --project src/clbench clbench --split parity --overwrite
    for run in 1 2 3; do
-     uv run harbor run -c adapters/clbench/clbench-parity-50-once.yaml
+     uvx --from harbor==0.23.0 harbor run -c src/clbench/clbench-parity-50-once.yaml
    done
    ```
 
@@ -269,8 +270,8 @@ Related artifacts:
 ## Installation Prerequisites
 
 - Docker installed and running
-- Harbor installed (`uv sync --extra dev`)
-- HuggingFace `datasets`: `pip install datasets`
+- Harbor CLI available through `uvx --from harbor==0.23.0 harbor`
+- Adapter dependencies: `uv sync --project src/clbench --python 3.12`
 - API key for judge/oracle model
 
 ## Troubleshooting
