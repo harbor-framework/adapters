@@ -60,7 +60,7 @@ datasets/hle/
 Adapter code layout:
 
 ```
-harbor/adapters/hle/
+src/hle/
 ├── .python-version
 ├── pyproject.toml                   # Python package config
 ├── README.md
@@ -97,37 +97,37 @@ export JUDGE_MODEL=gpt-5
 export OPENAI_API_KEY=...
 
 # Full dataset with oracle (post-publish)
-harbor run -d hle
+uvx --from harbor==0.23.0 harbor run -d hle
 
 # Full dataset with a specific agent and model
-harbor run -d hle -a <agent_name> -m "<model_name>"
+uvx --from harbor==0.23.0 harbor run -d hle -a <agent_name> -m "<model_name>"
 
 # Single task from registry
-harbor run -t hle/hle__<task_id> -a <agent_name> -m "<model_name>"
+uvx --from harbor==0.23.0 harbor run -t hle/hle__<task_id> -a <agent_name> -m "<model_name>"
 ```
 
 ### Using Config Files
 
 ```bash
 # Oracle verification (default config)
-harbor run -c adapters/hle/run_hle.yaml
+uvx --from harbor==0.23.0 harbor run -c src/hle/run_hle.yaml
 
 # Run agent benchmark
 # First comment out the oracle agent in config and enable corresponding agent and model
-harbor run -c adapters/hle/run_hle.yaml
+uvx --from harbor==0.23.0 harbor run -c src/hle/run_hle.yaml
 
 # Parity experiment (249-task subset)
-harbor run -c adapters/hle/run_hle_parity.yaml
+uvx --from harbor==0.23.0 harbor run -c src/hle/run_hle_parity.yaml
 ```
 
 ### Running with Local Path
 
 ```bash
 # Run with a locally prepared dataset path
-harbor run -p datasets/hle -a <agent_name> -m "<model_name>"
+uvx --from harbor==0.23.0 harbor run -p datasets/hle -a <agent_name> -m "<model_name>"
 
 # Single trial for quick testing
-harbor trial start -p datasets/hle/hle__<task_id> -a <agent_name> -m "<model_name>"
+uvx --from harbor==0.23.0 harbor trial start -p datasets/hle/hle__<task_id> -a <agent_name> -m "<model_name>"
 ```
 
 ### Computing Calibration Error
@@ -135,16 +135,16 @@ harbor trial start -p datasets/hle/hle__<task_id> -a <agent_name> -m "<model_nam
 After a job completes, compute calibration error from the saved judgment files:
 
 ```bash
-cd adapters/hle
+# From the adapters repository root
 
 # Compute calibration error (--beta is required: use 100 for full dataset, 10 for parity subset)
-uv run python -m hle.compute_calibration <job_dir> --beta 100
+uv run --project src/hle python -m hle.compute_calibration <job_dir> --beta 100
 
 # With dataset directory for category breakdown (recommended)
-uv run python -m hle.compute_calibration <job_dir> --beta 100 --dataset-dir ../../datasets/hle
+uv run --project src/hle python -m hle.compute_calibration <job_dir> --beta 100 --dataset-dir datasets/hle
 
 # Save results to JSON
-uv run python -m hle.compute_calibration <job_dir> --beta 100 --output results.json
+uv run --project src/hle python -m hle.compute_calibration <job_dir> --beta 100 --output results.json
 ```
 
 The `--dataset-dir` flag points to the dataset directory containing `hle__*/tests/metadata.json` files, which are needed for per-category breakdown. Without it, categories are fetched from HuggingFace (requires network access and `HF_TOKEN`).
@@ -156,27 +156,28 @@ The script reads `verifier/judgment.json` from each trial, extracts confidence s
 ### Create Task Directories
 
 ```bash
-# From adapter directory
-cd adapters/hle
+# From the adapters repository root
 
 # Set HuggingFace token (required for gated dataset)
 export HF_TOKEN=hf_your_token_here
 
 # Generate all tasks (full dataset, defaults to datasets/hle)
-uv run python -m hle.main
+uv run --project src/hle python -m hle.main
 
 # Generate parity dataset (10% stratified sample per category)
-uv run python -m hle.main --split parity --output-dir datasets/hle_parity
+uv run --project src/hle python -m hle.main --split parity --output-dir datasets/hle_parity
 
 # Generate specific tasks by ID
-uv run python -m hle.main --task-ids <task_id_1> <task_id_2>
+uv run --project src/hle python -m hle.main --task-ids <task_id_1> <task_id_2>
 
 # Overwrite existing tasks
-uv run python -m hle.main --overwrite
+uv run --project src/hle python -m hle.main --overwrite
 
 # Custom output directory
-uv run python -m hle.main --output-dir /path/to/output
+uv run --project src/hle python -m hle.main --output-dir /path/to/output
 ```
+
+The default output directory is `datasets/hle`, relative to the current working directory.
 
 ## Comparison with Original Benchmark (Parity)
 
@@ -218,16 +219,16 @@ python judge_agent_results.py --workspace <job-dir> --num_workers 10
 
 ```bash
 # Generate parity dataset (skip if using registry)
-cd adapters/hle
+# From the adapters repository root
 export HF_TOKEN=hf_your_token_here
-uv run python -m hle.main --split parity --output-dir datasets/hle_parity
+uv run --project src/hle python -m hle.main --split parity --output-dir datasets/hle_parity
 
 # Run parity experiment
-harbor run -c adapters/hle/run_hle_parity.yaml
+uvx --from harbor==0.23.0 harbor run -c src/hle/run_hle_parity.yaml
 
 # After completion, compute calibration error
-cd adapters/hle
-uv run python -m hle.compute_calibration <job_dir> --beta 10 --dataset-dir ../../datasets/hle_parity
+# From the adapters repository root
+uv run --project src/hle python -m hle.compute_calibration <job_dir> --beta 10 --dataset-dir datasets/hle_parity
 ```
 
 ### Oracle Verification
@@ -243,9 +244,9 @@ Oracle verification with gpt-5 as judge has passed on the full 2,500-task datase
 ## Installation / Prerequisites
 
 - Docker installed and running (required for Harbor environments)
-- Harbor CLI + dependencies installed: `uv sync --all-extras --dev` from the repo root
+- Harbor CLI available through `uvx --from harbor==0.23.0 harbor`
 - Python 3.12+ available for adapter execution
-- Adapter dependencies: `cd adapters/hle && uv sync`
+- Adapter dependencies: `uv sync --project src/hle` from the adapters repository root
 - HuggingFace dataset access:
   1. Request access at https://huggingface.co/datasets/cais/hle
   2. Create token at https://huggingface.co/settings/tokens

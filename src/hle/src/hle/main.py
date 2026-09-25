@@ -2,10 +2,10 @@
 CLI entry point for the HLE adapter.
 
 Usage:
-    uv run python -m hle.main
-    uv run python -m hle.main --output-dir ../../datasets/hle --limit 5
-    uv run python -m hle.main --split parity --output-dir ../../datasets/hle_parity
-    uv run python -m hle.main --task-ids <id1> <id2>
+    uv run --project src/hle python -m hle.main
+    uv run --project src/hle python -m hle.main --output-dir datasets/hle --limit 5
+    uv run --project src/hle python -m hle.main --split parity --output-dir datasets/hle_parity
+    uv run --project src/hle python -m hle.main --task-ids <id1> <id2>
 """
 
 import argparse

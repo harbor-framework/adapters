@@ -9,11 +9,6 @@ from pathlib import Path
 
 from adapter import HumanEvalFixAdapter
 
-# Resolve to real path to handle iCloud Drive symlinks on macOS
-HARBOR_ROOT = Path(__file__).resolve().parent.parent.parent
-if HARBOR_ROOT.exists():
-    HARBOR_ROOT = HARBOR_ROOT.resolve(strict=True)
-
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 logger = logging.getLogger(__name__)
 
@@ -26,7 +21,7 @@ def main():
         "--output-dir",
         type=Path,
         default=None,
-        help="Output directory for generated tasks (default: harbor-datasets/datasets/humanevalfix)",
+        help="Output directory for generated tasks (default: datasets/humanevalfix, relative to cwd)",
     )
     parser.add_argument(
         "--agent-class",
@@ -41,8 +36,8 @@ def main():
     if args.output_dir:
         task_dir = args.output_dir.resolve()
     else:
-        # Default to datasets/humanevalfix in the Harbor repo
-        task_dir = HARBOR_ROOT / "datasets" / "humanevalfix"
+        # Default to datasets/humanevalfix in the current working directory
+        task_dir = Path.cwd() / "datasets" / "humanevalfix"
 
     task_dir.mkdir(parents=True, exist_ok=True)
     logger.info(f"Output directory: {task_dir}")

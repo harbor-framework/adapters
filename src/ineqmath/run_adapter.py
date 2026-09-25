@@ -11,7 +11,6 @@ from adapter import IneqMathAdapter
 
 # Add current directory to path for local imports
 SCRIPT_DIR = Path(__file__).resolve().parent
-HARBOR_ROOT = SCRIPT_DIR.parent.parent
 sys.path.insert(0, str(SCRIPT_DIR))
 
 
@@ -26,7 +25,7 @@ def main():
     parser.add_argument(
         "--output-dir",
         type=Path,
-        default=HARBOR_ROOT / "datasets" / "ineqmath",
+        default=Path.cwd() / "datasets" / "ineqmath",
         help="Output directory for tasks (default: datasets/ineqmath)",
     )
     parser.add_argument(

@@ -12,9 +12,6 @@ from typing import Any, Iterable, Mapping, NotRequired, TypedDict, cast
 
 from adapter import GAIAAdapter, GAIATask
 
-SCRIPT_DIR = Path(__file__).resolve().parent
-HARBOR_ROOT = SCRIPT_DIR.parent.parent
-
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 logger = logging.getLogger(__name__)
 
@@ -196,7 +193,7 @@ def main():
     parser.add_argument(
         "--output-dir",
         type=Path,
-        default=HARBOR_ROOT / "datasets" / "gaia",
+        default=Path.cwd() / "datasets" / "gaia",
         help="Output directory for tasks (default: datasets/gaia)",
     )
     parser.add_argument(

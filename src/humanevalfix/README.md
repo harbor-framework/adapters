@@ -50,7 +50,7 @@ humanevalfix/
 The adapter code directory structure:
 
 ```
-harbor/adapters/humanevalfix/
+src/humanevalfix/
 ├── README.md 
 ├── parity_experiment.json
 ├── adapter.py
@@ -76,25 +76,25 @@ Harbor Registry & Datasets makes running adapter evaluation easy and flexible.
 Simply run:
 
 ```bash
-harbor run -d "humanevalfix@1.0" -a oracle --env daytona -n 32 --registry-path registry.json
+uvx --from harbor==0.23.0 harbor run -d "humanevalfix@1.0" -a oracle --env daytona -n 32 --registry-path registry.json
 ```
 
-from the harbor root to evaluate on the entire dataset.
+from the adapters repository root to evaluate on the entire dataset.
 
 ### Using Job Configurations
 
-The example configuration file for the adapter is provided at `harbor/adapters/humanevalfix/humanevalfix.yaml`. You may use `-c path/to/configuration.yaml` or `-p path/to/dataset` to run evaluation on the entire benchmark after preparing the task directories locally.
+The example configuration file for the adapter is provided at `src/humanevalfix/humanevalfix.yaml`. You may use `-c path/to/configuration.yaml` or `-p path/to/dataset` to run evaluation on the entire benchmark after preparing the task directories locally.
 
 ```bash
-# From the repository root
+# From the adapters repository root
 # Run a job with the default adapter configuration
-uv run harbor jobs start -c adapters/humanevalfix/humanevalfix.yaml -a <agent_name> -m "<model_name>"
+uvx --from harbor==0.23.0 harbor jobs start -c src/humanevalfix/humanevalfix.yaml -a <agent_name> -m "<model_name>"
 
 # Or run a job without configuration yaml but instead with locally prepared dataset path
-uv run harbor jobs start -p datasets/humanevalfix -a <agent_name> -m "<model_name>"
+uvx --from harbor==0.23.0 harbor jobs start -p datasets/humanevalfix -a <agent_name> -m "<model_name>"
 
 # Resume a previously started job
-uv run harbor jobs resume -p /path/to/jobs/directory
+uvx --from harbor==0.23.0 harbor jobs resume -p /path/to/jobs/directory
 ```
 
 Results are saved in the `jobs/` directory by default (configurable via `jobs_dir` in the YAML config).
@@ -108,7 +108,7 @@ export LLM_API_KEY=<OPENAI_API_KEY>
 export DAYTONA_API_KEY=<DAYTONA_API_KEY>
 export OPENHANDS_MAX_ITERATIONS=10 
 export OPENHANDS_ENABLE_PROMPT_EXTENSIONS=false 
-harbor run -p "/Users/xiaokun/Desktop/harbor-fork/harbor/datasets/humanevalfix/" -m openai/gpt-5-mini -a openhands --env daytona -n 4
+uvx --from harbor==0.23.0 harbor run -p "datasets/humanevalfix/" -m openai/gpt-5-mini -a openhands --env daytona -n 4
 ```
 
 Trial outputs are saved in the `trials/` directory by default (configurable via `--trials-dir`).
@@ -116,12 +116,14 @@ Trial outputs are saved in the `trials/` directory by default (configurable via 
 ## Usage: Create Task Directories
 
 ```bash
-# From adapter directory
-cd adapters/humanevalfix
+# From the adapters repository root
+python -m pip install datasets pandas
 
 # Generate all tasks
-python adapters/humanevalfix/run_adapter.py --agent-class openhands
+python src/humanevalfix/run_adapter.py --agent-class openhands
 ```
+
+The default output directory is `datasets/humanevalfix`, relative to the current working directory.
 
 ## Comparison with Original Benchmark (Parity)
 
@@ -170,7 +172,7 @@ export OPENHANDS_MAX_ITERATIONS=10
 export OPENHANDS_ENABLE_PROMPT_EXTENSIONS=false 
 
 # Run evaluation
-harbor run -p "/Users/xiaokun/Desktop/harbor-fork/harbor/datasets/humanevalfix/" -m openai/gpt-5-mini -a openhands --env daytona -n 4
+uvx --from harbor==0.23.0 harbor run -p "datasets/humanevalfix/" -m openai/gpt-5-mini -a openhands --env daytona -n 4
 ```
 
 **Interpreting results:**

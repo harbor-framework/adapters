@@ -36,7 +36,7 @@ gso/
 ```
 The adapter code itself is organized as follows:
 ```
-harbor/adapters/gso/
+src/gso/
 ├── adapter_metadata.json
 ├── adapter.py
 ├── parity_experiment.json
@@ -64,12 +64,12 @@ Simply run
 
 ```bash
 # Use oracle agent (reference solution)
-uv run harbor run -d gso
+uvx --from harbor==0.23.0 harbor run -d gso
 
 # Use your specified agent and model
-uv run harbor run -d gso -a <agent_name> -m "<model_name>"
+uvx --from harbor==0.23.0 harbor run -d gso -a <agent_name> -m "<model_name>"
 ```
-from the harbor root to evaluate on the entire dataset.
+from the adapters repository root to evaluate on the entire dataset.
 
 However, if you choose to prepare the task directories locally and/or with custom versions/subsets for evaluation, you may either use `harbor job` or `harbor trial`. Instructions for using the adapter code to prepare task directories are provided in the [Usage](#usage-create-task-directories) section.
 
@@ -77,15 +77,15 @@ However, if you choose to prepare the task directories locally and/or with custo
 You may either use `-c path/to/configuration.yaml` or `-p path/to/dataset` to run evaluation on the entire benchmark after preparing the task directories locally.
 
 ```bash
-# From the repository root
+# From the adapters repository root
 # Run a job with the configuration yaml
-uv run harbor run -c adapters/gso/run_gso.yaml -a <agent_name> -m "<model_name>"
+uvx --from harbor==0.23.0 harbor run -c src/gso/run_gso.yaml -a <agent_name> -m "<model_name>"
 
 # Or run a job without configuration yaml but instead with locally prepared dataset path
-uv run harbor run -p datasets/gso -a <agent_name> -m "<model_name>"
+uvx --from harbor==0.23.0 harbor run -p datasets/gso -a <agent_name> -m "<model_name>"
 
 # Resume a previously started job
-uv run harbor job resume -p /path/to/jobs/directory
+uvx --from harbor==0.23.0 harbor job resume -p /path/to/jobs/directory
 ```
 
 Results are saved in the `jobs/` directory by default (configurable via `jobs_dir` in the YAML config).
@@ -96,10 +96,10 @@ For quick testing or debugging a single task:
 
 ```bash
 # Run a single task with oracle (pre-written solution)
-uv run harbor trial start -p datasets/gso/<task_id>
+uvx --from harbor==0.23.0 harbor trial start -p datasets/gso/<task_id>
 
 # Run a single task with a specific agent and model
-uv run harbor trial start -p datasets/gso/<task_id> -a <agent_name> -m "<model_name>"
+uvx --from harbor==0.23.0 harbor trial start -p datasets/gso/<task_id> -a <agent_name> -m "<model_name>"
 ```
 
 Run outputs are saved in the `trials/` directory by default (configurable via `--trials-dir`).
@@ -108,19 +108,19 @@ Run outputs are saved in the `trials/` directory by default (configurable via `-
 ## Usage: Create Task Directories
 
 ```bash
-# From adapter directory
-cd adapters/gso
+# From the adapters repository root
+python -m pip install datasets gsobench
 
 # Python or uv
-python run_adapter.py
+python src/gso/run_adapter.py
 # or
-uv run run_adapter.py \
-  --output-dir ../../datasets/gso \
+uv run --no-project --with datasets --with gsobench python src/gso/run_adapter.py \
+  --output-dir datasets/gso \
   --task-ids <id1> <id2> \
   --limit 50
 ```
 
-Tasks are written to `datasets/gso/` with one directory per task. Each task follows the structure shown in ["Generated Task Structure"](#generated-task-structure) above.
+Tasks are written to `datasets/gso/` relative to the current working directory, with one directory per task. Each task follows the structure shown in ["Generated Task Structure"](#generated-task-structure) above.
 
 ## Comparison with Original Benchmark (Parity)
 
@@ -134,7 +134,7 @@ These results can be interpreted as performance being consistent between the ori
 
 For reproducibility, we have included the parity experiment configuration in `parity_experiment.json` and the corresponding job configuration in `run_gso.yaml`. You can run the parity experiment using the instructions in [Run Evaluation / Harness in Harbor](#run-evaluation--harness-in-harbor) section.
 ```bash
-uv run harbor run -c adapters/gso/run_gso.yaml
+uvx --from harbor==0.23.0 harbor run -c src/gso/run_gso.yaml
 ```
 If you want to run with the original implementation, please refer to the [README](https://github.com/gso-bench/scaffolds/blob/main/openhands_gso/README.md) and fill in config.toml as:
 
@@ -177,10 +177,10 @@ uv run \
 ## Installation / Prerequisites
 
 - Docker installed and running
-- Harbor installed and working (see main repository README)
+- Harbor CLI available through `uvx --from harbor==0.23.0 harbor`
 - Python environment with dependencies:
   ```bash
-  uv sync --extra dev
+  python -m pip install datasets gsobench
   ```
 - Dataset-specific steps:
   - API keys for agents/models (export as environment variables): set `LLM_API_KEY` and `LLM_BASE_URL`.

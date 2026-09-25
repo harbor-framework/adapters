@@ -6,7 +6,6 @@ import sys
 from pathlib import Path
 
 SCRIPT_DIR = Path(__file__).resolve().parent
-HARBOR_ROOT = SCRIPT_DIR.parent.parent
 CODEX_OUTPUT_FILE = "agent/codex.txt"
 COMMAND_TXT = "agent/command-1/command.txt"
 sys.path.insert(0, str(SCRIPT_DIR))
@@ -67,13 +66,13 @@ def main():
     parser.add_argument(
         "--output-dir",
         type=Path,
-        default=HARBOR_ROOT / "ineqmath_submission",
+        default=Path.cwd() / "ineqmath_submission",
         help="Output directory for submission files (default: ineqmath_submission)",
     )
     parser.add_argument(
         "--job-folder-path",
         type=str,
-        default="../../jobs/trial1",
+        default="jobs/trial1",
         help="Path to the job folder containing submission files",
     )
     args = parser.parse_args()

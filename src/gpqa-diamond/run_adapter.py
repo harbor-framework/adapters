@@ -9,7 +9,6 @@ from adapter import GPQAAdapter
 
 # Add current directory to path for local imports
 SCRIPT_DIR = Path(__file__).resolve().parent
-HARBOR_ROOT = SCRIPT_DIR.parent.parent
 sys.path.insert(0, str(SCRIPT_DIR))
 
 
@@ -24,7 +23,7 @@ def main():
     parser.add_argument(
         "--output-dir",
         type=Path,
-        default=HARBOR_ROOT / "datasets" / "gpqa-diamond",
+        default=Path.cwd() / "datasets" / "gpqa-diamond",
         help="Output directory for tasks (default: datasets/gpqa-diamond)",
     )
     parser.add_argument(
