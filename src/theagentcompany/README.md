@@ -164,7 +164,7 @@ uvx --from harbor==0.23.0 harbor jobs start \
 # Run with registry (after dataset PR merged)
 uvx --from harbor==0.23.0 harbor jobs start \
   -d theagentcompany@1.0 \
-  --registry-path registry.json \
+  --registry-path /path/to/registry.json \
   --agent openhands \
   --model claude-sonnet-4-5-20250929
 ```
