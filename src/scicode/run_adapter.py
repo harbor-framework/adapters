@@ -31,7 +31,7 @@ from adapter import SciCodeAdapter, SciCodeDataset  # noqa: E402
 
 logger = logging.getLogger(__name__)
 
-DEFAULT_OUTPUT_DIR = Path(__file__).resolve().parents[2] / "datasets" / "scicode"
+DEFAULT_OUTPUT_DIR = Path("datasets/scicode")
 
 
 def parse_args() -> argparse.Namespace:
@@ -49,7 +49,7 @@ def parse_args() -> argparse.Namespace:
         "--output-dir",
         type=Path,
         default=DEFAULT_OUTPUT_DIR,
-        help=f"Output directory for generated tasks (default: {DEFAULT_OUTPUT_DIR})",
+        help=f"Output directory for generated tasks (default: {DEFAULT_OUTPUT_DIR} relative to the current directory)",
     )
     parser.add_argument(
         "--limit",

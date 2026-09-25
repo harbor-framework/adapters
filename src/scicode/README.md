@@ -58,11 +58,11 @@ scicode/
 
 ```bash
 # Pull & run via registry
-uv run harbor run -d scicode \
+uvx --from harbor==0.23.0 harbor run -d scicode \
     -a codex -m "openai/gpt-5.1-codex-mini"
 
 # Resume a previous job that was interrupted
-uv run harbor jobs resume -p jobs/<timestamp>
+uvx --from harbor==0.23.0 harbor jobs resume -p jobs/<timestamp>
 ```
 
 Each generated task still bind-mounts `test_data.h5` from the host at runtime
@@ -73,7 +73,7 @@ the host has a local `test_data.h5` copy (see "Test data setup" in
 ### Using Job Configurations
 
 The adapter ships two ready-to-use job configuration files under
-`adapters/scicode/`:
+`src/scicode/`:
 
 - **`scicode.yaml`** — runs the full 80-task dataset with a custom agent.
   Customize this file to adjust concurrency, environment resources, and
@@ -85,10 +85,10 @@ The adapter ships two ready-to-use job configuration files under
 
 ```bash
 # Oracle verifier smoke test (15 validation-split problems)
-uv run harbor run -c adapters/scicode/scicode_oracle.yaml
+uvx --from harbor==0.23.0 harbor run -c src/scicode/scicode_oracle.yaml
 
 # Run a specific agent on the full 80-task dataset
-uv run harbor run -c adapters/scicode/scicode.yaml \
+uvx --from harbor==0.23.0 harbor run -c src/scicode/scicode.yaml \
     -a claude-code -m "anthropic/claude-haiku-4-5"
 ```
 
@@ -98,12 +98,12 @@ uv run harbor run -c adapters/scicode/scicode.yaml \
 # From the repository root
 
 # Generate tasks first
-cd adapters/scicode
+cd src/scicode
 python run_adapter.py --output-dir ../../datasets/scicode
 cd ../..
 
 # Run with a specific agent and model on the full 80 tasks
-uv run harbor run -p datasets/scicode \
+uvx --from harbor==0.23.0 harbor run -p datasets/scicode \
     -a codex -m "openai/gpt-5.1-codex-mini" --n-concurrent 4
 ```
 
@@ -111,32 +111,32 @@ uv run harbor run -p datasets/scicode \
 
 ```bash
 # Run a single trial with oracle (validation-split problems only, e.g. scicode-1)
-uv run harbor trials start -p datasets/scicode/scicode-1
+uvx --from harbor==0.23.0 harbor trials start -p datasets/scicode/scicode-1
 
 # Run a single trial with a specific agent
-uv run harbor trials start -p datasets/scicode/scicode-1 -a claude-code -m "anthropic/claude-haiku-4-5"
+uvx --from harbor==0.23.0 harbor trials start -p datasets/scicode/scicode-1 -a claude-code -m "anthropic/claude-haiku-4-5"
 ```
 
 ## Usage: Create Task Directories
 
 ```bash
-# From the adapter directory
-cd adapters/scicode
+# From the adapters repository root
+cd /path/to/adapters
 
 # Generate all 80 tasks (validation split + test split merged)
-python run_adapter.py
+python src/scicode/run_adapter.py
 
 # Generate only specific problems by id
-python run_adapter.py 1 13 77
+python src/scicode/run_adapter.py 1 13 77
 
 # Limit to the first N tasks (in sorted-id order)
-python run_adapter.py --limit 5
+python src/scicode/run_adapter.py --limit 5
 
 # Include scientific background in instructions
-python run_adapter.py --with-background
+python src/scicode/run_adapter.py --with-background
 
 # Custom output directory
-python run_adapter.py --output-dir /path/to/output --overwrite
+python src/scicode/run_adapter.py --output-dir /path/to/output --overwrite
 ```
 
 ## Comparison with Original Benchmark (Parity)
@@ -181,10 +181,10 @@ containing per-problem `reward`, `steps_passed`, `total_steps`, and
 # optional: reuse the test_data.h5 downloaded above instead of re-downloading
 export HARBOR_SCICODE_TEST_DATA_PATH=/absolute/path/to/SciCode/eval/data/test_data.h5
 
-cd adapters/scicode
+cd src/scicode
 python run_adapter.py --output-dir ../../datasets/scicode --overwrite
 cd ../..
-uv run harbor run -p datasets/scicode \
+uvx --from harbor==0.23.0 harbor run -p datasets/scicode \
     --agent codex --model openai/gpt-5.1-codex-mini --n-concurrent 4
 ```
 
@@ -210,7 +210,7 @@ and aggregates them into a top-level `result.json` when the run finishes.
 ## Installation / Prerequisites
 
 - Docker installed and running
-- Harbor installed and working
+- Harbor installed and working: `uv tool install --python 3.12 harbor==0.23.0`
 - Python 3.10+ with dependencies:
   ```bash
   pip install datasets gdown
@@ -263,7 +263,7 @@ file.
   compute-intensive problems, or bump `[verifier].timeout_sec` in
   `template/task.toml` and regenerate with `run_adapter.py --overwrite`.
 - **Missing pre-written files**: The adapter automatically searches for the
-  SciCode repo adjacent to or inside the harbor repo. Clone the SciCode repo
+  SciCode repo adjacent to or inside the adapters repo. Clone the SciCode repo
   so that `SciCode/eval/data/` is reachable from one of those locations.
 
 ## Citation

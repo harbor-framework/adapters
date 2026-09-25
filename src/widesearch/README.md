@@ -49,7 +49,7 @@ widesearch/
 The adapter code directory:
 
 ```
-adapters/widesearch/
+src/widesearch/
 ├── README.md
 ├── adapter_metadata.json
 ├── parity_experiment.json
@@ -75,52 +75,52 @@ adapters/widesearch/
 
 ```bash
 # Use oracle agent (reference solution)
-uv run harbor run -d widesearch
+uvx --from harbor==0.23.0 harbor run -d widesearch
 
 # Use your specified agent and model
-uv run harbor run -d widesearch -a <agent_name> -m "<model_name>"
+uvx --from harbor==0.23.0 harbor run -d widesearch -a <agent_name> -m "<model_name>"
 ```
 
 ### Using Job Configurations
 
 ```bash
 # Run a job with locally prepared dataset path
-uv run harbor run -p datasets/widesearch -a <agent_name> -m "<model_name>"
+uvx --from harbor==0.23.0 harbor run -p datasets/widesearch -a <agent_name> -m "<model_name>"
 
 # Resume a previously started job
-uv run harbor jobs resume -p /path/to/jobs/directory
+uvx --from harbor==0.23.0 harbor jobs resume -p /path/to/jobs/directory
 ```
 
 ### Running Individual Trials
 
 ```bash
 # Run a single trial with oracle (pre-written solution)
-uv run harbor trials start -p datasets/widesearch/widesearch-ws-en-001
+uvx --from harbor==0.23.0 harbor trials start -p datasets/widesearch/widesearch-ws-en-001
 
 # Run a single trial with a specific agent and model
-uv run harbor trials start -p datasets/widesearch/widesearch-ws-en-001 -a <agent_name> -m "<model_name>"
+uvx --from harbor==0.23.0 harbor trials start -p datasets/widesearch/widesearch-ws-en-001 -a <agent_name> -m "<model_name>"
 ```
 
 ## Usage: Create Task Directories
 
 ```bash
-cd adapters/widesearch
+cd src/widesearch
 
-# Generate all 200 tasks (default output: ../../datasets/widesearch)
-uv run python run_adapter.py --output-dir ../../datasets/widesearch
+# Generate all 200 tasks in the repository's datasets/widesearch directory
+python run_adapter.py --output-dir ../../datasets/widesearch
 
 # Generate prototype subset (5 tasks) for development
-uv run python run_adapter.py --output-dir ../../datasets/widesearch --split prototype
+python run_adapter.py --output-dir ../../datasets/widesearch --split prototype
 
 # Generate specific tasks
-uv run python run_adapter.py --output-dir ../../datasets/widesearch --task-ids ws_en_001 ws_zh_001
+python run_adapter.py --output-dir ../../datasets/widesearch --task-ids ws_en_001 ws_zh_001
 
 # Generate first N tasks
-uv run python run_adapter.py --output-dir ../../datasets/widesearch --limit 10 --overwrite
+python run_adapter.py --output-dir ../../datasets/widesearch --limit 10 --overwrite
 ```
 
 Available flags:
-- `--output-dir` -- Directory to write generated tasks (default: `../../datasets/widesearch`)
+- `--output-dir` -- Directory to write generated tasks (default: `datasets/widesearch` relative to the current directory)
 - `--limit` -- Generate only the first N tasks
 - `--overwrite` -- Overwrite existing tasks
 - `--task-ids` -- Only generate specific task IDs (WideSearch instance_ids, e.g., `ws_en_001`)
@@ -149,20 +149,20 @@ To reproduce the Harbor-side parity results:
 
 ```bash
 # 1. Generate tasks
-cd adapters/widesearch
-uv run python run_adapter.py --output-dir ../../datasets/widesearch
+cd src/widesearch
+python run_adapter.py --output-dir ../../datasets/widesearch
 
 # 2. Run parity experiment (requires ANTHROPIC_API_KEY and ANTHROPIC_BASE_URL for parity gateway)
 cd ../..
-uv run harbor run \
-  -c adapters/widesearch/widesearch.yaml \
+uvx --from harbor==0.23.0 harbor run \
+  -c src/widesearch/widesearch.yaml \
   -a claude-code \
   -m "claude-haiku-4-5-20251001" \
   --n-concurrent 4
 
 # 3. Run oracle verification
-uv run harbor run \
-  -c adapters/widesearch/widesearch.yaml
+uvx --from harbor==0.23.0 harbor run \
+  -c src/widesearch/widesearch.yaml
 ```
 
 To reproduce the Original-side parity results, use the [forked repo](https://github.com/Yizhao111/WideSearch):
@@ -204,10 +204,10 @@ python scripts/run_claude_code.py \
 ## Installation / Prerequisites
 
 - Docker installed and running
-- Harbor installed and working (see main repository README)
+- Harbor installed and working: `uv tool install --python 3.12 harbor==0.23.0`
 - Python environment with dependencies:
   ```bash
-  cd adapters/widesearch
+  cd src/widesearch
   pip install datasets huggingface_hub pandas
   ```
 - API keys for agents/models (export as environment variables)

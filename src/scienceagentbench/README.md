@@ -72,12 +72,12 @@ scienceagentbench/{task_id}/
     └── visual_judge.py          # (Category B only) LLM visual judge script
 ```
 
-The adapter template directory mirrors this layout under `harbor/adapters/scienceagentbench/template/`.
+The adapter template directory mirrors this layout under `src/scienceagentbench/template/`.
 
 ### Adapter Directory
 
 ```
-adapters/scienceagentbench/
+src/scienceagentbench/
 ├── adapter.py              # Main conversion logic: generates Harbor tasks from SAB dataset
 ├── run_adapter.py          # CLI entry point for running the adapter
 ├── utils.py                # Shared utilities: dependency extraction, Dockerfile generation, task classification
@@ -100,20 +100,20 @@ adapters/scienceagentbench/
 
 ```bash
 # Run with oracle agent (validates all tasks pass)
-uv run harbor run -d scienceagentbench
+uvx --from harbor==0.23.0 harbor run -d scienceagentbench
 
 # Run with a specific agent
-uv run harbor run -d scienceagentbench -a <agent_name> -m "<model_name>"
+uvx --from harbor==0.23.0 harbor run -d scienceagentbench -a <agent_name> -m "<model_name>"
 ```
 
 ### Running Individual Trials
 
 ```bash
 # Test oracle solution for a specific task
-uv run harbor trials start -p ../harbor-datasets/datasets/scienceagentbench/sab_1 -a oracle
+uvx --from harbor==0.23.0 harbor trials start -p datasets/scienceagentbench/sab_1 -a oracle
 
 # Test with an agent
-uv run harbor trials start -p ../harbor-datasets/datasets/scienceagentbench/sab_1 -a codex
+uvx --from harbor==0.23.0 harbor trials start -p datasets/scienceagentbench/sab_1 -a codex
 ```
 
 ---
@@ -129,30 +129,30 @@ uv run harbor trials start -p ../harbor-datasets/datasets/scienceagentbench/sab_
 
 ```bash
 # From adapter directory
-cd harbor/adapters/scienceagentbench
+cd src/scienceagentbench
 
 # Generate Category A tasks only (38 deterministic tasks)
 uv run run_adapter.py --benchmark-path /path/to/ScienceAgentBench/benchmark \
-    --output-dir ../../../harbor-datasets/datasets/scienceagentbench
+    --output-dir ../../datasets/scienceagentbench
 
 # Generate all 102 tasks including Category B (visual)
 uv run run_adapter.py --benchmark-path /path/to/ScienceAgentBench/benchmark \
-    --output-dir ../../../harbor-datasets/datasets/scienceagentbench \
+    --output-dir ../../datasets/scienceagentbench \
     --include-visual
 
 # Generate specific tasks
 uv run run_adapter.py --benchmark-path /path/to/ScienceAgentBench/benchmark \
-    --output-dir ../../../harbor-datasets/datasets/scienceagentbench \
+    --output-dir ../../datasets/scienceagentbench \
     --task-ids 1 2 3
 
 # Validate generated tasks
-uv run validate_tasks.py --task-dir ../../../harbor-datasets/datasets/scienceagentbench -v
+uv run validate_tasks.py --task-dir ../../datasets/scienceagentbench -v
 ```
 
 ### Command-Line Options
 
 - `--benchmark-path`: Path to SAB benchmark directory (required)
-- `--output-dir`: Output directory for Harbor tasks (default: `datasets/scienceagentbench`)
+- `--output-dir`: Output directory for Harbor tasks (default: `datasets/scienceagentbench` relative to the current directory)
 - `--include-visual`: Include Category B tasks (requires `OPENAI_API_KEY` at eval time)
 - `--task-ids`: Specific task IDs to generate (space-separated)
 
@@ -225,13 +225,13 @@ To reproduce:
 
 ```bash
 # Generate Harbor tasks
-cd harbor/adapters/scienceagentbench
+cd src/scienceagentbench
 uv run run_adapter.py --benchmark-path /path/to/ScienceAgentBench/benchmark \
-    --output-dir ../../../harbor-datasets/datasets/scienceagentbench --include-visual
+    --output-dir ../../datasets/scienceagentbench --include-visual
 
 # Run with Claude Code + Haiku 4.5
-uv run harbor run --agent claude-code --model anthropic/claude-haiku-4-5-20251001 \
-    --path ../../../harbor-datasets/datasets/scienceagentbench --env modal -n 4
+uvx --from harbor==0.23.0 harbor run --agent claude-code --model anthropic/claude-haiku-4-5-20251001 \
+    --path ../../datasets/scienceagentbench --env modal -n 4
 ```
 
 See `parity_experiment.json` for detailed results.
@@ -242,14 +242,13 @@ See `parity_experiment.json` for detailed results.
 
 - Docker (required)
 - Python ≥ 3.11
-- Harbor and dependencies installed:
+- Harbor installed:
   ```bash
-  cd harbor
-  uv sync --extra dev
+  uv tool install --python 3.12 harbor==0.23.0
   ```
 - ScienceAgentBench adapter dependencies:
   ```bash
-  cd harbor/adapters/scienceagentbench
+  cd src/scienceagentbench
   uv sync
   ```
 - SAB benchmark data downloaded (see [Usage](#usage-create-task-directories))

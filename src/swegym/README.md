@@ -57,7 +57,7 @@ swegym/
 
 Adapter code structure:
 ```
-harbor/adapters/swegym/
+src/swegym/
 ├── README.md                   # This file
 ├── adapter_metadata.json       # Adapter metadata
 ├── parity_experiment.json      # Parity results
@@ -92,39 +92,39 @@ Simply run
 
 ```bash
 # SWE-Gym Lite (230 tasks) — use oracle agent (reference solution)
-uv run harbor jobs start -d swegym-lite
+uvx --from harbor==0.23.0 harbor jobs start -d swegym-lite
 
 # SWE-Gym Lite — use your specified agent and model
-uv run harbor jobs start -d swegym-lite -a openhands -m "gpt-5-nano"
+uvx --from harbor==0.23.0 harbor jobs start -d swegym-lite -a openhands -m "gpt-5-nano"
 
 # SWE-Gym full (2438 tasks) — use oracle agent
-uv run harbor jobs start -d swegym
+uvx --from harbor==0.23.0 harbor jobs start -d swegym
 
 # SWE-Gym full — use your specified agent and model
-uv run harbor jobs start -d swegym -a openhands -m "gpt-5-nano"
+uvx --from harbor==0.23.0 harbor jobs start -d swegym -a openhands -m "gpt-5-nano"
 ```
 
-from the harbor root to evaluate on the entire dataset.
+from the adapters repository root to evaluate on the entire dataset.
 
 However, if you choose to prepare the task directories locally and/or with custom versions/subsets for evaluation, you may either use `harbor jobs` or `harbor trials`. Instructions for using the adapter code to prepare task directories are provided in the [Usage](#usage-create-task-directories) section.
 
 ### Using Job Configurations
 
-The example configuration file for the adapter is provided under `harbor/adapters/swegym`. You may either use `-c path/to/configuration.yaml` or `-p path/to/dataset` to run evaluation on the entire benchmark after preparing the task directories locally.
+The example configuration file for the adapter is provided under `src/swegym`. You may either use `-c path/to/configuration.yaml` or `-p path/to/dataset` to run evaluation on the entire benchmark after preparing the task directories locally.
 
 ```bash
 # From the repository root
 # Run a job with the default adapter configuration (SWE-Gym Lite)
-uv run harbor jobs start -c adapters/swegym/swegym.yaml -a openhands -m "gpt-5-mini"
+uvx --from harbor==0.23.0 harbor jobs start -c src/swegym/swegym.yaml -a openhands -m "gpt-5-mini"
 
 # Or run a job with locally prepared dataset path
 # SWE-Gym Lite
-uv run harbor jobs start -p datasets/swegym-lite -a openhands -m "gpt-5-nano" -n 4
+uvx --from harbor==0.23.0 harbor jobs start -p datasets/swegym-lite -a openhands -m "gpt-5-nano" -n 4
 # SWE-Gym full
-uv run harbor jobs start -p datasets/swegym -a openhands -m "gpt-5-nano" -n 4
+uvx --from harbor==0.23.0 harbor jobs start -p datasets/swegym -a openhands -m "gpt-5-nano" -n 4
 
 # Resume a previously started job
-uv run harbor jobs resume -p /path/to/jobs/directory
+uvx --from harbor==0.23.0 harbor jobs resume -p /path/to/jobs/directory
 ```
 
 Results are saved in the `jobs/` directory by default (configurable via `jobs_dir` in the YAML config).
@@ -135,13 +135,13 @@ For quick testing or debugging a single task:
 
 ```bash
 # Run a single trial with oracle (pre-written solution) — SWE-Gym Lite
-uv run harbor trials start -p datasets/swegym-lite/python__mypy-15413
+uvx --from harbor==0.23.0 harbor trials start -p datasets/swegym-lite/python__mypy-15413
 
 # Run a single trial with a specific agent and model — SWE-Gym Lite
-uv run harbor trials start -p datasets/swegym-lite/python__mypy-15413 -a openhands -m "gpt-5-nano"
+uvx --from harbor==0.23.0 harbor trials start -p datasets/swegym-lite/python__mypy-15413 -a openhands -m "gpt-5-nano"
 
 # Run a single trial — SWE-Gym full
-uv run harbor trials start -p datasets/swegym/bokeh__bokeh-12779 -a openhands -m "gpt-5-nano"
+uvx --from harbor==0.23.0 harbor trials start -p datasets/swegym/bokeh__bokeh-12779 -a openhands -m "gpt-5-nano"
 ```
 
 Trial outputs are saved in the `trials/` directory by default (configurable via `--trials-dir`).
@@ -150,12 +150,12 @@ Trial outputs are saved in the `trials/` directory by default (configurable via 
 
 ```bash
 # From adapter directory
-cd adapters/swegym
+cd src/swegym
 
 # Generate SWE-Gym Lite (230 tasks, default)
 python run_adapter.py --dataset lite --task-dir ../../datasets/swegym-lite
 # or with uv
-uv run run_adapter.py --dataset lite --task-dir ../../datasets/swegym-lite
+uv run --no-project --with datasets --with swebench python run_adapter.py --dataset lite --task-dir ../../datasets/swegym-lite
 
 # Generate SWE-Gym full (2438 tasks)
 python run_adapter.py --dataset full --task-dir ../../datasets/swegym
@@ -303,8 +303,8 @@ poetry run python evaluation/benchmarks/swe_bench/eval_infer.py \
 
 **Harbor Adapter:**
 ```bash
-uv run harbor jobs start -p datasets/swegym-lite -a openhands -m "gpt-5-nano" -n 8
-uv run harbor jobs start -p datasets/swegym-lite -a openhands -m "gpt-5-mini" -n 8
+uvx --from harbor==0.23.0 harbor jobs start -p datasets/swegym-lite -a openhands -m "gpt-5-nano" -n 8
+uvx --from harbor==0.23.0 harbor jobs start -p datasets/swegym-lite -a openhands -m "gpt-5-mini" -n 8
 ```
 
 ## Notes & Caveats
@@ -320,12 +320,14 @@ uv run harbor jobs start -p datasets/swegym-lite -a openhands -m "gpt-5-mini" -n
   ```bash
   docker --version  # Should be 20.10+
   ```
-- **Harbor**: Installed from main repository
+- **Harbor**: Installed as a separate tool
   ```bash
-  cd harbor
-  uv sync --extra dev
+  uv tool install --python 3.12 harbor==0.23.0
   ```
-- **Python**: 3.10+ (handled by Harbor's environment)
+- **Python**: 3.10+ with generator dependencies
+  ```bash
+  pip install datasets swebench
+  ```
 
 ### Optional
 - **API Keys**: For running agent evaluations

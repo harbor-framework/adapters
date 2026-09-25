@@ -25,8 +25,8 @@ def main() -> int:
     parser.add_argument(
         "--output-dir",
         type=Path,
-        default=Path(__file__).parent.parent.parent / "datasets" / "widesearch",
-        help="Output directory for generated tasks (default: datasets/widesearch)",
+        default=Path("datasets/widesearch"),
+        help="Output directory for generated tasks (default: datasets/widesearch relative to the current directory)",
     )
     parser.add_argument(
         "--limit",

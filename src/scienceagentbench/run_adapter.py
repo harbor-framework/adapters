@@ -66,7 +66,7 @@ def main():
         "--output-dir",
         type=Path,
         default=None,
-        help="Output directory for generated tasks (default: ../../datasets/scienceagentbench relative to adapter)",
+        help="Output directory for generated tasks (default: datasets/scienceagentbench relative to the current directory)",
     )
     parser.add_argument(
         "--limit",
@@ -97,11 +97,7 @@ def main():
 
     # Set default output directory
     if args.output_dir is None:
-        args.output_dir = (
-            Path(__file__).resolve().parent.parent.parent
-            / "datasets"
-            / "scienceagentbench"
-        )
+        args.output_dir = Path("datasets/scienceagentbench")
 
     # Set default manifest path
     if args.manifest_path is None:

@@ -43,7 +43,7 @@ def main() -> None:
         "--task-dir",
         type=Path,
         default=None,
-        help="Output Harbor tasks root directory (default: ../../datasets/swegym-lite or ../../datasets/swegym based on --dataset)",
+        help="Output Harbor tasks root directory (default: datasets/swegym-lite or datasets/swegym relative to the current directory, based on --dataset)",
     )
     ap.add_argument(
         "--timeout",
@@ -72,9 +72,8 @@ def main() -> None:
     args = ap.parse_args()
 
     if args.task_dir is None:
-        adapter_dir = Path(__file__).resolve().parent
         dataset_name = "swegym-lite" if args.dataset == "lite" else "swegym"
-        args.task_dir = adapter_dir / ".." / ".." / "datasets" / dataset_name
+        args.task_dir = Path("datasets") / dataset_name
 
     if not args.all and not args.instance_id:
         ap.error("You used --no-all but did not provide --instance-id.")

@@ -10,8 +10,6 @@ from typing import Iterable
 
 from adapter import LawBenchAdapter
 
-HARBOR_ROOT = Path(__file__).resolve().parent.parent.parent
-
 LAWBENCH_REPO_URL = "https://github.com/open-compass/LawBench"
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
@@ -43,7 +41,7 @@ DEFAULT_BASE_IDS = [
 
 
 def _default_output_dir() -> Path:
-    return HARBOR_ROOT / "datasets" / "lawbench"
+    return Path("datasets/lawbench")
 
 
 def _read_ids_from_file(path: Path) -> list[str]:
@@ -111,7 +109,7 @@ def _parse_args() -> argparse.Namespace:
         "--output-dir",
         type=Path,
         default=_default_output_dir(),
-        help="Directory to write generated tasks (defaults to datasets/lawbench)",
+        help="Directory to write generated tasks (default: datasets/lawbench relative to the current directory)",
     )
     parser.add_argument(
         "--task-ids",
