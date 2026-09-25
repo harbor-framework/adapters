@@ -118,7 +118,7 @@ task-ids:
 - llmsr-bench-phys_osc-po9
 agent:
   name: llmsr-bench-llmdirect
-  import_path: adapters.llmsr_bench.llmsr_llmdirect:LLMSRBenchLLMDirectHarborAgent
+  import_path: llmsr_bench.llmsr_llmdirect:LLMSRBenchLLMDirectHarborAgent
 agent_kwargs:
   model: gpt-4o-mini
   global_max_sample_num: 5

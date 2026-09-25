@@ -34,14 +34,16 @@ _HARBOR_PREFIX = "llmsr-bench-"
 # =============================================================================
 # Shell helper
 # =============================================================================
-def _run_cmd(cmd: List[str], cwd: Path, timeout_s: int) -> Tuple[int, str, str]:
+def _run_cmd(
+    cmd: List[str], cwd: Path, timeout_s: int, env: Optional[Dict[str, str]] = None
+) -> Tuple[int, str, str]:
     p = subprocess.run(
         cmd,
         cwd=str(cwd),
         capture_output=True,
         text=True,
         timeout=timeout_s,
-        env=os.environ.copy(),
+        env=os.environ.copy() if env is None else env,
     )
     return p.returncode, p.stdout, p.stderr
 
@@ -345,9 +347,8 @@ def submit_harbor_llmdirect(
 ) -> Tuple[bool, Optional[Path], str, str]:
     jobs_dir.mkdir(parents=True, exist_ok=True)
 
-    llmdirect_path = (
-        harbor_dir / "adapters" / "llmsr_bench" / "llmdirect.py"
-    ).resolve()
+    adapter_dir = Path(__file__).resolve().parent
+    llmdirect_path = adapter_dir / "llmdirect.py"
     if not llmdirect_path.exists():
         raise RuntimeError(f"Cannot find llmdirect.py at: {llmdirect_path}")
 
@@ -355,6 +356,8 @@ def submit_harbor_llmdirect(
     cmd = [
         "uv",
         "run",
+        "--project",
+        str(adapter_dir),
         "harbor",
         "jobs",
         "start",
@@ -363,7 +366,7 @@ def submit_harbor_llmdirect(
         "-o",
         str(jobs_dir),
         "--agent-import-path",
-        "adapters.llmsr_bench.llmsr_llmdirect:LLMSRBenchLLMDirectHarborAgent",
+        "llmsr_bench.llmsr_llmdirect:LLMSRBenchLLMDirectHarborAgent",
         "-m",
         model,
         "--ak",
@@ -381,7 +384,12 @@ def submit_harbor_llmdirect(
         "--debug",
     ]
 
-    rc, out, err = _run_cmd(cmd, cwd=harbor_dir, timeout_s=timeout_s)
+    env = os.environ.copy()
+    import_roots = [str(adapter_dir.parent)]
+    if env.get("PYTHONPATH"):
+        import_roots.append(env["PYTHONPATH"])
+    env["PYTHONPATH"] = os.pathsep.join(import_roots)
+    rc, out, err = _run_cmd(cmd, cwd=harbor_dir, timeout_s=timeout_s, env=env)
 
     print("----- Harbor submit STDOUT -----")
     print(out[-3000:] if len(out) > 3000 else out)

@@ -2,7 +2,7 @@
 LLMSRBench LLMDirect Harbor Agent Wrapper
 
 This wrapper:
-1. Loads llmdirect.py from adapters/llmsr_bench/
+1. Loads llmdirect.py from this adapter's directory
 2. Runs the LLMDirectAgent which uses EvaluationPipeline.run_and_evaluate()
 3. Writes discovered_equation.txt and metrics.json to /logs/agent/
 """
@@ -27,28 +27,18 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-def _find_harbor_root(start: Path) -> Path:
-    """Find harbor root directory by looking for 'adapters' folder."""
-    p = start.resolve()
-    for _ in range(10):
-        if (p / "adapters").exists():
-            return p
-        p = p.parent
-    raise RuntimeError(f"Could not find harbor root above {start}")
-
-
 _LLMDIRECT_MODULE = None
 _LLMDIRECT_LOCK = threading.Lock()
 
 
-def _load_llmdirect_agent_class(harbor_root: Path):
+def _load_llmdirect_agent_class(adapter_dir: Path):
     global _LLMDIRECT_MODULE
     if _LLMDIRECT_MODULE is not None:
         return _LLMDIRECT_MODULE.LLMDirectAgent
     with _LLMDIRECT_LOCK:
         if _LLMDIRECT_MODULE is not None:
             return _LLMDIRECT_MODULE.LLMDirectAgent
-        llmdirect_py = harbor_root / "adapters" / "llmsr_bench" / "llmdirect.py"
+        llmdirect_py = adapter_dir / "llmdirect.py"
         if not llmdirect_py.exists():
             raise RuntimeError(f"llmdirect.py not found at: {llmdirect_py}")
         spec = importlib.util.spec_from_file_location(
@@ -134,12 +124,12 @@ class LLMSRBenchLLMDirectHarborAgent(BaseAgent):
             "seed": int(seed),
         }
 
-        self.harbor_root = _find_harbor_root(Path(__file__).resolve())
+        self.adapter_dir = Path(__file__).resolve().parent
         self._task_dir = Path(task_dir).expanduser().resolve() if task_dir else None
 
         self.logger.debug(f"[LLMDirectAgent] Initialized (v{self.version()})")
         self.logger.debug(f"  Model: {final_model}")
-        self.logger.debug(f"  Harbor root: {self.harbor_root}")
+        self.logger.debug(f"  Adapter directory: {self.adapter_dir}")
 
     async def setup(self, environment: BaseEnvironment) -> None:
         """No setup required."""
@@ -225,7 +215,7 @@ class LLMSRBenchLLMDirectHarborAgent(BaseAgent):
             self.logger.debug(f"  Copied OOD: {ood_dest}")
 
         # Load and run llmdirect
-        LLMDirectAgent = _load_llmdirect_agent_class(self.harbor_root)
+        LLMDirectAgent = _load_llmdirect_agent_class(self.adapter_dir)
         agent = LLMDirectAgent(self.agent_cfg)
 
         output_eq_path = work_dir / "discovered_equation.txt"

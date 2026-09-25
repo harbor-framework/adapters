@@ -8,9 +8,9 @@ Frontier-CS judge build options.
 
 Run via:
 
-  uv run frontier-cs-algorithm \\
+  uv run --project src/frontier-cs-algorithm frontier-cs-algorithm \\
       --source https://github.com/FrontierCS/Frontier-CS.git \\
-      --output-dir ../../datasets/frontier-cs-algorithm
+      --output-dir datasets/frontier-cs-algorithm
 """
 
 from __future__ import annotations
@@ -26,11 +26,7 @@ from .adapter import FrontierCSAdapter
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 
-# Repo-root-relative default that matches `harbor adapter init` scaffolds:
-# .../harbor/adapters/<name>/src/<pkg>/main.py -> parents[4] == harbor/
-DEFAULT_OUTPUT_DIR = (
-    Path(__file__).resolve().parents[4] / "datasets" / "frontier-cs-algorithm"
-)
+DEFAULT_OUTPUT_DIR = Path("datasets") / "frontier-cs-algorithm"
 
 DEFAULT_MAIN_IMAGE = "frontier-cs-main:latest"
 DEFAULT_JUDGE_IMAGE = "frontier-cs-judge:latest"

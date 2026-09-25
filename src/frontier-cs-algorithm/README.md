@@ -91,7 +91,7 @@ The adapter package itself follows the standard `src/` layout produced by
 `harbor adapter init`:
 
 ```
-adapters/frontier-cs-algorithm/
+src/frontier-cs-algorithm/
 ├── README.md
 ├── adapter_metadata.json
 ├── parity_experiment.json
@@ -121,27 +121,28 @@ adapters/frontier-cs-algorithm/
 ### Running with Datasets Registry
 
 ```bash
+# From the adapters repository root
 # Use oracle (reference.cpp) — sanity check
-uv run harbor run -d frontier-cs-algorithm
+uv run --project src/frontier-cs-algorithm harbor run -d frontier-cs-algorithm
 
 # Use a specific agent and model
-uv run harbor run -d frontier-cs-algorithm \
+uv run --project src/frontier-cs-algorithm harbor run -d frontier-cs-algorithm \
     -a claude-code -m "anthropic/claude-opus-4-6"
 ```
 
 ### Using Job Configurations
 
 ```bash
-# From the Harbor repo root, run with the bundled config
-uv run harbor run \
-    -c adapters/frontier-cs-algorithm/run_frontier-cs-algorithm.yaml
+# From the adapters repository root, run with the bundled config
+uv run --project src/frontier-cs-algorithm harbor run \
+    -c src/frontier-cs-algorithm/run_frontier-cs-algorithm.yaml
 
 # Or run against a locally-prepared dataset directory
-uv run harbor run -p datasets/frontier-cs-algorithm \
+uv run --project src/frontier-cs-algorithm harbor run -p datasets/frontier-cs-algorithm \
     -a claude-code -m "anthropic/claude-opus-4-6"
 
 # Resume a previously-started job
-uv run harbor job resume -p /path/to/jobs/<id>
+uv run --project src/frontier-cs-algorithm harbor job resume -p /path/to/jobs/<id>
 ```
 
 Results are written under `jobs/` by default (override via `jobs_dir` in the
@@ -151,10 +152,10 @@ YAML config).
 
 ```bash
 # Single task with the oracle
-uv run harbor trial start -p datasets/frontier-cs-algorithm/frontier-cs-algorithm-0
+uv run --project src/frontier-cs-algorithm harbor trial start -p datasets/frontier-cs-algorithm/frontier-cs-algorithm-0
 
 # Single task with a specific agent/model pair
-uv run harbor trial start -p datasets/frontier-cs-algorithm/frontier-cs-algorithm-0 \
+uv run --project src/frontier-cs-algorithm harbor trial start -p datasets/frontier-cs-algorithm/frontier-cs-algorithm-0 \
     -a claude-code -m "anthropic/claude-opus-4-6"
 ```
 
@@ -163,16 +164,16 @@ Trial outputs land in `trials/` by default (override via `--trials-dir`).
 ## Usage: Create Task Directories
 
 ```bash
-cd adapters/frontier-cs-algorithm
-uv run frontier-cs-algorithm \
+# From the adapters repository root
+uv run --project src/frontier-cs-algorithm frontier-cs-algorithm \
     --source https://github.com/FrontierCS/Frontier-CS.git \
-    --output-dir ../../datasets/frontier-cs-algorithm
+    --output-dir datasets/frontier-cs-algorithm
 ```
 
 Available flags:
 
 - `--output-dir` — Directory to write generated tasks (defaults to
-  `datasets/frontier-cs-algorithm` at the repo root).
+  `datasets/frontier-cs-algorithm` relative to the current working directory).
 - `--limit` — Generate only the first N tasks.
 - `--overwrite` — Overwrite existing task directories.
 - `--task-ids` — Only generate the listed Frontier-CS problem IDs.
@@ -231,12 +232,11 @@ and the variance discussion.
   agent through `harbor run`:
 
   ```bash
-  cd adapters/frontier-cs-algorithm
-  uv run frontier-cs-algorithm \
+  # From the adapters repository root
+  uv run --project src/frontier-cs-algorithm frontier-cs-algorithm \
       --source https://github.com/FrontierCS/Frontier-CS.git \
-      --output-dir ../../datasets/frontier-cs-algorithm
-  cd ../..
-  uv run harbor run -c adapters/frontier-cs-algorithm/run_frontier-cs-algorithm.yaml \
+      --output-dir datasets/frontier-cs-algorithm
+  uv run --project src/frontier-cs-algorithm harbor run -c src/frontier-cs-algorithm/run_frontier-cs-algorithm.yaml \
       -a claude-code -m "anthropic/claude-opus-4-6"
   ```
 
@@ -313,15 +313,14 @@ The Hugging Face parity artifacts for this adapter are tracked at
 ## Installation / Prerequisites
 
 ```bash
-cd adapters/frontier-cs-algorithm
-uv sync
+# From the adapters repository root
+uv sync --project src/frontier-cs-algorithm --python 3.12 --locked
 ```
 
 You also need:
 
 - Docker with the daemon running.
-- `harbor` CLI installed and on `PATH` (run `uv sync --all-extras --dev`
-  from the repo root, or `uv tool install harbor`).
+- Python 3.12+; Harbor 0.23.0 is included in the adapter dependencies above.
 - An `ANTHROPIC_API_KEY` (or your provider's equivalent) for parity runs
   with `claude-code`.
 

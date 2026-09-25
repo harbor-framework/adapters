@@ -7,15 +7,12 @@ import sys
 from pathlib import Path
 from typing import Iterable
 
-# Ensure repo root is importable BEFORE importing adapter
+# Ensure this project's modules are importable before importing adapter.
 SCRIPT_DIR = Path(__file__).resolve().parent
-REPO_ROOT = SCRIPT_DIR.parent.parent
-if str(REPO_ROOT) not in sys.path:
-    sys.path.insert(0, str(REPO_ROOT))
+if str(SCRIPT_DIR) not in sys.path:
+    sys.path.insert(0, str(SCRIPT_DIR))
 
 from adapter import LLMSRBenchAdapter  # noqa: E402
-
-HARBOR_ROOT = Path(__file__).resolve().parent.parent.parent
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 logger = logging.getLogger(__name__)
@@ -23,8 +20,8 @@ logger = logging.getLogger(__name__)
 
 def _default_output_dir(split: str = "full") -> Path:
     if split == "parity":
-        return HARBOR_ROOT / "datasets" / "llmsr-bench-parity"
-    return HARBOR_ROOT / "datasets" / "llmsr-bench"
+        return Path.cwd() / "datasets" / "llmsr-bench-parity"
+    return Path.cwd() / "datasets" / "llmsr-bench"
 
 
 def _read_ids_from_file(path: Path) -> list[str]:
@@ -324,19 +321,25 @@ def main() -> None:
     logger.info("NEXT STEPS")
     logger.info("=" * 70)
     logger.info("1. Test oracle solutions (ALL tasks should pass):")
-    logger.info(f"   cd {HARBOR_ROOT}")
+    logger.info(f"   cd {Path.cwd()}")
     if args.split == "parity":
-        logger.info("   harbor run -p datasets/llmsr-bench-parity -a oracle")
+        logger.info(
+            f'   uv run --project "{SCRIPT_DIR}" harbor run -p datasets/llmsr-bench-parity -a oracle'
+        )
     else:
-        logger.info("   harbor run -p datasets/llmsr-bench -a oracle")
+        logger.info(
+            f'   uv run --project "{SCRIPT_DIR}" harbor run -p datasets/llmsr-bench -a oracle'
+        )
     logger.info("")
     logger.info("2. Run with agent:")
     if args.split == "parity":
         logger.info(
-            "   harbor run -p datasets/llmsr-bench-parity -a agent -m gpt-4o-mini"
+            f'   uv run --project "{SCRIPT_DIR}" harbor run -p datasets/llmsr-bench-parity -a agent -m gpt-4o-mini'
         )
     else:
-        logger.info("   harbor run -p datasets/llmsr-bench -a agent -m gpt-4o-mini")
+        logger.info(
+            f'   uv run --project "{SCRIPT_DIR}" harbor run -p datasets/llmsr-bench -a agent -m gpt-4o-mini'
+        )
     logger.info("")
     logger.info("=" * 70)
 
