@@ -10,9 +10,7 @@ if __package__ in (None, ""):
 else:
     from .adapter import SWEBenchAdapter
 
-DEFAULT_OUTPUT_DIR = (
-    Path(__file__).resolve().parents[4] / "datasets" / "swebench-verified"
-)
+DEFAULT_OUTPUT_DIR = Path.cwd() / "datasets" / "swebench-verified"
 
 
 def main() -> None:

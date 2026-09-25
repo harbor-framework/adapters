@@ -58,7 +58,7 @@ datasets/swebench-verified/
 ```
 
 Each task corresponds to a single SWEBench instance.  
-The adapter template directory mirrors this layout under `harbor/adapters/swebench/src/swebench_adapter/task-template/`.
+The adapter template directory mirrors this layout under `src/swebench/src/swebench_adapter/task-template/`.
 
 ---
 
@@ -72,32 +72,32 @@ Simply run
 
 ```bash
 # Use oracle agent (reference solution)
-uv run harbor run -d swebench-verified
+uvx --from harbor==0.23.0 harbor run -d swebench-verified
 
 # Use your specified agent and model
-uv run harbor run -d swebench-verified -a <agent_name> -m "<model_name>"
+uvx --from harbor==0.23.0 harbor run -d swebench-verified -a <agent_name> -m "<model_name>"
 ```
 
-from the harbor root to evaluate on the entire dataset.
+from the adapters repository root to evaluate on the entire dataset.
 
 However, if you choose to prepare the task directories locally and/or with custom versions/subsets for evaluation, you may either use `harbor run` or `harbor trial`.
 
 ### Using Job Configurations
 ```bash
-uv run harbor run -c adapters/swebench/swebench.yaml -a <agent_name> -m "<model_name>"
+uvx --from harbor==0.23.0 harbor run -c src/swebench/swebench.yaml -a <agent_name> -m "<model_name>"
 ```
 
 Or without config:
 ```bash
-uv run harbor run -p datasets/swebench-verified -a <agent_name> -m "<model_name>"
+uvx --from harbor==0.23.0 harbor run -p datasets/swebench-verified -a <agent_name> -m "<model_name>"
 ```
 
 Results will appear under `jobs/` by default.
 
 ### Running Individual Trials
 ```bash
-uv run harbor trial start -p datasets/swebench-verified/<task_id> -a oracle
-uv run harbor trial start -p datasets/swebench-verified/<task_id> -a <agent> -m "<model>"
+uvx --from harbor==0.23.0 harbor trial start -p datasets/swebench-verified/<task_id> -a oracle
+uvx --from harbor==0.23.0 harbor trial start -p datasets/swebench-verified/<task_id> -a <agent> -m "<model>"
 ```
 
 ---
@@ -105,19 +105,19 @@ uv run harbor trial start -p datasets/swebench-verified/<task_id> -a <agent> -m 
 ## Usage: Create Task Directories
 
 ```bash
-cd adapters/swebench
+# From the adapters repository root
 
 # Generate all instances
-uv run swebench
+uv run --project src/swebench swebench
 
 # Generate a subset
-uv run swebench --limit 10
+uv run --project src/swebench swebench --limit 10
 
 # Generate a single instance
-uv run swebench --instance-id django__django-13741
+uv run --project src/swebench swebench --instance-id django__django-13741
 ```
 
-Tasks are written under `datasets/swebench-verified/`, one directory per task.
+Tasks are written under `datasets/swebench-verified/` relative to the current working directory, one directory per task.
 
 ---
 
@@ -159,7 +159,7 @@ Reproduction commands for the Harbor side of this full-run parity experiment are
 OPENAI_API_BASE="http://pp-api-ec82a10d0c5d226c.elb.us-west-2.amazonaws.com:3000/v1"
 OPENAI_BASE_URL="$OPENAI_API_BASE"
 
-uv run harbor run \
+uvx --from harbor==0.23.0 harbor run \
   -d swebench-verified \
   --registry-path /Users/kevin/Dev/harbor/registry.json \
   -a mini-swe-agent \
@@ -210,13 +210,10 @@ During the full 500-task Oracle sweep on Daytona, we also observed three additio
 
 - Docker (required)
 - Python ≥ 3.13  
-- Harbor and dependencies installed:
+- Harbor CLI available through `uvx --from harbor==0.23.0 harbor`.
+- Adapter and SWE-bench harness dependencies, installed from the adapters repository root:
   ```bash
-  uv sync --extra dev
-  ```
-- SWE-bench harness library:
-  ```bash
-  pip install "swebench>=4.1.0"
+  uv sync --project src/swebench
   ```
 
 ---

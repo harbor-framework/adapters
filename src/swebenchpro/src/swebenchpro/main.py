@@ -10,7 +10,7 @@ if __package__ in (None, ""):
 else:
     from .adapter import SWEBenchProAdapter
 
-DEFAULT_TASK_DIR = Path(__file__).resolve().parents[4] / "datasets" / "swebenchpro"
+DEFAULT_TASK_DIR = Path.cwd() / "datasets" / "swebenchpro"
 
 
 def main() -> None:

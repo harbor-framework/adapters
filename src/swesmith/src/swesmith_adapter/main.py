@@ -9,7 +9,7 @@ if __package__ in (None, ""):
 else:
     from .adapter import SWESmithAdapter
 
-DEFAULT_OUTPUT_DIR = Path(__file__).resolve().parents[4] / "datasets" / "swesmith"
+DEFAULT_OUTPUT_DIR = Path.cwd() / "datasets" / "swesmith"
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 

@@ -12,9 +12,7 @@ else:
     from .adapter import SWEBenchMultilingualAdapter
     from .utils import get_language_from_repo
 
-DEFAULT_OUTPUT_DIR = (
-    Path(__file__).resolve().parents[4] / "datasets" / "swebench_multilingual"
-)
+DEFAULT_OUTPUT_DIR = Path.cwd() / "datasets" / "swebench_multilingual"
 
 
 def main() -> None:

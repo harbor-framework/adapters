@@ -15,7 +15,7 @@ else:
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 logger = logging.getLogger(__name__)
 
-DEFAULT_OUTPUT_DIR = Path(__file__).resolve().parents[4] / "datasets" / "sldbench"
+DEFAULT_OUTPUT_DIR = Path.cwd() / "datasets" / "sldbench"
 
 
 def main() -> None:

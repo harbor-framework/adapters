@@ -78,7 +78,7 @@ sldbench/
 The adapter code directory is structured as follows:
 
 ```bash
-harbor/adapters/sldbench/
+src/sldbench/
 ├── README.md
 ├── adapter_metadata.json
 ├── parity_experiment.json
@@ -117,14 +117,14 @@ Harbor Registry & Datasets makes running adapter evaluation easy and flexible.
 
 ### Running with Datasets Registry
 
-Simply run the following from the harbor root to evaluate on the entire dataset:
+Simply run the following from the adapters repository root, with your local `registry.json`, to evaluate on the entire dataset:
 
 ```bash
 # Use oracle agent (reference solution)
-uv run harbor run -d sldbench@1.0 --registry-path registry.json
+uvx --from harbor==0.23.0 harbor run -d sldbench@1.0 --registry-path registry.json
 
 # Use your specified agent and model
-uv run harbor run -d sldbench@1.0 --registry-path registry.json -a <agent_name> -m "<model_name>"
+uvx --from harbor==0.23.0 harbor run -d sldbench@1.0 --registry-path registry.json -a <agent_name> -m "<model_name>"
 ```
 
 ### Using Job Configurations
@@ -133,7 +133,7 @@ If you created your task directories locally (e.g., `datasets/sldbench`), then y
 
 ```bash
 # Run a job with locally prepared dataset path
-uv run harbor run -p datasets/sldbench -a <agent_name> -m "<model_name>"
+uvx --from harbor==0.23.0 harbor run -p datasets/sldbench -a <agent_name> -m "<model_name>"
 ```
 
 ### Running Individual Trials
@@ -142,24 +142,25 @@ For quick testing or debugging a single task:
 
 ```bash
 # Run a single trial with oracle (pre-written solution)
-uv run harbor trial start -p datasets/sldbench/<task_name>
+uvx --from harbor==0.23.0 harbor trial start -p datasets/sldbench/<task_name>
 
 # Run a single trial with a specific agent and model
-uv run harbor trial start -p datasets/sldbench/<task_name> -a <agent_name> -m "<model_name>"
+uvx --from harbor==0.23.0 harbor trial start -p datasets/sldbench/<task_name> -a <agent_name> -m "<model_name>"
 ```
 
 ## Usage: Create Task Directories
 
 ```bash
-# From adapter directory
-cd adapters/sldbench
+# From the adapters repository root
 
 # Generates all 8 tasks by default
-uv run sldbench --output-dir ../../datasets/sldbench
+uv run --project src/sldbench sldbench --output-dir datasets/sldbench
 
 # Generate specific tasks only
-uv run sldbench --task-names vocab_scaling_law,sft_scaling_law
+uv run --project src/sldbench sldbench --task-names vocab_scaling_law,sft_scaling_law
 ```
+
+The default output directory is `datasets/sldbench`, relative to the current working directory.
 
 ## Comparison with Original Benchmark (Parity)
 
@@ -195,24 +196,22 @@ To reproduce these parity results:
 4. Execute 5 runs across all 8 tasks (40 total runs)
 
 **Harbor Adapter:**
-1. Ensure Harbor is installed and dependencies are set up:
+1. Install the adapter dependencies:
    ```bash
-   cd harbor
-   uv sync --extra dev
+   # From the adapters repository root
+   uv sync --project src/sldbench
    ```
 2. Set required API keys:
    ```bash
    export ANTHROPIC_API_KEY="your-api-key-here"
    ```
-3. Generate tasks from the adapter directory:
+3. Generate tasks from the adapters repository root:
    ```bash
-   cd adapters/sldbench
-   uv run sldbench --output-dir ../../datasets/sldbench
+   uv run --project src/sldbench sldbench --output-dir datasets/sldbench
    ```
 4. Run the evaluation job:
    ```bash
-   cd ../..
-   uv run harbor run -d sldbench -a claude-code -m "claude-haiku-4-5"
+   uvx --from harbor==0.23.0 harbor run -d sldbench -a claude-code -m "claude-haiku-4-5"
    ```
 5. Extract R² scores from job results and compare with Terminal-Bench values
 
@@ -232,10 +231,10 @@ To reproduce these parity results:
 ## Installation / Prerequisites
 
 - **Docker**: Docker must be installed and running
-- **Harbor**: Harbor must be installed and configured (see main repository README)
-- **Python Environment**: Install dependencies from the harbor root directory:
+- **Harbor**: Use the CLI through `uvx --from harbor==0.23.0 harbor`.
+- **Python Environment**: Python 3.11+; install the adapter from the adapters repository root:
   ```bash
-  uv sync --extra dev
+  uv sync --project src/sldbench
   ```
 - **API Keys**: Export environment variables for your chosen agent and model:
   ```bash

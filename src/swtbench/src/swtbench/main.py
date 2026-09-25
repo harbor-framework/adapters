@@ -9,8 +9,7 @@ from .adapter import SWTBenchAdapter
 from .adapter_utils.dataset import load_swebench_dataset
 from datasets import load_dataset
 
-T_BENCH_ROOT = Path(__file__).resolve().parents[4]
-DEFAULT_OUTPUT_DIR = T_BENCH_ROOT / "datasets" / "swtbench-verified"
+DEFAULT_OUTPUT_DIR = Path.cwd() / "datasets" / "swtbench-verified"
 SWTBench_REPO_URL = "https://github.com/logic-star-ai/swt-bench.git"
 
 # Configure logging for this runner script
