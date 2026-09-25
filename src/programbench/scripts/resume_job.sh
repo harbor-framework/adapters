@@ -17,7 +17,7 @@
 # original `harbor run`, so resume does not need them on the CLI.
 #
 # Usage:
-#   adapters/programbench/scripts/resume_job.sh <job_dir> [--filter-error TYPE ...]
+#   src/programbench/scripts/resume_job.sh <job_dir> [--filter-error TYPE ...]
 #
 # Examples:
 #   # Re-run every errored trial in the job
@@ -97,4 +97,4 @@ echo "JOB_DIR             = $JOB_DIR"
 echo "API_KEY set         = $([[ -n "${ANTHROPIC_API_KEY:-}" ]] && echo yes || echo NO)"
 echo "----------------------------------------------------------------------"
 
-exec uv run harbor jobs resume -p "$JOB_DIR" -y
+exec uvx --from harbor==0.23.0 harbor jobs resume -p "$JOB_DIR" -y

@@ -9,7 +9,7 @@
 #     into the agent sandbox via --ae
 #
 # Usage:
-#   adapters/programbench/scripts/run_full_opus47.sh [extra harbor args...]
+#   src/programbench/scripts/run_full_opus47.sh [extra harbor args...]
 #
 # Overridable knobs (env):
 #   ENV_FILE   — path to the dotenv file (default ./.env)
@@ -19,7 +19,7 @@ set -euo pipefail
 cd "$(git rev-parse --show-toplevel)"
 
 ENV_FILE="${ENV_FILE:-./.env}"
-CONFIG="${CONFIG:-adapters/programbench/configs/run_programbench_full_opus47_docker.yaml}"
+CONFIG="${CONFIG:-src/programbench/configs/run_programbench_full_opus47_docker.yaml}"
 JOB_NAME="${JOB_NAME:-programbench-opus47-full-$(date +%Y%m%d-%H%M%S)}"
 
 if [[ ! -f "$CONFIG" ]]; then
@@ -67,5 +67,5 @@ echo "gateway allowlisted = $([[ -n "$GATEWAY_HOST" ]] && echo yes || echo NO)"
 echo "API_KEY set         = $([[ -n "${ANTHROPIC_API_KEY:-}" ]] && echo yes || echo NO)"
 echo "----------------------------------------------------------------------"
 
-exec uv run harbor run -c "$CONFIG" --job-name "$JOB_NAME" \
+exec uvx --from harbor==0.23.0 harbor run -c "$CONFIG" --job-name "$JOB_NAME" \
     "${ALLOW_HOST_ARGS[@]}" "${AE_ARGS[@]}" -y "$@"

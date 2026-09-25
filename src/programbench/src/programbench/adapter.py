@@ -14,10 +14,9 @@ import yaml
 logger = logging.getLogger(__name__)
 
 TEMPLATE_DIR = Path(__file__).resolve().parent / "task-template"
-HARBOR_ROOT = Path(__file__).resolve().parents[4]
 DEFAULT_PROGRAMBENCH_ROOT = Path.home() / "ProgramBench"
 PROGRAMBENCH_REPO_URL = "https://github.com/facebookresearch/ProgramBench.git"
-DEFAULT_OUTPUT_DIR = HARBOR_ROOT / "datasets" / "programbench"
+DEFAULT_OUTPUT_DIR = Path("datasets") / "programbench"
 DEFAULT_HF_REPO_ID = "programbench/ProgramBench-Tests"
 DEFAULT_HF_REVISION = "de0ddfb637590c7ecb54fa0b5301f6dc7dfbcee5"
 # Upstream ProgramBench v6 images on Docker Hub (OCI-compatible with Modal).

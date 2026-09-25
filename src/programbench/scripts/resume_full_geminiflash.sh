@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Resume launcher for the FULL ProgramBench gemini-3-flash run. Wraps the
-# generic adapters/programbench/scripts/resume_job.sh:
+# generic src/programbench/scripts/resume_job.sh:
 #
 #   - sources git-ignored .env for the gateway key + base URL
 #   - derives the gateway host from OPENAI_API_BASE and merges it into the
@@ -15,7 +15,7 @@
 # 2026-06-26 full run). Override with --filter-error or pass nothing extra.
 #
 # Usage:
-#   adapters/programbench/scripts/resume_full_geminiflash.sh <job_dir> \
+#   src/programbench/scripts/resume_full_geminiflash.sh <job_dir> \
 #       [--filter-error TYPE ...]
 #
 # Examples:
@@ -80,4 +80,4 @@ echo "API_KEY set         = $([[ -n "${OPENAI_API_KEY:-}" ]] && echo yes || echo
 echo "filters             = $*"
 echo "----------------------------------------------------------------------"
 
-exec adapters/programbench/scripts/resume_job.sh "$JOB_DIR" "$@"
+exec src/programbench/scripts/resume_job.sh "$JOB_DIR" "$@"

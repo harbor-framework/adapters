@@ -10,7 +10,7 @@
 # generates).
 #
 # Usage:
-#   adapters/programbench/scripts/generate_all.sh [extra programbench-adapter args...]
+#   src/programbench/scripts/generate_all.sh [extra programbench-adapter args...]
 #
 # Override knobs:
 #   --split <full|pilot|parity>        Default: full (200 tasks → datasets/programbench/)
@@ -25,7 +25,7 @@ set -euo pipefail
 
 ORIG_CWD="$(pwd)"
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")"/../../.. && pwd)"
-ADAPTER_DIR="${REPO_ROOT}/adapters/programbench"
+ADAPTER_DIR="${REPO_ROOT}/src/programbench"
 
 SPLIT="full"
 OUTPUT_DIR=""

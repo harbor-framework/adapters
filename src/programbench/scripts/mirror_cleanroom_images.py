@@ -19,7 +19,7 @@ import sys
 import time
 from pathlib import Path
 
-DEFAULT_LOG = Path("adapters/programbench/mirror_progress.jsonl")
+DEFAULT_LOG = Path("src/programbench/mirror_progress.jsonl")
 DEFAULT_PREFIX = "bencalvert04"
 UPSTREAM_PREFIX = "programbench"
 DEFAULT_TAG = "task_cleanroom_v6"

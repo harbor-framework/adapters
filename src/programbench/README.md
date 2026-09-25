@@ -55,8 +55,8 @@ ProgramBench is a cleanroom program-reconstruction benchmark from Meta: agents r
 After the required `harbor-datasets` PR is merged and the Harbor team publishes the dataset, use the registry as the primary interface:
 
 ```bash
-uv run harbor run -d programbench/programbench
-uv run harbor run -d programbench/programbench -a <agent_name> -m "<model_name>"
+uvx --from harbor==0.23.0 harbor run -d programbench/programbench
+uvx --from harbor==0.23.0 harbor run -d programbench/programbench -a <agent_name> -m "<model_name>"
 ```
 
 The dataset is not registered yet, so use the local development workflow below until publication.
@@ -66,27 +66,27 @@ The dataset is not registered yet, so use the local development workflow below u
 Prerequisites: Docker with linux/amd64 support, and Modal credentials if you run on Modal. A local [ProgramBench](https://github.com/facebookresearch/ProgramBench) checkout is optional — if `--programbench-root` is omitted, the adapter uses `~/ProgramBench` when present, otherwise shallow-clones the upstream repo.
 
 ```bash
-cd adapters/programbench
-uv sync
+# From the adapters repository root
+uv sync --project src/programbench
 
 # Generate Harbor tasks (auto-clones ProgramBench when needed)
-uv run programbench-adapter \
-  --output-dir ../../datasets/programbench \
+uv run --project src/programbench programbench-adapter \
+  --output-dir datasets/programbench \
   --split full \
   --overwrite
 
 # Or point at an existing checkout
-uv run programbench-adapter \
+uv run --project src/programbench programbench-adapter \
   --programbench-root ~/ProgramBench \
-  --output-dir ../../datasets/programbench \
+  --output-dir datasets/programbench \
   --split full \
   --overwrite
 
 # Standard Harbor oracle check (Docker)
-uv run harbor run -p datasets/programbench -a oracle -e docker -y
+uvx --from harbor==0.23.0 harbor run -p datasets/programbench -a oracle -e docker -y
 
 # Equivalent reproducible configuration (oracle is the default agent)
-uv run harbor run -c adapters/programbench/run_programbench.yaml -y
+uvx --from harbor==0.23.0 harbor run -c src/programbench/run_programbench.yaml -y
 ```
 
 **Image defaults.** Generated `task.toml` and Dockerfiles reference `programbench/<task>:task_cleanroom_v6` — OCI-compatible cleanroom images published by ProgramBench. Override with `--image-prefix`, `--cleanroom-tag`, or `--task-tag` if needed.
@@ -119,7 +119,7 @@ To push patched images:
 
 ```bash
 # From repo root
-python adapters/programbench/scripts/mirror_cleanroom_images.py
+python src/programbench/scripts/mirror_cleanroom_images.py
 ```
 
 When ProgramBench merges an upstream fix, remove that task from `IMAGE_PATCHES` / `MIRROR_PATCHED_INSTANCE_IDS`, regenerate with `programbench-adapter --overwrite --task-ids <instance_id>`, and stop mirroring it.
@@ -216,16 +216,17 @@ programbench/
 ## Usage: Create Task Directories
 
 ```bash
+# From the adapters repository root; output paths are relative to the current directory
 # Auto-clone ProgramBench when no local checkout is available
-uv run programbench-adapter \
-  --output-dir ../../datasets/programbench \
+uv run --project src/programbench programbench-adapter \
+  --output-dir datasets/programbench \
   --split full \
   --overwrite
 
 # Or reuse an existing checkout
-uv run programbench-adapter \
+uv run --project src/programbench programbench-adapter \
   --programbench-root ~/ProgramBench \
-  --output-dir ../../datasets/programbench \
+  --output-dir datasets/programbench \
   --split full \
   --overwrite
 ```
@@ -271,7 +272,7 @@ The comparison below combines the published ProgramBench leaderboard value (upst
 To reproduce, run symmetrically on the upstream fork and Harbor with the pinned agent, model, prompts, environment variables, and timeouts. The Harbor-side command will use the published dataset or the local generated path, for example:
 
 ```bash
-uv run harbor run -p datasets/programbench -a <agent> -m "<model>"
+uvx --from harbor==0.23.0 harbor run -p datasets/programbench -a <agent> -m "<model>"
 ```
 
 Formal parity for this adapter version: **mini-SWE-agent (v2.3.0) + `openai/gpt-5.4`** on the full 200-task set, adapter (Harbor) vs the **published ProgramBench leaderboard** for the same model. Metric is per-task **test pass rate** - the mean fraction of active pytests passed (1 attempt per task).
@@ -533,7 +534,7 @@ Tasks still below 0.9 after triage are listed under [Tasks still below 0.9 oracl
 ## Installation / Prerequisites
 
 ```bash
-cd adapters/programbench
+cd src/programbench
 uv sync
 ```
 

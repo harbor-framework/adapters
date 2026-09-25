@@ -14,14 +14,14 @@
 #   OPENAI_API_BASE=<OpenAI-compatible gateway base URL>
 #
 # Generate the dataset first:
-#   cd adapters/programbench
-#   uv run programbench-adapter \
+#   cd /path/to/adapters
+#   uv run --project src/programbench programbench-adapter \
 #     --programbench-root ~/ProgramBench \
-#     --output-dir ../../datasets/programbench \
+#     --output-dir datasets/programbench \
 #     --split full --download-blobs --overwrite
 #
-# Invocation (from harbor-fresh root):
-#   adapters/programbench/scripts/run_full_geminiflash.sh
+# Invocation (from the adapters repository root):
+#   src/programbench/scripts/run_full_geminiflash.sh
 
 jobs_dir: jobs
 n_attempts: 1
@@ -46,7 +46,7 @@ agents:
     model_name: openai/gemini-3-flash-preview
     override_timeout_sec: 21600
     kwargs:
-      config_file: adapters/programbench/configs/programbench.yaml
+      config_file: src/programbench/configs/programbench.yaml
 
 datasets:
   - path: datasets/programbench
