@@ -52,7 +52,7 @@ autocodebench/
 The adapter code directory is structured as follows:
 
 ```
-harbor/adapters/autocodebench/
+adapters/src/autocodebench/
 ├── README.md
 ├── parity_experiment.json
 ├── run_autocodebench.yaml
@@ -78,26 +78,26 @@ Simply run
 
 ```bash
 # Use oracle agent (reference solution)
-uv run harbor run -d autocodebench@lite200 --registry-path registry.json
+uvx --from harbor==0.23.0 harbor run -d autocodebench@lite200 --registry-path /path/to/registry.json
 
 # Use your specified agent and model
-uv run harbor run -d autocodebench@lite200 --registry-path registry.json -a <agent_name> -m "<model_name>"
+uvx --from harbor==0.23.0 harbor run -d autocodebench@lite200 --registry-path /path/to/registry.json -a <agent_name> -m "<model_name>"
 ```
 
-from the harbor root to evaluate on the entire dataset.
+from the adapters repository root to evaluate on the entire dataset.
 
 ### Using Job Configurations
 If you created your task directories locally (e.g., `datasets/autocodebench`), then you may find these scripts helpful:
 
 ```bash
 # From the repository root, run with an example configuration yaml
-uv run harbor run -c adapters/autocodebench/run_autocodebench.yaml -a <agent_name> -m "<model_name>"
+uvx --from harbor==0.23.0 harbor run -c src/autocodebench/run_autocodebench.yaml -a <agent_name> -m "<model_name>"
 
 # Or run a job without configuration yaml but instead with locally prepared dataset path
-uv run harbor run -p datasets/autocodebench -a <agent_name> -m "<model_name>"
+uvx --from harbor==0.23.0 harbor run -p datasets/autocodebench -a <agent_name> -m "<model_name>"
 
 # Resume a previously started job
-uv run harbor run -p /path/to/jobs/directory --resume
+uvx --from harbor==0.23.0 harbor run -p /path/to/jobs/directory --resume
 ```
 
 Results are saved in the `jobs/` directory by default (configurable via `jobs_dir` in the YAML config).
@@ -108,10 +108,10 @@ For quick testing or debugging a single task:
 
 ```bash
 # Run a single trial with oracle (pre-written solution)
-uv run harbor trials start -p datasets/autocodebench/<task_id>
+uvx --from harbor==0.23.0 harbor trials start -p datasets/autocodebench/<task_id>
 
 # Run a single trial with a specific agent and model
-uv run harbor trials start -p datasets/autocodebench/<task_id> -a <agent_name> -m "<model_name>"
+uvx --from harbor==0.23.0 harbor trials start -p datasets/autocodebench/<task_id> -a <agent_name> -m "<model_name>"
 ```
 
 Trial outputs are saved in the `trials/` directory by default (configurable via `--trials-dir`).
@@ -119,14 +119,13 @@ Trial outputs are saved in the `trials/` directory by default (configurable via 
 ## Usage: Create Task Directories
 
 ```bash
-# From adapter directory
-cd adapters/autocodebench
+# From the adapters repository root
 
 # Run the packaged CLI
-uv run autocodebench
+uv run --project src/autocodebench autocodebench
 ```
 
-Tasks are written to `datasets/autocodebench/` with one directory per task. The script downloads the `tencent/AutoCodeBenchmark` (subset `autocodebench_lite`, ~1,000 problems) from HuggingFace by default and extracts the first 10 tasks per language (20 languages × 10 = 200 total) to create the AutoCodeBench-Lite200 set. You can adjust the number of tasks per language with `--max-per-language`. You can also use `--jsonl` to specify a local JSONL file instead of downloading from HuggingFace.
+Tasks are written to `datasets/autocodebench/` relative to the current working directory, with one directory per task. The script downloads the `tencent/AutoCodeBenchmark` (subset `autocodebench_lite`, ~1,000 problems) from HuggingFace by default and extracts the first 10 tasks per language (20 languages × 10 = 200 total) to create the AutoCodeBench-Lite200 set. You can adjust the number of tasks per language with `--max-per-language`. You can also use `--jsonl` to specify a local JSONL file instead of downloading from HuggingFace.
 
 ## Comparison with Original Benchmark (Parity)
 To ensure our implementation is valid, i.e., **running the benchmark inside harbor using the adapter is equivalent to running it using the original harness**, we run parity experiments on both sides to see if the achieved scores are comparable with the same set of agents+ models.
@@ -168,8 +167,8 @@ These results demonstrate **perfect parity** across both stages, confirming that
 
 1. Ensure Harbor is installed and environment variables are set:
    ```bash
-   # From harbor root directory
-   uv sync --extra dev
+   # Install the Harbor CLI used by the evaluation command
+   uv tool install harbor==0.23.0
 
    # Set API keys
    export DEEPSEEK_API_KEY="your-key-here"
@@ -177,7 +176,7 @@ These results demonstrate **perfect parity** across both stages, confirming that
 
 2. Run the Harbor evaluation:
    ```bash
-   uv run harbor run -p datasets/autocodebench -a openhands -m deepseek/deepseek-chat -n 10 --n-attempts 3
+   uvx --from harbor==0.23.0 harbor run -p datasets/autocodebench -a openhands -m deepseek/deepseek-chat -n 10 --n-attempts 3
    ```
 
 3. Compare the pass rate from the job output with the Terminal-Bench results
@@ -199,10 +198,10 @@ These results demonstrate **perfect parity** across both stages, confirming that
 ## Installation / Prerequisites
 
 - **Docker**: Docker must be installed and running
-- **Harbor**: Harbor must be installed and configured (see main repository README)
-- **Python Environment**: Install dependencies from the harbor root directory:
+- **Harbor**: Evaluation commands use `uvx --from harbor==0.23.0`.
+- **Python Environment**: Install adapter dependencies from the adapters repository root:
   ```bash
-  uv sync --extra dev
+  uv sync --project src/autocodebench
   ```
 - **API Keys**: Export environment variables for your chosen agent and model:
   ```bash

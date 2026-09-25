@@ -2,8 +2,7 @@
 Main CLI entrypoint for the BFCL adapter.
 
 Usage:
-    cd adapters/bfcl
-    uv run bfcl --clone-bfcl --output-dir ../../datasets/bfcl
+    uv run --project src/bfcl bfcl --clone-bfcl --output-dir datasets/bfcl
 """
 
 from __future__ import annotations
@@ -19,7 +18,7 @@ from .adapter import BfclAdapter
 
 BFCL_REPO_URL = "https://github.com/ShishirPatil/gorilla.git"
 
-DEFAULT_OUTPUT_DIR = Path(__file__).resolve().parents[4] / "datasets" / "bfcl"
+DEFAULT_OUTPUT_DIR = Path("datasets") / "bfcl"
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 logger = logging.getLogger(__name__)

@@ -20,11 +20,11 @@ Run the complete split on all tasks using `codex`:
 
 To install Harbor before using harbor command:
 ```bash
-pip install harbor
+pip install harbor==0.23.0
 ```
 
 ```bash
-uv run harbor run \
+uvx --from harbor==0.23.0 harbor run \
   --agent "codex" \
   --model "gpt-5-mini-2025-08-07" \
   --dataset bigcodebench_hard_complete
@@ -32,7 +32,7 @@ uv run harbor run \
 
 Run a specific task using `codex`:
 ```bash
-uv run harbor run \
+uvx --from harbor==0.23.0 harbor run \
   --agent "codex" \
   --model "gpt-5-mini-2025-08-07" \
   --dataset bigcodebench_hard_complete \
@@ -41,14 +41,14 @@ uv run harbor run \
 
 Run the complete split on oracle:
 ```bash
-uv run harbor run \
+uvx --from harbor==0.23.0 harbor run \
   --agent oracle \
   --dataset bigcodebench_hard_complete
 ```
 
 Run the instruct split on oracle:
 ```bash
-uv run harbor run \
+uvx --from harbor==0.23.0 harbor run \
   --agent oracle \
   --dataset bigcodebench_hard_instruct
 ```
@@ -63,7 +63,7 @@ with
 ```
 for the commands above to use customized paths.
 
-**Note**: Typically, in order to use the adapter for harness, one do not need to run the adapter code (i.e., `uv run bigcodebench_hard`) to prepare the task directories; however, if you want to see how task preparation works or customize task directories, you may follow the Usage section below.
+**Note**: Typically, in order to use the adapter for harness, one do not need to run the adapter code (i.e., `uv run --project src/bigcodebench_hard bigcodebench_hard`) to prepare the task directories; however, if you want to see how task preparation works or customize task directories, you may follow the Usage section below.
 
 ## Usage
 
@@ -72,13 +72,15 @@ for the commands above to use customized paths.
 Convert all BigCodeBench-Hard tasks to Harbor format:
 
 ```bash
-uv run bigcodebench_hard
+# From the adapters repository root
+uv sync --project src/bigcodebench_hard
+uv run --project src/bigcodebench_hard bigcodebench_hard
 ```
 
 ### Command-Line Options
 
 ```bash
-uv run bigcodebench_hard [OPTIONS]
+uv run --project src/bigcodebench_hard bigcodebench_hard [OPTIONS]
 ```
 
 #### Options:
@@ -89,34 +91,34 @@ uv run bigcodebench_hard [OPTIONS]
 
 - `--limit N`: Limit the number of tasks to convert (useful for testing)
   ```bash
-  uv run bigcodebench_hard --limit 10
+  uv run --project src/bigcodebench_hard bigcodebench_hard --limit 10
   ```
 
 - `--task-ids ID1 ID2 ...`: Convert specific task IDs only
   ```bash
-  uv run bigcodebench_hard --task-ids "BigCodeBench/13" "BigCodeBench/15"
+  uv run --project src/bigcodebench_hard bigcodebench_hard --task-ids "BigCodeBench/13" "BigCodeBench/15"
   ```
 
-- `--output-dir PATH`: Specify custom output directory
+- `--output-dir PATH`: Specify custom output directory (default: `datasets/bigcodebench_hard_{split}` relative to the current working directory)
   ```bash
-  uv run bigcodebench_hard --output-dir /path/to/output
+  uv run --project src/bigcodebench_hard bigcodebench_hard --output-dir /path/to/output
   ```
 
 ### Examples
 
 1. Convert first 20 tasks using the instruct mode:
    ```bash
-   uv run bigcodebench_hard --split instruct --limit 20
+   uv run --project src/bigcodebench_hard bigcodebench_hard --split instruct --limit 20
    ```
 
 2. Convert specific tasks to a custom directory:
    ```bash
-   uv run bigcodebench_hard --task-ids "BigCodeBench/13" --output-dir ./my-tasks
+   uv run --project src/bigcodebench_hard bigcodebench_hard --task-ids "BigCodeBench/13" --output-dir ./my-tasks
    ```
 
 3. Convert all tasks with complete mode (default):
    ```bash
-   uv run bigcodebench_hard --output-dir ../../datasets/bigcodebench_hard_complete
+   uv run --project src/bigcodebench_hard bigcodebench_hard --output-dir datasets/bigcodebench_hard_complete
    ```
 
 ## Task Directory Structure

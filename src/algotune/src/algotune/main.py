@@ -28,7 +28,7 @@ else:
         setup_docker_calibration_env,
     )
 
-SANDBOX_ROOT = Path(__file__).resolve().parents[4]
+DEFAULT_OUTPUT_DIR = Path("datasets") / "algotune"
 ALGOTUNE_TASK_SUBDIR = "AlgoTuneTasks"
 DEFAULT_NUM_WORKERS = min(multiprocessing.cpu_count(), 4)  # Default parallel workers
 
@@ -101,7 +101,7 @@ def main() -> None:
         "--output-path",
         "--output-dir",
         type=str,
-        default=str(SANDBOX_ROOT / "datasets" / "algotune"),
+        default=str(DEFAULT_OUTPUT_DIR),
         help="Output directory for generated sandbox tasks.",
     )
     parser.add_argument(

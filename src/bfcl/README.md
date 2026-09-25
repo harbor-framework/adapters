@@ -88,7 +88,7 @@ bfcl-simple-python-{id}/
 Adapter code structure:
 
 ```
-harbor/adapters/bfcl/
+adapters/src/bfcl/
 ├── README.md
 ├── pyproject.toml
 ├── uv.lock
@@ -111,23 +111,23 @@ harbor/adapters/bfcl/
 
 ```bash
 # Use oracle agent (reference solution)
-uv run harbor run -d bfcl
+uvx --from harbor==0.23.0 harbor run -d bfcl
 
 # Use your specified agent and model
-uv run harbor run -d bfcl -a <agent_name> -m "<model_name>"
+uvx --from harbor==0.23.0 harbor run -d bfcl -a <agent_name> -m "<model_name>"
 ```
 
 ### Using Job Configurations
 
 ```bash
 # From the repository root
-uv run harbor run -c adapters/bfcl/bfcl.yaml -a <agent_name> -m "<model_name>"
+uvx --from harbor==0.23.0 harbor run -c src/bfcl/bfcl.yaml -a <agent_name> -m "<model_name>"
 
 # Or run with locally prepared dataset path
-uv run harbor run -p datasets/bfcl -a <agent_name> -m "<model_name>"
+uvx --from harbor==0.23.0 harbor run -p datasets/bfcl -a <agent_name> -m "<model_name>"
 
 # Resume a previously started job
-uv run harbor job resume -p /path/to/jobs/directory
+uvx --from harbor==0.23.0 harbor job resume -p /path/to/jobs/directory
 ```
 
 Results are saved in the `jobs/` directory by default (configurable via `jobs_dir` in the YAML config).
@@ -138,10 +138,10 @@ For quick testing or debugging a single task:
 
 ```bash
 # Run a single task with oracle (pre-written solution)
-uv run harbor trial start -p datasets/bfcl/bfcl-simple-python-0
+uvx --from harbor==0.23.0 harbor trial start -p datasets/bfcl/bfcl-simple-python-0
 
 # Run a single task with a specific agent and model
-uv run harbor trial start -p datasets/bfcl/bfcl-simple-python-0 -a <agent_name> -m "<model_name>"
+uvx --from harbor==0.23.0 harbor trial start -p datasets/bfcl/bfcl-simple-python-0 -a <agent_name> -m "<model_name>"
 ```
 
 Run outputs are saved in the `trials/` directory by default (configurable via `--trials-dir`).
@@ -149,7 +149,7 @@ Run outputs are saved in the `trials/` directory by default (configurable via `-
 ## Usage: Create Task Directories
 
 ```bash
-cd adapters/bfcl
+cd src/bfcl
 
 # Generate all supported tasks (auto-clones BFCL repo)
 uv run bfcl \
@@ -185,6 +185,8 @@ uv run bfcl \
   --output-dir ../../datasets/bfcl_parity \
   --ids-file parity_sample_source_ids.txt
 ```
+
+The default output directory is `datasets/bfcl` relative to the current working directory.
 
 ## Task Format and Evaluation
 
@@ -292,12 +294,12 @@ python -m bfcl_eval evaluate --model codex-writefile-gpt-5-mini --partial-eval
 **On Harbor:**
 
 ```bash
-cd adapters/bfcl
+cd src/bfcl
 uv run bfcl --clone-bfcl \
   --output-dir ../../datasets/bfcl_parity \
   --ids-file parity_sample_source_ids.txt
 cd ../..
-uv run harbor run -p datasets/bfcl_parity -e docker -n 3 \
+uvx --from harbor==0.23.0 harbor run -p datasets/bfcl_parity -e docker -n 3 \
   -a codex -m "gpt-5-mini" --ak version=0.77.0
 ```
 
@@ -315,7 +317,8 @@ uv run harbor run -p datasets/bfcl_parity -e docker -n 3 \
 
 ## Installation / Prerequisites
 
-- **Harbor:** Installed and working (see main repository README)
+- **Harbor:** Evaluation commands use `uvx --from harbor==0.23.0`.
+- **Adapter dependencies:** `uv sync --project src/bfcl` from the adapters repository root.
 - **Docker:** Installed and running
 - **Python 3.12+:** For running the adapter
 - **BFCL Data:** Use `--clone-bfcl` or `--bfcl-root <path>`

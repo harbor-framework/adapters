@@ -11,7 +11,7 @@ if __package__ in (None, ""):
 else:
     from .adapter import BigCodeBenchHardAdapter
 
-HARBOR_ROOT = Path(__file__).resolve().parents[4]
+DEFAULT_OUTPUT_ROOT = Path("datasets")
 
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
@@ -68,7 +68,7 @@ def main():
     args = parser.parse_args()
 
     if args.output_dir is None:
-        args.output_dir = HARBOR_ROOT / "datasets" / f"bigcodebench_hard_{args.split}"
+        args.output_dir = DEFAULT_OUTPUT_ROOT / f"bigcodebench_hard_{args.split}"
 
     # Create adapter
     adapter = BigCodeBenchHardAdapter(

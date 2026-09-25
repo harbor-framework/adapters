@@ -23,7 +23,7 @@ except Exception:  # pragma: no cover - optional dependency
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 logger = logging.getLogger(__name__)
-DEFAULT_OUTPUT_DIR = Path(__file__).resolve().parents[4] / "datasets" / "autocodebench"
+DEFAULT_OUTPUT_DIR = Path("datasets") / "autocodebench"
 
 
 def main() -> None:

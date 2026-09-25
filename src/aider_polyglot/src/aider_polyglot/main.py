@@ -18,7 +18,7 @@ else:
 # Defaults
 DEFAULT_POLYGLOT_URL = "https://github.com/Aider-AI/polyglot-benchmark.git"
 AIDER_ROOT = Path(__file__).resolve().parents[2]
-HARBOR_ROOT = Path(__file__).resolve().parents[4]
+DEFAULT_OUTPUT_DIR = Path("datasets") / "aider_polyglot"
 
 # Logging
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
@@ -125,7 +125,7 @@ def main() -> None:
     parser.add_argument(
         "--output-dir",
         type=Path,
-        default=HARBOR_ROOT / "datasets" / "aider_polyglot",
+        default=DEFAULT_OUTPUT_DIR,
         help="Output directory for generated tasks",
     )
     parser.add_argument(
