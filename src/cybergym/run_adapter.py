@@ -4,7 +4,7 @@ import argparse
 import sys
 from pathlib import Path
 
-# Support running from repo root or from inside adapters/cybergym/
+# Support running from repo root or from inside src/cybergym/
 _ADAPTER_DIR = Path(__file__).resolve().parent
 _HARBOR_ROOT = _ADAPTER_DIR.parent.parent
 for _p in (_HARBOR_ROOT, _ADAPTER_DIR):
@@ -111,7 +111,7 @@ Examples:
         "--template-dir",
         type=Path,
         default=None,
-        help="Override the template directory (default: adapters/cybergym/template/).",
+        help="Override the template directory (default: src/cybergym/template/).",
     )
     parser.add_argument(
         "--data-dir",

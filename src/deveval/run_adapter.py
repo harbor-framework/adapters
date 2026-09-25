@@ -8,7 +8,6 @@ from pathlib import Path
 # Import the adapter
 from adapter import DevEvalAdapter
 
-T_BENCH_ROOT = Path(__file__).resolve().parent.parent.parent
 DEVEVAL_REPO_URL = "https://github.com/open-compass/DevEval.git"
 
 # Configure logging for this runner script
@@ -98,7 +97,7 @@ def main():
         "--output-dir",
         type=str,
         default=None,  # Default will be set later to datasets/deveval
-        help="Output directory for generated tasks (default: ../../datasets/deveval)",
+        help="Output directory for generated tasks (default: datasets/deveval, relative to cwd)",
     )
     args = parser.parse_args()
 
@@ -118,7 +117,7 @@ def main():
     if args.output_dir:
         task_dir = Path(args.output_dir)
     else:
-        task_dir = Path("../../datasets/deveval")
+        task_dir = Path("datasets/deveval")
 
     logger.info(f" adapter will output tasks to: {task_dir.resolve()}")
     task_dir.mkdir(parents=True, exist_ok=True)

@@ -1,7 +1,7 @@
 """Generate ACEBench tasks in Harbor format.
 
 Usage:
-    cd adapters/ace-bench
+    cd src/ace-bench
     python run_adapter.py --output-dir ../../datasets/ace-bench [options]
 """
 
@@ -21,7 +21,6 @@ from adapter import (
     SPECIAL_CATEGORIES,
 )
 
-HARBOR_ROOT = Path(__file__).resolve().parent.parent.parent
 ACE_BENCH_REPO = "https://github.com/chenchen0103/ACEBench.git"
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
@@ -62,8 +61,8 @@ Examples:
     parser.add_argument(
         "--output-dir",
         type=Path,
-        default=HARBOR_ROOT / "datasets" / "ace-bench",
-        help="Directory to write generated tasks (default: datasets/ace-bench)",
+        default=Path("datasets/ace-bench"),
+        help="Directory to write generated tasks (default: datasets/ace-bench, relative to cwd)",
     )
     parser.add_argument(
         "--repo-dir",

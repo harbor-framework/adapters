@@ -82,7 +82,7 @@ The 10-task subset (from CyberGym's [`download_subset.py`](https://github.com/su
 
 - Python 3.12+ with `datasets` and `huggingface_hub` packages
 - Docker Desktop running (required for `harbor run`)
-- Harbor installed in your environment (`pip install harbor`)
+- Harbor installed in your environment (`uv tool install harbor==0.23.0`)
 - An API key for whichever model provider you use
 
 ---
@@ -91,43 +91,43 @@ The 10-task subset (from CyberGym's [`download_subset.py`](https://github.com/su
 
 ### Generating Tasks
 
-Can be run from the **harbor repo root** or from **inside `adapters/cybergym/`**:
+Run these commands from the **adapters repo root**:
 
 Each difficulty level generates a **separate dataset directory** (e.g., `datasets/cybergym/level1/`, `datasets/cybergym/level3/`). The level controls which files the agent sees — verification is identical across all levels. Parity testing was done at level1 (primary), level2, and level3.
 
 ```bash
 # Generate the 10-task subset at level1 (default, primary evaluation level)
-python adapters/cybergym/run_adapter.py --output-dir datasets/cybergym --subset
+python src/cybergym/run_adapter.py --output-dir datasets/cybergym --subset
 
 # Generate at level3 (agent gets crash trace + patch + fixed source)
-python adapters/cybergym/run_adapter.py --output-dir datasets/cybergym --subset --difficulty level3
+python src/cybergym/run_adapter.py --output-dir datasets/cybergym --subset --difficulty level3
 
 # Generate the 9-task subset excluding the largest task (~100GB for oss-fuzz:385167047)
-python adapters/cybergym/run_adapter.py --output-dir datasets/cybergym --subset --exclude-task-ids oss-fuzz:385167047
+python src/cybergym/run_adapter.py --output-dir datasets/cybergym --subset --exclude-task-ids oss-fuzz:385167047
 
 # Generate all 1,507 tasks at level1
-python adapters/cybergym/run_adapter.py --output-dir datasets/cybergym
+python src/cybergym/run_adapter.py --output-dir datasets/cybergym
 ```
 
 Common options:
 
 ```bash
 # Only ARVO tasks
-python adapters/cybergym/run_adapter.py --output-dir datasets/cybergym --subset --task-type arvo
+python src/cybergym/run_adapter.py --output-dir datasets/cybergym --subset --task-type arvo
 
 # Only OSS-Fuzz tasks
-python adapters/cybergym/run_adapter.py --output-dir datasets/cybergym --subset --task-type oss-fuzz
+python src/cybergym/run_adapter.py --output-dir datasets/cybergym --subset --task-type oss-fuzz
 
 # Specific tasks by ID
-python adapters/cybergym/run_adapter.py --output-dir datasets/cybergym --task-ids arvo:1065 oss-fuzz:42535201
+python src/cybergym/run_adapter.py --output-dir datasets/cybergym --task-ids arvo:1065 oss-fuzz:42535201
 
 # Generate multiple levels (run the adapter once per level)
-python adapters/cybergym/run_adapter.py --output-dir datasets/cybergym --subset --difficulty level1
-python adapters/cybergym/run_adapter.py --output-dir datasets/cybergym --subset --difficulty level2
-python adapters/cybergym/run_adapter.py --output-dir datasets/cybergym --subset --difficulty level3
+python src/cybergym/run_adapter.py --output-dir datasets/cybergym --subset --difficulty level1
+python src/cybergym/run_adapter.py --output-dir datasets/cybergym --subset --difficulty level2
+python src/cybergym/run_adapter.py --output-dir datasets/cybergym --subset --difficulty level3
 
 # Limit output and overwrite existing tasks
-python adapters/cybergym/run_adapter.py --output-dir datasets/cybergym --limit 50 --overwrite
+python src/cybergym/run_adapter.py --output-dir datasets/cybergym --limit 50 --overwrite
 ```
 
 ### Adapter Options
@@ -248,7 +248,7 @@ The dual-binary check ensures the PoC targets the **specific** vulnerability tha
 Before running agents, confirm the oracle solution scores 1.0 on every task:
 
 ```bash
-harbor run -p datasets/cybergym/level1 --agent oracle --yes
+uvx --from harbor==0.23.0 harbor run -p datasets/cybergym/level1 --agent oracle --yes
 ```
 
 All tasks must score 1.0 before proceeding to agent experiments.
@@ -260,7 +260,7 @@ The oracle retrieves the ground truth PoC from the task-server sidecar via `GET 
 ```bash
 export ANTHROPIC_API_KEY="your-key-here"
 
-harbor trials start \
+uvx --from harbor==0.23.0 harbor trials start \
   -p datasets/cybergym/level1/cybergym_arvo_1065 \
   --agent openhands \
   --model anthropic/claude-haiku-4-5 \
@@ -285,7 +285,7 @@ Any Harbor-supported coding agent works — the adapter is agent-agnostic:
 | Gemini Cli | `--agent gemini-cli --model gemini/gemini-2.5-pro` |
 
 ```bash
-harbor run \
+uvx --from harbor==0.23.0 harbor run \
   -p datasets/cybergym/level1 \
   --agent openhands \
   --agent-kwarg python_version=3.12 \
@@ -303,7 +303,7 @@ harbor run \
 Or using the config file:
 
 ```bash
-harbor run -c adapters/cybergym/cybergym.yaml --yes
+uvx --from harbor==0.23.0 harbor run -c src/cybergym/cybergym.yaml --yes
 ```
 
 ### Running with Datasets Registry
@@ -322,7 +322,7 @@ The generated dataset is checked into [harbor-datasets](https://github.com/laude
 
 ```bash
 # Run directly from the registry
-harbor run -p datasets/cybergym/level1 --agent oracle --yes
+uvx --from harbor==0.23.0 harbor run -p datasets/cybergym/level1 --agent oracle --yes
 ```
 
 ### Running the Original Benchmark
@@ -380,7 +380,7 @@ huggingface-cli download sunblaze-ucb/cybergym \
 Pre-pull the vul/fix runner images for all 10 subset tasks (see [Disk Space](#disk-space) for sizes). The Harbor adapter's `--pull-images-only` flag can do this for you:
 
 ```bash
-python adapters/cybergym/run_adapter.py --output-dir datasets/cybergym --subset --pull-images-only
+python src/cybergym/run_adapter.py --output-dir datasets/cybergym --subset --pull-images-only
 ```
 
 See [Pre-pulling Runner Images](#pre-pulling-runner-images) for more options (parallelism, excluding large tasks).
@@ -551,10 +551,10 @@ Run-to-run variance is expected — CyberGym uses temperature=1.0 with extended 
 
 ```bash
 # Generate subset tasks at level1 (default)
-python adapters/cybergym/run_adapter.py --output-dir datasets/cybergym --subset
+python src/cybergym/run_adapter.py --output-dir datasets/cybergym --subset
 
 # Run with OpenHands agent
-harbor run \
+uvx --from harbor==0.23.0 harbor run \
   -p datasets/cybergym/level1 \
   --agent openhands \
   --agent-kwarg python_version=3.12 \
@@ -615,16 +615,16 @@ Each task needs 2 Docker runner images (vul + fix). These are pulled during `doc
 
 ```bash
 # Pre-pull images only (no task generation)
-python adapters/cybergym/run_adapter.py --output-dir datasets/cybergym --subset --pull-images-only
+python src/cybergym/run_adapter.py --output-dir datasets/cybergym --subset --pull-images-only
 
 # Exclude the largest task to save ~100GB
-python adapters/cybergym/run_adapter.py --output-dir datasets/cybergym --subset --pull-images-only --exclude-task-ids oss-fuzz:385167047
+python src/cybergym/run_adapter.py --output-dir datasets/cybergym --subset --pull-images-only --exclude-task-ids oss-fuzz:385167047
 
 # Control parallelism (default: 4 concurrent pulls)
-python adapters/cybergym/run_adapter.py --output-dir datasets/cybergym --subset --pull-images-only --pull-parallel 2
+python src/cybergym/run_adapter.py --output-dir datasets/cybergym --subset --pull-images-only --pull-parallel 2
 
 # Generate tasks + pull images in one step
-python adapters/cybergym/run_adapter.py --output-dir datasets/cybergym --subset --overwrite --pull-images
+python src/cybergym/run_adapter.py --output-dir datasets/cybergym --subset --overwrite --pull-images
 ```
 
 Already-cached images are skipped automatically.
@@ -693,7 +693,7 @@ The default LLM API hosts cover all 20+ Harbor agents (Claude Code, OpenHands, T
 ```bash
 # Standard usage — proxy hostname is auto-detected, no extra config needed
 export ANTHROPIC_BASE_URL="http://my-proxy.example.com:3000"
-harbor run --dataset cybergym --agent claude-code \
+uvx --from harbor==0.23.0 harbor run --dataset cybergym --agent claude-code \
   --ae ANTHROPIC_API_KEY=$ANTHROPIC_API_KEY \
   --ae ANTHROPIC_BASE_URL=$ANTHROPIC_BASE_URL
 ```
@@ -702,7 +702,7 @@ For env vars that don't follow the `*_URL` naming convention, use `ALLOWED_HOSTS
 
 ```bash
 export ALLOWED_HOSTS=custom-host.example.com
-harbor run --dataset cybergym ...
+uvx --from harbor==0.23.0 harbor run --dataset cybergym ...
 ```
 
 Multiple hosts can be comma-separated: `ALLOWED_HOSTS=host1.com,host2.com`. This also works via YAML config:

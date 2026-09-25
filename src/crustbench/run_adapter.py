@@ -10,8 +10,6 @@ from typing import Iterable
 
 from adapter import CRUSTBenchAdapter
 
-HARBOR_ROOT = Path(__file__).resolve().parent.parent.parent
-
 # CRUST-bench upstream repository (used only when --clone-crustbench is enabled)
 CRUSTBENCH_REPO_URL = "https://github.com/anirudhkhatry/CRUST-bench.git"
 
@@ -20,7 +18,7 @@ logger = logging.getLogger(__name__)
 
 
 def _default_output_dir() -> Path:
-    return HARBOR_ROOT / "datasets" / "crustbench"
+    return Path("datasets/crustbench")
 
 
 def _read_ids_from_file(path: Path) -> list[str]:
@@ -80,7 +78,7 @@ def _parse_args() -> argparse.Namespace:
         "--output-dir",
         type=Path,
         default=_default_output_dir(),
-        help="Directory to write generated tasks (defaults to datasets/crustbench)",
+        help="Directory to write generated tasks (defaults to datasets/crustbench, relative to cwd)",
     )
     parser.add_argument(
         "--task-ids",

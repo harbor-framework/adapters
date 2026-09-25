@@ -99,26 +99,26 @@ The agent writes a plain-text response to `/workspace/output.txt` containing spe
 ### Running with Datasets Registry
 
 ```bash
-harbor run -d acebench-normal -a claude-code -m "anthropic/claude-opus-4-1"
-harbor run -d acebench-special -a claude-code -m "anthropic/claude-opus-4-1"
+uvx --from harbor==0.23.0 harbor run -d acebench-normal -a claude-code -m "anthropic/claude-opus-4-1"
+uvx --from harbor==0.23.0 harbor run -d acebench-special -a claude-code -m "anthropic/claude-opus-4-1"
 ```
 
 ### Using Job Configurations
 
 ```bash
-# From harbor repo root
-harbor run -c adapters/ace-bench/ace-bench.yaml -a claude-code -m "anthropic/claude-opus-4-1"
+# From the adapters repo root
+uvx --from harbor==0.23.0 harbor run -c src/ace-bench/ace-bench.yaml -a claude-code -m "anthropic/claude-opus-4-1"
 
 # With locally prepared dataset
-harbor run -p datasets/acebench-normal -a claude-code -m "anthropic/claude-opus-4-1"
-harbor run -p datasets/acebench-special -a claude-code -m "anthropic/claude-opus-4-1"
+uvx --from harbor==0.23.0 harbor run -p datasets/acebench-normal -a claude-code -m "anthropic/claude-opus-4-1"
+uvx --from harbor==0.23.0 harbor run -p datasets/acebench-special -a claude-code -m "anthropic/claude-opus-4-1"
 ```
 
 ### Running Individual Trials
 
 ```bash
-harbor trial start -p datasets/acebench-normal/ace-bench_normal_atom_bool_1
-harbor trial start -p datasets/acebench-special/ace-bench_special_incomplete_1 \
+uvx --from harbor==0.23.0 harbor trial start -p datasets/acebench-normal/ace-bench_normal_atom_bool_1
+uvx --from harbor==0.23.0 harbor trial start -p datasets/acebench-special/ace-bench_special_incomplete_1 \
     -a claude-code -m "anthropic/claude-opus-4-1"
 ```
 
@@ -129,7 +129,7 @@ The agent split requires a live simulated-user LLM that dynamically generates th
 ## Usage: Create Task Directories
 
 ```bash
-cd adapters/ace-bench
+cd src/ace-bench
 
 # Generate all English tasks (clones repo automatically)
 python run_adapter.py --output-dir ../../datasets/ace-bench
@@ -154,7 +154,7 @@ python run_adapter.py --output-dir ../../datasets/ace-bench --overwrite
 ```
 
 Available flags:
-- `--output-dir` — Directory to write generated tasks (default: `datasets/ace-bench`)
+- `--output-dir` — Directory to write generated tasks (default: `datasets/ace-bench`, relative to cwd)
 - `--repo-dir` — Path to an existing ACEBench clone (skips git clone)
 - `--language` — `en` or `zh` (default: `en`)
 - `--categories` — `all`, `normal`, or `special` (default: `all`)
@@ -165,7 +165,7 @@ Available flags:
 ## Installation / Prerequisites
 
 - Docker installed and running
-- Harbor installed: `uv tool install harbor`
+- Harbor installed: `uv tool install harbor==0.23.0`
 - `git` available (for repo cloning)
 - Python 3.12+
 
@@ -190,9 +190,9 @@ cd ACEBench
 python generate.py --model claude-code --language en --num-threads 2
 
 # Harbor adapter side — run both datasets
-cd /path/to/harbor
-harbor run -p datasets/acebench-normal -a claude-code -m anthropic/claude-haiku-4-5 --n-concurrent 2
-harbor run -p datasets/acebench-special -a claude-code -m anthropic/claude-haiku-4-5 --n-concurrent 2
+cd /path/to/adapters
+uvx --from harbor==0.23.0 harbor run -p datasets/acebench-normal -a claude-code -m anthropic/claude-haiku-4-5 --n-concurrent 2
+uvx --from harbor==0.23.0 harbor run -p datasets/acebench-special -a claude-code -m anthropic/claude-haiku-4-5 --n-concurrent 2
 ```
 
 ### Oracle Verification

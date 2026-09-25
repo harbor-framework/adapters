@@ -75,7 +75,7 @@ dabstep-{task_id}/
 The adapter code directory:
 
 ```
-harbor/adapters/dabstep/
+src/dabstep/
 ├── README.md
 ├── adapter.py
 ├── adapter_metadata.json
@@ -99,44 +99,44 @@ harbor/adapters/dabstep/
 
 ```bash
 # Oracle agent (reference solution)
-uv run harbor jobs start -d dabstep
+uvx --from harbor==0.23.0 harbor jobs start -d dabstep
 
 # Specific agent and model
-uv run harbor jobs start -d dabstep -a terminus-2 -m "anthropic/claude-haiku-4-5"
+uvx --from harbor==0.23.0 harbor jobs start -d dabstep -a terminus-2 -m "anthropic/claude-haiku-4-5"
 ```
 
 ### Using Job Configurations
 
 ```bash
-uv run harbor jobs start -c adapters/dabstep/dabstep.yaml -a terminus-2 -m "anthropic/claude-haiku-4-5"
+uvx --from harbor==0.23.0 harbor jobs start -c src/dabstep/dabstep.yaml -a terminus-2 -m "anthropic/claude-haiku-4-5"
 ```
 
 ### Running Individual Trials
 
 ```bash
 # Single task with oracle
-uv run harbor trials start -p datasets/dabstep/dabstep-5
+uvx --from harbor==0.23.0 harbor trials start -p datasets/dabstep/dabstep-5
 
 # Single task with agent
-uv run harbor trials start -p datasets/dabstep/dabstep-5 -a terminus-2 -m "anthropic/claude-haiku-4-5"
+uvx --from harbor==0.23.0 harbor trials start -p datasets/dabstep/dabstep-5 -a terminus-2 -m "anthropic/claude-haiku-4-5"
 ```
 
 ## Usage: Create Task Directories
 
 ```bash
-cd adapters/dabstep
+# From the adapters repository root
 
 # Generate default split (450 tasks, answers extracted automatically)
-uv run run_adapter.py
+uv run --no-project --with datasets --with pandas --with pyarrow python src/dabstep/run_adapter.py
 
 # Generate dev split (10 tasks with ground truth answers)
-uv run run_adapter.py --split dev
+uv run --no-project --with datasets --with pandas --with pyarrow python src/dabstep/run_adapter.py --split dev
 
 # Use pre-extracted answers file
-uv run run_adapter.py --answers-file /path/to/answers.json
+uv run --no-project --with datasets --with pandas --with pyarrow python src/dabstep/run_adapter.py --answers-file /path/to/answers.json
 
 # Custom output directory
-uv run run_adapter.py --output-dir ../../datasets/dabstep
+uv run --no-project --with datasets --with pandas --with pyarrow python src/dabstep/run_adapter.py --output-dir datasets/dabstep
 ```
 
 ## Comparison with Original Benchmark (Parity)
@@ -157,7 +157,7 @@ Uploaded results: [HuggingFace parity-experiments #84](https://huggingface.co/da
 **Reproduction steps:**
 ```bash
 # Harbor side
-uv run harbor jobs start -c adapters/dabstep/dabstep.yaml -a terminus-2 -m "anthropic/claude-haiku-4-5"
+uvx --from harbor==0.23.0 harbor jobs start -c src/dabstep/dabstep.yaml -a terminus-2 -m "anthropic/claude-haiku-4-5"
 
 # Fork side (original benchmark)
 # See https://github.com/harvenstar/DABstep/tree/harbor-adapter
@@ -195,7 +195,7 @@ python run_parity.py --tasks parity_sample_task_ids.txt
 ## Installation / Prerequisites
 
 - Docker installed and running
-- Harbor installed (`uv sync --extra dev` from repo root)
+- Harbor installed (`uv tool install harbor==0.23.0`)
 - Python dependencies: `pip install datasets pandas pyarrow`
 - No API keys required for the dataset (public, no gating)
 
