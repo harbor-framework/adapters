@@ -7,6 +7,8 @@ description: Create or reuse Hugging Face dataset PRs for `harborframework/parit
 
 Use this skill to publish Harbor parity experiment outputs to the shared Hugging Face dataset and capture the resulting discussion URL for the adapter's `parity_pr` field.
 
+Adapter result formats and acceptance criteria come from [the versioned adapter contract](../../docs/adapters.mdx#contract-version-and-compatibility), especially ADP-PARITY, ADP-STATS, and ADP-COST. This skill controls upload mechanics; uploading files does not establish parity or override that contract.
+
 ## Why This Skill Exists
 
 - `hf upload-large-folder` can be slow or unreliable for large parity bundles because it pushes through the Hub API commit loop.

@@ -15,6 +15,28 @@ An adapter translates an existing benchmark into Harbor's task format. This docu
 
 Check the [Adapter List](https://docs.google.com/spreadsheets/d/1mJbiASPm32DDNzEnV6eDGwpEf3FlMUe5dhkZmFjjSoo/edit?gid=0#gid=0) for available benchmarks. Contact [Lin Shi](mailto:ls2282@cornell.edu) or join [Discord](https://discord.com/invite/6xWPKhGDbA) `#adapters-announcements` for coordination. The team covers API costs for parity experiments.
 
+## Contract version and compatibility
+
+**Adapter contract v1.** The field schemas and semantic requirements on this page are authoritative for this repository. The exact contract revision is the adapters Git commit used by CI; reviews must identify that commit. Increment the contract version when changing required fields or acceptance policy. Documentation corrections do not require a version bump. This version is separate from Harbor's task format and dataset tags.
+
+The verified Harbor compatibility baseline is commit [`99218a4611e3bd76e49ce3b5f977e8c8134ad3ac`](https://github.com/harbor-framework/harbor/tree/99218a4611e3bd76e49ce3b5f977e8c8134ad3ac). Its [task config](https://github.com/harbor-framework/harbor/blob/99218a4611e3bd76e49ce3b5f977e8c8134ad3ac/src/harbor/models/task/config.py) supports `[task].authors` (email optional), and its [script discovery](https://github.com/harbor-framework/harbor/blob/99218a4611e3bd76e49ce3b5f977e8c8134ad3ac/src/harbor/utils/scripts.py) selects `.sh` for Linux and `.bat` for Windows. This is a source compatibility pin, not a requirement to migrate existing adapters to a new runtime release. Record the actual Harbor revision used for experiments.
+
+The [upstream scaffold README at that revision](https://github.com/harbor-framework/harbor/blob/99218a4611e3bd76e49ce3b5f977e8c8134ad3ac/src/harbor/cli/template-adapter/README.md) still contains monorepo paths and `registry.json` instructions. Treat scaffolds as starting material: use this guide's `src/<adapter-name>/` paths, external Harbor CLI commands, and `dataset.toml` registration process. Floating upstream templates cannot add or override review requirements.
+
+Stable requirement IDs are shared by the guides, skills, validator, and review rubric:
+
+| ID | Requirement | Authority |
+|----|-------------|-----------|
+| ADP-CLI | Canonical adapter entry point | [Key requirements for main.py](#key-requirements-for-mainpy) |
+| ADP-AUTHORS | Benchmark attribution under `[task].authors` | [Task file reference](#task-file-reference) |
+| ADP-SCRIPTS | Scripts selected by target OS | [Adapter component reference](#adapter-component-reference) |
+| ADP-PARITY | At least two runs per side and matching run ranges | [Run parity experiments](#step-5-run-parity-experiments) |
+| ADP-STATS | Mean and sample SEM calculated from raw run arrays | [Reporting format](#reporting-format-mean--sample-sem) |
+| ADP-COST | Canonical string costs and compatibility types | [Metadata schema](#adapter_metadatajson-schema) |
+| ADP-README | Local README section and reproduction requirements | [README requirements](#readme-requirements) |
+
+`scripts/validate_adapter.py` performs partial structural checks, not full Harbor runtime validation. Existing compatibility warnings remain non-blocking; the semantic review applies the guide and identifies the requirement ID for each finding. Documentation examples are checked with the same validator functions and arithmetic checks via `python3 -m unittest discover -s scripts/tests` (Python 3.11+).
+
 ## Quick Start
 
 ```bash
@@ -41,7 +63,7 @@ harbor adapter init my-adapter --name "My Name"  # non-interactive scaffold
         └── test_*.py          # (optional) pytest test files
 ```
 
-**Task naming requirement:** Every generated `task.toml` **must** contain a `name` field. Harbor uses this field to identify the task when it's added to a dataset; tasks without a `name` cannot be registered. Adapter code is responsible for deriving a valid, unique, registry-safe name for every task: sanitize upstream identifiers (lowercase, replace spaces/slashes/special characters with hyphens). See [§Step 8 Naming rules](#naming-rules) for the full naming contract, and the [task format](https://harborframework.com/docs/tasks) for the rest of the task structure. Each generated directory must contain at minimum `task.toml`, `instruction.md`, `environment/Dockerfile`, `solution/solve.sh`, and `tests/test.sh`.
+**Task naming requirement:** Every generated `task.toml` **must** contain a `name` field. Harbor uses this field to identify the task when it's added to a dataset; tasks without a `name` cannot be registered. Adapter code is responsible for deriving a valid, unique, registry-safe name for every task: sanitize upstream identifiers (lowercase, replace spaces/slashes/special characters with hyphens). See [§Step 8 Naming rules](#naming-rules) for the full naming contract, and the [task format](https://harborframework.com/docs/tasks) for the rest of the task structure. Each generated directory must contain at minimum `task.toml`, `instruction.md`, `environment/Dockerfile`, `solution/solve.sh`, and `tests/test.sh` (use `solve.bat` and `test.bat` for Windows tasks with `[environment].os = "windows"`).
 
 ### Adapter code directory
 
@@ -75,7 +97,8 @@ src/<adapter-name>/
 
 - Must support `--output-dir` to specify where generated tasks are written.
 - Must support `--limit`, `--overwrite`, and `--task-ids` flags.
-- Run via `uv run python -m <adapter_name>.main --output-dir <path>`.
+- Run from `src/<adapter-name>/` via `uv run <adapter-name> --output-dir <path>`.
+- Define `[project.scripts]` as `<adapter-name> = "<adapter_name>.main:main"` in `pyproject.toml` (dashes become underscores in the Python package name).
 
 ---
 
@@ -120,21 +143,20 @@ Develop your adapter under `src/{adapter-name}/`. Refer to existing adapters in 
 | `README.md` | Write last before PR submission. Fill in the README generated by `harbor adapter init`. |
 | Metrics / Rewards | Harbor supports multiple float-valued metrics as rewards (RL-compatible). Use the same metrics as the original benchmark. |
 
-> **Targeting Windows containers.** Adapters that emit Windows-targeted tasks must set `[environment].os = "windows"` in `task.toml` and ship `solve.bat` / `test.bat` instead of `.sh`. Users who need PowerShell can call it from within a `.bat` file. Linux is the default and requires no change. See [Windows tasks](https://harborframework.com/docs/tasks/windows-container-support).
+> **Targeting Windows containers.** Adapters that emit Windows-targeted tasks must set `[environment].os = "windows"` in `task.toml` and ship `solve.bat` / `test.bat` instead of `.sh`. Users who need PowerShell can call it from within a `.bat` file. The Windows verifier writes reward to `C:\logs\verifier\reward.txt`. Linux is the default and requires no change. See [Windows tasks](https://harborframework.com/docs/tasks/windows-container-support).
 
 ### Task file reference
 
-**`task.toml`:** Every task must include this configuration file. The `name` field is required for registry. The `version` field must stay `"1.0"`. Adjust timeouts to match your benchmark's complexity.
+**`task.toml`:** Every task must include this configuration file. The `[task].name` field is required for registry. Adapter tasks must credit the original benchmark authors in `[task].authors`; include email when available (Harbor permits it to be omitted). The `version` field must stay `"1.0"`. Adjust timeouts to match your benchmark's complexity.
 
 ```toml
 version = "1.0"
 
 [task]
 name = "my-benchmark/task-001"
+authors = [{ name = "Original Benchmark Author", email = "benchmark-authors@email.com" }]
 
 [metadata]
-author_name = "Original benchmark authors' names"
-author_email = "benchmark-authors@email.com"
 difficulty = "medium"
 category = "programming"
 tags = ["debugging", "python"]
@@ -240,7 +262,7 @@ harbor run -c src/<adapter-name>/run_<adapter-name>.yaml
 - Prompt modifications (e.g., "write files in place without asking") are acceptable **if applied to both the original benchmark and Harbor adapter**.
 - Adapting a subset of tasks is acceptable (e.g., only SWE-Bench-Verified). **Document all exclusions in the README.**
 
-**Step complete when:** `main.py` produces a valid task directory for each task containing `task.toml`, `instruction.md`, `environment/Dockerfile`, `solution/solve.sh`, and `tests/test.sh`.
+**Step complete when:** `main.py` produces a valid task directory for each task containing `task.toml`, `instruction.md`, `environment/Dockerfile`, `solution/solve.sh`, and `tests/test.sh` (use `solve.bat` and `test.bat` for Windows tasks with `[environment].os = "windows"`).
 
 ---
 
@@ -310,8 +332,8 @@ If running the full benchmark is too expensive, run parity on a representative s
 - Ask the team to publish the parity subset under the `parity` tag so users can run `-d <adapter_name>@parity`. See [Versioning](#versioning) below.
 
 ```bash
-uv run python -m <adapter_name>.main --split parity --output-dir /path/to/output  # parity subset
-uv run python -m <adapter_name>.main --output-dir /path/to/output                 # full dataset
+uv run <adapter-name> --split parity --output-dir /path/to/output  # parity subset
+uv run <adapter-name> --output-dir /path/to/output                 # full dataset
 ```
 
 **Step complete when:** Parity plan is agreed with the team (agents, models, number of runs), and any required agent implementations are working on both the original benchmark and Harbor sides.
@@ -344,7 +366,7 @@ For `n ≥ 2` runs with per-run scores `x₁, x₂, …, xₙ` and mean `x̄`:
 sample SEM = sqrt( Σ (xᵢ - x̄)² / ( n (n - 1) ) )
 ```
 
-Notes: SEM is undefined for `n < 2` (require ≥ 2 runs per side; 3+ preferred). `original_runs` / `harbor_runs` are the source of truth — reviewers recompute from them to verify the reported string. Keep units consistent with the raw runs (don't mix `45.2` and `45.2%`).
+Notes: SEM is undefined for `n < 2` (require ≥ 2 runs per side; 3+ preferred). A single published original score does not satisfy this requirement. `original_runs` / `harbor_runs` are the source of truth — reviewers recompute from them to verify the reported string. Keep units consistent with the raw runs (don't mix `45.2` and `45.2%`).
 
 ### Checklist BEFORE any parity run
 
@@ -429,8 +451,8 @@ Create `parity_experiment.json` in your adapter directory. The file is a JSON ar
 |-------|------|----------|-------------|
 | `benchmark_name` | `string` | Yes | Original benchmark name |
 | `metric` | `string` | Yes | Metric name (e.g., `"pass@1"`, `"resolve_rate"`) |
-| `original` | `string` | Yes | `mean ± sample SEM` on original (e.g., `"45.2 ± 1.3"`). See [Reporting format](#reporting-format-mean--sample-sem). |
-| `harbor` | `string` | Yes | `mean ± sample SEM` on Harbor (e.g., `"44.8 ± 1.1"`). See [Reporting format](#reporting-format-mean--sample-sem). |
+| `original` | `string` | Yes | `mean ± sample SEM` on original (e.g., `"45.2 ± 0.6245"`). See [Reporting format](#reporting-format-mean--sample-sem). |
+| `harbor` | `string` | Yes | `mean ± sample SEM` on Harbor (e.g., `"44.8 ± 0.5292"`). See [Reporting format](#reporting-format-mean--sample-sem). |
 | `original_runs` | `number[]` | Yes | Individual scores per run on original |
 | `harbor_runs` | `number[]` | Yes | Individual scores per run on Harbor |
 
@@ -455,8 +477,8 @@ Create `parity_experiment.json` in your adapter directory. The file is a JSON ar
       {
         "benchmark_name": "my-benchmark",
         "metric": "pass@1",
-        "original": "45.2 ± 1.3",
-        "harbor": "44.8 ± 1.1",
+        "original": "45.2 ± 0.6245",
+        "harbor": "44.8 ± 0.5292",
         "original_runs": [44.0, 45.5, 46.1],
         "harbor_runs": [43.8, 45.0, 45.6]
       }
@@ -472,7 +494,7 @@ Include this table in the adapter README. Scores are `mean ± sample SEM` as def
 ```markdown
 | Agent | Model | Metric | Runs | Dataset Size | Original (mean ± SEM) | Harbor (mean ± SEM) |
 |-------|-------|--------|------|--------------|-----------------------|---------------------|
-| codex@1.0 | gpt-5 | pass@1 | 5    | 2000 (100%)  | 45.2 ± 1.3            | 44.8 ± 1.1          |
+| codex@1.0 | gpt-5 | pass@1 | 3 | 500 (100%) | 45.2 ± 0.6245 | 44.8 ± 0.5292 |
 ```
 
 Also include links to: original benchmark repo, forked repo (if applicable), dataset PR, HuggingFace parity PR, adapter PR.
@@ -516,7 +538,7 @@ A dataset is a collection of tasks with a **many-to-many** relationship: the sam
 ```bash
 git clone https://github.com/{your-github-username}/harbor-datasets.git
 cd src/<adapter-name>
-uv run python -m <adapter_name>.main --output-dir /path/to/harbor-datasets/datasets/<adapter-name>
+uv run <adapter-name> --output-dir /path/to/harbor-datasets/datasets/<adapter-name>
 ```
 
 **Step 2.** Create `dataset.toml` at the root of the dataset directory (e.g., `harbor-datasets/datasets/<adapter-name>/dataset.toml`).
@@ -581,29 +603,48 @@ To request a version, state the desired tag(s) in your adapter PR description. T
 ### README requirements
 
 <Callout title="The README is parsed by automation" type="warn">
-Downstream tooling parses this README to generate parity summaries and registry metadata, so the template produced by `harbor adapter init` must be followed as written.
+Downstream tooling parses this README to generate parity summaries and registry metadata. Follow the local section contract below (ADP-README), correcting stale commands and paths in the scaffold according to this guide.
 
 Required:
-- Fill in every section the template defines.
-- Place any additional context — caveats, deviations, or commentary — in the **Notes** section, or in the `notes` field of `parity_experiment.json` or `adapter_metadata.json`.
+- Fill in the local sections listed below.
+- Place any additional context — caveats, deviations, or commentary — in the **Notes & Caveats** section, or in the `notes` field of `parity_experiment.json` or `adapter_metadata.json`.
 
 Not permitted:
 - Adding new top-level sections.
-- Renaming, reordering, or removing template sections.
+- Renaming, reordering, or removing the local sections.
 
-Deviations from the template prevent automated parsing; when unsure where to place content, use the **Notes** section.
+Deviations from the local section contract can prevent automated parsing; when unsure where to place content, use the **Notes & Caveats** section.
 </Callout>
 
-The required content must appear in the following template-defined locations:
+The required README sections, in order, are:
+
+```markdown
+## Overview
+## What is <Benchmark>?
+## Adapter Features
+## Generated Task Structure
+## Run Evaluation / Harness
+## Usage: Create Task Directories
+## Comparison with Original Benchmark (Parity)
+## Notes & Caveats
+## Installation / Prerequisites
+## Troubleshooting
+## Citation
+## Authors & Contributions
+```
+
+An `Acknowledgement` section may follow when applicable. Put agent implementation details under Adapter Features; keep other added context under Notes & Caveats. Missing sections remain structural warnings for compatibility; reviewers should explain required content gaps using ADP-README.
+
+The required content must appear in these locations:
 
 | Content | Location |
 |---------|----------|
-| Benchmark bugs discovered and how they were handled | Notes |
-| Special treatments (prompt modifications, environment adjustments) | Notes |
-| Deviations from the original benchmark and the rationale | Notes |
-| Agent implementation details (if custom agents were added) | Agents section |
-| Known limitations | Notes |
-| Reproduction scripts for parity experiments (both sides) | Parity result section |
+| Benchmark bugs discovered and how they were handled | Notes & Caveats |
+| Special treatments (prompt modifications, environment adjustments) | Notes & Caveats |
+| Deviations from the original benchmark and the rationale | Notes & Caveats |
+| Agent implementation details (if custom agents were added) | Adapter Features |
+| Known limitations | Notes & Caveats |
+| Reproduction scripts for parity experiments (both sides) | Comparison with Original Benchmark (Parity) |
 
 ### Update the original benchmark fork's README
 
@@ -645,7 +686,7 @@ Create `src/{adapter_name}/adapter_metadata.json`.
 | `added_agents` | `string[]` | Yes | Custom agents added. `["None"]` if none |
 | `parity_matching_agents` | `string[]` | Yes | Agents with comparable scores (`agent@version+model`) |
 | `parity_unmatching_agents` | `string[]` | Yes | Agents without comparable scores. `["None"]` if all matched |
-| `parity_costs` | `string` | Yes | Total USD (e.g., `"$150"`) |
+| `parity_costs` | `string` (canonical), `number`, or `null` | Yes | Total USD (e.g., `"$150"`); numeric USD values remain accepted for compatibility. Use `null` if unknown; validation warns to fill in an estimate. Other types receive a format warning. |
 | `notes` | `string` | No | `"None"` if N/A |
 
 If parity ran across three systems (Harbor ↔ Terminal-Bench ↔ Original), include a `"tb_adapter"` key with the same structure.
@@ -770,10 +811,9 @@ version = "1.0"
 
 [task]
 name = "my-benchmark/task-001"
+authors = [{ name = "Original Bench Author Name", email = "original-bench-author@email.com" }]
 
 [metadata]
-author_email = "original-bench-author@email.com"
-author_name = "Original Bench Author Name"
 difficulty = "hard"
 category = "programming"
 tags = ["debugging", "python"]
