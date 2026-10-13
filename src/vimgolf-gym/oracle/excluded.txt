@@ -1,0 +1,147 @@
+# Challenges without a replay-verified oracle within the keystroke budget
+# (keystrokes <= len(output)); excluded from the default task set.
+# Stage: local candidate screening (oracle/build_oracles.py --minimize).
+# Certification in the pinned image may add more ids here.
+# columns: challenge_id<TAB>output_chars (= keystroke budget)<TAB>title
+4d1a1c36567bac34a9000002	76	Reformat/Refactor a Golfer Class
+4d1a6a8eb8cb34093200007a	91	Reconstruct the Sentence
+4d1a71c0b8cb34093200010b	551	Remember FizzBuzz?
+4d1a790fb8cb3409320001a8	99	Reformat most common surnames
+4d1a87fcb8cb340932000290	2043	Deleting folded text
+4d1aaf2fb11838287d000036	27	Reverse characters in a line
+4d1b78e281502541ad000009	5865	Turn this csv list into queries
+4d1be79bb2c3e064680000c6	69	Fix the Haiku
+4d1bfa8fb2c3e06468000127	86	Table Reshuffle
+4d1c1a3cf655cd081000000d	10	A Simple One
+4d1c27940e3d7832db000010	371	Prime Numbers
+4d1c5e6035b40650b8000111	71	Another Mixed-Up Haiku
+4d1c7ee635b40650b8000203	89	Remove Accent off the Letter
+4d1cc35a35b40650b800043a	66	Increment, increment, increment....
+4d1ccfde35b40650b80004ae	18	The Cake is a Lie
+4d1db1b8de2f897c2a00014a	52	Reverse Simple Deletion
+4d1dfe2cde2f897c2a0003e3	166	Letters are numbers
+4d1e93e825ba287b2a0000ed	22	The holy-grail may help
+4d1ed78425ba287b2a000227	170	CSV to JSON
+4d22bb117f75b01e070000fb	100	Cartesian product
+4d247aa50947c63e260000a4	442	Happy New Year! 
+4d2513c10947c63e2600019f	1824	Here, piggy, piggy...
+4d26f42298e8d72471000025	52	Generate English Alphabets
+4d29ae2107e0177c7e000036	1749	Before there was Farmville...
+4d2fb20e63b08b08b0000075	4	Overall Vimgolf Rank
+4d42cde1e6dc010cb7000024	61	expand a list comprehension (python)
+4d665abd7d73e02a55000009	215	Java Array2List
+4d6f45b938c0aa691b000003	65	Recursively Palindrome
+4dddc7c1ed7380000100000d	393	Multiplication table.
+4ed3d247a745c1000100002a	24	remove dupes from array
+4f6144f46938f20001000061	66	un-C-escape string
+4fca701fd3a0d40001000074	234	Remove noise from HTTP log
+4fe9ab8b5089660001000002	50	Shuffle and Sort
+50048db8cdc4060002000004	69	Vertical Limit
+5039216a1eb07a0002000026	1552	Sierpinski's Triangle
+50519ca330c82d0002000035	8	The name of the game
+50525d0730c82d0002000077	109	Circle of Fifths with Sharps
+5054b8c6fa0b39000200001e	45	SFD-ROC: The Quick Brown Fox
+5054ba5efa0b390002000026	4293	SFD-ROC: ASCII Logo Border
+5054baaafa0b390002000029	104	SFD-ROC: vimvimvim
+50af864132b7ed0002000075	46	A simple change
+50b1d7239aad89000200002d	34	Extract text from xml
+50b4b5e6448d77000200004d	71	Chucking wood
+50b5266f448d770002000106	27	Readable Rubyhash
+50c13afab855760002000049	8448	Harder than "abcd > a b c d"
+50ed6ac0c0e3aa0002000003	22	Coordinates placeholder
+51093f4c6db41b0002000003	275	Define to require
+511d618c094242000200001a	8557	199 Fibonacci Numbers
+51330725b051320002000042	2346	Extended Customer 2
+51459ef6b94aa50002000002	144	It's a factor
+5192f96ad8df110002000002	20	Words in parens
+519cb48135fc71000200004a	742	Draw the Go board
+51a388ac06f7d20002000006	772	Change The Perspective
+521c805d860021000200007d	13	VimGolfNight
+52222f6ea98cbe0002000078	26	Letter case trickery
+532bdb79fbefce0002650940	35	Piphilology
+53ab5ade4367c700025ce66a	24	Shuffle puzzle
+53c66c482b4166000226bbee	28	Don't know what this is
+540629666a1e4000020d9e5a	28	-a-b-c-
+542c8cb02da21600022c7477	18	Acute accents
+547dae4372572300022c560e	37	Simple Maths
+5490a40f6571cc0002bc6920	30	Square numbers
+54bd44d755bd48000310c6e0	431	Greek column realign
+54d6ed13bb73ec0688000001	141	50 factorials mod 97
+54df95a4a4b28331e9000003	94	Space out the alphabet
+555b647e6337c25795003d2c	200	Tiny column alignment
+55926044bbcb9851bc000001	14	Mirror Symmetry
+559c30948ef59c0eb7000002	30	Collect List
+559e6360b6f8bd0f17010b61	91	Make HTML List
+56a260eedb173f2f5d00f6f8	130	JS notation to Immutable.js notation
+56d70389bbbe462aff01d42a	32	Swap values
+56e36925d64dfc4d28000001	12	Inner hyphens
+56fb2e75ccffcc0009026473	26	One number per line
+571028960c64c90990000003	18	From A to B
+57a208ce38e7e83a43000003	51	Generate a list of numbers
+57a4ec036f04c40bf8000001	1640	ascii-art diamond
+580c21b5c177c54b0d067069	20	Start coding format
+583112d0215b7c3ed2016bdb	28	Order and join
+592e0f555b60ba0009000001	11	Stairstep digits
+594ce764409e11000b00001b	14	Simple addition
+596ba8373e3dd71412000004	115	Create a table
+596dd9ca448256000c000011	42	Array transposition
+5986374af5ca4f000c00001c	17	Un"finnish"ed Work
+5986e7e8d6a38f049d000005	58	Palindrome numbers
+5a0c38cd2e62f404f000001b	20	Team names
+5b9131545c53aa000ca952f6	42	Array Transposition
+5bbb82f969a25f0009541350	185	Applying same text modification in several lines
+5c26476de8c6490009fcad3e	120	Python challenge
+5c4d042acfafb4000c9f06c2	21	One to Ten
+5c645526fa8ae200061757ad	17	Increment each number
+5c6c5d89eba29c00068b77f8	639	snowflake fractal
+5c742a5a50bdf70006d43280	96	Box it
+5c7b244ae74665000c0598a9	98	Letterbox
+5c880211ab65cb00065c74eb	114	Kolakoski sequence -- level 1
+5c93945c9caf21000ca842f7	45	Two pairs of cluster of letters creates word
+5cc31feaffd607000ccf6ea7	168	html paragraph to table
+5cf9ca1c6db575000607ed58	48	Join 'em
+5d74187d98328b0006ba474e	14	citizen_hacks_2019_challenge2
+5d7f565deac0df000cfc2154	48	Line under headers
+5d7fad5deac0df0006fc224a	47	SCREAMING_SNAKE_CASE to Title Case
+5e2786a9ee9d370009f72c0a	238	Hogwarts Email Sorting
+5f0890dbb409320009a38274	29	Multiline to Single Line
+5f1310bd3cc9f3000bef87ed	40	Levenshtein distance
+5f316d5c8d826b000640670e	169	C to python code snippet
+5fa53808a4d481000c3f114d	162	HS Final exam vimgolf
+5fa95fbdd285680008e41e4b	50	swap number pairs
+5fd1ea4cf90da80006545d46	49	Modernise code
+5fe14618f5abb00009be3ace	3247	대법원 인명용 한자 바인딩(Combine Hangul and Chinese characters)
+5fe3ddcb8a967b00099d7e59	387	RUST HTML to maud.
+6030936d3f9325000c6aa0aa	162	CSV to MD format
+9v0060b47a55000000000207	290	Create a diamond comment
+9v0060b82e38000000000208	67	Transpose a python matrix
+9v00611f700a00000000020d	485	Solve anagram with ASCII letters
+9v0061478032000000000212	141	hello-world-vimgolf
+9v00618f9423000000000215	142	Java to JavaScript
+9v006198e264000000000217	75	Innocent Monster
+9v00622ded15000000000218	98	Visual block training
+9v006283b31d00000000021d	8	delete swap
+9v006288572c00000000021e	335	2 quick changes and a numbered list
+9v0062cda991000000000223	413	Fizzbuzz
+9v0062e3e96a000000000226	429	HS exam question
+9v0063624a2a000000000227	1691	Tabbed Table to Python Array
+9v0063cb8c9c000000000248	99	Filter number combinations that don't add to 11
+9v00641896b600000000024b	427	Easier Align
+9v00647402cb000000000251	13	Surround the 'z' character with brackets, quotes, and print as formatted string. 
+9v00660ce706000000000267	372	Truth Table to ModelSim
+9v006628b86200000000026c	186	Morse
+9v00662cd3cb00000000026d	4964	Coordinate extraction
+9v00663b9c09000000000271	345	Evil Numbers
+9v00664f0099000000000275	587	Reverse even lines
+9v0066567c28000000000277	207	Count words
+9v00666fa2e300000000027e	42	Deleting text
+9v00669b3ff1000000000303	59	Rearrange array to single level
+9v0066cbb6a1000000000345	44	Remove adjacent duplicates
+9v0066fe482500000000048f	39	Change readonly files
+9v0067037b1c0000000004f3	272	Reorganize Pokémon
+9v0067255515000000000597	1422	Nested JSON Flattener
+9v00673faf4c0000000005fb	798	Swap columns and transform to CSV format
+9v0067401f2500000000061b	166	Change to ascending order
+9v00674f1bfb00000000063d	70	YAML to dotenv
+9v00674fdf8000000000065d	560	Changing date formats
+9v0068583e17000000000702	1202	π
