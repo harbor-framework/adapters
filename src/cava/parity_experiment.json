@@ -1,0 +1,58 @@
+[
+  {
+    "adapter_name": "cava",
+    "agent": "cava-pipeline@1.0.0",
+    "model": "gpt-4o",
+    "date": null,
+    "adapted_benchmark_size": 3671,
+    "parity_benchmark_size": 551,
+    "number_of_runs": 3,
+    "notes": "PENDING. Scenario 3: CAVA's OpenAI pipeline LLM stage (temperature 0) on cached transcripts vs CavaPipelineAgent; fork passes a different --cache-seed per run and applies the MMIF kwargs fix. Scorer check done: re-scoring CAVA's committed prediction files reproduces the scores recomputed from those files (function calling 27.0%/24.1%, deception 14.6%, jailbreak ASR 79.0/68.3/79.2).",
+    "original_parity_repo": null,
+    "adapter_pr": [],
+    "dataset_pr": [],
+    "parity_pr": [],
+    "metrics": [
+      {
+        "benchmark_name": "CAVA deception_detection",
+        "metric": "accuracy (%)",
+        "original": null,
+        "harbor": null,
+        "original_runs": [],
+        "harbor_runs": []
+      },
+      {
+        "benchmark_name": "CAVA jeopardy",
+        "metric": "PEDANT correctness (%)",
+        "original": null,
+        "harbor": null,
+        "original_runs": [],
+        "harbor_runs": []
+      },
+      {
+        "benchmark_name": "CAVA multimodal_instruction_following",
+        "metric": "instruction adherence (%)",
+        "original": null,
+        "harbor": null,
+        "original_runs": [],
+        "harbor_runs": []
+      },
+      {
+        "benchmark_name": "CAVA function_calling",
+        "metric": "function-call count match (%)",
+        "original": null,
+        "harbor": null,
+        "original_runs": [],
+        "harbor_runs": []
+      },
+      {
+        "benchmark_name": "CAVA jailbreak",
+        "metric": "refusal rate (%); ASR = 100 - refusal",
+        "original": null,
+        "harbor": null,
+        "original_runs": [],
+        "harbor_runs": []
+      }
+    ]
+  }
+]
