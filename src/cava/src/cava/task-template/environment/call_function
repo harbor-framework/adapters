@@ -1,0 +1,26 @@
+#!/usr/bin/env python3
+"""Mock function executor for CAVA function calling.
+
+Mirrors the CAVA pipeline's tool loop: every call is recorded and answered with
+MOCK_RESPONSE(<name>). Usage: call_function <name> '<json arguments>'
+"""
+import json
+import sys
+
+CALLS = "/app/function_calls.jsonl"
+FUNCTIONS = "/app/functions.json"  # the declared tools (CAVA's functions.json)
+
+if len(sys.argv) < 2 or sys.argv[1] in ("-h", "--help"):
+    print(__doc__.strip())
+    sys.exit(0 if len(sys.argv) >= 2 else 2)
+name = sys.argv[1]
+raw = sys.argv[2] if len(sys.argv) > 2 else "{}"
+# Any name is recorded, as upstream records whatever function name the API returns.
+try:
+    arguments = json.loads(raw)
+except json.JSONDecodeError:
+    # same fallback as CAVA inference.py when tool arguments are not valid JSON
+    arguments = {"error": "Failed to parse arguments", "raw": raw}
+with open(CALLS, "a") as f:
+    f.write(json.dumps({"name": name, "arguments": arguments}) + "\n")
+print(f"MOCK_RESPONSE({name})")
