@@ -9,7 +9,9 @@
     "number_of_runs": 3,
     "notes": "PENDING. Scenario 3: vimgolf-benchmark.py --runner single_shot + vimgolf-evaluate.py (fork with the chunk_content streaming fix, litellm 1.105.0) vs VimGolfSingleShotAgent on the same task subset.",
     "original_parity_repo": null,
-    "adapter_pr": [],
+    "adapter_pr": [
+      "https://github.com/harbor-framework/adapters/pull/28"
+    ],
     "dataset_pr": [],
     "parity_pr": [],
     "metrics": [

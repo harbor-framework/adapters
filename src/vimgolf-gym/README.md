@@ -142,6 +142,8 @@ The budget counts the raw output's characters, including the `\r` of CRLF files 
 
 Plan: the original side runs a fork of vimgolf-gym (`vimgolf-benchmark.py --runner single_shot`, then `vimgolf-evaluate.py --solution-format vimgolf-benchmark --validator vimgolf-validator --solution-not-longer-than-output`) and the Harbor side runs `VimGolfSingleShotAgent`, same model, same litellm version, same task subset, 3 runs each. The fork applies the two symmetric fixes listed in Notes & Caveats. A standard terminal agent (terminus-2 / codex) is also run on Harbor to show the adapter works for agents.
 
+Links: original benchmark [james4ever0/vimgolf-gym](https://github.com/james4ever0/vimgolf-gym) (commit `5c29ac2`); adapter PR [harbor-framework/adapters#28](https://github.com/harbor-framework/adapters/pull/28); parity fork, dataset PR and parity artifacts: pending.
+
 ```bash
 # Original side. First, from src/vimgolf-gym, write the 470 shipped challenges (and
 # <dir>.ids.json) in the layout vimgolf-benchmark.py reads:
