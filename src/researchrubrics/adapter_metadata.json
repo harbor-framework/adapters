@@ -1,0 +1,32 @@
+[
+  {
+    "adapter_name": "researchrubrics",
+    "adapter_builders": [
+      "Jianing Yin (jianingyin@alumni.upenn.edu)"
+    ],
+    "original_benchmark": [
+      {
+        "split": "full",
+        "size": 101,
+        "harness": "None",
+        "supported_agents": ["None"],
+        "adaptable": true,
+        "notes": "101 deep-research prompts with 2,593 weighted expert rubrics. Upstream ships only the grading pipeline (LLM judge, Gemini 2.5 Pro via LiteLLM); reports were produced by external DR systems outside any harness."
+      }
+    ],
+    "harbor_adapter": [
+      {
+        "split": "full",
+        "adapted_benchmark_size": 101,
+        "parity_benchmark_size": null,
+        "parity_sampling_rate": null,
+        "registry_benchmark_size": 101,
+        "added_agents": ["None"],
+        "parity_matching_agents": [],
+        "parity_unmatching_agents": ["None"],
+        "parity_costs": null,
+        "notes": "Parity pending: plan to be agreed with the Harbor team. Verifier is a port of the upstream evaluator with verbatim prompts; reward is the unclamped upstream compliance score."
+      }
+    ]
+  }
+]
