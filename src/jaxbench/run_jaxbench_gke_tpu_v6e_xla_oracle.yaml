@@ -4,7 +4,7 @@
 # with speedup ~1.0x (small deviations are device-timing noise; reward is floored at 1.0).
 #
 # Generate the dataset first (from src/jaxbench):
-#   uv run python -m jaxbench.main --oracle baseline --output-dir ../../datasets/jaxbench-xla-oracle
+#   uv run jaxbench --oracle baseline --output-dir ../../datasets/jaxbench-xla-oracle
 #
 # Usage (from the repository root):
 #   uvx --from 'harbor[gke]==0.23.0' harbor jobs start -c src/jaxbench/run_jaxbench_gke_tpu_v6e_xla_oracle.yaml
