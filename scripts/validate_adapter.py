@@ -3,7 +3,10 @@
 
 Checks adapter directories against the Harbor adapter template requirements.
 In this repo adapters live under ``src/<adapter>/``.
-See the adapter guide at ``docs/adapters.mdx``.
+Adapter contract v1: see ``docs/adapters.mdx`` for versioning and stable IDs.
+ADP-CLI is reviewed semantically; ADP-AUTHORS, ADP-SCRIPTS, ADP-PARITY,
+ADP-COST, and ADP-README have partial structural checks here. ADP-STATS
+requires recomputation from run data (also covered by documentation tests).
 
 Usage:
     python scripts/validate_adapter.py src/dabstep src/swebench
@@ -18,6 +21,8 @@ import re
 import sys
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
+
+CONTRACT_VERSION = 1
 
 
 # --- Data models ---
@@ -188,6 +193,25 @@ def check_required_files(d: Path, r: AdapterReport) -> None:
         )
 
 
+def _template_script_extension(tpl: Path) -> str:
+    """Read a literal environment OS without parsing unrendered TOML placeholders."""
+    path = tpl / "task.toml"
+    if path.is_file():
+        text = path.read_text()
+        section = re.search(
+            r"^\s*\[environment\][^\S\n]*(?:#[^\n]*)?\n(.*?)(?=^\s*\[|\Z)",
+            text,
+            re.MULTILINE | re.DOTALL,
+        )
+        if section and re.search(
+            r"^\s*os\s*=\s*['\"]windows['\"]\s*(?:#.*)?$",
+            section.group(1),
+            re.MULTILINE | re.IGNORECASE,
+        ):
+            return "bat"
+    return "sh"
+
+
 def check_template_structure(d: Path, r: AdapterReport) -> None:
     """Validate the task-template directory.
 
@@ -237,12 +261,13 @@ def check_template_structure(d: Path, r: AdapterReport) -> None:
 
     r.ok(f"`{display_base}/` directory exists")
 
+    extension = _template_script_extension(tpl)
     for rel_path in (
         "task.toml",
         "instruction.md",
         "environment/Dockerfile",
-        "tests/test.sh",
-        "solution/solve.sh",
+        f"tests/test.{extension}",
+        f"solution/solve.{extension}",
     ):
         if (tpl / rel_path).exists():
             r.ok(f"`{display_base}/{rel_path}` exists")
@@ -364,20 +389,27 @@ def _check_parity_entry(
         )
 
     n_runs = entry.get("number_of_runs")
-    if n_runs is not None:
-        for m in metrics:
-            if not isinstance(m, dict):
-                continue
-            for rk in ("original_runs", "tb_adapter_runs", "harbor_runs"):
-                runs = m.get(rk)
-                if runs is not None and isinstance(runs, list) and len(runs) != n_runs:
-                    r.warning(
-                        "Run count mismatch",
-                        f"Entry {idx}: `number_of_runs` is {n_runs} "
-                        f"but `{rk}` has {len(runs)} entries.",
-                        file=fpath,
-                        line=_find_line(path, f'"{rk}"'),
-                    )
+    for m in metrics:
+        if not isinstance(m, dict):
+            continue
+        for rk in ("original_runs", "tb_adapter_runs", "harbor_runs"):
+            runs = m.get(rk)
+            if isinstance(runs, list) and len(runs) < 2:
+                r.warning(
+                    "ADP-PARITY: insufficient runs",
+                    f"Entry {idx}: `{rk}` needs at least two runs for sample SEM. "
+                    "A single published score does not satisfy the parity contract.",
+                    file=fpath,
+                    line=_find_line(path, f'"{rk}"'),
+                )
+            if n_runs is not None and isinstance(runs, list) and len(runs) != n_runs:
+                r.warning(
+                    "Run count mismatch",
+                    f"Entry {idx}: `number_of_runs` is {n_runs} "
+                    f"but `{rk}` has {len(runs)} entries.",
+                    file=fpath,
+                    line=_find_line(path, f'"{rk}"'),
+                )
 
 
 def check_metadata_json(d: Path, r: AdapterReport) -> None:
@@ -472,7 +504,15 @@ def check_metadata_json(d: Path, r: AdapterReport) -> None:
                 if ha.get("parity_costs") is None:
                     r.warning(
                         "Metadata: parity_costs",
-                        "`parity_costs` is null — consider filling in the cost estimate.",
+                        "`parity_costs` is missing or null — fill in a USD cost estimate "
+                        "when available (canonical format: a string such as `$150`).",
+                        file=fpath,
+                    )
+                elif type(ha["parity_costs"]) not in (str, int, float):
+                    r.warning(
+                        "Metadata: parity_costs",
+                        "`parity_costs` should be a string such as `$150`, a numeric "
+                        "USD value, or null when unknown.",
                         file=fpath,
                     )
 
@@ -510,8 +550,7 @@ def check_readme(d: Path, r: AdapterReport) -> None:
             r.warning(
                 "README section missing",
                 f"Recommended section `{section_name}` not found. "
-                "See the adapter README template shipped by `harbor adapter init` "
-                "(https://github.com/harbor-framework/harbor/blob/main/src/harbor/cli/template-adapter/README.md).",
+                "See ADP-README in `docs/adapters.mdx` (the local section contract).",
                 file=fpath,
             )
 
@@ -617,16 +656,19 @@ def check_template_content(d: Path, r: AdapterReport) -> None:
     if tpl is None:
         return
 
-    test_sh = tpl / "tests" / "test.sh"
-    if test_sh.exists():
-        content = test_sh.read_text()
+    script_name = f"test.{_template_script_extension(tpl)}"
+    test_script = tpl / "tests" / script_name
+    if test_script.exists():
+        content = test_script.read_text().replace("\\", "/").lower()
         if "/logs/verifier/reward" in content:
-            r.ok("`test.sh` writes to reward path")
+            r.ok(f"`{script_name}` writes to reward path")
         else:
             r.warning(
                 "Reward output",
-                "`test.sh` should write reward to `/logs/verifier/reward.txt`.",
-                file=_rel(d, *_rel_parts_for(d, tpl, "tests", "test.sh")),
+                f"`{script_name}` should write reward to the verifier log directory "
+                "(`/logs/verifier/reward.txt` on Linux; "
+                "`C:\\logs\\verifier\\reward.txt` on Windows).",
+                file=_rel(d, *_rel_parts_for(d, tpl, "tests", script_name)),
                 line=1,
             )
 
@@ -640,10 +682,10 @@ def _rel_parts_for(d: Path, tpl: Path, *tail: str) -> tuple[str, ...]:
     return (*rel.parts, *tail)
 
 
-# task.toml structure checks (per docs/content/docs/tasks/index.mdx):
+# task.toml structure checks (per docs/adapters.mdx):
 #     [task]
 #     name    = "<org>/<name>"     # required for registry
-#     authors = [{ name, email }]  # required — credits original benchmark authors
+#     authors = [{ name, email }]  # adapter policy; email optional in Harbor
 # The schema_version key itself is not checked: Harbor's TaskConfig accepts
 # any string, so "1.0" and "1.1" both work at runtime.
 _TASK_NAME_RE = re.compile(r"""^\s*name\s*=\s*["']""", re.MULTILINE)
@@ -653,7 +695,7 @@ _TASK_AUTHORS_RE = re.compile(r"""^\s*authors\s*=\s*\[""", re.MULTILINE)
 def check_task_toml_schema(d: Path, r: AdapterReport) -> None:
     """Validate the template task.toml has the required [task] fields.
 
-    Rules (see `docs/content/docs/tasks/index.mdx`):
+    Rules (see `docs/adapters.mdx`):
     - ``[task]`` table with ``name`` and ``authors`` fields populated by the
       adapter for each generated task.
     Placeholder values (``{task_id}``, ``TODO: ...``) are acceptable in the
@@ -931,7 +973,11 @@ def validate_adapter(adapter_dir: Path) -> AdapterReport:
 
 
 def format_markdown(reports: list[AdapterReport]) -> str:
-    parts: list[str] = ["<!-- adapter-validation-bot -->"]
+    parts: list[str] = [
+        "<!-- adapter-validation-bot -->",
+        f"Adapter contract v{CONTRACT_VERSION} (`docs/adapters.mdx`).",
+        "",
+    ]
 
     for report in reports:
         n_err = len(report.errors)

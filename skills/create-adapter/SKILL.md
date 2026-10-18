@@ -23,7 +23,7 @@ That path is relative to this repo's root (a skill prerequisite — see below). 
 - Parity matching criterion, pre-flight checklist, and debug playbook.
 - README format rules (machine-parsed; deviations break automation).
 
-Do not substitute prior knowledge for the contents of that file. Treat it as the contract.
+Do not substitute prior knowledge for the contents of that file. Treat it as the contract. Follow its version, stable requirement IDs, and pinned Harbor compatibility baseline; upstream scaffold templates do not override it.
 
 ## Prerequisites
 
@@ -82,8 +82,9 @@ Continue from "Step 1. Understand the Original Benchmark" in the tutorial. Do no
 - **Every generated `task.toml` must contain a `name` field under `[task]`.** `main.py` is responsible for deriving a sanitized, unique, registry-safe name for every task. Tasks without a `name` cannot be registered. See the tutorial's "Naming rules" table.
 - **Task names must be stable across adapter runs.** Unstable names churn registry digests on republish. If upstream lacks stable identifiers, mint a deterministic scheme (e.g., `{dataset}-1`, `{dataset}-2`) from a reproducible sort.
 - **`version = "1.0"` in `task.toml` is the schema version — leave it alone.** Dataset versions are publish-time tags requested in the PR description, not a field in `task.toml` or `dataset.toml`.
+- **ADP-CLI: Generate tasks with `uv run <adapter-name> --output-dir <path>` from `src/<adapter-name>/`.** Define the matching `[project.scripts]` entry.
 - **`main.py` must support `--output-dir`, `--limit`, `--overwrite`, and `--task-ids`.** These flags are required for reproducible runs and task-level debugging.
-- **The generated `README.md` is parsed by downstream automation.** Fill in every section exactly as the template defines; put extra context in the **Notes** section or in the `notes` fields of `parity_experiment.json` / `adapter_metadata.json`. Do not add, rename, reorder, or remove sections.
+- **The generated `README.md` is parsed by downstream automation.** Follow the local ADP-README section contract in the guide, correcting stale monorepo paths and `registry.json` instructions from upstream scaffolds; put extra context in the **Notes & Caveats** section or in the `notes` fields of `parity_experiment.json` / `adapter_metadata.json`. Do not add, rename, reorder, or remove sections.
 - **Do not run parity experiments unilaterally.** Tutorial Step 4 requires team coordination on agents, models, and number of runs before incurring API costs. Complete sanity checks first, and execute full runs symmetrically on both sides.
 
 ## Reference adapters by scenario
