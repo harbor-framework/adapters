@@ -1,0 +1,90 @@
+[
+  {
+    "adapter_name": "agentpersonabench",
+    "agent": "persona-web@1.0.0",
+    "model": "qwen3.8-flash",
+    "date": "2026-10-13",
+    "adapted_benchmark_size": 2301,
+    "parity_benchmark_size": 5,
+    "number_of_runs": 3,
+    "notes": "Temperature 0. Two web tasks. Same model on APB and Harbor. Neither side sends a seed. This entry is part of a 5-task sample, not a full-benchmark parity.",
+    "original_parity_repo": "https://github.com/MatrAIx-ai/AgentPersonaBench",
+    "adapter_pr": null,
+    "dataset_pr": null,
+    "parity_pr": null,
+    "metrics": [
+      {
+        "benchmark_name": "AgentPersonaBench",
+        "metric": "vaccines-opposed-web reward",
+        "original": "1.000 ± 0.000",
+        "harbor": "1.000 ± 0.000",
+        "original_runs": [1.0, 1.0, 1.0],
+        "harbor_runs": [1.0, 1.0, 1.0]
+      },
+      {
+        "benchmark_name": "AgentPersonaBench",
+        "metric": "wellness-web points (max 3)",
+        "original": "2.333 ± 0.667",
+        "harbor": "2.667 ± 0.333",
+        "original_runs": [1.0, 3.0, 3.0],
+        "harbor_runs": [3.0, 2.0, 3.0]
+      }
+    ]
+  },
+  {
+    "adapter_name": "agentpersonabench",
+    "agent": "persona-computer-1",
+    "model": "qwen3.8-flash",
+    "date": "2026-10-13",
+    "adapted_benchmark_size": 2301,
+    "parity_benchmark_size": 5,
+    "number_of_runs": 3,
+    "notes": "Temperature 0. Harbor computer-1 plus persona splice, not APB's vendored computer-1. Means differ by 0.333, equal to the APB sample SEM. Not treated as matched.",
+    "original_parity_repo": "https://github.com/MatrAIx-ai/AgentPersonaBench",
+    "adapter_pr": null,
+    "dataset_pr": null,
+    "parity_pr": null,
+    "metrics": [
+      {
+        "benchmark_name": "AgentPersonaBench",
+        "metric": "no-budget-apps-app reward",
+        "original": "0.333 ± 0.333",
+        "harbor": "0.000 ± 0.000",
+        "original_runs": [0.0, 0.0, 1.0],
+        "harbor_runs": [0.0, 0.0, 0.0]
+      }
+    ]
+  },
+  {
+    "adapter_name": "agentpersonabench",
+    "agent": "persona-chat@1.0.0",
+    "model": "dashscope/deepseek-v4.1-flash",
+    "date": "2026-10-13",
+    "adapted_benchmark_size": 2301,
+    "parity_benchmark_size": 5,
+    "number_of_runs": 1,
+    "notes": "One run each. Judge on both sides was glm-4.7 with thinking disabled. Sample SEM is undefined at n=1. The benchmark judge claude-opus-4-8 was not used because ANTHROPIC_API_KEY returns HTTP 401.",
+    "original_parity_repo": "https://github.com/MatrAIx-ai/AgentPersonaBench",
+    "adapter_pr": null,
+    "dataset_pr": null,
+    "parity_pr": null,
+    "metrics": [
+      {
+        "benchmark_name": "AgentPersonaBench",
+        "metric": "vaccines-opposed-chat reward",
+        "original": "1.000 (n=1; sample SEM undefined)",
+        "harbor": "1.000 (n=1; sample SEM undefined)",
+        "original_runs": [1.0],
+        "harbor_runs": [1.0]
+      },
+      {
+        "benchmark_name": "AgentPersonaBench",
+        "metric": "wellness-chat points (max 3)",
+        "original": "3.000 (n=1; sample SEM undefined)",
+        "harbor": "3.000 (n=1; sample SEM undefined)",
+        "original_runs": [3.0],
+        "harbor_runs": [3.0]
+      }
+    ]
+  }
+]

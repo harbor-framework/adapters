@@ -1,0 +1,47 @@
+[
+  {
+    "adapter_name": "agentpersonabench",
+    "adapter_builders": [
+      "Jaden Hou (36116720+JianhengHou@users.noreply.github.com)"
+    ],
+    "original_benchmark": [
+      {
+        "split": "full",
+        "size": 2460,
+        "harness": "agent",
+        "supported_agents": [
+          "openhands-sdk@1.54.0",
+          "chat-harness@db1b8b4",
+          "web-agent@db1b8b4",
+          "computer-1@db1b8b4"
+        ],
+        "adaptable": true,
+        "notes": "Survey 502, chat 565, web 707, os-app 686. 159 tasks are not emitted because no stable oracle scores fully held on that task's verifier."
+      }
+    ],
+    "harbor_adapter": [
+      {
+        "split": "full",
+        "adapted_benchmark_size": 2301,
+        "parity_benchmark_size": 5,
+        "parity_sampling_rate": 0.002173,
+        "registry_benchmark_size": 2301,
+        "added_agents": [
+          "persona-openhands-sdk@1.0.0",
+          "persona-chat@1.0.0",
+          "persona-web@1.0.0",
+          "persona-computer-1@1.0.0"
+        ],
+        "parity_matching_agents": [
+          "persona-web@1.0.0+qwen3.8-flash",
+          "persona-chat@1.0.0+dashscope/deepseek-v4.1-flash"
+        ],
+        "parity_unmatching_agents": [
+          "persona-computer-1@1.0.0+qwen3.8-flash"
+        ],
+        "parity_costs": "unmetered",
+        "notes": "Registry count is the adapted set. The harbor-datasets PR is not opened. Parity is 5 tasks, not the full set. Chat scores use glm-4.7 because the Claude judge key returns HTTP 401. persona-computer-1 on no-budget-apps-app is outside the APB sample SEM."
+      }
+    ]
+  }
+]
