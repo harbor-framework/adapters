@@ -1,0 +1,34 @@
+# Run from the adapters repository root:
+#   uv run --project src/itbench-aa --group parity harbor run -c src/itbench-aa/run_itbench-aa.yaml
+jobs_dir: jobs
+# One attempt per task per run; parity repetitions use separate jobs
+# (see parity/README.md).
+n_attempts: 1
+timeout_multiplier: 1.0
+orchestrator:
+  type: local
+  n_concurrent_trials: 4
+  quiet: false
+environment:
+  type: docker
+  force_build: true
+  delete: true
+datasets:
+  - path: datasets/itbench-aa
+
+# Default: oracle agent for verification (every task must score reward = 1.0)
+agents:
+  - name: oracle
+
+# Uncomment to run with other agents (replace the block above):
+#
+# Parity agent -- the shared Stirrup 0.2.0 loop (src/itbench_aa/agents/stirrup.py).
+# Pass --artifact /workspace/answer.json on the CLI for cross-grading; see parity/README.md.
+# agents:
+#   - import_path: itbench_aa.agents.stirrup:StirrupAgent
+#     model_name: anthropic/claude-haiku-4-5-20251001
+#
+# Standard CLI agent (standard-agent row of the parity table)
+# agents:
+#   - name: claude-code
+#     model_name: anthropic/claude-haiku-4-5-20251001
