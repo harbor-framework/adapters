@@ -57,6 +57,30 @@ BROKEN_PALLAS_ORACLES = {
 }
 
 
+# Parity subset (15 of 49): 7 priority kernels (the 3 Pallas-oracle tasks plus 1p, 12p, 15p, 16p,
+# which the JAXBench and MaxKernel papers report on) and every 4th KernelBench workload from 18k.
+PARITY_WORKLOADS = {
+    ("level1", name)
+    for name in (
+        "1p_Flash_Attention",
+        "3p_MLA_Attention",
+        "4p_Sparse_Attention",
+        "8p_GEMM",
+        "12p_RMSNorm",
+        "15p_RetNet_Retention",
+        "16p_Mamba2_SSD",
+        "18k_Conv2D_ReLU_BiasAdd",
+        "22k_Conv2d_InstanceNorm_Divide",
+        "26k_BMM_InstanceNorm_Sum_ResidualAdd_Multiply",
+        "30k_Matmul_Scaling_ResidualAdd",
+        "34k_Conv2d_Activation_BatchNorm",
+        "38k_Matmul_Dropout_Softmax",
+        "42k_Gemm_Max_Subtract_GELU",
+        "46k_Conv2d_GroupNorm_Tanh_HardSwish_ResidualAdd_LogSumExp",
+    )
+}
+
+
 @dataclass(frozen=True)
 class Workload:
     level: str  # e.g. "level1"
@@ -101,6 +125,7 @@ class JAXBenchAdapter:
         source_dir: Path | None = None,
         levels: list[str] | None = None,
         oracle: str = "pallas",
+        split: str = "full",
         **kwargs,
     ):
         """
@@ -115,6 +140,7 @@ class JAXBenchAdapter:
             levels: JAXBench levels to include (default: level1).
             oracle: "pallas" uses upstream optimized.py as the oracle where it passes the
                 harness (baseline elsewhere); "baseline" uses the XLA baseline for every task.
+            split: "full" (all adapted tasks) or "parity" (the PARITY_WORKLOADS subset).
         """
         self.output_dir = Path(output_dir)
         self.limit = limit
@@ -125,6 +151,9 @@ class JAXBenchAdapter:
         if oracle not in ("pallas", "baseline"):
             raise ValueError(f"oracle must be 'pallas' or 'baseline', got {oracle!r}")
         self.oracle = oracle
+        if split not in ("full", "parity"):
+            raise ValueError(f"split must be 'full' or 'parity', got {split!r}")
+        self.split = split
 
     # ------------------------------------------------------------------ source
 
@@ -154,6 +183,8 @@ class JAXBenchAdapter:
                     continue
                 workloads.append(Workload(level=level, name=d.name, path=d))
 
+        if self.split == "parity":
+            workloads = [w for w in workloads if (w.level, w.name) in PARITY_WORKLOADS]
         if self.task_ids:
             wanted = set(self.task_ids)
             workloads = [w for w in workloads if w.task_id in wanted or w.name in wanted]

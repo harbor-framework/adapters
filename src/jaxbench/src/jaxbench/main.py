@@ -53,6 +53,12 @@ def main() -> None:
         help="JAXBench levels to include (default: level1)",
     )
     parser.add_argument(
+        "--split",
+        choices=["full", "parity"],
+        default="full",
+        help="Generate all adapted tasks (default) or only the parity subset",
+    )
+    parser.add_argument(
         "--oracle",
         choices=["pallas", "baseline"],
         default="pallas",
@@ -69,6 +75,7 @@ def main() -> None:
         source_dir=args.source_dir,
         levels=args.levels,
         oracle=args.oracle,
+        split=args.split,
     )
 
     adapter.run()
