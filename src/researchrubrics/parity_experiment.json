@@ -1,0 +1,26 @@
+[
+  {
+    "adapter_name": "researchrubrics",
+    "agent": "<agent>@<version>",
+    "model": "<model>",
+    "date": "YYYY-MM-DD",
+    "adapted_benchmark_size": 101,
+    "parity_benchmark_size": null,
+    "number_of_runs": null,
+    "notes": "Parity not yet run; plan (agent, model, judge, runs) to be agreed with the Harbor team.",
+    "original_parity_repo": "https://github.com/scaleapi/researchrubrics",
+    "adapter_pr": [],
+    "dataset_pr": [],
+    "parity_pr": [],
+    "metrics": [
+      {
+        "benchmark_name": "ResearchRubrics",
+        "metric": "rubric_compliance_score",
+        "original": "<mean +/- sample_SEM, e.g. 45.2% +/- 1.3%>",
+        "harbor": "<mean +/- sample_SEM, e.g. 44.8% +/- 1.1%>",
+        "original_runs": [],
+        "harbor_runs": []
+      }
+    ]
+  }
+]
