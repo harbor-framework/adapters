@@ -40,7 +40,10 @@ agents:
       # Note: do not set reasoning_effort; with an openai/ model Harbor routes it through the
       # Responses API, which the gateway does not implement for this model.
     env:
+      # Harbor checks MSWEA_API_KEY before launch, but mini-swe-agent's LiteLLM model passes no
+      # key itself; LiteLLM reads OPENAI_API_KEY for `openai/` models, so set both.
       MSWEA_API_KEY: ${LLM_API_KEY}
+      OPENAI_API_KEY: ${LLM_API_KEY}
       OPENAI_BASE_URL: https://app-us.ppapi.ai/v1
       # LiteLLM has no price entry for this model; keep cost tracking from aborting the run.
       MSWEA_COST_TRACKING: ignore_errors
@@ -49,6 +52,13 @@ environment:
   type: gke
   force_build: false
   delete: true
+  # Applied to every command in the trial container, including the agent install.
+  # Harbor installs mini-swe-agent with an unpinned `--with litellm`; litellm 1.106.0
+  # (2026-10-18) imports the optional `mcp` package on its tool-calling path, so every
+  # model call fails. Resolving packages as of this date gives litellm 1.105.1 and also
+  # pins the agent toolchain for reproducibility (use the same value on the original side).
+  env:
+    UV_EXCLUDE_NEWER: "2026-10-17T00:00:00Z"
   kwargs:
     project_id: tpu-test-448023
     cluster_name: lehui-tpu-us-central1
