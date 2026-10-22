@@ -17,6 +17,7 @@ The AIME benchmark evaluates mathematical problem-solving abilities through chal
 
 **Modifications for Harbor**:
 - Problems are adapted from AIME-Preview repository format
+- Corrects the malformed angle condition in AIME 2025 I problem 14 to $\angle B = \angle E = 60°$; the reference answer remains 60
 - Agents must write their answer to `/app/answer.txt` as a plain integer
 - Oracle solutions directly output the correct answer
 - Tests verify exact match with expected answer
