@@ -141,6 +141,38 @@ class AdapterRequirementsTests(unittest.TestCase):
         self.assertEqual([f.check for f in report.warnings],
                          ["ADP-PARITY: insufficient runs"] * 2)
 
+    def test_parity_findings_identify_repeated_entries_and_metrics(self):
+        text = r'''[
+  {"adapter_name": "example", "agent": "codex@1", "model": "example",
+   "date": "2026-10-23", "dataset_pr": null, "parity_pr": null,
+   "adapter_pr": ["https://example.com/1"],
+   "metrics": [{"benchmark_name": "example", "metric": "baseline",
+                "original": "1", "original_runs": [1, 1],
+                "harbor": "1", "harbor_runs": [1, 1]}]},
+  {"adapter_name": "example", "agent": "codex@1", "model": "example",
+   "date": "2026-10-23", "dataset_pr": null, "parity_pr": null,
+   "adapter_pr": ["https://example.com/2"],
+   "notes": "Not a field: \"original_runs\": [0], {braces}",
+   "metrics": [{"benchmark_name": "example", "metric": "chat reward",
+                "original": "1", "original_runs": [1],
+                "harbor": "1", "harbor_runs": [1]},
+               {"benchmark_name": "example", "metric": "chat points",
+                "original": "3", "original_runs": [3],
+                "harbor": "3", "harbor_runs": [3]}]}
+]'''
+        (self.adapter / "parity_experiment.json").write_text(text)
+        report = validator.AdapterReport("example")
+        validator.check_parity_json(self.adapter, report)
+        validator.check_parity_pr_links(self.adapter, report)
+        runs = [f for f in report.warnings if f.check == "ADP-PARITY: insufficient runs"]
+        self.assertEqual([f.line for f in runs], [13, 14, 16, 17])
+        self.assertTrue(all("Entry 1, metric 0 (`chat reward`)" in f.message for f in runs[:2]))
+        self.assertTrue(all("Entry 1, metric 1 (`chat points`)" in f.message for f in runs[2:]))
+        links = [f for f in report.warnings if f.check == "Parity PR link null"]
+        self.assertEqual([f.line for f in links], [3, 3, 9, 9])
+        self.assertEqual(len(report.warnings), 8)
+        self.assertFalse(report.errors)
+
     def test_contract_references_do_not_float(self):
         guide = (ROOT / "docs/adapters.mdx").read_text()
         self.assertIn(f"Adapter contract v{validator.CONTRACT_VERSION}", guide)

@@ -27,6 +27,9 @@ jobs:
       sha: ${{ steps.pr.outputs.sha }}
       repository: ${{ steps.pr.outputs.repo }}
       adapters: ${{ steps.detect.outputs.adapters }}
+    concurrency:
+      group: adapter-validation-${{ github.repository }}-${{ github.event.issue.number }}
+      cancel-in-progress: false
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -91,6 +94,7 @@ jobs:
         env:
           PR_NUMBER: ${{ steps.pr.outputs.number }}
           REVIEW_SHA: ${{ steps.pr.outputs.sha }}
+          REVIEW_RUN_NUMBER: ${{ github.run_number }}
         uses: actions/github-script@v9
         with:
           script: |
@@ -105,14 +109,39 @@ jobs:
             const prNumber = parseInt(process.env.PR_NUMBER);
 
             const timestamp = new Date().toISOString().replace('T', ' ').replace(/\.\d+Z$/, ' UTC');
-            const body = `_Structural validation of commit ${process.env.REVIEW_SHA} at ${timestamp}_\n\n${report}`;
+            const body = `_Structural validation of commit ${process.env.REVIEW_SHA} at ${timestamp}_\n<!-- adapter-validation-run:${process.env.REVIEW_RUN_NUMBER} -->\n\n${report}`;
 
-            await github.rest.issues.createComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: prNumber,
-              body,
+            const comments = await github.paginate(github.rest.issues.listComments, {
+              ...context.repo, issue_number: prNumber, per_page: 100,
             });
+            // Only update our own structural report; leave human and AI reviews intact.
+            const existing = comments.filter(comment =>
+              comment.user?.login === 'github-actions[bot]'
+              && comment.body?.includes('<!-- adapter-validation-bot -->')
+            ).sort((a, b) => b.id - a.id)[0];
+            const previousRun = existing?.body?.match(/<!-- adapter-validation-run:(\d+) -->/);
+            if (previousRun && Number(previousRun[1]) > Number(process.env.REVIEW_RUN_NUMBER)) {
+              core.notice('A newer structural report is already published.');
+              return;
+            }
+
+            const { data: pr } = await github.rest.pulls.get({
+              ...context.repo, pull_number: prNumber,
+            });
+            if (pr.state !== 'open' || pr.head.sha !== process.env.REVIEW_SHA) {
+              core.notice('Structural report superseded by a changed or closed PR.');
+              return;
+            }
+
+            if (existing) {
+              await github.rest.issues.updateComment({
+                ...context.repo, comment_id: existing.id, body,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                ...context.repo, issue_number: prNumber, body,
+              });
+            }
 
       - name: Fail on validation errors
         if: env.VALIDATION_FAILED == 'true'

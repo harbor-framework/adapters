@@ -88,6 +88,44 @@ def _find_line(path: Path, pattern: str) -> int | None:
     return None
 
 
+def _json_key_lines(text: str) -> dict[tuple, int]:
+    """Locate fields by JSON path so repeated names retain their own locations."""
+    decoder = json.JSONDecoder()
+    lines = {}
+
+    def whitespace(pos):
+        return re.compile(r"\s*").match(text, pos).end()
+
+    def visit(pos, path):
+        pos = whitespace(pos)
+        lines.setdefault(path, text.count("\n", 0, pos) + 1)
+        if text[pos] == "{":
+            pos = whitespace(pos + 1)
+            while text[pos] != "}":
+                start = pos
+                key, pos = decoder.raw_decode(text, pos)
+                pos = whitespace(pos) + 1  # colon
+                child = (*path, key)
+                lines[child] = text.count("\n", 0, start) + 1
+                pos = whitespace(visit(pos, child))
+                if text[pos] == ",":
+                    pos = whitespace(pos + 1)
+            return pos + 1
+        if text[pos] == "[":
+            pos = whitespace(pos + 1)
+            index = 0
+            while text[pos] != "]":
+                pos = whitespace(visit(pos, (*path, index)))
+                index += 1
+                if text[pos] == ",":
+                    pos = whitespace(pos + 1)
+            return pos + 1
+        return decoder.raw_decode(text, pos)[1]
+
+    visit(0, ())
+    return lines
+
+
 def _rel(adapter_dir: Path, *parts: str) -> str:
     """Build a display path relative to the repo root."""
     return str(Path("src") / adapter_dir.name / Path(*parts))
@@ -306,6 +344,7 @@ def check_parity_json(d: Path, r: AdapterReport) -> None:
 
     r.ok("`parity_experiment.json` is valid JSON array")
 
+    key_lines = _json_key_lines(path.read_text())
     for idx, entry in enumerate(data):
         if not isinstance(entry, dict):
             r.error(
@@ -314,7 +353,7 @@ def check_parity_json(d: Path, r: AdapterReport) -> None:
                 file=_rel(d, "parity_experiment.json"),
             )
             continue
-        _check_parity_entry(d, r, idx, entry, path)
+        _check_parity_entry(d, r, idx, entry, key_lines)
 
 
 def _check_parity_entry(
@@ -322,7 +361,7 @@ def _check_parity_entry(
     r: AdapterReport,
     idx: int,
     entry: dict,
-    path: Path,
+    key_lines: dict[tuple, int],
 ) -> None:
     fpath = _rel(d, "parity_experiment.json")
 
@@ -332,7 +371,7 @@ def _check_parity_entry(
                 "Parity JSON schema",
                 f"Entry {idx}: missing required field `{key}`.",
                 file=fpath,
-                line=_find_line(path, f'"{key}"'),
+                line=key_lines.get((idx,)),
             )
 
     for link_key in ("adapter_pr", "dataset_pr", "parity_pr"):
@@ -342,7 +381,7 @@ def _check_parity_entry(
                 "Parity JSON schema",
                 f"Entry {idx}: `{link_key}` must be an array of URLs, not a string.",
                 file=fpath,
-                line=_find_line(path, f'"{link_key}"'),
+                line=key_lines.get((idx, link_key)),
             )
 
     metrics = entry.get("metrics") or []
@@ -385,30 +424,31 @@ def _check_parity_entry(
             f"Entry {idx}: `number_of_trials` has been renamed to "
             "`number_of_runs`. Please update all `*_trials` fields to `*_runs`.",
             file=fpath,
-            line=_find_line(path, '"number_of_trials"'),
+            line=key_lines.get((idx, "number_of_trials")),
         )
 
     n_runs = entry.get("number_of_runs")
-    for m in metrics:
+    for midx, m in enumerate(metrics):
         if not isinstance(m, dict):
             continue
+        context = f"Entry {idx}, metric {midx} (`{m.get('metric', 'unnamed')}`)"
         for rk in ("original_runs", "tb_adapter_runs", "harbor_runs"):
             runs = m.get(rk)
             if isinstance(runs, list) and len(runs) < 2:
                 r.warning(
                     "ADP-PARITY: insufficient runs",
-                    f"Entry {idx}: `{rk}` needs at least two runs for sample SEM. "
+                    f"{context}: `{rk}` needs at least two runs for sample SEM. "
                     "A single published score does not satisfy the parity contract.",
                     file=fpath,
-                    line=_find_line(path, f'"{rk}"'),
+                    line=key_lines.get((idx, "metrics", midx, rk)),
                 )
             if n_runs is not None and isinstance(runs, list) and len(runs) != n_runs:
                 r.warning(
                     "Run count mismatch",
-                    f"Entry {idx}: `number_of_runs` is {n_runs} "
+                    f"{context}: `number_of_runs` is {n_runs} "
                     f"but `{rk}` has {len(runs)} entries.",
                     file=fpath,
-                    line=_find_line(path, f'"{rk}"'),
+                    line=key_lines.get((idx, "metrics", midx, rk)),
                 )
 
 
@@ -439,6 +479,7 @@ def check_metadata_json(d: Path, r: AdapterReport) -> None:
 
     r.ok("`adapter_metadata.json` is valid JSON array")
     fpath = _rel(d, "adapter_metadata.json")
+    key_lines = _json_key_lines(path.read_text())
 
     for idx, entry in enumerate(data):
         if not isinstance(entry, dict):
@@ -469,7 +510,7 @@ def check_metadata_json(d: Path, r: AdapterReport) -> None:
                 file=fpath,
             )
         else:
-            for builder in builders:
+            for bidx, builder in enumerate(builders):
                 if not isinstance(builder, str):
                     continue
                 if builder != "Harbor Team" and not re.search(
@@ -480,7 +521,7 @@ def check_metadata_json(d: Path, r: AdapterReport) -> None:
                         f"Builder `{builder}` missing email. "
                         "Expected format: `Name (email@example.com)`.",
                         file=fpath,
-                        line=_find_line(path, re.escape(builder)),
+                        line=key_lines.get((idx, "adapter_builders", bidx)),
                     )
 
         harbor_adapters = entry.get("harbor_adapter", [])
@@ -832,6 +873,7 @@ def check_parity_pr_links(d: Path, r: AdapterReport) -> None:
         return
 
     fpath = _rel(d, "parity_experiment.json")
+    key_lines = _json_key_lines(path.read_text())
     all_ok = True
     for idx, entry in enumerate(data):
         if not isinstance(entry, dict):
@@ -851,7 +893,7 @@ def check_parity_pr_links(d: Path, r: AdapterReport) -> None:
                     "Parity PR link null",
                     f"Entry {idx}: `{link_key}` is null — fill in the PR URL(s).",
                     file=fpath,
-                    line=_find_line(path, f'"{link_key}"'),
+                    line=key_lines.get((idx, link_key)),
                 )
                 all_ok = False
                 continue
@@ -864,7 +906,7 @@ def check_parity_pr_links(d: Path, r: AdapterReport) -> None:
                     "Parity PR link empty",
                     f"Entry {idx}: `{link_key}` is an empty list.",
                     file=fpath,
-                    line=_find_line(path, f'"{link_key}"'),
+                    line=key_lines.get((idx, link_key)),
                 )
                 all_ok = False
                 continue
@@ -874,7 +916,7 @@ def check_parity_pr_links(d: Path, r: AdapterReport) -> None:
                         "Parity PR link invalid URL",
                         f"Entry {idx}: `{link_key}` contains invalid URL: `{url}`.",
                         file=fpath,
-                        line=_find_line(path, f'"{link_key}"'),
+                        line=key_lines.get((idx, link_key)),
                     )
                     all_ok = False
     if all_ok:
