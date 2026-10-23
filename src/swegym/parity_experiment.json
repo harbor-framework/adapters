@@ -11,7 +11,8 @@
     "original_parity_repo": "https://github.com/SWE-Gym/SWE-Gym/blob/main/docs/OpenHands.md",
     "adapter_pr": [
       "https://github.com/harbor-framework/harbor/pull/405",
-      "https://github.com/harbor-framework/harbor/pull/1438"
+      "https://github.com/harbor-framework/harbor/pull/1438",
+      "https://github.com/harbor-framework/adapters/pull/46"
     ],
     "dataset_pr": [
       "https://github.com/laude-institute/harbor-datasets/pull/52",
@@ -50,7 +51,8 @@
     "original_parity_repo": "https://github.com/SWE-Gym/SWE-Gym/blob/main/docs/OpenHands.md",
     "adapter_pr": [
       "https://github.com/harbor-framework/harbor/pull/405",
-      "https://github.com/harbor-framework/harbor/pull/1438"
+      "https://github.com/harbor-framework/harbor/pull/1438",
+      "https://github.com/harbor-framework/adapters/pull/46"
     ],
     "dataset_pr": [
       "https://github.com/laude-institute/harbor-datasets/pull/52",
