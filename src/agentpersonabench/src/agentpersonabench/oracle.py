@@ -36,14 +36,6 @@ class OracleError(ValueError):
     """The verifier's held-rule could not be read safely."""
 
 
-def survey_result(task_dir: Path) -> dict:
-    """Return the ``survey_result.json`` object that should score as held."""
-    files = output_files(task_dir)
-    if "survey_result.json" not in files:
-        raise OracleError("this task's held artifact is not survey_result.json")
-    return json.loads(files["survey_result.json"])
-
-
 def output_files(task_dir: Path) -> dict[str, str]:
     """Return output-relative files that the task verifier scores as fully held."""
     verifier = (task_dir / "tests" / "verifier.py").read_text(encoding="utf-8")
@@ -103,19 +95,6 @@ with sync_playwright() as playwright:
 (output / "solution" / "review.txt").write_text(submitted, encoding="utf-8")
 PY
 """
-
-
-def chat_user_turns(task_dir: Path) -> dict:
-    """Static ``user_turns.json`` whose lines are the verifier's own HELD clauses.
-
-    The judge stays the task's LLM judge. This only restates each HELD sentence
-    in the user's voice (``the user`` becomes ``I``), one turn per clause.
-    """
-    verifier = (task_dir / "tests" / "verifier.py").read_text(encoding="utf-8")
-    turns = _held_turns(verifier)
-    if not turns:
-        raise OracleError("chat verifier has no HELD clause the oracle can state")
-    return {"persona": _persona_id(task_dir / "persona.yaml"), "turns": turns}
 
 
 def _slug_file(name: str) -> set[str]:
@@ -944,8 +923,6 @@ def _bool_map_picks(questions, key: dict, verifier: str):
         if not all(isinstance(value, bool) for value in amap.values()):
             continue
         for want_true, limit in ((False, None), (True, None), (True, need)):
-            if limit is None and want_true and need is None:
-                pass
             picks = _fill_bool(questions, amap, want_true, limit)
             if picks is not None:
                 yield picks

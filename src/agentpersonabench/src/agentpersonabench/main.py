@@ -1,4 +1,4 @@
-"""Generate AgentPersonaBench survey tasks in Harbor format."""
+"""Generate AgentPersonaBench tasks in Harbor format."""
 
 import argparse
 import logging
@@ -18,7 +18,7 @@ PARITY_TASK_IDS = {
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Generate AgentPersonaBench survey tasks in Harbor format"
+        description="Generate AgentPersonaBench tasks in Harbor format"
     )
     parser.add_argument(
         "--output-dir",
@@ -41,7 +41,7 @@ def main() -> None:
         "--task-ids",
         nargs="+",
         default=None,
-        help="Only generate these task slugs (survey directory names)",
+        help="Only generate these task slugs",
     )
     parser.add_argument(
         "--source",

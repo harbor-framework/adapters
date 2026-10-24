@@ -157,7 +157,7 @@ def _openai_route(model: str) -> tuple[str, str, str]:
         ).rstrip("/")
         if not key:
             raise RuntimeError("DASHSCOPE_API_KEY is unset")
-        return bare if lowered.startswith("dashscope/") else bare, f"{base}/chat/completions", key
+        return bare, f"{base}/chat/completions", key
     if lowered.startswith(("zai/", "glm/")) or lowered.startswith("glm"):
         key = (os.environ.get("ZAI_API_KEY") or "").strip()
         base = (os.environ.get("ZAI_API_BASE") or "").rstrip("/")

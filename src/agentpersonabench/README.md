@@ -1,4 +1,4 @@
-## AgentPersonaBench → Harbor Adapter
+# AgentPersonaBench → Harbor Adapter
 
 ## Overview
 
@@ -6,7 +6,7 @@ This adapter converts the survey, chat, web, and os-app surfaces of [AgentPerson
 
 - **Source**: https://github.com/MatrAIx-ai/AgentPersonaBench (code Apache-2.0, tasks CC-BY-4.0)
 - **Paper**: https://arxiv.org/abs/2610.04379
-- **What changed**: per-task Dockerfile. Survey and chat images contain that task's `input/` (`bot.md` and `context.md` for chat). Web images start from the upstream Playwright base and add the task site. Os-app images inline the upstream Linux desktop base, then the task's own app install. `solution/solve.sh` is a deterministic oracle. For chat it writes `user_turns.json`. Most tasks restate each verifier HELD clause in the user's voice. The 54 slugs in `chat_oracle_calibrated.txt` use concrete choices and commitments because the restatement did not score stably. `[verifier.env]` passes `ANTHROPIC_API_KEY` through and sets `ADHERENCE_JUDGE_MODEL` to `claude-opus-4-8`. `tests/test.sh` points that verifier at `/logs/verifier/reward.txt`. Web, os-app, and chat reconstruct the task tree the verifier reads, and chat adds `tests/llm_client.py` so the original `from llm_client import chat` still resolves. Task text, `instruction.md`, and verifier pass/fail rules are copied unchanged. Harbor `task.toml` stays the harness config. Where a verifier used to load `[[checks]]` from the benchmark `task.toml`, those tables are written to `tests/checks.toml` and the copied verifier reads that file.
+- **What changed**: per-task Dockerfile. Survey and chat images contain that task's `input/` (`bot.md` and `context.md` for chat). Web images start from the upstream Playwright base and add the task site. Os-app images inline the upstream Linux desktop base, then the task's own app install. `solution/solve.sh` is a deterministic oracle. For chat it writes `user_turns.json`. Most tasks restate each verifier HELD clause in the user's voice. The 60 slugs in `chat_oracle_calibrated.txt` use concrete choices and commitments because the restatement did not score stably. Those 60 turns are hand-written and were checked against a judge. `[verifier.env]` passes `ANTHROPIC_API_KEY` through and sets `ADHERENCE_JUDGE_MODEL` to `claude-opus-4-8`. `tests/test.sh` points that verifier at `/logs/verifier/reward.txt`. Web, os-app, and chat reconstruct the task tree the verifier reads, and chat adds `tests/llm_client.py` so the original `from llm_client import chat` still resolves. Task text, `instruction.md`, and verifier pass/fail rules are copied unchanged. Harbor `task.toml` stays the harness config. Where a verifier used to load `[[checks]]` from the benchmark `task.toml`, those tables are written to `tests/checks.toml` and the copied verifier reads that file.
 - **Persona**: `persona.yaml` stays in the host task directory. It is not copied into the image. Survey composition is `persona-openhands-sdk`. Chat is `persona-chat`. Web is `persona-web`. Os-app is `persona-computer-1`.
 
 ## What is AgentPersonaBench?
@@ -156,7 +156,7 @@ The comparison below is a sampled subset, not a full-benchmark parity. Scores ar
 |-------|-------|--------|------------------|--------------|------------------------------|----------------------------|
 | persona-web@1.0.0 | qwen3.8-flash | reward | 3 | 1 (vaccines-opposed-web) | 1.000 ± 0.000 | 1.000 ± 0.000 |
 | persona-web@1.0.0 | qwen3.8-flash | points (max 3) | 3 | 1 (wellness-web) | 2.333 ± 0.667 | 2.667 ± 0.333 |
-| persona-computer-1 | qwen3.8-flash | reward | 3 | 1 (no-budget-apps-app) | 0.333 ± 0.333 | 0.000 ± 0.000 |
+| persona-computer-1@1.0.0 | qwen3.8-flash | reward | 3 | 1 (no-budget-apps-app) | 0.333 ± 0.333 | 0.000 ± 0.000 |
 | persona-chat@1.0.0 | dashscope/deepseek-v4.1-flash | reward | 1 | 1 (vaccines-opposed-chat) | 1.000 (n=1) | 1.000 (n=1) |
 | persona-chat@1.0.0 | dashscope/deepseek-v4.1-flash | points (max 3) | 1 | 1 (wellness-chat) | 3.000 (n=1) | 3.000 (n=1) |
 
@@ -165,11 +165,18 @@ Raw runs: vaccines-opposed-web APB (1, 1, 1), Harbor (1, 1, 1). wellness-web APB
 Reproduction:
 
 ```bash
-# Harbor web / os-app. Source DashScope credentials first. Temperature 0.
+# Harbor web. Source DashScope credentials first.
 PYTHONPATH=src/agentpersonabench/src harbor run -y \
   -a agentpersonabench.agents.persona_web:PersonaWeb \
   -m qwen3.8-flash -e docker \
   -p datasets/agentpersonabench/vaccines-opposed-web -n 3
+
+# Harbor os-app. The recorded runs set temperature 0. Without this variable
+# persona-computer-1 uses 0.7.
+ADHERENCE_TEMPERATURE=0 PYTHONPATH=src/agentpersonabench/src harbor run -y \
+  -a agentpersonabench.agents.persona_computer_1:PersonaComputer1 \
+  -m qwen3.8-flash -e docker \
+  -p datasets/agentpersonabench/no-budget-apps-app -n 3
 
 # Harbor chat. Judge override used for the recorded scores:
 # ADHERENCE_JUDGE_MODEL=glm-4.7 plus ZAI_API_KEY and ZAI_API_BASE.
@@ -188,13 +195,17 @@ Multi-attribute reward is an integer point count, matching the upstream verifier
 
 ## Notes & Caveats
 
-Emitted tasks keep upstream `instruction.md`, `persona.yaml`, `input/`, and `verifier.py` bytes. The verifier change is the `[[checks]]` path, from the benchmark `task.toml` to `tests/checks.toml`. `persona.yaml` is not in the image. Survey does not upload it at grade time. Web, os-app, and chat copy it from `tests/` only after the agent has finished.
+Emitted tasks keep upstream `instruction.md`, `persona.yaml`, `input/`, and `verifier.py` bytes. The verifier change is the `[[checks]]` path, from the benchmark `task.toml` to `tests/checks.toml`. Persona rendering reads that file, so a tested value such as `None` or `Unknown` stays in the prompt. `persona.yaml` is not copied into the image at build time. Survey does not upload it. Web and chat copy it from `tests/` only after the agent has finished. `persona-computer-1` uploads it to `/app/input/persona.yaml` when the agent starts, matching APB's mixin.
 
-Excluded tasks, 159 of 2,460: survey 0, chat 3, web 63, os-app 93. The current oracle synthesizer has not produced and verified a full-score artifact for the excluded web and os-app tasks; this does not claim that no such artifact can exist. Three chat tasks have no stable full-score oracle (`debugger-first-chat`, `instrumentation-first-chat`, `risk-seeking-chat`). Twelve chat verifiers are rule-based. Sixty chat oracles use calibrated concrete turns (`chat_oracle_calibrated.txt`) because a rubric restatement was insufficient or unstable. `reviewstyle-web` uses the same calibrated review text as `reviewstyle-chat` and a real Playwright trace.
+`tests/test.sh` deletes `/logs/verifier/reward.txt` before the verifier runs. The verifier then rebuilds `/input` and `/environment` from the pristine copies under `tests/`, which Harbor uploads only at grade time.
 
-The Harbor oracle's latest trial is fully held on all 2,301 emitted tasks, with 0 exceptions. Rewards stay the verifier's point counts, so the mean of the raw rewards is 1.586, not a pass rate. LLM-judge trials in that run used `dashscope/deepseek-v4.1-flash` with thinking disabled, passed through `--verifier-env`. Generated `task.toml` still pins `claude-opus-4-8`. The first pass scored 13 tasks short. Their oracle text, or a missing `tests/questionnaire.yaml`, was fixed, and the rerun scored those 13 fully held. `claude-opus-4-8` was not used for this oracle run because `ANTHROPIC_API_KEY` returns HTTP 401.
+Excluded tasks, 159 of 2,460: survey 0, chat 3, web 63, os-app 93. The current oracle synthesizer has not produced and verified a full-score artifact for the excluded web and os-app tasks; this does not claim that no such artifact can exist. Three chat tasks (`debugger-first-chat`, `instrumentation-first-chat`, `risk-seeking-chat`) raise `OracleError` because the verifier has no HELD clause. Twelve chat verifiers are rule-based. Sixty chat oracles use hand-written calibrated turns (`chat_oracle_calibrated.txt`) because a rubric restatement was insufficient or unstable. The other chat oracles restate the verifier's own HELD sentences; that shows the judge accepts the restatement. `reviewstyle-web` uses the same calibrated review text as `reviewstyle-chat` and a real Playwright trace.
 
-`persona-computer-1` is Harbor's computer-1 with the persona prompt spliced in. It is not APB's vendored computer-1. On `no-budget-apps-app` the three-run means differ by 0.333, which equals the APB sample SEM. That pair is not treated as matched.
+Web pages keep ground truth in `data-*` attributes and HTML comments inside the agent-visible image, as upstream does. `persona-web` does not read those attributes. A shell-capable agent can. Os-app catalogs under `/opt/task-environment/` are in the same position.
+
+The Harbor oracle's latest trial is fully held on all 2,301 emitted tasks, with 0 exceptions. Rewards stay the verifier's point counts, so the mean of the raw rewards is 1.586, not a pass rate. LLM-judge trials in that run used `dashscope/deepseek-v4.1-flash` with thinking disabled, passed through `--verifier-env`. The 60 calibrated turns and the three chat exclusions were gated with `glm-4.7`, thinking disabled. Generated `task.toml` still pins `claude-opus-4-8`. That pin was not used for this oracle, because `ANTHROPIC_API_KEY` returns HTTP 401. The first pass scored 13 tasks short. Their oracle text, or a missing `tests/questionnaire.yaml`, was fixed, and the rerun scored those 13 fully held. Upstream commit `db1b8b493009811314421e7a1775c947762dc3b7`. Harbor 0.18.0.
+
+`persona-computer-1` is Harbor's computer-1 with the persona prompt spliced in. It is not APB's vendored computer-1. On `no-budget-apps-app` the run ranges overlap, and the means differ by 0.333, equal to the APB sample SEM. The pair is unmatched because the agents are not the same program. The recorded os-app runs set `ADHERENCE_TEMPERATURE=0`. The agent uses 0.7 when that variable is unset.
 
 APB's vaccines chat transcript ends with an `[Ended: satisfied — ...]` turn. Harbor's last turn is a normal goodbye. Both scored HELD under `glm-4.7` on the one recorded run. For DeepSeek, the Harbor chat bot uses a completion budget of 8192 because a 1024 budget returns empty `content` after `reasoning_content`. APB's bot budget stays 1024.
 

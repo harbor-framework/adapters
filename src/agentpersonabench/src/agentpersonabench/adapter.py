@@ -12,25 +12,9 @@ from .oracle import OracleError, chat_solve_script, solve_script
 
 logger = logging.getLogger(__name__)
 
-def _chat_oracle_unheld() -> set[str]:
-    """Chat slugs whose oracle did not score fully held on the task verifier.
-
-    The gate used glm-4.7 with thinking disabled on 2026-10-14, because the
-    Anthropic key for the benchmark judge claude-opus-4-8 returns HTTP 401.
-    """
-    path = Path(__file__).with_name("chat_oracle_unheld.txt")
-    slugs = set()
-    for line in path.read_text(encoding="utf-8").splitlines():
-        slug = line.split("#", 1)[0].strip()
-        if slug:
-            slugs.add(slug)
-    return slugs
-
-
-_CHAT_ORACLE_UNHELD = _chat_oracle_unheld()
-
 _SLUG_RE = re.compile(r"[^a-z0-9]+")
 _TASK_TOML_READ = re.compile(r'(?:_TASK|TASK|TASK_DIR) / "task\.toml"')
+_OTHER_TASK_TOML_READ = re.compile(r"""(?:/|join\()\s*["']task\.toml["']""")
 _CHECKS_PATH = 'Path(__file__).resolve().parent / "checks.toml"'
 _DOCKERFILE = """\
 FROM python:3.12-bookworm
@@ -41,18 +25,13 @@ WORKDIR /app
 COPY input/ /app/input/
 RUN mkdir -p /app/output
 """
-_TEST_SH = """\
-#!/bin/bash
-set -euo pipefail
-
-# Harbor copies tests to /tests. The upstream verifier finds the task root via
-# Path(__file__).parents[1], so the questionnaire must also exist at /input.
-mkdir -p /logs/verifier /input
-cp -a /app/input/. /input/
-
+_REWARD_TAIL = """\
 export ADHERENCE_OUTPUT_DIR=/app/output
 export ADHERENCE_VERIFIER_DIR=/logs/verifier
 
+# Drop a reward the agent may have pre-written. Keep a reward the verifier
+# itself wrote: many verifiers record a real score and then exit 1.
+rm -f /logs/verifier/reward.txt
 set +e
 python3 /tests/verifier.py
 set -e
@@ -62,18 +41,37 @@ if [ ! -f /logs/verifier/reward.txt ]; then
 fi
 exit 0
 """
+_TEST_SH = """\
+#!/bin/bash
+set -euo pipefail
+
+# Harbor copies tests to /tests. The upstream verifier finds the task root via
+# Path(__file__).parents[1], so the questionnaire must also exist at /input.
+# /tests/input is the pristine copy. /app/input is the agent-visible copy.
+mkdir -p /logs/verifier /input
+if [ -d /tests/input ]; then
+  cp -a /tests/input/. /input/
+elif [ -d /app/input ]; then
+  cp -a /app/input/. /input/
+fi
+
+""" + _REWARD_TAIL
 _INTERACTIVE_TEST_SH = """\
 #!/bin/bash
 set -euo pipefail
 
 # Harbor copies tests to /tests, so Path(__file__).parents[1] is /. The verifier
-# still reads the task tree from that root. persona.yaml is copied here only for
-# the verifier, from /tests, after the agent has finished.
+# still reads the task tree from that root. Pristine input and environment
+# copies live under /tests. The image copies are what the agent could edit.
 mkdir -p /logs/verifier /input /environment
-if [ -d /app/input ]; then
+if [ -d /tests/input ]; then
+  cp -a /tests/input/. /input/
+elif [ -d /app/input ]; then
   cp -a /app/input/. /input/
 fi
-if [ -d /opt/task-environment ]; then
+if [ -d /tests/environment ]; then
+  cp -a /tests/environment/. /environment/
+elif [ -d /opt/task-environment ]; then
   cp -a /opt/task-environment/. /environment/
 fi
 if [ -f /tests/instruction.md ]; then
@@ -83,18 +81,7 @@ if [ -f /tests/persona.yaml ]; then
   cp /tests/persona.yaml /persona.yaml
 fi
 
-export ADHERENCE_OUTPUT_DIR=/app/output
-export ADHERENCE_VERIFIER_DIR=/logs/verifier
-
-set +e
-python3 /tests/verifier.py
-set -e
-
-if [ ! -f /logs/verifier/reward.txt ]; then
-  echo 0 > /logs/verifier/reward.txt
-fi
-exit 0
-"""
+""" + _REWARD_TAIL
 _CHAT_TEST_SH = """\
 #!/bin/bash
 set -euo pipefail
@@ -102,7 +89,9 @@ set -euo pipefail
 # The copied verifier imports llm_client. That module is tests/llm_client.py.
 # persona.yaml is copied here only after the agent has finished.
 mkdir -p /logs/verifier /app/output /input
-if [ -d /app/input ]; then
+if [ -d /tests/input ]; then
+  cp -a /tests/input/. /input/
+elif [ -d /app/input ]; then
   cp -a /app/input/. /input/
 fi
 if [ -f /tests/instruction.md ]; then
@@ -113,18 +102,7 @@ if [ -f /tests/persona.yaml ]; then
 fi
 
 export PYTHONPATH="/tests${PYTHONPATH:+:$PYTHONPATH}"
-export ADHERENCE_OUTPUT_DIR=/app/output
-export ADHERENCE_VERIFIER_DIR=/logs/verifier
-
-set +e
-python3 /tests/verifier.py
-set -e
-
-if [ ! -f /logs/verifier/reward.txt ]; then
-  echo 0 > /logs/verifier/reward.txt
-fi
-exit 0
-"""
+""" + _REWARD_TAIL
 _CHAT_DOCKERFILE = """\
 FROM python:3.12-bookworm
 
@@ -227,8 +205,11 @@ class AgentPersonaBenchAdapter:
         try:
             script = solve_script(task_dir)
             verifier_text, checks_toml = _verifier_for_harbor(task_dir, verifier)
+            timeouts = _timeouts(task_dir)
         except OracleError as exc:
             self.excluded.append(f"{task_dir.name}: {exc}")
+            if dest.exists():
+                shutil.rmtree(dest)
             return
 
         (dest / "solution").mkdir(parents=True)
@@ -248,10 +229,11 @@ class AgentPersonaBenchAdapter:
             key = task_dir / "tests" / key_name
             if key.is_file():
                 shutil.copy2(key, dest / "tests" / key_name)
+        shutil.copytree(source_input, dest / "tests" / "input")
         (dest / "tests" / "test.sh").write_text(_TEST_SH, encoding="utf-8")
         (dest / "solution" / "solve.sh").write_text(script, encoding="utf-8")
         (dest / "task.toml").write_text(
-            _task_toml(slug, authors, _timeouts(task_dir)),
+            _task_toml(slug, authors, timeouts),
             encoding="utf-8",
         )
         self.generated_count += 1
@@ -266,11 +248,6 @@ class AgentPersonaBenchAdapter:
         self._emit_interactive(task_dir, authors, slug)
 
     def _emit_chat(self, task_dir: Path, authors: list[str], slug: str) -> None:
-        if slug in _CHAT_ORACLE_UNHELD:
-            self.excluded.append(
-                f"{slug}: oracle was not fully held by glm-4.7 on this task's verifier"
-            )
-            return
         dest = self.output_dir / slug
         if dest.exists():
             if not self.overwrite:
@@ -291,8 +268,14 @@ class AgentPersonaBenchAdapter:
         try:
             script = chat_solve_script(task_dir, slug)
             verifier_text, checks_toml = _verifier_for_harbor(task_dir, verifier)
+            timeouts = _timeouts(task_dir)
+            limits = _limits(task_dir, self.surface)
+            healthcheck = _healthcheck(task_dir)
+            application_id = _application_id(task_dir)
         except OracleError as exc:
             self.excluded.append(f"{slug}: {exc}")
+            if dest.exists():
+                shutil.rmtree(dest)
             return
 
         env = dest / "environment"
@@ -315,6 +298,11 @@ class AgentPersonaBenchAdapter:
             encoding="utf-8",
         )
         (tests / "test.sh").write_text(_CHAT_TEST_SH, encoding="utf-8")
+        shutil.copytree(
+            source_input,
+            tests / "input",
+            ignore=shutil.ignore_patterns("persona.yaml"),
+        )
         shutil.copy2(instruction, tests / "instruction.md")
         shutil.copy2(persona, tests / "persona.yaml")
         shutil.copy2(instruction, dest / "instruction.md")
@@ -326,11 +314,11 @@ class AgentPersonaBenchAdapter:
             _task_toml(
                 slug,
                 authors,
-                _timeouts(task_dir),
+                timeouts,
                 surface=self.surface,
-                limits=_limits(task_dir, self.surface),
-                healthcheck=_healthcheck(task_dir),
-                application_id=_application_id(task_dir),
+                limits=limits,
+                healthcheck=healthcheck,
+                application_id=application_id,
             ),
             encoding="utf-8",
         )
@@ -357,6 +345,9 @@ class AgentPersonaBenchAdapter:
                 self._web_environment(task_dir, dest / "environment")
             else:
                 self._app_environment(task_dir, dest / "environment")
+            timeouts = _timeouts(task_dir)
+            limits = _limits(task_dir, self.surface)
+            healthcheck = _healthcheck(task_dir)
         except OracleError as exc:
             self.excluded.append(f"{slug}: {exc}")
             if dest.exists():
@@ -375,6 +366,9 @@ class AgentPersonaBenchAdapter:
         if checks_toml is not None:
             (tests / "checks.toml").write_text(checks_toml, encoding="utf-8")
         (tests / "test.sh").write_text(_INTERACTIVE_TEST_SH, encoding="utf-8")
+        if (dest / "environment" / "input").is_dir():
+            shutil.copytree(dest / "environment" / "input", tests / "input")
+        shutil.copytree(dest / "environment", tests / "environment")
         shutil.copy2(instruction, tests / "instruction.md")
         shutil.copy2(persona, tests / "persona.yaml")
         shutil.copy2(instruction, dest / "instruction.md")
@@ -389,10 +383,10 @@ class AgentPersonaBenchAdapter:
             _task_toml(
                 slug,
                 authors,
-                _timeouts(task_dir),
+                timeouts,
                 surface=self.surface,
-                limits=_limits(task_dir, self.surface),
-                healthcheck=_healthcheck(task_dir),
+                limits=limits,
+                healthcheck=healthcheck,
                 uses_judge=uses_judge,
             ),
             encoding="utf-8",
@@ -469,7 +463,7 @@ def _registry_slug(name: str) -> str:
 
 
 def _unique_slugs(selected: list[Path], source: Path) -> dict[Path, str]:
-    """Keep the survey directory name unless another task already uses it."""
+    """Keep the task directory name unless another task already uses it."""
     used: set[str] = set()
     slugs: dict[Path, str] = {}
     for task_dir in selected:
@@ -485,21 +479,39 @@ def _unique_slugs(selected: list[Path], source: Path) -> dict[Path, str]:
     return slugs
 
 
+def _read_task_text(task_dir: Path) -> str:
+    path = task_dir / "task.toml"
+    try:
+        return path.read_text(encoding="utf-8")
+    except OSError as exc:
+        raise OracleError(f"cannot read task.toml: {exc}") from exc
+
+
+def _read_task_data(task_dir: Path) -> dict:
+    try:
+        data = tomllib.loads(_read_task_text(task_dir))
+    except tomllib.TOMLDecodeError as exc:
+        raise OracleError(f"cannot parse task.toml: {exc}") from exc
+    if not isinstance(data, dict):
+        raise OracleError("task.toml is not a table")
+    return data
+
+
 def _timeouts(task_dir: Path) -> tuple[float, float]:
-    text = (task_dir / "task.toml").read_text(encoding="utf-8")
+    text = _read_task_text(task_dir)
     agent = _timeout(text, "agent") or 300.0
     verifier = _timeout(text, "verifier") or 30.0
     return agent, verifier
 
 
 def _timeout(text: str, section: str) -> float | None:
-    match = re.search(
-        rf"\[{section}\][\s\S]*?timeout_sec\s*=\s*([0-9.]+)",
-        text,
-    )
+    match = re.search(rf"\[{section}\](.*?)(?=\n\[|\Z)", text, re.S)
     if match is None:
         return None
-    return float(match.group(1))
+    value = re.search(r"timeout_sec\s*=\s*([0-9.]+)", match.group(1))
+    if value is None:
+        return None
+    return float(value.group(1))
 
 
 def _citation_authors(source: Path) -> list[str]:
@@ -536,15 +548,20 @@ def _verifier_for_harbor(task_dir: Path, verifier: Path) -> tuple[str, str | Non
     """
     text = verifier.read_text(encoding="utf-8")
     if _TASK_TOML_READ.search(text) is None:
+        if _OTHER_TASK_TOML_READ.search(text) and "checks.toml" not in text:
+            raise OracleError("verifier reads task.toml through an unhandled pattern")
         return text, None
     checks = _checks_toml(task_dir)
     if checks is None:
         raise OracleError("verifier reads task.toml but it has no [[checks]]")
-    return _TASK_TOML_READ.sub(_CHECKS_PATH, text), checks
+    rewritten = _TASK_TOML_READ.sub(_CHECKS_PATH, text)
+    if _TASK_TOML_READ.search(rewritten):
+        raise OracleError("verifier still reads task.toml after the checks.toml rewrite")
+    return rewritten, checks
 
 
 def _checks_toml(task_dir: Path) -> str | None:
-    data = tomllib.loads((task_dir / "task.toml").read_text(encoding="utf-8"))
+    data = _read_task_data(task_dir)
     checks = data.get("checks")
     if not isinstance(checks, list) or not checks:
         return None
@@ -574,7 +591,7 @@ def _toml_value(value: object) -> str:
 
 
 def _limits(task_dir: Path, surface: str) -> tuple[int, int, int, float]:
-    data = tomllib.loads((task_dir / "task.toml").read_text(encoding="utf-8"))
+    data = _read_task_data(task_dir)
     env = data.get("environment") if isinstance(data.get("environment"), dict) else {}
     defaults = {
         "survey": (1, 2048, 10240, 600.0),
@@ -592,7 +609,7 @@ def _limits(task_dir: Path, surface: str) -> tuple[int, int, int, float]:
 
 
 def _healthcheck(task_dir: Path) -> dict | None:
-    data = tomllib.loads((task_dir / "task.toml").read_text(encoding="utf-8"))
+    data = _read_task_data(task_dir)
     env = data.get("environment") if isinstance(data.get("environment"), dict) else {}
     check = env.get("healthcheck")
     if not isinstance(check, dict) or not isinstance(check.get("command"), str):
@@ -601,7 +618,7 @@ def _healthcheck(task_dir: Path) -> dict | None:
 
 
 def _application_id(task_dir: Path) -> str | None:
-    data = tomllib.loads((task_dir / "task.toml").read_text(encoding="utf-8"))
+    data = _read_task_data(task_dir)
     meta = data.get("metadata") if isinstance(data.get("metadata"), dict) else {}
     value = meta.get("application_id")
     if isinstance(value, str) and value.strip():

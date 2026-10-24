@@ -59,10 +59,6 @@ class PersonaComputer1(Computer1):
         super().__init__(*args, **kwargs)
         self._identity_prompt = ""
 
-    @staticmethod
-    def name() -> str:
-        return "persona-computer-1"
-
     def _build_provider(self):
         provider = super()._build_provider()
         identity = (self._identity_prompt or "").strip()

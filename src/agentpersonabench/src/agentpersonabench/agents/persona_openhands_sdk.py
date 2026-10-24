@@ -79,10 +79,6 @@ class PersonaOpenHandsSdk(OpenHandsSDK):
         self._persona_path = persona_path
         super().__init__(*args, reasoning_effort=reasoning_effort, **kwargs)
 
-    @staticmethod
-    def name() -> str:
-        return "persona-openhands-sdk"
-
     def render_instruction(self, instruction: str) -> str:
         instruction = super().render_instruction(instruction)
         task_dir = self._task_dir()

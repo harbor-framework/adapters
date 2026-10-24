@@ -88,16 +88,19 @@ def _load_pinned_values(source: str | os.PathLike) -> dict[str, str]:
 
     A string such as ``"None"`` can be a valid categorical value even though
     it is normally suppressed as a placeholder.  Task checks disambiguate that
-    case.  Direct persona paths remain supported by looking beside the file.
+    case.  Generated Harbor tasks keep ``[[checks]]`` in ``tests/checks.toml``.
+    An upstream checkout still has them in ``task.toml``.
     """
-    p = Path(source)
-    task_path = (p if p.is_dir() else p.parent) / "task.toml"
-    if not task_path.is_file():
-        return {}
-    task = tomllib.loads(task_path.read_text(encoding="utf-8"))
-    checks = task.get("checks") or []
-    if not isinstance(checks, list):
-        return {}
+    root = Path(source)
+    root = root if root.is_dir() else root.parent
+    checks: list = []
+    for path in (root / "tests" / "checks.toml", root / "task.toml"):
+        if not path.is_file():
+            continue
+        loaded = tomllib.loads(path.read_text(encoding="utf-8")).get("checks") or []
+        if isinstance(loaded, list) and loaded:
+            checks = loaded
+            break
     pinned: dict[str, str] = {}
     for check in checks:
         if not isinstance(check, dict):

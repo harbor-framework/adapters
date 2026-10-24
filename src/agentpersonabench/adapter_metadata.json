@@ -33,14 +33,14 @@
           "persona-computer-1@1.0.0"
         ],
         "parity_matching_agents": [
-          "persona-web@1.0.0+qwen3.8-flash",
-          "persona-chat@1.0.0+dashscope/deepseek-v4.1-flash"
+          "persona-web@1.0.0+qwen3.8-flash"
         ],
         "parity_unmatching_agents": [
-          "persona-computer-1@1.0.0+qwen3.8-flash"
+          "persona-computer-1@1.0.0+qwen3.8-flash",
+          "persona-chat@1.0.0+dashscope/deepseek-v4.1-flash"
         ],
         "parity_costs": "unmetered",
-        "notes": "Registry count is the adapted set. The harbor-datasets PR is not opened. Parity is 5 tasks, not the full set. Chat scores use glm-4.7 because the Claude judge key returns HTTP 401. persona-computer-1 on no-budget-apps-app is outside the APB sample SEM."
+        "notes": "Registry count is the adapted set. The harbor-datasets PR is not opened. Parity is 5 tasks, not the full set. Upstream db1b8b493009811314421e7a1775c947762dc3b7. Harbor 0.18.0. Chat has one run per side and is not matched. persona-computer-1 is unmatched because it is not APB's vendored computer-1. The published oracle judge override is dashscope/deepseek-v4.1-flash; task.toml still pins claude-opus-4-8."
       }
     ]
   }
