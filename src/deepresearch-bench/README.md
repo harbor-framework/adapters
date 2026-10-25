@@ -23,6 +23,20 @@ The original benchmark is **harness-free**: it runs no agents itself. Systems su
 
 The score for a report is the fraction of rubric items scored `1`; the upstream leaderboard covers deep-research products such as GPT-o3-DeepResearch, Gemini Deep Research, Grok DeepSearch, Perplexity Research, Doubao, and Qwen-3-Max-DeepResearch.
 
+## Benchmark Version & Coverage
+
+- **Benchmark version (pinned)**: tasks and rubrics come from
+  [`imlrz/DeepResearch-Bench-II@ffdff61`](https://github.com/imlrz/DeepResearch-Bench-II/blob/ffdff6153ed1b76d87ff46ee371f3e061268aec6/tasks_and_rubrics.jsonl)
+  (last change to `tasks_and_rubrics.jsonl`, 2026-05-14); reference reports come from
+  [`muset-ai/DeepResearch-Bench-II-Dataset@73c8b00`](https://huggingface.co/datasets/muset-ai/DeepResearch-Bench-II-Dataset/tree/73c8b0010f6c63a13df52250561dd8c5a68d9612).
+  Both are pinned in `adapter.py` (`UPSTREAM_COMMIT`, `REPORTS_REVISION`) and predate the recorded
+  parity runs (2026-06-15), so generated tasks match what parity was measured on.
+- **Adapted**: all 132 cases. **Oracle**: 130/132 (idx-79 and idx-104 have no upstream reference report).
+- **Parity coverage is limited**: matched model parity covers **5 of 132 cases** (idx 9, 13, 17, 5, 1 —
+  the first 5 of the 33-case `idx % 4 == 1` parity subset), **3 runs per side** per case. The other
+  28 subset cases and the remaining 99 cases have no model-parity evidence. Oracle results are a
+  byte-exact sha256 check and are separate from model parity (they do not exercise the judge).
+
 ## Adapter Features
 
 - **Automated Dataset Loading**: Downloads and parses all 132 cases from the upstream GitHub release (`tasks_and_rubrics.jsonl`), with an offline fallback to previously generated tasks.
@@ -51,7 +65,8 @@ deepresearch-bench/
 
 ## Installation / Prerequisites
 
-- **Python 3.13+** and **`uv`** (run adapter commands with `uv run` from the Harbor repo root).
+- **Python 3.13+** and **`uv`**; Harbor itself is an external dependency (`uv tool install harbor`).
+  Run adapter commands from `src/deepresearch-bench/`.
 - **Network access** during task generation (downloads `tasks_and_rubrics.jsonl` from the upstream
   GitHub release) and at run time (cases require live web research).
 - **`GEMINI_API_KEY`** for the judge — the verifier defaults to `gemini/gemini-2.5-pro` (passed via
@@ -66,33 +81,33 @@ deepresearch-bench/
 
 ```bash
 # Use oracle agent (reference solution)
-uv run harbor run -d deepresearch-bench
+harbor run -d deepresearch-bench
 
 # Use claude-code as the research agent
-uv run harbor run -d deepresearch-bench -a claude-code -m claude-sonnet-4-6
+harbor run -d deepresearch-bench -a claude-code -m claude-sonnet-4-6
 ```
 
 ### Using Job Configurations
 
 ```bash
 # Run evaluation on the entire benchmark using the provided config
-uv run harbor run -c adapters/deepresearch-bench/run_deepresearch-bench.yaml
+harbor run -c src/deepresearch-bench/run_deepresearch-bench.yaml
 
 # Run directly on a locally prepared dataset path
-uv run harbor run -p datasets/deepresearch-bench -a claude-code -m claude-sonnet-4-6
+harbor run -p datasets/deepresearch-bench -a claude-code -m claude-sonnet-4-6
 ```
 
 ### Running Individual Trial
 
 ```bash
 # Run a single task with oracle solution
-uv run harbor trial start -p datasets/deepresearch-bench/idx-1 -a oracle
+harbor trial start -p datasets/deepresearch-bench/idx-1 -a oracle
 ```
 
 ## Usage: Create Task Directories
 
 ```bash
-cd adapters/deepresearch-bench
+cd src/deepresearch-bench
 uv run deepresearch-bench --output-dir ../../datasets/deepresearch-bench                 # full 132-task set
 uv run deepresearch-bench --split parity --output-dir ../../datasets/deepresearch-bench-parity  # 33-task parity subset
 ```
@@ -152,7 +167,7 @@ above, so every case has 3 runs per side.
 uv run deepresearch-bench --split parity --output-dir ../../datasets/deepresearch-bench-parity
 
 # 2. Run claude-code + deepseek on the adapted tasks and judge with gemini-2.5-pro
-uv run harbor run -c adapters/deepresearch-bench/run_claude_code_deepseek_parity.yaml \
+harbor run -c src/deepresearch-bench/run_claude_code_deepseek_parity.yaml \
   -a claude-code -m deepseek-v4-pro
 ```
 
@@ -178,7 +193,7 @@ traceable end to end in the fork's `parity_harness/artifacts/`: each report
 - **Original Benchmark Repository**: [imlrz/DeepResearch-Bench-II](https://github.com/imlrz/DeepResearch-Bench-II)
 - **Forked Original-Side Harness + Proof Bundle**: [johnxwork/DeepResearch-Bench-II `parity_harness/`](https://github.com/johnxwork/DeepResearch-Bench-II/tree/parity-harness/parity_harness)
 - **Reference Reports Dataset**: [muset-ai/DeepResearch-Bench-II-Dataset](https://huggingface.co/datasets/muset-ai/DeepResearch-Bench-II-Dataset)
-- **Harbor Adapter PR**: [harbor#1662](https://github.com/harbor-framework/harbor/pull/1662)
+- **Harbor Adapter PR**: ADAPTERS_PR_LINK (migrated from [harbor#1662](https://github.com/harbor-framework/harbor/pull/1662), which holds the earlier review history)
 
 ## Notes & Caveats
 

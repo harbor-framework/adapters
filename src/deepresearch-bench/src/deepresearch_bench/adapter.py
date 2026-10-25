@@ -11,6 +11,12 @@ import shutil
 import urllib.request
 from pathlib import Path
 
+# Pinned benchmark version (the revisions used for the recorded parity runs).
+# Last upstream commit touching tasks_and_rubrics.jsonl (2026-05-14).
+UPSTREAM_COMMIT = "ffdff6153ed1b76d87ff46ee371f3e061268aec6"
+# muset-ai/DeepResearch-Bench-II-Dataset revision holding the reference reports.
+REPORTS_REVISION = "73c8b0010f6c63a13df52250561dd8c5a68d9612"
+
 TEMPLATE_DIR = Path(__file__).parent / "task-template"
 
 # The parity split is the deterministic subset of cases with idx % 4 == 1
@@ -40,7 +46,7 @@ class DeepResearchBenchAdapter:
         return raw_id.lower().replace("_", "-")
 
     def load_cases(self) -> list[dict]:
-        url = "https://raw.githubusercontent.com/imlrz/DeepResearch-Bench-II/main/tasks_and_rubrics.jsonl"
+        url = f"https://raw.githubusercontent.com/imlrz/DeepResearch-Bench-II/{UPSTREAM_COMMIT}/tasks_and_rubrics.jsonl"
         print(f"Downloading benchmark dataset from {url}...")
         try:
             req = urllib.request.urlopen(url)
@@ -146,7 +152,7 @@ class DeepResearchBenchAdapter:
         solution_dir = output_dir / "solution"
         solution_dir.mkdir(exist_ok=True)
         idx = sanitized_id.split("-")[1]
-        pdf_url = f"https://huggingface.co/datasets/muset-ai/DeepResearch-Bench-II-Dataset/resolve/main/Qwen-3-Max-DeepResearch/idx-{idx}.pdf"
+        pdf_url = f"https://huggingface.co/datasets/muset-ai/DeepResearch-Bench-II-Dataset/resolve/{REPORTS_REVISION}/Qwen-3-Max-DeepResearch/idx-{idx}.pdf"
         pdf_dest = solution_dir / "report.pdf"
         print(f"Downloading reference report for task {sanitized_id} from {pdf_url}...")
         oracle_sha256 = None
