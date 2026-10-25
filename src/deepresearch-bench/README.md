@@ -193,7 +193,7 @@ traceable end to end in the fork's `parity_harness/artifacts/`: each report
 - **Original Benchmark Repository**: [imlrz/DeepResearch-Bench-II](https://github.com/imlrz/DeepResearch-Bench-II)
 - **Forked Original-Side Harness + Proof Bundle**: [johnxwork/DeepResearch-Bench-II `parity_harness/`](https://github.com/johnxwork/DeepResearch-Bench-II/tree/parity-harness/parity_harness)
 - **Reference Reports Dataset**: [muset-ai/DeepResearch-Bench-II-Dataset](https://huggingface.co/datasets/muset-ai/DeepResearch-Bench-II-Dataset)
-- **Harbor Adapter PR**: ADAPTERS_PR_LINK (migrated from [harbor#1662](https://github.com/harbor-framework/harbor/pull/1662), which holds the earlier review history)
+- **Harbor Adapter PR**: [adapters#51](https://github.com/harbor-framework/adapters/pull/51) (migrated from [harbor#1662](https://github.com/harbor-framework/harbor/pull/1662), which holds the earlier review history)
 
 ## Notes & Caveats
 
