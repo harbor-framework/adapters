@@ -1,0 +1,52 @@
+version = "1.0"
+
+# Only submitted files cross into the fresh verifier environment.
+artifacts = ["/app"]
+
+[task]
+name = "openai/gdpval__{{TASK_ID}}"
+description = "GDPval deliverable-generation task {{TASK_ID}}"
+authors = [{ name = "OpenAI" }]
+keywords = ["gdpval", "knowledge-work", "artifact-generation"]
+
+[metadata]
+difficulty = "medium"
+category = "knowledge-work"
+tags = {{METADATA_TAGS}}
+source = "openai/gdpval::train/{{TASK_ID}}"
+source_id = "{{TASK_ID}}"
+gdpval_task_id = "{{TASK_ID}}"
+gdpval_deliverable_filename = "{{DELIVERABLE_FILENAME}}"
+gdpval_deliverable_filenames = {{DELIVERABLE_FILENAMES}}
+gdpval_deliverable_file_count = {{DELIVERABLE_FILE_COUNT}}
+gdpval_reference_files = {{REFERENCE_FILES}}
+gdpval_reference_file_count = {{REFERENCE_FILE_COUNT}}
+
+[agent]
+timeout_sec = 1200.0
+
+[verifier]
+timeout_sec = 1200.0
+environment_mode = "separate"
+
+[verifier.environment]
+network_mode = "public"
+build_timeout_sec = 600.0
+cpus = 2
+memory_mb = 4096
+storage_mb = 10240
+
+[environment]
+build_timeout_sec = 600.0
+cpus = 2
+memory_mb = 4096
+storage_mb = 10240
+gpus = 0
+# Public preserves upstream web access; it does not prevent public Gold access.
+# The optional no-network profile is enforced by Harbor/Docker, outside the agent.
+network_mode = "{{AGENT_NETWORK}}"
+mcp_servers = []
+
+[verifier.env]
+
+[solution.env]

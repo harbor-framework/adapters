@@ -1,0 +1,9 @@
+# The verifier runs in a separate Harbor-owned environment.
+# The agent must not configure its network namespace or use raw packet sockets.
+services:
+  main:
+    cap_drop:
+      - NET_ADMIN
+      - NET_RAW
+    security_opt:
+      - no-new-privileges:true
