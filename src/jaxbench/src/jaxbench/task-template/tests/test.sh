@@ -33,12 +33,19 @@ done
 sleep 2
 
 cd /tests
-python -m JAXBench evaluate \
-  --workload "{{workload}}" \
-  --kernel "$KERNEL" \
-  --tpu v6e \
-  --json > "$RESULT"
-echo "JAXBench evaluate exit code: $?"
+# A killed process can keep the TPU busy for a few seconds while the device is released, so
+# retry (without changing the kernel) while the evaluator reports the TPU as busy.
+for attempt in 1 2 3 4 5 6; do
+  python -m JAXBench evaluate \
+    --workload "{{workload}}" \
+    --kernel "$KERNEL" \
+    --tpu v6e \
+    --json > "$RESULT"
+  echo "JAXBench evaluate exit code: $?"
+  grep -q "Device or resource busy" "$RESULT" || break
+  echo "TPU still busy (attempt $attempt); retrying in 10 s"
+  sleep 10
+done
 cat "$RESULT"
 
 # Exits 0 if the kernel is correct, 1 otherwise (the reward file is written either way).

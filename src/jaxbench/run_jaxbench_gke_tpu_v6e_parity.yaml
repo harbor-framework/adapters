@@ -27,6 +27,7 @@ retry:
   include_exceptions:
     - NonZeroAgentExitCodeError
     - RuntimeError
+    - GKEExecStreamClosedError  # node lost mid-command (e.g. spot preemption); matched by name, not by base class
   min_wait_sec: 60
   max_wait_sec: 300
 
