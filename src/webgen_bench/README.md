@@ -230,7 +230,7 @@ uv run --project src/webgen_bench harbor run -c src/webgen_bench/run_webgen_benc
 
 ### Migration scope and parity impact
 
-This update ports the remaining changes at `ChengruiMa/harbor@66cd7980faa29fc25c59756ab0ef657d51be1221` into the existing standalone adapter. Harbor remains pinned to `0.23.0`; the lockfile describes the maintenance environment, not the historical experiment environment.
+This update ports the remaining changes at [the original WebGenBench source commit](https://github.com/ChengruiMa/harbor/commit/66cd7980faa29fc25c59756ab0ef657d51be1221) into the existing standalone adapter. Harbor remains pinned to `0.23.0`; the lockfile describes the maintenance environment, not the historical experiment environment.
 
 | Area | Change | Evidence and validation |
 |---|---|---|
