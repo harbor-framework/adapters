@@ -1,163 +1,234 @@
 ## JAXBench → Harbor Adapter
 
-**Notice:**
-1. This is the template file for harbor adapter README. Please follow this structure and fill the contents and/or replace parts if necessary. If a prior version of the adapter code and README exists (i.e., under the `terminal-bench` repo), you could reuse some sections, but make sure they align with the new requirements and commands.
-2. Make sure your default task preparation dir is `datasets/jaxbench` instead of other default paths like `tasks/jaxbench`. If the prior version is using a different path, please update it accordingly.
-3. Read and understand our tutorial before you go — [agent version](https://www.harborframework.com/docs/datasets/adapters) or [human version](https://www.harborframework.com/docs/datasets/adapters-human).
-
 ## Overview
 
-Describe at a high level what JAXBench evaluates. Include:
-- Task types, domains, languages, dataset size/splits
-- Provenance (paper/repo), licensing notes, known constraints
-- Any differences from similarly named benchmarks
-- Explicitly state how many tasks are in this adapter and how that number is derived from the source benchmark
-- Briefly mention the main modifications for adaptation (e.g., prompt changes for agents vs. LLMs, excluded tasks and reasons)
+JAXBench evaluates whether an agent can make a JAX workload run faster on a TPU while keeping its outputs
+numerically identical. Each task gives the agent an XLA/JAX reference implementation (`baseline.py`) and asks
+for a drop-in replacement, typically a Pallas kernel, written to `/workspace/kernel.py`. The grader is the
+upstream JAXBench harness: it checks correctness against the baseline on bf16 inputs and measures the speedup
+over XLA with device-side profiling on a TPU v6e chip.
+
+- **Source:** [AI-Hypercomputer/accelerator-agents/JAXBench](https://github.com/AI-Hypercomputer/accelerator-agents/tree/main/JAXBench),
+  pinned to commit [`7afeb78`](https://github.com/AI-Hypercomputer/accelerator-agents/tree/7afeb78188383e857f8fe12d98d308eb1fd30435/JAXBench)
+  (`UPSTREAM_COMMIT` in `src/jaxbench/adapter.py`); paper: [arXiv:2607.20466](https://arxiv.org/abs/2607.20466).
+- **Tasks: 49.** Upstream level1 has 50 workloads: 17 priority kernels from MaxText LLMs (`1p`–`17p`) and
+  33 fused operators adapted from KernelBench level 2 (`18k`–`50k`). One (`11p_Megablox_GMM`) is excluded
+  because its upstream baseline cannot be compiled (see [Notes & Caveats](#notes--caveats)).
+- **Splits:** `full` (49 tasks, default) and `parity` (15 tasks used for the parity experiment, `--split parity`).
+- **Hardware:** every task needs one TPU v6e chip (`[environment.tpu] type = "v6e"`, `topology = "1x1"`),
+  which Harbor provides through its GKE environment.
+- **Main adaptations:** the paper's one-shot preamble is kept verbatim except rule 2, which asks the agent to
+  write `/workspace/kernel.py` instead of replying with a code block (the agent works in a shell, not a chat);
+  the instruction adds how to run the evaluator. Grading, tolerances and timing are the upstream harness,
+  unchanged.
 
 ## What is JAXBench?
 
-Write a short paragraph explaining the original benchmark, goals, and audience. Link to the paper and/or site. Clarify scoring/metrics used in the original.
+JAXBench (Tschand et al., 2026) is a TPU-native benchmark for autonomous kernel optimization: 50 JAX reference
+workloads sized to saturate TPU v6e MXUs, an evaluation harness that profiles device-side time with
+`jax.profiler` (Perfetto traces, median over 50 iterations), and correctness checks with
+`np.allclose(atol=1e-2, rtol=1e-2)` in float32. The paper evaluates best-of-N, iterative-refinement and
+Autocomp agents with Gemini models under a 144-sample budget and reports, per method, the best-so-far
+**speedup over XLA floored at 1×** (an incorrect or slower kernel counts as 1×), aggregated as a geometric
+mean, plus **fast₁** (fraction of benchmarks with a correct kernel faster than XLA).
 
 ## Adapter Features
 
-Bullet the notable features your adapter implements. Examples to tailor/remove:
-- Automatic repo/data management (clone, cache, cleanup)
-- Comprehensive task generation (schema extraction, solution validation, id mapping)
-- Dockerized environments; language/toolchain support
-- Evaluation specifics (pytest, judge, diff checks, speedups, resource limits)
-- Prompt adaptations vs. the original harness (if any)
+- **Upstream harness as the grader.** Each task ships a pristine copy of the JAXBench harness and the
+  workload's `baseline.py` (and upstream `optimized.py`, used only for the harness's informational
+  `speedup_vs_pallas` report) under `tests/`, which the agent never sees; `tests/test.sh` runs
+  `python -m JAXBench evaluate --workload <w> --kernel /workspace/kernel.py --tpu v6e --json`.
+- **Reward = the paper's floored speedup.** `tests/compute_reward.py` writes
+  `reward = max(speedup, 1)` if the kernel is correct, else `1`, plus `speedup`, `correct` and `fast_1` to
+  `/logs/verifier/reward.json`. A missing kernel, crash, timeout or incorrect output scores 1×.
+- **Robust grading on a single TPU.** Before grading, `test.sh` stops leftover agent processes that still hold
+  the TPU (`/dev/vfio`), and it retries the evaluator (same kernel) while the TPU is still being released.
+- **Agent workspace.** `/workspace` contains `baseline.py` and the JAXBench harness with only this workload's
+  baseline, so the agent can run the same `evaluate` command the grader uses.
+- **Oracles.** Upstream's hand-written Pallas kernel where it passes the upstream harness, otherwise the
+  baseline itself. A `--oracle baseline` variant uses the baseline everywhere (XLA oracle).
+- **Metric.** `metrics/geomean.py` aggregates the floored speedups into a geometric mean (missing results
+  count as 1×), alongside Harbor's `mean`.
+- **Stable task names.** `ai-hypercomputer/jaxbench__level1-<workload>`, lower-cased and sanitized (e.g.
+  `ai-hypercomputer/jaxbench__level1-8p-gemm`).
 
 ## Generated Task Structure
 
-Show the on-disk layout produced by this adapter. Replace or extend as needed:
 ```
 jaxbench/
-├── {task_id}/
-│   ├── task.toml                 # Task configuration
-│   ├── instruction.md            # Task instructions for the agent
-│   ├── environment/              # Container definition
-│   │   └── Dockerfile
-│   ├── solution/                 # Oracle/golden solution (optional if original benchmark doesn't have one)
-│   │   └── solve.sh
-│   └── tests/                    # Test assets and scripts
-│       └── test.sh               # Test execution script
+├── level1-8p-gemm/
+│   ├── task.toml                 # name, authors, TPU v6e 1x1, 8 CPU / 32 GiB, timeouts, [metadata] jaxbench_oracle
+│   ├── instruction.md            # paper preamble + benchmark id + inlined baseline + how to evaluate
+│   ├── environment/
+│   │   ├── Dockerfile            # python:3.12-slim + jax[tpu] + numpy; copies workspace/
+│   │   └── workspace/            # becomes /workspace: baseline.py + JAXBench harness (this workload's baseline only)
+│   ├── solution/
+│   │   ├── kernel.py             # oracle kernel (upstream optimized.py, or baseline.py)
+│   │   └── solve.sh              # copies kernel.py to /workspace/kernel.py
+│   └── tests/
+│       ├── JAXBench/             # pristine upstream harness + this workload's baseline.py / optimized.py
+│       ├── compute_reward.py     # floored-speedup reward
+│       └── test.sh               # grades /workspace/kernel.py, writes /logs/verifier/reward.json
 ```
 
-And make sure your adapter code has a task-template directory that includes these files, even if they are empty or dummy. The adapter reads from the `task-template/` directory to replace/add contents and generate task directories correspondingly.
+Adapter package layout:
 
-The adapter is scaffolded as a Python package via `uv init --package`. A typical adapter code directory looks as follows:
 ```
-adapters/jaxbench/
+src/jaxbench/
 ├── README.md
 ├── adapter_metadata.json
 ├── parity_experiment.json
 ├── pyproject.toml
+├── metrics/geomean.py
+├── run_jaxbench_gke_tpu_v6e.yaml               # full dataset (oracle by default)
+├── run_jaxbench_gke_tpu_v6e_xla_oracle.yaml    # XLA-baseline oracle on all 49 tasks
+├── run_jaxbench_gke_tpu_v6e_pallas_oracle.yaml # upstream Pallas oracles (3p, 4p, 8p)
+├── run_jaxbench_gke_tpu_v6e_parity.yaml        # parity split with mini-swe-agent
 └── src/jaxbench/
     ├── __init__.py
-    ├── adapter.py
-    ├── main.py
+    ├── adapter.py                # JAXBenchAdapter: clone upstream at the pinned commit, render tasks
+    ├── main.py                   # CLI
     └── task-template/
-        ├── task.toml
-        ├── instruction.md
-        ├── environment/
-        │   └── Dockerfile
-        ├── solution/
-        │   └── solve.sh
-        └── tests/
-            └── test.sh
 ```
 
-> **Note:** `adapter.py` should define a `<Benchmark>Adapter` class with a `run()` method if possible; `main.py` constructs the adapter and calls `run()` through the standard CLI flags.
-
-
 ## Run Evaluation / Harness
-Harbor Registry & Datasets makes running adapter evaluation easy and flexible.
+
+All commands run from the repository root. Every task needs a TPU v6e chip, so jobs use Harbor's GKE
+environment (see [Installation / Prerequisites](#installation--prerequisites)); edit the `environment.kwargs`
+(project, cluster, region, Artifact Registry) in the config to match your project.
 
 ### Running with Datasets Registry
 
- Simply run
-
 ```bash
-# Use oracle agent (reference solution)
-uv run harbor run -d jaxbench
+# Oracle on the published dataset
+harbor run -d ai-hypercomputer/jaxbench -e gke
 
-# Use your specified agent and model
-uv run harbor run -d jaxbench -a <agent_name> -m "<model_name>"
+# A specific agent and model
+harbor run -d ai-hypercomputer/jaxbench -e gke -a <agent_name> -m "<model_name>"
+
+# Parity subset (15 tasks), once published under the `parity` tag
+harbor run -d ai-hypercomputer/jaxbench@parity -e gke -a <agent_name> -m "<model_name>"
 ```
-from the harbor root to evaluate on the entire dataset.
-
-> [For adapter creators]: You will need to (1) upload the prepared task directories to https://github.com/laude-institute/harbor-datasets (2) Add your dataset entries to [registry.json](../../../registry.json) following a similar format as others. Only after all the PRs are merged, can you run the above scripts (otherwise the datasets are not yet registered). At development time, use the scripts below to run experiments.
-
-However, if you choose to prepare the task directories locally and/or with custom versions/subsets for evaluation, you may either use `harbor run` or `harbor trial`. Instructions for using the adapter code to prepare task directories are provided in the [Usage](#usage-create-task-directories) session.
 
 ### Using Job Configurations
-The example configuration file(s) for the adapter is provided under `harbor/adapters/jaxbench`. You may either use `-c path/to/configuration.yaml` or `-p path/to/dataset` to run evaluation on the entire benchmark after preparing the task directories locally.
-
-> [For adapter creators]: Please specify the file(s), e.g., `run_jaxbench.yaml`, `run_jaxbench-python.yaml` for subsets/versions. Examples of config yaml can be seen from [harbor/examples/configs](../../../examples/configs/).
 
 ```bash
-# From the repository root
-# Run a job with the default adapter configuration
-uv run harbor run -c adapters/jaxbench/run_jaxbench.yaml -a <agent_name> -m "<model_name>"
+# Full dataset, oracle agent (other agents are commented out in the file)
+harbor run -c src/jaxbench/run_jaxbench_gke_tpu_v6e.yaml
 
-# Or run a job without configuration yaml but instead with locally prepared dataset path
-uv run harbor run -p datasets/jaxbench -a <agent_name> -m "<model_name>"
+# XLA-baseline oracle on all 49 tasks / upstream Pallas oracles
+harbor run -c src/jaxbench/run_jaxbench_gke_tpu_v6e_xla_oracle.yaml
+harbor run -c src/jaxbench/run_jaxbench_gke_tpu_v6e_pallas_oracle.yaml
 
-# Resume a previously started job
-uv run harbor job resume -p /path/to/jobs/directory
+# Locally generated dataset with any agent
+harbor run -p datasets/jaxbench -e gke -a <agent_name> -m "<model_name>"
 ```
 
-Results are saved in the `jobs/` directory by default (configurable via `jobs_dir` in the YAML config).
+Results are written to `jobs/`. Each trial's `verifier/reward.json` holds `reward`, `speedup`, `correct` and
+`fast_1`, and `verifier/evaluation.json` holds the harness's full report.
 
 ### Running Individual Trial
 
-For quick testing or debugging a single task:
-
 ```bash
-# Run a single task with oracle (pre-written solution)
-uv run harbor trial start -p datasets/jaxbench/<task_id>
-
-# Run a single task with a specific agent and model
-uv run harbor trial start -p datasets/jaxbench/<task_id> -a <agent_name> -m "<model_name>"
+harbor trial start -p datasets/jaxbench/level1-8p-gemm -e gke
+harbor trial start -p datasets/jaxbench/level1-8p-gemm -e gke -a <agent_name> -m "<model_name>"
 ```
-
-Trial outputs are saved in the `trials/` directory by default (configurable via `--trials-dir`).
-
 
 ## Usage: Create Task Directories
 
 ```bash
-cd adapters/jaxbench
-uv run jaxbench --output-dir ../../datasets/jaxbench
+cd src/jaxbench
+uv sync
+uv run jaxbench --output-dir ../../datasets/jaxbench                                    # 49 tasks, Pallas/baseline oracle
+uv run jaxbench --output-dir ../../datasets/jaxbench-xla-oracle --oracle baseline       # XLA oracle everywhere
+uv run jaxbench --output-dir ../../datasets/jaxbench-parity --split parity              # 15-task parity split
 ```
 
-Available flags:
-- `--output-dir` — Directory to write generated tasks (defaults to `datasets/jaxbench` at the repo root)
-- `--limit` — Generate only the first N tasks
-- `--overwrite` — Overwrite existing tasks
-- `--task-ids` — Only generate specific task IDs
-
-Tasks are written to `datasets/jaxbench/` with one directory per task. Each task follows the structure shown in ["Generated Task Structure"](#generated-task-structure) above.
+Flags:
+- `--output-dir`: where to write tasks (default `datasets/jaxbench` at the repo root)
+- `--limit N`: only the first N tasks
+- `--overwrite`: overwrite existing task directories
+- `--task-ids ...`: only these task ids (e.g. `level1-8p-gemm`)
+- `--source-dir`: use an existing JAXBench checkout instead of cloning upstream at the pinned commit
+- `--levels`: benchmark levels to include (default `level1`)
+- `--oracle {pallas,baseline}`: oracle source (default `pallas`, with the documented baseline fallbacks)
+- `--split {full,parity}`: full set or the 15-task parity split
 
 ## Comparison with Original Benchmark (Parity)
 
-Summarize how you validated fidelity to the original benchmark. Include a small table of headline metrics and a pointer to `parity_experiment.json`. Report each score as **mean ± sample SEM**.
+Upstream JAXBench ships an evaluation harness but no agent runner, so parity follows Scenario 2: the
+upstream repository is forked and a runner for the same Harbor-compatible agent is added there
+([`liulehui/accelerator-agents@harbor-parity`, `JAXBench/harbor_parity/`](https://github.com/liulehui/accelerator-agents/tree/harbor-parity/JAXBench/harbor_parity)).
+Both sides run mini-swe-agent with the same model, prompt, configuration and hardware, and both grade the
+agent's final `/workspace/kernel.py` with upstream `python -m JAXBench evaluate`. Parity uses the
+15-task `parity` split (7 priority kernels: `1p 3p 4p 8p 12p 15p 16p`; 8 KernelBench-fused:
+`18k 22k 26k 30k 34k 38k 42k 46k`), 3 runs per side. Scores are **mean ± sample SEM** over the 3 runs; full
+per-run values are in [`parity_experiment.json`](parity_experiment.json).
 
 | Agent | Model | Metric | Number of Runs | Dataset Size | Original Benchmark Performance | Harbor Adapter Performance |
-|-------|-------|--------|------------------|--------------|------------------------------|----------------------------|
-| \<agent\>@\<agent_version\> | \<model\> | \<metric\> | \<n\> | \<size\> | \<x% ± y%\> | \<x% ± y%\> |
+|-------|-------|--------|----------------|--------------|--------------------------------|----------------------------|
+| mini-swe-agent@2.4.6 | deepseek-v4-1-flash-260910 | Geomean speedup, floored (×) | 3 | 15 of 49 (31%) | 1.80 ± 0.16 | 1.60 ± 0.15 |
+| mini-swe-agent@2.4.6 | deepseek-v4-1-flash-260910 | Correct rate (%) | 3 | 15 of 49 (31%) | 71.11 ± 12.37 | 64.44 ± 8.89 |
+| mini-swe-agent@2.4.6 | deepseek-v4-1-flash-260910 | fast₁ (%) | 3 | 15 of 49 (31%) | 55.56 ± 8.01 | 53.33 ± 7.70 |
+| mini-swe-agent@2.4.6 | deepseek-v4-1-flash-260910 | Mean reward (×) | 3 | 15 of 49 (31%) | 2.74 ± 0.39 | 2.45 ± 0.34 |
 
-If there's a prior version parity experiment done in `terminal-bench`:
-- If your parity for Harbor is a direct comparison to the original benchmark (which we recommend if claude-4.5-haiku is easily supported), then you may only include these scores and do not need to include the `terminal-bench` parity.
-- However, if you are comparing to `terminal-bench` adapters, then please include both parity scores to show that "original <--> terminal bench adapter" and then "terminal bench adapter <--> harbor adapter".
+The run-score ranges overlap on every metric (e.g. geomean: original 1.96 / 1.96 / 1.47, Harbor
+1.31 / 1.83 / 1.66), and per-task disagreements move in both directions across runs (`3p`, `4p`, `16p`,
+`22k`, `46k` each flip between correct and incorrect on both sides), which points to sampling variance rather
+than an adaptation difference. Deterministic tasks match closely, e.g. `8p` 1.18–1.21× and `12p` 1.46–1.47×
+on every run of both sides.
 
-Reproduction requirements and steps (mandatory):
-- Which repo/fork and commit to use for the original benchmark; which scripts/commands to run; any env variables needed
-- Which commands to run in Harbor to reproduce adapter-side results:
-  ```bash
-  uv run harbor run -c adapters/jaxbench/run_jaxbench.yaml -a <agent> -m "<model>"
-  ```
-- How to interpret the results/scores; if metrics are non-trivial, briefly explain their computation
+**Configuration (identical on both sides).**
+
+| Item | Value |
+|------|-------|
+| Agent | mini-swe-agent 2.4.6, installed with `uv tool install --python 3.12 mini-swe-agent==2.4.6 --with litellm --with orjson --with fastapi`, packages resolved with `UV_EXCLUDE_NEWER=2026-10-17T00:00:00Z` |
+| Agent flags | `--yolo --model=openai/deepseek-v4.1-flash --cost-limit 0 -c mini -c model.model_kwargs.timeout=3600 -c <config> -c model.model_kwargs.extra_headers.X-Session-ID=<trial> --exit-immediately`, run from `/workspace` |
+| Agent config | `step_limit: 150`, `temperature: 1.0`, `top_p: 0.95` (DeepSeek's recommended sampling for agentic use); default reasoning effort |
+| Model | DeepSeek V4.1 Flash through the PP API OpenAI-compatible endpoint (`https://app-us.ppapi.ai/v1`); requested as `deepseek-v4.1-flash`, served as `deepseek-v4-1-flash-260910` |
+| Prompt | this adapter's `instruction.md`, rendered identically on both sides |
+| Time limit | 3600 s per agent run; verifier 1800 s |
+| Hardware | 1 TPU v6e chip (GKE `ct6e-standard-1t`, spot), 8 CPU / 32 GiB memory request, 20 GiB ephemeral storage |
+| Software | `python:3.12-slim`, jax 0.12.0, jaxlib 0.12.0, libtpu 0.0.50 (as installed by the task image during the experiment; the original side's image pins these versions) |
+| Harbor | `harbor[gke]==0.23.0` |
+| Grading | upstream `python -m JAXBench evaluate --tpu v6e` at `7afeb78`, with the same leftover-process cleanup and busy-TPU retry on both sides |
+
+**Reproduce (Harbor side).** Requires a GKE cluster with a TPU v6e 1x1 node pool and an Artifact Registry
+repository (see [Installation / Prerequisites](#installation--prerequisites)); set `environment.kwargs` in
+the config to your project.
+
+```bash
+cd src/jaxbench && uv run jaxbench --output-dir ../../datasets/jaxbench-parity --split parity && cd ../..
+export LLM_API_KEY=...   # PP API key; the config passes it to the agent as OPENAI_API_KEY
+for i in 1 2 3; do
+  uvx --from 'harbor[gke]==0.23.0' harbor run -c src/jaxbench/run_jaxbench_gke_tpu_v6e_parity.yaml
+done
+```
+
+**Reproduce (original side).** See the fork's
+[`JAXBench/harbor_parity/README.md`](https://github.com/liulehui/accelerator-agents/blob/harbor-parity/JAXBench/harbor_parity/README.md):
+
+```bash
+git clone -b harbor-parity https://github.com/liulehui/accelerator-agents && cd accelerator-agents
+gcloud builds submit JAXBench/harbor_parity --project PROJECT --region us-central1 \
+  --tag us-central1-docker.pkg.dev/PROJECT/REPO/jaxbench-original:v1
+export LLM_API_KEY=...
+python3 JAXBench/harbor_parity/launch.py --context gke_PROJECT_us-central1_CLUSTER \
+  --image us-central1-docker.pkg.dev/PROJECT/REPO/jaxbench-original:v1 --runs 3 --out parity_results/original
+```
+
+**Reading the results.** Per run, each of the 15 tasks contributes its floored speedup
+(`max(speedup, 1)` if correct, else 1); the geomean and mean of these are the speedup metrics, correct rate is
+the fraction of tasks with a correct kernel, and fast₁ the fraction with a correct kernel faster than XLA.
+
+**Infrastructure failures were rerun, not scored.** Spot preemptions, Harbor agent sessions cut off by a GKE
+networking event (below), and grading attempts that found the TPU still held by a just-stopped process were
+all rerun until each task had one valid result per run on each side (90 valid results in total).
+
+**Links:** original benchmark: [AI-Hypercomputer/accelerator-agents](https://github.com/AI-Hypercomputer/accelerator-agents/tree/main/JAXBench) ·
+parity fork: [liulehui/accelerator-agents@harbor-parity](https://github.com/liulehui/accelerator-agents/tree/harbor-parity/JAXBench/harbor_parity) ·
+adapter PR: [harbor-framework/adapters#6](https://github.com/harbor-framework/adapters/pull/6) ·
+dataset PR: _pending_ · parity results (Hugging Face): _pending_
 
 ## Notes & Caveats
 
@@ -170,6 +241,11 @@ Reproduction requirements and steps (mandatory):
 | `11p_Megablox_GMM` | Upstream `baseline.py` cannot be compiled by the upstream harness: `workload()` receives `max_expert_size` as a positional argument, which `jax.jit` traces, but uses it as a static array shape (`baseline.py:42`). `python -m JAXBench evaluate` therefore errors while running the baseline, before any candidate kernel is graded, so no agent can solve this task. |
 
 The exclusion list lives in `EXCLUDED_WORKLOADS` in `src/jaxbench/adapter.py`.
+
+**Upstream path bug.** At `7afeb78` the workloads live in `benchmark/level1/<name>/`, but the harness only
+discovers `benchmark/<name>/`, so upstream `list`/`evaluate` find no workloads. The adapter copies each
+workload flat into `JAXBench/benchmark/<name>/` inside the task (no harness code changes); the parity fork
+fixes discovery to also search `benchmark/level*/`.
 
 **Oracle solutions.** For tasks where upstream ships a hand-written Pallas kernel (`optimized.py`), the
 oracle is that kernel. For four tasks, the upstream Pallas kernel fails the upstream harness at the pinned
@@ -198,59 +274,77 @@ noise (e.g. 1.01×), and a Pallas oracle scores its real speedup over XLA. The s
 | `run_jaxbench_gke_tpu_v6e_xla_oracle.yaml` | `datasets/jaxbench-xla-oracle` (`--oracle baseline`) | XLA baseline for every task | 49 |
 | `run_jaxbench_gke_tpu_v6e_pallas_oracle.yaml` | `datasets/jaxbench` (default) | Upstream Pallas kernel | 3 (`3p`, `4p`, `8p`) |
 
-`run_jaxbench_gke_tpu_v6e.yaml` is the reference config for the full adapted dataset (`datasets/jaxbench`).
+The XLA oracle is correct on 49/49 tasks.
+
+**Final kernel vs. best-so-far.** The paper scores the best kernel found within a 144-sample budget; Harbor
+grades the agent's final `/workspace/kernel.py` after a single agent run. Scores from this adapter are
+therefore not directly comparable to the paper's tables. The parity comparison is unaffected: both sides
+grade the final kernel.
+
+**Prompt.** The paper's preamble rule 2 ("output a single complete Python file inside one code block; no
+prose outside it") becomes "write a single complete, self-contained Python file to `/workspace/kernel.py`"
+because the agent works in a shell; rule 3 is dropped for the same reason. No TPU/Pallas documentation is
+added to the prompt (the paper's "+context" variants inject curated docs). The same prompt is used on both
+parity sides.
+
+**JAX is not pinned in the task image.** The Dockerfile installs the latest `jax[tpu]` (as upstream
+JAXBench does). The parity experiment ran with jax/jaxlib 0.12.0 and libtpu 0.0.50; newer JAX releases may
+change baseline timings and therefore speedups.
 
 **Hardware.** Every task requires one TPU v6e chip (`[environment.tpu] type = "v6e"`, `topology = "1x1"`),
-which Harbor provides only through the GKE environment. See `run_jaxbench_gke_tpu_v6e.yaml`.
+which Harbor provides only through the GKE environment. A TPU can be opened by only one process, which is why
+`test.sh` stops leftover agent processes before grading. The harness's `--tpu auto` does not recognize a v6e
+(it reports `device_kind` "TPU v6 lite"), so grading passes `--tpu v6e`; this only affects the harness's
+TFLOPS/utilization report, not correctness or speedup.
 
 ## Installation / Prerequisites
 
-Adapters are managed as standalone uv Python packages. You can add or remove dependencies using `uv add` / `uv remove` from the adapter directory:
-
-```bash
-cd adapters/jaxbench
-uv add datasets  # add a dependency
-uv remove datasets  # remove a dependency
-```
-
-List environment setup specific to this adapter (edit as needed):
-- Docker installed and running
-- Harbor installed and working (see main repository README)
-- Python environment with dependencies:
-  ```bash
-  cd adapters/jaxbench
-  uv sync
-  ```
-- Dataset-specific steps (e.g., creds, downloads):
-  - API keys for agents/models (export as environment variables)
-  - Large docker images, toolchains, or dataset downloads
-  - Any benchmark-specific dependencies
+- **Harbor** with GKE support: `uv tool install 'harbor[gke]'` (parity used `harbor[gke]==0.23.0`).
+- **Adapter environment:** `cd src/jaxbench && uv sync`.
+- **Google Cloud:** `gcloud` authenticated, `kubectl` and `gke-gcloud-auth-plugin` on `PATH`, and:
+  - a GKE cluster with a TPU v6e node pool, machine type `ct6e-standard-1t` (topology 1x1);
+  - an Artifact Registry Docker repository for task images (`registry_location`, `registry_name` in the
+    config); images are built with Cloud Build, so the Compute Engine default service account needs
+    `artifactregistry.writer` on the repository, `storage.objectViewer` on the Cloud Build bucket, and
+    `logging.logWriter`.
+  - Harbor uses `kubectl`'s **current context**, so point it at the target cluster before starting a job.
+- **Model API keys** for the agent you run (for parity, `LLM_API_KEY` for the PP API endpoint).
 
 ## Troubleshooting
 
-List frequent issues and fixes (docker cleanup, timeouts, flaky tests, etc.).
+- **`TPU initialization failed: ... /dev/vfio/0: Device or resource busy`** inside a trial: another process in
+  the pod holds the TPU. `test.sh` handles this at grading time; during agent runs, background processes the
+  agent started can cause it.
+- **Spot preemptions** kill running trials. Add a `retry` block to the config with
+  `include_exceptions: [NonZeroAgentExitCodeError, RuntimeError, GKEExecStreamClosedError]` (Harbor matches
+  exception names exactly, not base classes), as in `run_jaxbench_gke_tpu_v6e_parity.yaml`.
+- **Agent run ends early with no error on GKE.** When any node is removed (e.g. a spot preemption elsewhere in
+  the cluster), GKE may scale down its `konnectivity-agent` pods, dropping long-running exec sessions, and
+  some agents report this as a normal exit. Keeping a fixed `konnectivity-agent` replica count (the
+  `nodesToReplicas` ladder in the `kube-system/konnectivity-agent-autoscaler-config` ConfigMap) avoids it.
+- **`gke-gcloud-auth-plugin` not found:** add the Google Cloud SDK `bin` directory to `PATH`.
+- **TPU capacity:** v6e on-demand capacity can be scarce; spot node pools with retries are the practical option.
 
 ## Citation
 
-Provide BibTeX or links to cite the original benchmark (and this adapter if desired):
 ```bibtex
-@article{<key>,
-  title={<benchmark_name>: <paper title>},
-  author={<authors>},
-  year={<year>},
-  url={<paper_or_repo_url>}
+@article{tschand2026jaxbench,
+  title={JAXBench: Benchmarking Autonomous TPU Kernel Optimization},
+  author={Tschand, Arya and Hong, Charles and Walker, Julian and Cai, Nina and Wang, Shangkun and Subramanian, Suvinay and Dev, Sundar and Janapa Reddi, Vijay and Yazdanbakhsh, Amir and Sankaran, Sethu},
+  journal={arXiv preprint arXiv:2607.20466},
+  year={2026},
+  url={https://arxiv.org/abs/2607.20466}
 }
 ```
 
 ## Authors & Contributions
-This adapter is developed and maintained by [<your_name>](mailto:<your_email>) from the Harbor team.
+
+This adapter is developed and maintained by [Lehui Liu](mailto:lehui@anyscale.com).
 
 **Issues and Contributions:**
-- Submit Issues and Pull Requests to the main repository
+- Submit issues and pull requests to [harbor-framework/adapters](https://github.com/harbor-framework/adapters)
 - Follow the project's coding style and commit guidelines
 
 ## Acknowledgement
 
-If you used API keys provided via [adapters/parity_api_instructions.md](../parity_api_instructions.md) for running parity experiments, please include the following acknowledgement:
-
-> API inference compute for running parity tests is generously supported by [2077AI](https://www.2077ai.com/) (https://www.2077ai.com/).
+API inference compute for running parity tests is generously supported by [2077AI](https://www.2077ai.com/) (https://www.2077ai.com/).
