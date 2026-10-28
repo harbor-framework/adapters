@@ -203,7 +203,7 @@ on every run of both sides.
 | Prompt | this adapter's `instruction.md`, rendered identically on both sides |
 | Time limit | 3600 s per agent run; verifier 1800 s |
 | Hardware | 1 TPU v6e chip (GKE `ct6e-standard-1t`, spot), 8 CPU / 32 GiB memory request, 20 GiB ephemeral storage |
-| Software | `python:3.12-slim`, jax 0.12.0, jaxlib 0.12.0, libtpu 0.0.50 (as installed by the task image during the experiment; the original side's image pins these versions) |
+| Software | `python:3.12-slim`, jax 0.12.0, jaxlib 0.12.0, libtpu 0.0.50 (pinned on the original side; the Harbor image resolved the same versions during the experiment and now pins them) |
 | Harbor | `harbor[gke]==0.23.0` |
 | Grading | upstream `python -m JAXBench evaluate --tpu v6e` at `7afeb78`, with the same leftover-process cleanup and busy-TPU retry on both sides |
 
