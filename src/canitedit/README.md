@@ -168,7 +168,8 @@ Reproducibility checks: prompt/order audit passed 210/210 tasks; final official 
 
 ## Notes & Caveats
 
-- Migrated from [harbor#1849](https://github.com/harbor-framework/harbor/pull/1849),
+- [Adapter PR #58](https://github.com/harbor-framework/adapters/pull/58), migrated
+  from [harbor#1849](https://github.com/harbor-framework/harbor/pull/1849),
   source commit `3639778d94f656bc6983d712e60068523c195361`. The generator,
   prompts, task identities, Dockerfile, oracle, and verifier are unchanged by
   the repository move. The task template retains `schema_version = "1.0"`,
