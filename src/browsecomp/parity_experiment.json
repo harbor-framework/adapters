@@ -1,0 +1,41 @@
+[
+    {
+        "adapter_name": "browsecomp",
+        "agent": "claude-code@2.1.79",
+        "model": "claude-haiku-4-5-20251001",
+        "date": "2026-04-26",
+        "adapted_benchmark_size": 1266,
+        "parity_benchmark_size": 30,
+        "number_of_runs": 3,
+        "notes": "Historical record from Harbor PR #1521; date and run arrays are preserved, with no new model/cloud/benchmark runs for migration. Scope is OpenAI BrowseComp (1,266 tasks), not Plus; three runs per side use the fixed first 30 questions (original indices 0..29; Harbor browsecomp_001..browsecomp_030). Reported scores use percentage points and sample SEM. Numerical run ranges overlap, but protocol equivalence/acceptance remains unresolved. Original args specify claude_code, a Haiku alias, temperature 0.0, and gpt-5-mini judge; surviving run-three response metadata identifies claude-haiku-4-5-20251001. Harbor trajectories confirm Claude Code 2.1.79 and that dated model; historical configs select claude-haiku-4-5 judge, 600-second timeout, 100 turns, and Daytona. Effective backend routing, full original installation/prompts/tools/limits, and retry symmetry are not fully recoverable. Harbor errors are 13/7/6; scored rewards are 27/30/28, while reported accuracy uses 30 scheduled tasks in each run (7/30, 7/30, 6/30). Run two has 37 archived trial folders; root summaries select 30. Separate historical April 6 oracle job records 1,266 trials, zero errors, reward 1.0 and predates later source revisions. HF #244 is draft/unmerged as checked 2026-10-28; artifacts remain at adapters/browsecomp/{original_parity,harbor_parity,oracle,results_collection} in its PR ref. Original archive lacks canonical samples.jsonl/per-task traces, retaining only three args/eval/summary sets plus run-three samples.before_dedup.jsonl (53 rows, 30 distinct indices). The linked public original fork at ee3b0318d8d1d9d72755a4120879be65f7c07e9e lacks run_browsecomp.py and Dockerfile, so historical reproduction commands are currently incomplete. Do not copy raw credential-bearing configurations. Dataset PR #226 remains open; no registry publication claimed. Related work: adapters#44 and harbor#2355. See README for provenance, commands, caveats and review links.",
+        "original_parity_repo": "https://github.com/wizard1203/browsecomp-adapter",
+        "adapter_pr": [
+            "https://github.com/harbor-framework/adapters/pull/62",
+            "https://github.com/harbor-framework/harbor/pull/1521"
+        ],
+        "dataset_pr": [
+            "https://github.com/harbor-framework/harbor-datasets/pull/226"
+        ],
+        "parity_pr": [
+            "https://huggingface.co/datasets/harborframework/parity-experiments/discussions/244"
+        ],
+        "metrics": [
+            {
+                "benchmark_name": "BrowseComp (Original Bench vs Harbor Adapter)",
+                "metric": "Accuracy",
+                "original": "24.4 +/- 2.2 (SEM)",
+                "harbor": "22.2 +/- 1.1 (SEM)",
+                "original_runs": [
+                    26.67,
+                    20.0,
+                    26.67
+                ],
+                "harbor_runs": [
+                    23.33,
+                    23.33,
+                    20.0
+                ]
+            }
+        ]
+    }
+]

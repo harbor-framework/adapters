@@ -1,0 +1,41 @@
+[
+    {
+        "adapter_name": "browsecomp",
+        "adapter_builders": [
+            "Zhenheng Tang (coolzhtang@gmail.com)"
+        ],
+        "original_benchmark": [
+            {
+                "split": "test",
+                "size": 1266,
+                "harness": "llm",
+                "supported_agents": [
+                    "None"
+                ],
+                "adaptable": true,
+                "notes": "OpenAI simple-evals BrowseComp test split (1,266 questions), not BrowseComp-Plus. The public reference evaluator uses model API samplers; the custom Claude Code original-side runner reported in Harbor PR #1521 is absent from the currently linked reproduction fork. Its historical solver model is documented separately in parity_experiment.json."
+            }
+        ],
+        "harbor_adapter": [
+            {
+                "split": "test",
+                "adapted_benchmark_size": 1266,
+                "parity_benchmark_size": 30,
+                "parity_sampling_rate": 0.023696682464454975,
+                "parity_sampling_note": "Historical fixed prefix of the first 30 CSV rows: original indices 0..29 correspond to browsecomp_001..browsecomp_030. Three recorded runs per side; not random sampling or full-dataset model parity.",
+                "registry_benchmark_size": 0,
+                "added_agents": [
+                    "None"
+                ],
+                "parity_matching_agents": [
+                    "claude-code@2.1.79+claude-haiku-4-5-20251001"
+                ],
+                "parity_unmatching_agents": [
+                    "None"
+                ],
+                "parity_costs": null,
+                "notes": "Historical April 2026 results retained from Harbor PR #1521: original 24.4 +/- 2.2 sample SEM and Harbor 22.2 +/- 1.1 sample SEM, in percentage points. parity_matching_agents records numerical run-range overlap only; matched-protocol parity and acceptance remain unresolved because graders differ, Harbor runs include 13/7/6 errors, and original runner/canonical samples are incomplete. No score-range mismatch is asserted by parity_unmatching_agents. Oracle 1,266/1,266 is separate structural evidence, not model parity or a fresh migrated-package run. No new experiments are part of this migration. Dataset PR harbor-framework/harbor-datasets#226 is open and registry publication is unverified, so registry_benchmark_size is 0. HF parity PR #244 is draft/unmerged as checked 2026-10-28. Historical costs are unknown. Coordinate related adapters#44 and harbor#2355 without claiming their evidence."
+            }
+        ]
+    }
+]
