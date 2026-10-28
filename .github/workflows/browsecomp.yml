@@ -1,0 +1,44 @@
+name: BrowseComp
+
+on:
+  pull_request:
+    paths:
+      - 'src/browsecomp/**'
+      - '.github/workflows/browsecomp.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'src/browsecomp/**'
+      - '.github/workflows/browsecomp.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  offline-tests:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    env:
+      UV_PROJECT_ENVIRONMENT: ${{ github.workspace }}/tmp/browsecomp-venv
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@v8.1.0
+        with:
+          python-version: '3.12'
+      - name: Install locked adapter and test dependencies
+        run: uv sync --project src/browsecomp --group test --locked
+      - name: Run synthetic and mocked protocol tests
+        run: uv run --project src/browsecomp --group test --locked pytest src/browsecomp/tests -q
+      - name: Validate adapter structure
+        run: uv run --project src/browsecomp --group test --locked python scripts/validate_adapter.py browsecomp
+      - name: Check lint
+        run: uv run --project src/browsecomp --group test --locked ruff check src/browsecomp
+      - name: Check formatting
+        run: uv run --project src/browsecomp --group test --locked ruff format --check src/browsecomp
+      - name: Check adapter types
+        run: uv run --project src/browsecomp --group test --locked ty check --project src/browsecomp src/browsecomp/src
