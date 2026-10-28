@@ -242,7 +242,7 @@ all rerun until each task had one valid result per run on each side (90 valid re
 **Links:** original benchmark: [AI-Hypercomputer/accelerator-agents](https://github.com/AI-Hypercomputer/accelerator-agents/tree/main/JAXBench) ·
 parity fork: [liulehui/accelerator-agents@harbor-parity](https://github.com/liulehui/accelerator-agents/tree/harbor-parity/JAXBench/harbor_parity) ·
 adapter PR: [harbor-framework/adapters#6](https://github.com/harbor-framework/adapters/pull/6) ·
-dataset PR: _pending_ · parity results (Hugging Face): _pending_
+dataset PR: [harbor-framework/harbor-datasets#268](https://github.com/harbor-framework/harbor-datasets/pull/268) · parity results (Hugging Face): [harborframework/parity-experiments#273](https://huggingface.co/datasets/harborframework/parity-experiments/discussions/273)
 
 ## Notes & Caveats
 
