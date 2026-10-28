@@ -20,4 +20,21 @@ where = ["src"]
 include = ["browsecomp", "browsecomp.*"]
 
 [tool.setuptools.package-data]
-browsecomp = ["task-template/**/*"]
+browsecomp = ["task-template/*", "task-template/**/*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests/unit"]
+
+[tool.ruff]
+# Preserve historical evaluator assets byte-for-byte during the migration.
+extend-exclude = ["src/browsecomp/task-template"]
+
+[tool.ty.src]
+exclude = ["src/browsecomp/task-template"]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.2.0",
+    "ruff>=0.17.3",
+    "ty>=0.0.94",
+]

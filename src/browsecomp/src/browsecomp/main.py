@@ -6,17 +6,21 @@ from pathlib import Path
 
 if __package__ in (None, ""):
     sys.path.append(str(Path(__file__).resolve().parent))
-    from adapter import BrowseCompAdapter
+    from adapter import BrowseCompAdapter  # ty: ignore[unresolved-import]
 else:
     from .adapter import BrowseCompAdapter
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 logger = logging.getLogger(__name__)
 
-CSV_URL = "https://openaipublic.blob.core.windows.net/simple-evals/browse_comp_test_set.csv"
+CSV_URL = (
+    "https://openaipublic.blob.core.windows.net/simple-evals/browse_comp_test_set.csv"
+)
 ADAPTER_ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_OUTPUT_DIR = ADAPTER_ROOT.parent.parent / "datasets" / "browsecomp"
-DEFAULT_CSV_PATH = ADAPTER_ROOT.parent.parent / "datasets" / "browsecomp" / "browse_comp_test_set.csv"
+DEFAULT_CSV_PATH = (
+    ADAPTER_ROOT.parent.parent / "datasets" / "browsecomp" / "browse_comp_test_set.csv"
+)
 
 
 def parse_task_ids(raw_task_ids: list[str] | None) -> set[int] | None:
@@ -43,7 +47,9 @@ def download_csv(url: str, output_path: Path) -> None:
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="Generate BrowseComp tasks for Harbor.")
+    parser = argparse.ArgumentParser(
+        description="Generate BrowseComp tasks for Harbor."
+    )
     parser.add_argument(
         "--output-dir",
         type=Path,
@@ -55,6 +61,12 @@ def build_parser() -> argparse.ArgumentParser:
         type=Path,
         default=None,
         help="Path to browse_comp_test_set.csv. If omitted, download or reuse local cache.",
+    )
+    parser.add_argument(
+        "--split",
+        choices=("test", "parity"),
+        default="test",
+        help="Generate the full test split or the historical parity subset (IDs 1-30).",
     )
     parser.add_argument(
         "--limit",
@@ -89,6 +101,13 @@ def main() -> int:
 
     try:
         task_ids = parse_task_ids(args.task_ids)
+        if args.split == "parity":
+            parity_ids = set(range(1, 31))
+            task_ids = parity_ids if task_ids is None else task_ids & parity_ids
+            if not task_ids:
+                raise ValueError(
+                    "No requested task IDs belong to the parity subset (1-30)."
+                )
         adapter = BrowseCompAdapter(
             task_dir=args.output_dir,
             csv_path=csv_path,
@@ -98,7 +117,7 @@ def main() -> int:
         )
         adapter.run()
         logger.info("Successfully generated tasks in %s", args.output_dir)
-    except Exception as exc:
+    except Exception as exc:  # noqa: BLE001 - preserve the CLI's error-to-exit-code contract
         logger.error("Failed to generate tasks: %s", exc)
         return 1
 
