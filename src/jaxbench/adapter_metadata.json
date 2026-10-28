@@ -32,7 +32,7 @@
         "parity_unmatching_agents": [
           "None"
         ],
-        "parity_costs": null,
+        "parity_costs": "$120 (≈$40 DeepSeek V4.1 Flash API + ≈$80 GKE spot TPU v6e, ~116 chip-hours; both sides, incl. failed attempts)",
         "notes": "11p_Megablox_GMM is excluded (its upstream baseline cannot be compiled). Parity uses the 15-task --split parity subset (1p 3p 4p 8p 12p 15p 16p 18k 22k 26k 30k 34k 38k 42k 46k), 3 runs per side, with mini-swe-agent added to a fork of the original benchmark (Scenario 2). Every task needs one TPU v6e chip (GKE environment)."
       }
     ]
