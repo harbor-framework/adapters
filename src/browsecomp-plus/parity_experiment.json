@@ -1,0 +1,44 @@
+[
+  {
+    "adapter_name": "browsecomp-plus",
+    "agent": "deep-research-agent@1.0.11",
+    "model": "gpt-5-mini",
+    "date": "2026-03-02",
+    "adapted_benchmark_size": 830,
+    "parity_benchmark_size": 30,
+    "number_of_runs": 5,
+    "notes": "Historical report from harbor#1511, retained without new model runs. Nominal subset: first 30 of 830 in upstream dataset order; 5 runs per side. Original correct/completed counts: 4/29, 6/30, 5/25, 6/30, 4/30; Harbor: 5/30, 5/30, 7/30, 6/30, 7/30. Raw percentages are historical rounded scores; summary strings recomputed as mean and sample SEM in percentage points. Model was floating gpt-5-mini. Historical commands differ in turn limits (original 50 vs Harbor 30); exact source/Harbor execution revisions, prompts, denominators and settings require maintainer confirmation before current-contract parity acceptance. Overlapping score ranges do not resolve these methodology gaps. No new parity was run for migration. Oracle 830/830 and supplementary Harbor-only CLI runs are separate evidence. See migration/REVIEW_CONTEXT.md for public artifact links and limits.",
+    "original_parity_repo": "https://github.com/wizard1203/BrowseComp-Plus-parity",
+    "adapter_pr": [
+      "https://github.com/harbor-framework/harbor/pull/1511"
+    ],
+    "dataset_pr": [
+      "https://github.com/harbor-framework/harbor-datasets/pull/180"
+    ],
+    "parity_pr": [
+      "https://huggingface.co/datasets/harborframework/parity-experiments/discussions/246"
+    ],
+    "metrics": [
+      {
+        "benchmark_name": "BrowseComp-Plus (Original vs Harbor)",
+        "metric": "Accuracy",
+        "original": "17.424 ± 1.579",
+        "harbor": "20.000 ± 1.489",
+        "original_runs": [
+          13.79,
+          20.0,
+          20.0,
+          20.0,
+          13.33
+        ],
+        "harbor_runs": [
+          16.67,
+          16.67,
+          23.33,
+          20.0,
+          23.33
+        ]
+      }
+    ]
+  }
+]

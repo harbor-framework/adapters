@@ -1,0 +1,48 @@
+name: BrowseComp-Plus offline checks
+
+on:
+  pull_request:
+    paths:
+      - 'src/browsecomp-plus/**'
+      - '.github/workflows/browsecomp-plus.yml'
+  push:
+    paths:
+      - 'src/browsecomp-plus/**'
+      - '.github/workflows/browsecomp-plus.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  offline:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      # Validate before installing: the validator recursively scans site-packages
+      # if a .venv exists inside the adapter directory.
+      - run: python scripts/validate_adapter.py browsecomp-plus
+      - uses: astral-sh/setup-uv@v7
+      - run: uv sync --locked --group dev --extra agent
+        working-directory: src/browsecomp-plus
+      - run: uv run --locked --group dev --extra agent pytest tests -q
+        working-directory: src/browsecomp-plus
+      - run: uv run --locked --group dev ruff check .
+        working-directory: src/browsecomp-plus
+      - run: uv run --locked --group dev ruff format --check .
+        working-directory: src/browsecomp-plus
+      - run: uv run --locked --group dev --extra agent ty check
+        working-directory: src/browsecomp-plus
+      - name: Check installed custom agent resources
+        run: >-
+          uv run --locked --extra agent python -c
+          "from pathlib import Path;
+          from browsecomp_plus.deep_research_agent import DeepResearchAgent;
+          import browsecomp_plus.deep_research_agent as agent;
+          assert DeepResearchAgent.version(None) == '1.0.11';
+          assert (Path(agent.__file__).parent / 'install-deep-research-agent.sh.j2').is_file()"
+        working-directory: src/browsecomp-plus
