@@ -1,0 +1,30 @@
+[
+  {
+    "adapter_name": "aime",
+    "adapter_builders": ["Harbor Team"],
+    "original_benchmark": [
+      {
+        "split": "full",
+        "size": 60,
+        "harness": "None",
+        "supported_agents": ["None"],
+        "adaptable": true,
+        "notes": "AIME-Preview problem data: 30 AIME 2024 tasks, 15 AIME 2025-I tasks, and 15 AIME 2025-II tasks. No matched upstream evaluation was run for this fix."
+      }
+    ],
+    "harbor_adapter": [
+      {
+        "split": "full",
+        "adapted_benchmark_size": 60,
+        "parity_benchmark_size": 0,
+        "parity_sampling_rate": 0.0,
+        "registry_benchmark_size": 60,
+        "added_agents": ["None"],
+        "parity_matching_agents": ["None"],
+        "parity_unmatching_agents": ["None"],
+        "parity_costs": "$0",
+        "notes": "Adapter originally developed by Orfeas Menis Mastromichalakis from the Harbor team. On 2026-10-20, Harbor 0.24.0 with Docker passed all 60 oracle trials at commit 4b83a2dce7dd5799db33b07909368dcd23dfa5ba, including corrected I-14. This is functional validation, not a matched upstream parity experiment; parity sizes are zero and matching status is unassessed. No model API calls were made; cost excludes infrastructure."
+      }
+    ]
+  }
+]
