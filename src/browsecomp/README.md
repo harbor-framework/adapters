@@ -2,7 +2,7 @@
 
 ## Overview
 
-This adapter converts OpenAI **BrowseComp** into Harbor tasks: 1,266 questions requiring web search, source retrieval, and a short factual answer. It migrates the contribution from [Harbor PR #1521](https://github.com/harbor-framework/harbor/pull/1521) into the standalone [Harbor Adapters repository](https://github.com/harbor-framework/adapters).
+This adapter converts OpenAI **BrowseComp** into Harbor tasks: 1,266 questions requiring web search, source retrieval, and a short factual answer. It migrates the contribution from [Harbor PR #1521](https://github.com/harbor-framework/harbor/pull/1521) into the standalone [Harbor Adapters repository](https://github.com/harbor-framework/adapters) in [migration PR #62](https://github.com/harbor-framework/adapters/pull/62).
 
 The migration preserves the historical three-run comparison on 30 tasks and a separate full-dataset oracle check. It adds no new model, cloud, or benchmark runs. Dataset publication and acceptance of the historical parity methodology remain pending.
 
@@ -126,6 +126,7 @@ The archived April 6, 2026 oracle job records **1,266 trials, zero errors, mean 
 - [Original benchmark implementation](https://github.com/openai/simple-evals/blob/main/browsecomp_eval.py).
 - [Historical original-side fork](https://github.com/wizard1203/browsecomp-adapter/tree/ee3b0318d8d1d9d72755a4120879be65f7c07e9e): custom runner missing, as described below.
 - [Historical Harbor adapter PR #1521](https://github.com/harbor-framework/harbor/pull/1521).
+- [Standalone migration PR #62](https://github.com/harbor-framework/adapters/pull/62).
 - [Dataset PR #226](https://github.com/harbor-framework/harbor-datasets/pull/226): open, publication pending as of October 28, 2026.
 - [HF parity PR #244](https://huggingface.co/datasets/harborframework/parity-experiments/discussions/244): public **draft**, unmerged as of October 28, 2026. It retains result summaries, Harbor artifacts, a separate oracle archive, and incomplete original-side artifacts. Treat raw archived configurations as sensitive; do not reuse credentials from historical logs.
 - Related contributions: [Adapters PR #44](https://github.com/harbor-framework/adapters/pull/44) and its [historical Harbor PR #2355](https://github.com/harbor-framework/harbor/pull/2355). This submission independently migrates #1521; these cross-links preserve overlapping review context without claiming the other contribution's implementation or evidence.
