@@ -48,5 +48,13 @@ for attempt in 1 2 3 4 5 6; do
 done
 cat "$RESULT"
 
+# If the TPU never became usable, nothing was graded: drop the placeholder reward so Harbor
+# records an infrastructure failure (RewardFileNotFoundError) instead of a 1x score.
+if grep -q -E "Device or resource busy|TPU initialization failed" "$RESULT"; then
+  echo "TPU unavailable; kernel was not graded"
+  rm -f /logs/verifier/reward.json
+  exit 1
+fi
+
 # Exits 0 if the kernel is correct, 1 otherwise (the reward file is written either way).
 python /tests/compute_reward.py "$RESULT" /logs/verifier/reward.json

@@ -48,7 +48,10 @@ mean, plus **fast₁** (fraction of benchmarks with a correct kernel faster than
 - **Oracles.** Upstream's hand-written Pallas kernel where it passes the upstream harness, otherwise the
   baseline itself. A `--oracle baseline` variant uses the baseline everywhere (XLA oracle).
 - **Metric.** `metrics/geomean.py` aggregates the floored speedups into a geometric mean (missing results
-  count as 1×), alongside Harbor's `mean`.
+  count as 1×), alongside Harbor's built-in `mean` (which counts a trial with no reward as 0, so it can fall
+  below 1× when trials error out).
+- **Infrastructure failures are not scored.** If the TPU never becomes usable for grading, `test.sh` removes
+  the reward file, so Harbor reports the trial as an error instead of a 1× score.
 - **Stable task names.** `ai-hypercomputer/jaxbench__level1-<workload>`, lower-cased and sanitized (e.g.
   `ai-hypercomputer/jaxbench__level1-8p-gemm`).
 
@@ -97,17 +100,25 @@ All commands run from the repository root. Every task needs a TPU v6e chip, so j
 environment (see [Installation / Prerequisites](#installation--prerequisites)); edit the `environment.kwargs`
 (project, cluster, region, Artifact Registry) in the config to match your project.
 
+Commands that do not use a config file must pass the same GKE settings on the command line; the examples
+below use this variable:
+
+```bash
+GKE=(-e gke --ek project_id=<gcp_project> --ek cluster_name=<cluster> --ek region=<region>
+     --ek registry_location=<region> --ek registry_name=<artifact_registry_repo>)
+```
+
 ### Running with Datasets Registry
 
 ```bash
 # Oracle on the published dataset
-harbor run -d ai-hypercomputer/jaxbench -e gke
+harbor run -d ai-hypercomputer/jaxbench "${GKE[@]}"
 
 # A specific agent and model
-harbor run -d ai-hypercomputer/jaxbench -e gke -a <agent_name> -m "<model_name>"
+harbor run -d ai-hypercomputer/jaxbench "${GKE[@]}" -a <agent_name> -m "<model_name>"
 
 # Parity subset (15 tasks), once published under the `parity` tag
-harbor run -d ai-hypercomputer/jaxbench@parity -e gke -a <agent_name> -m "<model_name>"
+harbor run -d ai-hypercomputer/jaxbench@parity "${GKE[@]}" -a <agent_name> -m "<model_name>"
 ```
 
 ### Using Job Configurations
@@ -121,7 +132,7 @@ harbor run -c src/jaxbench/run_jaxbench_gke_tpu_v6e_xla_oracle.yaml
 harbor run -c src/jaxbench/run_jaxbench_gke_tpu_v6e_pallas_oracle.yaml
 
 # Locally generated dataset with any agent
-harbor run -p datasets/jaxbench -e gke -a <agent_name> -m "<model_name>"
+harbor run -p datasets/jaxbench "${GKE[@]}" -a <agent_name> -m "<model_name>"
 ```
 
 Results are written to `jobs/`. Each trial's `verifier/reward.json` holds `reward`, `speedup`, `correct` and
@@ -129,9 +140,12 @@ Results are written to `jobs/`. Each trial's `verifier/reward.json` holds `rewar
 
 ### Running Individual Trial
 
+`harbor trial start` has no flag for environment kwargs in Harbor 0.23.0, so run a single task as a
+one-task job:
+
 ```bash
-harbor trial start -p datasets/jaxbench/level1-8p-gemm -e gke
-harbor trial start -p datasets/jaxbench/level1-8p-gemm -e gke -a <agent_name> -m "<model_name>"
+harbor run -p datasets/jaxbench -i level1-8p-gemm "${GKE[@]}"
+harbor run -p datasets/jaxbench -i level1-8p-gemm "${GKE[@]}" -a <agent_name> -m "<model_name>"
 ```
 
 ## Usage: Create Task Directories
@@ -242,6 +256,11 @@ dataset PR: _pending_ · parity results (Hugging Face): _pending_
 
 The exclusion list lives in `EXCLUDED_WORKLOADS` in `src/jaxbench/adapter.py`.
 
+**Level 2 is not adapted.** After `7afeb78`, upstream added `benchmark/level2/` (23 workloads whose baselines
+are hand-written Pallas kernels). It ships only `baseline.py` per workload, the upstream harness cannot
+discover it, and the paper does not evaluate it, so it is out of scope. Level 1 and the harness are unchanged
+between `7afeb78` and upstream `main` (checked 2026-10-27).
+
 **Upstream path bug.** At `7afeb78` the workloads live in `benchmark/level1/<name>/`, but the harness only
 discovers `benchmark/<name>/`, so upstream `list`/`evaluate` find no workloads. The adapter copies each
 workload flat into `JAXBench/benchmark/<name>/` inside the task (no harness code changes); the parity fork
@@ -287,9 +306,9 @@ because the agent works in a shell; rule 3 is dropped for the same reason. No TP
 added to the prompt (the paper's "+context" variants inject curated docs). The same prompt is used on both
 parity sides.
 
-**JAX is not pinned in the task image.** The Dockerfile installs the latest `jax[tpu]` (as upstream
-JAXBench does). The parity experiment ran with jax/jaxlib 0.12.0 and libtpu 0.0.50; newer JAX releases may
-change baseline timings and therefore speedups.
+**Pinned JAX.** Upstream JAXBench does not pin JAX. The task image pins `jax[tpu]==0.12.0`,
+`jaxlib==0.12.0`, `libtpu==0.0.50` and `numpy==2.5.4`, the versions the parity experiment ran with on both
+sides; other JAX releases may change baseline timings and therefore speedups.
 
 **Hardware.** Every task requires one TPU v6e chip (`[environment.tpu] type = "v6e"`, `topology = "1x1"`),
 which Harbor provides only through the GKE environment. A TPU can be opened by only one process, which is why

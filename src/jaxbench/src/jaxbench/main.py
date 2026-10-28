@@ -1,9 +1,8 @@
 """
-Main entry point for the template adapter. Do not modify any of the existing flags.
-You can add any additional flags you need.
+CLI entry point for the JAXBench adapter (`uv run jaxbench`).
 
-Constructs the Adapter class defined in adapter.py and calls run() to generate tasks
-in the Harbor format at the configured output directory.
+Constructs JAXBenchAdapter (adapter.py) and calls run() to generate Harbor tasks
+in the configured output directory.
 """
 
 import argparse

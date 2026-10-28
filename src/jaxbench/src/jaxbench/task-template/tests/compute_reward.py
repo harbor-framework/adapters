@@ -10,6 +10,7 @@ fast_1  = 1 if correct and speedup_vs_baseline > 1.0 else 0
 """
 
 import json
+import math
 import sys
 
 
@@ -20,9 +21,13 @@ def main(result_path: str, reward_path: str) -> None:
     except (OSError, ValueError) as e:
         print(f"Could not parse JAXBench result: {e}")
         result = {}
+    if not isinstance(result, dict):
+        result = {}
 
     correct = result.get("status") == "correct"
     speedup = float(result.get("speedup_vs_baseline") or 0.0) if correct else 0.0
+    if not math.isfinite(speedup):  # Harbor rejects non-finite rewards
+        correct, speedup = False, 0.0
 
     rewards = {
         "reward": round(max(speedup, 1.0), 4),

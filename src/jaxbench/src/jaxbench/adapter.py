@@ -188,6 +188,9 @@ class JAXBenchAdapter:
         if self.task_ids:
             wanted = set(self.task_ids)
             workloads = [w for w in workloads if w.task_id in wanted or w.name in wanted]
+            found = {w.task_id for w in workloads} | {w.name for w in workloads}
+            for missing in sorted(wanted - found):
+                print(f"warning: task id not found (or not in this split): {missing}")
         if self.limit is not None:
             workloads = workloads[: self.limit]
         return workloads

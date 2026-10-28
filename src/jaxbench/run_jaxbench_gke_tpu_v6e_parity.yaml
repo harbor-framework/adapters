@@ -2,7 +2,7 @@
 #
 # 15 tasks from `--split parity` (7 priority kernels incl. the 3 Pallas-oracle tasks, plus every
 # 4th KernelBench workload from 18k). The original-side runner must use the same agent version,
-# model, and OpenHands settings.
+# model, and mini-swe-agent settings.
 #
 # Generate the dataset first (from src/jaxbench):
 #   uv run jaxbench --split parity --output-dir ../../datasets/jaxbench-parity
@@ -41,7 +41,7 @@ agents:
       version: "2.4.6"
       # Native mini-swe-agent config layered over its builtin `mini` config.
       # DeepSeek V4.1 Flash recommended sampling (tech report, arXiv 2609.19969, Sec. 5.3.1);
-      # step limit matches the OpenHands config's max_iterations.
+      # step limit matches the original-side runner's mini_config.yaml.
       config:
         agent:
           step_limit: 150
