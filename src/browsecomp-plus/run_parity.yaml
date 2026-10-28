@@ -1,0 +1,30 @@
+# Proposed reproduction only. Confirm matched settings with maintainers first.
+# Generate via: uv run browsecomp-plus --output-dir datasets/parity --split parity
+jobs_dir: jobs
+n_attempts: 1
+agents:
+  - import_path: browsecomp_plus.deep_research_agent:DeepResearchAgent
+    model_name: gpt-5-mini
+    override_timeout_sec: 1200
+    kwargs:
+      max_turns: 30
+      max_tokens: 10000
+    env:
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      OPENAI_BASE_URL: ${OPENAI_BASE_URL:-https://api.openai.com/v1}
+      SEARCH_AGENT_INDEX_PATH: /app/indices/bm25
+      SEARCH_AGENT_SEARCHER_TYPE: bm25
+      SEARCH_AGENT_SNIPPET_MAX_TOKENS: "512"
+      SEARCH_AGENT_K: "5"
+environment:
+  type: docker
+  force_build: false
+  delete: true
+verifier:
+  env:
+    OPENAI_API_KEY: ${OPENAI_API_KEY}
+    OPENAI_BASE_URL: ${OPENAI_BASE_URL:-https://api.openai.com/v1}
+    JUDGE_MODEL: gpt-5-mini
+n_concurrent_trials: 2
+datasets:
+  - path: datasets/parity
