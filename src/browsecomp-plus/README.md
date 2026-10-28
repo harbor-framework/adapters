@@ -4,6 +4,8 @@
 
 Converts [BrowseComp-Plus](https://texttron.github.io/BrowseComp-Plus/), a fixed-corpus deep-research benchmark, into Harbor tasks. The upstream `test` split has **830 queries**. Task generation decrypts upstream records locally; generated data is not included in this adapter repository.
 
+Current migration PR: [adapters#61](https://github.com/harbor-framework/adapters/pull/61).
+
 This contribution migrates [harbor#1511](https://github.com/harbor-framework/harbor/pull/1511), source head `eedc646d0637ebbefe459a5bd965fa242faecac6`, into the standalone adapters repository. [Migration review context](migration/REVIEW_CONTEXT.md) preserves review links, public validation artifacts, and outstanding decisions.
 
 ## What is BrowseComp-Plus?

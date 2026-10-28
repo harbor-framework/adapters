@@ -7,6 +7,8 @@ used by the migration regression tests.
 
 ## Source and destination
 
+- Replacement migration: [adapters#61](https://github.com/harbor-framework/adapters/pull/61) (draft; review and acceptance pending).
+
 - Original contribution: [harbor#1511](https://github.com/harbor-framework/harbor/pull/1511)
   by Zhenheng Tang (`@wizard1203`). Original remote head inspected:
   [`eedc646d0637ebbefe459a5bd965fa242faecac6`](https://github.com/harbor-framework/harbor/tree/eedc646d0637ebbefe459a5bd965fa242faecac6/adapters/browsecomp_plus).
