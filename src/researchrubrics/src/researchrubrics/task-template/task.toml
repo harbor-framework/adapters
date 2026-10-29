@@ -1,0 +1,63 @@
+schema_version = "1.0"
+
+[task]
+name = "scaleai/researchrubrics__{task_id}"
+authors = [
+    { name = "Manasi Sharma" },
+    { name = "Chen Bo Calvin Zhang" },
+    { name = "Chaithanya Bandi" },
+    { name = "Clinton Wang" },
+    { name = "Ankit Aich" },
+    { name = "Huy Nghiem" },
+    { name = "Tahseen Rabbani" },
+    { name = "Ye Htet" },
+    { name = "Brian Jang" },
+    { name = "Sumana Basu" },
+    { name = "Aishwarya Balwani" },
+    { name = "Denis Peskoff" },
+    { name = "Marcos Ayestaran" },
+    { name = "Sean M. Hendryx" },
+    { name = "Brad Kenstler" },
+    { name = "Bing Liu" },
+]
+keywords = ["researchrubrics", "deep-research", "rubric-grading", "llm-as-a-judge", {keywords}]
+
+[metadata]
+difficulty = "hard"
+category = "deep-research"
+source_id = "{task_id}"
+domain = "{domain}"
+conceptual_breadth = "{conceptual_breadth}"
+logical_nesting = "{logical_nesting}"
+exploration = "{exploration}"
+n_rubrics = {n_rubrics}
+
+[verifier]
+network_mode = "public"
+timeout_sec = 1800.0
+
+[verifier.env]
+# Judge model (any LiteLLM model id). Upstream used Gemini 2.5 Pro.
+JUDGE_MODEL = "${JUDGE_MODEL:-gemini/gemini-2.5-pro}"
+# Optional explicit key / base URL for the judge (e.g. a LiteLLM proxy).
+JUDGE_API_KEY = "${JUDGE_API_KEY:-}"
+JUDGE_API_BASE = "${JUDGE_API_BASE:-}"
+JUDGE_API_VERSION = "${JUDGE_API_VERSION:-}"
+# Provider keys LiteLLM picks up automatically for the matching model prefix.
+GEMINI_API_KEY = "${GEMINI_API_KEY:-}"
+OPENAI_API_KEY = "${OPENAI_API_KEY:-}"
+ANTHROPIC_API_KEY = "${ANTHROPIC_API_KEY:-}"
+# "true" skips the judge and only checks that a report was written (oracle
+# pipeline validation). Never set this for agent runs.
+ORACLE_MODE = "${ORACLE_MODE:-}"
+
+[agent]
+network_mode = "public"
+timeout_sec = 3600.0
+
+[environment]
+build_timeout_sec = 600.0
+cpus = 1
+memory_mb = 2048
+storage_mb = 10240
+gpus = 0
