@@ -9,7 +9,7 @@ version = "1.0"
 [task]
 name = "deepresearch/deepresearch-bench__{task_id}"
 authors = [
-    { name = "Sixiong Xie et al.", email = "xsx001@gmail.com" },
+    { name = "Ruizhe Li et al.", email = "imlrz@mail.ustc.edu.cn" },
 ]
 keywords = ["deep-research", "benchmark", "question-answering"]
 

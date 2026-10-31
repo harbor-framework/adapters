@@ -141,18 +141,6 @@ def call_llm_judge(
     raise RuntimeError(f"Failed to get valid response after {max_retries} attempts")
 
 
-def extract_pdf_text(pdf_path: Path) -> str:
-    import pdfplumber
-
-    text = ""
-    with pdfplumber.open(pdf_path) as pdf:
-        for page in pdf.pages:
-            page_text = page.extract_text()
-            if page_text:
-                text += page_text + "\n"
-    return text
-
-
 def main():
     config_path = Path("/tests/config.json")
     if not config_path.exists():
@@ -164,24 +152,14 @@ def main():
     rubric = config.get("rubric", {})
     blocked = config.get("blocked", {})
 
-    # Detect output file (PDF or MD)
-    agent_output_pdf = Path("/workspace/output.pdf")
+    # Only the markdown report is graded: instruction.md asks for
+    # /workspace/output.md, so any other file the agent writes is ignored.
     agent_output_md = Path("/workspace/output.md")
-
-    paper_content = ""
-    if agent_output_pdf.exists():
-        print(f"Extracting text from PDF: {agent_output_pdf}")
-        try:
-            paper_content = extract_pdf_text(agent_output_pdf)
-        except Exception as e:
-            print(f"ERROR extracting PDF: {e}")
-            sys.exit(1)
-    elif agent_output_md.exists():
-        print(f"Reading markdown report: {agent_output_md}")
-        paper_content = agent_output_md.read_text()
-    else:
-        print("ERROR: Neither /workspace/output.pdf nor /workspace/output.md found")
+    if not agent_output_md.exists():
+        print("ERROR: /workspace/output.md not found")
         sys.exit(1)
+    print(f"Reading markdown report: {agent_output_md}")
+    paper_content = agent_output_md.read_text()
 
     paper_content = paper_content.strip()
     if not paper_content:
@@ -229,31 +207,32 @@ def main():
             print(f"ERROR in batch {i + 1}: {e}")
             sys.exit(1)
 
-    # Organize scores and calculate metrics
+    # Organize scores exactly like upstream run_evaluation.py: one entry per
+    # unique rubric item per dimension (duplicate items collapse, last wins).
     scores_by_dim = {"info_recall": {}, "analysis": {}, "presentation": {}}
-
-    total_ones = 0
-    total_minus_ones = 0
-    total_items = 0
-
     for res in all_results:
-        item = res.get("rubric_item")
-        score = int(res.get("score", 0))
-        reason = res.get("reason", "")
-        evidence = res.get("evidence", "")
-
+        item = res.get("rubric_item", "")
         dim = dimension_map.get(item)
         if dim:
             scores_by_dim[dim][item] = {
-                "score": score,
-                "reason": reason,
-                "evidence": evidence,
+                "score": res.get("score", 0),
+                "reason": res.get("reason", ""),
+                "evidence": res.get("evidence", ""),
             }
-            if score == 1:
-                total_ones += 1
-            elif score == -1:
-                total_minus_ones += 1
-            total_items += 1
+
+    # Aggregate like upstream aggregate_scores.py: only numeric scores count,
+    # pooled across dimensions, with -1 kept in the denominator.
+    total_ones = 0
+    total_minus_ones = 0
+    total_items = 0
+    for dim_scores in scores_by_dim.values():
+        values = [
+            v["score"] for v in dim_scores.values()
+            if isinstance(v["score"], (int, float))
+        ]
+        total_ones += sum(1 for v in values if v == 1)
+        total_minus_ones += sum(1 for v in values if v == -1)
+        total_items += len(values)
 
     final_score = total_ones / total_items if total_items > 0 else 0.0
     blocked_rate = total_minus_ones / total_items if total_items > 0 else 0.0
