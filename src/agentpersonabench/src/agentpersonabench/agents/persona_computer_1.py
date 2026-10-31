@@ -56,11 +56,16 @@ class PersonaComputer1(Computer1):
             base = os.environ.get("LLM_BASE_URL") or os.environ.get("DASHSCOPE_API_BASE")
             if base:
                 kwargs["api_base"] = base
+        os.environ.setdefault(
+            "LLM_REASONING_EFFORT",
+            os.environ.get("ADHERENCE_EFFORT") or "medium",
+        )
         super().__init__(*args, **kwargs)
         self._identity_prompt = ""
 
     def _build_provider(self):
         provider = super()._build_provider()
+        _install_claude_thinking(provider)
         identity = (self._identity_prompt or "").strip()
         original = getattr(provider, "_prompt_text", None)
         if not identity or original is None:
@@ -95,3 +100,25 @@ def _persona_file(task_dir: Path) -> Path:
         if candidate.is_file():
             return candidate
     raise FileNotFoundError(f"no persona.yaml under {task_dir}")
+
+
+def _install_claude_thinking(provider) -> None:
+    """APB's computer-1 sends Claude thinking. Harbor 0.18's native provider does not."""
+    client = getattr(provider, "_client", None)
+    messages = getattr(getattr(client, "beta", None), "messages", None)
+    create = getattr(messages, "create", None)
+    if create is None or getattr(provider, "_apb_thinking_wrapped", False):
+        return
+    from agentpersonabench.judge_client import _claude_thinking
+
+    def wrapped(**kwargs):
+        model = kwargs.get("model") or getattr(provider, "model_name", "")
+        thinking, max_tokens = _claude_thinking(str(model), int(kwargs.get("max_tokens") or 4096))
+        kwargs.pop("temperature", None)
+        if thinking:
+            kwargs.update(thinking)
+            kwargs["max_tokens"] = max_tokens
+        return create(**kwargs)
+
+    messages.create = wrapped
+    provider._apb_thinking_wrapped = True

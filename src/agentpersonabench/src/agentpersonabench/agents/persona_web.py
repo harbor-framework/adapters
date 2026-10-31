@@ -10,6 +10,7 @@ goal file. Model calls go through a host proxy, the same split APB's
 from __future__ import annotations
 
 import json
+import os
 from pathlib import Path
 
 from harbor.agents.base import BaseAgent
@@ -58,6 +59,10 @@ class PersonaWeb(BaseAgent):
 
         if self.model_name is None:
             raise RuntimeError("persona-web requires a model name")
+        os.environ.setdefault(
+            "LLM_REASONING_EFFORT",
+            os.environ.get("ADHERENCE_EFFORT") or "medium",
+        )
         proxy = HostChatProxy(self.model_name).start()
         try:
             await environment.upload_file(_RUNTIME / "web_agent.py", "/opt/persona-web/web_agent.py")

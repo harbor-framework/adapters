@@ -26,6 +26,8 @@ _CLAUDE_ADAPTIVE = (
     "sonnet-5",
     "fable-5",
     "mythos-5",
+    # Haiku 5 rejects budget_tokens thinking. "haiku-5" does not match haiku-4-5.
+    "haiku-5",
 )
 _CLAUDE_EFFORTS = {"low", "medium", "high", "xhigh", "max"}
 _CLAUDE_BUDGET = {"low": 1024, "medium": 2048, "high": 4096, "xhigh": 8192, "max": 8192}

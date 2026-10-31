@@ -1,6 +1,7 @@
 """Generate AgentPersonaBench tasks in Harbor format."""
 
 import argparse
+import json
 import logging
 import os
 from pathlib import Path
@@ -8,12 +9,16 @@ from pathlib import Path
 from .adapter import AgentPersonaBenchAdapter
 
 DEFAULT_OUTPUT_DIR = Path(__file__).resolve().parents[4] / "datasets" / "agentpersonabench"
-PARITY_TASK_IDS = {
-    "survey": [],
-    "web": ["vaccines-opposed-web", "wellness-web"],
-    "app": ["no-budget-apps-app"],
-    "chat": ["vaccines-opposed-chat", "wellness-chat"],
-}
+_PARITY_FILE = Path(__file__).resolve().parents[2] / "parity_task_ids.json"
+
+
+def _parity_task_ids() -> dict[str, list[str]]:
+    data = json.loads(_PARITY_FILE.read_text(encoding="utf-8"))
+    tasks = data["tasks"]
+    return {surface: list(tasks[surface]) for surface in ("survey", "web", "app", "chat")}
+
+
+PARITY_TASK_IDS = _parity_task_ids()
 
 
 def main() -> None:

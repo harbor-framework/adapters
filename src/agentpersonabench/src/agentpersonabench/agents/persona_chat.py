@@ -125,6 +125,10 @@ class PersonaChat(BaseAgent):
     ) -> None:
         if self.model_name is None:
             raise RuntimeError("persona-chat requires a model name")
+        os.environ.setdefault(
+            "LLM_REASONING_EFFORT",
+            os.environ.get("ADHERENCE_EFFORT") or "medium",
+        )
         task_dir = Path(environment.environment_dir).parent
         persona = _persona_file(task_dir)
         bot_path = task_dir / "environment" / "input" / "bot.md"
@@ -286,17 +290,19 @@ def _anthropic_tools(messages: list[dict], model: str) -> list[tuple[str, dict]]
     import urllib.error
     import urllib.request
 
-    from agentpersonabench.judge_client import _record, _split_system
+    from agentpersonabench.judge_client import _claude_thinking, _record, _split_system
 
     system, convo = _split_system(messages)
     key = (os.environ.get("ANTHROPIC_API_KEY") or os.environ.get("CLAUDE_API_KEY") or "").strip()
     if not key:
         raise RuntimeError("ANTHROPIC_API_KEY is unset")
+    thinking, max_tokens = _claude_thinking(model, _PERSONA_MAX_TOKENS)
     body: dict = {
         "model": model,
-        "max_tokens": _PERSONA_MAX_TOKENS,
+        "max_tokens": max_tokens,
         "messages": [{"role": item["role"], "content": item.get("content", "")} for item in convo],
         "tools": _ANTHROPIC_TOOLS,
+        **thinking,
     }
     if _temperature_allowed(model):
         body["temperature"] = _PERSONA_TEMPERATURE
@@ -446,6 +452,10 @@ def _temperature_allowed(model: str) -> bool:
     lowered = (model or "").strip().lower()
     bare = lowered.rsplit("/", 1)[-1]
     if bare.startswith("gpt-5"):
+        return False
+    # Claude Haiku 5 rejects any temperature field. APB's llm_client already
+    # omits it for every claude model.
+    if "claude" in lowered:
         return False
     match = re.search(r"opus-4-(\d+)", lowered)
     if match is not None and int(match.group(1)) >= 7:

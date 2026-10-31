@@ -85,7 +85,7 @@ PYTHONPATH=src/agentpersonabench/src harbor run -p datasets/agentpersonabench/<s
 
 ### Using Job Configurations
 
-`run_agentpersonabench.yaml` runs the oracle agent. `run_agentpersonabench_parity.yaml` runs the recorded two-task web parity arm against a directory generated with `--surface web --split parity`. Chat and os-app use different agents, so their reproduction commands remain separate below.
+`run_agentpersonabench.yaml` runs the oracle agent. `run_agentpersonabench_parity.yaml` runs the recorded web parity arm against a directory generated with `--surface web --split parity`. Survey, chat, and os-app use different agents, so their reproduction commands remain separate below.
 
 ```bash
 # From the repository root
@@ -144,54 +144,58 @@ Available flags:
 - `--task-ids` — Only generate specific task IDs
 - `--source` — AgentPersonaBench checkout (or set `$APB_SOURCE`)
 - `--surface` — `survey` (default), `chat`, `web`, or `app`
-- `--split` — `all` or `parity`. The recorded parity subset contains two web, one app, and two chat tasks; it contains no survey task
+- `--split` — `all` or `parity`. The parity subset is 115 emitted tasks (survey 25, chat 28, web 32, os-app 30), drawn with `random.Random(42)` and listed in `parity_task_ids.json`
 
 Generated counts from the current checkout: survey 502 of 502, chat 562 of 565, web 644 of 707, os-app 593 of 686.
 
 ## Comparison with Original Benchmark (Parity)
 
-The comparison below is a sampled subset, not a full-benchmark parity. Scores are mean ± sample standard error of the mean. For a single run, sample SEM is undefined, so that row is the one observed reward. Web and os-app used `qwen3.8-flash`, temperature 0, three runs each. Chat used `dashscope/deepseek-v4.1-flash` for the persona and the bot, one run each, scored by the same `glm-4.7` judge with thinking disabled. The benchmark's own judge remains `claude-opus-4-8`. That key currently returns HTTP 401, so these chat scores are not Claude scores.
+The comparison below is a 115-task subset, not a full-benchmark parity. Task ids are in `parity_task_ids.json` (`random.Random(42)`, stratified by surface: survey 25, chat 28, web 32, os-app 30). Scores are mean ± sample standard error of the mean of the three full passes. The metric is the verifier's point count (checks held), the same integer the upstream envelope stores, not a 0–1 rate. Survey, chat, and web use `claude-haiku-5-5`. Os-app uses `claude-opus-4-8`. Effort is medium. Temperature is omitted. Chat, and any verifier that calls a model, uses judge `claude-opus-4-8` on both sides. Survey checks are rule-based. On every surface the two run ranges overlap.
 
 | Agent | Model | Metric | Number of Runs | Dataset Size | Original Benchmark Performance | Harbor Adapter Performance |
 |-------|-------|--------|------------------|--------------|------------------------------|----------------------------|
-| persona-web@1.0.0 | qwen3.8-flash | reward | 3 | 1 (vaccines-opposed-web) | 1.000 ± 0.000 | 1.000 ± 0.000 |
-| persona-web@1.0.0 | qwen3.8-flash | points (max 3) | 3 | 1 (wellness-web) | 2.333 ± 0.667 | 2.667 ± 0.333 |
-| persona-computer-1@1.0.0 | qwen3.8-flash | reward | 3 | 1 (no-budget-apps-app) | 0.333 ± 0.333 | 0.000 ± 0.000 |
-| persona-chat@1.0.0 | dashscope/deepseek-v4.1-flash | reward | 1 | 1 (vaccines-opposed-chat) | 1.000 (n=1) | 1.000 (n=1) |
-| persona-chat@1.0.0 | dashscope/deepseek-v4.1-flash | points (max 3) | 1 | 1 (wellness-chat) | 3.000 (n=1) | 3.000 (n=1) |
+| persona-openhands-sdk@1.0.0 | claude-haiku-5-5 | adherence points | 3 | 25 | 1.360 ± 0.023 | 1.467 ± 0.035 |
+| persona-chat@1.0.0 | claude-haiku-5-5 | adherence points | 3 | 28 | 1.012 ± 0.031 | 1.000 ± 0.021 |
+| persona-web@1.0.0 | claude-haiku-5-5 | adherence points | 3 | 32 | 1.260 ± 0.021 | 1.281 ± 0.018 |
+| persona-computer-1@1.0.0 | claude-opus-4-8 | adherence points | 3 | 30 | 1.066 ± 0.033 | 1.078 ± 0.040 |
 
-Raw runs: vaccines-opposed-web APB (1, 1, 1), Harbor (1, 1, 1). wellness-web APB (1, 3, 3), Harbor (3, 2, 3). no-budget-apps-app APB (0, 0, 1), Harbor (0, 0, 0). Chat rewards are the single GLM verdict on each side.
+Raw runs, original then Harbor. Survey: (1.36, 1.32, 1.40) and (1.48, 1.40, 1.52). Chat: (0.964, 1.000, 1.071) and (1.036, 1.000, 0.964). Web: (1.281, 1.219, 1.281) and (1.312, 1.250, 1.281). Os-app: (1.033, 1.133, 1.033) and (1.133, 1.000, 1.100).
 
-Reproduction:
+Claude Code (`persona-claude-code@1.0.0`, `claude-haiku-5-5`) was run on the Harbor side only, one pass: survey mean 1.440 (25 tasks) and web mean 1.281 (32 tasks). There is no upstream side and sample SEM is undefined at one run, so it is not a parity row.
+
+Reproduction, from the repository root after generating the subset with `--split parity`:
 
 ```bash
-# Harbor web. Source DashScope credentials first.
+# Harbor survey
+PYTHONPATH=src/agentpersonabench/src harbor run -y \
+  -a agentpersonabench.agents.persona_openhands_sdk:PersonaOpenHandsSdk \
+  -m anthropic/claude-haiku-5-5 -e docker \
+  -p datasets/agentpersonabench-parity -k 3 --ak reasoning_effort=medium
+
+# Harbor web
 PYTHONPATH=src/agentpersonabench/src harbor run -y \
   -a agentpersonabench.agents.persona_web:PersonaWeb \
-  -m qwen3.8-flash -e docker \
-  -p datasets/agentpersonabench/vaccines-opposed-web -n 3
+  -m anthropic/claude-haiku-5-5 -e docker \
+  -p datasets/agentpersonabench-parity-web -k 3
 
-# Harbor os-app. The recorded runs set temperature 0. Without this variable
-# persona-computer-1 uses 0.7.
-ADHERENCE_TEMPERATURE=0 PYTHONPATH=src/agentpersonabench/src harbor run -y \
-  -a agentpersonabench.agents.persona_computer_1:PersonaComputer1 \
-  -m qwen3.8-flash -e docker \
-  -p datasets/agentpersonabench/no-budget-apps-app -n 3
-
-# Harbor chat. Judge override used for the recorded scores:
-# ADHERENCE_JUDGE_MODEL=glm-4.7 plus ZAI_API_KEY and ZAI_API_BASE.
+# Harbor chat. Judge is claude-opus-4-8 from the generated task.toml.
 PYTHONPATH=src/agentpersonabench/src harbor run -y \
   -a agentpersonabench.agents.persona_chat:PersonaChat \
-  -m dashscope/deepseek-v4.1-flash -e docker \
-  -p datasets/agentpersonabench/vaccines-opposed-chat -n 1
+  -m anthropic/claude-haiku-5-5 -e docker \
+  -p datasets/agentpersonabench-parity-chat -k 3
 
-# APB, from an AgentPersonaBench checkout, same model ids.
-# Web and os-app: python evaluation/run_task.py <task-path> --model <qwen-arm>
-# Chat: LLM_PROVIDER=dashscope LLM_MODEL=deepseek-v4.1-flash
-#   python -c "from chat_harness import run_chat_adherence; run_chat_adherence(...)"
+# Harbor os-app
+PYTHONPATH=src/agentpersonabench/src harbor run -y \
+  -a agentpersonabench.agents.persona_computer_1:PersonaComputer1 \
+  -m anthropic/claude-opus-4-8 -e docker \
+  -p datasets/agentpersonabench-parity-app -k 3 --ak max_steps=40
+
+# Upstream, from an AgentPersonaBench checkout. One task path per line.
+# python evaluation/run_task.py <task-path> --model haiku-5-5 --effort medium --seed 0
+# Os-app uses --model opus-4-8. Repeat seeds 0, 1, and 2.
 ```
 
-Multi-attribute reward is an integer point count, matching the upstream verifier, not a 0/1 fraction. Details are in `parity_experiment.json`.
+The upstream survey command must run `write_persona_prompt_file` with a Python that has PyYAML. `evaluation/src/lib/harbor_solve.sh` calls bare `python3` for that step. On this machine that interpreter is the eval venv, placed first on `PATH`. Details are in `parity_experiment.json`.
 
 ## Notes & Caveats
 
@@ -205,9 +209,9 @@ Web pages keep ground truth in `data-*` attributes and HTML comments inside the 
 
 The Harbor oracle's latest trial is fully held on all 2,301 emitted tasks, with 0 exceptions. Rewards stay the verifier's point counts, so the mean of the raw rewards is 1.586, not a pass rate. LLM-judge trials in that run used `dashscope/deepseek-v4.1-flash` with thinking disabled, passed through `--verifier-env`. The 60 calibrated turns and the three chat exclusions were gated with `glm-4.7`, thinking disabled. Generated `task.toml` still pins `claude-opus-4-8`. That pin was not used for this oracle, because `ANTHROPIC_API_KEY` returns HTTP 401. The first pass scored 13 tasks short. Their oracle text, or a missing `tests/questionnaire.yaml`, was fixed, and the rerun scored those 13 fully held. Upstream commit `db1b8b493009811314421e7a1775c947762dc3b7`. Harbor 0.18.0.
 
-`persona-computer-1` is Harbor's computer-1 with the persona prompt spliced in. It is not APB's vendored computer-1. On `no-budget-apps-app` the run ranges overlap, and the means differ by 0.333, equal to the APB sample SEM. The pair is unmatched because the agents are not the same program. The recorded os-app runs set `ADHERENCE_TEMPERATURE=0`. The agent uses 0.7 when that variable is unset.
+`persona-computer-1` is Harbor's computer-1 with the persona prompt spliced in. It is not APB's vendored computer-1. The 5% os-app comparison uses this agent, and the three-run ranges overlap. When `ADHERENCE_TEMPERATURE` is unset the agent uses 0.7; the recorded opus runs did not set it, and `claude-opus-4-8` drops an explicit temperature.
 
-APB's vaccines chat transcript ends with an `[Ended: satisfied — ...]` turn. Harbor's last turn is a normal goodbye. Both scored HELD under `glm-4.7` on the one recorded run. For DeepSeek, the Harbor chat bot uses a completion budget of 8192 because a 1024 budget returns empty `content` after `reasoning_content`. APB's bot budget stays 1024.
+An earlier one-task chat probe used `glm-4.7`. APB's vaccines transcript in that probe ends with an `[Ended: satisfied — ...]` turn, and Harbor's last turn is a normal goodbye. For DeepSeek, the Harbor chat bot uses a completion budget of 8192 because a 1024 budget returns empty `content` after `reasoning_content`. APB's bot budget stays 1024. The parity table above is the `claude-haiku-5-5` subset, not that probe.
 
 The generated dataset lives in `datasets/agentpersonabench`, which is gitignored. The adapter PR contains the adapter. Publishing the tasks is a separate PR to `harbor-datasets`.
 
@@ -227,7 +231,7 @@ uv sync
 
 - Chat reward 0 with `judge HTTP 401` means the Anthropic key was rejected. The verdict is not a content score. `ADHERENCE_JUDGE_MODEL` in the generated `task.toml` is still `claude-opus-4-8`.
 - A GLM judge that returns empty text spent the token budget on reasoning. `tests/llm_client.py` disables thinking for model ids that contain `glm`.
-- `run_agentpersonabench_parity.yaml` is the recorded web parity agent. Generate `datasets/agentpersonabench-parity-web` with `--surface web --split parity` before using it. Chat and os-app stay on their own commands above.
+- `run_agentpersonabench_parity.yaml` is the recorded web parity arm. Generate `datasets/agentpersonabench-parity-web` with `--surface web --split parity` before using it. Survey, chat, and os-app stay on their own commands in the parity section.
 
 ## Citation
 
