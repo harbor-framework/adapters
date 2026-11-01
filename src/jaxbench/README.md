@@ -358,7 +358,7 @@ TFLOPS/utilization report, not correctness or speedup.
 
 ## Authors & Contributions
 
-This adapter is developed and maintained by [Lehui Liu](mailto:lehui@anyscale.com).
+This adapter is developed and maintained by [Lehui Liu](mailto:imliulehui@gmail.com).
 
 **Issues and Contributions:**
 - Submit issues and pull requests to [harbor-framework/adapters](https://github.com/harbor-framework/adapters)
