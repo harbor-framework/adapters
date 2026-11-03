@@ -1,0 +1,40 @@
+[
+  {
+    "adapter_name": "evoeval-auto",
+    "adapter_builders": [
+      "Yuangang Li (yuanganl@uci.edu)"
+    ],
+    "original_benchmark": [
+      {
+        "split": "EvoEval_difficult",
+        "size": 100,
+        "harness": "llm",
+        "supported_agents": [
+          "None"
+        ],
+        "adaptable": true,
+        "notes": "EvoEval v0.1.0 data release (evo-eval/evoeval_release). The original harness prompts an LLM once per problem and scores the sanitized completion with evoeval.evaluate (pass@1)."
+      }
+    ],
+    "harbor_adapter": [
+      {
+        "split": "EvoEval_difficult",
+        "adapted_benchmark_size": 100,
+        "parity_benchmark_size": 100,
+        "parity_sampling_rate": 1.0,
+        "registry_benchmark_size": 100,
+        "added_agents": [
+          "None"
+        ],
+        "parity_matching_agents": [
+          "mini-swe-agent@2.4.6+deepseek-v4-1-flash-261017"
+        ],
+        "parity_unmatching_agents": [
+          "None"
+        ],
+        "parity_costs": null,
+        "notes": "All 100 EvoEval_difficult problems; no exclusions. Parity on all 100 tasks, 3 runs per side. Other EvoEval datasets can be generated with --dataset but are not part of this release."
+      }
+    ]
+  }
+]

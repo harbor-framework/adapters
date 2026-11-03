@@ -1,0 +1,31 @@
+# Harbor side of the parity experiment (all 100 EvoEval_difficult tasks, one run).
+# From the repository root, with OPENAI_API_KEY / OPENAI_BASE_URL (OpenAI-compatible
+# endpoint serving deepseek-v4.1-flash) and DAYTONA_API_KEY in <env file>:
+#   harbor run -c src/evoeval-auto/run_evoeval-auto-parity.yaml --env-file <env file> -y \
+#     --allow-agent-host <host of OPENAI_BASE_URL>
+# The tasks give the agent no network while it runs; --allow-agent-host lets it reach
+# its model API only. Repeat for each run (one job per run).
+jobs_dir: jobs
+n_attempts: 1
+timeout_multiplier: 1.0
+orchestrator:
+  type: local
+  n_concurrent_trials: 6
+  quiet: false
+environment:
+  type: daytona
+  delete: true
+agents:
+  - name: mini-swe-agent
+    model_name: openai/deepseek-v4.1-flash
+    kwargs:
+      version: 2.4.6
+    env:
+      # Resolve the agent's unpinned litellm dependency as of this date (litellm 1.105.1);
+      # the litellm 1.106 line fails with "No module named 'mcp'" on tool calls.
+      UV_EXCLUDE_NEWER: "2026-10-17T00:00:00Z"
+      # The agent has no network except its model API, so litellm must not try to
+      # download its model cost map from GitHub (a failed fetch can crash it).
+      LITELLM_LOCAL_MODEL_COST_MAP: "True"
+datasets:
+  - path: datasets/evoeval-auto

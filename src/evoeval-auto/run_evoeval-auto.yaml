@@ -1,0 +1,32 @@
+# Reference config for the full adapted dataset (EvoEval_difficult, 100 tasks).
+# Generate the tasks first:
+#   cd src/evoeval-auto && uv run evoeval-auto --output-dir ../../datasets/evoeval-auto
+# Then, from the repository root:
+#   harbor run -c src/evoeval-auto/run_evoeval-auto.yaml --env-file <file with DAYTONA_API_KEY>
+jobs_dir: jobs
+n_attempts: 1
+timeout_multiplier: 1.0
+orchestrator:
+  type: local
+  n_concurrent_trials: 8
+  quiet: false
+environment:
+  type: daytona
+  # type: docker
+  delete: true
+# Default: oracle agent (reference solutions); expected mean reward 1.0.
+agents:
+  - name: oracle
+# Uncomment to run the parity agent instead (needs OPENAI_API_KEY / OPENAI_BASE_URL, and
+# --allow-agent-host <host of OPENAI_BASE_URL>, because the tasks give the agent no other
+# network); see run_evoeval-auto-parity.yaml for the exact parity settings:
+# agents:
+#   - name: mini-swe-agent
+#     model_name: openai/deepseek-v4.1-flash
+#     kwargs:
+#       version: 2.4.6
+#     env:
+#       UV_EXCLUDE_NEWER: "2026-10-17T00:00:00Z"
+#       LITELLM_LOCAL_MODEL_COST_MAP: "True"
+datasets:
+  - path: datasets/evoeval-auto

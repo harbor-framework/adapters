@@ -1,0 +1,35 @@
+[
+  {
+    "adapter_name": "evoeval-auto",
+    "agent": "mini-swe-agent@2.4.6",
+    "model": "deepseek-v4-1-flash-261017",
+    "date": "2026-11-03",
+    "adapted_benchmark_size": 100,
+    "parity_benchmark_size": 100,
+    "parity_sampling_rate": 1.0,
+    "number_of_runs": 3,
+    "notes": "All 100 EvoEval_difficult tasks, 3 runs per side, with both sides running at the same time in Daytona sandboxes built from the same Dockerfile (python:3.10.22-slim, numpy 2.2.6; 2 CPUs, 4 GB RAM). Both sides used the same pinned agent (mini-swe-agent 2.4.6), the same install command and the same command line (-c mini, --cost-limit 0, model timeout 3600 s, no max_tokens). Both requested the model as openai/deepseek-v4.1-flash through an OpenAI-compatible endpoint. Every response on both sides was served by the snapshot deepseek-v4-1-flash-261017. The instruction text is identical, and the agent timeout is 1800 s. While the agent runs, it can reach only the model API host: Harbor [agent] network_mode = no-network plus --allow-agent-host, and the same Daytona domain allowlist in the original-side runner. The agent environment on both sides sets UV_EXCLUDE_NEWER=2026-10-17T00:00:00Z, which resolves litellm 1.105.1, and LITELLM_LOCAL_MODEL_COST_MAP=True, so litellm does not fetch its cost map from GitHub. The original side is a fork of EvoEval with a runner that reproduces Harbor's agent setup. It scores the saved /workspace/solution.py with evoeval.evaluate plus one bugfix applied on both sides (float values must have the same number of elements). Unpatched upstream evoeval 0.1.0 gives the same original-side scores. Cross-scoring each side's 300 solutions with the other side's evaluator gave 0 disagreements. There were no infrastructure errors and no agent timeouts. Token usage over the two sanity checks and the three runs, both sides: about 16.4M prompt and 3.0M completion tokens.",
+    "original_parity_repo": null,
+    "adapter_pr": null,
+    "dataset_pr": null,
+    "parity_pr": null,
+    "metrics": [
+      {
+        "benchmark_name": "EvoEval_difficult",
+        "metric": "pass@1",
+        "original": "65.33 ± 0.6667",
+        "harbor": "65.33 ± 0.6667",
+        "original_runs": [
+          66.0,
+          66.0,
+          64.0
+        ],
+        "harbor_runs": [
+          66.0,
+          64.0,
+          66.0
+        ]
+      }
+    ]
+  }
+]
