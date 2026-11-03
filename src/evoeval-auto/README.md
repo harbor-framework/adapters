@@ -174,7 +174,7 @@ Scores are mean ± sample SEM over 3 runs per side. The per-run scores are 66.0,
 - **Unpatched baseline.** Scored with unpatched upstream `evoeval==0.1.0`, the original-side runs give 66.0, 66.0 and 64.0, the same as with the float correction.
 - **Network.** In both setups, the agent could reach only the model API while it ran. Some agents ran commands that tried to reach the web, and these were blocked: 5–7 tasks per run on Harbor and 4–7 on the original side.
 
-Links: [original benchmark](https://github.com/evo-eval/evoeval) · [parity fork](<original_parity_repo>) · [adapter PR](<adapter_pr>) · [dataset PR](<dataset_pr>) · [parity results](<parity_pr>)
+Links: [original benchmark](https://github.com/evo-eval/evoeval) · [parity fork](https://github.com/MrLYG/evoeval/tree/harbor-parity) · [adapter PR](https://github.com/harbor-framework/adapters/pull/73) · [dataset PR](https://github.com/harbor-framework/harbor-datasets/pull/272) · [parity results](https://huggingface.co/datasets/harborframework/parity-experiments/discussions/276)
 
 **Reproduce the Harbor side** (from the repository root, after generating the tasks):
 
@@ -192,7 +192,7 @@ harbor run -p datasets/evoeval-auto -e daytona -n 6 --env-file <env file> -y \
 **Reproduce the original side** (the fork's `harbor_parity/README.md` has the details):
 
 ```bash
-git clone -b harbor-parity <original_parity_repo> evoeval && cd evoeval
+git clone -b harbor-parity https://github.com/MrLYG/evoeval evoeval && cd evoeval
 uv venv --python 3.10.22 .venv
 uv pip install --python .venv/bin/python -e . -r harbor_parity/requirements.txt
 RUN=harbor_parity/runs/run1
