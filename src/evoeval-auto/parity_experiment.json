@@ -1,0 +1,38 @@
+[
+  {
+    "adapter_name": "evoeval-auto",
+    "agent": "evoeval-codegen@1.0.0",
+    "model": "deepseek-v4-1-flash-260910",
+    "date": "2026-11-01",
+    "adapted_benchmark_size": 100,
+    "parity_benchmark_size": 100,
+    "number_of_runs": 3,
+    "notes": "EvoEval_difficult, all 100 tasks, 3 runs per side, run at the same time on both sides (2026-11-01). Agent: evoeval-codegen@1.0.0 = the original EvoEval code-generation harness for API chat models implemented as a Harbor agent (src/evoeval-auto/src/evoeval_auto/parity_agent.py): one greedy chat completion per problem with the upstream system message and template, max_tokens = tiktoken(cl100k_base) count of the message + 32768 (upstream max_new_tokens=512 is too small for a reasoning model), temperature 0, n 1, 900 s limit around the whole request, no practical overall deadline (36000 s), upstream tool/sanitize.py logic. Model requested as deepseek-v4.1-flash through an OpenAI-compatible gateway on both sides; every response on both sides reported the served model deepseek-v4-1-flash-260910. Harbor side: Harbor 0.23.0, Daytona, job config src/evoeval-auto/run_evoeval-auto_parity.yaml (-n 10), openai 2.54.0, tiktoken 0.14.0, separate verifier sandbox (python:3.9.19-slim-bookworm, numpy 1.26.4, vendored evoeval@d5ca3104 and evalplus 0.2.0). Original side: local fork of evo-eval/evoeval (base d5ca3104; the runs used fork commit 437621f, 8 commits; a 9th commit adds the results files; not published): codegen/generate.py (10 --id-range shards, Python 3.12, openai 2.54.0, tiktoken 0.14.0) + tool/sanitize.py + python -m evoeval.evaluate --parallel 2 in a Daytona sandbox (python 3.9.19, numpy 1.26.4, evalplus 0.2.0). Both sides apply the same two documented scoring bugfixes (float shapes; trusted special-oracle inputs); the original side also scored every run with the pure upstream evaluator: [56.0, 60.0, 57.0], identical to the reported original runs. Prompt tokens were identical on both sides (79,227 over 3 runs); completion tokens 1,465,723 (Harbor) and 1,564,041 (original); finish reasons stop/length 98/2, 99/1, 100/0 (Harbor) and 98/2 in every run (original); no request needed a retry; slowest request 241 s. Sanity check before the full runs (EvoEval/0-9): original 6/10, Harbor 5/10. Cross-check: all 600 parity programs of both sides plus the 100 canonical programs get identical verdicts from the pure upstream evaluator, the Harbor verifier and the fork evaluator with the fixes, reproducing each side's run scores, so the gap between sides comes from the model's outputs, which differ between calls (97 of 100 run-1 programs differed between the sides; 5 of 100 original outputs were identical between run 1 and run 2). The Harbor parity jobs were graded before the last verifier change (result allow-list without builtins.type/object); re-grading their 300 programs with the final verifier gives the same 59/61/61 (parity upload: results_collection/verifier_check_parity_programs.json). Per-task variance check (debug playbook step 5) on the tasks that disagreed in every or most runs, 8 isolated repeats per side (original vs Harbor passes): EvoEval/11 5/8 vs 8/8, EvoEval/30 6/8 vs 8/8, EvoEval/41 7/8 vs 5/8, EvoEval/50 6/8 vs 6/8, EvoEval/84 3/8 vs 5/8; EvoEval/50, which passed only on Harbor in all 3 runs, is equal in isolation, and EvoEval/30 and /41 move in opposite directions, consistent with sampling noise. Standard CLI agent check (not a parity comparison): terminus-2@2.0.0 + deepseek-v4.1-flash on the same 100 tasks, 1 run: reward 1 on 64/100. Costs: the gateway's prices are not known, so parity_costs is null.",
+    "original_parity_repo": "not published",
+    "adapter_pr": [
+      "https://github.com/harbor-framework/adapters/pull/72"
+    ],
+    "dataset_pr": [
+      "https://github.com/harbor-framework/harbor-datasets/pull/271"
+    ],
+    "parity_pr": null,
+    "metrics": [
+      {
+        "benchmark_name": "EvoEval_difficult",
+        "metric": "pass@1 (%)",
+        "original": "57.67 ± 1.20",
+        "harbor": "60.33 ± 0.67",
+        "original_runs": [
+          56.0,
+          60.0,
+          57.0
+        ],
+        "harbor_runs": [
+          59.0,
+          61.0,
+          61.0
+        ]
+      }
+    ]
+  }
+]

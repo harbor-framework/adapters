@@ -1,0 +1,31 @@
+# Harbor side of the parity experiment: the original EvoEval code-generation harness
+# implemented as a Harbor agent (src/evoeval-auto/src/evoeval_auto/parity_agent.py).
+# Run from the repository root (one run = one job; repeat with new job names):
+#   PYTHONPATH=src/evoeval-auto/src TIKTOKEN_CACHE_DIR=$PWD/tmp/tiktoken-cache \
+#   uvx --python 3.12 --from "harbor[daytona,adapter]==0.23.0" harbor run \
+#     -c src/evoeval-auto/run_evoeval-auto_parity.yaml --env-file oracle.env -y --job-name parity-harbor-run1
+# oracle.env must define OPENAI_API_KEY, OPENAI_BASE_URL and DAYTONA_API_KEY.
+jobs_dir: jobs
+n_attempts: 1
+timeout_multiplier: 1.0
+# The original harness retries a request until it succeeds and has no overall deadline;
+# give the Harbor side no practical overall deadline either (1200 s x 30 = 10 h). The
+# per-request timeout (900 s) and retry waits are the same on both sides.
+agent_timeout_multiplier: 30.0
+orchestrator:
+  type: local
+  n_concurrent_trials: 12
+  quiet: false
+environment:
+  type: daytona
+  delete: true
+agents:
+  - import_path: evoeval_auto.parity_agent:EvoEvalCodegenAgent
+    model_name: openai/deepseek-v4.1-flash
+    kwargs:
+      max_new_tokens: 32768
+      temperature: 0.0
+      request_timeout_sec: 900
+      problem_deadline_sec: 36000
+datasets:
+  - path: datasets/evoeval-auto
