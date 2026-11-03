@@ -9,7 +9,7 @@
     "number_of_runs": null,
     "notes": "Parity is pending. The agent, model, and number of runs have not been agreed yet.",
     "original_parity_repo": null,
-    "adapter_pr": [],
+    "adapter_pr": ["https://github.com/harbor-framework/adapters/pull/71"],
     "dataset_pr": [],
     "parity_pr": [],
     "metrics": [

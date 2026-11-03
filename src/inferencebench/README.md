@@ -159,7 +159,7 @@ Oracle reference values from the paper's "vLLM default" row:
 |---|---|---|---|---|---|
 | Speedup | 1.25× ± 0.04 | 2.25× ± 0.10 | 48.69× ± 1.74 | 1.96× ± 0.06 | 4.05× ± 0.07 |
 
-Links: [original benchmark](https://github.com/aisa-group/InferenceBench). The fork, adapter PR, dataset PR, and parity PR are pending.
+Links: [original benchmark](https://github.com/aisa-group/InferenceBench), [adapter PR](https://github.com/harbor-framework/adapters/pull/71). The fork, dataset PR, and parity PR are pending.
 
 Reproduction scripts for both sides will be added with the parity results.
 
