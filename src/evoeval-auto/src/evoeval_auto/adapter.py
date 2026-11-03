@@ -203,7 +203,7 @@ def load_evoeval(
     return problems
 
 
-class EvoEvalAdapter:
+class EvoEvalAutoAdapter:
     """Write one Harbor task directory per EvoEval problem into ``output_dir``."""
 
     def __init__(
@@ -215,7 +215,6 @@ class EvoEvalAdapter:
         dataset: str = DEFAULT_DATASET,
         data_path: Path | None = None,
         cache_dir: Path | None = None,
-        **kwargs: Any,
     ):
         self.output_dir = Path(output_dir)
         self.limit = limit

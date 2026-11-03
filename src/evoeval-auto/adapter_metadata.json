@@ -2,7 +2,7 @@
   {
     "adapter_name": "evoeval-auto",
     "adapter_builders": [
-      "yuanganl (yuanganl@uci.edu)"
+      "Yuangang Li (yuanganl@uci.edu)"
     ],
     "original_benchmark": [
       {
@@ -32,8 +32,8 @@
         "parity_unmatching_agents": [
           "None"
         ],
-        "parity_costs": null,
-        "notes": "Parity on all 100 EvoEval_difficult tasks, 3 runs per side: original 57.67 ± 1.20 (runs 56, 60, 57), Harbor 60.33 ± 0.67 (runs 59, 61, 61), ranges overlap. evoeval-codegen (evoeval_auto.parity_agent:EvoEvalCodegenAgent) is the original EvoEval code-generation harness for API chat models implemented as a Harbor agent. Standard CLI agent check: terminus-2@2.0.0 + deepseek-v4.1-flash, 1 run, 64/100. parity_costs unknown (gateway pricing not available)."
+        "parity_costs": "$3",
+        "notes": "Parity on all 100 EvoEval_difficult tasks, 3 runs per side: original 57.67 ± 1.20 (runs 56, 60, 57), Harbor 60.33 ± 0.67 (runs 59, 61, 61), ranges overlap. evoeval-codegen (evoeval_auto.parity_agent:EvoEvalCodegenAgent) is the original EvoEval code-generation harness for API chat models implemented as a Harbor agent. Standard CLI agent check: terminus-2@2.0.0 + deepseek-v4.1-flash, 1 run, 64/100. Parity cost: about $3 for both sides (gateway billing)."
       }
     ]
   }

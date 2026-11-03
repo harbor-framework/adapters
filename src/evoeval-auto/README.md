@@ -125,7 +125,7 @@ src/evoeval-auto/
 ├── run_evoeval-auto_parity.yaml  # Harbor side of parity (parity agent)
 └── src/evoeval_auto/
     ├── __init__.py
-    ├── adapter.py                # EvoEvalAdapter: load release data, write tasks
+    ├── adapter.py                # EvoEvalAutoAdapter: load release data, write tasks
     ├── main.py                   # CLI (uv run evoeval-auto ...)
     ├── parity_agent.py           # EvoEvalCodegenAgent
     └── task-template/
@@ -133,15 +133,15 @@ src/evoeval-auto/
         ├── instruction.md
         ├── environment/Dockerfile
         ├── solution/solve.sh
-        └── tests/{test.sh,evaluate.py,vendor/}
+        └── tests/{test.sh,evaluate.py,isolated_runner.py,vendor/}
 ```
 
 ## Run Evaluation / Harness
 
 ### Running with Datasets Registry
 
-The dataset is not published to the registry yet (registry link: not published). After
-publishing it would be run with:
+After the dataset is published to the registry ([harbor-datasets#271](https://github.com/harbor-framework/harbor-datasets/pull/271)),
+run it with:
 
 ```bash
 harbor run -d evoeval/evoeval-auto -a <agent_name> -m "<model_name>"
@@ -161,7 +161,7 @@ uvx --python 3.12 --from "harbor[daytona,adapter]==0.23.0" harbor run \
   -p datasets/evoeval-auto -a <agent_name> -m "<model_name>" -e daytona -n 12 --env-file oracle.env -y
 ```
 
-`-e docker` works as well when Docker is available. Results are written to `jobs/`.
+The reported runs used Daytona. Results are written to `jobs/`.
 
 ### Running Individual Trials
 
@@ -196,8 +196,7 @@ Flags:
 ## Comparison with Original Benchmark (Parity)
 
 **Oracle verification**: the oracle passes **100/100** tasks (mean reward 1.000, 0 errors) on
-Daytona with Harbor 0.23.0 (job `oracle-r10`, final task format: separate verifier sandbox,
-unprivileged agent, isolated candidate execution).
+Daytona with Harbor 0.23.0.
 
 **Parity** (all 100 tasks, 3 runs per side, both sides run at the same time; scores are pass@1
 in %, mean ± sample SEM):
@@ -207,12 +206,12 @@ in %, mean ± sample SEM):
 | evoeval-codegen@1.0.0 | deepseek-v4-1-flash-260910 | pass@1 (%) | 3 | 100 (100%) | 57.67 ± 1.20 | 60.33 ± 0.67 |
 
 - Runs: original [56.0, 60.0, 57.0], Harbor [59.0, 61.0, 61.0]. The ranges [56, 60] and
-  [59, 61] overlap, so the sides match under the guide's criterion.
+  [59, 61] overlap, so the two sides match.
 - The original side applies the same two scoring fixes as the Harbor verifier (see Notes).
   Scored with the pure upstream evaluator, the original runs are also [56.0, 60.0, 57.0].
 - Agent: `evoeval-codegen` is the original EvoEval harness as a Harbor agent (see Adapter
-  Features). This is guide scenario 3 (custom agent): EvoEval has no agent, only one model
-  call per problem. The model was requested as `deepseek-v4.1-flash` through an
+  Features). EvoEval has no agent, only one model call per problem, so the parity agent
+  makes the same call. The model was requested as `deepseek-v4.1-flash` through an
   OpenAI-compatible gateway; every response on both sides reported
   `deepseek-v4-1-flash-260910`. Settings on both sides: temperature 0, `n=1`,
   `max_tokens = prompt tokens + 32768`, 900 s per request, no practical overall deadline,
@@ -223,12 +222,12 @@ in %, mean ± sample SEM):
   temperature 0: in run 1, 97 of 100 programs differed between the sides. Every one of the 600
   parity programs, plus the 100 canonical programs, gets the same verdict from the pure
   upstream evaluator, the Harbor verifier and the fork's evaluator with the fixes, each run in
-  its own interpreter (parity upload: `results_collection/verifier_check_parity_programs.json`). Those verdicts reproduce each
-  side's run scores. So grading and environment add nothing to the
+  its own interpreter (parity upload: `results_collection/verifier_check_parity_programs.json`).
+  Those verdicts reproduce each side's run scores. So grading and environment add nothing to the
   gap; it comes from which programs the model happened to produce. (The Harbor parity jobs
   ran before the last verifier change, a tighter result allow-list; this check re-grades their
   programs with the final verifier and gives the same 59/61/61.)
-- **Tasks that disagreed in every run.** Debug playbook step 5: tasks 11, 30, 41, 50 and 84
+- **Tasks that disagreed in every run.** Tasks 11, 30, 41, 50 and 84
   were re-run 8 times in isolation on each side (original vs Harbor passes): 5/8 vs 8/8,
   6/8 vs 8/8, 7/8 vs 5/8, 6/8 vs 6/8 and 3/8 vs 5/8. EvoEval/50 passed only on Harbor in all
   three runs but is equal in isolation, and tasks 30 and 41 move in opposite directions.
@@ -237,8 +236,10 @@ in %, mean ± sample SEM):
   terminus-2@2.0.0 with the same model, 1 run on the same 100 tasks, reward 1 on **64/100**.
 
 Links: original benchmark [evo-eval/evoeval](https://github.com/evo-eval/evoeval); original-side
-fork: not published yet (based on upstream `d5ca3104`); adapter PR: [harbor-framework/adapters#72](https://github.com/harbor-framework/adapters/pull/72);
-dataset PR: [harbor-framework/harbor-datasets#271](https://github.com/harbor-framework/harbor-datasets/pull/271); parity results upload: not published yet.
+fork: [MrLYG/evoeval, branch harbor-parity](https://github.com/MrLYG/evoeval/tree/harbor-parity) (the runs used commit `437621f`);
+adapter PR: [harbor-framework/adapters#72](https://github.com/harbor-framework/adapters/pull/72); dataset PR:
+[harbor-framework/harbor-datasets#271](https://github.com/harbor-framework/harbor-datasets/pull/271); parity results:
+[harborframework/parity-experiments#275](https://huggingface.co/datasets/harborframework/parity-experiments/discussions/275).
 
 Reproduction:
 
@@ -251,8 +252,15 @@ uvx --python 3.12 --from "harbor[daytona,adapter]==0.23.0" harbor run \
   --env-file oracle.env -y --job-name parity-harbor-run1
 # (sanity subset: add  -i 'evoeval-difficult-?')
 
-# Original side: the EvoEval fork (base d5ca3104, not published yet); its README has the environment
-cd evoeval-fork
+# Original side: the EvoEval fork, branch harbor-parity (details in its harbor_parity/README.md)
+git clone -b harbor-parity https://github.com/MrLYG/evoeval evoeval-fork && cd evoeval-fork
+uv venv fork-venv --python 3.12
+uv pip install --python fork-venv/bin/python "openai==2.54.0" "tiktoken==0.14.0" \
+  "rich==13.7.1" "evalplus==0.2.0" "numpy==1.26.4" "wget==3.2" "tempdir==0.7.1" \
+  "appdirs==1.4.4" "multipledispatch==1.0.0" "tqdm==4.66.2" "termcolor==2.4.0" \
+  "daytona==0.227.0"
+# EvoEval_difficult.jsonl: the decompressed release file
+# https://github.com/evo-eval/evoeval_release/releases/download/v0.1.0/EvoEval_difficult.jsonl.gz
 fork-venv/bin/python harbor_parity/run_original.py --env-file ../oracle.env \
   --data-file EvoEval_difficult.jsonl --out-root ../parity-original --run-name run1 --shards 10
 # (sanity subset: --task-numbers 0-9)
@@ -315,8 +323,7 @@ SEM is computed over the three runs.
 - **Verifier errors are not scores.** `test.sh` replaces any existing reward file before
   grading; it writes `1`/`0` on a verdict and the non-numeric marker `VERIFIER_ERROR` if the
   verifier itself fails (e.g. the evaluator packages cannot be installed), which Harbor
-  records as a verifier error. A failed verification is never turned into a 0 (guide debug
-  playbook).
+  records as a verifier error. A failed verification is never turned into a 0.
 - **Network in the verifier sandbox.** `test.sh` installs the pinned packages from PyPI (about
   10 s); it retries three times.
 - **Python 3.9 image.** Code that needs Python ≥ 3.10 syntax fails, as in the upstream
@@ -342,11 +349,9 @@ SEM is computed over the three runs.
   /`ADD` (see Notes). Regenerate the tasks with this adapter version. Delete leftover sandboxes
   of the crashed job.
 - **Trial shows a verifier error instead of a reward** (`reward.txt` contains
-  `VERIFIER_ERROR`): `/logs/verifier/evaluation.json` has a `verifier_error` traceback (e.g. the isolated runner could not start), or `pip.log` shows that
-  the evaluator packages could not be installed in the verifier sandbox (it needs access to
-  PyPI). This is an infrastructure problem, not a wrong answer; rerun the trial.
-- **Daytona says "Only ephemeral sandboxes are permitted"** for the helper scripts: they
-  already create ephemeral sandboxes (`ephemeral=True`); use the version in this adapter.
+  `VERIFIER_ERROR`): `/logs/verifier/evaluation.json` has a `verifier_error` traceback (e.g.
+  the isolated runner could not start), or `pip.log` shows that the evaluator packages could
+  not be installed in the verifier sandbox (it needs access to PyPI). This is an infrastructure problem, not a wrong answer; rerun the trial.
 - **`No tasks matched the filter(s)`**: `-i` matches directory names such as
   `evoeval-difficult-10`, not `evoeval/evoeval-difficult-10`.
 - **Parity agent import error**: set `PYTHONPATH=src/evoeval-auto/src` when running Harbor.
@@ -368,7 +373,7 @@ SEM is computed over the three runs.
 
 ## Authors & Contributions
 
-This adapter was built by yuanganl (yuanganl@uci.edu) with an AI coding assistant (Claude Code). The
+This adapter was built by Yuangang Li (yuanganl@uci.edu) with an AI coding assistant (Claude Code). The
 EvoEval benchmark and its evaluator are by Chunqiu Steven Xia, Yinlin Deng and Lingming Zhang
 (University of Illinois Urbana-Champaign).
 

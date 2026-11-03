@@ -10,7 +10,7 @@ orchestrator:
   n_concurrent_trials: 12
   quiet: false
 environment:
-  type: daytona   # the experiments in this README used Daytona; `docker` also works
+  type: daytona   # the reported runs used Daytona
   delete: true
 agents:
   - name: oracle

@@ -6,7 +6,7 @@ import argparse
 import logging
 from pathlib import Path
 
-from .adapter import DEFAULT_DATASET, EVOEVAL_DATASETS, EvoEvalAdapter
+from .adapter import DEFAULT_DATASET, EVOEVAL_DATASETS, EvoEvalAutoAdapter
 
 # Default output dir: <repo>/datasets/evoeval-auto
 DEFAULT_OUTPUT_DIR = Path(__file__).resolve().parents[4] / "datasets" / "evoeval-auto"
@@ -64,7 +64,7 @@ def main() -> None:
 
     logging.basicConfig(level=logging.INFO, format="%(levelname)s %(name)s: %(message)s")
 
-    adapter = EvoEvalAdapter(
+    adapter = EvoEvalAutoAdapter(
         args.output_dir,
         overwrite=args.overwrite,
         limit=args.limit,
