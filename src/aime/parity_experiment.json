@@ -1,0 +1,28 @@
+[
+  {
+    "adapter_name": "aime",
+    "agent": "oracle@harbor-0.24.0",
+    "model": "None",
+    "date": "2026-10-20",
+    "adapted_benchmark_size": 60,
+    "parity_benchmark_size": 0,
+    "evaluated_benchmark_size": 60,
+    "number_of_runs": 1,
+    "parity_between": "Harbor-only oracle validation; no upstream comparison",
+    "notes": "Functional validation only, not evidence of model or harness parity. One full-dataset run with Harbor 0.24.0, Python 3.12, and Docker at commit 4b83a2dce7dd5799db33b07909368dcd23dfa5ba: 60 completed trials, 60 rewards of 1.0, zero errors, zero retries. Corrected I-14 returned the unchanged reference answer 60. Only I-14's prompt differed from the downloaded source and all 60 reference answers were unchanged. No upstream-side run was performed, no sample SEM can be estimated from one run, and no Hugging Face parity upload was made.",
+    "original_parity_repo": null,
+    "adapter_pr": ["https://github.com/harbor-framework/adapters/pull/37"],
+    "dataset_pr": ["https://github.com/harbor-framework/harbor-datasets/pull/249"],
+    "parity_pr": null,
+    "metrics": [
+      {
+        "benchmark_name": "AIME",
+        "metric": "oracle_success_rate",
+        "original": null,
+        "original_runs": null,
+        "harbor": "1.0 (single run; sample SEM unavailable)",
+        "harbor_runs": [1.0]
+      }
+    ]
+  }
+]

@@ -17,6 +17,7 @@ The AIME benchmark evaluates mathematical problem-solving abilities through chal
 
 **Modifications for Harbor**:
 - Problems are adapted from AIME-Preview repository format
+- Corrects the malformed angle condition in AIME 2025 I problem 14 to $\angle B = \angle E = 60°$; the reference answer remains 60
 - Agents must write their answer to `/app/answer.txt` as a plain integer
 - Oracle solutions directly output the correct answer
 - Tests verify exact match with expected answer
@@ -146,7 +147,25 @@ The adapter will:
 
 ## Comparison with Original Benchmark (Parity)
 
-Unlike most benchmarks supported in Harbor, AIME does not come with an official reference harness—neither an agent-oriented harness nor a standardized “vanilla LLM” evaluation script. In practice, AIME is distributed primarily as a set of problem statements, and researchers typically evaluate it using their own prompting or execution frameworks (sometimes purely LLM-based, occasionally agentic). Because there is no canonical upstream implementation to compare against, usual adapter parity experiments are not applicable. Instead, we validated the Harbor AIME adapter by checking that a diverse set of models and agents (e.g., Gemini-CLI with Gemini 2.5 Pro, and Codex with GPT-5) solves a reasonable subset of problems, consistent with expected performance in common AIME usage. This provides confidence that the adapter is implemented correctly and that its results align with AIME’s intended difficulty, even without a formal parity target.Unlike most benchmarks supported in Harbor, AIME does not come with an official reference harness—neither an agent-oriented harness nor a standardized “vanilla LLM” evaluation script. In practice, AIME is distributed primarily as a set of problem statements, and researchers typically evaluate it using their own prompting or execution frameworks (sometimes purely LLM-based, occasionally agentic). Because there is no canonical upstream implementation to compare against, usual adapter parity experiments are not applicable. Instead, we validated the Harbor AIME adapter by (1) confirming that the oracle solutions achieve 100% accuracy and (2) checking that a diverse set of models and agents (e.g., Gemini-CLI with Gemini 2.5 Pro, and Codex with GPT-5) solves a reasonable subset of problems, consistent with expected performance in common AIME usage. This provides confidence that the adapter is implemented correctly and that its results align with AIME’s intended difficulty, even without a formal parity target.
+The verification recorded here is a Harbor-only oracle check. No matched upstream evaluation was performed, so model and harness parity remain unassessed. The earlier README described model spot checks without recorded scores; those checks are not included as parity evidence.
+
+On 2026-10-20, Harbor 0.24.0 with Python 3.12 and Docker ran all 60 generated tasks at commit `4b83a2dce7dd5799db33b07909368dcd23dfa5ba`. All 60 oracle trials passed, with zero errors and zero retries. The I-14 verifier accepted the unchanged answer `60`. Comparing task inputs against the downloaded source confirmed that only I-14's prompt changed and all reference answers remained unchanged.
+
+| Agent | Model | Metric | Runs | Dataset Size | Original (mean ± SEM) | Harbor (mean ± SEM) |
+|-------|-------|--------|------|--------------|-----------------------|---------------------|
+| oracle@harbor-0.24.0 | None | Oracle success rate | 1 | 60 (100%) | Not run | 100% (60/60); SEM unavailable for one run |
+
+The machine-readable record is in [parity_experiment.json](parity_experiment.json). Its parity subset size is zero because no upstream comparison was run; the oracle evaluation covered all 60 tasks. No Hugging Face parity results have been uploaded. This validates task generation, reference solutions, and grading; it does not establish agent reasoning performance or statistical parity.
+
+Reproduce the Harbor oracle check from the repository root (Docker must be running):
+
+```bash
+uv run --project src/aime aime --output-dir datasets/aime --overwrite
+uvx --from harbor==0.24.0 harbor run --path datasets/aime --agent oracle --env docker \
+  --n-concurrent 4 --jobs-dir jobs --job-name aime-oracle
+```
+
+The generated `datasets/aime/aime_i-14/instruction.md` should contain `\angle B = \angle E = 60°`. Inspect `jobs/aime-oracle/result.json` for 60 completed trials, zero errors, and mean reward 1.0. Upstream reproduction commands are unavailable because no corresponding upstream evaluation was performed.
 
 ## Notes & Caveats
 
