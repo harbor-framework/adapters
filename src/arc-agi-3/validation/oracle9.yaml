@@ -1,0 +1,14 @@
+job_name: oracle9-docker
+jobs_dir: jobs
+n_concurrent_trials: 2
+retry:
+  max_retries: 0
+agents:
+  - name: oracle
+    override_timeout_sec: 600
+environment:
+  type: docker
+  force_build: true
+  delete: true
+datasets:
+  - path: datasets/oracle9

@@ -1,0 +1,16 @@
+# Generate the selected task set first. Missing oracle trajectories fail explicitly.
+job_name: arc-agi-3-oracle
+jobs_dir: jobs
+n_attempts: 1
+agents:
+  - name: oracle
+# For model runs, use claude-code.yaml after agreeing the parity protocol.
+environment:
+  type: docker
+  force_build: true
+  delete: true
+orchestrator:
+  type: local
+  n_concurrent_trials: 4
+datasets:
+  - path: datasets/arc-agi-3
