@@ -1,0 +1,61 @@
+schema_version = "1.0"
+
+[task]
+name = "perplexity-ai/draco__{task_id}"
+authors = [
+    { name = "Joey Zhong" },
+    { name = "Hao Zhang" },
+    { name = "Clare Southern" },
+    { name = "Jeremy Yang" },
+    { name = "Thomas Wang" },
+    { name = "Kate Jung" },
+    { name = "Shu Zhang" },
+    { name = "Denis Yarats" },
+    { name = "Johnny Ho" },
+    { name = "Jerry Ma" },
+]
+keywords = ["draco", "deep-research", "rubric-grading", "llm-as-a-judge", {keywords}]
+
+[metadata]
+difficulty = "hard"
+category = "deep-research"
+source_id = "{task_id}"
+domain = "{domain}"
+rubric_id = "{rubric_id}"
+n_criteria = {n_criteria}
+n_negative_criteria = {n_negative_criteria}
+
+[verifier]
+network_mode = "public"
+timeout_sec = 1800.0
+
+[verifier.env]
+# Judge model (any LiteLLM model id). The paper's primary judge is Gemini-3-Pro.
+JUDGE_MODEL = "${JUDGE_MODEL:-gemini/gemini-3-pro-preview}"
+# Paper Table 16 settings for Gemini-3-Pro: thinking level low, temperature 0.2.
+# Export either variable as an empty string to leave it unset (e.g. for judges
+# without reasoning controls).
+JUDGE_TEMPERATURE = "${JUDGE_TEMPERATURE:-0.2}"
+JUDGE_REASONING_EFFORT = "${JUDGE_REASONING_EFFORT:-low}"
+# Optional explicit key / base URL for the judge (e.g. a LiteLLM proxy).
+JUDGE_API_KEY = "${JUDGE_API_KEY:-}"
+JUDGE_API_BASE = "${JUDGE_API_BASE:-}"
+JUDGE_API_VERSION = "${JUDGE_API_VERSION:-}"
+# Provider keys LiteLLM picks up automatically for the matching model prefix.
+GEMINI_API_KEY = "${GEMINI_API_KEY:-}"
+OPENAI_API_KEY = "${OPENAI_API_KEY:-}"
+ANTHROPIC_API_KEY = "${ANTHROPIC_API_KEY:-}"
+# "true" skips the judge and only checks that a report was written (oracle
+# pipeline validation). Never set this for agent runs.
+ORACLE_MODE = "${ORACLE_MODE:-}"
+
+[agent]
+network_mode = "public"
+timeout_sec = 3600.0
+
+[environment]
+build_timeout_sec = 600.0
+cpus = 1
+memory_mb = 2048
+storage_mb = 10240
+gpus = 0
