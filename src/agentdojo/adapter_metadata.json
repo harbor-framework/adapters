@@ -1,0 +1,52 @@
+[
+  {
+    "adapter_name": "agentdojo",
+    "adapter_builders": [
+      "Jianing Yin (jianingyin@alumni.upenn.edu)"
+    ],
+    "original_benchmark": [
+      {
+        "split": "user",
+        "size": 97,
+        "harness": "agent",
+        "supported_agents": ["None"],
+        "adaptable": true,
+        "notes": "AgentDojo v1.2.2 (agentdojo==0.1.35): 97 user tasks across the workspace (40), travel (20), banking (16) and slack (21) suites, run without injections. Upstream runs models through its own tool-calling pipeline (system message, tool execution loop); utility is a deterministic check of the final answer, environment and tool calls."
+      },
+      {
+        "split": "attack",
+        "size": 949,
+        "harness": "agent",
+        "supported_agents": ["None"],
+        "adaptable": true,
+        "notes": "Every user task x injection task pair of a suite (560 + 140 + 144 + 105), with the injections of a registered attack placed in the environment. Utility and security (injection task succeeded) are deterministic checks."
+      }
+    ],
+    "harbor_adapter": [
+      {
+        "split": "user",
+        "adapted_benchmark_size": 97,
+        "parity_benchmark_size": null,
+        "parity_sampling_rate": null,
+        "registry_benchmark_size": 97,
+        "added_agents": ["None"],
+        "parity_matching_agents": [],
+        "parity_unmatching_agents": ["None"],
+        "parity_costs": null,
+        "notes": "Parity pending: plan to be agreed with the Harbor team. Suite tools are served by an MCP sidecar that runs upstream agentdojo; the verifier returns upstream's utility check."
+      },
+      {
+        "split": "attack",
+        "adapted_benchmark_size": 949,
+        "parity_benchmark_size": null,
+        "parity_sampling_rate": null,
+        "registry_benchmark_size": 949,
+        "added_agents": ["None"],
+        "parity_matching_agents": [],
+        "parity_unmatching_agents": ["None"],
+        "parity_costs": null,
+        "notes": "Default attack important_instructions_no_model_name (the paper's important_instructions attack without the victim model's name, which is unknown at generation time). Rewards: reward and utility (user task), security (injection task succeeded)."
+      }
+    ]
+  }
+]
