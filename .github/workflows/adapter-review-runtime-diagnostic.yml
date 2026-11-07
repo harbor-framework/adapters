@@ -8,12 +8,12 @@ permissions:
   contents: read
 
 jobs:
-  key-status:
+  documented-host:
     if: github.head_ref == 'diagnose/adapter-review-runtime-20261105'
     runs-on: ubuntu-latest
-    timeout-minutes: 3
+    timeout-minutes: 2
     steps:
-      - name: Read API-key status without exposing credentials
+      - name: Compare model inventories on configured and documented PPAPI hosts
         shell: python
         env:
           ANTHROPIC_BASE_URL: ${{ secrets.ANTHROPIC_BASE_URL }}
@@ -21,43 +21,30 @@ jobs:
         run: |
           import json
           import os
-          import time
           import urllib.error
           import urllib.request
 
-          base = os.environ["ANTHROPIC_BASE_URL"].rstrip("/")
+          configured = os.environ["ANTHROPIC_BASE_URL"].rstrip("/")
           key = os.environ["ANTHROPIC_API_KEY"]
-          headers = {"Authorization": "Bearer " + key}
-          for label, path in [("key-status", "/api/usage/token/"),
-                              ("key-log", "/api/log/token?p=0&size=10")]:
-              request = urllib.request.Request(base + path, headers=headers)
+          documented = "https://app.ppapi.ai"
+          print(json.dumps({"configured_matches_documented_host": configured == documented}))
+          for label, base in [("configured", configured), ("official-docs", documented)]:
+              request = urllib.request.Request(base + "/v1/models", headers={"Authorization": "Bearer " + key})
               try:
-                  with urllib.request.urlopen(request, timeout=30) as response:
+                  with urllib.request.urlopen(request, timeout=25) as response:
                       payload = json.load(response)
-                      data = payload.get("data", {})
-                      if label == "key-status":
-                          if not isinstance(data, dict):
-                              data = {}
-                          expiry = data.get("expires_at")
-                          result = {"success": payload.get("success"), "message": payload.get("message"),
-                                    "name": data.get("name"), "object": data.get("object"),
-                                    "model_limits_enabled": data.get("model_limits_enabled"),
-                                    "model_limits": data.get("model_limits"),
-                                    "unlimited_quota": data.get("unlimited_quota"),
-                                    "has_token_quota": data.get("total_available", 0) > 0,
-                                    "expired": bool(expiry and expiry > 0 and expiry < time.time())}
-                      else:
-                          entries = data if isinstance(data, list) else data.get("items", data.get("logs", []))
-                          fields = ("created_at", "model_name", "type", "group", "channel", "use_time")
-                          result = {"success": payload.get("success"), "message": payload.get("message"),
-                                    "entries": [{f: entry.get(f) for f in fields if f in entry} for entry in entries[:10]]}
-                      output = json.dumps({"probe": label, "status": response.status, "result": result})
+                      models = payload.get("data", [])
+                      names = sorted(m.get("id", "") for m in models if "claude" in m.get("id", "").lower())
+                      output = json.dumps({"probe": label, "status": response.status,
+                                           "total_models": len(models), "claude_models": names,
+                                           "message": payload.get("message")})
               except urllib.error.HTTPError as error:
+                  raw = error.read().decode(errors="replace")
                   output = json.dumps({"probe": label, "status": error.code,
-                                       "error": error.read().decode(errors="replace")[:4000]})
+                                       "error": raw[:2500] if raw.lstrip().startswith("{") else "Non-JSON response"})
               except Exception as error:
                   output = json.dumps({"probe": label, "error_type": type(error).__name__, "error": str(error)})
-              for value in (key, base):
+              for value in (key, configured):
                   if value:
                       output = output.replace(value, "[REDACTED]")
               print(output)
