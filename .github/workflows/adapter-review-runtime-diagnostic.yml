@@ -11,7 +11,7 @@ jobs:
   documented-host:
     if: github.head_ref == 'diagnose/adapter-review-runtime-20261105'
     runs-on: ubuntu-latest
-    timeout-minutes: 2
+    timeout-minutes: 3
     steps:
       - name: Compare model inventories on configured and documented PPAPI hosts
         shell: python
@@ -48,3 +48,26 @@ jobs:
                   if value:
                       output = output.replace(value, "[REDACTED]")
               print(output)
+
+          body = {"model": "claude-opus-5-5", "max_tokens": 16,
+                  "messages": [{"role": "user", "content": "Reply OK."}]}
+          request = urllib.request.Request(documented + "/v1/messages",
+              data=json.dumps(body).encode(), headers={"x-api-key": key,
+              "anthropic-version": "2023-06-01", "Content-Type": "application/json"})
+          try:
+              with urllib.request.urlopen(request, timeout=90) as response:
+                  payload = json.load(response)
+                  result = {"probe": "official-docs-inference", "status": response.status,
+                            "model": payload.get("model"), "type": payload.get("type"),
+                            "stop_reason": payload.get("stop_reason"), "usage": payload.get("usage"),
+                            "text": [b.get("text") for b in payload.get("content", []) if b.get("type") == "text"]}
+          except urllib.error.HTTPError as error:
+              result = {"probe": "official-docs-inference", "status": error.code,
+                        "error": error.read().decode(errors="replace")[:4000]}
+          except Exception as error:
+              result = {"probe": "official-docs-inference", "error_type": type(error).__name__, "error": str(error)}
+          output = json.dumps(result)
+          for value in (key, configured):
+              if value:
+                  output = output.replace(value, "[REDACTED]")
+          print(output)
