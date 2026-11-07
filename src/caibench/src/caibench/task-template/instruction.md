@@ -1,1 +1,1 @@
-{{PROBLEM_STATEMENT}}
+{instruction}

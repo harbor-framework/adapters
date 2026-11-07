@@ -1,14 +1,8 @@
-FROM python:3.13-slim
+FROM python:3.11-slim
 
 WORKDIR /workspace
 
-# Install system dependencies
-RUN apt-get update && apt-get install -y \
-    git \
-    && rm -rf /var/lib/apt/lists/*
+# For grading the CTI-Bench VSP sub-benchmark
+RUN pip install --no-cache-dir cvss==3.4
 
-# Install Python dependencies
-# RUN pip install --no-cache-dir <packages>
-
-# Copy task files if needed
-# COPY . /workspace/
+CMD ["sh", "-c", "sleep infinity"]

@@ -1,17 +1,11 @@
 #!/bin/bash
 
-# This script should exit with code 0 if tests pass, non-zero otherwise
+# Grades a CAIBench task.
+#
+# tests/grade.py reads tests/expected.json and /logs/agent/,
+# then writes a float reward to /logs/verifier/reward.txt.
 
-echo "Running tests..."
+mkdir -p /logs/verifier
 
-# TODO: Add your test commands here
-# Example:
-# python -m pytest tests/ -rA
-# ./run_tests.py
-
-# Generate reward based on previous test command result
-if [ $? -eq 0 ]; then
-  echo 1 > /logs/verifier/reward.txt
-else
-  echo 0 > /logs/verifier/reward.txt
-fi
+python3 /tests/grade.py
+exit $?

@@ -1,10 +1,11 @@
 [project]
 name = "harbor-caibench-adapter"
 version = "0.1.0"
-description = "Add your description here"
+description = "Harbor adapter for CAIBench"
 readme = "README.md"
 authors = [
-    { name = "Tristan", email = "github@tristanroath.com" }
+    { name = "Tristan", email = "troath@berkeley.edu" },
+    { name = "Tyler", email = "tyroath@berkeley.edu" },
 ]
 requires-python = ">=3.12"
 dependencies = []
