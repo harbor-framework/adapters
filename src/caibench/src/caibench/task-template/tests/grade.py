@@ -305,7 +305,7 @@ def grade_cti_bench_vsp(output: str, solution: str) -> float:
     return max(0.0, 1.0 - mad / 10.0) if mad is not None else 0.0
 
 
-def grade_cyberpii(output: str, solution: str) -> float:
+def grade_cyberpii_bench(output: str, solution: str) -> float:
     gt_entities = {(t, s, e) for t, s, e, _ in find_entities_with_positions(solution)}
     pred_entities = {(t, s, e) for t, s, e, _ in find_entities_with_positions(output)}
 
@@ -328,7 +328,7 @@ GRADERS = {
     "cti_bench_ate": grade_cti_bench_ate,
     "cti_bench_rcm": grade_cti_bench_rcm,
     "cti_bench_vsp": grade_cti_bench_vsp,
-    "cyberpii": grade_cyberpii,
+    "cyberpii_bench": grade_cyberpii_bench,
 }
 
 
