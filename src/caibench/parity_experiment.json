@@ -1,13 +1,13 @@
 [
   {
-    "adapter_name": "caibench",
+    "adapter_name": "CAIBench",
     "agent": "<agent>@<version>",
     "model": "<model>",
     "date": "YYYY-MM-DD",
-    "adapted_benchmark_size": null,
-    "parity_benchmark_size": null,
+    "adapted_benchmark_size": 16820,
+    "parity_benchmark_size": 16820,
     "number_of_runs": null,
-    "notes": null,
+    "notes": "Not yet run. This will be discussed with the Harbor team.",
     "original_parity_repo": null,
     "adapter_pr": [],
     "dataset_pr": [],
