@@ -36,22 +36,32 @@ mean, plus **fast₁** (fraction of benchmarks with a correct kernel faster than
 
 - **Upstream harness as the grader.** Each task ships a pristine copy of the JAXBench harness and the
   workload's `baseline.py` (and upstream `optimized.py`, used only for the harness's informational
-  `speedup_vs_pallas` report) under `tests/`, which the agent never sees; `tests/test.sh` runs
-  `python -m JAXBench evaluate --workload <w> --kernel /workspace/kernel.py --tpu v6e --json`.
+  `speedup_vs_pallas` report) under `tests/`, which the agent never sees. Correctness, timing and the result
+  JSON come from upstream's unchanged `python -m JAXBench evaluate --workload <w> --tpu v6e --json`.
+- **Candidate code never runs in the grader.** Upstream's `evaluate` imports the kernel into the process that
+  checks and times it, so a kernel could print its own result. The adapter isolates it:
+  - Grading runs in a fresh container built from `tests/Dockerfile` (`[verifier] environment_mode =
+    "separate"`, same pinned JAX). Only `/workspace/kernel.py` is carried over from the agent's container.
+  - `tests/export_kernel.py` imports the kernel as an unprivileged user, on CPU, and saves
+    `jax.jit(workload)` lowered for TPU v6e as a `jax.export` program. Nothing it prints is used.
+  - `evaluate` (as root) then grades `tests/exported_kernel.py`, a stand-in that loads that program and
+    rejects host callbacks, side effects, disabled safety checks and custom calls outside JAX's stable list
+    (Pallas `tpu_custom_call` is allowed). The same compiled program is checked and timed as before.
+  - Consequence: the kernel's `workload` must be traceable under `jax.jit` (upstream's `_skip_jit` opt-out is
+    not supported; no upstream workload or recorded parity kernel uses it).
 - **Reward = the paper's floored speedup.** `tests/compute_reward.py` writes
   `reward = max(speedup, 1)` if the kernel is correct, else `1`, plus `speedup`, `correct` and `fast_1` to
-  `/logs/verifier/reward.json`. A missing kernel, crash, timeout or incorrect output scores 1×.
-- **Robust grading on a single TPU.** Before grading, `test.sh` stops leftover agent processes that still hold
-  the TPU (`/dev/vfio`), and it retries the evaluator (same kernel) while the TPU is still being released.
+  `/logs/verifier/reward.json`. A missing kernel, export failure, crash, timeout or incorrect output scores 1×.
+- **Infrastructure failures are not scored.** If the harness fails before it loads the candidate (baseline
+  run, TPU initialization), no reward is written and Harbor records the trial as an error rather than 1×.
+  The stand-in marks when it is loaded; any failure after that is the kernel's and scores 1×.
 - **Agent workspace.** `/workspace` contains `baseline.py` and the JAXBench harness with only this workload's
   baseline, so the agent can run the same `evaluate` command the grader uses.
 - **Oracles.** Upstream's hand-written Pallas kernel where it passes the upstream harness, otherwise the
   baseline itself. A `--oracle baseline` variant uses the baseline everywhere (XLA oracle).
-- **Metric.** `metrics/geomean.py` aggregates the floored speedups into a geometric mean (missing results
-  count as 1×), alongside Harbor's built-in `mean` (which counts a trial with no reward as 0, so it can fall
+- **Metric.** `metrics/geomean.py` aggregates the floored speedups of graded trials into a geometric mean and
+  reports ungraded (errored) trials separately as `n_ungraded`, alongside Harbor's built-in `mean` (which counts a trial with no reward as 0, so it can fall
   below 1× when trials error out).
-- **Infrastructure failures are not scored.** If the TPU never becomes usable for grading, `test.sh` removes
-  the reward file, so Harbor reports the trial as an error instead of a 1× score.
 - **Stable task names.** `ai-hypercomputer/jaxbench__level1-<workload>`, lower-cased and sanitized (e.g.
   `ai-hypercomputer/jaxbench__level1-8p-gemm`).
 
@@ -69,7 +79,10 @@ jaxbench/
 │   │   ├── kernel.py             # oracle kernel (upstream optimized.py, or baseline.py)
 │   │   └── solve.sh              # copies kernel.py to /workspace/kernel.py
 │   └── tests/
+│       ├── Dockerfile            # separate verifier image (same pins) with an unprivileged `kernel` user
 │       ├── JAXBench/             # pristine upstream harness + this workload's baseline.py / optimized.py
+│       ├── export_kernel.py      # untrusted step: trace workload() and save a jax.export program
+│       ├── exported_kernel.py    # trusted stand-in kernel that loads and checks that program
 │       ├── compute_reward.py     # floored-speedup reward
 │       └── test.sh               # grades /workspace/kernel.py, writes /logs/verifier/reward.json
 ```
@@ -205,7 +218,7 @@ on every run of both sides.
 | Hardware | 1 TPU v6e chip (GKE `ct6e-standard-1t`, spot), 8 CPU / 32 GiB memory request, 20 GiB ephemeral storage |
 | Software | `python:3.12-slim`, jax 0.12.0, jaxlib 0.12.0, libtpu 0.0.50 (pinned on the original side; the Harbor image resolved the same versions during the experiment and now pins them) |
 | Harbor | `harbor[gke]==0.23.0` |
-| Grading | upstream `python -m JAXBench evaluate --tpu v6e` at `7afeb78`, with the same leftover-process cleanup and busy-TPU retry on both sides |
+| Grading | upstream `python -m JAXBench evaluate --tpu v6e` at `7afeb78`, kernel imported in-process, with the same leftover-process cleanup and busy-TPU retry on both sides (the Harbor grader has since been isolated; see [Notes & Caveats](#notes--caveats)) |
 
 **Reproduce (Harbor side).** Requires a GKE cluster with a TPU v6e 1x1 node pool and an Artifact Registry
 repository (see [Installation / Prerequisites](#installation--prerequisites)); set `environment.kwargs` in
@@ -306,13 +319,26 @@ because the agent works in a shell; rule 3 is dropped for the same reason. No TP
 added to the prompt (the paper's "+context" variants inject curated docs). The same prompt is used on both
 parity sides.
 
+**Grader isolation added after parity.** The parity runs above were graded with upstream's `evaluate` importing
+the kernel in-process (the same way on both sides). In review it was shown that a kernel can then report its
+own result, so the Harbor grader was changed to the isolated export-then-grade flow described under
+[Adapter Features](#adapter-features). It runs the same compiled program through the same upstream checks, so
+honest kernels are graded the same. Checks:
+- Locally, every upstream baseline and Pallas kernel and every recorded parity kernel was exported. All kernels
+  that upstream had graded correct export and pass the program checks. The few that fail to export had
+  already failed upstream (runtime error or incorrect), so their 1× score is unchanged.
+- On TPU v6e: the `8p` Pallas oracle (1.02×, previously 1.01×) and the `12p` XLA oracle (1.01×) are correct; a
+  recorded `26k` parity kernel scores 7.90× (recorded 7.92×); a recorded incorrect `1p` kernel is still
+  incorrect; and a kernel that only prints `{"status":"correct","speedup_vs_baseline":12345}` scores 1×.
+
 **Pinned JAX.** Upstream JAXBench does not pin JAX. The task image pins `jax[tpu]==0.12.0`,
 `jaxlib==0.12.0`, `libtpu==0.0.50` and `numpy==2.5.4`, the versions the parity experiment ran with on both
 sides; other JAX releases may change baseline timings and therefore speedups.
 
 **Hardware.** Every task requires one TPU v6e chip (`[environment.tpu] type = "v6e"`, `topology = "1x1"`),
-which Harbor provides only through the GKE environment. A TPU can be opened by only one process, which is why
-`test.sh` stops leftover agent processes before grading. The harness's `--tpu auto` does not recognize a v6e
+which Harbor provides only through the GKE environment. Grading runs in its own pod (a second TPU pod per
+trial, started after the agent's pod is deleted), so processes the agent left running cannot hold the TPU.
+The harness's `--tpu auto` does not recognize a v6e
 (it reports `device_kind` "TPU v6 lite"), so grading passes `--tpu v6e`; this only affects the harness's
 TFLOPS/utilization report, not correctness or speedup.
 
@@ -332,8 +358,8 @@ TFLOPS/utilization report, not correctness or speedup.
 ## Troubleshooting
 
 - **`TPU initialization failed: ... /dev/vfio/0: Device or resource busy`** inside a trial: another process in
-  the pod holds the TPU. `test.sh` handles this at grading time; during agent runs, background processes the
-  agent started can cause it.
+  the pod holds the TPU. During agent runs, background processes the agent started can cause it; grading runs
+  in a fresh pod and is not affected.
 - **Spot preemptions** kill running trials. Add a `retry` block to the config with
   `include_exceptions: [NonZeroAgentExitCodeError, RuntimeError, GKEExecStreamClosedError]` (Harbor matches
   exception names exactly, not base classes), as in `run_jaxbench_gke_tpu_v6e_parity.yaml`.
