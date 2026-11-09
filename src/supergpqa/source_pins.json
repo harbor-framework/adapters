@@ -1,0 +1,9 @@
+{
+  "upstream_commit": "e31e8bf3e7089aef808be5ddecafd4538dee6e41",
+  "harbor_commit": "ff2a1ef48070a8df374669138e4d4db79b77f013",
+  "files": {
+    "data/SuperGPQA-all.jsonl": "28b998e70205ee95e540317b5adc06a06552a3961fb50b153df126b833f7a910",
+    "config/prompt/zero-shot.yaml": "7b62cc2ef4bb6eb3bd8be3aa6344baaccb8f7d5b57214ebed5105608ea9972d9",
+    "eval/eval.py": "d193ff7ed3bb7911d01dfd1e2a517df1eaa6e6c0f5b3fd577d26848b4e2c59bf"
+  }
+}

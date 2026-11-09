@@ -1,0 +1,1 @@
+"""SuperGPQA benchmark adapter."""
