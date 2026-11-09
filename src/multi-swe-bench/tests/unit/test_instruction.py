@@ -27,11 +27,7 @@ from multi_swe_bench_adapter.adapter import MultiSWEBenchAdapter
                     {"title": "Second problem", "body": "Second requirement"},
                 ]
             },
-            (
-                "# Multiple resolved issues\n\n"
-                "## Issue 1: First problem\n\nFirst requirement\n\n"
-                "## Issue 2: Second problem\n\nSecond requirement"
-            ),
+            ("# First problem\n\nFirst requirement"),
         ),
         ({}, "# PR title\n\nPR body"),
         ({"resolved_issues": [None, {}]}, "# PR title\n\nPR body"),

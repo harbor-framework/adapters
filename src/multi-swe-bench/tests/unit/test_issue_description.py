@@ -25,7 +25,7 @@ def test_resolved_issue_description_takes_precedence_over_pull_request() -> None
     assert body == "Expected user-facing behavior"
 
 
-def test_single_resolved_issue_uses_safe_fallbacks_for_missing_fields() -> None:
+def test_single_resolved_issue_preserves_empty_fields() -> None:
     title, body = resolve_issue_description_fields(
         {
             "title": "  Pull request title  ",
@@ -33,15 +33,15 @@ def test_single_resolved_issue_uses_safe_fallbacks_for_missing_fields() -> None:
         }
     )
 
-    assert title == "Pull request title"
-    assert body == "No description provided"
+    assert title == ""
+    assert body == ""
 
 
 @pytest.mark.parametrize(
     ("issue", "expected"),
     [
-        ({"title": "Issue title"}, ("Issue title", "No description provided")),
-        ({"body": "Issue body"}, ("PR title", "Issue body")),
+        ({"title": "Issue title"}, ("Issue title", "")),
+        ({"body": "Issue body"}, ("", "Issue body")),
     ],
 )
 def test_partial_issue_does_not_fall_back_to_pr_implementation_details(
@@ -59,7 +59,7 @@ def test_partial_issue_does_not_fall_back_to_pr_implementation_details(
     )
 
 
-def test_multiple_resolved_issues_are_rendered_as_separate_sections() -> None:
+def test_multiple_resolved_issues_use_only_the_first_issue() -> None:
     title, body = resolve_issue_description_fields(
         {
             "resolved_issues": [
@@ -72,12 +72,8 @@ def test_multiple_resolved_issues_are_rendered_as_separate_sections() -> None:
         }
     )
 
-    assert title == "Multiple resolved issues"
-    assert body == (
-        "## Issue 1: First requirement\n\nFirst body\n\n"
-        "## Issue 2: Second requirement\n\n"
-        "## Issue 3\n\nBody-only requirement"
-    )
+    assert title == "First requirement"
+    assert body == "First body"
 
 
 @pytest.mark.parametrize(
@@ -102,3 +98,20 @@ def test_description_falls_back_when_no_resolved_issue_is_usable(
     record: dict[str, Any], expected: tuple[str, str]
 ) -> None:
     assert resolve_issue_description_fields(record) == expected
+
+
+@pytest.mark.parametrize("first_issue", [{}, {"title": None, "body": None}])
+def test_empty_first_issue_does_not_select_a_later_issue(first_issue: dict) -> None:
+    assert resolve_issue_description_fields(
+        {"resolved_issues": [first_issue, {"title": "Later", "body": "Later body"}]}
+    ) == ("", "")
+
+
+def test_invalid_first_issue_does_not_select_a_later_issue() -> None:
+    assert resolve_issue_description_fields(
+        {
+            "title": "PR title",
+            "body": "PR body",
+            "resolved_issues": [None, {"title": "Later"}],
+        }
+    ) == ("PR title", "PR body")
