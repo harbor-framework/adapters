@@ -25,7 +25,7 @@ CYBERMETRIC_REVISION = "2f5818bd2c19350cd6cfae028b75499ebe4ffd29"
 SECEVAL_REPO = "https://github.com/XuanwuAI/SecEval.git"
 SECEVAL_REVISION = "7aef3176a1a095b40bbfa806a7a2d6c5e203d5b7"
 
-CTI_BENCH_REPO = "https://github.com/xashru/cti-bench.git"
+CTI_BENCH_REPO = "https://github.com/maveryn/cti-bench.git"
 CTI_BENCH_REVISION = "4543e5b6560d3204e1205ced4fa286adc7452d07"
 
 CAI_REPO_SLUG = "aliasrobotics/cai"
@@ -33,7 +33,7 @@ CAI_REVISION = "6dc79257777f5f1c9500b4d2319935d34a47412e"
 CYBERPII_BENCH_CSV_PATH = "benchmarks/cyberPII-bench/memory01_gold.csv"
 
 DEFAULT_DATASET_CACHE_DIR = Path.home() / ".cache" / "harbor" / "caibench"
-DEFAULT_CYBERMETRIC_SIZE = 500
+DEFAULT_CYBERMETRIC_SIZE = 10000
 CYBERMETRIC_SIZES = (80, 500, 2000, 10000)
 
 TASK_TEMPLATE_DIR = Path(__file__).parent / "task-template"

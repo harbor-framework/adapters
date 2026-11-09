@@ -1,81 +1,64 @@
-## CAIBench → Harbor Adapter
-
-**Notice:**
-1. This is the template file for harbor adapter README. Please follow this structure and fill the contents and/or replace parts if necessary. If a prior version of the adapter code and README exists (i.e., under the `terminal-bench` repo), you could reuse some sections, but make sure they align with the new requirements and commands.
-2. Make sure your default task preparation dir is `datasets/caibench` instead of other default paths like `tasks/caibench`. If the prior version is using a different path, please update it accordingly.
-3. Read and understand our tutorial before you go — [agent version](https://www.harborframework.com/docs/datasets/adapters) or [human version](https://www.harborframework.com/docs/datasets/adapters-human).
+# CAIBench → Harbor Adapter
 
 ## Overview
 
-Describe at a high level what CAIBench evaluates. Include:
-- Task types, domains, languages, dataset size/splits
-- Provenance (paper/repo), licensing notes, known constraints
-- Any differences from similarly named benchmarks
-- Explicitly state how many tasks are in this adapter and how that number is derived from the source benchmark
-- Briefly mention the main modifications for adaptation (e.g., prompt changes for agents vs. LLMs, excluded tasks and reasons)
+This adapter converts [CAIBench](https://aliasrobotics.github.io/cai/cai_benchmark/), Alias Robotics' benchmark for cybersecurity AI agents, into Harbor task format. Of CAIBench's 5 categories, this adapter covers the 2 that are public: **Security Knowledge Benchmarks** (CyberMetric, SecEval, CTI-Bench) and **Privacy Benchmarks** (CyberPII-Bench). The other 3 categories (Jeopardy CTFs, Attack-Defense CTFs, Cyber Ranges) are gated behind a CAI PRO subscription and are out of scope (see [Notes & Caveats](#notes--caveats) below).
+
+- **Task types**: Multiple-choice/short-answer security knowledge questions and PII anonymization
+- **Domains**: Cybersecurity knowledge, MITRE ATT&CK, CWE/CVSS vulnerability scoring, PII redaction
+- **Language**: Python 3.12
+- **Dataset size**: 16,820 tasks (see [Task Breakdown](#task-breakdown) below)
+- **Provenance**: [CAI docs](https://aliasrobotics.github.io/cai/) (see [Citation](#citation) below)
+- **License**: MIT
+- **Source**: [aliasrobotics/cai](https://github.com/aliasrobotics/cai), [cybermetric/CyberMetric](https://github.com/cybermetric/CyberMetric), [XuanwuAI/SecEval](https://github.com/XuanwuAI/SecEval), [maveryn/cti-bench](https://github.com/maveryn/cti-bench)
+
+## Task Breakdown
+
+| Sub-Benchmark | Tasks | Task ID prefix |
+|---------------|-------|----------------|
+| CyberMetric | 10,000 | `cybermetric__` |
+| SecEval | 2,182 | `seceval__` |
+| CTI-Bench MCQ | 2,500 | `cti_bench_mcq__` |
+| CTI-Bench ATE | 60 | `cti_bench_ate__` |
+| CTI-Bench RCM | 1,000 | `cti_bench_rcm__` |
+| CTI-Bench VSP | 1,000 | `cti_bench_vsp__` |
+| CyberPII-Bench | 78 | `cyberpii_bench__` |
 
 ## What is CAIBench?
 
-Write a short paragraph explaining the original benchmark, goals, and audience. Link to the paper and/or site. Clarify scoring/metrics used in the original.
+CAIBench is Alias Robotics' benchmark for evaluating agent capabilities in offensive, defensive, and analytical cybersecurity. The benchmark spans 5 categories: Jeopardy CTFs, Attack-Defense CTFs, Cyber Ranges, Security Knowledge Benchmarks, and Privacy Benchmarks. Scoring in the original benchmark consists of accuracy, F1 score, and mean absolute deviation (MAD). This adapter uses the same metrics, but edited so it writes a per-task float reward instead of a dataset-wide aggregate.
+
+**References**:
+- Paper: [Cybersecurity AI Benchmark (CAIBench): A Meta-Benchmark for Evaluating Cybersecurity AI Agents](https://arxiv.org/abs/2510.24317)
+- Framework: [aliasrobotics/cai](https://github.com/aliasrobotics/cai), [CAI docs](https://aliasrobotics.github.io/cai/)
 
 ## Adapter Features
 
-Bullet the notable features your adapter implements. Examples to tailor/remove:
-- Automatic repo/data management (clone, cache, cleanup)
-- Comprehensive task generation (schema extraction, solution validation, id mapping)
-- Dockerized environments; language/toolchain support
-- Evaluation specifics (pytest, judge, diff checks, speedups, resource limits)
-- Prompt adaptations vs. the original harness (if any)
+- **Automatic dataset management**: Clones CyberMetric/SecEval/CTI-Bench from GitHub (pinned to fixed commits), downloads CyberPII-Bench's CSV, and caches locally
+- **Ported grading**: `tests/grade.py` ports code from CAI's `eval.py` and `annotation_metrics.py`
+- **Multiple sub-benchmarks**: Fills out `task-template` with benchmark-specific prompts, solutions, and grading
+- **Flexible task generation**: Provides `--limit`, `--overwrite`, `--task-ids`, `--sub-benchmarks`, `--dataset-cache-dir`, and `--cybermetric-size` arguments
 
 ## Generated Task Structure
 
-Show the on-disk layout produced by this adapter. Replace or extend as needed:
 ```
 caibench/
-├── {task_id}/
-│   ├── task.toml                 # Task configuration
-│   ├── instruction.md            # Task instructions for the agent
-│   ├── environment/              # Container definition
-│   │   └── Dockerfile
-│   ├── solution/                 # Oracle/golden solution (optional if original benchmark doesn't have one)
-│   │   └── solve.sh
-│   └── tests/                    # Test assets and scripts
-│       └── test.sh               # Test execution script
+├── {task_id}/               # e.g. "cti_bench_vsp__00412
+│   ├── task.toml            # Harbor task configuration
+│   ├── instruction.md       # Task instructions for the agent
+│   ├── environment/
+│   │   └── Dockerfile       # Agent's container
+│   ├── solution/
+│   │   └── solve.sh         # Echoes correct answer
+│   └── tests/
+│       ├── test.sh          # Invokes grade.py
+│       ├── grade.py         # Grades a task
+│       └── expected.json    # Expected solution
 ```
 
-And make sure your adapter code has a task-template directory that includes these files, even if they are empty or dummy. The adapter reads from the `task-template/` directory to replace/add contents and generate task directories correspondingly.
-
-The adapter is scaffolded as a Python package via `uv init --package`. A typical adapter code directory looks as follows:
-```
-adapters/caibench/
-├── README.md
-├── adapter_metadata.json
-├── parity_experiment.json
-├── pyproject.toml
-└── src/caibench/
-    ├── __init__.py
-    ├── adapter.py
-    ├── main.py
-    └── task-template/
-        ├── task.toml
-        ├── instruction.md
-        ├── environment/
-        │   └── Dockerfile
-        ├── solution/
-        │   └── solve.sh
-        └── tests/
-            └── test.sh
-```
-
-> **Note:** `adapter.py` should define a `<Benchmark>Adapter` class with a `run()` method if possible; `main.py` constructs the adapter and calls `run()` through the standard CLI flags.
-
-
-## Run Evaluation / Harness
-Harbor Registry & Datasets makes running adapter evaluation easy and flexible.
+## Run Evaluation / Harness in Harbor
 
 ### Running with Datasets Registry
-
- Simply run
 
 ```bash
 # Use oracle agent (reference solution)
@@ -84,23 +67,14 @@ uv run harbor run -d caibench
 # Use your specified agent and model
 uv run harbor run -d caibench -a <agent_name> -m "<model_name>"
 ```
-from the harbor root to evaluate on the entire dataset.
-
-> [For adapter creators]: You will need to (1) upload the prepared task directories to https://github.com/laude-institute/harbor-datasets (2) Add your dataset entries to [registry.json](../../../registry.json) following a similar format as others. Only after all the PRs are merged, can you run the above scripts (otherwise the datasets are not yet registered). At development time, use the scripts below to run experiments.
-
-However, if you choose to prepare the task directories locally and/or with custom versions/subsets for evaluation, you may either use `harbor run` or `harbor trial`. Instructions for using the adapter code to prepare task directories are provided in the [Usage](#usage-create-task-directories) session.
 
 ### Using Job Configurations
-The example configuration file(s) for the adapter is provided under `harbor/adapters/caibench`. You may either use `-c path/to/configuration.yaml` or `-p path/to/dataset` to run evaluation on the entire benchmark after preparing the task directories locally.
-
-> [For adapter creators]: Please specify the file(s), e.g., `run_caibench.yaml`, `run_caibench-python.yaml` for subsets/versions. Examples of config yaml can be seen from [harbor/examples/configs](../../../examples/configs/).
 
 ```bash
 # From the repository root
-# Run a job with the default adapter configuration
 uv run harbor run -c adapters/caibench/run_caibench.yaml -a <agent_name> -m "<model_name>"
 
-# Or run a job without configuration yaml but instead with locally prepared dataset path
+# Or run a job with a locally prepared dataset path
 uv run harbor run -p datasets/caibench -a <agent_name> -m "<model_name>"
 
 # Resume a previously started job
@@ -109,9 +83,7 @@ uv run harbor job resume -p /path/to/jobs/directory
 
 Results are saved in the `jobs/` directory by default (configurable via `jobs_dir` in the YAML config).
 
-### Running Individual Trial
-
-For quick testing or debugging a single task:
+### Running Individual Trials
 
 ```bash
 # Run a single task with oracle (pre-written solution)
@@ -123,7 +95,6 @@ uv run harbor trial start -p datasets/caibench/<task_id> -a <agent_name> -m "<mo
 
 Trial outputs are saved in the `trials/` directory by default (configurable via `--trials-dir`).
 
-
 ## Usage: Create Task Directories
 
 ```bash
@@ -131,86 +102,117 @@ cd adapters/caibench
 uv run caibench --output-dir ../../datasets/caibench
 ```
 
-Available flags:
-- `--output-dir` — Directory to write generated tasks (defaults to `datasets/caibench` at the repo root)
-- `--limit` — Generate only the first N tasks
-- `--overwrite` — Overwrite existing tasks
-- `--task-ids` — Only generate specific task IDs
+**Arguments**:
+- `--output-dir`: Directory to write generated tasks (default: `datasets/caibench`)
+- `--limit`: Generate only the first N tasks (counted across all selected sub-benchmarks)
+- `--overwrite`: Overwrite existing tasks
+- `--task-ids`: Only generate specific task IDs
+- `--sub-benchmarks`: Which sub-benchmarks to generate (`cybermetric`, `seceval`, `cti_bench_mcq`, `cti_bench_ate`, `cti_bench_rcm`, `cti_bench_vsp`, `cyberpii_bench`; default: all)
+- `--dataset-cache-dir`: Directory to cache the cloned/downloaded datasets (default: `~/.cache/harbor/caibench`)
+- `--cybermetric-size`: Which `CyberMetric-{size}-v1.json` variant to use (`80`, `500`, `2000`, `10000`; default: `10000`)
 
-Tasks are written to `datasets/caibench/` with one directory per task. Each task follows the structure shown in ["Generated Task Structure"](#generated-task-structure) above.
+Tasks are written to `datasets/caibench/` with one directory per task. Each task follows the structure shown in [Generated Task Structure](#generated-task-structure) above.
 
 ## Comparison with Original Benchmark (Parity)
 
-Summarize how you validated fidelity to the original benchmark. Include a small table of headline metrics and a pointer to `parity_experiment.json`. Report each score as **mean ± sample SEM**.
+Not yet run. This will be discussed with the Harbor team.
 
 | Agent | Model | Metric | Number of Runs | Dataset Size | Original Benchmark Performance | Harbor Adapter Performance |
-|-------|-------|--------|------------------|--------------|------------------------------|----------------------------|
-| \<agent\>@\<agent_version\> | \<model\> | \<metric\> | \<n\> | \<size\> | \<x% ± y%\> | \<x% ± y%\> |
+|-------|-------|--------|----------------|--------------|--------------------------------|----------------------------|
+| \<agent\>@\<agent_version\> | \<model\> | accuracy / F1 / MAD | \<n\> | 16,820 tasks | \<x% ± y%\> | \<x% ± y%\> |
 
-If there's a prior version parity experiment done in `terminal-bench`:
-- If your parity for Harbor is a direct comparison to the original benchmark (which we recommend if claude-4.5-haiku is easily supported), then you may only include these scores and do not need to include the `terminal-bench` parity.
-- However, if you are comparing to `terminal-bench` adapters, then please include both parity scores to show that "original <--> terminal bench adapter" and then "terminal bench adapter <--> harbor adapter".
+## Oracle Verification
 
-Reproduction requirements and steps (mandatory):
-- Which repo/fork and commit to use for the original benchmark; which scripts/commands to run; any env variables needed
-- Which commands to run in Harbor to reproduce adapter-side results:
-  ```bash
-  uv run harbor run -c adapters/caibench/run_caibench.yaml -a <agent> -m "<model>"
-  ```
-- How to interpret the results/scores; if metrics are non-trivial, briefly explain their computation
+Currently, this adapter has been run with the oracle agent at 500 tasks (reward 1.0). It will be run with all 16,820 tasks soon.
 
 ## Notes & Caveats
 
-Call out known limitations, failing instances, large downloads, platform caveats, time/memory constraints, or evaluation differences vs. the original benchmark.
+- **Full oracle verification not yet run**: See [Oracle Verification](#oracle-verification) above
+- **Parity experiments not yet run**: See [Comparison with Original Benchmark (Parity)](#comparison-with-original-benchmark-parity) above
+- **Jeopardy CTFs, Attack-Defense CTFs, and Cyber Ranges excluded**: These challenges are gated behind a `CAIBENCH_IMG_REGISTRY_TOKEN` that is granted only upon request to CAI PRO subscribers (not able to be adapted without access)
+- **CyberMetric default size (10000)**: CyberMetric ships 4 different versions consisting of 80, 500, 2000, and 10000 questions (this adapter uses the 10000-question variant by default, which can be overwritten with `--cybermetric-size`)
 
 ## Installation / Prerequisites
 
-Adapters are managed as standalone uv Python packages. You can add or remove dependencies using `uv add` / `uv remove` from the adapter directory:
-
 ```bash
 cd adapters/caibench
-uv add datasets  # add a dependency
-uv remove datasets  # remove a dependency
+uv sync
 ```
 
-List environment setup specific to this adapter (edit as needed):
 - Docker installed and running
 - Harbor installed and working (see main repository README)
-- Python environment with dependencies:
-  ```bash
-  cd adapters/caibench
-  uv sync
-  ```
-- Dataset-specific steps (e.g., creds, downloads):
-  - API keys for agents/models (export as environment variables)
-  - Large docker images, toolchains, or dataset downloads
-  - Any benchmark-specific dependencies
+- `git` and network access to GitHub
 
 ## Troubleshooting
 
-List frequent issues and fixes (docker cleanup, timeouts, flaky tests, etc.).
+### 1. CyberMetric/SecEval/CTI-Bench `git clone` Fails
+- The repos are cloned over `https://github.com/...`
+- Check network access rather than credentials
+
+### 2. CTI-Bench VSP Tasks Fail
+- Verify the `cvss` Python package installed cleanly in `environment/Dockerfile` (`pip install cvss==3.4`)
+- Confirm the agent's answer is a well-formed CVSS 3.1 vector string
+- Malformed vector strings result in reward 0.0 instead of erroring
+
+### 3. CyberPII-Bench Tasks Fail
+- Check whether the agent outputted any extra text around the anonymized content
 
 ## Citation
 
-Provide BibTeX or links to cite the original benchmark (and this adapter if desired):
+CAIBench:
 ```bibtex
-@article{<key>,
-  title={<benchmark_name>: <paper title>},
-  author={<authors>},
-  year={<year>},
-  url={<paper_or_repo_url>}
+@misc{sanzgómez2025cybersecurityaibenchmarkcaibench,
+  title={Cybersecurity AI Benchmark (CAIBench): A Meta-Benchmark for Evaluating Cybersecurity AI Agents},
+  author={María Sanz-Gómez and Víctor Mayoral-Vilches and Francesco Balassone and Luis Javier Navarrete-Lozano and Cristóbal R. J. Veas Chavez and Maite del Mundo de Torres},
+  year={2025},
+  eprint={2510.24317},
+  archivePrefix={arXiv},
+  primaryClass={cs.CR},
+  url={https://arxiv.org/abs/2510.24317},
+}
+```
+
+CyberMetric:
+```bibtex
+@INPROCEEDINGS{10679494,
+  author={Tihanyi, Norbert and Ferrag, Mohamed Amine and Jain, Ridhi and Bisztray, Tamas and Debbah, Merouane},
+  booktitle={2024 IEEE International Conference on Cyber Security and Resilience (CSR)},
+  title={CyberMetric: A Benchmark Dataset based on Retrieval-Augmented Generation for Evaluating LLMs in Cybersecurity Knowledge},
+  year={2024},
+  volume={},
+  number={},
+  pages={296-302},
+  keywords={Accuracy;Reverse engineering;Benchmark testing;NIST Standards;Risk management;Problem-solving;Computer security},
+  doi={10.1109/CSR61664.2024.10679494}}
+```
+
+SecEval:
+```bibtex
+@misc{li2023seceval,
+  title={SecEval: A Comprehensive Benchmark for Evaluating Cybersecurity Knowledge of Foundation Models},
+  author={Li, Guancheng and Li, Yifeng and Wang Guannan and Yang, Haoyu and Yu, Yang},
+  publisher = {GitHub},
+  howpublished= "https://github.com/XuanwuAI/SecEval",
+  year={2023}
+}
+```
+
+CTI-Bench:
+```bibtex
+@article{alam2024ctibench,
+  title={Ctibench: A benchmark for evaluating llms in cyber threat intelligence},
+  author={Alam, Md Tanvirul and Bhusal, Dipkamal and Nguyen, Le and Rastogi, Nidhi},
+  journal={Advances in Neural Information Processing Systems},
+  volume={37},
+  pages={50805--50825},
+  year={2024}
 }
 ```
 
 ## Authors & Contributions
-This adapter is developed and maintained by [<your_name>](mailto:<your_email>) from the Harbor team.
+
+This adapter is developed and maintained by [Tristan](mailto:troath@berkeley.edu) and [Tyler](mailto:tyroath@berkeley.edu) from the Harbor team.
 
 **Issues and Contributions:**
 - Submit Issues and Pull Requests to the main repository
 - Follow the project's coding style and commit guidelines
-
-## Acknowledgement
-
-If you used API keys provided via [adapters/parity_api_instructions.md](../parity_api_instructions.md) for running parity experiments, please include the following acknowledgement:
-
-> API inference compute for running parity tests is generously supported by [2077AI](https://www.2077ai.com/) (https://www.2077ai.com/).
