@@ -14,6 +14,18 @@ from datasets import load_dataset
 from .utils import get_image_names, get_test_commands, read_text, render_literal
 
 
+# Upstream environment/dataset failures, even with Oracle:
+# https://github.com/SWE-bench/SWE-bench/issues/354
+KNOWN_FAILING_TASKS: frozenset[str] = frozenset(
+    {
+        "astropy__astropy-8872",
+        "astropy__astropy-7606",
+        "astropy__astropy-8707",
+        "django__django-10097",
+    }
+)
+
+
 @dataclass
 class SWEBenchRecord:
     instance_id: str
@@ -112,6 +124,7 @@ class SWEBenchAdapter:
         all_tasks: bool = True,
         max_timeout_sec: float = 3000.0,
         template_dir: Optional[Path] = None,
+        include_known_failing: bool = False,
         **kwargs: object,
     ) -> None:
         self.out_root = Path(output_dir)
@@ -122,6 +135,7 @@ class SWEBenchAdapter:
         self.instance_id = instance_id
         self.local_task_id = local_task_id
         self.all_tasks = all_tasks
+        self.include_known_failing = include_known_failing
 
         self.template_dir = Path(
             template_dir or (Path(__file__).parent / "task-template")
@@ -260,6 +274,19 @@ class SWEBenchAdapter:
             instance_ids = list(self.task_ids)
         elif self.all_tasks:
             instance_ids = self.get_all_ids()
+            if not self.include_known_failing:
+                excluded = [
+                    iid for iid in instance_ids if iid in KNOWN_FAILING_TASKS
+                ]
+                instance_ids = [
+                    iid for iid in instance_ids if iid not in KNOWN_FAILING_TASKS
+                ]
+                if excluded:
+                    print(
+                        f"Excluding {len(excluded)} known-failing tasks "
+                        "(use --include-known-failing to override): "
+                        f"{', '.join(excluded)}"
+                    )
         else:
             raise ValueError(
                 "You used --no-all but did not provide --instance-id or --task-ids."
