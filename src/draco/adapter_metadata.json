@@ -1,0 +1,32 @@
+[
+  {
+    "adapter_name": "draco",
+    "adapter_builders": [
+      "Jianing Yin (jianingyin@alumni.upenn.edu)"
+    ],
+    "original_benchmark": [
+      {
+        "split": "full",
+        "size": 100,
+        "harness": "None",
+        "supported_agents": ["None"],
+        "adaptable": true,
+        "notes": "100 deep-research queries with 3,934 weighted expert criteria. Upstream ships the dataset and a grader library (paper-instruments/rubric, LLM judge, Gemini-3-Pro in the paper); responses were produced by deep research APIs and Claude with server-side tools, outside any harness."
+      }
+    ],
+    "harbor_adapter": [
+      {
+        "split": "full",
+        "adapted_benchmark_size": 100,
+        "parity_benchmark_size": null,
+        "parity_sampling_rate": null,
+        "registry_benchmark_size": 100,
+        "added_agents": ["None"],
+        "parity_matching_agents": [],
+        "parity_unmatching_agents": ["None"],
+        "parity_costs": null,
+        "notes": "Parity pending: plan to be agreed with the Harbor team. Verifier calls the official grader library with its default judge prompt; reward is the clamped normalized score."
+      }
+    ]
+  }
+]
