@@ -1,0 +1,2352 @@
+{
+ "4d1a34ccfa85f32065000004": {
+  "keys": "k<Down><Down><Down><Right><Right><Right><Down><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right> <Left><Up><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right>i<Right> \"Vi IMproved\"<Down><Down><Down><Down><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Right><Up><Right><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Down><Left><BS><BS><BS><BS><BS><BS><BS><Del><Down><Down><Down><Down><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Down><Esc><Right><Down><Del><Del><Del><Del><Del><Del><Del><Del><Del><Del><Del><Del><Del><Del><Del><Del><Del><Del><Del><Del><Del><Del><Del><Del><Del><Del><Del><Del><Del><Del><Del><Del><Del><Del><Del><Del><Del><Del><Del><Del><Del><Del><Del><Del><Del><Del><Del><Del><Del><Del><Del><Del><Del><Del><Del><Del><Del><Del><Del><Del><Up><Up><Up><Up><Left><Left><Left><Left><Left><Left><Left><Left><Left>o<BS><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>i<BS>originally <Right><Right><Right><Right><Esc>:w<CR>:wq<CR>",
+  "source": "public",
+  "keystrokes": 331
+ },
+ "4d1a4d82a860b7447200008d": {
+  "keys": "4G2dd3G024s  and remove any trailing spaces<Esc>2GA    strip all blank lines<Esc>gg01s  <Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 83
+ },
+ "4d1a4f2ba860b744720000bf": {
+  "keys": "uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu0urhwgUw2w.3w.2w.wcwflodder**<Esc>lct.film<Esc>ferE2wgUw3wwwwwwwwwww.ZZ",
+  "source": "minimized-public",
+  "keystrokes": 95
+ },
+ "4d1a522ea860b7447200010b": {
+  "keys": "6G01s}<Esc>5G01l1s}<Esc>4G027l13s(1 + (8 / 2))<Esc>3G05l23s(var i in some_array) {<Esc>2G018l19s[1, 2, 3, 4, 'foo']<Esc>gg029l14s(arg1, arg2) {<Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 126
+ },
+ "4d1a5275a860b74472000110": {
+  "keys": ":sort<CR>:%s/)/,:country => \"\"<C-B><C-E><C-B><C-E><Left>USA<C-F><Esc><CR>uuu:sort<CR>:%s/)/, :country => \"USA:<BS>\")/g<CR>ZZ",
+  "source": "public",
+  "keystrokes": 80
+ },
+ "4d1a6bafb8cb34093200008e": {
+  "keys": "taccu<BS><Esc>uu<Esc>/acc<Esc>/acc<CR>ea<CR>> <Esc>/inventore<CR>ea<CR>> <Esc>/enim<CR>ea<CR>> <Esc>2j<Esc>/tempor<CR>ea<CR><Esc>/quis<CR>ea<CR><Esc>jj<Esc>/sequi<CR>ea<CR>> <Esc>/quis<CR>/amet<CR><Esc>ea<CR><Esc>ua<CR>> <Esc>/incide<BS>i<BS>du<BS><BS>unt<CR>ea<CR>> <Esc>2j<Esc>/susci^p<BS><BS>pit<CR>ea<CR><Esc>/iure<CR><Esc>ea<CR><Esc>/consequature<BS><CR>raraeau<Esc>uuuea<Esc>lli<CR><Esc>:wq<CR>",
+  "source": "public",
+  "keystrokes": 213
+ },
+ "4d1a6ed2b8cb3409320000c9": {
+  "keys": "$I<Esc>$i<Esc>$$A/*{{{*/<Esc>5Gi/*}}}*/<CR>j<BS><Esc>kjj$A/*{{{*/<Esc><Left><Left><Left><Left><Left><Left>y$jjjjjjjjjjjjjPupujj$pkkkkkkkkkkkkkkkkkkj0y$jjjjjjjjjjjjjjjpjjjjjjjjjpo<Esc>uZZ",
+  "source": "public",
+  "keystrokes": 126
+ },
+ "4d1a71b5b8cb340932000109": {
+  "keys": "2G08l21sAdds \"a\" to \"b<Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 25
+ },
+ "4d1a7a05b8cb3409320001b4": {
+  "keys": "54G04x53G055sCharityware.info<Esc>51G013l85sdocumentation<Esc>50G043sICCF<Esc>46Go0<C-D> <Esc>46G03sVim's License<Esc>45G022x43G1dd39Go0<C-D> <Esc>39G03x37G1dd34Go0<C-D> <Esc>34G03sWhat Vim Is Not?<Esc>33G025x31G1dd28G03x27G04x24G028l7x21G03x17G03x16G021sWhat Is Vim?<Esc>13Go0<C-D> <CR>0<C-D> <Esc>13G0159sA General Overview<Esc>11G1dd9G1dd8G016l37sthis page<Esc>6G042l4x5G027l42salready using vi<Esc>2G03xgg024sWhat Vim Can Do<Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 356
+ },
+ "4d1a8bf2b8cb3409320002c4": {
+  "keys": "17G03sxaaax<Esc>13G03sxaaax<Esc>9G03sxaaax<Esc>5G03sxaaax<Esc>gg03sxaaax<Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 59
+ },
+ "4d1aa1d9b8cb34093200039f": {
+  "keys": "9Go0<C-D>                 highlight=0):<Esc>9G067l14x5Go0<C-D>    spaces for indent = 72)<Esc>5G066l24x3Go0<C-D>    characters. For flowing long blocks of text, limiting the length to<CR>0<C-D>    72 characters is recommended. <Esc>3G066l99xZZ",
+  "source": "diff",
+  "keystrokes": 212
+ },
+ "4d1ac1800a045132c0000011": {
+  "keys": "Goint main(void)<CR>{<CR>    puts(\"Hello world!\");<CR><C-D>    return 0;<CR><C-D>}<Esc>2G46xgg8li <Esc>ZZ",
+  "source": "minimized-diff",
+  "keystrokes": 77
+ },
+ "4d1ace6c142cca7133000033": {
+  "keys": "4G9dd3G04l20sprint('abc%ddef' % n)<Esc>2G08l16s1234567890 + j<Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 60
+ },
+ "4d1b1b97c58eaa2a8a0002fc": {
+  "keys": "jjj12ddofor i in range()<Esc>i0, len()<Esc>ia<Esc>$a:<CR><BS>  sysy<BS>.stu<BS>dout.write()<Esc>istr()<Esc>ia[]<Esc>ii<Esc>:wq<CR>",
+  "source": "public",
+  "keystrokes": 87
+ },
+ "4d1b3d57c58eaa2a8a000510": {
+  "keys": "16G7dd11Go0<C-D><CR>0<C-D>5) Aenean in lorem mi. Mauris ac eros mi. In accumsan urna eu nibh euismod non imperdiet quam fringilla. <CR>0<C-D>Integer orci massa, mattis adipiscing commodo vel, cursus in lorem.<Esc>11G042sUt ipsum neque, ornare nec condimentum a, feugiat et felis<Esc>10G091sPraesent tempus, enim eget fermentum dictum, libero ante commodo enim, a adipiscing arcu arcu et erat<Esc>9G078s4) Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla feugiat placerat odio<Esc>3Go0<C-D><CR>0<C-D>2) Phasellus mauris ipsum, placerat nec pellentesque ac, tristique vitae risus. <CR>0<C-D>Mauris rhoncus erat at eros feugiat blandit. Nulla facilisi. Vivamus semper blandit viverra. <CR>0<C-D>Mauris quis arcu quis purus feugiat auctor.<Esc>3G058sscelerisque sed, interdum nec augue<Esc>2G0102sSed euismod felis nec ipsum laoreet et suscipit justo vulputate. Donec lorem odio, lobortis ut<Esc>gg087s1) Morbi ultricies arcu erat. Praesent iaculis fermentum odio, in suscipit lorem congue id<Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 934
+ },
+ "4d1b4ac3c58eaa2a8a0005c2": {
+  "keys": "<Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><BS><Right>i<BS> then<Down><Left><Left><Left><Left><BS>theb=<BS><BS>m<BS>n<Left><Left><Left><Left><Left><Right> !Q<BS><BS><Esc>:wq<CR>",
+  "source": "public",
+  "keystrokes": 71
+ },
+ "4d1b76d9c58eaa2a8a000866": {
+  "keys": "iAdd this line!<CR><Esc>:wq<CR>",
+  "source": "public",
+  "keystrokes": 21
+ },
+ "4d1b795a81502541ad00000f": {
+  "keys": "4jf#d$aTCPSE<BS>erver(a<BS>ADDR, SimpleHTTPReau<BS><BS>questHqndl<BS><BS><BS><BS>andler)<Esc>ax<BS><Esc>d$a)<Esc>:wq<CR>",
+  "source": "public",
+  "keystrokes": 78
+ },
+ "4d1b9703c8bb5704eb000081": {
+  "keys": "i<Down><Down>1 <Down><Left><Left>2 <Down><Left><Left>3 <Down><Down><Left><Left>4 <Down><Left><Left>5 <Down><Left><Left>6 <Esc>:wq<CR>",
+  "source": "public",
+  "keystrokes": 36
+ },
+ "4d1ba304c8bb5704eb00012d": {
+  "keys": "Go0<CR>7<CR>38<CR>45<CR>28<CR>35<CR>18<CR>25<CR>8<CR>15<CR>46<CR>5<CR>36<CR>43<CR>26<CR>33<CR>16<CR>23<CR>6<CR>13<CR>44<CR>3<CR>34<CR>41<CR>24<CR>31<CR>14<CR>21<CR>4<CR>11<CR>42<CR>1<CR>32<CR>39<CR>22<CR>29<CR>12<CR>19<CR>2<CR>9<CR>40<CR>47<CR>30<CR>37<CR>20<CR>27<CR>10<CR>17<CR>0<Esc>ZZ",
+  "source": "public",
+  "keystrokes": 140
+ },
+ "4d1bdde3b2c3e0646800007f": {
+  "keys": "j  <Left><Left>i  <Down><Left><Left>    <Down><Left><Left><Left><Left>  <Down><Left><Left>  <Down><Left><Left>    <Down><Down><Up><Left><Left><Left><Left>      <Down><Left><Left><Left><Left><Left><Left>      <Down><Left><Left><Left><Left><Left><Left><Left>    <Down><Left><Left><Left><Left>  <Esc>:wq<CR>",
+  "source": "public",
+  "keystrokes": 84
+ },
+ "4d1bfc7ab2c3e06468000137": {
+  "keys": "16ddORrRRRRRRRRRRRRR<CR>RrRrrrrrrrrrrrR<CR>RrRrRRRRRRRRRrR<CR>RrRrRrrrrrrrRrR<CR>RrRrRrRRRRRrRrR<CR>RrRrRrRrrrRrRrR<CR>RrRrRrRrRrRrRrR<CR>RrRrRrRrRrRrRrR<CR>RrRrRrRrRrRrRrR<CR>RrRrRrRrRrRrRrR<CR>RrRrRrRRRrRrRrR<CR>RrRrRrrrrrRrRrR<CR>RrRrRRRRRRRrRrR<CR>RrRrrrrrrrrrRrR<CR>RrRRRRRRRRRRRrR<CR>RrrrrrrrrrrrrrR<Esc>ZZ",
+  "source": "minimized-diff",
+  "keystrokes": 263
+ },
+ "4d1c6d0535b40650b800017e": {
+  "keys": "9dw3wwwwwwwwwwwwwww<Right><Right><Right><Right><Right><Right><Right><Left>47dwuu9dw3w49dwu48dwu47dwul47dwu48dw^qayyi<CR><Esc><Up>uqqayyp<Up>$x^q@au11@a:wq!<CR>",
+  "source": "minimized-public",
+  "keystrokes": 96
+ },
+ "4d1cdb0635b40650b8000527": {
+  "keys": "O************************<Esc>1yyjp<Esc>jjjO****************************<Esc>1yyjp<Esc>:wq<CR>",
+  "source": "public",
+  "keystrokes": 75
+ },
+ "4d1d0d5e35b40650b8000711": {
+  "keys": "oTake one down and pass it around, 81 bottles of beer on the wall.<CR><Esc>qqVkkyGp<C-X>w<C-X>j<C-X>jq@q@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@dd<Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Up><Right>x<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>x<Down><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>veeeeeeecGo to the store and buy some more<Esc><Right><Right><Right>a<BS>99<Esc><Up><Up><Up><Right><Right><Right><Right><Right><Right>xZZ",
+  "source": "public",
+  "keystrokes": 392
+ },
+ "4d1da368de2f897c2a000114": {
+  "keys": "2G02l30s\u2018Bhagavad G\u012bt\u0101\u2019s first shokla\u2019<Esc>gg018l130s\u201cO Sa\u00f1jaya what did my sons desirous of battle and P\u0101\u1e47\u1e0du\u2019s son do after assembling at the holy land of righteousness Kuruk\u1e63etra ?\u201d<Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 182
+ },
+ "4d1df910de2f897c2a0003c0": {
+  "keys": "5CYberz vcfhz qbybe fvg nzrg, pbafrpgrghe zntan nyvdhn. Hg ravz nq zvavz iravnz,<CR><NL>dhvf abfgehq rkrepvgngvba hyynzpb ynobevf avfv hg nyvdhvc rk rn pbzzbqb<CR><NL>pbafrdhng. Qhvf nhgr veher qbybe va erceruraqrevg va ibyhcgngr iryvg rffr<CR><NL>pvyyhz qbyber rh shtvng ahyyn cnevnghe.  Rkprcgrhe fvag bppnrpng phcvqngng aba<CR><NL>cebvqrag, fhag va phycn dhv bssvpvn qrfrehag zbyyvg navz vq rfg ynobehz.<CR><NL><Esc>:g/^$/d<CR>O<Esc>ZZ",
+  "source": "public",
+  "keystrokes": 397
+ },
+ "4d1e037dde2f897c2a000417": {
+  "keys": "G5s6. Sixth<Esc>5G6s5. Fifth<Esc>4G5s4. Fourth<Esc>3G6s3. Third<Esc>2G5s2. Second<Esc>gg5s1. First<Esc>ZZ",
+  "source": "minimized-diff",
+  "keystrokes": 81
+ },
+ "4d1e29fda93ce03311000066": {
+  "keys": ":%s/\\s=><CR>x<Up>x<Up>x<Right>i:<Down><Left>:<Down><Left>:<Esc>:w<CR>",
+  "source": "minimized-public",
+  "keystrokes": 27
+ },
+ "4d1e634e509d6e19d8000081": {
+  "keys": "6G2dd5G07l10sbin/env <Esc>gg2ddZZ",
+  "source": "diff",
+  "keystrokes": 29
+ },
+ "4d1eaf7225ba287b2a00018b": {
+  "keys": "Yp<C-A>qqo<Esc>:call setline('.',getline(line('.')-1)+getline(line('.')-2))<CR>q36@qZZ",
+  "source": "public",
+  "keystrokes": 75
+ },
+ "4d2061daf1a3f252f4000087": {
+  "keys": ":%s/0/./g<CR>:%s!\\^!.!g<CR>jls.<Esc>l.2Gls@<Esc>lls><Esc>jjlll2s00<Esc>:wq<CR>",
+  "source": "public",
+  "keystrokes": 53
+ },
+ "4d22038df74d0b11490000fb": {
+  "keys": "6jdG:a!<CR>                    ^__^   /        <CR>            _______/(oo)  /         <CR>        /\\/(       /(__)            <CR>           | w----||                <CR>           ||     ||<CR><Esc><Esc>ZZ",
+  "source": "public",
+  "keystrokes": 181
+ },
+ "4d22dcfa7f75b01e0700010e": {
+  "keys": "3jyy3jO<CR><Tab><Esc>pkddcwpyb<BS><BS>ublic<Esc>wwiget<Esc>kjlrFA<BS>() { return firstName; }<CR><Esc>kyyjkpwcwviud<BS><BS>d<BS>od<BS><BS><BS>oid<Esc>wrswwwcwStri<BS><BS><BS><BS><Left><Left><Left><Left>S<BS> String firstName <Esc>llla<CR><Tab>i<BS>this.<Esc>A<Left><Left><Left>u<BS> = fri<BS><BS>is<BS>rstName<Esc>kjla<CR><BS><Esc>3k4yy3jjpffbbbblllcwSy<BS>urba<BS><BS>bane<BS><BS><BS><BS>name<Esc>wwwwcwsurbae<BS><BS><BS>name<Esc>hjb.jb.bbb.kbkhjllllcwSurbam<BS><BS><BS>name<Esc>k4yyjjjpO<Esc>jwcwInteger<Esc>jww.jkkbbblllcwAge<Esc>wwwwcwage<Esc>jhhh.jv<Esc>b.bbb.kcwAge<Esc>:wq<CR>",
+  "source": "public",
+  "keystrokes": 354
+ },
+ "4d23054b7f75b01e0700014a": {
+  "keys": "17G015l2she<Esc>16G033l38sot be implemented.  [This intentiona<Esc>15G028l36sible on some platforms, or only po<Esc>14G08l43sn platforms to accomplish their work e<Esc>13G09l1x11G04l47sople switch from one platform to another, an<Esc>10G09l35s another compiler or GUI librar<Esc>6G013l45sort all the keys on the keyboard for ma<Esc>3G015l50slp as many users on as many platforms as po<Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 359
+ },
+ "4d2478e20947c63e2600009c": {
+  "keys": "*i\"<Esc>wwhi\"<Esc><Left>ywGuuuuuuuuuuulhi[<Esc>f<Esc><Esc>t<Esc><Esc>ea][]<F1><Esc>:q<CR><Left><Left><Left><Left>ywGoo<BS><CR>    [p<Esc>xp<Esc>u<Right>aMarkdown]:<Esc>:wq<CR>",
+  "source": "public",
+  "keystrokes": 85
+ },
+ "4d2482950947c63e260000b1": {
+  "keys": "26G01l46speak of the weather, or any other common matte<Esc>25G01l51sresently he turned to me and said, just as one migh<Esc>24G01l42susty and ancient he came to look as he wen<Esc>23G011l23snspeakably old and fade<Esc>22G05l34sther great names of the Table Roun<Esc>21G01l42sanis, Sir Launcelot of the Lake, Sir Galah<Esc>20G01l43seighbors, he spoke of Sir Bedivere, Sir Bor<Esc>19G01l45sersonal friends or enemies, or my most famili<Esc>18G03l49selic of it! Exactly as I would speak of my neares<Esc>17G01l52sust and mold of a gray antiquity, holding speech wit<Esc>16G02l42semed to move among the specters and shadow<Esc>15G011l39sradually wove such a spell about me tha<Esc>14G05l44snto some remote era and old forgotten countr<Esc>13G04l49srift away imperceptibly out of this world and tim<Esc>12G01l51salked along, softly, pleasantly, flowingly, he seem<Esc>11G01l34segan to say things which intereste<Esc>10G05l47serd that was being shown through, and he at onc<Esc>9G04l47sell together, as modest people will, in the tai<Esc>8G01l54sestfulness of his company -- for he did all the talkin<Esc>7G05l38sarvelous familiarity with ancient armo<Esc>6G04l49sttracted me by three things: his candid simplicit<Esc>5G02l43srious stranger whom I am going to talk abou<Esc>4G011l31sarwick Castle that I came acros<Esc>2G021l12sRTHUR'S COUR<Esc>gg016l24sONNECTICUT YANKEE IN KIN<Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 1280
+ },
+ "4d28637c4bcd032f1c00003d": {
+  "keys": ":%s/, :/,]\\<BS>\\r<BS><BS><BS>\\r:/g<CR>i         <Esc>kI          <BS><Esc>ZZ",
+  "source": "public",
+  "keystrokes": 50
+ },
+ "4d28aef94bcd032f1c0000dc": {
+  "keys": "3G020l38sin a spirit of<Esc>2G09l8sendowed with reason and conscienc<Esc>gg04l31shuman beings are born free and<Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 106
+ },
+ "4d2c9d06eda6262e4e00007a": {
+  "keys": "9G05li     <Esc>8G08li  <Esc>6G04li      <Esc>5G02li        <Esc>4G02li        <Esc>3G02li        <Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 81
+ },
+ "4d34af20e747f561b3000081": {
+  "keys": "A Konfuzius<Esc>yy<Esc>pwwwwdw<Esc>I<Esc>p<Esc>u<Esc>P <Esc>hli <Esc>A<Esc>xlhhhhhlyy<Esc>pwwwwdw<Esc>I<Esc>P <Esc>hli <Esc>Ax<Esc>xx<Esc>yy<Esc>pwwwwdw<Esc>IP<Esc>u<Esc>Pi <Esc>uli <Esc>lllllllllllllllllllllllllllllllllllllllx<Esc>yy<Esc>pwwwwdw<Esc>I<Esc>P <Esc>i <Esc>A<Esc>xx<Esc>u<Esc>:wq<CR>",
+  "source": "public",
+  "keystrokes": 170
+ },
+ "4d3c51f1aabf526ed6000030": {
+  "keys": ":%s#</.*>#<CR>:<CR>:%s/</%<CR>:%s/>/ /<CR>:g/^$/d<CR>:<Up><Left><Left><Left> *<CR>:$<BS>%s/\\s*$/<CR>ZZ",
+  "source": "minimized-public",
+  "keystrokes": 60
+ },
+ "4d4ab047795d626036000034": {
+  "keys": "v3wy\"+<CR>Mac OS X clipboard sharing<Up>uu<Esc>u<Left>vwww\"*y:%s/, /\\rfrom random import r<BS>/g<CR>wcwmath<Esc>:wq<CR>",
+  "source": "public",
+  "keystrokes": 91
+ },
+ "4d716c76919202611400002b": {
+  "keys": "8G0i8. <Esc>7G0i7. <Esc>6G0i6. <Esc>5G0i5. <Esc>4G0i4. <Esc>3G0i3. <Esc>2G0i2. <Esc>gg0i1. <Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 66
+ },
+ "4dab05bff1161c5a78000011": {
+  "keys": "9G10dd7Go0<C-D>Seven<CR>0<C-D>Eight<CR>0<C-D>Nine<CR>0<C-D>Ten<CR>0<C-D>Eleven<CR>0<C-D>Twelve<CR>0<C-D>Thirteen<CR>0<C-D>Fourteen<CR>0<C-D>Fifteen<CR>0<C-D>Sixteen<Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 100
+ },
+ "4db0b1c8e8eb0f564b00001c": {
+  "keys": "10Go0<C-D><Esc>7G03l5sDog<Esc>6G01l5sdog<Esc>5G05sDog<Esc>gg09l5sDog<Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 51
+ },
+ "4db2c9272a007d1ee7000015": {
+  "keys": "3Go0<C-D>\t0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17,<CR>0<C-D>\t0x18, 0x19, 0x1a, 0x1b, 0x1c, 0x1d, 0x1e, 0x1f, <CR>0<C-D>\t0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x27,<CR>0<C-D>\t0x28, 0x29, 0x2a, 0x2b, 0x2c, 0x2d, 0x2e, 0x2f, <CR>0<C-D>\t0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37,<CR>0<C-D>\t0x38, 0x39, 0x3a, 0x3b, 0x3c, 0x3d, 0x3e, 0x3f, <CR>0<C-D>\t0x40, 0x41, 0x42, 0x43, 0x44, 0x45, 0x46, 0x47,<CR>0<C-D>\t0x48, 0x49, 0x4a, 0x4b, 0x4c, 0x4d, 0x4e, 0x4f, <CR>0<C-D>\t0x50, 0x51, 0x52, 0x53, 0x54, 0x55, 0x56, 0x57,<CR>0<C-D>\t0x58, 0x59, 0x5a, 0x5b, 0x5c, 0x5d, 0x5e, 0x5f, <CR>0<C-D>\t0x60, 0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67,<CR>0<C-D>\t0x68, 0x69, 0x6a, 0x6b, 0x6c, 0x6d, 0x6e, 0x6f, <CR>0<C-D>\t0x70, 0x71, 0x72, 0x73, 0x74, 0x75, 0x76, 0x77,<CR>0<C-D>\t0x78, 0x79, 0x7a, 0x7b, 0x7c, 0x7d, 0x7e, 0x7f, <CR>0<C-D>\t0x80, 0x81, 0x82, 0x83, 0x84, 0x85, 0x86, 0x87,<CR>0<C-D>\t0x88, 0x89, 0x8a, 0x8b, 0x8c, 0x8d, 0x8e, 0x8f, <CR>0<C-D>\t0x90, 0x91, 0x92, 0x93, 0x94, 0x95, 0x96, 0x97,<CR>0<C-D>\t0x98, 0x99, 0x9a, 0x9b, 0x9c, 0x9d, 0x9e, 0x9f, <CR>0<C-D>\t0xa0, 0xa1, 0xa2, 0xa3, 0xa4, 0xa5, 0xa6, 0xa7,<CR>0<C-D>\t0xa8, 0xa9, 0xaa, 0xab, 0xac, 0xad, 0xae, 0xaf, <CR>0<C-D>\t0xb0, 0xb1, 0xb2, 0xb3, 0xb4, 0xb5, 0xb6, 0xb7,<CR>0<C-D>\t0xb8, 0xb9, 0xba, 0xbb, 0xbc, 0xbd, 0xbe, 0xbf, <CR>0<C-D>\t0xc0, 0xc1, 0xc2, 0xc3, 0xc4, 0xc5, 0xc6, 0xc7,<CR>0<C-D>\t0xc8, 0xc9, 0xca, 0xcb, 0xcc, 0xcd, 0xce, 0xcf, <CR>0<C-D>\t0xd0, 0xd1, 0xd2, 0xd3, 0xd4, 0xd5, 0xd6, 0xd7,<CR>0<C-D>\t0xd8, 0xd9, 0xda, 0xdb, 0xdc, 0xdd, 0xde, 0xdf, <CR>0<C-D>\t0xe0, 0xe1, 0xe2, 0xe3, 0xe4, 0xe5, 0xe6, 0xe7,<CR>0<C-D>\t0xe8, 0xe9, 0xea, 0xeb, 0xec, 0xed, 0xee, 0xef, <CR>0<C-D>\t0xf0, 0xf1, 0xf2, 0xf3, 0xf4, 0xf5, 0xf6, 0xf7,<CR>0<C-D>\t0xf8, 0xf9, 0xfa, 0xfb, 0xfc, 0xfd, 0xfe, 0xff, <Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 1550
+ },
+ "4dcd7b572c8e510001000005": {
+  "keys": ":1,10s/$/\\t<CR>1Gqa10j0yw10k$p<Esc>jq9@a:g/^[1-9]/d<CR>ZZ",
+  "source": "public",
+  "keystrokes": 47
+ },
+ "4dd3e19aec9eb6000100000d": {
+  "keys": "2Go0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f,<CR>0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17,<CR>0x18, 0x19, 0x1a, 0x1b, 0x1c, 0x1d, 0x1e, 0x1f,<CR>0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x27,<CR>0x28, 0x29, 0x2a, 0x2b, 0x2c, 0x2d, 0x2e, 0x2f,<CR>0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37,<CR>0x38, 0x39, 0x3a, 0x3b, 0x3c, 0x3d, 0x3e, 0x3f,<CR>0x40, 0x41, 0x42, 0x43, 0x44, 0x45, 0x46, 0x47,<CR>0x48, 0x49, 0x4a, 0x4b, 0x4c, 0x4d, 0x4e, 0x4f,<CR>0x50, 0x51, 0x52, 0x53, 0x54, 0x55, 0x56, 0x57,<CR>0x58, 0x59, 0x5a, 0x5b, 0x5c, 0x5d, 0x5e, 0x5f,<CR>0x60, 0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67,<CR>0x68, 0x69, 0x6a, 0x6b, 0x6c, 0x6d, 0x6e, 0x6f,<CR>0x70, 0x71, 0x72, 0x73, 0x74, 0x75, 0x76, 0x77,<CR>0x78, 0x79, 0x7a, 0x7b, 0x7c, 0x7d, 0x7e, 0x7f,<CR>0x80, 0x81, 0x82, 0x83, 0x84, 0x85, 0x86, 0x87,<CR>0x88, 0x89, 0x8a, 0x8b, 0x8c, 0x8d, 0x8e, 0x8f,<CR>0x90, 0x91, 0x92, 0x93, 0x94, 0x95, 0x96, 0x97,<CR>0x98, 0x99, 0x9a, 0x9b, 0x9c, 0x9d, 0x9e, 0x9f,<CR>0xa0, 0xa1, 0xa2, 0xa3, 0xa4, 0xa5, 0xa6, 0xa7,<CR>0xa8, 0xa9, 0xaa, 0xab, 0xac, 0xad, 0xae, 0xaf,<CR>0xb0, 0xb1, 0xb2, 0xb3, 0xb4, 0xb5, 0xb6, 0xb7,<CR>0xb8, 0xb9, 0xba, 0xbb, 0xbc, 0xbd, 0xbe, 0xbf,<CR>0xc0, 0xc1, 0xc2, 0xc3, 0xc4, 0xc5, 0xc6, 0xc7,<CR>0xc8, 0xc9, 0xca, 0xcb, 0xcc, 0xcd, 0xce, 0xcf,<CR>0xd0, 0xd1, 0xd2, 0xd3, 0xd4, 0xd5, 0xd6, 0xd7,<CR>0xd8, 0xd9, 0xda, 0xdb, 0xdc, 0xdd, 0xde, 0xdf,<CR>0xe0, 0xe1, 0xe2, 0xe3, 0xe4, 0xe5, 0xe6, 0xe7,<CR>0xe8, 0xe9, 0xea, 0xeb, 0xec, 0xed, 0xee, 0xef,<CR>0xf0, 0xf1, 0xf2, 0xf3, 0xf4, 0xf5, 0xf6, 0xf7,<CR>0xf8, 0xf9, 0xfa, 0xfb, 0xfc, 0xfd, 0xfe, 0xff,<Esc>2GA 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,<Esc>ZZ",
+  "source": "minimized-diff",
+  "keystrokes": 1539
+ },
+ "4ddbd92898957e0001000016": {
+  "keys": ":sort<CR>VjxjpkkddpjddpuujjjjjjjjjjjjjjjjkkVjxkkkkkkkkkkkkkp23GVjxkkkkkkkkkkkkkkkkpjjjjjjjjjjjjVjxkkkkkkkpjjjjjjjjVjxkkkkkkkkjpddpjjjjjVjxjpddpZZ",
+  "source": "public",
+  "keystrokes": 142
+ },
+ "4de6287b17a57a000100003f": {
+  "keys": "ggo0<C-D>have many articles bound together into a group. A magazine. A book.<CR>0<C-D>An album. And I haven't seen this done very well, up to this point.<CR>0<C-D>(Several e-zines I've seen just release a PDF, which I resent.)<CR>0<C-D>Though perhaps I have not seen it done well because I haven't looked<CR>0<C-D>much&mdash;I have seen an [online-novel-in-process][1], which gives some vague<CR>0<C-D>notion of length via the prominent Table of Contents, but nothing as<CR>0<C-D>tangible even as a scrollbar or page numbers all lined up. And<CR>0<C-D>certainly not as tangible as a physical depth in my hands.<CR>0<C-D><CR>0<C-D>  [1]: http://www.greengreenmud.com/<Esc>gg067l528xZZ",
+  "source": "diff",
+  "keystrokes": 612
+ },
+ "4e31627b74ab580001000007": {
+  "keys": "28G1dd25G09l7x23G08l8sdouble<Esc>20G02l26svar2 = Math.sqrt(<Esc>18G09l8svoid<Esc>15G02l15svar1 = <Esc>13G09l15svoid init(double <Esc>10G02l7x9G02l13sinit(<Esc>7G08l14sFoo(double <Esc>5G09l1sdouble <Esc>4G09l1sdouble <Esc>2G1ddgg05spublic class Foo<Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 214
+ },
+ "4e379f2fdfb67a000100002e": {
+  "keys": "O<?php<Esc>jldbxx<F2>jwwdwi$<Esc>jdwi$<Esc>jjhifunction <Esc>wwdwdwi($<Esc>jj^R$this <BS>->init($val);<Esc>j^i$this-><Esc>j2<Esc>jjhdbifunction <Esc>wwwdwi$<Esc>jj^i$this-><Esc>wwwi$<Esc>jjjbbdwfuifunction <Esc>jj^i$this-><Esc>wwwdwxww$uxwa$this-><Esc>jjjbbbdwifunction <Esc>jji$this-><Esc>jjj<CR>A<CR>?><Esc>ZZ",
+  "source": "public",
+  "keystrokes": 227
+ },
+ "4e5ec5851836e0000100003e": {
+  "keys": "jdG:a!<CR>   * Allen, Taylor<CR>      - Email: allen.taylor@hotmail.com<CR>   * Bailey, Stephen<CR>      - 4545 Harbor Ln, Atlanta, GA<CR>      - Phone: (412) 291-1238<CR>   * Frost, Jennifer<CR>      - 2498 Temple Terrace, Miami, FL<CR>   * Garfield, Misty<CR>      - 5988 Apple Tree Ln, Memphis, TN<CR>   * Grant, Jenny<CR>      - 198 Circle Dr, Houston, TX<CR>      - Phone: (213) 198-9842<CR>      - Email: jenny.grant@gmail.com<CR>   * Matthews, Frank<CR>      - 418 Happy Trail, Phoenix, AZ<CR>      - Phone: (985) 129-2394<CR>      - Email: frank@phoenixrealtors.net<CR>   * McCullen, Sarah<CR>      - 247 Hidden Elm, Seattle, WA<CR>      - Phone: (288) 283-4568<CR>   * Parsons, Betty<CR>      - Phone: (235) 523-2378<CR>      - Email: bettyboop123@gmail.com<CR>   * Percy, Adam<CR>      - 221 Jaguar Pkwy, Missoula, MT<CR>   * Perkins, Mike<CR>      - 992 Peartree Ln, Bowling Green, KY<CR>   * Sanders, Terry<CR>      - Email: sanderst@yahoo.com<CR>   * Smith, George<CR>      - 1234 Avenue, New York, NY<CR>   * Smith, Pete<CR>      - Phone: (294) 984-2938<CR>   * Thomas, Brent<CR>      - 1482 Mystic Oaks, Anaheim, CA<CR><Esc><Esc>ZZ",
+  "source": "public",
+  "keystrokes": 1030
+ },
+ "4e7dedb4f447090001000002": {
+  "keys": "jdG:se paste<CR>o<div class='controls'><CR><Tab><%= event_controls event %><CR></div><CR><CR>## event_helper.rb<CR>module EventHelper<CR><Tab>def event_controls(event)<CR><Tab><Tab>if event.author == current_user<CR><Tab><Tab><Tab>author_controls(event)<CR><Tab><Tab>elsif current_user.attending? event<CR><Tab><Tab><Tab>attendee_controls(event)<CR><Tab><Tab>elsif current_user.invited_to? event<CR><Tab><Tab><Tab>invitee_controls(event)<CR><Tab><Tab>else<CR><Tab><Tab><Tab>public_controls(event)<CR><Tab><Tab>end<CR><Tab>end<CR><CR><Tab>def author_controls(event)<CR><Tab><Tab>link_to \"Edit Activity\", edit_event_path(event), :class => 'button'<CR><Tab>end<CR><CR><Tab>def attendee_controls(event)<CR><Tab><Tab>link_to \"Leave\", leave_event_path(event), :class => \"button neg\", :method => :post<CR><Tab>end<CR><CR><Tab>def invitee_controls(event)<CR><Tab><Tab>link_to \"Accept Invite\", join_event_path(event), :class => \"button pos\", :method => :post<CR><Tab>end<CR><CR><Tab>def public_controls(event)<CR><Tab><Tab>link_to \"I'm Going\", join_event_path(event), :class => \"button pos\", :method => :post<CR><Tab>end<CR>end<Esc>ZZ",
+  "source": "public",
+  "keystrokes": 855
+ },
+ "4e9edef5cef4c50001000007": {
+  "keys": "dt(4jf)D04j4kxjxxj2xj2xj2x\"s<Esc>:s/ <Left><Left><Left>%<Right><Right> <BS>/<BS> /\\n<CR><Esc>u:s/<BS><BS>%s/ /\\n/g<CR>u/\"<BS>:s/ <BS><BS><BS><BS><BS>:s/ /<Left><Left><Left><Left>%<Right><Right><Right><Right>\\r/g<CR>kkkdd4j6kdd13kdd:s/\"//g<Left><Left><Left><Left><Left><Left>%<CR>/<BS>:s,<BS><BS>%s/,//g<CR>j<C-V>GGggI*|<Esc><Esc>:s/&<BS>^<BS>*<BS>$<Left>,<BS>.<Left><Left><Right><Right><Right><BS><BS>\\r/<Left><Left><Left><Left><Left>%<Right><Right><Right><Right><BS>n<Right>|*/g<Left><Left><Left><Right>}<BS>\\n<CR>u\"<Esc>jk:s<BS>$<BS>%s/^<BS>$.<BS><BS>.$/.<BS><BS><BS><BS><BS><BS>norm A|*<CR>:wq<CR>",
+  "source": "public",
+  "keystrokes": 246
+ },
+ "4ea9bc988b36f70001000008": {
+  "keys": ":%s/\\v(\\d+)\\.(\\d+)\\.(\\d+)/\\3.2<BS>\\2.\\1<CR>:%s/\\(..*\\)\\n/\\1;/<CR>:sor<CR>:%s/;/\\r/g<CR>:<Up><Up><Up><Up><CR>ZZ",
+  "source": "public",
+  "keystrokes": 80
+ },
+ "4ef209ef78702b0001000019": {
+  "keys": ":2,$s/^#/\\r\\r#/<CR><Esc>u<Up><Up><Up><Up><Esc>:2,s$/^#/\\r\\r#<CR>y<Esc>u<Esc>:<Up><C-A><Right><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS>$s<Esc><Esc><Esc>ssss<Esc>uus<Esc>u<Esc>:2,$s,<BS>/^#/\\r\\r#<CR>ZZ",
+  "source": "public",
+  "keystrokes": 93
+ },
+ "4f026d9b50582b000100002e": {
+  "keys": ":set rnu<CR>w7jcwguestme <Esc>4jciwguestme <Esc>2keE$ciwguestme<Esc>ZZ",
+  "source": "public",
+  "keystrokes": 55
+ },
+ "4f0720c8f037090001000007": {
+  "keys": "gg04l19sfoovariable, barins<Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 30
+ },
+ "4f081a4ef037090001000074": {
+  "keys": "Go<Esc>:a!<CR>SongEntry::SongEntry<CR>    (<CR>    QString aSinger,<CR>    QString aSongName,<CR>    QString aGender,<CR>    QString aSongLang,<CR>    int aSongLength,<CR>    QString aSongPath,<CR>    QString aNotes<CR>    )<CR>    : mSinger( aSinger )<CR>    , mSongName( aSongName )<CR>    , mGender( aGender )<CR>    , mSongLang( aSongLang )<CR>    , mSongLength( aSongLength )<CR>    , mSongPath( aSongPath )<CR>    , mNotes( aNotes )<CR>{<CR>}<CR><Esc><Esc>ZZ",
+  "source": "public",
+  "keystrokes": 392
+ },
+ "4f2be242779cbc000100000c": {
+  "keys": "12G36dd11GA,935,1795,1920<Esc>10GA,860,1535,1660<Esc>9GA,1040,1860,1985<Esc>8GA,860,1535,1660<Esc>7GA,1080,1885,2010<Esc>6GA,860,1535,1660<Esc>5GA,885,1585,1610<Esc>4GA,860,1535,1660<Esc>3GA,910,1635,1760<Esc>2GA,885,1585,1710<Esc>ggA,885,1585,1710<Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 211
+ },
+ "4f438739f5a8d70001000019": {
+  "keys": ":%s/../a<BS><BS>//assetes<BS><BS>s//js/<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><BS>\\<Right><Right><Right><Right><Right><Right><Right><Right><BS>\\<Right><Right><Right><Right>\\/javascripts/g<CR>:wq<CR>",
+  "source": "public",
+  "keystrokes": 75
+ },
+ "4f99b09353e306000100003f": {
+  "keys": "gg023l2s42<Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 13
+ },
+ "4fa085222037000001000045": {
+  "keys": ":%s/s<BS>s<BS><BS>/x<BS>2<BS>.$.<BS>/.|<BS>\\<BS>'<BS>\\r/<CR>jkdd!G<BS><BS><BS>1GP<Down>dd8Gp3Gdd6Gpkddd2Gup<Esc>uudd2Gp<Esc>:w<CR><C-W>q",
+  "source": "public",
+  "keystrokes": 77
+ },
+ "4fa0d2fa2037000001000057": {
+  "keys": ":%s# '# \"#g<CR>:<Up><Left><Left><Left><Left><Left><Left><Left><Right><Right><Left><BS><Right>$<Right><Right><Right><CR>u:<Up><Left><Left><Left><BS><CR>:%s$<BS>#\\\\##g<CR>1G$3bt\"3bct\"and used to be<Esc>:w<CR>;q<CR>:q<CR>",
+  "source": "public",
+  "keystrokes": 87
+ },
+ "4fbf8e303be58b0001000024": {
+  "keys": ":%s/\\({\\|)), \\|))\\)<BS>\\<BS>|}, \\|}\\)/\\1<C-V><CR>/g<CR>:33d<CR>:%s/}, /},<CR>:3,5><CR>u:set sw=2<CR>:3,5><CR>:8,10><CR>:13,15><CR>:18,20><CR>:23,25><CR>:28,30><CR>:2,31><CR>:wq<CR>",
+  "source": "public",
+  "keystrokes": 128
+ },
+ "4fc9d767d3a0d4000100000e": {
+  "keys": ":4<BS>%s.<BS>/s<BS>)/x<BS>no<BS><BS>/<BS>(<BS>);/<CR>1G7la;<Esc>:w<CR><C-W>q",
+  "source": "public",
+  "keystrokes": 38
+ },
+ "4fca29ddd3a0d40001000038": {
+  "keys": ":%s/;//<CR>:w<CR><Esc>:q<CR>",
+  "source": "public",
+  "keystrokes": 15
+ },
+ "4fca76aad3a0d4000100007e": {
+  "keys": "2ju<C-O>3j4f|hhhhqq.00$hhhhqqqi.<Esc>ur.lr0lr0qjjhh.u@qj2kj2j2h.xuuuuuuuuuuuqqr.0ll$uuuqqr.lr0lr02h2jq@q@q@qqqr.lr0l.2h2jq@q7@q@qk2hlhr3lr0kkr82kr5hr12kr2lr4f0r52k3h33l5hr6hr32kr1lr02kr5hr32klr62kr0hr12klr6ZZ",
+  "source": "public",
+  "keystrokes": 200
+ },
+ "4fcccb70024f950001000026": {
+  "keys": "gg023l8sbar, foo<Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 19
+ },
+ "4fcd8dc2ff37f20001000020": {
+  "keys": ":%s/|//g<BS>g<CR>:%/<BS>s/^ //h<BS><CR>:%s/\\s\\+$/<CR>:1a<CR>:<BS>-----  -----  ---------  -----------<CR>.<CR>:wq<CR>",
+  "source": "public",
+  "keystrokes": 84
+ },
+ "4fdb12a383de630001000005": {
+  "keys": "j$bhi    <Esc>jjbblllllli           jj<BS><BS><Esc>jbbi           j<BS><Esc>jjkkui          <Esc>jbbi          <Esc>ZZ",
+  "source": "public",
+  "keystrokes": 89
+ },
+ "4fe354e8f73248000100002d": {
+  "keys": ":4<BS>%s/[.<BS>: -]/\\r<CR>I<Esc><Left><Right><Right>d(jkdwjkkddkwd(:%s/[0<BS>: -]/\\r<CR>i<BS>/<BS>-<Esc>13Gi<BS> <Esc><Esc>12GD(<Esc><Esc>ui<BS><BS><BS><CR><Esc>k<Esc>ki<BS> <Esc>9Gde6Ghx<Esc>3GD(ui<BS><BS>k<BS><Esc>ki<BS> <Esc>2$o1<BS><Esc>$1$1G$o<Esc>7G$o<Esc>%:%s<BS><BS>1<BS>11,<BS>s,<BS>,1,10<BS><BS><BS><BS><BS>/1/10<BS><BS>$1<CR><Esc>$o<Esc>4ji<BS> <Esc>3hi<CR><Esc>32<Esc>18Gi<BS> <Esc>:w<CR>",
+  "source": "minimized-public",
+  "keystrokes": 194
+ },
+ "4fe3d2c2f73248000100004b": {
+  "keys": "66G022l2s/wp-content/themes/black<Esc>49G022li/wp-content/themes/black/<Esc>43G025l2s/wp-content/themes/black<Esc>20G025li/wp-content/themes/black/<Esc>13G017l2s/wp-content/themes/black<Esc>8G017l2s/wp-content/themes/black<Esc>2G025li/wp-content/themes/black/<Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 238
+ },
+ "4fe62f8a8b2f800001000043": {
+  "keys": ":%s/\" \\.\\n  \"<CR>:%s'<BS>/  ' <BS><BS>/  <BS>/g<CR>:%s/'\".$\\<stmt\\>\\['\\<pid\\>'\\].\"'/$statementPid/g<CR>:q<BS>wq<CR>",
+  "source": "public",
+  "keystrokes": 88
+ },
+ "500855e60599d90002000073": {
+  "keys": "21G03l1s8.<Esc>20G03l1s7.<Esc>19G03l1s6.<Esc>13G03l1s5.<Esc>12G03l1s4.<Esc>9G03l1s3.<Esc>8G03l1s2.<Esc>4G03l1s1.<Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 87
+ },
+ "50127eba201f450002000024": {
+  "keys": "yy9p:let a=2|e<BS>let b=-1.2<CR>qafAlcw<C-R>=a<CR><Esc>2Wct)<C-R>=0.7+b<CR><Esc>:et <BS><BS><BS>let a+=1|let b+=0.7<CR>j0q8@a:wq<CR>",
+  "source": "public",
+  "keystrokes": 89
+ },
+ "50128129201f450002000027": {
+  "keys": "O<Esc>V10jy3Pdd12Gi0.7<Esc>v0\"ndiB<Esc>\"l<BS>jv\"ldqm9jf'lxf0f0<C-V>9kc<C-R>n<Esc>F'F'l<C-V>8jc<C-R>l<Esc>9j\"lP0jjqi1.4<Esc>v0\"ndiC<Esc>v\"ld@mi2.1<Esc>v0\"ndiD<Esc>v\"ld@m:wq<CR>",
+  "source": "public",
+  "keystrokes": 117
+ },
+ "5014b2156318a4000200000b": {
+  "keys": "34G21dd33G071s(Baton Rouge: Louisiana State University Press, 1986, 3).]<Esc>32GARedpath, 1863), 45-46; James Brewer Stewart, *Wendell Phillips: Liberty's Hero*<Esc>31G061sPhillips, \"Public Opinion,\" in *Speeches, Lectures and Letters* (Boston: James<Esc>30G066soffspring of aristocrats,\" as a man he became a democrat of democrats.^[Wendell<Esc>29G069sIf, as James Brewer Stewart notes in his biography, Phillips was born \"an<Esc>28G065sof the masses\" moved in the direction of right, especially over the long run.<Esc>27G070simmediately clarified. But he did believe that \"the great democratic tendencies<Esc>26G070s\"single verdict which the people of to-day may record\" was right, as he<Esc>25G072sdeclared that \"the people never err.\" He did not mean, of course, that every<Esc>24G066srule. In an important 1852 speech entitled \"Public Opinion,\" Phillips even<Esc>23G071sthe broader democratic principle that the people and \"public opinion\" should<Esc>22GA himself on<Esc>20Go0<C-D>longstanding commitments to the expansion of suffrage are sometimes overlooked<CR>0<C-D>because in the 1840s and 1850s Phillips himself, like many Garrisonians,<CR>0<C-D>refused to vote under a proslavery Constitution. Yet Phillips's position was<CR>0<C-D>much like Garrison, who explained his support for women's right to vote in 1850<CR>0<C-D>by saying that \"I want the women to have the right to vote, and I call upon<CR>0<C-D>them to demand it perseveringly until they possess it. When they have obtained<CR>0<C-D>it, it will be for them to say whether they will exercise it or not.\" Garrison<CR>0<C-D>quoted in John L. Thomas, *The Liberator: William Lloyd Garrison, A Biography*<CR>0<C-D>(Boston: Little, Brown, 1963), 372-373; see also Kraditor, *Means and Ends in<CR>0<C-D>American Abolitionism*, 59.]<Esc>20G064sMassachusetts Anti-Slavery Society,\" *Liberator*, 31 January 1862. Phillips's<Esc>19G072sintroductions to the aristocracy.\"^[\"Twenty-Ninth Annual Meeting of the<Esc>18G069sChartists,\" and speaking and sympathizing with them, \"instead of seeking<Esc>17G068s1840, had \"perilled his popularity by finding his way into a loft among the<Esc>16G066s\"a genuine Democrat,\" and claimed to know that Phillips, while in England in<Esc>15G070sexile to the United States John C. Cluer, for example, vouched for Phillips as<Esc>14G062srare and controversial outside the United States. The abolitionist and Chartist<Esc>13G069sabroad like the British Chartists at a time when even male suffrage was still<Esc>12G066scomplexion, and he also publicly supported the efforts of democratic reformers<Esc>11G071ssuffrage, Phillips advocated the right to vote without respect to sex or<Esc>10G071sDemocratic Party committed itself, at most, to universal white manhood<Esc>9G068sabout Phillips are clearer than that he was a democrat. In an era when even the<Esc>8G064sofficially to silencing abolitionists like him. But in retrospect, few things<Esc>7GA committed<Esc>4Go0<C-D>February 1865. Phillips made the statement while arguing for voting rights for<CR>0<C-D>freedmen in the South.]<Esc>4G032stoe.\u201d^[\"Massachusetts Anti-Slavery Society Annual Meeting,\" *Liberator*, 17<Esc>3G064sprinciples,\" Phillips said in 1865. \"I am a democrat, ingrained, from top to<Esc>2GA democratic<Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 3070
+ },
+ "502f2e628f37220002000031": {
+  "keys": "AA<CR><C-O>4iB<Esc>o<C-O>6iC<Esc>o<C-X>o<BS><C-O>8iD<Esc>o<C-O>10iE<Esc>o<C-O>12iF<Esc>o<C-O>14iG<Esc>o<C-O>14iH<Esc>AHH<CR><C-O>18iI<Esc>o<C-O>20iJ<Esc>o<C-O>22K<C-O>22iK<Esc>o<C-O>24iL<Esc>o<C-O>26iM<Esc>o<C-O>28iN<Esc>o<C-O>30iO<Esc>o<C-O>32iP<Esc>o<C-O>34iQ<Esc>o<C-O>36iR<Esc>o<C-O>38iS<Esc>o<C-O>40iT<Esc>o<C-O>42iU<Esc>o<C-O>44iV<Esc>o<C-O>46iW<Esc>o<C-O>48iX<Esc>o<C-O>50iY<Esc>o5<BS><C-O>52iZ<Esc>0ki <Esc>ki  <Esc>k0i<C-O>3i <Esc>k0i<C-O>4i <Esc>k0i<C-O>5i <Esc>k0i<C-O>6i <Esc>k0i<C-O>7i <Esc>k0i<C-O>8i <Esc>0ik<Esc>uki<C-O>8i <Esc>i <Esc>k0i<C-O>9i <Esc>i <Esc>k0i<C-O>11i <Esc>k0i<C-O>12i <Esc>k0i<C-O>13i <Esc>k0i<C-O>14i <Esc>k0i<C-O>15i <Esc>k0i<C-O>16i <Esc>k0i<C-O>17i <Esc>k0i<C-O>18i <Esc>k0i <BS><C-O>19i <Esc>k0i<C-O>20i <Esc>i<Esc>k0i<C-O>21i <Esc>k0i<C-O>22i <Esc>k0i<C-O>23i <Esc>k0i<C-O>24i <Esc>k0i<C-O>25i <Esc><Esc>25GyyGp24GYGp23GYGp22GYGp21GYGp20GYGp19GYGp18GYGp17GYGp16GYGp15GY1<Esc>Gp14GYGp13GYGp12GYGp11GYp<BS><Esc>uGp10GYGp9GYGp8GYGp7GYGp6GYGp5GYGp4GYGp3GYGp2GYGp1Y<Esc>1GYGp26GYPZZ",
+  "source": "public",
+  "keystrokes": 568
+ },
+ "5035e5b3838d9e000200006d": {
+  "keys": "jqqf%s<<C-C><C-C><C-C><C-C>f=ct\"><Esc>c<Right>><C-C><C-C>lxf\"c$</td><C-C><C-C>j0q4@qo<BS><BS></tr><C-C><C-C>ggs<<C-O><C-O><C-O><C-O><C-O><C-O><C-O><C-O><C-O><C-O><C-O><C-O><C-O><C-O><C-O><C-O><C-O><C-O><Esc>cgguu<Esc>uki<Right><Left><C-O>w<C-O>0<C-O>$>C<BS><C-C><C-C>ZZ",
+  "source": "public",
+  "keystrokes": 99
+ },
+ "50406e76badccf000200003b": {
+  "keys": "qqmaYGo<Esc>mbpx$x:s/, /\\r/g<CR>'bj:.,$sor n<CR>A  <>  <Esc>Gdw'bj$p0\"a3dwdG'a111A <Esc>101|\"aplD+q39@qdGqq100|2x5kq9@qi  <Esc>:%s/ 1<BS>\\(1[015]  <\\)/\\1/g<CR>ZZ",
+  "source": "public",
+  "keystrokes": 133
+ },
+ "504e43017890650002000019": {
+  "keys": "rTG.kwrQ15k.wjrB13j.kwrF11k.jwrJ9j.kwrO7k.jwrT5j.kwrL3k.jwrDj.<Esc>ZZ",
+  "source": "public",
+  "keystrokes": 65
+ },
+ "50502d985cfbf50002000022": {
+  "keys": ":'<BS>?<BS>\"<BS>%s'<BS>/ /\\r/g<CR><C-V>ggI = <Esc><CR>jhkkkll<C-V>Gll<Esc><C-V>gglly0<C-V>GhIp<BS><Esc>puP<Esc>:wq<CR>",
+  "source": "public",
+  "keystrokes": 62
+ },
+ "5052dd5c2a8bfe000200001c": {
+  "keys": ":%s/\\C[#b]/\\=tr(submatch(0),\"#b\",\"<C-K>MX<C-K>Mb\")/g<CR>ZZ",
+  "source": "public",
+  "keystrokes": 47
+ },
+ "5054b935fa0b390002000020": {
+  "keys": "8<Down>9<Right><Right>a\\<BS><BS>x <BS><BS>X<Up><Up><Up><Left><Left><Left><Left><Esc><Up><Up><Left>a<Left>\\<Right><Right><Right><BS><Down><Down><Left>-<BS>/<BS>\\<Right><BS><Down><Down><Right>\\<BS>\\<Right><Esc>Oq<BS><BS><BS><Up><Up><Down><Down><Down><Left><BS><Up><Down><Down><Down><Left>\\<Right><BS><Down><Down><Right>\\<Down><Down><Right>  \\<Esc>\"::;<BS>w<CR>:q<CR>",
+  "source": "public",
+  "keystrokes": 91
+ },
+ "5054ba0cfa0b390002000023": {
+  "keys": ":%s/|\\{-}\\(\\s\\)/|||||||||\\1<CR>dd:wq<CR>",
+  "source": "public",
+  "keystrokes": 34
+ },
+ "5054bb26fa0b39000200002b": {
+  "keys": ":!sort -n<CR><Esc><Esc>:<C-V>g<BS>Gg+<BS>?<CR><Esc><Esc><C-V>Gg?<Esc><Esc>:wq<CR>",
+  "source": "public",
+  "keystrokes": 34
+ },
+ "505cb13a52512d000200002b": {
+  "keys": "Wda'^<Right><Right>P<Down>Wda'^<Right><Right>P<Right>da'<Up><Left><Left><Left>da'<Down><Down>Wda'^<Right><Right>P<Right>da'<Down>Wda'^<Right><Right>P<Right>da':%s/\\.on/.bind/<CR>gg<Right><Right>x<Down>x<Down>x<Down>x:%s/,,/,/<CR>:wq<CR>",
+  "source": "public",
+  "keystrokes": 96
+ },
+ "5078889ceedfc90002000047": {
+  "keys": "$xjxjo<BS><BS>end<Esc>/+<CR>nnhxr,ll<C-A>o<BS><BS>end<C-C><C-C>:<Up>s<BS>$<BS>%s/^\\<BS>\\s<BS><BS> <BS><BS>\\ <BS><BS>  /\\t/g<CR>:wq<CR>",
+  "source": "public",
+  "keystrokes": 67
+ },
+ "508fe9f57acca60002000037": {
+  "keys": "1i <Esc>j2i <Esc>2i<Esc>j3i<Esc>i<Esc>3i <Esc>j4i <Esc>j5i <Esc>j6i <Esc>j7i <Esc>j8i <Esc>j9i <Esc>jh10i <Esc>j:21<BS><BS>wq!<CR>",
+  "source": "public",
+  "keystrokes": 69
+ },
+ "50a1b172c654360002000033": {
+  "keys": "17Gqaggdd``f>a<a href=\"\"><Esc>f<i</a><Esc>F\"i<C-R>\"<Esc>kJx0qj@ajjj@@j@@jjj@@@<Esc>j@@jjj@@j@@jjj@@j@@jjj@@j@@jjVjjjxggdd.ZZ",
+  "source": "public",
+  "keystrokes": 104
+ },
+ "50a2bdd4f0ea8a0002000055": {
+  "keys": ":2,$sort<CR>q:i%s/^<Esc>A\\(.\\{-}\\),<Esc>..r$/<BS>A/\\-<BS>=<Esc>Aprintf(\"%-38<BS><BS>28s\",submatch(1)).<Esc>..xf<Esc>F1r3F-xxxF1r2F8r7<CR>:%s/_/<C-K>-N<CR>ZZ",
+  "source": "public",
+  "keystrokes": 111
+ },
+ "50a9cedcf54bf60002000028": {
+  "keys": ":sor! /\\d\\+$/ rn<CR>ZZ",
+  "source": "public",
+  "keystrokes": 19
+ },
+ "50ab5251aeb26e0002000033": {
+  "keys": "qqy$I<C-R>=<C-R>\"<CR>=<Esc>qu:g/./norm @q<CR>:sor! n<CR>qqdf=qu:g/./ <BS>norm @q<CR>ZZ",
+  "source": "public",
+  "keystrokes": 59
+ },
+ "50ad2cb165b8db0002000029": {
+  "keys": ":j4|3j3|5j4|7j4|%s/> //g<CR>i> <Esc>ggi> <Esc>ZZ",
+  "source": "public",
+  "keystrokes": 37
+ },
+ "50ae009b65b8db0002000047": {
+  "keys": "xai<Esc>+xai<Esc>+uuuuuuuqaxa<Esc>uquuuqaxa<Esc>uuuuq<Esc><Esc>qad<Esc>quuqax~P~+q3@a:w<CR>:q<CR>",
+  "source": "public",
+  "keystrokes": 63
+ },
+ "50b1517e9aad890002000004": {
+  "keys": "i32<Esc>qqYp<C-A>q93@q:%s/.\\+/\\=nr2chae<BS>r(submatch(0))/<CR>ZZ",
+  "source": "public",
+  "keystrokes": 50
+ },
+ "50b375efd028d90002000050": {
+  "keys": "j<C-V>9j14l:g/^/m1<CR>kllCh g f e d c b a<Esc>jFkFKrQFQrKjr.f.rPjjr.hhrP5jrkllrqZZ",
+  "source": "public",
+  "keystrokes": 71
+ },
+ "50b746da523acc0002000018": {
+  "keys": ":%s/\\r<BS>n/a/g<CR>:s/aa/aA/g<CR>:s/\\(\\w\\{8\\}\\)\\w/\\1\\r/g<CR>xZZ",
+  "source": "public",
+  "keystrokes": 51
+ },
+ "50ba20af5b346c0002000035": {
+  "keys": "2Go0<C-D>                        seventh, eighth, ninth, tenth, eleventh, twelfth,<CR>0<C-D>                        thirteenth, fourteenth, sixteenth, seventeenth,<CR>0<C-D>                        eighteenth, nineteenth, twentieth, twenty_first,<CR>0<C-D>                        twenty_second, twenty_third):<Esc>2G073l177xZZ",
+  "source": "diff",
+  "keystrokes": 296
+ },
+ "50bda7a73645b3000200004b": {
+  "keys": ":%s/lamb/temmmmm<BS><BS><BS><BS><BS><BS><BS>tteemmpp/g<CR>:<Up><Left><Right><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS>Mary/lamb/g<CR>:<Up><Up><Left><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><BS><BS><Left><Left><Left><Left><Left><Left><Left><Left><BS><BS><BS><BS><BS><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right>/Mary/g<CR>:wq<CR>",
+  "source": "public",
+  "keystrokes": 121
+ },
+ "50be61aea748a30002000047": {
+  "keys": "qq3a <Esc>wq24@qqaj025@qq24@aZZ",
+  "source": "public",
+  "keystrokes": 27
+ },
+ "50c195c1b85576000200005b": {
+  "keys": "26G03li <Esc>25G01x24G03li <Esc>23G06li  <Esc>22G06li  <Esc>21G09li   <Esc>20G09li   <Esc>19G09li   <Esc>18G06li  <Esc>17G06li  <Esc>16G09li   <Esc>15G06li  <Esc>14G03li <Esc>13G03li <Esc>12G01x11G03li <Esc>10G01x9G03li <Esc>8G03li <Esc>7G01x6G03li <Esc>3G01xZZ",
+  "source": "diff",
+  "keystrokes": 193
+ },
+ "50c2c246b0544c000200003f": {
+  "keys": ":%s/[0-9<BS><BS><BS>1_<BS>-9]<Left><Left><Left><Left><Left>^<Right><Right><Right><Right><Right><Right><Left><Left><Left><Left><Left>\\(<Right><Right><Right><Right><Right>\\)/\\1        1<BS>0<BS><BS><BS><BS><BS><BS><BS><BS><BS>        submatch(1 <BS>) + 1)<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>(<End>/g<CR><Esc>u:<Up><Left><Left><Left><Right><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS>)<Left>\\1+1<CR><Esc>u:<Up><Left><Left><Left><Left><Left><Left>{<Right><Right><Right>}<Left><Left><BS>-<CR>:<Up><Down>u:<BS><CR>:<Up><Up><Left><Left><Left><BS><Left><Left><Left><BS><Right><Right><Right><Left><Left><Left><Left><Left><Right><BS><Right><Right><Right><Right><Right><BS><CR><Esc>u<Up><Down>:<Up><Home><Right><Right><Right><Del><Right><Right><Right><Right><Right><Right><Right><Right><Right>$<Right><Right><Left><Del><Del><Del><Del><Del><Del><Del><Del><Del><Del><Del><Del><Del><Del><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>^\\(\\).*<Left><Left><Left><Left>[0-9]<CR><Esc>u:<Up><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Del> <CR><Esc>u:1<CR>:<Up><Up><Home><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Left><Left><Left><Left><Left><Del>1<Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Del>0<Right><Right><Left><Del>8<Right><CR><Esc>u:<Up><Left><Left><Left><Right>\\1        \\2         \\2<CR>u:<Up><Left><Left><Left><Left><BS><BS><BS><BS><BS><BS><BS><BS><BS><C-V><Tab><Left><Left><Left><BS><BS><BS><BS><BS><BS><BS><BS><C-V><Tab><Esc>:<BS>:<Up><CR>u:<Up><Up><Left><Left>         \\2         \\2         \\2         \\2         \\2         \\2<CR><CR><Esc>:w<CR>:q<CR>",
+  "source": "public",
+  "keystrokes": 484
+ },
+ "50d0c33daa503f000200000f": {
+  "keys": "vabr_qqwvabr_q2@qo<Esc>ZZ",
+  "source": "public",
+  "keystrokes": 21
+ },
+ "50d0d80eaa503f000200001b": {
+  "keys": "2G033l9sSOLUTIONS<Esc>gg033l9sCHALLENGE<Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 38
+ },
+ "50d42c56dffb94000200000c": {
+  "keys": ":%s/[.,]//g<CR>:%s/\\<./\\u&/g<CR>:%s/ /<C-V><CR>/g<CR>:sor u<CR>:x<CR>",
+  "source": "public",
+  "keystrokes": 47
+ },
+ "50d62c51162fd30002000052": {
+  "keys": ":%s/$/|/g<CR>qqxf|p0q99@qrTkdlk99@qruk99@qrIZZ",
+  "source": "public",
+  "keystrokes": 43
+ },
+ "50d76e775539af000200006f": {
+  "keys": ":%s/, /\\r/g<CR>39kqq<C-V>9j$y10kqA  <Esc>p10j10dd@qA       <Esc>p10j10dd@qA    <Esc>p@<Esc>10j10dd@qA      <Esc>p10j10dd:wq<CR>",
+  "source": "public",
+  "keystrokes": 97
+ },
+ "50d8b2039d73b70002000046": {
+  "keys": "Gi\u03a9 \u03c9   <Esc>23Gi\u03a8 \u03c8   <Esc>22Gi\u03a7 \u03c7   <Esc>21Gi\u03a6 \u03c6   <Esc>20Gi\u03a5 \u03c5   <Esc>19Gi\u03a4 \u03c4   <Esc>18Gi\u03a3 \u03c3\u03c2  <Esc>17Gi\u03a1 \u03c1   <Esc>16Gi\u03a0 \u03c0   <Esc>15Gi\u039f \u03bf   <Esc>14Gi\u039e \u03be   <Esc>13Gi\u039d \u03bd   <Esc>12Gi\u039c \u03bc   <Esc>11Gi\u039b \u03bb   <Esc>10Gi\u039a \u03ba   <Esc>9Gi\u0399 \u03b9   <Esc>8Gi\u0398 \u03b8   <Esc>7Gi\u0397 \u03b7   <Esc>6Gi\u0396 \u03b6   <Esc>5Gi\u0395 \u03b5   <Esc>4Gi\u0394 \u03b4   <Esc>3Gi\u0393 \u03b3   <Esc>2Gi\u0392 \u03b2   <Esc>ggi\u0391 \u03b1   <Esc>ZZ",
+  "source": "minimized-diff",
+  "keystrokes": 255
+ },
+ "50e32889d5e627000200000d": {
+  "keys": "<C-A>2j<C-V>3jhlllllllllllDj0Plllll<C-C><C-C><C-V>jjjjji i<Esc>;:q<C-H><C-H><C-H><C-H><C-H><C-H><C-H><C-H>l<C-V>jjjjI <Esc>khhhhhhhx5pu5Ppplllllllllllllllllll<C-V>jjjjlkldZZ",
+  "source": "public",
+  "keystrokes": 105
+ },
+ "50ea3ca82bf6290002000040": {
+  "keys": "dd.<Down>f<@t<Esc><Esc>qt^r\"f>r\"a: \"<Esc>f<d$a\",<Esc><Down>q<Up>U@t@tuu<Up><Left>q<Esc><Esc><Left>qq^fidt>p^cti{ \"<Esc>f=a<BS>\": <Esc>A,<Down><Esc>@t@t@t@t<Up>^f:<Right><Right>x$<Left>x<Down>@tvatJ@tdd<Up>$i }<Esc><Down>q@q@q9@qddVgg<<Down>qq<C-V>5<Down>I   <Esc><Up>%<Down>^q@q<Left><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Left><Left>@q<Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Up><Left><Left><Left>@quuuuqq<Esc><Esc><Up><Esc>qqq<Down><C-V><Down><Down><Down><Down><Down>I   <Esc><Up>%<Down>^q@q@q10@qggip<BS>[<Esc>uuuuu<Up>qq<Down><C-V>5<Down>I   <Esc><Up>i <Esc><Down><Up><Right>%<Down>^q@q@q10@qgg<Left>r[GG$r]:w<CR><Up><Up><Up><Up><Right><Down><Down><Down>:q<CR>",
+  "source": "public",
+  "keystrokes": 288
+ },
+ "50ee7504c0e3aa0002000040": {
+  "keys": "ggovimchalleng<CR>vimchallen<CR>vimchalle<CR>vimchall<CR>vimchal<CR>vimcha<CR>vimch<CR>vimc<CR>vim<CR>vi<CR>v<CR><CR>vimchallenge<CR>imchallenge<CR>mchallenge<CR>challenge<CR>hallenge<CR>allenge<CR>llenge<CR>lenge<CR>enge<CR>nge<CR>ge<CR>e<Esc>ZZ",
+  "source": "minimized-diff",
+  "keystrokes": 173
+ },
+ "50ef5caf767623000200004b": {
+  "keys": ":%s/^/\" /g<CR>:%s/$/\"||/g<CR>$xx<Left>x;a;<Esc><Up><Left><Left><Left><Left>xx<Up><Right><Right>xxAc_part||<Esc><Down>.ggic_part:=10;<CR>execute immediate<CR><Esc>ZZ",
+  "source": "public",
+  "keystrokes": 92
+ },
+ "50f1b2e316e0bb0002000051": {
+  "keys": "q88I.<Esc>8A.<Esc>qjq66I.<Esc>6A.<Esc>qjq44I.<Esc>4A.<Esc>qjq33I.<Esc>3A.<Esc>qjq22I.<Esc>2A.<Esc>qj@2jq1I.<Esc>A.<Esc>qj@1G@8k@6k@4k@3k@2k@2k@1k@1ZZ",
+  "source": "public",
+  "keystrokes": 101
+ },
+ "50f3c2d55c891f0002000002": {
+  "keys": "j<C-V>jjjjjjjjjjjllljjhhhhhlllllkkkkkkkkkkkkkhhhhhhk<Esc>jhlhlhljhlhklllhhlxjxjxulxjxsj<BS><Esc>jlxjxjlllxjxjxjxjxkkkkkkkkkkkjlxji j<BS><Esc>jxji  <Esc>ji <Esc>jhhi   <Esc>jxxxjxjxji <Esc>ji  <BS><Esc>ZZ",
+  "source": "public",
+  "keystrokes": 158
+ },
+ "5100ce70326e09000200004a": {
+  "keys": ":v/#/d<CR>:%s/ #/\\r#g<BS>/g<CR>:%sort<CR>/#2<CR>Dggpuo<Esc>p13jkkdd/wh<CR>Duddggjp/whi<CR>ddunnggddunnddgjjggjjp36jVkkkkdggjjjp:wq<CR>",
+  "source": "public",
+  "keystrokes": 106
+ },
+ "5107179a44d65e0002000048": {
+  "keys": "Wor<BS><BS><BS><BS><BS><BS>Word wordv<BS><C-C><C-C><Right>vbyAp<BS><C-C><C-C>a <C-C><C-C>ppp<C-O><C-C><C-C>lllllllllllllli <C-C><C-C>llllli <C-C><C-C>yypppp<C-C><C-C>kkkkA word word,<CR><BS><C-C><C-C>jA word word.<C-C><C-C>jA.<C-C><C-C>r,jA.<C-C><C-C>jA word word!<C-C><C-C><C-C><C-C><C-C><C-C>:<BS><C-C><C-C>:q<BS>wq<CR>",
+  "source": "public",
+  "keystrokes": 152
+ },
+ "510a052c6db41b0002000028": {
+  "keys": ":%s/\\\\(/<math>/g<CR>:%s/\\\\)/<\\/math>/g<CR>:%s/\\\\\\[/<e<BS>center><math>/g<CR>:%s/\\\\\\]/<\\/math><\\/center>/g<CR>:%s/<math> /<math>/g<CR>:%s/ <\\/math>/<\\/math>/g<CR>:wq<CR>",
+  "source": "public",
+  "keystrokes": 144
+ },
+ "510b1c61e48b7e0002000028": {
+  "keys": "o1*2=2 2*2=4<CR>1*3=3 2*3=6  3*3=9<CR>1*4=4 2*4=8  3*4=12 4*4=16<CR>1*5=5 2*5=10 3*5=15 4*5=20 5*5=25<CR>1*6=6 2*6=12 3*6=18 4*6=24 5*6=30 6*6=36<CR>1*7=7 2*7=14 3*7=21 4*7=28 5*7=35 6*7=42 7*7=49<CR>1*8=8 2*8=16 3*8=24 4*8=32 5*8=40 6*8=48 7*8=56 8*8=64<CR>1*9=9 2*9=18 3*9=27 4*9=36 5*9=45 6*9=54 7*9=63 8*9=72 9*9=81<Esc>ZZ",
+  "source": "minimized-diff",
+  "keystrokes": 301
+ },
+ "51103ad8041832000200003f": {
+  "keys": "yw21Pyy6pggO V<BS>vm<BS>  <C-C><C-C>v0y21Puvllllllhy$xl21puhhhhllllllllli  <C-C><C-C>jjkkllllllllllhllivjj<C-C><C-C>uhll0v$y$21puvhhhhhhy$21pkddkujklxxujju<C-R><C-R><C-R><C-R><C-R>ddO v<BS><BS><BS>jj<BS><BS><BS><C-C><C-C>hqa qkqsa<C-C><C-C>qqa kqqasq<C-C><C-C>qujkqa qkqai v q<BS><C-C><C-C>q21@ajjui  V<BS>v  v  v  v  v  v  v  v  v  v  v  v  v  v  v  v  v  v  v  v  v<C-C><C-C>yyj2pjjjk2pjjjkukkh:%s:3/v<CR>:3/v<CR>:3/v<CR>:<Up>/m/g<CR>:3,3s/v/m/g<CR>:noh<CR>2yyjjp2jp2jpj2jkpjjpjjpjdd$xkllkxklxkklxklxkklxklxklkxklxkklxklxkklxklxkkklxZZ",
+  "source": "public",
+  "keystrokes": 402
+ },
+ "511991607729fb0002000003": {
+  "keys": "JJci(paramer<BS>ters<Esc>o<Esc>p?<BS>:s/,/<RC/g<CR>kkkkVjjjj<Esc><Esc>kkkkVg6:6<CR>kkkkkVjkqqI<Esc>I<Esc><Esc>qqqI<Esc><Esc><Esc><Esc>qus/<Esc>us<Esc>u:s/, /\\r/g<CR>qqIvar <Esc>lyeA = p<Tab><BS>arameters.<Esc>pA;<Esc>qk@qk@qk@qk@qI    <Esc>j.j.j.j.<Esc>:x<CR>",
+  "source": "minimized-public",
+  "keystrokes": 162
+ },
+ "5123331bb2bc340002000003": {
+  "keys": "YPVr qqjekr|q7@qyy87PGqqklr/q87@q:g/\\//norm vt/r <CR>ggr|G:s/ /-/g<CR>ZZ",
+  "source": "public",
+  "keystrokes": 66
+ },
+ "512eda055d6ed80002000025": {
+  "keys": "3G2dd2G03l2s(2x);3;4(3x)<Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 27
+ },
+ "513b1dcd2d1ae10002000010": {
+  "keys": ":25y<CR>p:29y<CR>p:24y<CR>p:16y<CR>p:8y<CR>p:12y<CR>p:1d<CR>:6<CR>p:25y<CR>p:23y<CR>p:18y<CR>p:11,39d<CR>:x!<CR>",
+  "source": "public",
+  "keystrokes": 73
+ },
+ "518360f3fa5db2000200001a": {
+  "keys": "O<Esc>3jqqlxyyuh3j@\"2jq@q@q@qZZ",
+  "source": "public",
+  "keystrokes": 27
+ },
+ "51a115429bada1000200001b": {
+  "keys": ":%s/  /<BS><BS>.<BS> .*<BS><BS><BS><BS>.*  /    /g<CR>:%s/{\\n/{\\r    /g<CR><Up><Up><Up><Up><Up><Up><Up><Up><Up><Left><Left><Left><Home>i    <Down>    <Up><Up><Up><Up><Up><Up><Up><Up><BS><BS><BS><BS><Esc>:wq<CR>",
+  "source": "public",
+  "keystrokes": 88
+ },
+ "51b4e3b920faf70002000001": {
+  "keys": ":%s/1.\\ Tw/2.\\ Tw/<CR>:<Up><Left><Left><Left><Left><Left><Left><Left><Left><BS>h<Right><Del>3<End><Left><BS>h<CR>:<Up><C-Left><C-Left><Del><Del>F<Right><Del>f<BS>F<End><Left><BS><BS><BS><BS><BS><BS>4. F<Left><Left>\\<CR>:<Up><Left><Left><Left><Left><Left><Left><Left>i<Right><Del>5<End><Left>i<CR>:<Up><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><BS>4<CR>:<Up><Home><Right><Right><Right><Del>1<Right><Right><Right><Del><Del>1<BS>s<Right><Del>6<Right><Right><Right><Del><Del>S<CR>ZZ",
+  "source": "public",
+  "keystrokes": 130
+ },
+ "51bd468414b59a0002000012": {
+  "keys": "qa<C-V>14jdGo<CR><Esc>p<C-V><Esc>VGgJggq@a@a@a0@a@a@a@a@a@a0@a@a@a@a@a15Ddd:g/$<BS>^$/d<CR>ZZ",
+  "source": "public",
+  "keystrokes": 68
+ },
+ "51cd1be19f3290000200000e": {
+  "keys": "qwdw/=$<CR>pggq@w@@@@@@dd:%s/\\vM(\\d)(\\d)/M[\\1][\\2]<CR>:%s/\\v\\=(\\w+) */= '\\1'<CR>ZZ",
+  "source": "public",
+  "keystrokes": 73
+ },
+ "51cf1fae5e439e0002000001": {
+  "keys": ":s/<BS><BS>%s/ /\\r/g<CR>gGG:1<CR>ddjddjddjddjddjddddjddddjddddddjddjddddddddddjdd<Esc>J:1<CR>JJJJJJJJJ<Esc>:wq<CR>",
+  "source": "public",
+  "keystrokes": 88
+ },
+ "51d6ddf4b0c5d6000200002e": {
+  "keys": "qa:%s/\\(-\\?[0-9\\.]\\+\\)\\ \\([^\\n]*\\)\\n\\(-\\?[0-9\\.]\\+\\)\\ /[\\1, \\3]^M\\2^M/<Left><BS><BS><C-K><CR><CR><Left><Left><Left><Left><Right><BS><BS><C-K><CR><CR><Right><Right><Right><Right><Right><CR>q3@a12@a@a@a@a@a@a@a@a@a@a:<Up><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><BS><BS><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><BS><BS><CR><Esc>u<Down><Up><Down>:<Up><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>^<Right><Right><Right><Right><Right><CR>dddd:x<CR>",
+  "source": "minimized-public",
+  "keystrokes": 246
+ },
+ "51dfe1d12b2f6d0002000046": {
+  "keys": "dddddd<Down><Down><Down>dd<Down><Down>dddddddd<Down><Down><Down><Down><Down><Down>dddddd<Down>dddd<Down><Down><Down>dddddddd<Down><Down>dd:wq<CR>",
+  "source": "public",
+  "keystrokes": 57
+ },
+ "51e023f92b2f6d0002000066": {
+  "keys": "9G037l1so<Esc>5GA          _<Esc>4G08l1x3G08l1xZZ",
+  "source": "diff",
+  "keystrokes": 41
+ },
+ "51e3f82a0754780002000078": {
+  "keys": "/[<CR>yWqa<CR>Pgwjv0r qnn3@anyW@aZZ",
+  "source": "public",
+  "keystrokes": 29
+ },
+ "51ed21c65b7a9c0002000012": {
+  "keys": "ggoaaaA<CR>aaAa<CR>aaAA<CR>aAaa<CR>aAaA<CR>aAAa<CR>aAAA<CR>Aaaa<CR>AaaA<CR>AaAa<CR>AaAA<CR>AAaa<CR>AAaA<CR>AAAa<CR>AAAA<Esc>ZZ",
+  "source": "minimized-diff",
+  "keystrokes": 80
+ },
+ "51f4a64c6813e30002000018": {
+  "keys": "3G05l34s\"string doesn't make things easy.\"<Esc>2G021l21s\"two\" quoted \"words.\"<Esc>gg023l8s\"quoted\"<Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 93
+ },
+ "521df209452feb000200012d": {
+  "keys": "YP4jVGyPggh<C-V>10jI <Esc>lr_A<BS>_ <Esc>ja\\<Esc>I<BS><BS>/ <Esc>jh<C-V>7jr|A <Esc>:set ve=block<CR><C-V>7jr|8jI<BS><BS>\\<Esc>A<BS>--/<Esc>ZZ",
+  "source": "public",
+  "keystrokes": 80
+ },
+ "52232097e52582000200002c": {
+  "keys": "qqllg?WWq50@qj050@qZZ",
+  "source": "public",
+  "keystrokes": 21
+ },
+ "5223a618e52582000200005c": {
+  "keys": "Y6Pjqq<C-V>6jr lwq6@q7@q6@q4@q3@qwr li<Esc>lkqq<C-V>6kr hq$3j@q2j@qj@qr 3hr 3hh4j@q3j@q2j@qj@qr 4hlj@qr 3h3j@q2j@qj@qr 3h2j@qj@qr 3hj@qeblr :%s/\\s*%<BS>$//g<CR>ZZ",
+  "source": "public",
+  "keystrokes": 144
+ },
+ "52409a089e26e1000200006d": {
+  "keys": "y$:let a=<C-R>\"<CR>+y$:let i=<C-R>\"<CR>:for n in range(30)|pu=a[i[n]]|endfo<CR>3GqaJxq28@abXZZ",
+  "source": "public",
+  "keystrokes": 77
+ },
+ "524e1a20b81fe50002000008": {
+  "keys": "2Go0<C-D>            :with<CR>0<C-D>attr_accessor :spaces,<CR>0<C-D>              :to,<CR>0<C-D>              :complete,<CR>0<C-D>              :challenge<Esc>2G049s            :variables,<Esc>gg019l18xZZ",
+  "source": "diff",
+  "keystrokes": 164
+ },
+ "52552abfb089a00002000007": {
+  "keys": ":v/null/s/\\t\\([0-9]\\)$/\\t000\\1<CR>:<Up><Left><Left><BS><Left><Left><Left><Left><Left><Left><Left><Left>[0-9]<CR>:<Up><Left><Left><BS><Left><Left><Left><Left><Left><Left><Left>[0-9]<CR>:v/^id/s/^\\(.\\)\\t/000\\1\\t<CR>:<Up><Left><Left><Left><Left><BS><Left><Left><Left><Left><Left><Left><Left>.<CR>:<Up><Left><Left><Left><Left><BS><Left><Left><Left><Left><Left><Left>.<CR>ZZ",
+  "source": "public",
+  "keystrokes": 127
+ },
+ "525ee6a5de92470002000039": {
+  "keys": "lla <Esc>z=lz=lllla <Esc>lz=lllla <Esc>llllla <Esc>llllllla <Esc>lla <Esc>llllla <Right><Right><Right><Right> <Right><Right><Right><Right><Right><Right><Right><Right> <Right><Right><Right><Right> <Right><Right><Right><Right><Right> <Right><Right><Right><Right><Right> <Esc>ZZ",
+  "source": "public",
+  "keystrokes": 91
+ },
+ "5287aac7bba8eb0002000002": {
+  "keys": "YP$xPyjPl<C-V>jxpyjP$<C-V>jxPVGYPl<C-V>5j$:s/2/1<CR><C-V>{r2Pl<C-V>5j$:s/3/1<CR><C-V>{r3Pl<C-V>5j$:s/4/1<CR><C-V>{r4:sor|x<CR>",
+  "source": "public",
+  "keystrokes": 82
+ },
+ "5293b3574f09ff0002000033": {
+  "keys": "jjqq2t\"llDj0q@q@@@@@@@@@@@@@@3Gqq2t,lr-j0q@q@@j@@@@@@qq2t,lxjxq6G3t,x:wq<CR>",
+  "source": "public",
+  "keystrokes": 73
+ },
+ "52bc9404cbab90000200001c": {
+  "keys": ":set list<CR>qq0yGGp0<C-V>GI <Esc>Gkyyp0s^<Esc>$a^<Esc>Gd$qkk@qkkk@qkkkk@q:wq<CR>",
+  "source": "public",
+  "keystrokes": 59
+ },
+ "52c3cb0d9b8634000200000e": {
+  "keys": "gg08l18sNEW YEAR 2014<Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 24
+ },
+ "5301e83c0cb38c0002000008": {
+  "keys": "jddA |<Esc>7GdwkR<C-R>\"<Esc>jddjjddjjjddA |<Esc>17GkrAd2wkR<C-R>\"<Esc>jddddjrAjddlxa <Esc>jddllr jddrjjddZZ",
+  "source": "public",
+  "keystrokes": 79
+ },
+ "530d2148f78def0002660c96": {
+  "keys": ":4,6s/\\S/private $&<CR>A;<Esc>ka;<Esc>kA;<CR><CR>public functino<BS><BS>on getX()<CR>{<CR><Tab>return this<BS><BS><BS><BS>$this->X;<CR><BS>}<CR><Esc>:6,10y<CR>pfgrs<CR><CR>dwA<BS> = $value;<Esc>hcya<Esc><Up><Up>i$value<Esc>:5,15y<CR>:16<CR>p:28<CR>p:39<CR>dd:5,15s/X/firstProperty<CR>:17,27s/X/secondItem<CR>:29,39//<BS><BS>s/X/lastAttribute<CR>:%s/tf/tF<CR>:%s/ts/tS<CR>:%s/tl/tL<CR>ZZ",
+  "source": "public",
+  "keystrokes": 262
+ },
+ "5314fc4e6e902e00027b74d1": {
+  "keys": ":%s/[,.]//g<CR>O<Esc>57I <Esc>yy8pgg0qqmaGdw`aPGdw`a15|PGdw`a24|PGdw`a37|PGdw`a49|PD+0q8@qddAm<Esc>:wq<CR>",
+  "source": "public",
+  "keystrokes": 88
+ },
+ "53159f5d33b3f800023aa880": {
+  "keys": "lllkkkklhhhjjjjjjjjkkkjhjjhhhgglllllkjjjkkkjjjjjjjjjjjjjjjjjjjhhhhzkkjxxxxxxxxxxxxxxxxxxx jkka                   <Esc>jhhhhjkkkkkkkkkkkkkkhhhhhhhhhxjxjxxi  <Esc>ki <Esc>jkki <Esc>jhjjjjjhhkkklkkkkkkkkkggjkjllllllla##<Del><Del><Esc>hji##<Del><Del><Esc>jkkjjlllllllllllllllhxjkkkkllllllr1<Esc>:q<CR>::w<CR><CR>:q<CR>",
+  "source": "public",
+  "keystrokes": 258
+ },
+ "5325695c6092800002072d06": {
+  "keys": "jy5ejv5epbbbbhr1/1.2<CR>i  <Esc>hji  <Esc>jhi  <Esc>/joe<CR>jki  <Esc>khhkjli <Esc>ki <Esc>jjx/fix<CR>i   <Esc>/cop<CR>i   <Esc>/fr<CR>i   <Esc>ZZ",
+  "source": "public",
+  "keystrokes": 95
+ },
+ "53369b712a09c1000223fb57": {
+  "keys": "<C-><Up><C-><Up><C-><Up><C-><Up><C-><Up><C-><Up><C-><Up><C-><Up>j\\\\f1ijku<Esc>ua[]2<BS>jk<BS><BS><Esc>ba2<Esc>jkoi<BS>{jj<BS><BS><Esc>jjjjjwklrqr,jdd.d5wxxxxxxx\\\\f}/}<CR>a<CR>}jk<BS><BS><Esc>kkkkkkkkkkkkVjjjjjjjjjjj><Esc>:wq<CR>",
+  "source": "public",
+  "keystrokes": 123
+ },
+ "536cfa23fcccd100025678bd": {
+  "keys": "veeeexo<Esc>paf)<Esc>kIf=<Esc>A;<Esc>hx:w<CR>:wq<CR>",
+  "source": "public",
+  "keystrokes": 30
+ },
+ "537a553282aa3e000222048a": {
+  "keys": "2Gv13G>3Gv12G> /Fi <BS><BS><CR>i <Esc>kjjhhhi <Esc>llli l<Esc>xlllllllla <Esc>jhhhhhhhhhhhhha<Esc>i   <Esc>fAil<BS> <Esc>%fCjFChhi      <Esc>fCi k<BS><Esc>kfs;a   <Esc>jFya      <Esc>jF\"i4 =<BS><BS><BS>     <Esc>fSi <Esc>fei<Right>     <Esc>jf\"F\"fZi <Right><Right><Right>       <Esc>jf\"F\"i   <Esc>fCi <Esc>fya   <Esc>jF\"i     <Esc>fPi <Esc>fea     ZZ<BS><BS><Esc>ZZ",
+  "source": "public",
+  "keystrokes": 227
+ },
+ "539c50b188b4e20002053e38": {
+  "keys": ":s/>.*</>\\r<<CR>ZZ",
+  "source": "public",
+  "keystrokes": 15
+ },
+ "53b473a3ac0ceb00022303bd": {
+  "keys": "o<CR><CR>Do you demand a shrubbery?<Esc>ZZ",
+  "source": "minimized-diff",
+  "keystrokes": 32
+ },
+ "53bddd87dbd3db0002c48c0f": {
+  "keys": "14G01s14<Esc>13Gs13<Esc>11G01s11<Esc>8G01s8<Esc>7Gs7<Esc>4G01s4<Esc>2Gs2<Esc>gg01s1<Esc>ZZ",
+  "source": "minimized-diff",
+  "keystrokes": 58
+ },
+ "53cee5e1c5f4b4000208b285": {
+  "keys": "gg05l3shl<Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 12
+ },
+ "53d1f9344ab5290002ab30e0": {
+  "keys": "20GA xxxxxxxx<Esc>19GA xxxxxxxxxxxxx<Esc>18GA xxxxxxxxxxx<Esc>17GA xxxxxxx<Esc>16GA xxxxxx<Esc>15GA xxxxxxx<Esc>14GA xx<Esc>13GA xxxxx<Esc>12GA xxxxxx<Esc>11GA xx<Esc>10GA xxx<Esc>9GA xxxxxx<Esc>8GA xxxxx<Esc>7GA xxxxx<Esc>6GA x<Esc>5GA xxx<Esc>4GA xxxx<Esc>3GA xxx<Esc>2GA xx<Esc>ggA x<Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 213
+ },
+ "53d93fc3768e280002124f23": {
+  "keys": "ii<Esc>:5s<BS><BS>%s/V/i/gd<BS><CR>:wq<CR>",
+  "source": "public",
+  "keystrokes": 23
+ },
+ "53e1d5a0f201bc0002226501": {
+  "keys": "r4wr3wr5wr2wr6wR1 9 8 7<Esc>ZZ",
+  "source": "minimized-public",
+  "keystrokes": 26
+ },
+ "53eac8a559e21500021ee41b": {
+  "keys": "wfexwwfsx$hciwt<Esc>uciwturtle<Esc>:wq<CR>",
+  "source": "minimized-public",
+  "keystrokes": 31
+ },
+ "53eb4ac3f690b50002f871b6": {
+  "keys": "gg010l24sadar list<Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 21
+ },
+ "53f388dfb2a65900028494ae": {
+  "keys": "llx/wh<CR>li<Right><BS><Right>'<Esc>/ an<CR><Right><Right><Del><Esc>llllllllj<Esc>wwwwlxplllwwcwmaximum<Esc>$r.<Esc>:wq<CR>",
+  "source": "public",
+  "keystrokes": 63
+ },
+ "53f44761ba79e3000235fc6f": {
+  "keys": ":sor<CR>2dd5GV9G\"adjjVj\"bdGo<Esc>p\"aPVG<Esc>kkkkkk\"addj\"bddjVj\"cdo<Esc>\"ap\"bp\"cpZZ",
+  "source": "public",
+  "keystrokes": 67
+ },
+ "53fdb108658ede0002599a8f": {
+  "keys": "<Esc>Ode<C-X><C-L><C-X><C-L><Esc>Oam<C-X><C-L><Esc>jjkobl<C-N><CR>ex<C-N><CR>re<C-N><CR>aud<C-N><CR>pr<C-N><CR>q<C-N><CR>q<BS>o<C-N><CR>l<C-N><CR>t<BS>g<C-N><CR>h<C-N><CR>ad<C-N><CR>s<C-N><Esc>jdGzZZZ",
+  "source": "public",
+  "keystrokes": 73
+ },
+ "541022801a2d8b0002238a17": {
+  "keys": "qqvt,\"ayf,lv<End>h\"by8GV20G:s/<C-R>a/<C-R>b<CR>q2G@q3G@q4G@@5G@@6G@@ZZ",
+  "source": "public",
+  "keystrokes": 55
+ },
+ "54180e031079d30002383ee5": {
+  "keys": "ivim<Esc>yy4p:%s/00/p<BS>\\=printf('0%d',pr<BS><BS>line('.')-1)<CR>ggqqyyp$r5jq4@qZZ",
+  "source": "public",
+  "keystrokes": 67
+ },
+ "5421e49fdbded100021e4934": {
+  "keys": "ggo0<C-D>two<CR>0<C-D>three<CR>0<C-D>four<CR>0<C-D>five<CR>0<C-D>six<CR>0<C-D>seven<CR>0<C-D>eight<CR>0<C-D>nine<CR>0<C-D>ten<CR>0<C-D>eleven<Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 77
+ },
+ "542eff6588fc4d00021aa9cd": {
+  "keys": "5G02l22sassertEquals(\"Meaning of life\"<Esc>gg07l10sstatic org.Assert.assertEquals<Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 80
+ },
+ "54345d14d529ef0002227d4c": {
+  "keys": "ggO0<C-D>vim vi improved<Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 23
+ },
+ "543e53c037ba3a00022b3ec7": {
+  "keys": "12G01l7sxxxxxxx<Esc>11G01l1sx<Esc>10G01l9sx|   |xxx<Esc>9G01l9sx|||||x|x<Esc>8G01l11sxxxxxxx|xxx<Esc>7G011l1sx<Esc>6G07l5sxxx|x<Esc>5G07l5sx|x|x<Esc>4G07l5sx|x|x<Esc>3G07l5sx|x|x<Esc>2G05l7sxxx|xxx<Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 160
+ },
+ "5447b459380e8b0002000db3": {
+  "keys": "yever f_p<C-C><C-C>uuyever f_pldeF_f-F_F_F_x:wq<CR>",
+  "source": "public",
+  "keystrokes": 40
+ },
+ "544bcdd93cafc700021ee30e": {
+  "keys": "gg02sout<Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 11
+ },
+ "54514fd7238fe900021e7c42": {
+  "keys": "ea<CR>    <Esc>ea<CR>    <Esc>wwwea<CR>     <Esc><Esc>ea<CR>     <Esc><Down><Down><Left><Left><Left><Left>i<CR>      <Esc>ea<CR>      <Esc>:wq<CR>",
+  "source": "public",
+  "keystrokes": 67
+ },
+ "54595b13128576000257a3c1": {
+  "keys": "<C-V>Glr10u<C-V>jjjjjlr<Esc>s10<Esc><Esc>hjklhvl<C-V>jjjjjojg<C-A><Esc>u<C-V>jjjjojg<C-A><Esc>ukk<C-V>jjjjjojg<C-A><Esc><Esc>:wa<CR>:q<CR>",
+  "source": "public",
+  "keystrokes": 72
+ },
+ "545baafb7974800002353443": {
+  "keys": "41G02l60slog(LogLevel.DEBUG, str<Esc>36G02l60slog(LogLevel.INFO, str<Esc>31G02l60slog(LogLevel.NOTICE, str<Esc>26G02l60slog(LogLevel.WARNING, str<Esc>21G02l60slog(LogLevel.CRITICAL, str<Esc>16G02l60slog(LogLevel.ALERT, str<Esc>11G02l60slog(LogLevel.EMERGE, str<Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 239
+ },
+ "5462e3f41198b80002512673": {
+  "keys": "lllllljlkqaciw\"\"<Esc>hpqj@aj@a:w<CR>",
+  "source": "minimized-public",
+  "keystrokes": 29
+ },
+ "54698da795f6da00020d85ed": {
+  "keys": "jj3ddklllllllllllla, Previous, p<BS>Play, Stop<Esc>ZZ",
+  "source": "public",
+  "keystrokes": 46
+ },
+ "546a627195f6da000265742d": {
+  "keys": "jf=i   j<BS><Esc>jbbi     <BS><Esc>jBi  <Esc>:wq<CR>",
+  "source": "public",
+  "keystrokes": 31
+ },
+ "5474ef0bcf59b600024c64de": {
+  "keys": "O<Esc>30i#<Esc>Yppkllv$hhhr jo<Esc>y{3Pjjo<Esc>jjjo<Esc>jjjo<Esc>jjjjdddd{{{{j11lR<C-R>\"<BS><Esc>GddkkklllR<C-R>\"<BS><Esc>Gdd{kk8lR<C-R>\"<BS><Esc>Gdd6G9lR<C-R>\"<BS><Esc>ZZ",
+  "source": "public",
+  "keystrokes": 103
+ },
+ "54862fbb3f90ac0002904cf5": {
+  "keys": "6G3ddgg2ddZZ",
+  "source": "diff",
+  "keystrokes": 12
+ },
+ "5486c522908f4600023c53fa": {
+  "keys": "^^f'v^hhhhhhhhhhhhy:2,3s/ /\\r/g<CR>:s<BS>2,$s/^/<C-R>\"/<CR>ggf';v$y:2,$s/$/<C-R>\"<BS>/<CR>ggdd:w<CR>:wq<BS>q<BS><BS>q<CR>",
+  "source": "public",
+  "keystrokes": 83
+ },
+ "548879e3844403000250b6aa": {
+  "keys": "/\"<CR>2nqdldnq3nqqlvnhpq4n@q4n@q6np8n@d26NPZZ",
+  "source": "public",
+  "keystrokes": 42
+ },
+ "548c6254c3fe990002bb28f7": {
+  "keys": "20D:w|so%<CR>u4GfnFNhr lr j.l.l@w15Gll@ajl@nkk@ollj@ollj@tkk@mll@bj@a12Gf0r7ZZ",
+  "source": "public",
+  "keystrokes": 75
+ },
+ "5491377167afde00024ba4cf": {
+  "keys": "Oswitch (currentTyp) {<Esc>:%s/if (isTyp(/\\tcase <CR>:%s/, currentTyp)) {/:<CR>:%s/}/\\t\\tbreak;<CR>kv>3k.3k>..3k.3k.Go}<Esc>v<<<ZZ",
+  "source": "public",
+  "keystrokes": 113
+ },
+ "549fc5c05874e9000220eb54": {
+  "keys": "lllll<C-V>jjjc1<Esc>jjh<C-V>jjjc1<Esc>kh<C-V>jc1<Esc>jjjj<C-V>jc1<Esc>:sor<CR>f=<C-A>j<C-A><C-A>j3<C-A>j4<C-A>j5<C-A>j6<C-A>j<C-R><Esc>7<C-A>jr8ZZ",
+  "source": "public",
+  "keystrokes": 71
+ },
+ "54a480bb5db1600002939b54": {
+  "keys": ":let @a=10000|%s/@@@@@/\\=@a+setreg('a', @a+1)/<CR>ZZ",
+  "source": "public",
+  "keystrokes": 49
+ },
+ "54a5b367b5be62000263f9ef": {
+  "keys": "9DYPJ0qqdwY9wlD\"0pq9@qZZ",
+  "source": "public",
+  "keystrokes": 24
+ },
+ "54a8fb2ff4048c0002479f12": {
+  "keys": "gg019l3svimgolf<Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 18
+ },
+ "54a94976f4048c00026d8ed6": {
+  "keys": "O{<Esc>jqq\"ayi\"\"byi'cc\\  \"<C-R>b\"   <Esc>9|C: '<C-R>a',<Esc><CR>q7@qo\\}<Esc>ZZ",
+  "source": "public",
+  "keystrokes": 51
+ },
+ "54aa4898e87aa400023e3a19": {
+  "keys": ":g!/Location/d<CR><C-V>ggwld:%s/ \\[f.*$//g<CR>ZZ",
+  "source": "public",
+  "keystrokes": 38
+ },
+ "54c392acbd7cbe0003329b7c": {
+  "keys": "5G08li      <Esc>4G07li       <Esc>3G07li       <Esc>2G05li         <Esc>gg03l1sn         <Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 77
+ },
+ "54cb9296b2df9e000307809a": {
+  "keys": "j<C-A>j2.jj1.3j1.j2.jj1.j2.3j1.j2.j3.jj1.j2.ZZ",
+  "source": "public",
+  "keystrokes": 42
+ },
+ "54d5f51d20b05716be00036d": {
+  "keys": ":v/files/d<CR>Vgg\"ayu:<Up><Home><Del>g<CR>gg\"aPqqd2f/+q9@qqqd3f/+q27@q@qggqqf/D+q38@q:sor u<CR>jdd14GkddZZ",
+  "source": "public",
+  "keystrokes": 85
+ },
+ "54ddd1d261cec11d1b01707c": {
+  "keys": "7G0i#<Esc>6G0i#<Esc>5G0i#<Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 20
+ },
+ "54e05c0e3da7a40ce4002226": {
+  "keys": "r*A *<Esc>/d<CR>rfflx$O<Esc>i*<Esc>x25Pjo25<BS><BS><Esc>kxPj25Pj:%s/^/\\t\\t\\t\\t<CR>ZZ",
+  "source": "public",
+  "keystrokes": 56
+ },
+ "54e2169fb89efb2ab10012e6": {
+  "keys": "qqd2wjq31@q:sor nu<CR>qqA, <Esc>Jq21@qV2<ZZ",
+  "source": "public",
+  "keystrokes": 36
+ },
+ "54f6e85d8dca0315e1010de1": {
+  "keys": "/og<CR>2ld$o<Esc>p0:s/[ ,]\\([a-z]\\*<BS><Esc><Esc><Esc>:<Up>+<Left><Left><Left><Left><Left><Left><Left><Left><Left>\\+<Right><Right><Right><Right><Right><Right><Right><Right><Right><Right>\\)/    \\1: \\1\\n/g<CR>u:<Up><Left><Left><Left><Right><BS>r<CR><Esc>ddZZ",
+  "source": "public",
+  "keystrokes": 89
+ },
+ "54f8cc2718a13f0a630041e5": {
+  "keys": "C1<Esc>qqYp:s/\\v(.)\\1*/\\=strlen(submatch(0)))<BS>.submatch(1)/g<CR>q13@qZZ",
+  "source": "public",
+  "keystrokes": 64
+ },
+ "54fb143d91984a0e75007579": {
+  "keys": "<Down>dGojihgfedcba<CR>iihgfedcba<CR>hhhgfedcba<CR>ggggfedcba<CR>fffffedcba<CR>eeeeeedcba<CR>dddddddcba<CR>ccccccccba<CR>bbbbbbbbba<CR>aaaaaaaaaa<Esc>:wq<CR>",
+  "source": "public",
+  "keystrokes": 118
+ },
+ "55007a7412685a180e000005": {
+  "keys": "10G04l1sP<Esc>8G02l1sP<Esc>5G06l1sP<Esc>4G04l1sP<Esc>2G01sP<Esc>gg02l1sP<Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 55
+ },
+ "5501297312685a3ca601d3d8": {
+  "keys": "o<Esc>i   #t   #r   s<BS>#s   #r   #a   #v   #n<Esc>jo<Esc>4i <Esc>A#h<Esc>0v3ly$pA#a<Esc>pA#e<Esc>pA#u<Esc>pA#v<Esc>pA#o<Esc>ZZ",
+  "source": "public",
+  "keystrokes": 85
+ },
+ "55054f0ac64edd79b00265ac": {
+  "keys": "}jqq.<Esc><Esc>o<Esc>jq8@qggMj}}k5@quggjjjjjjjjddjjddggqqdd}}Vpggq3@qddMjjddkPkvkkkdkddo<Esc>gg@@Mo<Esc>gg@@@@@@@@@@@@@@ddZZ",
+  "source": "public",
+  "keystrokes": 104
+ },
+ "5508d1ded05c5e2a710d7e93": {
+  "keys": "27l<CR>i<CR><Up><Up><CR><Up><Esc>qqj\"axj\"bxkkA<Esc>\"apA<Esc>\"bp0q26@qj2ddZZ",
+  "source": "public",
+  "keystrokes": 45
+ },
+ "5518cd2bfb03aa1d9402a6a3": {
+  "keys": "jjev%%f>y$<Esc>hhhhhhhhhvlllly$Pupj^ehhhhhvely$p<Esc>hhhhhi/<Esc>khhi/<Esc>jjjjahhh<BS><BS><BS>hh<BS><BS><Esc>hhhhhhhvllllly$ap<Esc>p<Esc>hhhhhhxli/<Esc>$x<Esc>ja</files><Esc>h:wq<CR>",
+  "source": "public",
+  "keystrokes": 125
+ },
+ "55213dc25709ea0851015904": {
+  "keys": ":so%<CR>GfrDVH\"=<C-R>\"<CR>pqqM+@qq@qZZ",
+  "source": "public",
+  "keystrokes": 28
+ },
+ "5521ef575709ea270a00ce69": {
+  "keys": "/^$<CR>qaqqa:<Esc><Esc>q:0<CR>qaVnJjq10@aV<Esc>jVGJ:%s/\\s\\+$//<CR>:w<CR>:q<CR>",
+  "source": "public",
+  "keystrokes": 51
+ },
+ "55250aff5eba2c043f0318f5": {
+  "keys": "9G12dd8G01l93sWhat is that big book?\" Said the little prince. \"What are you doing?\"<Esc>6Go0<C-D>\"Where do you come from?\" The old gentleman said to him.<Esc>5G0121sThe little prince sat down on the table and panted a little. He had already traveled so much and so far!<Esc>3Go0<C-D>\"Oh, look! Here is an explorer!\" He exclaimed to himself when he saw the little prince coming.<Esc>2Go0<C-D>The sixth planet was ten times larger than the last one. It was inhabited by an old gentleman who wrote voluminous books.<Esc>gg01sT<Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 494
+ },
+ "5526aef5814f89118e00f23c": {
+  "keys": "f,llxischA<Esc>hvbyf,lplrTf,lplrSf,lplrAf,lplrRf,lplrS<Esc>:wq<CR>",
+  "source": "public",
+  "keystrokes": 55
+ },
+ "55358965015b7c2d46000001": {
+  "keys": "9Gddggpkddpjjjjddggp;t<Esc>;/tree<CR>jjjjjjjjjjdd2Gp18Gdd3Gp10Gdd4GjpkddpGkdd5Gp15Gdd6Gp16Gdd8GpGdd9Gp17Gdd11GpjjjjjjjddkkkkkkkpGkdd5GpGkddpkkkddGpkkddukkkkddkpjddjjjpkkkddGkpkkkkddGkp;/<Esc><Esc>jZZ",
+  "source": "public",
+  "keystrokes": 184
+ },
+ "55389fb1d6367c11201571d1": {
+  "keys": "14dd2j1.2j.j2.j1.j2.2jj2.jjjj3.j1.ZZ",
+  "source": "public",
+  "keystrokes": 36
+ },
+ "553b97364ba96c319d0296eb": {
+  "keys": "a <Esc>w.w.w.f).w.f).w.f1.w.5l.w.5l.w.2l.w.fafa.w.2l.w.ZZ",
+  "source": "public",
+  "keystrokes": 53
+ },
+ "556d7209f6d1a10ee6000001": {
+  "keys": "qxxpqU@='Yp13@x'<CR>qq@=<C-F>-<C-X><CR>q11@qZZ",
+  "source": "public",
+  "keystrokes": 32
+ },
+ "55771cc4750ef86573003b83": {
+  "keys": "/-<BS>-<BS>=<CR>i <Esc>3.n4.un4.nn4.Nnn3.Nnn6.nn4.nn11111111111<Esc><Esc>1nN.u1.nn3.u4>..u4.nn3.u4.:q<CR>:wq<CR>",
+  "source": "public",
+  "keystrokes": 85
+ },
+ "558aef9a9b964426b5010562": {
+  "keys": "10G01l1sj<Esc>9G01l1si<Esc>8G01l1sh<Esc>7G01l1sg<Esc>6G01l1sf<Esc>5G01l1se<Esc>3G01l1sc<Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 66
+ },
+ "5598ef76c0132f45c9005238": {
+  "keys": ":7,9d<CR>PdGggP5jddGp3kddjpZZ",
+  "source": "public",
+  "keystrokes": 26
+ },
+ "55b18bbea9c2c30d04000001": {
+  "keys": "9Go0<C-D>New text.<CR>0<C-D><Esc>6Go0<C-D>*temp var7 11<Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 39
+ },
+ "55b35f751b16ea1bc100a0e2": {
+  "keys": "f l<C-V>16jk:s/ /X/<CR><Esc>uf l<C-V>15j:<BS><BS><BS><BS><BS>%s/\\%V /X/g<CR>g3gg3gg32lkhh<C-V>jjjj:<Up><Down><Down><Up><Up><Up><Up><Down>s/%<BS>\\%V /X/<CR>34l<C-V>2k:<Up><CR>30l4h<C-V>2krX8j16l2k.u2k.8h8j2k.4h<C-V>6j:<Up><CR>36l8l2h<C-V>4jrX4h5jk<C-V>12jrX12j2k16l8l<C-V>2jrX4l<C-V>4jrX16h5jk<C-V>2jrX4h.4h<C-V>3jrX:%s/\\vX *X/\\=substitute(submr<BS>atch(0),' ','X','g')/g<CR>/X<CR>6gg/X lh<BS><BS><CR>l<C-V>llrX:wq<CR>",
+  "source": "public",
+  "keystrokes": 271
+ },
+ "55bcdc3ef4219f456102374f": {
+  "keys": "gg010l33slazy dog jumps over the brown fox<Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 45
+ },
+ "55d7692d134b34420f05ac0b": {
+  "keys": "j$ie<Esc>vyjqgPj$q4@g:wq<CR>",
+  "source": "public",
+  "keystrokes": 21
+ },
+ "55e704665f560803fa000001": {
+  "keys": "038s0:CHROM 1:POS 2:ID 3:REF 4:ALT 5:QUAL 6:FILTER 7:INFO 8:<Esc>ZZ",
+  "source": "minimized-diff",
+  "keystrokes": 63
+ },
+ "55e814a35f5608403d000001": {
+  "keys": "W<C-V>GWWhxGo<Esc>pggW<C-V>28GWWhxGo<Esc>pggW<C-V>28GWW<Esc><Esc>kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk<End><Left><Left><Left><Left><Left><Left><C-V>28GWWWWWW<Esc><Esc>kkggW<C-V>28GEEEEEE<Esc>kkkggf+<C-V>28G$xGpuo<Esc>pgg:v/-/d<CR>HGgg:%s/ */<BS>$/g<BS>/g<CR>ZZ",
+  "source": "public",
+  "keystrokes": 154
+ },
+ "55f9720b4a665c2acf0008c8": {
+  "keys": ":se enc=utf-8<CR>qqy$A:<CR>    name: \"\"<Esc>P+q3@qkhhraTcrikkllx%x%TlreF(xgglroqqVgu:s/[ /<BS>\\t.<BS><BS>.]/=<BS>-/g<CR>jjq3@qkf,xZZ",
+  "source": "public",
+  "keystrokes": 107
+ },
+ "55faae943e9b67549b000001": {
+  "keys": "qq0i | <Right> <Right> <Right> | <Right> <Right> <Right> | <Right> <Right> <Right> |<Esc>jq8@qo  - - -   - - -   - - -  <Esc>Y3kP3kP3kPA<BS><BS><Esc>3jjA<BS><BS><Esc>4jA<BS><BS><Esc>ZZ",
+  "source": "public",
+  "keystrokes": 92
+ },
+ "55ff7ea45a2b52043e06dee2": {
+  "keys": ":%s/M\\(Y_VAR_\\h\\+\\)/M\\L\\1/g<CR>:%s/_\\(\\l\\)/\\u\\1/g<CR>ZZ",
+  "source": "public",
+  "keystrokes": 49
+ },
+ "563368fc3a2bb61edd0128f5": {
+  "keys": ":%s//<BS>908/909/g<CR>:<Up><Left><Left><Left><Left><Left><Left><BS><BS><BS>233<Right><Right><Right><Right><BS><BS><BS>322<CR>:<Up><Left><Left><Left><Left><Left><Left><Left><Right><BS><BS><BS>1,<Right><Right><Right><Right><BS><BS><BS>2,<CR>:<Up><Left><Left><Left><Left><Left><BS><BS>'STI-0128862-3', '2015-11-20', '2017-11-20', 0, 900,<Right><Right><Right><BS><BS>'STI-0132580-2', '2015-11-01', '2018-10-01', 0, 136.8,<CR>:wq<CR>",
+  "source": "public",
+  "keystrokes": 191
+ },
+ "56421fb1603ec626ec000003": {
+  "keys": ":%s/\\(\\S)<BS>\\)\\([A-Z}<BS>]\\)/\\1-\\L\\2/g<CR>:q<CR>:wq<CR>",
+  "source": "public",
+  "keystrokes": 41
+ },
+ "56462467f20fe74c93000001": {
+  "keys": "<Esc>:%s/\"//g<CR>:<Up><Up><BS><BS><BS><BS>\\*.*<BS><BS><BS><BS>\\(.*\\)/\"\\1\",/g<CR><End>a<BS>]<Esc>ggilipsum = [<Esc>jvG><Esc>:wq<CR>",
+  "source": "public",
+  "keystrokes": 68
+ },
+ "565bb80fceffe53baa038f0c": {
+  "keys": "17G2dd14G2dd13G01l1scout <lt><lt> \"Error!\" <lt><lt> endl;<Esc>12G022s} else {<Esc>10Go0<C-D>\t\t}<CR>0<C-D>\t} else {<CR>0<C-D>\t\t// wrong sequence<CR>0<C-D>\t\treceive_packet_transfer(s, a, sa, f, slen, snwseq, num);<Esc>9G02l4s} else {<Esc>7Go0<C-D>\t\t\t// Send ACK<Esc>7G056l10s{<Esc>6G01l1s\t// if its the right sequence<Esc>5G018l27s{<Esc>3G01s\t// receive initial message frame<Esc>2G059l31s{<Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 314
+ },
+ "5666943bac55c907fd02066f": {
+  "keys": "dd7ggdd:%i<BS>A<BS>I//<BS><BS><BS><BS>%s/*<BS>\\*//<BS>\\/\\/<CR><Up><Up><Up><Up><Up><BS>x<Down>xjxjxjxjxjkkkkkjjjjjj:wq<CR>",
+  "source": "public",
+  "keystrokes": 68
+ },
+ "56680033ac11043d6306aa07": {
+  "keys": ":%s/Plugin/Device/g<CR>:<Up><Left><Left><Left><Left><Left><Left><Left><BS>d<Left><Left><Left><Left><Left><Left><Left><BS>p<End><CR>:<Up><Left><Left><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS>ai/<BS>d/uid<End><CR>:wq<CR>",
+  "source": "public",
+  "keystrokes": 74
+ },
+ "56704157109fb85a6d017d08": {
+  "keys": "/if<CR>dw\"aDddjoonly_if { <Esc>pu\"apA }<Esc>jjddb0<C-V>j<Esc><Esc><C-V>kkkld:wq<CR>",
+  "source": "public",
+  "keystrokes": 53
+ },
+ "5675405ac5936f0ba3000002": {
+  "keys": "q2wi<CR><Esc>kA{<CR><Tab>yylval.type = strdup(\"res\");<Esc>yypwwciwvalue<Esc>4wci(yytr<BS>ext<Esc>kkbviwy2jA<CR>return ;<Esc>Pb~A<CR>}<Esc>i<BS><Esc>jq@<Esc>15@2ddkA<BS>e;<Esc>kkkie <Esc>:wq<CR>",
+  "source": "public",
+  "keystrokes": 125
+ },
+ "56add9a16518ef02c001af3d": {
+  "keys": ":%s/Vim/volume<BS><BS><BS><BS><BS><BS>Volume/g<CR>10G<C-X>j<C-X><C-X>jxjdddwx$xjddkf\"yi\"k$pa\"<Esc>bbbbbbbbbi\"<Esc><Esc>jdd:wq!<CR>",
+  "source": "public",
+  "keystrokes": 82
+ },
+ "56d30b70a365ed316105641b": {
+  "keys": ":5,8m0<CR><Esc>ZZ",
+  "source": "public",
+  "keystrokes": 10
+ },
+ "56e3697dd64dfc4d1800a774": {
+  "keys": "xplplplplpZZ",
+  "source": "minimized-public",
+  "keystrokes": 12
+ },
+ "56e4fe988cf590220106e9bb": {
+  "keys": "qqgUllljq4@qZZ",
+  "source": "public",
+  "keystrokes": 14
+ },
+ "56e59ff88cf5905fe501ce5b": {
+  "keys": "<Esc>:g/./t0<CR>ZZ<CR><Esc>:wqa<CR>",
+  "source": "public",
+  "keystrokes": 18
+ },
+ "56e69da07b3d84520a000001": {
+  "keys": "gg0i/.,mnbvcxz;lkjhgfdsapoiuytrewq<Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 37
+ },
+ "56eb0843251cf25ae40963de": {
+  "keys": "/_n<BS><CR>nnxrHnxRL<Esc>nxrPnxrGnxrPnxrP:wq<CR>",
+  "source": "public",
+  "keystrokes": 35
+ },
+ "56ef78d9f604b51ec4007b8d": {
+  "keys": "diw<Esc>4jkPldt k^Pdt uldt 2j^Pldt j^Pldt 2GPldt k^Pli ^<BS><Esc>^z<Esc>hxZZ",
+  "source": "public",
+  "keystrokes": 61
+ },
+ "56f8745e27bf6e0006010ec1": {
+  "keys": "/ <CR>9nr<CR>9n.22n.12n.10n.14n.tI.jf-nf-n.tT.tf.tT.tb;.tI.tu;.tI.fkn.fifcn.td.12n.tb.tsT,T,t,T,NNN.O<Esc>uo3Go<Esc>uo<Esc>3Go<Esc>10Go<Esc>ZZ",
+  "source": "public",
+  "keystrokes": 116
+ },
+ "56fcc3204a7725120c00c91c": {
+  "keys": "qqi    group_id: <Esc>lxf,xxvt'\"ayi<CR>full_name: <Esc>l~/.<BS>\\.<CR>r l~/@<CR>Domail: <Esc>\"agpkkO<Esc>\"ap?@<CR>Da:<Esc>4j^q4@q:%s/Van/van<CR>:%s/<Esc>7G/-<CR>xxi <Esc>jkuui <Esc>l~15G/-<CR>xi <Esc>l~ZZ",
+  "source": "public",
+  "keystrokes": 143
+ },
+ "571808767dd9d30009000001": {
+  "keys": "<Esc>:%s/,/<Tab>,/g<CR><Esc>:<Esc><Up><Right><Right><Right><Right><Right><Right>x<Up>x<Up>x<Up>xuuuuuuuuuuu<Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right>i  <Left><Left><Left><Down>   <Left><Left><Left><Down>   <Down><Left><Down><Left>  <Esc>ZZ",
+  "source": "public",
+  "keystrokes": 77
+ },
+ "57343555fd77ad227900df4a": {
+  "keys": "3Go0<C-D>      .first_method<CR>0<C-D>      .second_method(arg)<CR>0<C-D>      .third_method(arg.method_one.method_two)<Esc>3G011l72xZZ",
+  "source": "diff",
+  "keystrokes": 113
+ },
+ "576c778ea4896a561b01b4f2": {
+  "keys": "jjjjjjjVjjykkkkkkV@@@<Esc><Esc><Esc>jjjjjjVjjykkkkkkVpjjjjVjkpVPPuuuujjjjjjVjjykkkkkkVpjjjjjjjjVjjykkkkVpjjjjjjVjjykkVp:w<CR>:wq<CR>",
+  "source": "public",
+  "keystrokes": 114
+ },
+ "57786c012ec4a10d2e000001": {
+  "keys": ":%s/^$/\"\\r\\r\"<CR>1GO\"<Esc>Go\"<Esc>1Gqa/\"<CR>1GqqaJxnkJxxnq3@aZZ",
+  "source": "public",
+  "keystrokes": 49
+ },
+ "57959f8a083a7e0c45000001": {
+  "keys": "3Gdd1GP5Gdd2GP5GddkP9Gdd7GP10GddkP12GddkP16GddllkkPkkjjjjjddkkjPjjddP<Esc>:w<CR>:q!<BS><CR>",
+  "source": "public",
+  "keystrokes": 78
+ },
+ "5796493277f1fc12b1002044": {
+  "keys": ":%s/\\w//g<CR>qqs\"<Esc>pa\",<Esc>bbq18@q:%s/[\\t ]//g<CR>qqi<BS><Esc>^q4@qi[<Esc>f@i \",\"<Esc>$r]\":<Esc>:5s<BS><BS>%s/\",/\", /g<CR>:<Esc><Esc>ZZ",
+  "source": "public",
+  "keystrokes": 89
+ },
+ "57a021b0d938573add00bcd0": {
+  "keys": "yw29pul39po=40p<BS><BS><BS><Esc>40px<CR>a<CR><C-V><Esc><BS><BS><CR><Esc><C-V>jkk$yGpGqqGpq9@qjjidd<BS><BS><Esc>dd:wq<CR>",
+  "source": "public",
+  "keystrokes": 63
+ },
+ "57a87f444f1a8e3c4000ff8c": {
+  "keys": "/&&<CR>ni<Esc>l20i <Esc>i        <Esc>nni50<BS><BS><Esc>l50i <Esc>hlvhhhhhhhhhxjhhhi <Esc>li<Esc>30i <Esc>.hhhhhhhhhhlxxxxxxxxxxxxjhhhi<Esc>50i <Esc>i      <Esc>jhhh40i <Esc>i        <Esc>:x<CR>",
+  "source": "public",
+  "keystrokes": 130
+ },
+ "57ab8b6f621d160fcd000001": {
+  "keys": "ddGdk<C-V>gghhhhhhhhhhhIFMT_AUDIO_TYPE(<Esc>f <C-V>lljjjjjjjjd: = <CR>:/<Up>.= /<BS><CR>:%s//, <CR>00ggf,;R);<Esc>j;.j.jl.j/<Esc>.jhhDA);<Esc>jF,lD;lll.A);k<BS><Esc>jDA0<BS>);<Esc>jA0;<BS><BS>);<Esc>kkkkkkkkhhhhkjhxjxZZ",
+  "source": "public",
+  "keystrokes": 156
+ },
+ "57cf3e398c660c1f8f014717": {
+  "keys": "12G1dd10Go<Esc>8G1dd6Go0<C-D><Esc>4G1dd2Go<Esc>ZZ",
+  "source": "minimized-diff",
+  "keystrokes": 33
+ },
+ "57d7d06d9ce5640f6f000001": {
+  "keys": "2ddG7sAaAaAaA<Esc>ggoAaAaAaA<Esc>ggOAaAaAaA<Esc>ZZ",
+  "source": "minimized-diff",
+  "keystrokes": 38
+ },
+ "57fbb753ab6108077204f440": {
+  "keys": "  v$r-$x<CR>:s/34/--/g<CR><CR>/<CR>R--<Esc><CR>VG:s/34/--<CR>ZZ",
+  "source": "public",
+  "keystrokes": 41
+ },
+ "58409414770f4b474601384c": {
+  "keys": "jdwxjdwxkkJJ2j0dwxjdwxjdwx3kJJJ4Gqadwxjq4@a3G5JJZZ",
+  "source": "public",
+  "keystrokes": 50
+ },
+ "584dd156842bd00769000001": {
+  "keys": "gUlj2.j4.j8.j16.j32.j64.jl.jl.j2l.j4l.j8l.j16l.j9900<Esc>0gulgUlZZ",
+  "source": "public",
+  "keystrokes": 62
+ },
+ "5853f052854f48716101cc70": {
+  "keys": "5Gf,vfBykpkp8Gf,vfCykpkpZZ",
+  "source": "public",
+  "keystrokes": 26
+ },
+ "58753af0f5ef5c0006000006": {
+  "keys": ":%s/\\(thing|<BS>.<BS>\\.<BS><BS>|other|<BS>)<BS><BS><BS><BS><BS><BS><BS>\\><BS>|other\\)\\.\\(\\a*\\)/\\1.get('\\2')/g<<BS><CR>ZZ",
+  "source": "public",
+  "keystrokes": 75
+ },
+ "587cab5a0740c90006000006": {
+  "keys": "qaJdwdwi <Esc>jj0q@aZZ",
+  "source": "public",
+  "keystrokes": 18
+ },
+ "587e0a9d5944680006000007": {
+  "keys": ":s/./[\\u\\0\\l\\0]/g<CR>ZZ",
+  "source": "public",
+  "keystrokes": 20
+ },
+ "58860440c57fb30006000004": {
+  "keys": "qqj0f>lyithi value=\"\"<Esc>hpvi\"uvi\":s/\\%V /_/g<CR>q@q@@@@ZZ",
+  "source": "public",
+  "keystrokes": 52
+ },
+ "58c88ae7229d3b000600001f": {
+  "keys": ":s<BS>%s/%//g<CR>:%s/.//g<CR>u:%s/.//g<CR>uwwwxj.j.j.j.j..juj.j.hhi.<Esc>k.k.k.k.k.k.k.ZZ",
+  "source": "public",
+  "keystrokes": 73
+ },
+ "58e30bf5a570cf043d000002": {
+  "keys": "jib_<Esc>llr_:%s/\\./_/gc<CR>nyynnnyyyyykkkkk^ib_<Esc>jh.jjh.jh.jh.ZZ",
+  "source": "public",
+  "keystrokes": 57
+ },
+ "591074530b52f5000c000005": {
+  "keys": "GVkk:norm I  <CR>VkkdkPO<BS><BS><Esc>ZZ",
+  "source": "public",
+  "keystrokes": 26
+ },
+ "591903ff3060ed0b32000007": {
+  "keys": ":%s/t<BS>wt-normal/wt-bold<CR><Down><Right>i:w<BS><BS><Esc>:w%<BS><BS><BS>:%s/r-4/r-2<CR><Esc>:wq<CR>",
+  "source": "public",
+  "keystrokes": 55
+ },
+ "59265921e633730ce0000016": {
+  "keys": "qa0i// <Esc>jq@a@@jqa0xxx<Esc>qj@@j@@<Esc><Esc>:wq<CR>",
+  "source": "public",
+  "keystrokes": 35
+ },
+ "59381bd3652ee10dec000005": {
+  "keys": "<C-V>L$A--<BS><BS> --><Esc>Wi      <Esc>jhhi     <Esc>jjhhli   <BS><Esc>jbi   <BS><Esc>jbi      <Esc>ji <Esc>ZZ",
+  "source": "public",
+  "keystrokes": 67
+ },
+ "59384eb3652ee111a0000001": {
+  "keys": "c2w<Esc>ux2w<Esc>uwwdwxx0P<Esc>uuuu0d2w<Esc>uww10x0Pvhc.<Esc><Esc>jww8x0Pvhc.<Esc>jww11x0Pvhc.<Esc>j9x0Pvhc.<Esc>:wq<CR>",
+  "source": "public",
+  "keystrokes": 81
+ },
+ "594ae5d6776ef706ab000009": {
+  "keys": "VuqagUlwq8@aj:s/-/=/g<CR>:x<CR>",
+  "source": "public",
+  "keystrokes": 25
+ },
+ "594db7f41ba5d60135000005": {
+  "keys": ":%s#.#<td>&</td>#g<CR>:%s#.*$<BS>#<tr>&</tr>#l<BS><CR>o<table<BS><BS><BS><BS><BS>/table><C-O>gg<table><CR>s<BS><C-C><C-C><C-C><C-C><C-C><C-C>V5j>ZZ",
+  "source": "public",
+  "keystrokes": 86
+ },
+ "59553bd164628d0009000038": {
+  "keys": "jjjjo#include <assert.h><Esc>jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjlllllllllllllllllllllllllllhhcwassert<Esc>:x<CR>",
+  "source": "public",
+  "keystrokes": 115
+ },
+ "5956673d1a25ba1035000003": {
+  "keys": "Vr j<C-V>9jr j<C-V>fz3jkr fg<C-V>Gllllllllr khh<C-V>$r 3jjhhhhl.jkjl.jkjl.jl.jl.<C-V>0r kfl.u<C-V>0r k<C-V>frr k<C-V>fdr klr jZZ",
+  "source": "minimized-public",
+  "keystrokes": 96
+ },
+ "5957c3356f7e17045b00002c": {
+  "keys": "Gkkkjk$a <BS><Esc>bbBjjkbbBBBBBBBBjjbbbbjbBBBBjll$<C-V>jj<Esc>kkl<C-V>jjI <BS>g `xml: <BS>\"field`\"`<BS><BS><BS>1\"`<Esc>jk$a<BS><Esc>jlxjlxhhkr2jr3<Esc>:wq<CR>",
+  "source": "public",
+  "keystrokes": 106
+ },
+ "595a5dd1b9304b000c000011": {
+  "keys": ":14<CR>ddp:12<CR>ddjp:10<CR>dd2jp:8<CR>dd3jp:6<CR>dd3jjp<Esc>:3<BS>4<CR>dd:9<CR>p:2<CR>dd:8<CR>p:wq<CR>",
+  "source": "public",
+  "keystrokes": 66
+ },
+ "595cf3b0e9c7a8083500001b": {
+  "keys": "qwYpr f C needs to be done toads<BS><BS><BS>day<Esc>/#<CR>q@w@w<Esc>@w@w@w@w@w@w:wq<CR>",
+  "source": "public",
+  "keystrokes": 64
+ },
+ "59713ae5bb056f16b6000002": {
+  "keys": "3G012l20s`bye ${world}!`<Esc>2G012l16s`hello ${world}`<Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 53
+ },
+ "598728b4d6a38f049d00000f": {
+  "keys": "14G023l1s_<Esc>13G025l10s_external_<Esc>10G025l1s_<Esc>9G025l10s_bootable_<Esc>8G038l5s_abi_<Esc>7G024l21spath=\"device/generic/arm64\" name=\"device_generic_<Esc>6G011l21spath=\"device/generic/common\" name=\"device_generic_<Esc>5G011l13spath=\"device/common\" name=\"device_<Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 242
+ },
+ "59a2167bd6550c0006000005": {
+  "keys": "/home<CR>vi\"xiPage1.html<Esc>jjjvi\"xiPage2.html<Esc>jjjvi\"xiPage3.html<Esc>jjjvi\"xiPage5<BS>4.html<Esc>:wq<CR>",
+  "source": "public",
+  "keystrokes": 85
+ },
+ "59a95b5a3e0a8d01da000004": {
+  "keys": "8G04sreword<Esc>7G04sreword<Esc>6G04sreword<Esc>3G04sreword<Esc>2G04sreword<Esc>gg04sreword<Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 74
+ },
+ "59e19a18396b000053000013": {
+  "keys": "<C-Q>Lt0xe<C-Q>LtGc|<Esc>ll<C-Q>3jr|<Esc>i||<Esc>lldwqqf8a|<Esc>f9.q<CR>@q<CR>@@@@f3a.<Esc>la|<Esc>f3a.<Esc>llD<CR>@@A|<Esc>2ki|<Esc>lDkf Di.<Esc>ZZ",
+  "source": "public",
+  "keystrokes": 87
+ },
+ "5a0f4f6591974a039c000007": {
+  "keys": "}d<CR>Dggw P dt\"Gf1 <C-V>2kI:00<Esc>diW?Song1<CR>P <Esc>u/01<CR>wP D/04<CR>diw<Esc>udiW?01 00<CR>nwP D/08:<CR>diW?01<CR>wP D/la<CR><C-V>3jgUwgUlw.WWWW.WWWW.BD?Song3<CR>P dw/La<CR>D?Sonag<BS><BS>g1<CR>P dw/Bla<CR>D?Son2<CR>?Son<CR>P dw}d}gg<CR>VG:s/Artist/Bandam<BS><BS>name/g<CR>ZZ",
+  "source": "public",
+  "keystrokes": 201
+ },
+ "5a19a46019128f000900001e": {
+  "keys": "qq/ 0<CR>$yB:let @/=@\"<CR>NWye<C-O>? 0<CR>plDq5@qZZ",
+  "source": "public",
+  "keystrokes": 38
+ },
+ "5a19a6be19128f03c2000010": {
+  "keys": "20G012l11x18G08s\t\t<Esc>17G08li <Esc>11G016s\t\t<Esc>5G3dd3Go0<C-D>\tchar\t*tmp2;<CR>0<C-D><CR>0<C-D>\twhile (**ptr)<Esc>3G01l12schar\t*tmp;<Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 102
+ },
+ "5a218cccc0ed6d04af000004": {
+  "keys": "qqcw<C-R>=sqrt(<C-R>\")<CR>+<BS><Esc>+11@qq111@qZZ",
+  "source": "public",
+  "keystrokes": 31
+ },
+ "5a2808ee8e67cc0006000002": {
+  "keys": "8dd7Gp26G5dd38Gp47G5ddGpZZ",
+  "source": "public",
+  "keystrokes": 26
+ },
+ "5a33022f2de3f1021300000d": {
+  "keys": "7wwi$row[<Esc>bb2yw<Down>b<Left>p<Down><Right>p<Down>b<Left>p<Right>i[<Right><Right>]<Up><Left>]<Left><Left><Left>[<Up><Left>]<Left><Left><Left>[<Up><Right><Right><Right><Right><Right><Right><Right>]<Esc>bbbbbbyw4wwwb<Right>p3wyw6wb<Right>p3wyw5w<Right>p3wyw5w<Right>p:wq<CR>",
+  "source": "public",
+  "keystrokes": 100
+ },
+ "5a390183530db00e38000001": {
+  "keys": "34GdGggPjjjjo<Esc>37GdG10GP37GdG19GP37GdGggP37G3<Esc>dGudG25GP37G3<Esc>dG16GP34GdGudG16GP37GdG22GPGddZZ",
+  "source": "public",
+  "keystrokes": 91
+ },
+ "5a49efee4917e00385000001": {
+  "keys": "<C-End>S <BS>A Happy New Year 2018 !!!!!!!!!!!!!!!!!!<Esc>ZZ",
+  "source": "public",
+  "keystrokes": 47
+ },
+ "5a4c89ccf061980006000003": {
+  "keys": "y$PYPqa2Yp13l2X<CR>f(.I <Esc>k.q4@a2GyG8PZZ",
+  "source": "public",
+  "keystrokes": 36
+ },
+ "5aa68c3b81f0830009000005": {
+  "keys": ":%s/13/18<CR>1Gf2:for i in [2 <BS>, <BS>3,4,5,6,7,8,9]<CR>for j in [1,2,3,4]<CR>normal <BS><BS><BS><BS><BS><BS><BS>execute 'normal'.<BS><BS> '.<BS><BS>r'.i.'j'<CR>endfor<CR>endfor<CR>1Glllllllqajcw64<Esc>jhcw128<Esc>jhhcw192<Esc>jhhq7@aZZ",
+  "source": "public",
+  "keystrokes": 169
+ },
+ "5aa7e13aa19abd00c800000b": {
+  "keys": "34Go0<C-D>          category_ids: [categories(:mobile).id, categories(:technical).id],<CR>0<C-D>          thread_id: content_threads(:new_smartphone).id<CR>0<C-D>      }.to change { contents(:new_smartphone).reload.categories.to_a.sort }<CR>0<C-D>        .from([])<CR>0<C-D>        .to([categories(:technical), categories(:mobile)])<Esc>34G06l128s    id: contents(:new_smartphone).id,<Esc>33G031l148x28Go0<C-D>          category_ids: [categories(:mobile).id, categories(:technical).id],<CR>0<C-D>          thread_id: content_threads(:adsl_cancel).id<CR>0<C-D>      }.to change { content.reload.categories.to_a.sort }<CR>0<C-D>        .from(array_including([categories(:internet), categories(:sales)]))<CR>0<C-D>        .to(array_including([categories(:technical), categories(:mobile)]))<Esc>28G06l185s    id: content.id,<Esc>27G031l127x20Go0<C-D>          id: content.id,<CR>0<C-D>          category_ids: [],<CR>0<C-D>          thread_id: content_threads(:adsl_cancel).id<Esc>20G031l78x13Go0<C-D>        id: content.id,<CR>0<C-D>        category_ids: [categories(:mobile).id, categories(:technical).id],<CR>0<C-D>        thread_id: content_threads(:adsl_cancel).id<Esc>13G029l127xZZ",
+  "source": "diff",
+  "keystrokes": 1058
+ },
+ "5abb80fc40f4d919b6000002": {
+  "keys": "10G012sbestehen -<Esc>9G09skommen   -<Esc>8G08sgeben    -<Esc>7G09smachen   -<Esc>6G08ssagen    -<Esc>5G09sm\u00fcssen   -<Esc>4G09sk\u00f6nnen   -<Esc>3G09swerden   -<Esc>2G08shaben    -<Esc>gg07ssein     -<Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 164
+ },
+ "5b07e46e497a8a000c00000f": {
+  "keys": "ddqammyw:norm@b<CR>:g/^0/d<CR>'m<CR>@aqqb<CR>C<C-R>=(<C-R>-%<C-R>0>0)*<C-R>-<CR><Esc>@bq(@aZZ",
+  "source": "public",
+  "keystrokes": 58
+ },
+ "5b0ba8a4dd701305aeb59201": {
+  "keys": ":let c=1<CR>:while c<=1000<CR>exectu<BS><BS>ute 'normal ' . search(\"^\".c.\"$\") .'GddGp'<CR>c<BS>let c=c+1<CR>endwhile<CR>:wq<CR>",
+  "source": "public",
+  "keystrokes": 100
+ },
+ "5b6e21c9a893790006232531": {
+  "keys": ":%s/lang\\.equals(\\(.*\\)\")/\\1\"/<CR>:%s/US\")/US\".equals(lang))/<CR>:wq<CR>",
+  "source": "public",
+  "keystrokes": 63
+ },
+ "5b6f0fcba89379000c2328a4": {
+  "keys": "jjr<Esc>wwciwcjhh<Esc>hhhhce42,<Esc>wcf\"foobar<Esc>wwce''h<BS><Left>Another text<Esc>wwce<Esc>hxx<Esc>r<Esc>jjjjjj154<BS><BS>14Geeehce\"\"<Left>Some amazing text<Esc>r<Esc>ewce123<Esc>wwce<Esc>c<Esc>llcf'variable<Esc>ba<Esc>i<BS><Esc>jjj<Esc>:wq<CR>",
+  "source": "public",
+  "keystrokes": 154
+ },
+ "5b71fa9105b5ca000ce4a7a1": {
+  "keys": "iprivate String <Esc>j0.j0.j0.j0.xxkxxkxxkxxkxxf:d$a;<Esc><Esc>jf:c$;<Esc>jcF:;<Esc>lxjA<BS><BS><BS><BS><BS><BS>;<Esc>jcF:a<BS>;<Esc>lx:wq<CR>",
+  "source": "public",
+  "keystrokes": 90
+ },
+ "5b7d2a7a55b986000cd6e00f": {
+  "keys": "/(<CR>nli<CR><Esc>$i<CR><Esc>k:s/, /,\\r        /g<CR><Esc>kk0i    <Esc>/(<CR>a<CR>    <Esc>0llll$i<CR><BS>    <Esc>k:s/, /,\\r        /g<CR>ZZ",
+  "source": "public",
+  "keystrokes": 90
+ },
+ "5ba020f91abf2d000951055c": {
+  "keys": "jk<C-V>jjjjxlllllllllllllllll<C-V>jjjjp<Esc><Esc>uh<C-V>jjjjp<Esc>uu<C-V>jjjjxlllllllllllhhhhf9h<C-V>jjjjp<Esc>u<C-V>jjjjp<Esc>uu<C-V>jjjjxllllllllllllllll<C-V>jjjjp<Esc>uu<C-V>jjjjxllllllllllllllll<C-V>jjjjp<Esc>ul<C-V>jjjjI,<Esc><Esc><Esc>jjjjjl<C-V>jjjjx<Esc>bbbbbbbbbbbbbbbbl<C-V>jjjjI,<Esc>jjjjjj:w<CR>:wq<CR>",
+  "source": "public",
+  "keystrokes": 208
+ },
+ "5ba4962fbbac05000bc2ddec": {
+  "keys": ":%s/newstate.set('/state./g<CR>:%s/', / = payload./g<CR>:%s/)//g<CR>:wq<CR>",
+  "source": "public",
+  "keystrokes": 63
+ },
+ "5bf26adb9a198b0009ce0a87": {
+  "keys": ":%s/^/\\t<CR>:%s/ /\\t\\t<CR>:%s/a/a /<CR>:%s/b/ b<CR>kllli <Esc>kki <Esc>ZZ",
+  "source": "public",
+  "keystrokes": 53
+ },
+ "5bff6e560d5dc0000ca3485b": {
+  "keys": "qqdw10<C-A>A:\"\";<Esc>hP0xjq9@qr1k<C-V>{r f\"2i <Esc>jh.xPjjhPjPj2PjjjhPjPP<C-V>9k<Esc>ui <Esc><C-V>9k6I <Esc>ZZ",
+  "source": "public",
+  "keystrokes": 74
+ },
+ "5c07cf85207a850009268546": {
+  "keys": "gg020l28sAaron Swartz and John Gruber<Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 40
+ },
+ "5c1db460c5949f000990a2f1": {
+  "keys": "<C-V>9jI- <Esc>O# Drink<CR><CR># Breakfast<CR><CR># Lunch<Esc><CR>qq/\\d<CR>i- $<Esc><CR>q9@q^qqWWyy*pWWdW``ddq9@q:%s/\\v(\\w)(\\w*)[- ,]/\\u\\1\\2 /g<CR>o<CR>> *GFO = <Esc>3kfGct-(GFO,VO) <Esc>GA<C-R>\"<C-O>FV<BS>, V = <C-O>yw<C-O>P<BS>, VO = <Esc>$x7kFGct-(GFO,V) <Esc>kkFG.ZZ",
+  "source": "public",
+  "keystrokes": 189
+ },
+ "5c221a61dd9c0e0006c8e15f": {
+  "keys": ":%s/^/nice /gc<CR>yynynnyynnynyynyynynnyynnynyyn:<Up><Left><Left><Left><Left><BS><BS><BS>aughty<CR>nnynyynnyynynnynnynyynnyynynnyZZ",
+  "source": "public",
+  "keystrokes": 93
+ },
+ "5c26181de8c649000cfcac17": {
+  "keys": ":%s/l_this_f/l_that_f/g<CR>ZZ",
+  "source": "public",
+  "keystrokes": 26
+ },
+ "5c264e64e8c64916d7fca650": {
+  "keys": "7G2dd3G3ddgg1ddZZ",
+  "source": "diff",
+  "keystrokes": 17
+ },
+ "5c2fdc20327666000cd05aac": {
+  "keys": ":3m 12<CR>kkddkPkkkddkPjjddkkkkP:5 m1<CR>kddjjpkkddjjjjjPjddkkkkPjddkkkPjjjjjjjjjddkkP:wq<CR>",
+  "source": "public",
+  "keystrokes": 84
+ },
+ "5c393a580a5a300009888e2a": {
+  "keys": "gg030l21xZZ",
+  "source": "diff",
+  "keystrokes": 11
+ },
+ "5c52df3ff6983b0006c69e80": {
+  "keys": "7:<CR>vG:s/^/\"<CR>g;vG:<Up><Left><Left><BS>$<CR>dd5:<BS><BS><BS><BS><BS>5<CR>pGdd:4<CR>pGdd:3<CR>pGdd:2<CR>pGdd:1<CR>pkJj.j.j.j.jddZZ",
+  "source": "public",
+  "keystrokes": 78
+ },
+ "5c5f20c1e2dcab0009c10530": {
+  "keys": "6ia<Esc>a = <Esc>yy5Pvehr j. uv3lr jv2lr jvlr jr jk<C-X>k<C-X><C-X>k<C-X><C-X><C-X>kr2kr1<Esc><Esc>:wq<CR>",
+  "source": "minimized-public",
+  "keystrokes": 63
+ },
+ "5c6eaefc69134b000675f4eb": {
+  "keys": ":30<CR>16lr1ZZ",
+  "source": "public",
+  "keystrokes": 11
+ },
+ "5c75b4246c2f8300092b8d97": {
+  "keys": "wi <Right> <Right> <Right><BS>n <Right> <Esc>jv}:s/[ A-z]/& /g<CR>:%s/ (\\(\\d\\)/\\='('.submatch(1)*2/<CR>ZZ",
+  "source": "public",
+  "keystrokes": 68
+ },
+ "5c82a157c82f3900064c82d7": {
+  "keys": "<Down><Down><Right><Right><Right><Right><Right><Right><Right><Right>oo<BS><BS><Left><Left><Left><Left><Left><Left><Left><Left><Left>ool<Down><Left><Left><Left>ool<Down><Down><Down><Down><Left><Left><Left>oll<BS><BS>oo<BS>l<Esc>ZZ",
+  "source": "public",
+  "keystrokes": 52
+ },
+ "5c95672f291e16000684a2d8": {
+  "keys": "<Down><Down>qqdd<Down><Down>d18<CR>q3@q:%s/\\nD.*: \\(.*\\)\\..*/,\\1<CR>ZZ",
+  "source": "public",
+  "keystrokes": 44
+ },
+ "5c9f68afe73f870006154904": {
+  "keys": "qaA<C-R>r<Esc>qqn:let @r=3-@r<CR>qqqyyp\"ryl:s/\\d/&@a@n/g<CR>D@\"q9@qZZ",
+  "source": "public",
+  "keystrokes": 55
+ },
+ "5c9f6f52e73f87000c1548f8": {
+  "keys": ":execute \"normal! \".join(map(range(1,49),'\"yiwA <C-V><Esc>p\".v:val.\"<C-V><C-A>\"'),'')<CR>ZZ",
+  "source": "public",
+  "keystrokes": 72
+ },
+ "5ca2bc786b547e000c77fd52": {
+  "keys": "qqwyiwge@\"<C-A>wqqwyyp@=line('.')-2<CR>@qI1 <Esc>q15@wZZ",
+  "source": "public",
+  "keystrokes": 45
+ },
+ "5cace3ba888961000986ec8d": {
+  "keys": "qq+f[df]A[]<Esc>q5@qHf]f]jf]\"i\"<CR>i\"atlas bear',<BS><BS>\", \"giraffe\", \"gorilla\", \"hippo\", \"hyena\", \"lion\", \"zebra\"<Esc>ji\"honey bear\", \"monkey\"m \"<BS><BS><BS>, \"panda\", \"tiger\", \"yak\"<Esc>ji\"brown bear\", \"deer\", \"flea\", \"fox\", \"ox\", \"rat\"<Esc>ji\"alligator\", \"bison\", \"cougar\", \"poa<BS>lar bear\", \"raccoon\", \"reindeer\", \"wolf\"<Esc>ji\"anaconda\", \"capp<BS>ybara\", \"llama\", \"penguin\", \"puma\", \"sloth'<BS>\", \"spectacled bear\"<Esc>i<Esc>ji\"SPIDERS!\", \"crocodile\", \"dingo\", \"d<BS>echidna\", \"kangato<BS><BS>roo\", \"koala\", \"playtpus\", \"spider bear\"<Esc>ZZ",
+  "source": "public",
+  "keystrokes": 479
+ },
+ "5caf08f4a1c3e10009f19429": {
+  "keys": "ddqqc0[`<Esc>lyewcth`](https://symfony.com/doc/current/reference/constraints/<C-R>0.html)|<Esc>99i <Esc>87|dwli `<Esc>Exs`|<Esc>99i <Esc>123|dw+q13@qS<Esc>{YPpVr-87|r|$r|-086r 011sConstraints<Esc>wwvaWr 10sVocabulary<Esc>ZZ",
+  "source": "public",
+  "keystrokes": 183
+ },
+ "5cb9d07d716c1b0009f69a40": {
+  "keys": "fn;dfajFn;;;dfadfafn;dfafn;dfafnNfnhh.fn.fn;;.lllllllllllllll.fn;.fNfn;.fn.ufn.....5.10.10.10.20.30.30.30.10.20.212.12.A<BS>line<Esc>a.<Esc>:wq<CR>",
+  "source": "public",
+  "keystrokes": 133
+ },
+ "5cf62aa56c09760009d6b2f3": {
+  "keys": "$i;<BS><Esc><Right><Right>I<Esc><Down><Down><Left><Left><Up><Up><Down><Down><Down><Down><Down><Down><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Up><Right><Right><Right><Right><Right><Up><Up><Down><Up><Up><Up><Left><Up><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><CR><Up><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right>i<Right>;<Down><Right><Right><Right><Right><Right>;<Down>l;<BS><BS>;<Down><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right>;<Down><Down>;<Down>;<Esc>:wq!<CR>",
+  "source": "public",
+  "keystrokes": 183
+ },
+ "5cf8aa1281437e000c4df724": {
+  "keys": "<Down><Down><Down><Down><Down><Down><Down><Down>ov<BS><Esc>v<Up><Up><Up><Up>d<Up><Up><Up><Up><Up>p<Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Left>v<Down><Down><Down><Right>d<Up><Up><Up><Up><Up><Up><Up><Up><Up>p<Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down>v<Down><Down><Down><Right>d<Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up>p<Down><Down><Down><Down>i#<Right><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><BS><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><BS><Esc>:x<CR>",
+  "source": "public",
+  "keystrokes": 137
+ },
+ "5cf9c4c46db575000607ed25": {
+  "keys": "<Down>Vg?fhvfg<Right>U<Up>fRv<Right><Right>uZZ",
+  "source": "public",
+  "keystrokes": 20
+ },
+ "5cfc4d8b83772700093ebbc0": {
+  "keys": "ggo0<C-D>0000011111010000<CR>0<C-D>0000110001110000<CR>0<C-D>0001110011010000<CR>0<C-D>0011010111110000<CR>0<C-D>0111111100010000<Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 100
+ },
+ "5cfd02e3837727000c3ebe53": {
+  "keys": "3ji47 <Esc>j^i38 <Esc>jhhi34 <Esc>jhhi28 <Down><Left><Left><Left><Left>25 <Esc>ZZ",
+  "source": "public",
+  "keystrokes": 40
+ },
+ "5d00ed30cb4b5c000627f371": {
+  "keys": ":sort<CR>:9,13 d<CR>ggPZZ",
+  "source": "public",
+  "keystrokes": 19
+ },
+ "5d010a4fcb4b5c000927f42a": {
+  "keys": "<C-V>}cno<Esc>cawyes<Esc><CR><CR>.4<CR>.<CR>.7<CR>.<CR>.<CR>.14<CR>.<CR>.<CR>.<CR><CR>.<CR>.27<CR>.<CR>.<CR>.<CR><CR>.<CR>.ZZ",
+  "source": "public",
+  "keystrokes": 56
+ },
+ "5d01c60354ee2200067df987": {
+  "keys": "qq02f\"x;x;x;x;x;x;x;x<CR>q@q.u@q@q:w<CR>:q<CR>",
+  "source": "public",
+  "keystrokes": 37
+ },
+ "5d1a0c57da55f00009f75842": {
+  "keys": "qq4A#<Esc>Y2plr $h.jq20@qZZ",
+  "source": "public",
+  "keystrokes": 23
+ },
+ "5d2eb22d2fdc4f0009d79444": {
+  "keys": ":s/{}<BS>}<BS>/(/:s/}<Left><Left><Left><Left><Del>&&<Del><Del><Del><BS><BS> | s:<BS>/}/)/<CR><Esc>:wq<CR>",
+  "source": "public",
+  "keystrokes": 44
+ },
+ "5d3122ace2e18c0006b8bc4d": {
+  "keys": "2G011l30snameVariable, \"John Q. Public\"<Esc>gg011l19sdestination, source<Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 71
+ },
+ "5d4384d8654b7b00065af0de": {
+  "keys": ":%s/./& /g<CR><C-O>qq<C-A>wq58@qbbr0:%s/ //g<CR>ZZ",
+  "source": "public",
+  "keystrokes": 36
+ },
+ "5d4cb5ed5f97770009e52f52": {
+  "keys": "<Up><Down>dd<Right><Right><Right>wwwww<Left><Left><Left><Left><Left>i<BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><Right><Right><Right><Right><Right><Right><CR><BS><Right><CR><Esc>ZZ",
+  "source": "public",
+  "keystrokes": 52
+ },
+ "5d59205be4bef300096bc66b": {
+  "keys": "<C-V>Gf dgvgJ:s/\\\\\\\\n/<C-V><CR>/g<CR>dk2G.qqi\"<C-O>f \"<C-O>f <BS><BS>:<Esc>wi\"<C-O>A\",<Esc>qG@q/T<CR>~n.2Gqqi\"<C-O>f \":<Right><Right><BS><BS><C-O>A,<Esc><CR>qV*<Esc>8:norm @q<CR>VHJI{ <Esc>A<BS> }<Esc>ZZ",
+  "source": "public",
+  "keystrokes": 109
+ },
+ "5d5c4f742eb5c3000624f668": {
+  "keys": "O<Esc>i[#p<BS>]<Esc>vhhyP<Esc>hh9P<Esc>yy9<Esc><Esc>8P<Esc>O<Esc>jjk<C-V>jjjjjjllr lll<C-V>jjjjllr lll<C-V>jjjjjjkllr lll<C-V>jjllr lll<C-V>jjjllr lll<C-V>llr llllll<C-V>jjll<Esc>kkhhDjlDjllllDjlDjlDjlDjl<C-V>llr llllllDjlD<Esc><Esc>:x<CR>",
+  "source": "public",
+  "keystrokes": 157
+ },
+ "5d6aa7f288ff50000c123d49": {
+  "keys": "i ABCDEF<Esc>Y5PhrAqqx:s/./<C-R>\"& /g<CR>qjrB@qjrC@@jrD@@jrE@@jrF@@$<C-V>5kxZZ",
+  "source": "public",
+  "keystrokes": 63
+ },
+ "5d6b72521c6d070006bded72": {
+  "keys": ":%s/[a-z1_]\\++<BS>\\s\\+\\([0-9.//]\\+\\)\\p*/net \\1<CR>:!<BS>1,$-1s/\\n/ or /<CR>:x<CR>",
+  "source": "public",
+  "keystrokes": 66
+ },
+ "5d7259d2c0248a000c157f9f": {
+  "keys": "6G09li = 'UNKNOWN'<Esc>5G011li = 'PUPPETEER'<Esc>4G012li = 'PROTRACTOR'<Esc>3G011li = 'UNIDRIVER'<Esc>2G09li = 'VANILLA'<Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 107
+ },
+ "5d74185598328b0009ba471e": {
+  "keys": "AZZs<Esc>2X@-",
+  "source": "public",
+  "keystrokes": 9
+ },
+ "5d7418b198328b0006ba4750": {
+  "keys": "dawZZ",
+  "source": "public",
+  "keystrokes": 5
+ },
+ "5d7418d098328b000bba4741": {
+  "keys": "eeeellls1e<BS><Esc>eee<Left><BS>s8<Esc>ZZ",
+  "source": "public",
+  "keystrokes": 22
+ },
+ "5d7418f898328b0009ba4721": {
+  "keys": "eeeeeas<Esc>ZZ",
+  "source": "public",
+  "keystrokes": 10
+ },
+ "5d74192998328b000bba4743": {
+  "keys": "A<Del> <Esc>ZZ",
+  "source": "public",
+  "keystrokes": 6
+ },
+ "5d745e0e9a72d6000c5eb78d": {
+  "keys": ":4<CR><C-V>8jICH <Esc>eeeeli<Del><Down><Del><Down><Del><Down><Del><Down><Del><Down><Del><Down><Del><Down><Del><Down><Del><Esc>:15<CR>oconst MONTH = 'June';<Up>;<CR><BS><Down><Down><Esc>jeeeeeei <Esc>eeei <Esc>A;<Up><Up><Up><Up><Up><Up><BS><Esc>klldwkdwkdwkdwk$dwkdwk$dwkDZZ",
+  "source": "public",
+  "keystrokes": 123
+ },
+ "5d745e309a72d6000c5eb78e": {
+  "keys": "8W~w~/Au<CR>gEdt]/]<CR>PVG:s:.$:&;<CR>:%s:_diary<CR>?T<CR>~ZZ",
+  "source": "public",
+  "keystrokes": 46
+ },
+ "5d745e539a72d600095eb7ad": {
+  "keys": "o<Esc>/'<CR>l~6lR C<Esc>Wl~Wl~nin<Esc>4nl~;2lR F<Esc>Wl~2lR C<Esc>2jxJJD5jBinew <Esc>jB.j2W.3+XXuu<C-V>6jhxZZ",
+  "source": "public",
+  "keystrokes": 78
+ },
+ "5d745e799a72d600095eb7af": {
+  "keys": ":g/ov/d<CR>4k2ffye5jjf<Esc>FbP<Right>de<Down>V:s/\\%V--<BS><BS>==/===/g<CR>:%s/or r/or<C-V><CR>     r/g<CR>f=2i=<Esc>ZZ",
+  "source": "public",
+  "keystrokes": 77
+ },
+ "5d745ea09a72d600095eb7b0": {
+  "keys": "jqq/[A-Z]<CR>i_<Esc>l~q18@q2jo<Esc>qq/^M<CR>ExEpq8@q?cit<CR>~fh~obreak;<Esc>ddP2jp3jpZZ",
+  "source": "public",
+  "keystrokes": 66
+ },
+ "5d745ebe9a72d6000c5eb793": {
+  "keys": ":%s/\\/\\//\\/\\/ /<CR>}V{{:s/(/(Citizen_Hacks/<CR>?est<CR>%iselected_company<Esc><C-V>by<CR>%PZZ",
+  "source": "public",
+  "keystrokes": 73
+ },
+ "5d745f6f9a72d600065eb79f": {
+  "keys": "<C-A>8Gf,dbwPldwF(p4+C0  <C-R>-  0<Esc>YPVr0Yjp3lR123456789987654321<Esc>ZZ",
+  "source": "public",
+  "keystrokes": 59
+ },
+ "5d78aa6071f751000cfc0bfc": {
+  "keys": "A<C-R>=5+11+1<CR><Esc>jA<C-R>=8*2+1<CR>j<BS><Esc>jA<C-R>=100+99+1<CR><Esc>jA<C-R>=123+123+1<CR><Esc>jA<C-R>=4+4+2<CR><Esc>j.xxA<C-R>=12*9+2<CR>j<BS><Esc>jA<C-R>=1*3<CR><Esc>jA<C-R>=1*4<CR>j<BS><Esc>jA<C-R>=2*8<CR><Esc>jA<C-R>=2*3+2<BS>1<CR><Esc>jA<C-R>=2**8<CR>2<BS><C-R>=2*2*2*2*2*2*2*2<CR><Esc>jA<C-R><C-R>=256*2*2*2*2*2*2*2*2<CR><Esc>:wq<CR>",
+  "source": "public",
+  "keystrokes": 183
+ },
+ "5da1fae264d6990006137c21": {
+  "keys": "17Go<<Esc>5k<C-V>10j$d/<<CR>p:%s/<>//<CR>?<<CR>xvip:retab<CR>?><CR>r<k11dkZZ",
+  "source": "public",
+  "keystrokes": 53
+ },
+ "5dd30310d8d0f900069f675f": {
+  "keys": "65G011li <Esc>51G03l29sVehicle.setTime (ptime, TimeDestination);<Esc>50G03l70s// Updates present time with time as of after traveling<Esc>49G03l30sVehicle.setTime (ltime, TimePresent);<Esc>48G03l63s// Updates last time with time as of before traveling<Esc>46Go0<C-D>\t\t// Prompts for a time travel of given length, checks if no<CR>0<C-D>\t\t// error returned<Esc>46G01l74s    TMReady && VReady) {<Esc>45G060l21x39G013li <Esc>31G010li       <Esc>30G013li    <Esc>23G035li <Esc>22G025l6s  = 0.0;  <Esc>20G035li <Esc>19G025l6s  = 0.0;  <Esc>17G014li       <Esc>16G017li    <Esc>13G02s                        // tracks<Esc>12G09l66s  Vehicle;     // Manages the storage, display and input of time,<Esc>2G022li  <Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 624
+ },
+ "5dd7ed687a0c210006a6820f": {
+  "keys": "f:a<BS> =<Esc><Down>0wdw<Down><Left>dtPi: <Esc>f=dt=<Up>0w<Left>px:<BS>0wxx:wq<CR>",
+  "source": "public",
+  "keystrokes": 42
+ },
+ "5e319945224f4100097c9609": {
+  "keys": "ggoalias c..='cd ../..'<CR>alias c...='cd ../../..'<CR>alias c....='cd ../../../..'<CR>alias c.....='cd ../../../../..'<CR><CR>alias c1='cd ..'<CR>alias c2='cd ../..'<CR>alias c3='cd ../../..'<CR>alias c4='cd ../../../..'<CR>alias c5='cd ../../../../..'<Esc>ZZ",
+  "source": "minimized-diff",
+  "keystrokes": 229
+ },
+ "5e342153e78957000c248a55": {
+  "keys": "j<C-V>16jlylpj<C-V>14jlylpj<C-V>12jlylpj<C-V>10jlylpj<C-V>8jlylpj<C-V>6jlylpj<C-V>4jlylpj<C-V>jjlylpj<C-V>lylpZZ",
+  "source": "public",
+  "keystrokes": 76
+ },
+ "5e3c8d176ea90a00096b2e63": {
+  "keys": "A (<Esc>Go)<Left><CR><BS><BS><BS><BS><Esc>kddkkkkkkkkkjebcW\"\"<Esc>P<Esc>j.u,<Esc>khhj@qcW\"\"<Esc>P<Esc>jpu@q<Esc>bi\"<Esc><Esc>$a;<BS>\"<Esc>j0ebcW\"\"<Esc>P<Esc>j0ebcW\"\"<Esc>P<Esc>jjbcW\"\"<Esc>P<Esc>:wq<CR>",
+  "source": "minimized-public",
+  "keystrokes": 107
+ },
+ "5e3c99466ea90a00096b2efb": {
+  "keys": "o}<Esc>ddGp:3,6s/$/\"`<CR>fpi`json:\"<Esc>lyBkPkBPkBPka {<Esc>ZZ",
+  "source": "public",
+  "keystrokes": 47
+ },
+ "5e3ca51e6ea90a00096b3007": {
+  "keys": "a<C-Right><Up><Right><Right> (<Down><Down><Down><Down><Down><Down><C-Right><C-Right><C-Right><C-Right><C-Right><C-Right><C-Right><C-Right><C-Right><C-Right><C-Right><C-Right><C-Right><CR><BS><BS><BS><BS>)<Up><Up><Up><Up><Up><Right><Right><Right>\"<Right><Right><Right>\"<Down><Left><Left><Left><Left><Left>\"<C-Right><C-Right><C-Right><Left><Up><C-Right><Right><C-Right><C-Right><Right><Right><Right><Right>\"<Down><Down><Down><Up><Left><Left>\"<C-Right><C-Right><C-Right><C-Right><C-Right><C-Right><C-Right><C-Right><C-Right><C-Right><Right><Right>\"<Down>r<BS>'<C-Left><Right><BS>\"<C-Left><C-Left><C-Left><C-Left><C-Left><C-Left><C-Left><C-Left><C-Left><C-Left><C-Left><C-Left><C-Left><C-Left>\"<Esc>:wq!<CR>",
+  "source": "public",
+  "keystrokes": 115
+ },
+ "5e4dfcccaa2db400090b66c3": {
+  "keys": "10G0i*<Esc>8G0i*<Esc>6G0i*<Esc>5G0i*<Esc>4G0i*<Esc>2G0i*<Esc>gg0i*<Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 45
+ },
+ "5e61b4796c11b6000c1b4069": {
+  "keys": "qqiQ1:<Tab><Esc>j0q@q@q@q@q@q@q@qiBIG:<Esc>4a<Tab>OFF<Esc>a<CR>RES:<Tab><Esc>ggjlr2jr3jhrMljhRM2<Down><Left><Left>M3<Down><Left>4<Down><Left><Left>M4<Esc>ZZ",
+  "source": "public",
+  "keystrokes": 81
+ },
+ "5e8c9b281f927300062d9802": {
+  "keys": ":s/;/\\r/g<CR>:%s/^.*\\(.*\\)/\\1<CR>u:<Up><Left><Left><Left><Left><Left><Left><Left><Left><Left><<Right><Right><Right><Right><Right><Right>><CR>GVggJZZ",
+  "source": "public",
+  "keystrokes": 55
+ },
+ "5e9c7dbf3ed8dd00067708e3": {
+  "keys": ":%s/\\v(.*)(AS .*)/\\=printf('%-56s',suba<BS>match(1)).submatch(2)<CR>ZZ",
+  "source": "public",
+  "keystrokes": 64
+ },
+ "5ea82da50a8bcc00091923e4": {
+  "keys": ":%s/^-\\(.*\\)\\n//g<CR>:%s/+/ /g<CR>kkddggh<C-V>hjjjjjjjjjjjjjjd:wq<CR>",
+  "source": "public",
+  "keystrokes": 56
+ },
+ "5ebe8a63d8085e000c2f5bd5": {
+  "keys": "abcdefghijklmnopqrstuvwxyz<C-C><C-C>qqyyp_x$pq@q@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@:wq<CR>",
+  "source": "public",
+  "keystrokes": 90
+ },
+ "5ec18a61827ca60009087755": {
+  "keys": "4G028s1 the 2 in the 3 and 4 the 5<Esc>3G014s1 she can do 2<Esc>2G010l9s1 not 2 3<Esc>gg016l15s1 for all the 2<Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 101
+ },
+ "5ed1805d1e2d61000670078f": {
+  "keys": "2cwtype<Esc>Jlr=Jwwr|i <Esc>jddj2cwtype<Esc>Ja= <Esc>jqq$da{vbdbPi:<Esc>b~bbdwA<BS><Esc>jq@qjj02cwtype<Esc>Ja= <Esc>j4@q$da{vbxbbPi:<Esc>brRrrbdwA<BS><BS> option<Esc>ZZ",
+  "source": "public",
+  "keystrokes": 119
+ },
+ "5ed25358070f0e0006193c04": {
+  "keys": "3dwrg<Esc>ilet <Esc>f(i <Esc>fEref i:<Esc>ferE<Esc>f,r)<Esc>fsdwi(<Esc>ea: string<Esc>A : string =<Esc>j**:g//d<CR>j*:g//d<CR>dw:s<BS>%s/var/let/g<CR>:%s/;//g<CR>:%s/new //g<CR>:3<CR>f(xf);xA then<Esc>/=<CR>xi<-<Esc>n.lxnxi<-<Esc>ZZ",
+  "source": "public",
+  "keystrokes": 160
+ },
+ "5ed4f6a27d1dd8000c27e2f6": {
+  "keys": "o<Esc>ggsHELL<Esc>ZZ",
+  "source": "minimized-diff",
+  "keystrokes": 12
+ },
+ "5ed621c31a86b700094a80ec": {
+  "keys": "f\"llg~wwlg~wjhhhhhqalg~wqw@ajbb@aw@aw.jhhhhhhbbb.hkjjwb.llklkll;lhhhhh~khhhjjjklhhhhhhhhhhhhh~kjjhh~llll@aw@ahkjjhbb@aw@aw@w@ajbb@afw<Esc>w@aw@ajbbbb@aw@a:w<CR>:q<CR>",
+  "source": "public",
+  "keystrokes": 156
+ },
+ "5ed8b30ea3ee880009111013": {
+  "keys": "vf\"di(<Esc>vf\"dA<Esc>pr)ggr[g,f.f>hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhcWu<BS><Esc>uvf>r]<Esc>lxxx<Esc>:wq<CR>",
+  "source": "public",
+  "keystrokes": 80
+ },
+ "5ee9ae243a035f000c6141d7": {
+  "keys": ":%s/VIRTUAL/VIRTUAL-/g<CR>:%s/DP/DP-/g<CR>:%s/HDMI/HDMI-<CR>:wq!<CR>",
+  "source": "public",
+  "keystrokes": 56
+ },
+ "5eee3ddb30b4450009b4080a": {
+  "keys": ":s2,11<BS><BS><BS><BS>1,11:<BS>s<Left><Left><Left><Left><Left><BS><End>/s<BS>\\n/;/g<CR><Down>dd:s/<BS><BS>2,19s/[a-z]<BS>A-Z]*<Left><Left><Left><Left><Left><Left><Left><Left><Left>^<End> .<BS>/&;/g<CR>:<Up><Left><Left><Left><Left><Left><Left><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS>\\d<CR>:<Up><Left><Left><Left><Left><Left><Left><BS><BS>,<CR>:<Up><Left><Left><Left><Left><Left><Left><BS>[]<Left>A_Z<BS><BS>-Z<CR>:<Up><Left><Left><Left><Left><Left><Left><BS><BS><BS><BS><BS>()<Left>Y|N<Right><Left>\\<Left><Left><Left>\\<Left><Left><Left>\\<Right><Right><Right><Right><Right><Right><Right><Right><BS><Left><Left><Left><Left><Left><Left><Left><Left> <CR><Esc>u:<Up><Left><Left><BS><Left>;<CR><Esc>:s<BS>2<BS>1,19<BS><BS><BS>2<BS><BS>2,19s/ ;/;/g<CR>:<Up><Left><Left><Left><Left><Left><BS><Right> <CR><Right><Right><Right><Right><Right><Right>r <Right><Right><Right><Right><Right><Right><Right>r;<Esc>:w<CR>:q<CR>",
+  "source": "public",
+  "keystrokes": 255
+ },
+ "5f0f5fbe280fbf000c233304": {
+  "keys": "<Down><Down><Down><Down><Down><Down><Down><Down><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right>i\"<Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right>\"<Esc>:wq!<CR>",
+  "source": "public",
+  "keystrokes": 47
+ },
+ "5f1063aa8361810006e73210": {
+  "keys": "4Go0<C-D>\t// Debug TODO<Esc>3Go0<C-D>\t// Version TODO<Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 44
+ },
+ "5f1e0217becb80000692b9c4": {
+  "keys": "<Esc>:%s//]<Left>^\\s<Right>.*<Right><BS><BS><BS><BS><BS><BS><BS>\\s<Left><Left>.*<CR><Esc>:w<CR>",
+  "source": "minimized-public",
+  "keystrokes": 33
+ },
+ "5f1e93e8becb80000992ba98": {
+  "keys": "jqecw'<C-R>\"'<Esc>lct#: <Esc>lC'<C-R>\"',<Esc>j^q147@eo}<Esc>ggoCOLORS = {<Esc>:set shiftwidth=2<CR>jV150G><Esc>:wq<CR>",
+  "source": "public",
+  "keystrokes": 80
+ },
+ "5f20aac693f19c000630d51e": {
+  "keys": "7dda   \\<BS>|<Esc>yy6pjjI---r<BS>+---<Esc>lxI<BS><BS><BS><Esc>ZZ",
+  "source": "minimized-public",
+  "keystrokes": 37
+ },
+ "5f23f29e1e8861000c3105c5": {
+  "keys": "016sf = lambda x:<Esc>ZZ",
+  "source": "minimized-diff",
+  "keystrokes": 20
+ },
+ "5f2479f81e886100063106fe": {
+  "keys": "dd11xj13xj11xj12xj20xj12x:%s/,/=<CR>fjveg?k3lveg?kbveg?kfrveg?kFqveg?kfwveg?ZZ",
+  "source": "public",
+  "keystrokes": 75
+ },
+ "5f4d8ba936f38a000c89afa6": {
+  "keys": ":8<CR>qar'$r'v^:s/\\%V\\\\\"/\"/g<CR>jq3@a:%s/'s/\\'s/g<CR>:<Up><Left><Left><Left><Left>\\<CR>kjx:x<CR>",
+  "source": "public",
+  "keystrokes": 58
+ },
+ "5f7337a3a22d0c0009268605": {
+  "keys": "ihost <Esc>wwd5W:%s<<BS>/<none><CR>:5s<BS><BS>%s/worker-pool1-/hostan<BS><BS> <CR>w<Right><Right><C-V>kkkkkkkkkkk5W<Left>xjjjjjjjjjjjW<C-V>kkkkkkkkkkkkjhhhxjjxjkxujkkjjjjjkkjjjjkklxii<Esc>ukkklxkkkkllllllxxxx:%s/10.10<BS><BS>0.10/hostname 10.0.10<CR><Right><Right><Right><Right><Right><Right><Right><C-V>kkkkkkkkkkkI<CR>  <Esc>jwwblli<CR>  <Esc>jjlllllkli<CR>  <Esc>jwlli<CR>  <Esc>o<Esc>jllllli<CR>  <Esc>o<Esc>jllllli<CR>  <Esc>jwwblli<CR>  <Esc>o<Esc>jllllli<CR>  <Esc>o<Esc>jwwblli<CR>  <Esc>o<CR><Esc>ddwlli<CR>  <Esc>o<Esc>jllllli<CR>  <Esc>o<Esc>jllllli<CR>  <Esc>ggwwblllllli<CR>  <Esc>o<Esc>jjo<Esc>jjo<Esc>jjo<Esc>jjjjjjjjo<Esc>:x<CR>",
+  "source": "minimized-public",
+  "keystrokes": 390
+ },
+ "5f8fd2f33dc797000ce6d784": {
+  "keys": "/65<CR>A worker1<Esc><Esc>/ef<CR>A worker2<Esc>/gp<CR>A worker3<CR><BS><Esc>/h5<CR>A worker4<Esc>/sa<CR>A worker5<Esc>/sv<CR>A worker6<Esc>:wq<CR>",
+  "source": "public",
+  "keystrokes": 91
+ },
+ "5f98332996f92c000c0095e1": {
+  "keys": "ohelm uninstall -n pcg-1 pcg-1<Esc>ohelm uninstall -n pcg-2 pcg-2<Esc>jjkokubectl delete ns pcg-1<CR>kubectl delete ns pcg-2j<Esc>xj0ddpuPPPuujppjkkddPjPujpuPjPujpjjkkkkjjkwwwwwwwC<Esc>u0wwwwwwCpcg-1/<CR><BS><Esc>jhh<BS>r1jkkjjjklllxggj11G00$eEEBBBbeeeeeeeeeig<Esc>cgCCg-2/<Esc>jbbbc1<CR>1<CR>c<CR>r1ZZ",
+  "source": "public",
+  "keystrokes": 253
+ },
+ "5fad35a736518b000960caef": {
+  "keys": "jlr\\jlr\\jlr\\jr/jhr/jhr/lllllr\\khr\\kh\\r\\kr/klr/klr/ZZ",
+  "source": "public",
+  "keystrokes": 52
+ },
+ "5fbfabbbfdf6c50009749916": {
+  "keys": "jj<C-V>jjld<C-V>jjI01. <Esc>j<C-A>j<C-A><C-A>jj<C-V>jhd<C-V>jI04. <Esc>j<C-A>jjh<C-V>jdi05.<Esc>u<C-V>jI9<BS>06.<Esc>j<C-A>jjjjh<C-V>jjjld<C-V>jjjI06<BS>7<BS>8. <Esc>j<C-A>j<C-A><C-A>j<C-A><C-A><C-A>kkhi0<Esc>j:21<CR><C-V>jd<C-V>jI12.<Esc>j<C-A>ZZ",
+  "source": "public",
+  "keystrokes": 119
+ },
+ "5fc320b30575c20009ac2527": {
+  "keys": "/cc<CR>xfdxfvdxxfrxfoxFhx/some<CR>yykVP3nn/this<CR>YkPul<Down><Left>y$kv$Puvep<Esc>uu<C-R><C-R>uAis line.<Esc>/ing<CR>nvee<Right>y<Up>p/soe<BS>me<CR>nbdw/fun<CR>dw4wwdw/end<CR>nhD/AB<CR>2dww4dw3w3dw/Mu<CR>ddjdddd/ii<CR>xfon;xfhx2fex2ftx/Ros<CR>ddkkPkdd/In<CR>p/When<CR>yykVP/line<CR>2nyykVPG?comm<CR>4nNyykVP/ee<CR>nnx2nxnx/Af<CR>Osome text<Esc>yy3jp/line<CR>3nP<Esc>uupnnyykVP<PageDown><PageUp><Down><Down><Down><Down><Down><Down>yy<Up>VPG<Up><Up>A this is a second item.<Esc>bbbither<BS> <Esc>ZZ",
+  "source": "public",
+  "keystrokes": 331
+ },
+ "5fcaaf0e2529cd000c9304ce": {
+  "keys": ":set et<CR>a<CR> <Esc>kqqYpjwXxkvaw:s/\\w/<C-R>\"/g<CR>xppbXq24@qJZZ",
+  "source": "public",
+  "keystrokes": 49
+ },
+ "5fd623f3cf017601b2b63cbc": {
+  "keys": "2G2ddggA return &pixels[p.getc()][p.getr()]; }<Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 49
+ },
+ "5fe050e596c8f7000cda4ddc": {
+  "keys": "6Go0<C-D><CR>0<C-D>fn value_in_cents(coin: Coin) -> u32 {<CR>0<C-D>\tmatch coin {<CR>0<C-D>\t\tCoin::Penny => 1,<CR>0<C-D>\t\tCoin::Nickel => 5,<CR>0<C-D>\t\tCoin::Dime => 10,<CR>0<C-D>\t\tCoin::Quarter => 25,<CR>0<C-D>\t}<CR>0<C-D>}<Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 166
+ },
+ "5fe326eb11ba250006cbf2cd": {
+  "keys": "29G011l3s*<Esc>26G020l5s*<Esc>25G013l5s*<Esc>24G014l5s*<Esc>22G014l3s*<Esc>21G08l3s*<Esc>20G023l7s*<Esc>19G011l5s*<Esc>18G014l6s*<Esc>17G021l3s*<Esc>16G010l5s*<Esc>15G09l1s*<Esc>14G08l3s*<Esc>13G021l5s*<Esc>12G017l6s*<Esc>11G017l6s*<Esc>10G017l5s*<Esc>9G010l4s*<Esc>8G015l5s*<Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 206
+ },
+ "6010dc493e0f8d0009eddcf9": {
+  "keys": ":%s/ /\",\"/g<CR>y$:let b=[\"<C-R>0\"]<CR>:s/y/een/g<CR>dtflau<Esc>0y$:let c=[\"<C-R>0\"]<CR>ddkd$:let a=[\"<C-R>\"\"]<CR>:for @a in a<CR>normal \"apo<CR>endfor<CR>:<Up><Up><Up><BS>c<CR><Up><Up><Up><CR><Up><Up><Up><CR>:let a=a[0:8]<CR>for:<Esc>:for<Esc>:for @a<BS>b in b<CR>normal \"bpo<CR>for !<BS>@a in a<CR>normal \"bpA-<C-V><Esc>\"apo<BS><BS><BS>a'<BS>po<CR>endfor<CR>endfor<CR>ddIone <Esc>ZZ",
+  "source": "public",
+  "keystrokes": 245
+ },
+ "6013804df3308e0009368f1c": {
+  "keys": "10G010listudent_id,name,age,score<Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 36
+ },
+ "6019f1c4642668000cee11e8": {
+  "keys": "ggo0<C-D>    self.x = x<CR>0<C-D>    self.y = y<CR>0<C-D>    self.z = z<CR>0<C-D>    self.rotation = rotation<CR>0<C-D>    self.color = color<CR>0<C-D>    self.bounciness = bounciness<CR>0<C-D>    self.walking_speed = walking_speed <CR>0<C-D>    self.running_speed = running_speed<CR>0<C-D>    self.health = health<CR>0<C-D>    self.defense = defense<CR>0<C-D>    self.age = age <CR>0<C-D>    self.type1 = type1<CR>0<C-D>    self.type2 = type2<Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 358
+ },
+ "60340000c06738000924d803": {
+  "keys": "jjjjyl<Up><Up><Up><Up><Down>Op<BS><Esc>p<BS><Down>ppuuuuggGyyGggphjjjyylljkkkkp,..uujjjkyykkpljjdddddd:x<CR>",
+  "source": "public",
+  "keystrokes": 73
+ },
+ "603ba26a01b4d00009c10a49": {
+  "keys": ":%s/[ema<BS><BS><BS><BS>sb<BS>ublims<BS>e|emacs<BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS>(sublime|emacs)/vims<BS>/g<CR><Esc><BS>:<Up><Left><Left><Left><Left><Left><Left><BS><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><BS><Right><Right><Right><Right><Right><CR><Esc>:<Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Up><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>\\b(?:<Esc>l:<Up><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Left><Left><Left>)<BS><Right>)'<BS>\\b<CR>:<Up><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><BS><BS><BS><BS><BS><Right><Left>(<BS><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><BS>]<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>[<CR>:%s/sublime/vim/gc<BS>|%s/emacs/vim/g<CR>:w<CR>:wq<CR>",
+  "source": "public",
+  "keystrokes": 303
+ },
+ "608d040766cd0a0007f52b0d": {
+  "keys": "31GA,3,10<Esc>30GA,3,9<Esc>29GA,3,8<Esc>28GA,3,7<Esc>27GA,3,6<Esc>26GA,3,5<Esc>25GA,3,4<Esc>24GA,3,3<Esc>23GA,3,2<Esc>22GA,3,1<Esc>21GA,2,10<Esc>20GA,2,9<Esc>19GA,2,8<Esc>18GA,2,7<Esc>17GA,2,6<Esc>16GA,2,5<Esc>15GA,2,4<Esc>14GA,2,3<Esc>13GA,2,2<Esc>12GA,2,1<Esc>11GA,1,10<Esc>10GA,1,9<Esc>9GA,1,8<Esc>8GA,1,7<Esc>7GA,1,6<Esc>6GA,1,5<Esc>5GA,1,4<Esc>4GA,1,3<Esc>3GA,1,2<Esc>2GA,1,1<Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 267
+ },
+ "9v0060943bdb000000000203": {
+  "keys": "08l16snow runs on Postgres! \ud83c\udf89<Esc>ZZ",
+  "source": "minimized-diff",
+  "keystrokes": 32
+ },
+ "9v0060a1b5ed000000000204": {
+  "keys": "2Go0<C-D>linux the linux linux linux linux linux linux linux i arch use way i linux btw<CR>0<C-D>linux the linux i arch arch arch arch arch use way i arch arch btw arch arch<CR>0<C-D>arch arch arch arch arch btw btw arch arch arch btw the linux i arch arch arch<CR>0<C-D>arch arch use way i arch btw linux linux linux linux linux linux linux linux<CR>0<C-D>linux linux linux linux btw linux linux linux the linux i arch arch arch use way<CR>0<C-D>i btw linux the linux linux linux i arch use way i linux linux linux btw arch<CR>0<C-D>arch arch btw linux linux linux linux linux linux btw linux linux linux linux<CR>0<C-D>linux linux linux linux btw linux the linux linux linux i arch use way i btw<CR>0<C-D>the linux linux linux i arch use way i linux btw<Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 698
+ },
+ "9v0060a458ec000000000205": {
+  "keys": "24G6dd23G01l16shrelve = [27, 28, 29]<Esc>22G02l13solve = [24, 25, 26]<Esc>21G03l12slve = [21, 22, 23]<Esc>14G6dd13G02l11sreleven = [17, 18, 19]<Esc>12G04l7seven = [14, 15, 16]<Esc>11G09l2s[11, 12, 13]<Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 183
+ },
+ "9v0060b0a374000000000206": {
+  "keys": ":%s/R/r-/g<CR>:%s/U/u-/g<CR>:%s/L/l-/g<CR>:%s/D/d-/g<CR>kiwires([<Esc>A]<Esc>j.a).<Esc>0i[<Esc><Esc>kJr,hhh:wq<CR>",
+  "source": "public",
+  "keystrokes": 79
+ },
+ "9v0060da5177000000000209": {
+  "keys": "5G014l36s4,abs(y4),color='g',lw=0.8,label=\"line #4<Esc>4G014l36s3,abs(y3),color='r',lw=0.8,label=\"line #3<Esc>3G014l36s2,abs(y2),color='b',lw=0.8,label=\"line #2<Esc>2G016l2sabs(y1)<Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 171
+ },
+ "9v0060fb2aa900000000020b": {
+  "keys": ":help<CR>jjvjjjjjjj$y:q<CR><Esc>p:help<CR>jk/bars<CR>nnjkkhhhhhhhhhhhvj$y:q<CR>jjjjjj<Esc>pjjddjdd<Esc>ja<Esc>jkkkkkkkkhhhhxhhhhhh<Esc>hhhb<Esc><Esc>0<Esc>jkkhhhhhhjkb<Esc>xhhhhhhh<Esc>u<Esc>hhhjkxxx h<Esc>i<Tab><Tab><Tab><Esc>jkjjjjjjjjjjjjjjjjjjjjk:w<CR>:q<CR>",
+  "source": "public",
+  "keystrokes": 177
+ },
+ "9v006115f6d000000000020c": {
+  "keys": "9GA a1 b1 c1 d1 e1 f1 g1 h1<Esc>8GA a2 b2 c2 d2 e2 f2 g2 h2<Esc>7GA a3 b3 c3 d3 e3 f3 g3 h3<Esc>6GA a4 b4 c4 d4 e4 f4 g4 h4<Esc>5GA a5 b5 c5 d5 e5 f5 g5 h5<Esc>4GA a6 b6 c6 d6 e6 f6 g6 h6<Esc>3GA a7 b7 c7 d7 e7 f7 g7 h7<Esc>2GA a8 b8 c8 d8 e8 f8 g8 h8<Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 226
+ },
+ "9v00612800cb000000000210": {
+  "keys": "17G5dd14G2dd13G054sNon quam lacus suspendisse faucibus interdum posuere lorem<Esc>12G028sSagittis nisl rhoncus mattis rhoncus<Esc>7G4dd5Go0<C-D>Phasellus faucibus scelerisque eleifend donec pretium vulputate<CR>0<C-D>Eget mi proin sed libero enim sed faucibus turpis<CR>0<C-D>Id donec ultrices tincidunt arcu<CR>0<C-D>Lectus arcu bibendum at varius vel pharetra vel turpis<CR>0<C-D>Varius duis at consectetur lorem donec massa sapien faucibus et<Esc>3G1ddggo0<C-D>Platea dictumst vestibulum rhoncus est pellentesque elit ullamcorper dignissim<CR>0<C-D>Aliquam eleifend mi in nulla<CR>0<C-D>Egestas quis ipsum suspendisse ultrices gravida dictum<CR>0<C-D>Commodo ullamcorper a lacus vestibulum sed arcu non odio<CR>0<C-D>Praesent elementum facilisis leo vel fringilla est ullamcorper eget nulla<CR>0<C-D>Et odio pellentesque diam volutpat commodo sed egestas<Esc>ggO0<C-D>Neque aliquam vestibulum morbi blandit cursus<Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 828
+ },
+ "9v00612c165c000000000211": {
+  "keys": "6Goon<Esc>fefefefeFETetejfelsn<Esc>$af<Esc>ood<Esc>ZZ",
+  "source": "public",
+  "keystrokes": 37
+ },
+ "9v0061699fee000000000213": {
+  "keys": "18G012s### Also<Esc>8G010s## Dets<Esc>3G014s### Deeper<Esc>2G013s## Section<Esc>gg020s# First, a heading<Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 91
+ },
+ "9v00619554dd000000000216": {
+  "keys": "100Go0<C-D><Esc>90Go0<C-D><Esc>80Go0<C-D><Esc>70Go0<C-D><Esc>60Go0<C-D><Esc>50Go0<C-D><Esc>40Go0<C-D><Esc>30Go0<C-D><Esc>20Go0<C-D><Esc>10Go0<C-D><Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 73
+ },
+ "9v006233d72d000000000219": {
+  "keys": "7G03l10s=$((a * b))<Esc>4G03l10s=$((a + b))<Esc>3G01l3s=<Esc>2G01l3s=<Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 60
+ },
+ "9v0062396e6f00000000021a": {
+  "keys": "ggo0<C-D>    self.x = x<CR>0<C-D>    self.y = y<CR>0<C-D>    self.z = z<CR>0<C-D>    self.rotation = rotation<CR>0<C-D>    self.color = color<CR>0<C-D>    self.bounciness = bounciness<CR>0<C-D>    self.walking_speed = walking_speed<CR>0<C-D>    self.running_speed = running_speed<CR>0<C-D>    self.health = health<CR>0<C-D>    self.defense = defense<CR>0<C-D>    self.age = age<CR>0<C-D>    self.type1 = type1<CR>0<C-D>    self.type2 = type2<Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 356
+ },
+ "9v006289c03700000000021f": {
+  "keys": "<Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down>/<BS>kkkkkkkkkkkkkjjjkllllllllllllllllllllllljkjjjjjjjjjjjjjkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkjjjjjjjjjjjjjjjjjjjjjkkkkkkkkkkkkkkkkkkkkkkkjjjjjjjjjjjjjjjkkkkkkkkkkkkkkkkkkkkkkljjjjjjjjjjjjjjjjjjjjjkkkkkkkkkkkkkkkkkkkkkkkjjjjjjjjjjjkllhrx:ew<BS><BS>wq<CR>",
+  "source": "public",
+  "keystrokes": 506
+ },
+ "9v00628a9b2f000000000220": {
+  "keys": ":11<CR>f$$bbbbbblxxjjkkjjflllll<Esc>hhhh<Esc>vllllllllllllllxjkkjlxxxkjkkhh<Esc>i  <BS><Esc>jjkkl<Esc>ilh<BS><BS><Esc>li        <Esc>jjhhhhhhhi        <Esc>jjkxxxxxxxxxxxxjjxxxxxxxxllxkkxxxxkkkjjjjj:<Esc>kkkkkhhh<Esc>jk<C-V>jjjjjjkxhh<C-Z><C-Z><C-Z><C-Z><C-Z><C-Z><C-Z><Esc><Esc>..<Esc><Esc>jk:w<CR>:q<CR>",
+  "source": "public",
+  "keystrokes": 199
+ },
+ "9v0062b13366000000000221": {
+  "keys": "40G1dd38G1dd36G1dd34G1dd32G1dd30G1dd28G1dd26G1dd24G1dd20G047l3s\\footnote{This is the Ninth footnote.}<Esc>18G029l3s\\footnote{This is the eighth footnote.}<Esc>15G010l3s\\footnote{This is the seventh footnote.}<Esc>12G026l3s\\footnote{This is the sixth footnote.}<Esc>10G057l3s\\footnote{This is the fifth footnote.}<Esc>6G06l3s\\footnote{This is the fourth footnote.}<Esc>4G019l3s\\footnote{This is the third footnote.}<Esc>2G031l3s\\footnote{This is the second footnote.}<Esc>gg055l3s\\footnote{This is the first footnote.}<Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 488
+ },
+ "9v0062b2cb5d000000000222": {
+  "keys": ":%s/\\v(a*)<Left><Left><Left><Left>^<Right><Right><Right><Right> - a =<BS>\\= |<BS>\\1<BS><BS>/<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Right><Right><Right><Right>(<Right><Right><Right><Right><Right><Right><Right><Right>)<Up><Up><Up><Up><Up><Right><BS>/\\1\\2\\1<CR>:<Up><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><BS>\\<BS>/<BS><Right><Right><BS><Left>\\<Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Left><Left> <Right><Right><CR>0000nnnnn$xj.u$xj$xj$x<Esc>:<Up><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>a<CR>n$2xxuuu<C-R>$2Xmnn$2Xj$2Xn$2Xn$2X:<Up><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>a<CR>$3Xn$3X:<Up><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>a<CR>$4X:<Up><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>a<CR>$5Xn$5Xn$5Xn$5X:<Up><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Right>a<CR>$6Xn$6X:<Up><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>aa<CR>$*$8x<Esc>u:<Up><Esc>n<Esc>:<Esc>ww*nnn$8Xn$8XZZ",
+  "source": "public",
+  "keystrokes": 332
+ },
+ "9v0062d0773d000000000225": {
+  "keys": "2G012l9s(o1,i1) (o2,i2) (o3,i3) (o4,i4) (o5,i5)<Esc>gg011l8si1 i2 i3 i4 i<Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 72
+ },
+ "9v0063d76854000000000249": {
+  "keys": "6G5dd5GA,45<Esc>4GA,60<Esc>3GA,50<Esc>2GA,100<Esc>ggA,Age<Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 44
+ },
+ "9v0064903c5d000000000253": {
+  "keys": "11G013li10.80.1.250|<Esc>10G013li10.80.1.195|<Esc>9G013li10.80.1.181|<Esc>8G013li10.80.1.168|<Esc>7G013li10.80.1.151|<Esc>6G013li10.80.1.150|<Esc>5G013li10.80.1.178|<Esc>4G013li10.80.1.2|<Esc>3G013li10.80.1.98|<Esc>2G013li10.80.1.98|<Esc>gg08liIP||<Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 211
+ },
+ "9v0064a68333000000000254": {
+  "keys": "<Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down>V<Left><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right>ya<Down><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><CR>p<BS><Esc>p<BS><BS><Down><BS><Down>a<BS><Down><Left>0<Right>p<BS><Esc><Right><Right>ppppppa<Right><Up><Up><Up><Up><Up><Up><Down><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right>00<Down><Left>000<Down><Left>0000<Down><Left>00000<Up><Down><Down><Left>000000<Down><Left>0000000<Right><Esc><Right>ppa<Up><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Left>00000000<Down><Left><Left><Right>000000000<Right><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><Esc>:wq<CR>",
+  "source": "public",
+  "keystrokes": 240
+ },
+ "9v0064f211df000000000255": {
+  "keys": "18G08x17G012s\t<Esc>16G012s\t<Esc>15G09x14G09x13G08x12G08x11G011s\t<Esc>10G011s\t<Esc>9G011s\t<Esc>8G011s\t<Esc>7G011s\t<Esc>6G011s\t<Esc>5G011s\t<Esc>4G08x3G03l1x2G08xgg08xZZ",
+  "source": "diff",
+  "keystrokes": 130
+ },
+ "9v0064f8b8dc000000000256": {
+  "keys": "ggoM_Emote_2_Bind<CR>L_Emote_1_Bind<CR>L_Emote_2_Bind<CR>L_Emote_3_Bind<CR>R_Emote_1_Bind<CR>R_Emote_2_Bind<CR>R_Emote_3_Bind<Esc>ZZ",
+  "source": "minimized-diff",
+  "keystrokes": 110
+ },
+ "9v0064f9f6ea000000000257": {
+  "keys": "dap:g/^##/exe '.,.+1m0'<CR>}dG:%s/##<BS>Se/<BS><BS><BS><BS>##/\\r##/<CR>:g/^##/exe 'norm vipJ'<CR>:g/^$/d<CR>vip:sort<CR>:%s/#S/\\r#S/<CR><Esc>:wq<CR>",
+  "source": "public",
+  "keystrokes": 108
+ },
+ "9v006501ab56000000000258": {
+  "keys": "Go|x x| o | o |<CR>|-----------|<CR>|   |x x|x x|<CR>|   | x | x |<CR>|   |x x|x x|<CR>|-----------|<CR>|x x|   | o |<CR>| x |   |o o|<CR>|x x|   | o |<CR>|-----------|<Esc>3Gl4s x |o o|o <Esc>2Gl5sx x| o | o <Esc>ggl5s-----------<Esc>ZZ",
+  "source": "minimized-diff",
+  "keystrokes": 194
+ },
+ "9v006519507c00000000025a": {
+  "keys": ":%s/:\\S*<Left><Left><Left><Left>.<Left>$<BS>^<Right><Right><Left><Left><Left>(<End>)<Left><Left><Left><Left><Left><Left><Left><Left><Right><Right><Right><Right><Right><Right><Right><Right><Right><Left><Left><Left><Left><Left><Left><Left><BS><End><BS>)<BS><Left><Left><Left><Left><Left><Left>\\(<End>\\)\\ /\\1          /<CR><Esc>ggf(<Left>:<Up><Left><BS><BS><BS><BS><BS><BS><BS><BS><BS><CR>:<Up><Left> <CR>f#<Left>x<Up><Up>dw<Up>.<Up>.<Up>.<Esc>ZZ",
+  "source": "public",
+  "keystrokes": 123
+ },
+ "9v00651eb20100000000025b": {
+  "keys": "gg01l25s 3 5 8 13 21 34 55 89 144<Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 36
+ },
+ "9v006596bb0c00000000025f": {
+  "keys": "dwjw<C-V>jels.<Esc>f=<C-V>jr llct,(8)<Esc>jvhc(16)<Esc>ji i0_sram <Esc>jqq$Bd^yiwi.<Esc>ea (w_)<Esc>Pjq6@qjdGkf f <C-V>kdkkbhh<C-V>ks   <Esc>kki <Esc><C-V>6jbygg8O<Esc>ggpqqI  wire        w_<Esc>A;<Esc>jq6@qkqq^ellR[15:0]<Esc>kq2@qjF1R 7<Esc>:%s/ \\+;/;<CR>4jqqI  <Esc>jq11@qZZ",
+  "source": "public",
+  "keystrokes": 197
+ },
+ "9v0065c7bf44000000000261": {
+  "keys": "ji<Tab><li><Del>J<End></li><li><Esc>vhhhhhhhhylllla<CR><End><Del><End>p<BS><Esc><End>pa<Del><Left><Left><Left><Left><CR><End><Esc>pa<Del><C-Left><C-Left><Left><CR><End><Esc>pa<Del><End><Esc>p<Down>p<Down><End>p<Down>p<Down>p<Down>p<Down>p<Down>p6<Up><Up><C-Right><C-Left><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right>i<CR><End><Left><End><Del><C-Left><Left><Left><Left><CR><End><Del><C-Left><Left><Left><Left><CR><End><Del><C-Left><C-Left><C-Left><Right><CR><End><Del><C-Left><Left><Left><Left><CR><End><Left><Left><Left><Left><CR><End><Del><End><Left><Left><Left><Left><CR><End><Del><End><Left><Left><Left><Left><CR><End><Del><End><BS><BS><BS><BS><Esc><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>rD<Up>rN<Up>rO<Up>rS<Up>rA<Up>rJ<Up>rJ<Up>rM<Up>rA<Up>rM<Up>rF<Esc>:wq<CR>",
+  "source": "public",
+  "keystrokes": 213
+ },
+ "9v0065ca53dd000000000264": {
+  "keys": "fWdwucwu<Esc>ucwd<BS>Door<C-C><C-C>/Hn<BS><CR>nN<Esc>?<BS>/W<BS>w<BS>windows<BS><CR>nNNcwdoor<C-C><C-C>nnnnnnnncwDoor<C-C><C-C>ncwDoor<CR><Esc>ucwDoor<C-C><C-C>ncwdoor<C-C><C-C>:wq<CR>",
+  "source": "public",
+  "keystrokes": 102
+ },
+ "9v006621a9a900000000026b": {
+  "keys": "5G03l14skershaw,53,brown<Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 27
+ },
+ "9v006637d03a00000000026f": {
+  "keys": "koiprint<BS><BS><BS><BS><BS><BS>ptint<BS><BS><BS><BS><BS>print <BS>(\"                                      <BS><BS>^           \")<Esc>joprint(\"                    <BS><BS>^                             \")<Esc>joprint(\"                                             <BS>^   \")<Esc>joprint(\"     &<BS>^                                          \")<Esc>joprint(\"                      ^                         \")j<BS><Esc>joprint <BS>(\"                                      ^         \")<Esc>kkkkkkkkkkl<Esc><Esc><Esc>:wq<CR>",
+  "source": "public",
+  "keystrokes": 418
+ },
+ "9v00663ab20e000000000270": {
+  "keys": "qa:s/\\(\\s*$)<Left>\\<Right>/\\1\\1<CR>yyp:let l=getline('.')<CR>:let r=join(reverse(split,l<BS><BS>(l,'\\zs')),'')<CR>:call setline('.',r)<CR>kJj0q26@a:wq<CR>",
+  "source": "public",
+  "keystrokes": 122
+ },
+ "9v006648ce61000000000274": {
+  "keys": "ggo0<C-D>     \\ \\   / (_)_ __ ___   (_)___  | | | |/ _ \\_   _|<CR>0<C-D>      \\ \\ / /| | '_   _ \\  | / __| | |_| | | | || |<CR>0<C-D>       \\ V / | | | | | | | | \\__ \\ |  _  | |_| || |<CR>0<C-D>        \\_/  |_|_| |_| |_| |_|___/ |_| |_|\\___/ |_|<CR>0<C-D>       ____ _____ _   _ _____ _____ _ _<CR>0<C-D>      / ___|_   _| | | |  ___|  ___| | |<CR>0<C-D>      \\___ \\ | | | | | | |_  | |_  | | |<CR>0<C-D>       ___) || | | |_| |  _| |  _| |_|_|<CR>0<C-D>      |____/ |_|  \\___/|_|   |_|   (_|_)<Esc>gg052l690xZZ",
+  "source": "diff",
+  "keystrokes": 447
+ },
+ "9v006652ccab000000000276": {
+  "keys": ":set fo=m|s/\\v(\\d+)(.)/\\=repeat(submatch(2),submatch(1))/g<CR>gqwZZ",
+  "source": "public",
+  "keystrokes": 64
+ },
+ "9v00665943dc000000000278": {
+  "keys": ":%s/\\(\\/.*\\)\\(0x[A-E0-9]\\+\\)/\\=printf(\"%s%s (0b%08b)\", submatch(1), submatch(2), submatch(2))/g<CR>ZZ",
+  "source": "public",
+  "keystrokes": 98
+ },
+ "9v00665bf61b000000000279": {
+  "keys": "<CR>l<C-V>G4bhhs0<Esc>qq<CR><C-V>G5ge<C-A>q14@q2Gmm<C-V>9jA0<Esc>fblq0r0jq7@0q1r1jq7@1`mfbll4@08@14@0`mfb3lmm2@04@14@04@12@0`ml@02@12@02@12@02@12@02@1@0ZZ",
+  "source": "public",
+  "keystrokes": 124
+ },
+ "9v006661427f00000000027a": {
+  "keys": "15G072l4sipSU<Esc>12G042l22sIpsUM ipSum iPSUM IPSU<Esc>11G042l22siPsUm IpSUM IPsUM IPSu<Esc>10G042l22sIpSuM IpSUm iPsum Ipsu<Esc>9G042l22sIpsuM iPSum ipsuM ipsU<Esc>7G012l22sipSUM iPsUM iPSuM iPSU<Esc>6G012l22sipsUM ipSuM ipSUm iPsu<Esc>5G012l22sIPSUM IPsuM IPSum IPsU<Esc>4G012l22sipsum IpsUm IpSum IPsu<Esc>gg04sipsu<Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 285
+ },
+ "9v006669bab200000000027d": {
+  "keys": "202G011l9s0        <Esc>201G011l8sNaN     <Esc>200G011l9s3        <Esc>199G011l9s560      <Esc>198G011l9s-7       <Esc>197G011l10s120       <Esc>196G011l9s3179     <Esc>195G011l8s0       <Esc>194G011l9s-33      <Esc>193G011l10s0         <Esc>192G011l10s-513      <Esc>191G011l10s561039    <Esc>190G011l8s37      <Esc>189G011l10s-3960     <Esc>188G011l9s0        <Esc>187G011l8s0       <Esc>186G011l9s23       <Esc>185G011l9s0        <Esc>184G011l9s0        <Esc>183G011l9s124      <Esc>182G011l9s-69      <Esc>181G011l9s-1       <Esc>180G011l9s141      <Esc>179G011l8s0       <Esc>178G011l9s-480     <Esc>177G011l8s47      <Esc>176G011l8s588     <Esc>175G011l9s3        <Esc>174G011l8s-2      <Esc>173G011l10s177       <Esc>172G011l10s-140      <Esc>171G011l10s-620      <Esc>170G011l10s89        <Esc>169G011l8s68      <Esc>168G011l9s27       <Esc>167G011l9s1072     <Esc>166G011l9s-5       <Esc>165G011l7s11     <Esc>164G011l10sNaN       <Esc>163G011l10sNaN       <Esc>162G011l8s1144    <Esc>161G011l9s-60      <Esc>160G011l8s0       <Esc>159G011l10s84        <Esc>158G011l9s-4       <Esc>157G011l9s-105290  <Esc>156G011l10s-6        <Esc>155G011l9s56       <Esc>154G011l9s6480     <Esc>153G011l9s1699     <Esc>152G011l9s105300   <Esc>151G011l8s6460    <Esc>150G011l9s10       <Esc>149G011l9s-12      <Esc>148G011l9s2        <Esc>147G011l9s67       <Esc>146G011l8s0       <Esc>145G011l9s67       <Esc>144G011l10sNaN       <Esc>143G011l8s-1050   <Esc>142G011l10s-39       <Esc>141G011l9s0        <Esc>140G011l9sNaN      <Esc>139G011l9s77       <Esc>138G011l8s119     <Esc>137G011l10s1455      <Esc>136G011l10s0         <Esc>135G011l8s55      <Esc>134G011l8s0       <Esc>133G011l8s11      <Esc>132G011l9s3979     <Esc>131G011l9s0        <Esc>130G011l9s-30      <Esc>129G011l8s3883    <Esc>128G011l8s147     <Esc>127G011l9s95       <Esc>126G011l7s-9     <Esc>125G011l9s103      <Esc>124G011l9s-2318    <Esc>123G011l9s4052     <Esc>122G011l8s0       <Esc>121G011l8s101     <Esc>120G011l10s0         <Esc>119G011l10s1300      <Esc>118G011l9sNaN      <Esc>117G011l9s0        <Esc>116G011l9s2106     <Esc>115G011l9s81       <Esc>114G011l8s0       <Esc>113G011l8s0       <Esc>112G011l9s-1040    <Esc>111G011l10s75        <Esc>110G011l10sNaN       <Esc>109G011l9sNaN      <Esc>108G011l10s0         <Esc>107G011l8s-50     <Esc>106G011l9s-38      <Esc>105G011l9s21       <Esc>104G011l10s93        <Esc>103G011l10s132       <Esc>102G011l10s0         <Esc>101G011l9s85       <Esc>100G011l10sNaN       <Esc>99G011l8s11725   <Esc>98G011l8s0       <Esc>97G011l8s0       <Esc>96G011l8s0       <Esc>95G011l10s-59       <Esc>94G011l9s5394     <Esc>93G011l9s143      <Esc>92G011l9s41       <Esc>91G011l10s88        <Esc>90G011l8s0       <Esc>89G011l8s2       <Esc>88G011l9s57       <Esc>87G011l9s1268     <Esc>86G011l10s-1        <Esc>85G011l8s67      <Esc>84G011l9s13440    <Esc>83G011l10s0         <Esc>82G011l10s47        <Esc>81G011l8s4128    <Esc>80G011l9s2745     <Esc>79G011l8sNaN     <Esc>78G011l9s3210064  <Esc>77G011l8s1184    <Esc>76G011l8s0       <Esc>75G011l9s3979     <Esc>74G011l10s99        <Esc>73G011l9s59       <Esc>72G011l9s335      <Esc>71G011l9s171      <Esc>70G011l10s4070      <Esc>69G011l9s2159     <Esc>68G011l10s-109      <Esc>67G011l9s140      <Esc>66G011l9s-79      <Esc>65G011l10s133       <Esc>64G011l9s105309   <Esc>63G011l9s11       <Esc>62G011l9s3933     <Esc>61G011l9s1776     <Esc>60G011l10s41        <Esc>59G011l9s-24      <Esc>58G011l8s49      <Esc>57G011l9s0        <Esc>56G011l10s72        <Esc>55G011l9s5326     <Esc>54G011l8s182     <Esc>53G011l9s-32      <Esc>52G011l10s-1        <Esc>51G011l10s4876      <Esc>50G011l9sNaN      <Esc>49G011l9s-54      <Esc>48G011l10s1558      <Esc>47G011l10s120       <Esc>46G011l9s61       <Esc>45G011l10sNaN       <Esc>44G011l9s1        <Esc>43G011l10s-42       <Esc>42G011l10s25        <Esc>41G011l10s0         <Esc>40G011l9s51       <Esc>39G011l10s-8        <Esc>38G011l8s7905    <Esc>37G011l8s5245    <Esc>36G011l10sNaN       <Esc>35G011l9s4036     <Esc>34G011l9s0        <Esc>33G011l9s320      <Esc>32G011l9s966      <Esc>31G011l10s0         <Esc>30G011l10s-176      <Esc>29G011l10s70        <Esc>28G011l10s-90       <Esc>27G011l8s2806    <Esc>26G011l9s129      <Esc>25G011l9s-85      <Esc>24G011l9s1067     <Esc>23G011l9s9        <Esc>22G011l8s3135    <Esc>21G011l10s1072      <Esc>20G011l10s0         <Esc>19G011l9s64       <Esc>18G011l9s64       <Esc>17G011l8s21      <Esc>16G011l8s-23     <Esc>15G011l8s5       <Esc>14G011l9s120      <Esc>13G011l9sNaN      <Esc>12G011l8sNaN     <Esc>11G011l8s0       <Esc>10G011l9s1158399  <Esc>9G011l9s-20      <Esc>8G011l10s8265      <Esc>7G011l10s6         <Esc>6G011l10s0         <Esc>5G011l10s10788     <Esc>4G011l10s-1104     <Esc>3G011l8sNaN     <Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 3962
+ },
+ "9v00668b48dc00000000027f": {
+  "keys": "j$dgg$p<C-V>9j$A<Tab><Esc>22j0<C-V>9jdgg$p9jjuuuuuuuuuu<C-V>9j$A<Tab><Esc>j10j<Esc><Esc><Esc>ggj10j<C-V>9j$dgg$p<C-V>9j$A<Tab><Esc>22j0<C-V>9j$dgg$p9jjdG<Esc>:wq<CR>",
+  "source": "minimized-public",
+  "keystrokes": 98
+ },
+ "9v00668c77cf0000000002a0": {
+  "keys": ":%s/itemize/enumerate<CR>:%s/\\[\\d.\\]//<CR>:g/sub/norm >><CR>8ggqqO<BS>\\begin{enumerate}<Esc>jjo<BS>\\end{enumerate}<Esc>qkjjddkPjjj@q2j@@2j@@2j@@:s/sub//<Left><Left><Left><Left><Left><Left><Left>%<CR>:wq<CR>",
+  "source": "public",
+  "keystrokes": 142
+ },
+ "9v00668dd8a80000000002c1": {
+  "keys": "7G042s['#808100', '#FF0024', '#FFD720', '#708110']<Esc>6G042s['#808120', '#FF0050', '#FFD740', '#708130']<Esc>5G042s['#808140', '#FF0074', '#FFD760', '#708150']<Esc>4G042s['#808160', '#FF0120', '#FFD780', '#708170']<Esc>3G042s['#808180', '#FF0144', '#FFD800', '#708190']<Esc>2G042s['#808200', '#FF0170', '#FFD820', '#708210']<Esc>gg042s['#808220', '#FF0214', '#FFD840', '#708230']<Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 359
+ },
+ "9v006694339a0000000002e2": {
+  "keys": "3G38dd2GA goal: 400 }, { goal: 300 }, { goal: 200 }, { goal: 300 }, { goal: 200 }, { goal: 278 }, { goal: 189 }, { goal: 239 }, { goal: 300 }, { goal: 200 }, { goal: 278 }, { goal: 189 }, { goal: 349 }<Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 204
+ },
+ "9v0066c85bd8000000000324": {
+  "keys": "<Esc>\\<Esc>\\eaj<BS><Esc>j1010j2kdd9kkper23jper24kr112jdd2kpjdd.kea <Esc>kkkkkka <Esc>kkkkka <Esc>:wq<CR>",
+  "source": "public",
+  "keystrokes": 74
+ },
+ "9v0066d8266e000000000367": {
+  "keys": ":<Up><Up><Up><Up>%s/:<BS>\"0\\(\\d\\!<BS>+\\):<BS>\"/359\\1)<BS>/g<CR>:/_<CR>i<BS><Esc>nnNNnnnis<BS><BS><BS><BS><BS><BS>int<Esc>:w<CR>:q<CR>",
+  "source": "public",
+  "keystrokes": 68
+ },
+ "9v0066d89856000000000388": {
+  "keys": ":%s/ /T<CR>:%s/\\v(:\\d\\d);/\\1Z;<CR>ZZ",
+  "source": "public",
+  "keystrokes": 30
+ },
+ "9v0066daede50000000003a8": {
+  "keys": "14GAf=3<Esc>13GApace=indent,eol,start<Esc>12GAsualbell<Esc>11GAase<Esc>10GArecase<Esc>9GAatch<Esc>8GAearch<Esc>7GAearch<Esc>6GAer<Esc>5GAber<Esc>4GAckup<Esc>3GAmd<Esc>2GAndent<Esc>ggAmpatible<Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 142
+ },
+ "9v0066dd4c360000000003c9": {
+  "keys": ":$<BS>%o<BS>norm y$<BS><BS><BS> wy$ A](#<C-V><Esc>OC<BS><BS>pA)<C-V><Esc>OC<BS><BS>^r*wi[<CR>ggqaf#vi(guvi(:s/\\%V /-/g<CR>^q:2,$norm @a<CR>:wq<CR>",
+  "source": "minimized-public",
+  "keystrokes": 91
+ },
+ "9v0066f44ec20000000003ea": {
+  "keys": "qqI    '<End>',<Esc><CR>q@q8@qxo<Esc>i)<Esc>ggO<Esc>sele<BS><BS><BS>select *<Esc>v0Uofrom my_table<Esc>^vawUowhere id in (<Esc>hhvawU^vawUZZ",
+  "source": "public",
+  "keystrokes": 96
+ },
+ "9v0066f4e39400000000040b": {
+  "keys": ":%s/\\v(^-+).*$/\\=submatch <BS>(0).' '.count(submatch*<BS>(1),'-')/g<CR>ZZ",
+  "source": "public",
+  "keystrokes": 64
+ },
+ "9v0066fbf17000000000042c": {
+  "keys": "22Go0<C-D>    assert(0 && \"TODO: platform_log\");<Esc>18Go0<C-D>    assert(0 && \"TODO: platform_panic\");<Esc>14Go0<C-D>    assert(0 && \"TODO: platform_stroke_line\");<Esc>10Go0<C-D>    assert(0 && \"TODO: platform_fill_text\");<Esc>6Go0<C-D>    assert(0 && \"TODO: platform_stroke_rect\");<Esc>2Go0<C-D>    assert(0 && \"TODO: platform_fill_rect\");<Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 300
+ },
+ "9v0066fd18cf00000000044d": {
+  "keys": "<CR>qqa<CR><Esc>f,a<CR><Esc>f,a<CR><Esc>kyyplct_wasm<Esc>elxfbciwwasm<Esc>f\"i.wasm<Esc>0<C-Q>kkI    <Esc><CR><CR><CR><CR>q7@q30Gf=i  <Esc>25Gf=i  <Esc>ZZ",
+  "source": "public",
+  "keystrokes": 89
+ },
+ "9v0066fde7b000000000046f": {
+  "keys": ":let @a='' | %s/db:\\(.*\\)`/\\=setreg('A', mat<BS><BS><BS>submatch(1) . \", \")/n<CR>Go{<C-R>a<BS><BS>}<Esc><Home>9w3<Esc>d3w<Esc>:wq<CR>",
+  "source": "public",
+  "keystrokes": 91
+ },
+ "9v00670015fe0000000004b1": {
+  "keys": ":%s/\\(\\S\\+\\)(<BS>\\s\\+\\(\\S\\+\\)\\s\\+\\(\\s<BS>S\\+\\)\\s\\+\\(\\S\\+\\)\\<BS>\\<BS>/|\\1|<Left> <Left><Left><Left> <Right><Right><Right><Right> \\2 <<BS>| \\3 | \\4 |/g<CR>/ <Esc>kkkkkkkkkkkkll:nhl<CR>:nohl<CR>llllllli<Tab><BS>                             <Esc>:w<CR>llllllllllljli <Esc>j.j.j.j.j.j.j.j.j.kkkkkkkkklllllllllllllli       <Esc>jbbb.jbbbbee.jbbb.jbbb.jbbb.jbbb.jBB.ljhBB.jBB.kkkkkkkkkllllllllllli         <Esc>j.j.j.j.j.j.j.j.j.jkkkkkkkkkkkkkkkhhhhhhhhhhhhhhhhh0o| <BS>--------------------------------------|----------|-------------------|-----------------|<Esc>:w<BS><BS>:/ <BS><BS><BS>/ <Esc><Esc>ZZ",
+  "source": "public",
+  "keystrokes": 467
+ },
+ "9v0067006cf50000000004d1": {
+  "keys": ":%s/0.<Left>\\/<BS><Right>/0.0/g<CR>u<Esc>:<C-P><C-P><Left><Left><Left><Left>\\<Right><Right><Right><Right><Right><CR>q<Esc><Esc>uu:5s<BS><BS>%s/<BS><BS><BS>v<BS>\\v%s.<BS>/<BS><BS><BS><BS>:<BS><BS>%s/\\v[]<Left>0.<BS>-9<Right>.[]<Left>0-<BS><BS><BS><BS>\\.<BS><BS><Right><BS>\\.[]<Left>0-9<Right>{2}/0\\.0/g<CR>:w<CR>:x<CR>",
+  "source": "public",
+  "keystrokes": 122
+ },
+ "9v006705493c000000000513": {
+  "keys": "19G06l8sLoginD<Esc>18G014l2sD<Esc>17G04l2sA<Esc>13G08l2sC<Esc>9G07l2sN<Esc>6G06l2sN<Esc>5G07l2sN<Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 75
+ },
+ "9v0067056336000000000514": {
+  "keys": "<Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up>/fl<BS><CR>lllli<Right>-<BS>_<Right><BS>n<Down><Left><Left><Left>_<Right><BS>n<Down><Down><Down><Left>_<Right><BS>n<Down><Down><Down><Down><Left>_<Right><BS>c<Down><Down><Down><Down><Left><Left><Left><Left><Left><Left>_<Right><BS>a<Down><Right><Right><Right><Right><Right><Right><Right><Right>_<Right><BS>d<Down><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>_<Right><BS>l<Right><Right><Right><Right>_<Right><BS>d<Down><Left><Left><Left><Esc><Down><Down><Down>:wq<CR>",
+  "source": "public",
+  "keystrokes": 395
+ },
+ "9v006715b7d2000000000535": {
+  "keys": "tLi:<Esc>/in<CR>i<BS>: <Esc><Right>xiI<Esc>:%s/00/00.0/g<CR>:%s/return //g<CR>:wq<CR>",
+  "source": "public",
+  "keystrokes": 52
+ },
+ "9v00671803aa000000000555": {
+  "keys": "15G02s4.2<Esc>14G02s4.1<Esc>13G01s4<Esc>12G02s3.3<Esc>11G02s3.2<Esc>10G02s3.1<Esc>9G01s3<Esc>8G01s2<Esc>7G02s1.6<Esc>6G02s1.5<Esc>5G02s1.4<Esc>4G02s1.3<Esc>3G02s1.2<Esc>2G02s1.1<Esc>gg01s1<Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 135
+ },
+ "9v006722bece000000000576": {
+  "keys": "wi<Left><CR><Right><Right><Right><Right><Right><CR><Right><Right><Right><Right><Right><Esc>uu:%s/ /\\n/g<CR><Esc>u<Left><Right><Right><Right><Right><Right>:noh<CR><Esc><Left><Right>i<CR><Right><Right><Right><Right><Right><CR><Right><Right><Right><Right><Right><CR><Right><Right><Right><CR><Right><Right><Right><Right><Del><CR><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><CR><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><CR><Right><Right><Right><Right><Del><CR><Right><Right><Right><CR><Right><Right><Right><Right><CR><Right><Right><Right><Right><Right><Right><Del><CR><End><BS><Home><Esc><Up><Up><Up><Up><Up><Up><Up><Up><Up><Up><C-V><Down><Up><Esc>i <Down><Left> <Down><Left>  <Down><Left><Left>   <Down><Left><Left><Left><Esc><C-V><Down><Down><Down><Down><Down><Down>I     <Esc><Right>w<Down><C-V><Down><Down><Down><Down><Down>I   <Esc><Down>w<C-V><Down><Down><Down><Down>I     <Esc><Right>w<Down><C-V><Down><Down><Down>I        <Esc><Down>w<C-V><Down><Down>I             <Esc>w<Down><C-V><Down>I                     <Esc><Down>wi                                  <Esc>:wq<CR>",
+  "source": "public",
+  "keystrokes": 301
+ },
+ "9v00672c1db90000000005ba": {
+  "keys": "37G1dd34Go0<C-D>        'items_count': len(items),<Esc>24G7dd20G1dd14G4dd11G1dd9Go0<C-D>    total = total * 0.9  # Apply 10% discount<Esc>gg6ddZZ",
+  "source": "diff",
+  "keystrokes": 129
+ },
+ "9v006733c56b0000000005d9": {
+  "keys": "yyp/f6<BS><BS><BS>f6lll<C-A>yypf2<CR>f2<C-A>yypf3<C-A>yypf5f4<C-A>yypf6f6f5<C-A>yypf6f6<C-A>yypf7<C-A>u<C-A>u<C-A>uh<C-A><C-A><C-A><C-X><C-X><C-X>i<BS><BS><Right><BS>08<Esc>yypwwwwf8<C-A><C-A>R09-0<Esc>a1<Esc>yypf9r0<Esc>i<BS>1<Esc>yypf1f1<C-A><C-X><C-X><Esc>yyp<C-A><C-X>wwwh<C-A><C-X><C-X><Esc><Esc>ggyG12Gp/2<BS>s/<BS><BS><BS>:a<BS>s/2016/2017/g<BS><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>%<BS>13-24<BS><BS><BS>%24<Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Right><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><BS>,<CR><Esc><Down><Esc>:nohls<CR>12GyG24gG24GpGp/<BS>:25,<BS><BS><BS><BS>uu13GyGGpGp:25,27<BS><BS>37<BS>6s/2017/2018<CR>:<Up><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Right><BS><BS>36<BS>7<Right><Right><Right><Right><BS>s<Left><BS><BS>42<BS>3<BS>9<Right><Right><Right><Right><Right><Right><BS>8<Right><Right><Right><Right><Right><BS>9<CR><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down><Down>?<BS><Up><Up><Down>:<Up><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><BS>8<CR><Up><Down>:<Up><Down><Up><Left><Left><Left><Left><Left><BS>7<CR><Down>:w<CR>ZZ",
+  "source": "public",
+  "keystrokes": 415
+ },
+ "9v006763eed900000000067e": {
+  "keys": "27G0i[01] <Esc>25G0i[07] <Esc>23G0i[14] <Esc>21G0i[11] <Esc>19G0i[06] <Esc>17G0i[04] <Esc>15G0i[02] <Esc>13G0i[09] <Esc>11G0i[08] <Esc>9G0i[05] <Esc>7G0i[12] <Esc>5G0i[10] <Esc>3G0i[13] <Esc>gg0i[03] <Esc>ZZ",
+  "source": "diff",
+  "keystrokes": 151
+ },
+ "9v0067a47b9200000000069f": {
+  "keys": "j/top: 23<CR>ddkkkkkkkllllllp/left: 36<CR>ddkkkk$p/width:200<BS><BS><BS> 2<CR>dd?backend<BS><BS><BS>ground-i<CR>k$p/font-size: 1<CR>dd2kP2jjdd2kP3jdd2kP3jdd2kP2jdd2k$p/left: 2<CR>ddkP/color<CR>dd?tran<CR>k$puuddjjkkkkkkP/font-size: 28<CR>ddkkP/font-we<CR>ddjjkkkkP/<Esc>/lett<CR>ddkkk$pjjddkP:wq!<CR>",
+  "source": "public",
+  "keystrokes": 242
+ },
+ "9v00680e54330000000006c0": {
+  "keys": "ddjjjddddjddddjddddjddddjjjjjjjjjjjddddjddjkddjddjddddjjddddkkkjjjjjjjjjhhhhhi    <Esc>khhhi    <Esc>khhhi    <Esc>k hhhhi    <Esc>khhhi    <Esc>khhhi    <Esc>khhhi    k<Esc>xkhhhhi    <Esc>khhhi    <Esc>khhhi    <Esc>khhhi    <Esc>khhhi    <Esc>khhhi    <Esc>khhhi    <Esc>khhhi    <Esc>khhhi    <Esc>khhhi    <Esc>khhhi    <Esc>khhhi    <Esc>khhhhi    \"<Esc><Esc>khhhhi\"<C-U>    H<C-U>\"<Esc>khhhhi    \"<Esc>khhhhi    \"<Esc>Oi<C-U><C-U>{<Esc>jlllllllllllllllllxi:<C-U>\": \"<Esc>eeeee <BS>q<Esc><Esc>a\",<Esc>jhhhhbbbhxi\": \"<Esc>eeee    la\",<Esc>jhbbbbbhx\"i:<Esc><Esc><Esc>i\": \"<Esc>eeee  llla\",<Esc>jbbbbbbxi\": \"<Esc>eeeeeeeeeeeeeeelllla\",<Esc>jhhbbbbbbbbbbbbbi\"<Esc>ea\"<Esc>lxi: \"<Esc>eeeeeellllllllla\",<Esc>jeebbbbbbbbbbbbbbi:<C-U>\"<Esc>elxi\": \"<Esc>llllleelllellllea\",<Esc>jbbbi\"<Esc>elxi:<C-U>\": \"<Esc>ea\",<Esc>jeebbbbblljbbbi:<C-U>\"<Esc>eexi\": \"<Esc>ea\",<Esc>jebbbbi:<C-U>\"<Esc>elxi\": \"<Esc>ea\",<Esc>jhhhhhhhbbbbbbi\"<Esc>eexi\": \"<Esc>eeeeeeeeea\",<Esc>jbbbi\"<Esc>eexi\": \"<Esc>ea\",<Esc>jbbbbbbi\"<Esc>eexi:<C-U>\": \"<Esc>eeeeea\",<Esc>jbbbi\"<Esc>eexi\": \"<Esc>ea\",<Esc>jbbbbbi\"<Esc>eexi:<C-U>:<C-U>\": \"<Esc>eeeeeeei<Esc>la\",<Esc>jeebbbbbbbbbbi:<C-U>\"<Esc>lleexi:<C-U>\": \"<Esc>eeeeeeellla\",<Esc>jhhhhhhhhhhebbbbbbbbbi\"<Esc>lllleexi\": \"<Esc>eeeeeeela\",<Esc>jhehbi\"<Esc>eexa:<C-U>\": \"\",<Esc>jhhhbbbbi\"<Esc>eexi\": \"<Esc>eeeeeeeeelllllllllla\",<Esc>ja<Esc>hhbbbi:<C-U>\"<Esc>eexi\": \"<Esc>ea\",<Esc>jbbbi\"<Esc>eexi\": \"<Esc>ea\",<Esc>jbi\"<Esc>eexa\": \"\",<Esc>jjjjkbi\"<Esc>llbeexa\":<C-U>\": \"\",<Esc>jbi\"<Esc>eexi\": \"<Esc>eeeeeeeeeeeea\"<Esc>o<C-U>}<Esc>:wq2<BS><CR>",
+  "source": "minimized-public",
+  "keystrokes": 1083
+ },
+ "9v00686695ea000000000723": {
+  "keys": "dd:s<BS>%s/\\[\\([^\\]]\\{1,3}\\)\\]|<BS>\\[\\([^\\]]|<BS>\\7<BS>{1,3}\\)\\]\\[\\([^\\]]\\{,13<BS><BS><BS>1,3}\\)}<BS>]<BS>\\]/(1<BS>\\1, \\2, @<BS>\\3)/g<CR>:x<CR>",
+  "source": "public",
+  "keystrokes": 104
+ }
+}

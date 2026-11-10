@@ -1,0 +1,55 @@
+schema_version = "1.3"
+source = "VimGolf-Gym"
+
+# The agent's answer is handed to the separate verifier sandbox as an artifact.
+artifacts = ["/app/solution.txt"]
+
+[task]
+name = "vimgolf-gym/{{TASK_ID}}"
+description = "VimGolf challenge {{CHALLENGE_ID}}: {{TITLE_TOML}}"
+authors = [
+    { name = "James Brown", email = "randomvoidmail@foxmail.com" },
+]
+keywords = ["vimgolf", "vim", "text-editing", "terminal", "{{FILETYPE}}"]
+
+[metadata]
+challenge_id = "{{CHALLENGE_ID}}"
+title = "{{TITLE_TOML}}"
+filetype = "{{FILETYPE}}"
+category = "text-editing"
+difficulty = "hard"
+keystroke_budget = {{KEY_BUDGET}}
+oracle_source = "{{ORACLE_SOURCE}}"
+upstream_url = "https://www.vimgolf.com/challenges/{{CHALLENGE_ID}}"
+
+[agent]
+# vimgolf-benchmark.py --task-timeout default
+timeout_sec = 840.0
+# Agent phase: LLM API hosts only, so reference answers cannot be looked up online
+# (the public datasets carry them). Agent installation still runs on the public
+# baseline network; add a provider with `harbor run --allow-agent-host <host>`.
+network_mode = "allowlist"
+allowed_hosts = ["api.openai.com", "api.anthropic.com"]
+
+[verifier]
+timeout_sec = 120.0
+# root so the grader can drop privileges for the keystroke replay
+user = "root"
+environment_mode = "separate"
+
+# Built from tests/Dockerfile: the published upstream verifier image plus the grader.
+# The expected output is not shipped to this sandbox (only its sha256), mirroring the
+# upstream verifier container, which never sees the output file.
+[verifier.environment]
+network_mode = "no-network"
+build_timeout_sec = 600.0
+cpus = 1
+memory_mb = 1024
+storage_mb = 2048
+
+[environment]
+build_timeout_sec = 600.0
+cpus = 1
+memory_mb = 1024
+storage_mb = 2048
+workdir = "/app"
