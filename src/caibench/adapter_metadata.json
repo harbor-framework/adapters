@@ -1,0 +1,33 @@
+[
+  {
+    "adapter_name": "caibench",
+    "adapter_builders": [
+      "Tristan Roath (troath@berkeley.edu)",
+      "Tyler Roath (tyroath@berkeley.edu)"
+    ],
+    "original_benchmark": [
+      {
+        "split": "test",
+        "size": 16820,
+        "harness": "llm",
+        "supported_agents": null,
+        "adaptable": true,
+        "notes": "CAIBench benchmark with X tasks."
+      }
+    ],
+    "harbor_adapter": [
+      {
+        "split": "test",
+        "adapted_benchmark_size": 16820,
+        "parity_benchmark_size": 16820,
+        "parity_sampling_rate": null,
+        "registry_benchmark_size": 16820,
+        "added_agents": [],
+        "parity_matching_agents": [],
+        "parity_unmatching_agents": null,
+        "parity_costs": null,
+        "notes": null
+      }
+    ]
+  }
+]
