@@ -106,19 +106,18 @@ class ARCAGI3Adapter:
         │   ├── instruction.md
         │   ├── task.toml
         │   ├── solution/
-        │   │   ├── solve.sh
-        │   │   └── ...
+        │   │   └── solve.sh
         │   ├── tests/
-        │   │   ├── test.sh
-        │   │   └── ...
+        │   │   └── test.sh
         │   └── environment/
         │       ├── Dockerfile
-        │       └── ...
-        ├── <task-id-2>/
-        │   └── ...
-        ├── ...
-        └── <task-id-n>/
-            └── ...
+        │       ├── Dockerfile.game
+        │       ├── docker-compose.yaml
+        │       ├── game_server.py
+        │       ├── play.py
+        │       ├── <module>.py
+        │       └── metadata.json
+        └── ...
         """
         self.dataset_root = self._resolve_dataset_root()
         logger.info(f"arc-agi-3-public dataset available at {self.dataset_root}")
