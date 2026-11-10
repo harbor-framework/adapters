@@ -1,0 +1,27 @@
+# Run from src/browsecomp-plus after generating datasets/browsecomp-plus.
+jobs_dir: jobs
+n_attempts: 1
+agents:
+  - name: oracle
+# Custom agent alternative (requires --extra agent and API credentials):
+# agents:
+#   - import_path: browsecomp_plus.deep_research_agent:DeepResearchAgent
+#     model_name: gpt-5-mini
+#     kwargs:
+#       max_turns: 30
+#       max_tokens: 10000
+#     env:
+#       OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+#       OPENAI_BASE_URL: ${OPENAI_BASE_URL:-https://api.openai.com/v1}
+environment:
+  type: docker
+  force_build: false
+  delete: true
+verifier:
+  env:
+    OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+    OPENAI_BASE_URL: ${OPENAI_BASE_URL:-https://api.openai.com/v1}
+    JUDGE_MODEL: gpt-5-mini
+n_concurrent_trials: 2
+datasets:
+  - path: datasets/browsecomp-plus

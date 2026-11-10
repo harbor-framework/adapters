@@ -1,0 +1,42 @@
+[
+  {
+    "adapter_name": "browsecomp-plus",
+    "adapter_builders": [
+      "Zhenheng Tang (coolzhtang@gmail.com)"
+    ],
+    "original_benchmark": [
+      {
+        "split": "test",
+        "size": 830,
+        "harness": "agent",
+        "supported_agents": [
+          "search-agent@1.0.0"
+        ],
+        "adaptable": true,
+        "notes": "Dataset contains 830 queries. Uses encrypted fields to prevent data contamination."
+      }
+    ],
+    "harbor_adapter": [
+      {
+        "split": "test",
+        "adapted_benchmark_size": 830,
+        "parity_benchmark_size": 30,
+        "parity_sampling_rate": 0.03614457831325301,
+        "registry_benchmark_size": null,
+        "added_agents": [
+          "deep-research-agent@1.0.11",
+          "claude-code@2.1.79",
+          "claude-code@2.1.119"
+        ],
+        "parity_matching_agents": [
+          "None"
+        ],
+        "parity_unmatching_agents": [
+          "None"
+        ],
+        "parity_costs": "$20-$50 (historical estimate covering parity and supplementary runs; not verified billing)",
+        "notes": "Historical source reports 830 generated tasks, five nominal 30-task original/Harbor gpt-5-mini comparisons, and oracle 830/830. Original completed denominators were 29/30/25/30/30, while Harbor used 30 each; floating model aliases and turn-limit differences remain for maintainer review. Matching status is unclassified for the current contract pending methodology confirmation; None in both matching lists does not assert non-parity. Supplementary Claude Code results are Harbor-only and include infra errors/reward-hacking exclusions documented in README. Registry size is unknown: dataset PR #180 was merged, but current publication handling is discussed in harbor-datasets#246; no registry lookup/run was verified during migration. No new model or Docker runs."
+      }
+    ]
+  }
+]

@@ -1,0 +1,13 @@
+# Local benchmark data and execution output may contain decrypted records.
+/datasets/
+/jobs/
+/trials/
+/data/
+/indexes/
+/indices/
+/topics-qrels/
+/runs/
+/evals/
+/dist/
+/build/
+*.egg-info/
