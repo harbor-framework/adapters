@@ -1,0 +1,34 @@
+[
+    {
+        "adapter_name": "cava",
+        "adapter_builders": [
+            "Zineng Tang (terran@berkeley.edu)"
+        ],
+        "original_benchmark": [
+            {
+                "split": "test",
+                "size": 3671,
+                "harness": "llm",
+                "supported_agents": null,
+                "adaptable": true,
+                "notes": "Five CAVA subtasks with deterministic upstream scorers (SALT-NLP/CAVA@1af23b1): deception_detection 151, jeopardy 1000 (PEDANT correctness), multimodal_instruction_following 1000, function_calling 1000 (STOP records of the committed prediction files), jailbreak 520. Original harness: single model call or STT->LLM->TTS pipeline per record (src/cava/inference.py). tone_aware_reply (judge not public), pronunciation (speech output), jeopardy latency win-rate and other subtasks are not adapted."
+            }
+        ],
+        "harbor_adapter": [
+            {
+                "split": "full",
+                "adapted_benchmark_size": 3671,
+                "parity_benchmark_size": 551,
+                "parity_sampling_rate": 0.15,
+                "registry_benchmark_size": 3671,
+                "added_agents": [
+                    "cava-pipeline@1.0.0"
+                ],
+                "parity_matching_agents": [],
+                "parity_unmatching_agents": null,
+                "parity_costs": null,
+                "notes": "Pipeline (transcript) variant: audio replaced by a fixed gpt-4o-mini-transcribe transcript shared by both parity sides. Parity subset: all 151 deception items + 100 seeded items from each other subtask (data/parity_ids.json). MMIF kwargs merged and langdetect seeded (upstream scoring is random for 516/1000 MMIF items). Scores are per subtask (parity/summarize.py); the Harbor job mean over subtasks is not a CAVA metric. Terminal agents can edit their function-call log, unlike upstream's harness-recorded calls. Agent phase network: LLM API allowlist. Upstream scorers kept as is: Jeopardy PEDANT accepts a constant \"What is a banana?\" on 76.6% of records; 547/1000 STOP gold parses need an intent with no declared function, and call_function records any name as upstream's tool loop does. All 3671 oracles reach reward 1 under harbor run -a oracle (Docker, Harbor 0.24.0). Parity pending."
+            }
+        ]
+    }
+]
