@@ -9,6 +9,13 @@ dependencies = [
     "datasets",
 ]
 
+[dependency-groups]
+dev = [
+    "pytest>=8",
+    "ruff>=0.12",
+    "ty>=0.0.1",
+]
+
 [project.scripts]
 webgen-bench = "webgen_bench.main:main"
 
@@ -18,3 +25,13 @@ build-backend = "uv_build"
 
 [tool.uv.build-backend]
 module-name = "webgen_bench"
+
+[tool.pytest.ini_options]
+testpaths = ["tests/unit"]
+
+[tool.ruff]
+# Vendored verifier code and reference applications retain their upstream style.
+extend-exclude = ["src/webgen_bench/task-template", "src/webgen_bench/solutions"]
+
+[tool.ty.src]
+exclude = ["src/webgen_bench/task-template", "src/webgen_bench/solutions"]
