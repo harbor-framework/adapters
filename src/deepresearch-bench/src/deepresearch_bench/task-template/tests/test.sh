@@ -3,10 +3,10 @@ set -e
 
 echo "Starting DeepResearch Bench verification..."
 mkdir -p /logs/verifier
-# Establish a reward floor immediately so a crash on any later path (including
-# run_test.py exiting non-zero before it writes a score) can never leave a
-# stale, agent-controlled reward.txt in place.
-echo 0.0 > /logs/verifier/reward.txt
+# Remove any stale or agent-written reward first. A reward is written only
+# after valid grading; on judge/API failure none is written, so Harbor reports
+# a verifier error instead of accepting a 0.
+rm -f /logs/verifier/reward.txt /logs/verifier/judgment.json
 
 # Oracle fast path: solve.sh copies a per-task random token that exists only in
 # /solution (never visible to agents); a hash match proves the oracle ran.
@@ -20,17 +20,7 @@ if [ -n "$ORACLE_TOKEN_SHA" ] && [ -f /workspace/.oracle_token ] \
     exit 0
 fi
 
-if [ ! -f /workspace/output.md ]; then
-    echo "ERROR: /workspace/output.md not found"
-    echo "Agent must write the final research report to /workspace/output.md"
-    exit 1
-fi
-
+# run_test.py writes 0.0 itself for a missing/empty /workspace/output.md (a
+# valid outcome) and exits non-zero without a reward on infrastructure errors.
 echo "Running LLM judge evaluation..."
-
-set +e
 python3 /tests/run_test.py
-TEST_EXIT_CODE=$?
-set -e
-
-exit $TEST_EXIT_CODE

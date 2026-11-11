@@ -141,6 +141,21 @@ def call_llm_judge(
     raise RuntimeError(f"Failed to get valid response after {max_retries} attempts")
 
 
+REWARD_PATH = Path("/logs/verifier/reward.txt")
+JUDGMENT_PATH = Path("/logs/verifier/judgment.json")
+
+
+def agent_output_zero(reason: str) -> None:
+    """Missing/empty report is a valid graded outcome: it satisfies no rubric item."""
+    print(f"No gradable report ({reason}); reward 0.0")
+    REWARD_PATH.parent.mkdir(parents=True, exist_ok=True)
+    REWARD_PATH.write_text("0.0")
+    sys.exit(0)
+
+
+# Infrastructure failures (missing config, no rubric, judge/API errors) exit
+# non-zero WITHOUT writing a reward, so Harbor records a verifier error rather
+# than a score of 0.
 def main():
     config_path = Path("/tests/config.json")
     if not config_path.exists():
@@ -156,15 +171,13 @@ def main():
     # /workspace/output.md, so any other file the agent writes is ignored.
     agent_output_md = Path("/workspace/output.md")
     if not agent_output_md.exists():
-        print("ERROR: /workspace/output.md not found")
-        sys.exit(1)
+        agent_output_zero("/workspace/output.md not found")
     print(f"Reading markdown report: {agent_output_md}")
     paper_content = agent_output_md.read_text()
 
     paper_content = paper_content.strip()
     if not paper_content:
-        print("ERROR: Report content is empty")
-        sys.exit(1)
+        agent_output_zero("/workspace/output.md is empty")
 
     if len(paper_content) > MAX_PAPER_CHARS:
         print(
@@ -240,12 +253,10 @@ def main():
     print(f"Final Score: {final_score:.4f}")
     print(f"Blocked Rate: {blocked_rate:.4f}")
 
-    judgment_path = Path("/logs/verifier/judgment.json")
-    reward_path = Path("/logs/verifier/reward.txt")
-    judgment_path.parent.mkdir(parents=True, exist_ok=True)
+    JUDGMENT_PATH.parent.mkdir(parents=True, exist_ok=True)
 
     # Detailed output
-    judgment_path.write_text(
+    JUDGMENT_PATH.write_text(
         json.dumps(
             {
                 "score": final_score,
@@ -257,7 +268,8 @@ def main():
         )
     )
 
-    reward_path.write_text(f"{final_score:.6f}")
+    # Written last, only after every batch was graded successfully.
+    REWARD_PATH.write_text(f"{final_score:.6f}")
     print("\n✓ Verification finished.")
 
 

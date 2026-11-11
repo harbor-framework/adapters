@@ -185,7 +185,7 @@ Every recorded score is traceable in the fork's `parity_harness/artifacts/`: eac
 - **Deviations from the upstream judge**:
   - *Request path*: upstream calls Gemini through its own REST client; this adapter calls it through `litellm` (`gemini/gemini-2.5-pro` by default). The recorded parity used `openai/gemini-2.5-pro` through an OpenAI-compatible gateway.
   - *Report format*: upstream also accepts PDF/DOCX reports and attaches PDFs to the Gemini request directly. Here the instruction asks for markdown, and only `/workspace/output.md` is graded.
-- **Judge failures**: if the judge cannot score a batch after 10 retries (e.g. missing `GEMINI_API_KEY`, quota, outage), `run_test.py` exits non-zero and the reward stays at the 0.0 floor that `test.sh` writes first. Upstream instead records an error and leaves that report out of aggregation.
+- **Judge failures vs. missing output**: `test.sh` first deletes any existing `reward.txt`. A missing or empty `/workspace/output.md` is a valid outcome and gets reward 0.0. Infrastructure failures (judge/API errors after 10 retries, missing `GEMINI_API_KEY`, missing config) exit non-zero **without** writing a reward, so Harbor records a verifier error instead of a 0. Upstream likewise records an error and leaves that report out of aggregation.
 - **Timeouts**: agent 3600 s, verifier 1800 s (worst-case tasks have up to 195 rubric items → 4 judge batches with retries). The recorded parity used a 1800 s agent cap.
 - **Judge Model**: The verifier defaults to `gemini/gemini-2.5-pro` (set via `MODEL_NAME` in `[verifier.env]`) to match the official upstream judge; grading requires `GEMINI_API_KEY`. Overriding the judge model breaks comparability with upstream scores and must be mirrored on both sides of any parity run.
 - **Web Access**: Tasks require live web research. Agents must have network access and working search tooling inside the container; `claude-code` uses its own WebSearch/WebFetch.
@@ -209,10 +209,10 @@ Every recorded score is traceable in the fork's `parity_harness/artifacts/`: eac
 
 ## Troubleshooting
 
-- **Reward is 0.0 with no judge output**: the agent didn't write `/workspace/output.md`. `test.sh`
-  requires that file and exits with reward `0.0` otherwise.
-- **Judge errors / `GEMINI_API_KEY` missing**: grading needs `GEMINI_API_KEY`; `run_test.py` exits
-  non-zero on judge failure and the reward stays at the `0.0` floor.
+- **Reward is 0.0 with no judge output**: the agent didn't write `/workspace/output.md`, or wrote an
+  empty one. That is scored `0.0`, without calling the judge.
+- **Verifier error with no reward**: the judge failed (e.g. `GEMINI_API_KEY` missing, quota, outage).
+  `run_test.py` exits non-zero without writing a reward; fix the cause and re-run verification.
 - **Judge timeouts on large cases**: worst-case cases have up to 195 rubric items (4 judge batches
   with retries). The verifier timeout is 1800 s; raise it if you change chunk size or the judge model.
 - **Parity gateway `403 token quota is not enough`**: the shared parity gateway enforces a per-key
