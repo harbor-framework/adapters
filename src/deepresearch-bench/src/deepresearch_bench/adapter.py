@@ -57,6 +57,9 @@ class DeepResearchBenchAdapter:
                         "case_id": f"idx-{obj['idx']}",
                         "idx": int(obj["idx"]),
                         "prompt": obj["prompt"],
+                        # The judge sees content.task (the prompt without the
+                        # agent-only "do not view these articles" rule), as upstream.
+                        "task": obj["content"]["task"],
                         "rubric": obj["content"]["rubric"],
                         "blocked": obj["content"].get("blocked", {}),
                     }
@@ -153,6 +156,7 @@ class DeepResearchBenchAdapter:
         config_data = {
             "task_id": sanitized_id,
             "prompt": case["prompt"],
+            "task": case["task"],
             "rubric": case["rubric"],
             "blocked": case["blocked"],
             "oracle_token_sha256": oracle_token_sha256,

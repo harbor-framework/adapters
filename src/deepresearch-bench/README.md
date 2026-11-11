@@ -34,7 +34,7 @@ The score for a report is the fraction of rubric items scored `1`; the upstream 
 
 - **Pinned dataset loading**: Downloads `tasks_and_rubrics.jsonl` at the pinned upstream commit and reference reports at the pinned HF revision (`UPSTREAM_COMMIT`, `REPORTS_REVISION` in `adapter.py`). A failed download stops generation, and tasks whose reference report is missing are listed at the end.
 - **Comprehensive Task Generation**: Constructs full Harbor-compliant task environments (`instruction.md`, `task.toml`, `environment/Dockerfile`, `solution/solve.sh`).
-- **Upstream-aligned judge**: `tests/run_test.py` uses the upstream judge prompt and upstream settings (chunk size 50, 10 retries per batch, 150,000-char truncation). Scores are aggregated like upstream `run_evaluation.py` + `aggregate_scores.py`: one entry per unique rubric item per dimension, only numeric scores counted, and `-1` kept in the denominator. The request path differs from upstream (see Notes & Caveats).
+- **Upstream judge, verbatim**: `tests/run_test.py` builds each judge request exactly as upstream `run_evaluation.py` does for markdown reports: the same `PROMPT_TEMPLATE`, `content.task` as the task text (the agent-only "do not view these articles" rule is not shown to the judge), the same rubric/blocked payload, chunk size 50, 10 retries, and 150,000-char truncation. Response parsing and validation are copied verbatim, and scores are aggregated like `aggregate_scores.py`: one entry per unique rubric item per dimension, only numeric scores counted, `-1` kept in the denominator. Only the request path differs (see Notes & Caveats).
 - **Oracle detection**: `solve.sh` copies a random per-task token that exists only in `solution/`, and `test.sh` checks it against a hash in `tests/config.json`. A match short-circuits to reward 1.0 without the judge. The token is unrelated to any public file.
 - **Parity Split**: `--split parity` generates a deterministic 33-case subset (`idx % 4 == 1`, evenly spaced across the idx-ordered dataset).
 
@@ -115,8 +115,9 @@ long-lived container (fork `run_parity.py`, 1800 s agent cap):
 4. Compare per the **range-overlap** criterion (`max(original) ≥ min(harbor)` AND
    `max(harbor) ≥ min(original)`), 3 runs per side, per case.
 
-A Harbor side that goes through `harbor run`, and re-scoring the existing reports with upstream's
-evaluator, are still to be done, coordinated with the Harbor team.
+Still to be done, coordinated with the Harbor team: re-scoring the 27 saved reports with the
+unmodified upstream evaluator (scripted in the fork as `parity_harness/official_rescore.py`; the 3
+empty outputs are listed separately), and a Harbor side that goes through `harbor run`.
 
 Scores below are **mean ± sample SEM** of the rubric score (fraction of rubric items satisfied);
 individual run scores are in [`parity_experiment.json`](parity_experiment.json).
@@ -184,6 +185,7 @@ Every recorded score is traceable in the fork's `parity_harness/artifacts/`: eac
 - **Limited parity coverage**: see the scope statement in the Parity section. The other 127 cases have no model-parity evidence.
 - **Deviations from the upstream judge**:
   - *Request path*: upstream calls Gemini through its own REST client; this adapter calls it through `litellm` (`gemini/gemini-2.5-pro` by default). The recorded parity used `openai/gemini-2.5-pro` through an OpenAI-compatible gateway.
+  - *Recorded parity used an earlier judge input*: the scores in the Parity section came from a `run_test.py` whose judge prompt omitted the template's second example item and passed the full agent prompt (including the "do not view" rule) as the task. Both are fixed; the official-evaluator re-score of the saved reports measures the effect.
   - *Report format*: upstream also accepts PDF/DOCX reports and attaches PDFs to the Gemini request directly. Here the instruction asks for markdown, and only `/workspace/output.md` is graded.
 - **Judge failures vs. missing output**: `test.sh` first deletes any existing `reward.txt`. A missing or empty `/workspace/output.md` is a valid outcome and gets reward 0.0. Infrastructure failures (judge/API errors after 10 retries, missing `GEMINI_API_KEY`, missing config) exit non-zero **without** writing a reward, so Harbor records a verifier error instead of a 0. Upstream likewise records an error and leaves that report out of aggregation.
 - **Timeouts**: agent 3600 s, verifier 1800 s (worst-case tasks have up to 195 rubric items → 4 judge batches with retries). The recorded parity used a 1800 s agent cap.

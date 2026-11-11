@@ -10,7 +10,9 @@ CHUNK_SIZE = 50
 MAX_RETRIES = 10
 MAX_PAPER_CHARS = 150000
 
-JUDGE_PROMPT = """You will receive an article, a task, and a list of grading rubric items. Your job is to assess whether the article satisfies each rubric item, and provide a THREE-WAY score for EACH rubric item.
+# Verbatim copy of upstream run_evaluation.py PROMPT_TEMPLATE (@ffdff61).
+JUDGE_PROMPT = """
+You will receive an article, a task, and a list of grading rubric items. Your job is to assess whether the article satisfies each rubric item, and provide a THREE-WAY score for EACH rubric item.
 
 Scoring rule per rubric item (strict):
 - Score = 1: The article clearly satisfies the rubric item AND the specific supporting sentence(s) do NOT cite any reference listed in "blocked" (match by title/urls). For numerical data, exact values must be explicitly listed and match the rubric.
@@ -45,6 +47,12 @@ Your output MUST strictly follow this JSON format (no extra keys, and the rubric
             "reason": "brief explanation",
             "evidence": "supporting sentence(s) from the article"
         }},
+        {{
+            "rubric_item": "rubric item 2",
+            "score": 1 or 0 or -1,
+            "reason": "brief explanation",
+            "evidence": "supporting sentence(s) from the article"
+        }},
         ...
     ]
 }}
@@ -62,6 +70,53 @@ Now, please begin your generation
 """
 
 DEFAULT_JUDGE_MODEL = "gemini/gemini-2.5-pro"
+
+
+# Response parsing and validation: verbatim from upstream run_evaluation.py (@ffdff61).
+FENCED_JSON_PATTERN = r'```json\s*(.*)```'
+
+
+def _try_clean_and_load(s: str):
+    json_clean = re.sub(
+        r'"(?P<k>.*?)"(?=\s*:)',
+        lambda m: '"' + re.sub(r'(?<!\\)"', r'\"', m.group('k')) + '"',
+        s
+    )
+    return json.loads(json_clean.strip())
+
+def parse_model_text(text: str):
+    matches = re.findall(FENCED_JSON_PATTERN, text, re.DOTALL)
+    if matches:
+        try:
+            return _try_clean_and_load(matches[0]), True
+        except json.JSONDecodeError as e:
+            print(f"[warn] failed to parse fenced JSON: {e}; trying full text...")
+    try:
+        return _try_clean_and_load(text), True
+    except json.JSONDecodeError as e:
+        print(f"[warn] failed to parse JSON from full text: {e}")
+        return None, False
+
+def validate_batch_result(rubric_items: list[str], parsed_result: dict) -> bool:
+    """
+    Validate that the model output contains all rubric_items with exact text match.
+    """
+    if not isinstance(parsed_result, dict):
+        return False
+    results = parsed_result.get("results", [])
+    if not isinstance(results, list):
+        return False
+    if len(results) != len(rubric_items):
+        return False
+    
+    # 检查每个 rubric_item 是否严格匹配
+    returned_items = [r.get("rubric_item", "") for r in results]
+    for expected in rubric_items:
+        # Ensure every rubric_item from the input is present in the results
+        if expected not in returned_items:
+            return False
+    
+    return True
 
 
 def call_llm_judge(
@@ -102,39 +157,23 @@ def call_llm_judge(
     for attempt in range(max_retries):
         try:
             response = litellm.completion(**completion_kwargs)
-            content = response.choices[0].message.content.strip()
+            content = response.choices[0].message.content or ""
+            if not content:
+                print(f"[warn] batch attempt {attempt + 1}/{max_retries} returned empty text")
+                continue
 
-            # Robust JSON extraction
-            json_str = content
-            match = re.search(r"```json\s*(.*?)\s*```", content, re.DOTALL)
-            if not match:
-                match = re.search(r"```\s*(.*?)\s*```", content, re.DOTALL)
-            if match:
-                json_str = match.group(1).strip()
+            parsed, ok = parse_model_text(content)
+            if not ok:
+                print(f"[warn] batch attempt {attempt + 1}/{max_retries} JSON parse failed")
+                continue
 
-            parsed = json.loads(json_str)
-            results = parsed.get("results", [])
-
-            # Validate results
-            if not isinstance(results, list) or len(results) != len(rubric_items):
+            if not validate_batch_result(rubric_items, parsed):
                 print(
-                    f"[warn] batch attempt {attempt + 1}/{max_retries} validation failed: wrong item count"
+                    f"[warn] batch attempt {attempt + 1}/{max_retries} validation failed: rubric_item mismatch or wrong count"
                 )
                 continue
 
-            returned_items = [r.get("rubric_item", "") for r in results]
-            mismatch = False
-            for expected in rubric_items:
-                if expected not in returned_items:
-                    print(
-                        f"[warn] batch attempt {attempt + 1}/{max_retries} validation failed: missing {expected}"
-                    )
-                    mismatch = True
-                    break
-            if mismatch:
-                continue
-
-            return results
+            return parsed["results"]
         except Exception as e:
             print(f"[warn] batch attempt {attempt + 1}/{max_retries} error: {e}")
 
@@ -163,7 +202,8 @@ def main():
         sys.exit(1)
 
     config = json.loads(config_path.read_text())
-    task_prompt = config.get("prompt", "")
+    # Upstream passes content.task to the judge, not the agent-facing prompt.
+    task_prompt = config["task"]
     rubric = config.get("rubric", {})
     blocked = config.get("blocked", {})
 
