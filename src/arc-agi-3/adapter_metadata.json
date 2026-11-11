@@ -1,0 +1,32 @@
+[
+  {
+    "adapter_name": "arc-agi-3",
+    "adapter_builders": [
+      "GhostofAdam (37005888+GhostofAdam@users.noreply.github.com)"
+    ],
+    "original_benchmark": [
+      {
+        "split": "public",
+        "size": 25,
+        "harness": "agent",
+        "supported_agents": null,
+        "adaptable": true,
+        "notes": "ARC-AGI-3 interactive games. Each game is a sequence of levels the agent must solve by acting, not a puzzle with a submittable answer. Games are pinned by version via their game id."
+      }
+    ],
+    "harbor_adapter": [
+      {
+        "split": "public",
+        "adapted_benchmark_size": 25,
+        "parity_benchmark_size": null,
+        "parity_sampling_rate": null,
+        "registry_benchmark_size": 0,
+        "added_agents": [],
+        "parity_matching_agents": null,
+        "parity_unmatching_agents": null,
+        "parity_costs": null,
+        "notes": "Draft migration of harbor-framework/harbor#2728. 25 pinned games; oracle coverage and model parity are separate. Not published to the registry. Baseline actions are verifier-only scoring metadata, injected after the agent finishes; public runtime HTTP logs omit them. Matched model parity awaits maintainer agreement."
+      }
+    ]
+  }
+]
