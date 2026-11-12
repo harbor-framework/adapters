@@ -46,4 +46,4 @@ Complete the following research workflow and write all output to **`/workspace/r
 (Summary of contributions and future work)
 ```
 
-Your output is evaluated on novelty, feasibility, scientific soundness, clarity, and significance by an automated judge.
+Your output is reviewed by an automated judge on clarity, novelty, soundness, and significance, and given an overall assessment.

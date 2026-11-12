@@ -4,7 +4,9 @@ Adapter for MLR-Bench: Machine Learning Research Benchmark.
 MLR-Bench (https://github.com/chchenhui/mlrbench) evaluates AI agents on
 open-ended ML research tasks derived from NeurIPS, ICLR, and ICML workshop
 descriptions. Agents must generate a research idea, proposal, experimental
-plan, and write a paper. Outputs are scored by an LLM judge on 9 dimensions.
+plan, and write a paper. Papers are scored by the official MLR-Judge overall
+review (upstream mlrbench/evals/overall_review.py); the reward is the Overall
+score (1-10) mapped onto [0, 1].
 
 HuggingFace dataset: https://huggingface.co/datasets/chchenhui/mlrbench-tasks
   Columns: task_id (int), task_name (str), task_description (str)
@@ -71,9 +73,14 @@ class MlrBenchAdapter:
 
         task_dir.mkdir(parents=True)
 
-        # Copy template subdirectories verbatim
+        # Copy template subdirectories verbatim. parity_runner.py imports
+        # tests/judge.py, which can leave a __pycache__ behind in the template.
         for subdir in ("environment", "solution", "tests"):
-            shutil.copytree(TEMPLATE_DIR / subdir, task_dir / subdir)
+            shutil.copytree(
+                TEMPLATE_DIR / subdir,
+                task_dir / subdir,
+                ignore=shutil.ignore_patterns("__pycache__"),
+            )
 
         slug = _slugify(task_name)
         harbor_name = f"{ADAPTER_NAME}/{slug}"

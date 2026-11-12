@@ -3,8 +3,18 @@ MLR-Bench upstream parity runner.
 
 Clones and runs the official MLR-Agent pipeline from
 https://github.com/chchenhui/mlrbench — it does **not** reimplement the
-agent. Papers are then scored with the same 9-dimension Harbor MLR-Judge
-rubric used on the Harbor side so the two columns are comparable.
+agent. Papers are scored by the official MLR-Judge overall review
+(upstream ``mlrbench/evals/overall_review.py``) through the same
+``score_paper`` function the Harbor verifier uses
+(``src/mlr_bench/task-template/tests/judge.py``), so both columns share one
+scoring and failure policy:
+
+* the pipeline raises (API/infrastructure failure): ``None``, excluded from
+  the mean and counted as an error (Harbor records a trial exception);
+* the pipeline finishes but the paper is missing or empty: ``0.0``;
+* the judge cannot return a complete review after upstream's 3 attempts:
+  ``None``, excluded and counted as a judge error (Harbor records a verifier
+  error). Incomplete reviews are never filled with minimum scores.
 
 Experiment stage note
 ---------------------
@@ -29,6 +39,7 @@ Results are written to parity_results/.
 from __future__ import annotations
 
 import argparse
+import importlib.util
 import json
 import os
 import re
@@ -87,61 +98,25 @@ Here is the proposal:
 {proposal}
 ```"""
 
-JUDGE_SYSTEM = (
-    "You are an expert ML researcher serving as a peer reviewer for a top conference."
+# The Harbor verifier's judge, imported so both sides score identically.
+_JUDGE_PATH = (
+    _ADAPTER_DIR / "src" / "mlr_bench" / "task-template" / "tests" / "judge.py"
 )
 
-JUDGE_PROMPT = """\
-You are evaluating an AI-generated research paper for an ML workshop.
 
-## Workshop Topic
-{topic}
+def _load_judge():  # type: ignore[no-untyped-def]
+    spec = importlib.util.spec_from_file_location("mlr_bench_judge", _JUDGE_PATH)
+    if spec is None or spec.loader is None:
+        raise ImportError(f"Cannot load the Harbor judge from {_JUDGE_PATH}")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
 
-## Agent's Research Paper
-{paper}
 
----
-
-Score the paper on each of the following 9 dimensions using an integer from 1 (very poor) to 5 (excellent):
-
-1. **Consistency** — Does the paper address the given workshop topic?
-2. **Clarity** — Is the writing clear, well-organised, and easy to follow?
-3. **Novelty** — Does it propose genuinely new ideas or approaches?
-4. **Feasibility** — Is the proposed approach realistic and implementable?
-5. **Completeness** — Does it cover all required sections (introduction, methodology, experiments, conclusion)?
-6. **Soundness** — Is the methodology technically rigorous and scientifically valid?
-7. **Insightfulness** — Does it offer deep analysis and non-obvious insights?
-8. **Significance** — Would the contributions matter to the ML community?
-9. **Overall** — Holistic assessment of the paper's quality.
-
-Respond with ONLY valid JSON in this exact format (no markdown, no extra text):
-{
-  "scores": {
-    "consistency": <1-5>,
-    "clarity": <1-5>,
-    "novelty": <1-5>,
-    "feasibility": <1-5>,
-    "completeness": <1-5>,
-    "soundness": <1-5>,
-    "insightfulness": <1-5>,
-    "significance": <1-5>,
-    "overall": <1-5>
-  },
-  "rationale": "<one sentence explaining the overall judgment>"
-}
-"""
-
-DIMENSIONS = [
-    "consistency",
-    "clarity",
-    "novelty",
-    "feasibility",
-    "completeness",
-    "soundness",
-    "insightfulness",
-    "significance",
-    "overall",
-]
+judge = _load_judge()
+# Cached rewards are reused only if they were produced under this protocol,
+# so results from the earlier 9-dimension rubric are never mixed in.
+JUDGE_PROTOCOL = f"mlrbench-overall-review@{judge.UPSTREAM_COMMIT[:7]}"
 
 
 def _fill(template: str, **kwargs: str) -> str:
@@ -344,44 +319,61 @@ def write_experimental_plan(task_path: Path, model_name: str) -> None:
 
 
 # ---------------------------------------------------------------------------
-# Harbor-side judge (same rubric as tests/judge.py)
+# Scoring (official overall review, shared with the Harbor verifier)
 # ---------------------------------------------------------------------------
 
 
-def judge_paper(topic: str, paper: str) -> float:
-    import litellm
+def check_vendored_rubric() -> None:
+    """Fail fast if judge.py's rubric drifted from the upstream checkout."""
+    if judge.UPSTREAM_COMMIT != UPSTREAM_COMMIT:
+        raise SystemExit(
+            f"judge.py vendors upstream {judge.UPSTREAM_COMMIT}, but the runner "
+            f"pins {UPSTREAM_COMMIT}; keep them in sync."
+        )
+    from mlrbench.evals.overall_review import OVERALL_RUBRIC
 
-    api_key = os.environ.get("ANTHROPIC_API_KEY") or os.environ.get("OPENAI_API_KEY")
-    api_base = os.environ.get("ANTHROPIC_BASE_URL") or os.environ.get("OPENAI_BASE_URL")
-    prompt = _fill(JUDGE_PROMPT, topic=topic, paper=paper)
-    kwargs: dict = dict(
-        model=JUDGE_MODEL,
-        messages=[
-            {"role": "system", "content": JUDGE_SYSTEM},
-            {"role": "user", "content": prompt},
-        ],
-        max_tokens=512,
-        api_key=api_key,
-        timeout=REQUEST_TIMEOUT_SEC,
+    if OVERALL_RUBRIC != judge.OVERALL_RUBRIC:
+        raise SystemExit(
+            "judge.py OVERALL_RUBRIC differs from upstream "
+            "mlrbench/evals/overall_review.py; re-vendor it."
+        )
+    print(
+        f"Verified vendored overall-review rubric against upstream {UPSTREAM_COMMIT[:7]}"
     )
-    if api_base:
-        kwargs["api_base"] = api_base
-    response = litellm.completion(**kwargs)
-    raw = (response.choices[0].message.content or "").strip()
-    if raw.startswith("```"):
-        raw = raw.split("```")[1]
-        if raw.startswith("json"):
-            raw = raw[4:]
-    result = json.loads(raw)
-    scores = result.get("scores", {})
-    total = sum(max(1, min(5, int(scores.get(d, 1)))) for d in DIMENSIONS)
-    reward = round(
-        (total - len(DIMENSIONS)) / (5 * len(DIMENSIONS) - len(DIMENSIONS)), 4
+
+
+def score_and_save(out_dir: Path, topic: str, paper: str | None) -> float | None:
+    """Score one paper and cache the result; None means a judge error."""
+    try:
+        reward, review = judge.score_paper(topic, paper, JUDGE_MODEL)
+    except judge.JudgeError as exc:
+        print(f"  JUDGE ERROR: {exc}")
+        (out_dir / "review.json").write_text(
+            json.dumps({"status": "judge_error", "error": str(exc)}, indent=2)
+        )
+        return None
+    if review is None:
+        print("  Paper missing or empty -> reward = 0.0")
+    else:
+        (out_dir / "review.json").write_text(json.dumps(review, indent=2))
+        scores = {aspect: review[aspect]["score"] for aspect in judge.ASPECTS}
+        print(f"  Scores: {scores}  Confidence: {review['Confidence']}")
+        print(f"  Overall {scores['Overall']}/10  ->  reward = {reward}")
+    (out_dir / "reward.json").write_text(
+        json.dumps({"reward": reward, "protocol": JUDGE_PROTOCOL, "judge": JUDGE_MODEL})
     )
-    print(f"  Scores: {scores}")
-    print(f"  Rationale: {result.get('rationale', '')}")
-    print(f"  Total: {total}/45  →  reward = {reward}")
     return reward
+
+
+def cached_reward(out_dir: Path) -> float | None:
+    """Reward cached under the current protocol, else None."""
+    path = out_dir / "reward.json"
+    if not path.exists():
+        return None
+    data = json.loads(path.read_text())
+    if data.get("protocol") != JUDGE_PROTOCOL:
+        return None
+    return float(data["reward"])
 
 
 # ---------------------------------------------------------------------------
@@ -396,12 +388,12 @@ def run_upstream_task(
     harbor_slug: str,
     skip_judge: bool = False,
 ) -> float | None:
-    """Run official upstream stages, then Harbor MLR-Judge."""
+    """Run official upstream stages, then the MLR-Judge overall review."""
+    from mlrbench.agent.experiment_runner import run_experiment
     from mlrbench.agent.idea_generator import generate_idea_for_pipeline
     from mlrbench.agent.lit_review import generate_lit_review_for_pipeline
-    from mlrbench.agent.proposal_generator import generate_proposal_for_pipeline
     from mlrbench.agent.paper_writer import write_paper_for_pipeline
-    from mlrbench.agent.experiment_runner import run_experiment
+    from mlrbench.agent.proposal_generator import generate_proposal_for_pipeline
     from mlrbench.utils.utils import read_text
 
     task_path_str = str(task_path)
@@ -433,9 +425,9 @@ def run_upstream_task(
 
     topic = read_text(str(task_path / "task.md"))
     paper_path = task_path / "results" / "paper.md"
-    if not paper_path.exists():
-        raise FileNotFoundError(f"Upstream paper not produced: {paper_path}")
-    paper = paper_path.read_text()
+    # A finished pipeline without a paper is scored 0, like a Harbor agent
+    # that exits without writing research_output.md.
+    paper = paper_path.read_text() if paper_path.exists() else ""
 
     out_dir = OUTPUT_DIR / harbor_slug
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -446,20 +438,18 @@ def run_upstream_task(
         print("  --skip-judge: paper saved; score later with --judge-only.")
         return None
 
-    print("  Judging paper (Harbor 9-dimension MLR-Judge)...")
-    reward = judge_paper(topic, paper)
-    (out_dir / "reward.txt").write_text(str(reward))
-    return reward
+    print("  Judging paper (MLR-Judge overall review)...")
+    return score_and_save(out_dir, topic, paper)
 
 
 def judge_saved_papers() -> dict[str, float | None]:
-    """Score every saved parity_results/<slug>/paper.md lacking a reward."""
+    """Score every saved paper lacking a reward under the current protocol."""
     rewards: dict[str, float | None] = {}
     for out_dir in sorted(p for p in OUTPUT_DIR.iterdir() if p.is_dir()):
         slug = out_dir.name
-        reward_file = out_dir / "reward.txt"
-        if reward_file.exists():
-            rewards[slug] = float(reward_file.read_text().strip())
+        cached = cached_reward(out_dir)
+        if cached is not None:
+            rewards[slug] = cached
             continue
         paper_file = out_dir / "paper.md"
         topic_file = out_dir / "topic.md"
@@ -468,14 +458,39 @@ def judge_saved_papers() -> dict[str, float | None]:
             rewards[slug] = None
             continue
         print(f"Judging {slug} ...")
-        try:
-            reward = judge_paper(topic_file.read_text(), paper_file.read_text())
-            reward_file.write_text(str(reward))
-            rewards[slug] = reward
-        except Exception as exc:
-            print(f"  ERROR: {exc}")
-            rewards[slug] = None
+        rewards[slug] = score_and_save(
+            out_dir, topic_file.read_text(), paper_file.read_text()
+        )
     return rewards
+
+
+def summarize(rewards: dict[str, float | None], header: str) -> None:
+    """Print per-task rewards and the mean over scored tasks, and save them."""
+    valid = [r for r in rewards.values() if r is not None]
+    errors = sorted(slug for slug, r in rewards.items() if r is None)
+    print(f"\n{'=' * 60}\n{header}")
+    for tid, r in rewards.items():
+        print(f"  {tid}: {r}")
+    if valid:
+        print(
+            f"\nMean: {sum(valid) / len(valid):.4f}  ({len(valid)}/{len(rewards)} scored)"
+        )
+    if errors:
+        print(f"Excluded (pipeline or judge error): {len(errors)}: {errors}")
+    out_json = OUTPUT_DIR / "parity_rewards.json"
+    out_json.write_text(
+        json.dumps(
+            {
+                "protocol": JUDGE_PROTOCOL,
+                "judge": JUDGE_MODEL,
+                "scored": len(valid),
+                "errors": errors,
+                "rewards": rewards,
+            },
+            indent=2,
+        )
+    )
+    print(f"\nResults saved to {out_json}")
 
 
 # ---------------------------------------------------------------------------
@@ -549,20 +564,13 @@ def main() -> None:
             f"{_ADAPTER_DIR / '.env'} (see .env.example), or export them in your shell."
         )
 
+    upstream = ensure_upstream()
+    check_vendored_rubric()
+
     if args.judge_only:
-        rewards = judge_saved_papers()
-        valid = [r for r in rewards.values() if r is not None]
-        print(f"\n{'=' * 60}\nJUDGE-ONLY RESULTS ({JUDGE_MODEL} judge):")
-        for tid, r in rewards.items():
-            print(f"  {tid}: {r}")
-        if valid:
-            print(f"\nMean: {sum(valid) / len(valid):.4f}  ({len(valid)} scored)")
-        out_json = OUTPUT_DIR / "parity_rewards.json"
-        out_json.write_text(json.dumps(rewards, indent=2))
-        print(f"\nResults saved to {out_json}")
+        summarize(judge_saved_papers(), f"JUDGE-ONLY RESULTS ({JUDGE_MODEL} judge):")
         return
 
-    upstream = ensure_upstream()
     patch_upstream_model_list(args.model)
 
     all_tasks = list_upstream_tasks(upstream)
@@ -604,11 +612,10 @@ def main() -> None:
         print(f"\n{'=' * 60}\nTask: {task_id}")
         # Harbor slugs use hyphens; upstream stems use underscores.
         harbor_slug = task_id.replace("_", "-")
-        cached = OUTPUT_DIR / harbor_slug / "reward.txt"
-        if cached.exists():
-            reward = float(cached.read_text().strip())
-            rewards[harbor_slug] = reward
-            print(f"  Cached reward = {reward}")
+        cached = cached_reward(OUTPUT_DIR / harbor_slug)
+        if cached is not None:
+            rewards[harbor_slug] = cached
+            print(f"  Cached reward = {cached}")
             continue
         if args.skip_judge and (OUTPUT_DIR / harbor_slug / "paper.md").exists():
             print("  Cached paper (unscored) — skipping generation.")
@@ -637,22 +644,11 @@ def main() -> None:
         )
         return
 
-    valid = [r for r in rewards.values() if r is not None]
-    print(f"\n{'=' * 60}")
-    print(
-        f"PARITY RESULTS (upstream mlrbench @ {UPSTREAM_REPO}, "
-        f"{args.model}, {JUDGE_MODEL} judge):"
+    summarize(
+        rewards,
+        f"PARITY RESULTS (upstream mlrbench @ {UPSTREAM_COMMIT[:7]}, "
+        f"{args.model}, {JUDGE_MODEL} judge):",
     )
-    for tid, r in rewards.items():
-        print(f"  {tid}: {r}")
-    if valid:
-        print(
-            f"\nMean: {sum(valid) / len(valid):.4f}  "
-            f"({len(valid)}/{len(task_ids)} tasks)"
-        )
-    out_json = OUTPUT_DIR / "parity_rewards.json"
-    out_json.write_text(json.dumps(rewards, indent=2))
-    print(f"\nResults saved to {out_json}")
 
 
 if __name__ == "__main__":
