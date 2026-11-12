@@ -23,10 +23,10 @@ All answers are short, open-vocabulary strings. A GPT-4o judge grades each respo
 ## Adapter Features
 
 - **Faithful prompts.** Question text is built with the upstream query builders (`descriptive_query_helper`, `build_reasoning_queries`, `get_number_instruction`) from a verbatim vendored copy of upstream `src/constants.py` (`src/charxiv/upstream_constants.py`). A unit test checks that all 5,000 generated questions and judge prompts are byte-identical to the upstream code's output.
-- **Image delivery.** Each task's chart is copied into its Docker image at `/app/images/<figure_id>.jpg`, which matches the upstream `images/<figure_id>.jpg` naming. The instruction names that absolute path. Images are at most 1024 px on the longest side.
+- **Image delivery.** Each task's chart is copied into its Docker image at the fixed path `/app/images/chart.jpg`, and the instruction names that path. The file name carries no upstream figure id. Image bytes are unchanged from the pinned `images.zip`.
 - **Upstream LLM judge.** `tests/judge.py` reproduces `src/evaluate.py` and `src/get_stats.py`: the same rubric prompts, `gpt-4o-2024-05-13`, `temperature=0`, `top_p=1`, `seed=42`, `response_format=json_object`, `max_tokens` of 256 doubling up to 1024 on truncated JSON, and up to 10 attempts. A score outside {0, 1} counts as 0. The judge is configured through `[verifier.env]`: `OPENAI_API_KEY`, optional `OPENAI_BASE_URL`, and `CHARXIV_JUDGE_MODEL` (the default is the upstream model).
 - **Deterministic oracle.** `solution/solve.sh` writes the ground-truth answer. If the answer exactly matches the ground truth after stripping surrounding whitespace, the verifier awards 1 without calling the judge (see Notes & Caveats). So the oracle needs no API key.
-- **No answer leakage.** Ground truth exists only in `tests/config.json` and `solution/solve.sh`. Harbor mounts neither into the agent environment.
+- **Isolated verifier.** Ground truth exists only in `tests/config.json` and `solution/solve.sh`, and neither is ever copied into the agent's container. The judge runs in a separate verifier container built from `tests/Dockerfile` (`[verifier] environment_mode = "separate"`). The only thing it receives from the agent is `/app/answer.txt`, collected as an artifact after the agent's container has stopped. `test.sh` deletes any stale `reward.txt`/`reward.json` before grading. `judge.py` reads the answer without following symlinks and gives 0 to a symlink, a directory or another non-regular file, an unreadable file, or a file larger than 64 KiB.
 - `--modes descriptive|reasoning` generates one question type only, so the two upstream metrics can be run and reported separately.
 
 ## Generated Task Structure
@@ -37,12 +37,13 @@ datasets/charxiv/
 │   ├── task.toml
 │   ├── instruction.md
 │   ├── environment/
-│   │   ├── Dockerfile          # python:3.11-slim + openai SDK; COPY chart image
-│   │   └── images/0.jpg
+│   │   ├── Dockerfile          # agent image: python:3.11-slim + chart image
+│   │   └── images/chart.jpg
 │   ├── solution/
 │   │   └── solve.sh            # writes ground truth to /app/answer.txt
 │   └── tests/
-│       ├── test.sh             # runs judge.py
+│       ├── Dockerfile          # verifier image: python:3.11-slim + openai SDK + tests/
+│       ├── test.sh             # clears stale rewards, runs judge.py
 │       ├── judge.py            # upstream CharXiv grading (one question)
 │       ├── charxiv_constants.py# vendored upstream constants.py
 │       └── config.json         # mode, template/answer type, ground truth
@@ -84,7 +85,7 @@ uv sync
 uv run charxiv --output-dir ../../datasets/charxiv                 # all 5,000 tasks
 uv run charxiv --output-dir ../../datasets/charxiv --limit 5
 uv run charxiv --output-dir ../../datasets/charxiv --modes reasoning
-uv run charxiv --output-dir ../../datasets/charxiv_parity --split parity     # 1,000-task parity subset
+uv run charxiv --output-dir ../../datasets/charxiv_parity --split parity     # 500-task parity subset
 uv run charxiv --output-dir ../../datasets/charxiv --task-ids charxiv-reasoning-0 charxiv-descriptive-0-1
 uv run charxiv --output-dir ../../datasets/charxiv --overwrite
 ```
@@ -99,9 +100,9 @@ CHARXIV_UPSTREAM_DIR=/path/to/CharXiv uv run pytest
 
 ## Comparison with Original Benchmark (Parity)
 
-Parity has not been run yet. The plan (pending team approval) is Scenario 2. The original benchmark calls MLLM APIs directly (`src/generate_lib/*`), so the plan is to fork CharXiv and add a `generate_lib` backend that runs the same CLI agent (e.g. Codex or Claude Code) on each chart/question. That backend uses the same instruction wrapper as this adapter (image path line plus `/app/answer.txt` line) and grades with the unmodified `src/evaluate.py` (with `nq_per_query=1` and the same exact-match rule; see Notes & Caveats).
+Parity has not been run yet. The plan (pending team approval) is Scenario 2. The original benchmark calls MLLM APIs directly (`src/generate_lib/*`), so the plan is to fork CharXiv and add a `generate_lib` backend that runs the same CLI agent (e.g. Codex or Claude Code) on each chart/question. That backend uses the same instruction wrapper as this adapter (image path line plus `/app/answer.txt` line) and grades with upstream `src/evaluate.py` and `src/get_stats.py`. The fork makes two documented changes to grading: descriptive questions are graded with `nq_per_query=1`, and the same exact-match short-circuit is applied (see Notes & Caveats). Prompts and rubrics are otherwise untouched.
 
-Proposed parity subset (`--split parity`, to be confirmed with the team): 200 of the 1,000 validation charts sampled uniformly with `random.Random(42)`, keeping all 5 questions per chart, i.e. 800 descriptive + 200 reasoning = 1,000 tasks (20%).
+Proposed parity subset (`--split parity`, to be confirmed with the team): 100 of the 1,000 validation charts (10%) sampled uniformly with `random.Random(42)`, keeping all 5 questions per chart, i.e. 400 descriptive + 100 reasoning = 500 tasks. The 100 reasoning questions split by answer type as 46 text-in-chart, 5 text-in-general, 32 number-in-chart and 17 number-in-general (full validation split: 440 / 99 / 232 / 229).
 
 Reproduction (Harbor side; original-side commands to be added with the fork):
 
@@ -124,8 +125,11 @@ Links: original benchmark https://github.com/princeton-nlp/CharXiv · parity for
 - **Instruction wrapper (prompt modification).** The upstream question text (with its bullet-point answer instructions and original indentation) is unchanged. The adapter adds one leading line naming the image path and one trailing line asking for the final answer in `/app/answer.txt`. The parity fork must add the same two lines.
 - **Descriptive judge batching (deviation).** Upstream groups descriptive responses by template and grades 5 per judge call (`nq_per_query=5`). Each Harbor task is verified on its own, so the verifier grades with a batch of 1. This is the same prompt template with `NUM_TRIPLETS=1`; upstream also sends batches smaller than 5 for the remainder. Use `nq_per_query=1` on the original side for parity.
 - **Exact-match short-circuit.** If `answer.txt` equals the ground truth after stripping surrounding whitespace, the reward is 1 and the judge is not called. Every upstream rubric awards 1 when the extracted answer and the ground truth refer to the same term or value, so a verbatim match is always a 1 under the rubric. The short-circuit only removes judge stochasticity and cost. It makes the oracle deterministic and API-free. Disable it with `CHARXIV_EXACT_MATCH_SHORTCUT=0`. Apply the same setting on both sides during parity.
-- **Empty answer.** A missing or empty `/app/answer.txt` gets reward 0 without a judge call. The upstream judge prompt says to give 0 when there is no response.
-- **Judge failures.** If the judge replied but never produced valid output within 10 attempts, the score is -1, which counts as reward 0 (upstream `get_stats.py`). If the judge never replied at all (missing key, network or auth error), `judge.py` exits non-zero, so Harbor records a verifier error instead of a silent 0. `/logs/verifier/judgment.json` records the method, the extracted answer and the judge errors for every trial.
+- **Empty or invalid answer.** A missing or empty `/app/answer.txt` gets reward 0 without a judge call. The upstream judge prompt says to give 0 when there is no response. An answer path that is a symlink, a directory or another non-regular file, is unreadable, or is larger than 64 KiB also gets 0 (`method: agent_fault`).
+- **Judge failures.** If the judge replied but never produced valid output within 10 attempts, the score is -1, which counts as reward 0 (upstream `get_stats.py`). If the judge never replied at all (missing key, network or auth error), or the verifier itself fails, `judge.py` exits non-zero and writes no reward file. `test.sh` has already removed any earlier `reward.txt`/`reward.json`, so Harbor raises `RewardFileNotFoundError` and the trial counts as a verifier error, not a 0. `/logs/verifier/judgment.json` records the method, the extracted answer and the judge errors for every trial.
+- **Verifier isolation.** The verifier runs in its own container (`environment_mode = "separate"`) built from `tests/Dockerfile`, with the grading code baked in. The agent's container is stopped before verification, and only `/app/answer.txt` is copied across. Processes the agent started, or files it changed in its own container (site-packages, the interpreter, `/logs/verifier`), therefore cannot affect grading. As a second line of defence, `test.sh` uses `#!/bin/bash`, a fixed `PATH`, and `/usr/local/bin/python3 -I -B`, and removes any file under `/tests` that the adapter does not ship. `judge.py` loads `charxiv_constants.py` by explicit file path. If these tasks are run in shared-verifier mode instead (for example on a Harbor version without separate verifiers), the agent runs as root in the same container, so it could still patch site-packages or leave a background process that rewrites the reward after grading.
+- **Prompt injection.** As upstream, the agent's answer text is inserted verbatim into the judge prompt, so an answer can try to instruct the judge. The exact-match short-circuit does not change this for non-matching answers.
+- **Web lookup.** Questions are verbatim upstream text, and the CharXiv validation answers are public (GitHub and the Hugging Face dataset viewer). An agent with internet access could search for a question and find its answer. No benchmark name, figure id or source link appears in the instruction or the agent's image, but the question text itself cannot be changed without breaking parity. Restrict agent-phase network access (`[agent]` network policy, or `--allow-agent-host` for the model API only) when this matters.
 - **Upstream quirk kept.** The reasoning judge prefix asks for keys `[extract_answer, score]`, but upstream code reads `extracted_answer` (the in-context examples also use `extracted_answer`). This behaviour is kept as is.
 - **Judge model availability.** `gpt-4o-2024-05-13` is the upstream judge. If it is retired, both sides need the same replacement through `CHARXIV_JUDGE_MODEL`.
 - **Known data error.** The upstream erratum notes that the reasoning answer for chart `0` is wrong. It is kept unchanged for fidelity. The oracle is unaffected.

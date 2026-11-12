@@ -7,11 +7,17 @@
     "adapted_benchmark_size": 5000,
     "parity_benchmark_size": 0,
     "number_of_runs": 0,
-    "notes": "PLACEHOLDER: parity has not been run yet; agent/model/subset/number of runs pending team approval. Planned as Scenario 2 (fork of princeton-nlp/CharXiv adding a CLI-agent generate function).",
+    "notes": "PLACEHOLDER: parity has not been run yet; agent/model/number of runs pending team approval. Proposed subset: --split parity = 100 of 1000 validation charts (10%, random.Random(42)), all 5 questions per chart = 500 tasks (400 descriptive + 100 reasoning). Planned as Scenario 2 (fork of princeton-nlp/CharXiv adding a CLI-agent generate function).",
     "original_parity_repo": "TBD",
-    "adapter_pr": ["https://github.com/harbor-framework/adapters/pulls"],
-    "dataset_pr": ["https://github.com/laude-institute/harbor-datasets/pulls"],
-    "parity_pr": ["https://huggingface.co/datasets/harborframework/parity-experiments/discussions"],
+    "adapter_pr": [
+      "https://github.com/harbor-framework/adapters/pull/85"
+    ],
+    "dataset_pr": [
+      "https://github.com/laude-institute/harbor-datasets/pulls"
+    ],
+    "parity_pr": [
+      "https://huggingface.co/datasets/harborframework/parity-experiments/discussions"
+    ],
     "metrics": [
       {
         "benchmark_name": "CharXiv (val, reasoning)",
