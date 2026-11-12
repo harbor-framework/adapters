@@ -1,0 +1,36 @@
+[
+  {
+    "adapter_name": "frontierscience-research",
+    "adapter_builders": [
+      "Yanchuan Tang (yctangcse@gmail.com)"
+    ],
+    "original_benchmark": [
+      {
+        "split": "research",
+        "size": 60,
+        "harness": "llm",
+        "supported_agents": [
+          "None"
+        ],
+        "adaptable": true,
+        "notes": "Research split of HF openai/frontierscience (60 rows, 59 unique problems; rows 6 and 11 are an exact duplicate). Each problem has a 10-point expert rubric graded by an LLM judge. OpenAI released no evaluation harness; inspect_evals/frontierscience is the closest public implementation."
+      }
+    ],
+    "harbor_adapter": [
+      {
+        "split": "research",
+        "adapted_benchmark_size": 60,
+        "parity_benchmark_size": null,
+        "parity_sampling_rate": null,
+        "registry_benchmark_size": 60,
+        "added_agents": [
+          "None"
+        ],
+        "parity_matching_agents": [],
+        "parity_unmatching_agents": null,
+        "parity_costs": null,
+        "notes": "All 60 rows are kept, including the duplicate (second copy suffixed -2), to match inspect_evals. reward.json carries reward (1 if judge points >= 7, the paper's criterion) and score (points / 10, the inspect_evals metric)."
+      }
+    ]
+  }
+]

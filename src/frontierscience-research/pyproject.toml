@@ -1,0 +1,20 @@
+[project]
+name = "harbor-frontierscience-research-adapter"
+version = "0.1.0"
+description = "Harbor adapter for FrontierScience-Research: PhD-level research sub-problems graded against expert 10-point rubrics by an LLM judge."
+readme = "README.md"
+authors = [
+    { name = "Yanchuan Tang", email = "yctangcse@gmail.com" }
+]
+requires-python = ">=3.11"
+dependencies = []
+
+[project.scripts]
+frontierscience-research = "frontierscience_research.main:main"
+
+[build-system]
+requires = ["uv_build>=0.12.15,<0.13.0"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "frontierscience_research"

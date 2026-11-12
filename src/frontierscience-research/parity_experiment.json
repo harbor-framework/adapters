@@ -1,0 +1,34 @@
+[
+  {
+    "adapter_name": "frontierscience-research",
+    "agent": "<agent>@<version>",
+    "model": "<model>",
+    "date": "YYYY-MM-DD",
+    "adapted_benchmark_size": 60,
+    "parity_benchmark_size": 60,
+    "number_of_runs": null,
+    "notes": "Parity not run yet; agent, model, judge and number of runs are to be agreed with the Harbor team. Both sides must use the same judge model and settings.",
+    "original_parity_repo": null,
+    "adapter_pr": [],
+    "dataset_pr": [],
+    "parity_pr": [],
+    "metrics": [
+      {
+        "benchmark_name": "FrontierScience-Research",
+        "metric": "success rate (points >= 7 of 10)",
+        "original": null,
+        "harbor": null,
+        "original_runs": [],
+        "harbor_runs": []
+      },
+      {
+        "benchmark_name": "FrontierScience-Research",
+        "metric": "mean score (points / 10)",
+        "original": null,
+        "harbor": null,
+        "original_runs": [],
+        "harbor_runs": []
+      }
+    ]
+  }
+]
