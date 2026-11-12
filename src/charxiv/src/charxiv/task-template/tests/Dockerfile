@@ -9,3 +9,7 @@ RUN pip install --no-cache-dir openai==1.109.1
 
 COPY . /tests/
 RUN rm -f /tests/Dockerfile && chmod 755 /tests/test.sh
+
+# The task's workdir is /app; it must exist even when the agent wrote no answer
+# (Harbor then has nothing to copy into /app).
+WORKDIR /app
