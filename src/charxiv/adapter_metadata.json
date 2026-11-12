@@ -1,0 +1,38 @@
+[
+  {
+    "adapter_name": "charxiv",
+    "adapter_builders": ["TBD (TBD)"],
+    "original_benchmark": [
+      {
+        "split": "val",
+        "size": 5000,
+        "harness": "llm",
+        "supported_agents": ["None"],
+        "adaptable": true,
+        "notes": "1000 charts x (4 descriptive + 1 reasoning) questions with public answers. Upstream queries MLLMs directly (src/generate_lib) and grades with a GPT-4o (gpt-4o-2024-05-13) judge."
+      },
+      {
+        "split": "test",
+        "size": 6615,
+        "harness": "llm",
+        "supported_agents": ["None"],
+        "adaptable": false,
+        "notes": "1323 charts x 5 questions; ground-truth answers are intentionally withheld (null) upstream, so the split cannot be graded locally."
+      }
+    ],
+    "harbor_adapter": [
+      {
+        "split": "val",
+        "adapted_benchmark_size": 5000,
+        "parity_benchmark_size": 0,
+        "parity_sampling_rate": 0.0,
+        "registry_benchmark_size": 5000,
+        "added_agents": ["None"],
+        "parity_matching_agents": ["None"],
+        "parity_unmatching_agents": ["None"],
+        "parity_costs": null,
+        "notes": "Parity not yet run (pending team approval of agent/model/subset)."
+      }
+    ]
+  }
+]

@@ -1,0 +1,34 @@
+version = "1.0"
+
+[task]
+name = "{{task_name}}"
+authors = [
+{{authors}}
+]
+
+[metadata]
+difficulty = "medium"
+category = "{{category}}"
+tags = [{{tags}}]
+source = "princeton-nlp/CharXiv (validation split)"
+
+[agent]
+timeout_sec = 900.0
+
+[verifier]
+timeout_sec = 600.0
+
+[verifier.env]
+# LLM judge (upstream CharXiv grades with GPT-4o). Only used when the answer
+# is not an exact match of the ground truth (see tests/judge.py).
+OPENAI_API_KEY = "${OPENAI_API_KEY:-}"
+OPENAI_BASE_URL = "${OPENAI_BASE_URL:-}"
+JUDGE_MODEL = "${CHARXIV_JUDGE_MODEL:-gpt-4o-2024-05-13}"
+CHARXIV_EXACT_MATCH_SHORTCUT = "${CHARXIV_EXACT_MATCH_SHORTCUT:-1}"
+
+[environment]
+build_timeout_sec = 600.0
+cpus = 1
+memory_mb = 2048
+storage_mb = 4096
+workdir = "/app"

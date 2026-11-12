@@ -1,0 +1,33 @@
+# Reference config for CharXiv (validation split, 5000 tasks).
+# Oracle is the default agent; it passes deterministically without any API key
+# because the verifier short-circuits exact matches to reward 1.
+# Generate tasks first:  cd src/charxiv && uv run charxiv --output-dir ../../datasets/charxiv
+job_name: charxiv
+jobs_dir: jobs/charxiv
+n_attempts: 1
+timeout_multiplier: 1.0
+
+datasets:
+  - path: datasets/charxiv
+
+agents:
+  - name: oracle
+
+# Agents must be able to view images (claude-code Read tool, codex view_image,
+# gemini-cli read_file). The LLM judge needs OPENAI_API_KEY (and optionally
+# OPENAI_BASE_URL / CHARXIV_JUDGE_MODEL) exported in the host environment.
+# agents:
+#   - name: codex
+#     model_name: openai/gpt-5-mini-2025-08-07
+#
+# agents:
+#   - name: claude-code
+#     model_name: anthropic/claude-sonnet-4-5-20250929
+
+environment:
+  type: docker
+  delete: true
+
+orchestrator:
+  type: local
+  n_concurrent_trials: 4
