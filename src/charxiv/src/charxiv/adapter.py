@@ -243,8 +243,9 @@ class CharXivSource:
 
     def image_reader(self):
         """Return a callable figure_id -> jpeg bytes."""
-        if self.source_dir is not None and (self.source_dir / "images").is_dir():
-            img_dir = self.source_dir / "images"
+        img_dir = self.source_dir / "images" if self.source_dir is not None else None
+        # A fresh upstream checkout has images/ with only a README; use the zip then.
+        if img_dir is not None and img_dir.is_dir() and any(img_dir.glob("*.jpg")):
 
             def read_local(fid: int) -> bytes:
                 path = img_dir / f"{fid}.jpg"
