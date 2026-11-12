@@ -31,10 +31,11 @@ if [ "{language}" = "java" ]; then
         echo "systemProp.org.gradle.daemon=false" >> gradle/wrapper/gradle-wrapper.properties
     fi
 
-    # Remove @Disabled markers from tests
+    # Remove @Disabled(...) annotations. aider's harness uses this pattern plus a
+    # trailing \s*\n, so it deletes the line where this leaves it blank.
     if [ -d "$TEST_DIR" ]; then
         find "$TEST_DIR" -type f -name "*.java" -print0 \
-          | xargs -0 -I {{}} sed -i 's/@Disabled("Remove to run test")//g' "{{}}" || true
+          | xargs -0 -I {{}} sed -i -E 's/@Disabled\([^)]*\)//g' "{{}}" || true
     fi
 
     # Merge test sources and editor helpers into /app/src/**
@@ -94,7 +95,12 @@ fi
 
 echo "Running tests for {exercise_name} ({language})"
 set +e
+# Subshell: the per-language commands `exit` on failure (C++ build or test
+# failure, a missing Cargo.toml or Gradle build), which would otherwise end
+# this script before the reward below is written.
+(
 {test_command_with_test_dir}
+)
 exit_code=$?
 set -e
 
