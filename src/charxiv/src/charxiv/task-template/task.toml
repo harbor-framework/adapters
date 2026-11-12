@@ -1,4 +1,6 @@
 version = "1.0"
+# The verifier runs in a separate container and only receives this file.
+artifacts = [{ source = "/app/answer.txt" }]
 
 [task]
 name = "{{task_name}}"
@@ -16,6 +18,7 @@ source = "princeton-nlp/CharXiv (validation split)"
 timeout_sec = 900.0
 
 [verifier]
+environment_mode = "separate"
 timeout_sec = 600.0
 
 [verifier.env]

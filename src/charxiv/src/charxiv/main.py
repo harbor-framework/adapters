@@ -1,9 +1,10 @@
 from __future__ import annotations
 
 import argparse
+import sys
 from pathlib import Path
 
-from .adapter import DEFAULT_CACHE_DIR, MODES, CharXivAdapter
+from .adapter import DEFAULT_CACHE_DIR, MODES, PARITY_NUM_FIGURES, CharxivAdapter
 
 DEFAULT_OUTPUT_DIR = Path("datasets/charxiv")
 
@@ -21,8 +22,9 @@ def main() -> None:
     parser.add_argument("--modes", nargs="+", choices=list(MODES), default=list(MODES),
                         help="Question types to generate (default: both)")
     parser.add_argument("--split", choices=["full", "parity"], default="full",
-                        help="full: all 1000 validation charts (5000 tasks); parity: 200 charts "
-                             "sampled with seed 42 (1000 tasks)")
+                        help="full: all 1000 validation charts (5000 tasks); parity: "
+                             f"{PARITY_NUM_FIGURES} charts sampled with seed 42, all 5 questions "
+                             f"each ({PARITY_NUM_FIGURES * 5} tasks)")
     parser.add_argument("--source-dir", type=Path, default=None,
                         help="Optional local CharXiv checkout containing data/ and images/ "
                              "(default: download pinned sources)")
@@ -32,7 +34,7 @@ def main() -> None:
     if args.limit is not None and args.limit < 1:
         parser.error("--limit must be >= 1")
 
-    CharXivAdapter(
+    paths = CharxivAdapter(
         output_dir=args.output_dir,
         limit=args.limit,
         overwrite=args.overwrite,
@@ -42,6 +44,9 @@ def main() -> None:
         cache_dir=args.cache_dir,
         split=args.split,
     ).run()
+    if args.task_ids and not paths:
+        print("ERROR: no task matched --task-ids; nothing was generated.", file=sys.stderr)
+        sys.exit(1)
 
 
 if __name__ == "__main__":

@@ -16,8 +16,11 @@ from __future__ import annotations
 
 import hashlib
 import json
+import random
 import re
 import shutil
+import sys
+import urllib.error
 import urllib.request
 import zipfile
 from dataclasses import dataclass
@@ -40,12 +43,14 @@ IMAGES_ZIP_SHA256 = "c4b151cef2aba35523764dd1091d719d64acf81a16904d72f31da2723ef
 DATA_FILES = ("descriptive_val.json", "reasoning_val.json", "image_metadata_val.json")
 
 # Parity subset: whole charts (all 5 questions each) sampled with a fixed seed.
-PARITY_NUM_FIGURES = 200
+PARITY_NUM_FIGURES = 100
 PARITY_SEED = 42
 
 DEFAULT_CACHE_DIR = Path.home() / ".cache" / "harbor-charxiv"
 
-IMAGE_DIR_IN_CONTAINER = "/app/images"
+# Constant, id-free image path: the agent never sees an upstream figure id.
+IMAGE_FILENAME = "chart.jpg"
+IMAGE_PATH_IN_CONTAINER = f"/app/images/{IMAGE_FILENAME}"
 ANSWER_PATH = "/app/answer.txt"
 
 AUTHORS = [
@@ -146,10 +151,6 @@ class CharXivTask:
     def task_name(self) -> str:
         return f"{TASK_ORG}/{self.task_id}"
 
-    @property
-    def image_filename(self) -> str:
-        return f"{self.figure_id}.jpg"
-
     def grading_config(self) -> dict[str, Any]:
         cfg: dict[str, Any] = {
             "mode": self.mode,
@@ -179,8 +180,15 @@ def _download(url: str, dest: Path) -> None:
     dest.parent.mkdir(parents=True, exist_ok=True)
     tmp = dest.with_suffix(dest.suffix + ".part")
     req = urllib.request.Request(url, headers={"User-Agent": "harbor-charxiv-adapter"})
-    with urllib.request.urlopen(req, timeout=600) as resp, tmp.open("wb") as f:
-        shutil.copyfileobj(resp, f)
+    try:
+        with urllib.request.urlopen(req, timeout=600) as resp, tmp.open("wb") as f:
+            shutil.copyfileobj(resp, f)
+    except (urllib.error.URLError, TimeoutError, OSError) as e:
+        tmp.unlink(missing_ok=True)
+        raise RuntimeError(
+            f"Failed to download {url}: {e}. Check network access, or pass --source-dir "
+            "with a local CharXiv checkout."
+        ) from e
     tmp.replace(dest)
 
 
@@ -201,7 +209,14 @@ class CharXivSource:
 
     def data_dir(self) -> Path:
         if self.source_dir is not None:
-            return self.source_dir / "data"
+            d = self.source_dir / "data"
+            missing = [name for name in DATA_FILES if not (d / name).is_file()]
+            if missing:
+                raise FileNotFoundError(
+                    f"--source-dir {self.source_dir} must contain data/{{{','.join(DATA_FILES)}}}; "
+                    f"missing: {', '.join(missing)}"
+                )
+            return d
         d = self.cache_dir / GITHUB_COMMIT / "data"
         for name in DATA_FILES:
             if not (d / name).exists():
@@ -210,7 +225,11 @@ class CharXivSource:
         return d
 
     def load_json(self, name: str) -> dict[str, Any]:
-        return json.loads((self.data_dir() / name).read_text(encoding="utf-8"))
+        path = self.data_dir() / name
+        try:
+            return json.loads(path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError as e:
+            raise ValueError(f"Invalid JSON in {path}: {e}. Delete it to re-download.") from e
 
     def images_zip(self) -> Path:
         z = self.cache_dir / HF_REVISION / "images.zip"
@@ -226,9 +245,26 @@ class CharXivSource:
         """Return a callable figure_id -> jpeg bytes."""
         if self.source_dir is not None and (self.source_dir / "images").is_dir():
             img_dir = self.source_dir / "images"
-            return lambda fid: (img_dir / f"{fid}.jpg").read_bytes()
-        zf = zipfile.ZipFile(self.images_zip())
-        return lambda fid: zf.read(f"{fid}.jpg")
+
+            def read_local(fid: int) -> bytes:
+                path = img_dir / f"{fid}.jpg"
+                if not path.is_file():
+                    raise FileNotFoundError(f"Chart image not found: {path}")
+                return path.read_bytes()
+
+            return read_local
+        try:
+            zf = zipfile.ZipFile(self.images_zip())
+        except zipfile.BadZipFile as e:
+            raise RuntimeError(f"Corrupt images.zip under {self.cache_dir}: {e}") from e
+
+        def read_zip(fid: int) -> bytes:
+            try:
+                return zf.read(f"{fid}.jpg")
+            except KeyError as e:
+                raise FileNotFoundError(f"{fid}.jpg not found in images.zip") from e
+
+        return read_zip
 
 
 def load_tasks(source: CharXivSource, modes: tuple[str, ...] = MODES) -> list[CharXivTask]:
@@ -300,13 +336,11 @@ def heredoc_safe(text: str, marker: str) -> str:
 
 def parity_figure_ids(figure_ids: list[int]) -> set[int]:
     """Deterministic parity subset: PARITY_NUM_FIGURES charts, seed 42."""
-    import random
-
     rng = random.Random(PARITY_SEED)
     return set(rng.sample(sorted(figure_ids), min(PARITY_NUM_FIGURES, len(figure_ids))))
 
 
-class CharXivAdapter:
+class CharxivAdapter:
     def __init__(
         self,
         output_dir: Path,
@@ -335,6 +369,10 @@ class CharXivAdapter:
             tasks = [t for t in tasks if t.figure_id in keep]
         if self.task_ids is not None:
             tasks = [t for t in tasks if t.task_id in self.task_ids or t.task_name in self.task_ids]
+            found = {t.task_id for t in tasks} | {t.task_name for t in tasks}
+            unmatched = sorted(self.task_ids - found)
+            if unmatched:
+                print(f"WARNING: --task-ids not found: {', '.join(unmatched)}", file=sys.stderr)
         if self.limit is not None:
             tasks = tasks[: self.limit]
         return tasks
@@ -368,8 +406,7 @@ class CharXivAdapter:
             "authors": ",\n".join(f"  {{ name = {toml_string(a)} }}" for a in AUTHORS),
             "tags": ", ".join(toml_string(t) for t in tags),
             "category": f"chart-{task.mode}",
-            "image_path": f"{IMAGE_DIR_IN_CONTAINER}/{task.image_filename}",
-            "image_filename": task.image_filename,
+            "image_path": IMAGE_PATH_IN_CONTAINER,
             "answer_path": ANSWER_PATH,
             "question": task.question,
             "answer": heredoc_safe(task.answer, "CHARXIV_ORACLE_EOF"),
@@ -380,7 +417,7 @@ class CharXivAdapter:
 
         img_dir = task_dir / "environment" / "images"
         img_dir.mkdir(parents=True, exist_ok=True)
-        (img_dir / task.image_filename).write_bytes(image_bytes)
+        (img_dir / IMAGE_FILENAME).write_bytes(image_bytes)
 
         tests_dir = task_dir / "tests"
         shutil.copy2(UPSTREAM_CONSTANTS_FILE, tests_dir / "charxiv_constants.py")

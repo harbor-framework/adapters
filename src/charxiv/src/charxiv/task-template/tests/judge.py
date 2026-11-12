@@ -21,26 +21,45 @@ Adapter-level behaviour (documented in the README):
     CHARXIV_EXACT_MATCH_SHORTCUT=0.
   * Judge reply received but never valid -> score -1 -> reward 0 (as
     upstream get_stats.py). No judge reply at all (missing key, network or
-    auth failure) -> non-zero exit, i.e. a Harbor verifier error rather than
-    a silent 0.
+    auth failure) -> non-zero exit and no reward file, i.e. a Harbor verifier
+    error rather than a silent 0.
+  * Agent-side faults -> reward 0: /app/answer.txt is a symlink, a directory
+    or another non-regular file, cannot be read, or exceeds MAX_ANSWER_BYTES.
+    A missing answer file is an empty answer (reward 0).
 """
 
 from __future__ import annotations
 
+import importlib.util
 import json
 import os
+import stat
 import sys
 from copy import deepcopy
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).parent))
-import charxiv_constants as C  # noqa: E402
-
-CONFIG_PATH = Path("/tests/config.json")
-ANSWER_PATH = Path(os.environ.get("CHARXIV_ANSWER_PATH", "/app/answer.txt"))
-LOG_DIR = Path(os.environ.get("CHARXIV_LOG_DIR", "/logs/verifier"))
+TESTS_DIR = Path(__file__).resolve().parent
+CONFIG_PATH = TESTS_DIR / "config.json"
+ANSWER_PATH = Path("/app/answer.txt")
+LOG_DIR = Path("/logs/verifier")
 DEFAULT_JUDGE_MODEL = "gpt-4o-2024-05-13"
 MAX_RETRIES = 10
+# Upstream answers are short strings; anything larger is not a usable answer.
+MAX_ANSWER_BYTES = 64 * 1024
+
+
+def _load_constants():
+    """Load the vendored upstream constants by explicit path (the import path is not modified)."""
+    path = TESTS_DIR / "charxiv_constants.py"
+    spec = importlib.util.spec_from_file_location("charxiv_constants", path)
+    if spec is None or spec.loader is None:
+        raise ImportError(f"cannot load {path}")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+C = _load_constants()
 
 
 # --------------------------------------------------------------------------
@@ -169,7 +188,6 @@ def run_judge(chat_fn, prompt: str, parse_fn):
 
 def parse_descriptive(raw: str):
     content = json.loads(raw)
-    # verify_grading_output(content, 1)
     assert "extract_answer_T1" in content, f"extract_answer_T1 is not found in {content}"
     assert "score_T1" in content, f"score_T1 is not found in {content}"
     assert content["score_T1"] in [0, 1], "score_T1 is not in [0, 1]"
@@ -241,22 +259,84 @@ def make_openai_chat_fn():
     return lambda prompt, max_tokens: _chat(client, model, prompt, max_tokens)
 
 
-def main() -> int:
-    LOG_DIR.mkdir(parents=True, exist_ok=True)
-    cfg = json.loads(CONFIG_PATH.read_text(encoding="utf-8"))
-    response = ANSWER_PATH.read_text(encoding="utf-8", errors="replace") if ANSWER_PATH.exists() else ""
-    response = response.strip()
-    shortcut = os.environ.get("CHARXIV_EXACT_MATCH_SHORTCUT", "1").strip().lower() not in ("0", "false", "no")
+class AgentFault(Exception):
+    """The answer file exists but is not a readable regular file."""
+
+
+def read_answer(path: Path) -> str:
+    """Read the agent's answer without following symlinks.
+
+    Missing file -> "" (empty answer). Symlink, directory, FIFO, device,
+    unreadable or oversized file -> AgentFault (reward 0).
+    """
     try:
-        result = grade(cfg, response, shortcut=shortcut)
-    except NoJudgeResponse as e:
-        print(f"VERIFIER ERROR: {e}", file=sys.stderr)
-        (LOG_DIR / "judgment.json").write_text(
-            json.dumps({"error": str(e), "config": cfg, "response": response}, indent=2)
-        )
+        st = os.lstat(path)
+    except FileNotFoundError:
+        return ""
+    except OSError as e:
+        raise AgentFault(f"cannot stat answer file: {e}") from e
+    if stat.S_ISLNK(st.st_mode):
+        raise AgentFault("answer file is a symlink")
+    if not stat.S_ISREG(st.st_mode):
+        raise AgentFault("answer file is not a regular file")
+    try:
+        fd = os.open(path, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK)
+    except OSError as e:
+        raise AgentFault(f"cannot open answer file: {e}") from e
+    with os.fdopen(fd, "rb") as f:
+        if not stat.S_ISREG(os.fstat(f.fileno()).st_mode):
+            raise AgentFault("answer file is not a regular file")
+        data = f.read(MAX_ANSWER_BYTES + 1)
+    if len(data) > MAX_ANSWER_BYTES:
+        raise AgentFault(f"answer file is larger than {MAX_ANSWER_BYTES} bytes")
+    return data.decode("utf-8", errors="replace")
+
+
+def write_result(log_dir: Path, judgment: dict, reward: int | None) -> None:
+    (log_dir / "judgment.json").write_text(
+        json.dumps(judgment, indent=2, ensure_ascii=False), encoding="utf-8"
+    )
+    if reward is not None:
+        (log_dir / "reward.txt").write_text(f"{reward}\n", encoding="utf-8")
+
+
+def main(
+    config_path: Path = CONFIG_PATH,
+    answer_path: Path = ANSWER_PATH,
+    log_dir: Path = LOG_DIR,
+    chat_fn=None,
+) -> int:
+    """Grade one task.
+
+    Returns 0 after writing reward.txt. Returns 2 without writing a reward when
+    the verifier itself fails (bad config, judge unavailable), so Harbor
+    reports a verifier error instead of a score.
+    """
+    log_dir.mkdir(parents=True, exist_ok=True)
+    try:
+        cfg = json.loads(config_path.read_text(encoding="utf-8"))
+    except (OSError, ValueError) as e:
+        print(f"VERIFIER ERROR: cannot read {config_path}: {e}", file=sys.stderr)
         return 2
-    (LOG_DIR / "judgment.json").write_text(json.dumps(result, indent=2, ensure_ascii=False))
-    (LOG_DIR / "reward.txt").write_text(f"{result['score']}\n")
+
+    try:
+        response = read_answer(answer_path).strip()
+    except AgentFault as e:
+        print(f"method=agent_fault score=0 ({e})")
+        write_result(log_dir, {"mode": cfg.get("mode"), "score": 0,
+                               "method": "agent_fault", "error": str(e)}, 0)
+        return 0
+
+    shortcut = os.environ.get("CHARXIV_EXACT_MATCH_SHORTCUT", "1").strip().lower() not in (
+        "0", "false", "no",
+    )
+    try:
+        result = grade(cfg, response, chat_fn=chat_fn, shortcut=shortcut)
+    except Exception as e:  # noqa: BLE001 - any verifier failure must not become a score
+        print(f"VERIFIER ERROR: {type(e).__name__}: {e}", file=sys.stderr)
+        write_result(log_dir, {"error": f"{type(e).__name__}: {e}", "response": response}, None)
+        return 2
+    write_result(log_dir, result, result["score"])
     print(f"method={result['method']} score={result['score']}")
     return 0
 
