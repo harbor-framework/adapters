@@ -203,3 +203,10 @@ def test_matches_upstream_query_and_grading_builders():
             one = {str(t.figure_id): data_r[str(t.figure_id)]}
             up_q = RU.build_reasoning_grading_queries(one, resp)[str(t.figure_id)]["grading_query"]
             assert J.build_reasoning_grading_query(t.inst_category, t.raw_question, "RESP", t.answer) == up_q
+
+
+def test_parity_split(source_dir, tmp_path):
+    assert A.parity_figure_ids(list(range(1000))) == A.parity_figure_ids(list(range(1000)))
+    assert len(A.parity_figure_ids(list(range(1000)))) == 200
+    p = A.CharXivAdapter(output_dir=tmp_path / "par", source_dir=source_dir, split="parity").run()
+    assert len(p) == 10  # fixture has only 2 charts -> all kept

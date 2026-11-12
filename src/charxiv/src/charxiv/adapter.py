@@ -39,6 +39,10 @@ HF_REVISION = "f441eb632fc62f6f777830a0f47619e6e86459b0"
 IMAGES_ZIP_SHA256 = "c4b151cef2aba35523764dd1091d719d64acf81a16904d72f31da2723efbd855"
 DATA_FILES = ("descriptive_val.json", "reasoning_val.json", "image_metadata_val.json")
 
+# Parity subset: whole charts (all 5 questions each) sampled with a fixed seed.
+PARITY_NUM_FIGURES = 200
+PARITY_SEED = 42
+
 DEFAULT_CACHE_DIR = Path.home() / ".cache" / "harbor-charxiv"
 
 IMAGE_DIR_IN_CONTAINER = "/app/images"
@@ -294,6 +298,14 @@ def heredoc_safe(text: str, marker: str) -> str:
     return text
 
 
+def parity_figure_ids(figure_ids: list[int]) -> set[int]:
+    """Deterministic parity subset: PARITY_NUM_FIGURES charts, seed 42."""
+    import random
+
+    rng = random.Random(PARITY_SEED)
+    return set(rng.sample(sorted(figure_ids), min(PARITY_NUM_FIGURES, len(figure_ids))))
+
+
 class CharXivAdapter:
     def __init__(
         self,
@@ -304,7 +316,11 @@ class CharXivAdapter:
         modes: tuple[str, ...] = MODES,
         source_dir: Path | None = None,
         cache_dir: Path = DEFAULT_CACHE_DIR,
+        split: str = "full",
     ) -> None:
+        if split not in ("full", "parity"):
+            raise ValueError(f"Unknown split: {split}")
+        self.split = split
         self.output_dir = Path(output_dir)
         self.limit = limit
         self.overwrite = overwrite
@@ -314,6 +330,9 @@ class CharXivAdapter:
 
     def select_tasks(self) -> list[CharXivTask]:
         tasks = load_tasks(self.source, self.modes)
+        if self.split == "parity":
+            keep = parity_figure_ids(sorted({t.figure_id for t in tasks}))
+            tasks = [t for t in tasks if t.figure_id in keep]
         if self.task_ids is not None:
             tasks = [t for t in tasks if t.task_id in self.task_ids or t.task_name in self.task_ids]
         if self.limit is not None:

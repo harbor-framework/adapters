@@ -84,6 +84,7 @@ uv sync
 uv run charxiv --output-dir ../../datasets/charxiv                 # all 5,000 tasks
 uv run charxiv --output-dir ../../datasets/charxiv --limit 5
 uv run charxiv --output-dir ../../datasets/charxiv --modes reasoning
+uv run charxiv --output-dir ../../datasets/charxiv_parity --split parity     # 1,000-task parity subset
 uv run charxiv --output-dir ../../datasets/charxiv --task-ids charxiv-reasoning-0 charxiv-descriptive-0-1
 uv run charxiv --output-dir ../../datasets/charxiv --overwrite
 ```
@@ -99,6 +100,16 @@ CHARXIV_UPSTREAM_DIR=/path/to/CharXiv uv run pytest
 ## Comparison with Original Benchmark (Parity)
 
 Parity has not been run yet. The plan (pending team approval) is Scenario 2. The original benchmark calls MLLM APIs directly (`src/generate_lib/*`), so the plan is to fork CharXiv and add a `generate_lib` backend that runs the same CLI agent (e.g. Codex or Claude Code) on each chart/question. That backend uses the same instruction wrapper as this adapter (image path line plus `/app/answer.txt` line) and grades with the unmodified `src/evaluate.py` (with `nq_per_query=1` and the same exact-match rule; see Notes & Caveats).
+
+Proposed parity subset (`--split parity`, to be confirmed with the team): 200 of the 1,000 validation charts sampled uniformly with `random.Random(42)`, keeping all 5 questions per chart, i.e. 800 descriptive + 200 reasoning = 1,000 tasks (20%).
+
+Reproduction (Harbor side; original-side commands to be added with the fork):
+
+```bash
+cd src/charxiv && uv run charxiv --split parity --output-dir ../../datasets/charxiv_parity && cd ../..
+export OPENAI_API_KEY=...   # judge
+harbor run -p datasets/charxiv_parity -a codex -m openai/<model>
+```
 
 | Agent | Model | Metric | Runs | Dataset Size | Original (mean ± SEM) | Harbor (mean ± SEM) |
 |-------|-------|--------|------|--------------|-----------------------|---------------------|

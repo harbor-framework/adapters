@@ -20,6 +20,9 @@ def main() -> None:
                         help="Only generate these task ids (e.g. charxiv-reasoning-12)")
     parser.add_argument("--modes", nargs="+", choices=list(MODES), default=list(MODES),
                         help="Question types to generate (default: both)")
+    parser.add_argument("--split", choices=["full", "parity"], default="full",
+                        help="full: all 1000 validation charts (5000 tasks); parity: 200 charts "
+                             "sampled with seed 42 (1000 tasks)")
     parser.add_argument("--source-dir", type=Path, default=None,
                         help="Optional local CharXiv checkout containing data/ and images/ "
                              "(default: download pinned sources)")
@@ -37,6 +40,7 @@ def main() -> None:
         modes=tuple(args.modes),
         source_dir=args.source_dir,
         cache_dir=args.cache_dir,
+        split=args.split,
     ).run()
 
 
