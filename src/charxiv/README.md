@@ -1,1 +1,151 @@
 # CharXiv → Harbor Adapter
+
+## Overview
+
+This adapter converts the validation split of [CharXiv](https://github.com/princeton-nlp/CharXiv) into Harbor tasks for multimodal chart understanding.
+
+- **Source:** QA files from GitHub [`princeton-nlp/CharXiv`](https://github.com/princeton-nlp/CharXiv) at commit `7ebe88f78dee387691551f071abcb2b9e1a8025b`; chart images from Hugging Face [`princeton-nlp/CharXiv`](https://huggingface.co/datasets/princeton-nlp/CharXiv) at revision `f441eb632fc62f6f777830a0f47619e6e86459b0` (`images.zip`, sha256 `c4b151ce…efbd855`, checked at generation time).
+- **Adapted size:** 5,000 tasks = 1,000 charts × (4 descriptive + 1 reasoning) questions.
+- **Metric:** accuracy (binary reward per question, graded by the upstream GPT-4o judge). Upstream reports descriptive and reasoning accuracy separately.
+- **Task naming:** `princeton-nlp/charxiv-descriptive-<figure_id>-<subq_idx>` and `princeton-nlp/charxiv-reasoning-<figure_id>`.
+
+Each task gives the agent one chart image and one question, the same as one upstream query. The agent writes its answer to `/app/answer.txt`.
+
+## What is CharXiv?
+
+CharXiv (Wang et al., NeurIPS 2024 Datasets & Benchmarks) is an evaluation suite of 2,323 natural, diverse charts taken from arXiv papers. Human experts picked the charts and wrote and checked every question. Each chart has:
+
+- **4 descriptive questions** (19 templates such as title, axis labels, tick values, legend labels, number of lines, subplot layout; 3 answerable plus 1 unanswerable per chart, where the expected answer is "Not Applicable"), and
+- **1 reasoning question** that requires synthesizing information across the chart, with four answer types: text-in-chart, text-in-general, number-in-chart and number-in-general.
+
+All answers are short, open-vocabulary strings. A GPT-4o judge grades each response against the ground truth using template-specific rubrics. The validation split (1,000 charts) has public answers. Test answers are withheld.
+
+## Adapter Features
+
+- **Faithful prompts.** Question text is built with the upstream query builders (`descriptive_query_helper`, `build_reasoning_queries`, `get_number_instruction`) from a verbatim vendored copy of upstream `src/constants.py` (`src/charxiv/upstream_constants.py`). A unit test checks that all 5,000 generated questions and judge prompts are byte-identical to the upstream code's output.
+- **Image delivery.** Each task's chart is copied into its Docker image at `/app/images/<figure_id>.jpg`, which matches the upstream `images/<figure_id>.jpg` naming. The instruction names that absolute path. Images are at most 1024 px on the longest side.
+- **Upstream LLM judge.** `tests/judge.py` reproduces `src/evaluate.py` and `src/get_stats.py`: the same rubric prompts, `gpt-4o-2024-05-13`, `temperature=0`, `top_p=1`, `seed=42`, `response_format=json_object`, `max_tokens` of 256 doubling up to 1024 on truncated JSON, and up to 10 attempts. A score outside {0, 1} counts as 0. The judge is configured through `[verifier.env]`: `OPENAI_API_KEY`, optional `OPENAI_BASE_URL`, and `CHARXIV_JUDGE_MODEL` (the default is the upstream model).
+- **Deterministic oracle.** `solution/solve.sh` writes the ground-truth answer. If the answer exactly matches the ground truth after stripping surrounding whitespace, the verifier awards 1 without calling the judge (see Notes & Caveats). So the oracle needs no API key.
+- **No answer leakage.** Ground truth exists only in `tests/config.json` and `solution/solve.sh`. Harbor mounts neither into the agent environment.
+- `--modes descriptive|reasoning` generates one question type only, so the two upstream metrics can be run and reported separately.
+
+## Generated Task Structure
+
+```text
+datasets/charxiv/
+├── charxiv-descriptive-0-0/
+│   ├── task.toml
+│   ├── instruction.md
+│   ├── environment/
+│   │   ├── Dockerfile          # python:3.11-slim + openai SDK; COPY chart image
+│   │   └── images/0.jpg
+│   ├── solution/
+│   │   └── solve.sh            # writes ground truth to /app/answer.txt
+│   └── tests/
+│       ├── test.sh             # runs judge.py
+│       ├── judge.py            # upstream CharXiv grading (one question)
+│       ├── charxiv_constants.py# vendored upstream constants.py
+│       └── config.json         # mode, template/answer type, ground truth
+├── ...
+└── charxiv-reasoning-999/
+```
+
+## Run Evaluation / Harness
+
+Once the dataset is published to the registry:
+
+```bash
+harbor run -d princeton-nlp/charxiv -a oracle
+harbor run -d princeton-nlp/charxiv -a claude-code -m anthropic/claude-sonnet-4-5-20250929
+```
+
+Before publication, generate the tasks locally (next section) and run from the `harbor-framework/adapters` repository root:
+
+```bash
+# Oracle (default agent in the config; no API key needed)
+harbor run -c src/charxiv/run_charxiv.yaml
+
+# Any local path
+harbor run -p datasets/charxiv -a oracle
+harbor trial start -p datasets/charxiv/charxiv-reasoning-0 -a oracle
+
+# Real agents: the judge needs OpenAI credentials in the host environment
+export OPENAI_API_KEY=...            # optional: OPENAI_BASE_URL, CHARXIV_JUDGE_MODEL
+harbor run -p datasets/charxiv -a codex -m openai/<model>
+```
+
+Agents must be able to view image files. Claude Code (Read tool), Codex (`view_image`) and Gemini CLI (`read_file`) can. Terminal-only agents such as Terminus or mini-swe-agent cannot see the chart.
+
+## Usage: Create Task Directories
+
+```bash
+cd src/charxiv
+uv sync
+uv run charxiv --output-dir ../../datasets/charxiv                 # all 5,000 tasks
+uv run charxiv --output-dir ../../datasets/charxiv --limit 5
+uv run charxiv --output-dir ../../datasets/charxiv --modes reasoning
+uv run charxiv --output-dir ../../datasets/charxiv --task-ids charxiv-reasoning-0 charxiv-descriptive-0-1
+uv run charxiv --output-dir ../../datasets/charxiv --overwrite
+```
+
+By default the pinned QA JSON (GitHub) and `images.zip` (Hugging Face) are downloaded to `~/.cache/harbor-charxiv` (`--cache-dir`). `--source-dir` accepts a local CharXiv checkout that contains `data/` and an unzipped `images/`.
+
+Unit tests (set `CHARXIV_UPSTREAM_DIR` to a CharXiv checkout to also run the upstream-equivalence tests):
+
+```bash
+CHARXIV_UPSTREAM_DIR=/path/to/CharXiv uv run pytest
+```
+
+## Comparison with Original Benchmark (Parity)
+
+Parity has not been run yet. The plan (pending team approval) is Scenario 2. The original benchmark calls MLLM APIs directly (`src/generate_lib/*`), so the plan is to fork CharXiv and add a `generate_lib` backend that runs the same CLI agent (e.g. Codex or Claude Code) on each chart/question. That backend uses the same instruction wrapper as this adapter (image path line plus `/app/answer.txt` line) and grades with the unmodified `src/evaluate.py` (with `nq_per_query=1` and the same exact-match rule; see Notes & Caveats).
+
+| Agent | Model | Metric | Runs | Dataset Size | Original (mean ± SEM) | Harbor (mean ± SEM) |
+|-------|-------|--------|------|--------------|-----------------------|---------------------|
+| TBD | TBD | reasoning accuracy | TBD | TBD | TBD | TBD |
+| TBD | TBD | descriptive accuracy | TBD | TBD | TBD | TBD |
+
+Links: original benchmark https://github.com/princeton-nlp/CharXiv · parity fork TBD · adapter PR TBD · dataset PR TBD · parity upload TBD.
+
+## Notes & Caveats
+
+- **Split.** Only the validation split is adapted. Upstream deliberately sets the test-split answers to `null`, so the test split cannot be graded locally.
+- **Instruction wrapper (prompt modification).** The upstream question text (with its bullet-point answer instructions and original indentation) is unchanged. The adapter adds one leading line naming the image path and one trailing line asking for the final answer in `/app/answer.txt`. The parity fork must add the same two lines.
+- **Descriptive judge batching (deviation).** Upstream groups descriptive responses by template and grades 5 per judge call (`nq_per_query=5`). Each Harbor task is verified on its own, so the verifier grades with a batch of 1. This is the same prompt template with `NUM_TRIPLETS=1`; upstream also sends batches smaller than 5 for the remainder. Use `nq_per_query=1` on the original side for parity.
+- **Exact-match short-circuit.** If `answer.txt` equals the ground truth after stripping surrounding whitespace, the reward is 1 and the judge is not called. Every upstream rubric awards 1 when the extracted answer and the ground truth refer to the same term or value, so a verbatim match is always a 1 under the rubric. The short-circuit only removes judge stochasticity and cost. It makes the oracle deterministic and API-free. Disable it with `CHARXIV_EXACT_MATCH_SHORTCUT=0`. Apply the same setting on both sides during parity.
+- **Empty answer.** A missing or empty `/app/answer.txt` gets reward 0 without a judge call. The upstream judge prompt says to give 0 when there is no response.
+- **Judge failures.** If the judge replied but never produced valid output within 10 attempts, the score is -1, which counts as reward 0 (upstream `get_stats.py`). If the judge never replied at all (missing key, network or auth error), `judge.py` exits non-zero, so Harbor records a verifier error instead of a silent 0. `/logs/verifier/judgment.json` records the method, the extracted answer and the judge errors for every trial.
+- **Upstream quirk kept.** The reasoning judge prefix asks for keys `[extract_answer, score]`, but upstream code reads `extracted_answer` (the in-context examples also use `extracted_answer`). This behaviour is kept as is.
+- **Judge model availability.** `gpt-4o-2024-05-13` is the upstream judge. If it is retired, both sides need the same replacement through `CHARXIV_JUDGE_MODEL`.
+- **Known data error.** The upstream erratum notes that the reasoning answer for chart `0` is wrong. It is kept unchanged for fidelity. The oracle is unaffected.
+- **Aggregation.** Harbor's job mean mixes 4,000 descriptive and 1,000 reasoning tasks. Report the two upstream metrics separately, by generating with `--modes` or by grouping on the task-name prefix.
+- **Image licensing.** CharXiv's QA data is CC BY-SA 4.0 and its code is Apache-2.0. Per upstream, the copyright of the charts belongs to the original arXiv authors (sources are listed in `image_metadata_val.json`). The charts are redistributed here exactly as CharXiv distributes them on Hugging Face.
+
+## Installation / Prerequisites
+
+- Docker, and the Harbor CLI (`uv tool install harbor`; tested with harbor 0.23.0).
+- Python ≥ 3.11 and `uv` for the adapter. The adapter has no runtime dependencies beyond the standard library.
+- Network access when generating tasks: GitHub raw files plus a 141 MB `images.zip` from Hugging Face. Pass `--source-dir` to work offline.
+- For non-oracle runs: an OpenAI-compatible API key for the GPT-4o judge.
+
+## Troubleshooting
+
+- **`images.zip sha256 mismatch`:** the cached download is incomplete or corrupt. Delete `~/.cache/harbor-charxiv/<revision>/images.zip` and retry.
+- **Verifier error "OPENAI_API_KEY is not set":** the agent's answer was not an exact match, so the judge is required. Export `OPENAI_API_KEY` (and `OPENAI_BASE_URL` for a proxy) before `harbor run`.
+- **Agent scores near random:** check that the agent can actually view images. Terminal-only agents cannot.
+- **`FileExistsError` when generating:** pass `--overwrite`.
+
+## Citation
+
+```bibtex
+@inproceedings{wang2024charxiv,
+  title={CharXiv: Charting Gaps in Realistic Chart Understanding in Multimodal LLMs},
+  author={Wang, Zirui and Xia, Mengzhou and He, Luxi and Chen, Howard and Liu, Yitao and Zhu, Richard and Liang, Kaiqu and Wu, Xindi and Liu, Haotian and Malladi, Sadhika and Chevalier, Alexis and Arora, Sanjeev and Chen, Danqi},
+  booktitle={Advances in Neural Information Processing Systems (Datasets and Benchmarks Track)},
+  year={2024}
+}
+```
+
+## Authors & Contributions
+
+Adapter built by TBD for Harbor. The original benchmark is by the CharXiv authors (Princeton Language and Intelligence). Contact and contribution details are TBD.
