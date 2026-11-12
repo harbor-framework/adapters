@@ -1,0 +1,30 @@
+[
+  {
+    "adapter_name": "processbench",
+    "adapter_builders": ["Jinyi Bai (baijinyi@ruc.edu.cn)"],
+    "original_benchmark": [
+      {
+        "split": "full",
+        "size": 3400,
+        "harness": "llm",
+        "supported_agents": ["None"],
+        "adaptable": true,
+        "notes": "Four subsets: gsm8k (400), math (1000), olympiadbench (1000), omnimath (1000). Original harness is direct vLLM generation with the critique prompt; the PRM path (run_eval_prm_rlhflow.py) and voting mode are not adapted."
+      }
+    ],
+    "harbor_adapter": [
+      {
+        "split": "full",
+        "adapted_benchmark_size": 3400,
+        "parity_benchmark_size": null,
+        "parity_sampling_rate": null,
+        "registry_benchmark_size": 0,
+        "added_agents": ["None"],
+        "parity_matching_agents": [],
+        "parity_unmatching_agents": [],
+        "parity_costs": null,
+        "notes": "The adapter covers all 3,400 items and oracle verification passes all of them. Not yet published to the registry; all 3,400 tasks are planned for registration. Parity has not been run yet: parity_benchmark_size, parity_sampling_rate, parity_costs and the agent fields will be filled in after the parity plan is agreed with the Harbor team and the experiments are run."
+      }
+    ]
+  }
+]
