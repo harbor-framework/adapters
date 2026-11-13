@@ -22,9 +22,15 @@ from typing import Any
 # (`inspect eval --no-score`) -- Harbor scoring is done by the verifier-side
 # ports in each family's run_scorer.py.  Canonical bridge datasets preinstall
 # this dependency in the generated Dockerfile.
-ASTABENCH_PIP_INSTALL: list[str] = [
-    "astabench @ git+https://github.com/smiky2011/asta-bench.git@claude-haiku-judges"
-]
+# Pinned to a commit (not the moving branch) so both parity sides and every
+# generated image use exactly the same benchmark code.  The commit is on the
+# fork's `claude-haiku-judges` branch; bump it deliberately.
+ASTABENCH_FORK_COMMIT = "027d8128914688eaa864e6f3422ccb83ebff8aa9"
+ASTABENCH_FORK_REQUIREMENT = (
+    "astabench @ git+https://github.com/smiky2011/asta-bench.git@"
+    + ASTABENCH_FORK_COMMIT
+)
+ASTABENCH_PIP_INSTALL: list[str] = [ASTABENCH_FORK_REQUIREMENT]
 
 # Default `inspect eval` extra args injected into every bridge-using task's
 # inspect_config.json.  We bump the per-tool-call output cap to 64 KB
@@ -432,7 +438,7 @@ RUN uv pip install --system 'inspect_ai==0.3.203' \\
     && python3 -m pip install --no-cache-dir \\
         jupyterlab==4.4.3 jupyter_kernel_gateway==3.0.1 \\
         numpy pandas matplotlib==3.10.0 'mcp~=1.10' \\
-        'astabench @ git+https://github.com/smiky2011/asta-bench.git@claude-haiku-judges' \\
+        '{ASTABENCH_FORK_REQUIREMENT}' \\
     && touch {_INSPECT_BRIDGE_MARKER}
 """
 

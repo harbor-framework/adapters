@@ -165,7 +165,7 @@ Generation needs `HF_TOKEN` with access to the gated `allenai/asta-bench` and `a
 
 **Setup.** Scenario 3 (custom agent): upstream AstaBench has no Harbor-compatible CLI agent, so parity uses the same solver on both sides — AstaBench's `react` solver with identical tools, prompts and limits.
 
-- **Original side**: the fork [`smiky2011/asta-bench@claude-haiku-judges`](https://github.com/smiky2011/asta-bench/tree/claude-haiku-judges), run with `inspect eval`, scored by the fork's own Inspect scorers.
+- **Original side**: the fork [`smiky2011/asta-bench`](https://github.com/smiky2011/asta-bench/tree/claude-haiku-judges) at commit `027d812` (branch `claude-haiku-judges`; the same commit is installed in the Harbor bridge images, see `ASTABENCH_FORK_COMMIT` in `benchmarks/base.py`), run with `inspect eval` and scored by the fork's own Inspect scorers. The fork's README lists how it differs from upstream.
 - **Harbor side**: the `InspectSolver` bridge runs the same Inspect task and solver inside the Harbor task container with `--no-score`; the Harbor verifier scores.
 - **Solver model**: `anthropic/claude-haiku-4-5-20251001`. **Judge model**: the same model, with each family's upstream sampling parameters (see Notes & Caveats).
 - **Subset**: 146 tasks (114 test + 32 validation) across all 11 families, fixed in [`parity_task_ids.txt`](src/asta_bench/parity_task_ids.txt), which also records how the subset was chosen. Parity runs on a subset because a full run costs roughly 16× more.
@@ -191,13 +191,14 @@ uv run --project src/asta-bench --with harbor==0.8.0 harbor run \
   --agent-import-path asta_bench.inspect_solver:InspectSolver \
   -m anthropic/claude-haiku-4-5-20251001
 
-# Original side (in a checkout of the fork; Python 3.11). One task/sample at a time:
-uv run inspect eval astabench/<inspect_task> \
-  --solver astabench/react --model anthropic/claude-haiku-4-5-20251001 \
-  --max-tool-output 65536 --sample-id <sample_id>
+# Original side (in a checkout of the fork at the pinned commit; Python 3.11).
+# Runs the same samples, read from the generated inspect_config.json files.
+uv run python scripts/harbor_parity_original_side.py \
+  --tasks-dir <adapters repo>/datasets/asta-bench/asta-bench-inspect-ai-parity \
+  --log-dir logs/harbor-parity/run-1
 ```
 
-The Inspect task and sample id for every Harbor task are in its `environment/workspace/inspect_config.json` (bridge packaging). Use `--solver astabench/react`: bare `--solver react` resolves to Inspect's built-in agent, which ignores the tools each AstaBench task provides.
+The script runs one `inspect eval --solver astabench/react` per sample, using the Inspect task, sample id and task arguments from each Harbor task's `environment/workspace/inspect_config.json` (bridge packaging). Do not use bare `--solver react`: it resolves to Inspect's built-in agent, which ignores the tools each AstaBench task provides.
 
 Links: [original benchmark](https://github.com/allenai/asta-bench) · [fork used for parity](https://github.com/smiky2011/asta-bench/tree/claude-haiku-judges) · [adapter PR](https://github.com/harbor-framework/adapters/pull/43) (migrated from [harbor#1654](https://github.com/harbor-framework/harbor/pull/1654)) · [dataset PR](https://github.com/harbor-framework/harbor-datasets/pull/230) · [parity artifacts](https://huggingface.co/datasets/harborframework/parity-experiments/discussions/251).
 
