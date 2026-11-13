@@ -1,0 +1,36 @@
+[
+  {
+    "adapter_name": "autoresearch-exam",
+    "adapter_builders": [
+      "Anirudha Ramesh (anirudha@bespokelabs.ai)"
+    ],
+    "original_benchmark": [
+      {
+        "split": "full",
+        "size": 29,
+        "harness": "agent",
+        "supported_agents": [
+          "autoresearchexam-terminus"
+        ],
+        "adaptable": true,
+        "notes": "v1.0 runs as a custom Harbor trial with the AutoResearchExam-Terminus harness. 22 CPU tasks, 7 GPU tasks."
+      }
+    ],
+    "harbor_adapter": [
+      {
+        "split": "full",
+        "adapted_benchmark_size": 29,
+        "parity_benchmark_size": 0,
+        "parity_sampling_rate": 0.0,
+        "registry_benchmark_size": 29,
+        "added_agents": [
+          "None"
+        ],
+        "parity_matching_agents": [],
+        "parity_unmatching_agents": [],
+        "parity_costs": null,
+        "notes": "Parity not run yet; plan to be agreed with the Harbor team."
+      }
+    ]
+  }
+]
