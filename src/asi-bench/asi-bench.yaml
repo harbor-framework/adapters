@@ -1,0 +1,4 @@
+datasets:
+  - path: datasets/asi-bench
+agents:
+  - name: oracle

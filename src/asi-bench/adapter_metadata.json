@@ -1,0 +1,27 @@
+[
+  {
+    "adapter_name": "asi-bench",
+    "original_benchmark": [
+      {
+        "split": "seed31415",
+        "size": 60,
+        "harness": "agent",
+        "adaptable": true
+      }
+    ],
+    "harbor_adapter": [
+      {
+        "split": "seed31415",
+        "adapted_benchmark_size": 46,
+        "parity_benchmark_size": 0,
+        "parity_sampling_rate": 0.0,
+        "registry_benchmark_size": 0,
+        "notes": "46 supported tasks; 14 excluded by scorer/network constraints. Local, non-official scoring.",
+        "parity_costs": "pending"
+      }
+    ],
+    "adapter_builders": [
+      "panjose"
+    ]
+  }
+]
