@@ -24,6 +24,16 @@ HF_REPO = "cloudybean/GDP.pdf"
 HF_REVISION = "1b73b865da6be76dca2e4f3ad66a53d6709ac9f5"
 PARQUET_SHA256 = "c630e8ff254952eb54b89e180311aba5f4e599ce050d056994c75f94a3ff1644"
 
+# Tasks left out of the generated dataset. Names are still assigned over all
+# 100 tasks, so every other task keeps its name.
+EXCLUDED_TASKS = {
+    # legal-03: two rubric points each require the response to identify "only"
+    # one of the two lists the question asks for (16(a)/(b) vs 13(a)/(b),
+    # 15(a)/(b) and the page 7 rules). The judge sees one point at a time, so
+    # any complete answer fails one of them; no response can reach all_pass.
+    "3c825f54-77c8-40b5-8bc3-e43c55b68999",
+}
+
 # Matches the rubric text columns, e.g. "rubric - 12. criterion".
 _RUBRIC_RE = re.compile(r"rubric\s*-\s*(\d+)\.\s*criterion", re.IGNORECASE)
 
@@ -177,9 +187,12 @@ class GdpPdfAdapter:
         selected = [
             t
             for t in sorted(tasks, key=lambda t: names[t.task_id])
-            if self.task_ids is None
-            or names[t.task_id] in self.task_ids
-            or t.task_id in self.task_ids
+            if t.task_id not in EXCLUDED_TASKS
+            and (
+                self.task_ids is None
+                or names[t.task_id] in self.task_ids
+                or t.task_id in self.task_ids
+            )
         ]
         if self.limit is not None:
             selected = selected[: self.limit]
