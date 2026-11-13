@@ -424,8 +424,10 @@ _INSPECT_BRIDGE_DOCKERFILE_MARKER = "AstaBench Inspect-AI bridge runtime"
 
 _INSPECT_BRIDGE_DOCKERFILE_SNIPPET = f"""
 # {_INSPECT_BRIDGE_DOCKERFILE_MARKER}
+# libatomic1: `inspect-tool-support post-install` installs Playwright, whose
+# bundled node binary needs it on arm64 slim images.
 RUN apt-get update && apt-get install -y --no-install-recommends \\
-    git curl ca-certificates gnupg \\
+    git curl ca-certificates gnupg libatomic1 \\
     && rm -rf /var/lib/apt/lists/*
 RUN curl -LsSf https://astral.sh/uv/install.sh | sh
 ENV PATH="/root/.local/bin:${{PATH}}"

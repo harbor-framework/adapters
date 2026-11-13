@@ -137,6 +137,10 @@ RUN pip install --no-cache-dir "litellm==1.82.3"
 # image so `--sandbox local` can spawn the jupyter MCP server in-process
 # without needing docker-in-docker.
 ENV PATH="$PATH:/opt/inspect_tool_support/bin"
+# libatomic1: Playwright's bundled node (installed by post-install) needs it
+# on arm64 slim images.
+RUN apt-get update && apt-get install -y --no-install-recommends libatomic1 \\
+ && rm -rf /var/lib/apt/lists/*
 RUN python -m venv /opt/inspect_tool_support \\
  && /opt/inspect_tool_support/bin/pip install --no-cache-dir inspect-tool-support \\
  && /opt/inspect_tool_support/bin/inspect-tool-support post-install \\
