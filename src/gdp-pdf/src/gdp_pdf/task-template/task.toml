@@ -1,4 +1,6 @@
 schema_version = "1.0"
+# Keep the graded answer with the trial results.
+artifacts = ["/workspace/answer.md"]
 
 [task]
 name = "gdp-pdf/{task_name}"
