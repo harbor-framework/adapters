@@ -3,13 +3,46 @@
 Each AstaBench family is handled by a dedicated BenchmarkBuilder under
 `asta_bench.benchmarks`.  This Adapter class just selects the right builder(s)
 and aggregates the generation counts.
+
+Generation is fail-loud: the adapter advertises a fixed task set, so a family
+or task that cannot be generated is an error (non-zero exit), never a silent
+omission.  The only non-error "nothing generated" case is a builder that
+declares a split unavailable by raising `SplitNotAvailable` (a documented
+exclusion).
 """
 
 from __future__ import annotations
 
+from importlib import resources
 from pathlib import Path
 
 from .benchmarks import ALL_FAMILIES, get_registry
+from .benchmarks.base import SplitNotAvailable
+
+DEFAULT_OUTPUT_DIR = Path("datasets/asta-bench/asta-bench-inspect-ai")
+
+PARITY_TASK_IDS_FILE = "parity_task_ids.txt"
+
+
+def load_parity_task_ids() -> list[str]:
+    """Return the fixed parity subset (see `parity_task_ids.txt`)."""
+    text = (
+        resources.files("asta_bench")
+        .joinpath(PARITY_TASK_IDS_FILE)
+        .read_text(encoding="utf-8")
+    )
+    ids = [
+        line.strip()
+        for line in text.splitlines()
+        if line.strip() and not line.lstrip().startswith("#")
+    ]
+    if len(ids) != len(set(ids)):
+        raise ValueError(f"{PARITY_TASK_IDS_FILE} contains duplicate task ids")
+    return ids
+
+
+class GenerationError(RuntimeError):
+    """Raised when some requested tasks could not be generated."""
 
 
 class AstaBenchAdapter:
@@ -23,7 +56,7 @@ class AstaBenchAdapter:
         cli: bool = False,
         split: str | list[str] | None = None,
         splits: list[str] | None = None,
-        **kwargs: object,
+        required_task_ids: list[str] | None = None,
     ) -> None:
         self.output_dir = Path(output_dir)
         self.limit = limit
@@ -31,9 +64,12 @@ class AstaBenchAdapter:
         self.task_ids = task_ids
         self.families = families or ALL_FAMILIES
         self.cli = cli
+        # Task ids that must exist in output_dir when run() returns (used by
+        # `--split parity` so a short parity set cannot go unnoticed).
+        self.required_task_ids = required_task_ids
 
-        # Resolve splits: prefer the new `splits=` plural arg; fall back to
-        # the legacy `split=` (str or list) for backwards compatibility.
+        # Resolve splits: prefer the `splits=` plural arg; fall back to the
+        # legacy `split=` (str or list).
         resolved: list[str]
         if splits is not None:
             resolved = list(splits)
@@ -50,7 +86,7 @@ class AstaBenchAdapter:
         registry = get_registry()
         total_generated = 0
         total_skipped = 0
-        per_family: list[tuple[str, str, int, int]] = []
+        errors: list[str] = []
 
         for family in self.families:
             if family not in registry:
@@ -70,19 +106,44 @@ class AstaBenchAdapter:
                         limit=self.limit,
                         task_ids=self.task_ids,
                     )
-                except (ValueError, NotImplementedError) as e:
-                    # Some builders (e.g. super-expert) reject specific
-                    # splits.  Surface the message and continue.
-                    print(f"[{family}/{split}] skipped: {e}")
+                except SplitNotAvailable as e:
+                    # Documented exclusion, not a failure.
+                    print(f"[{family}/{split}] not available: {e}")
                     continue
-                per_family.append((family, split, generated, skipped))
+                except Exception as e:  # noqa: BLE001 — reported, then fatal
+                    # Keep going so one run reports every broken family, but
+                    # the run as a whole fails below.
+                    errors.append(f"[{family}/{split}] {type(e).__name__}: {e}")
+                    print(f"[{family}/{split}] FAILED: {type(e).__name__}: {e}")
+                    continue
                 total_generated += generated
                 total_skipped += skipped
                 print(f"[{family}/{split}] generated={generated} skipped={skipped}")
+                for task_id, reason in builder.failed_tasks:
+                    errors.append(f"[{family}/{split}] task {task_id}: {reason}")
+                builder.failed_tasks.clear()
 
         print(
             f"Done. total_generated={total_generated} "
-            f"total_skipped={total_skipped} "
+            f"total_skipped_existing={total_skipped} "
             f"splits={self.splits} "
             f"output_dir={self.output_dir}"
         )
+
+        if self.required_task_ids is not None:
+            missing = [
+                tid
+                for tid in self.required_task_ids
+                if not (self.output_dir / tid / "task.toml").exists()
+            ]
+            if missing:
+                errors.append(
+                    f"{len(missing)} required task(s) were not generated: "
+                    + ", ".join(missing[:10])
+                    + (" ..." if len(missing) > 10 else "")
+                )
+
+        if errors:
+            raise GenerationError(
+                f"{len(errors)} generation error(s):\n  " + "\n  ".join(errors)
+            )

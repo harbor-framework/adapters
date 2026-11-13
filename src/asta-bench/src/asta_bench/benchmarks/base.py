@@ -1,7 +1,7 @@
-"""Base class for AstaBench family builders.
+"""Base class and shared templates for AstaBench family builders.
 
-Each of the 6 adaptable AstaBench families implements a BenchmarkBuilder that knows
-how to load its source data and write one Harbor task directory per sample.
+Each AstaBench family implements a BenchmarkBuilder that knows how to load its
+source data and write one Harbor task directory per sample.
 """
 
 from __future__ import annotations
@@ -9,29 +9,28 @@ from __future__ import annotations
 import json
 import secrets
 from abc import ABC, abstractmethod
+from collections.abc import Iterable
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Iterable
+from typing import Any
 
-
-# Fork of upstream AstaBench with all LLM-judge families (arxivdigestables,
-# sqa, e2e_discovery, paper_finder relevance + parser, discoverybench)
-# pointed at anthropic/claude-haiku-4-5 at temperature=0 for
-# deterministic, non-reasoning judging.  Both the upstream-side parity runs
-# and the harbor-side inspect-solver bridge use astabench from this fork so
-# the scoring code is identical on both sides.  Canonical bridge datasets
-# preinstall this dependency in the generated Dockerfile.
+# Fork of upstream AstaBench whose LLM-judge families (arxivdigestables, sqa,
+# e2e_discovery, paper_finder relevance + parser, discoverybench) use
+# anthropic/claude-haiku-4-5 as the judge model (sampling parameters are
+# upstream's, per family).  Upstream-side parity runs score with this fork;
+# the harbor-side inspect-solver bridge uses it only to run the *solver*
+# (`inspect eval --no-score`) -- Harbor scoring is done by the verifier-side
+# ports in each family's run_scorer.py.  Canonical bridge datasets preinstall
+# this dependency in the generated Dockerfile.
 ASTABENCH_PIP_INSTALL: list[str] = [
     "astabench @ git+https://github.com/smiky2011/asta-bench.git@claude-haiku-judges"
 ]
 
 # Default `inspect eval` extra args injected into every bridge-using task's
 # inspect_config.json.  We bump the per-tool-call output cap to 64 KB
-# because the SOLVER is gpt-5-mini (a reasoning model) and its submit()
-# outputs frequently exceed the inspect-ai 16 KB default, which would
-# silently truncate the agent's answer to "<truncation message>" and force
-# the judge to score 0.  (Judges are now Haiku, but the cap is for solver
-# output, not judge output.)
+# because solver submit() outputs frequently exceed the inspect-ai 16 KB
+# default, which would silently truncate the agent's answer to
+# "<truncation message>" and force a score of 0.
 #
 # IMPORTANT: when running upstream-side parity sanity checks
 # (`uv run inspect eval astabench/<task> ...` from asta-bench/), pass the
@@ -51,6 +50,14 @@ class SampleRecord:
     workspace_files: dict[str, str | bytes]
 
 
+class SplitNotAvailable(Exception):
+    """A builder raises this for a split it deliberately does not ship.
+
+    The dispatcher reports it and moves on; any other exception during
+    generation is treated as a failure of the run.
+    """
+
+
 class BenchmarkBuilder(ABC):
     """Generate Harbor task directories for one AstaBench family."""
 
@@ -63,6 +70,9 @@ class BenchmarkBuilder(ABC):
         self.output_dir = output_dir
         self.overwrite = overwrite
         self.cli = cli
+        # (task_id, reason) for tasks whose generation raised; the dispatcher
+        # turns a non-empty list into a failed run.
+        self.failed_tasks: list[tuple[str, str]] = []
 
     @abstractmethod
     def load_samples(self, split: str) -> Iterable[SampleRecord]:
@@ -88,7 +98,7 @@ class BenchmarkBuilder(ABC):
         allowed = set(task_ids) if task_ids else None
 
         for idx, record in enumerate(self.load_samples(split)):
-            if limit is not None and generated >= limit:
+            if limit is not None and generated + len(self.failed_tasks) >= limit:
                 break
             tid = self.task_id(record)
             if allowed is not None and tid not in allowed:
@@ -103,29 +113,33 @@ class BenchmarkBuilder(ABC):
             try:
                 self.write_task(record, task_dir)
                 self.finalize_task(task_dir)
-            except Exception as e:  # noqa: BLE001 — log + continue per task
+            except Exception as e:  # noqa: BLE001 — recorded, run fails later
                 print(f"[{self.family_name}/{split}] task {tid} failed: {e}")
                 # Cleanup the half-written dir — otherwise its existence
                 # triggers the skip branch above on the next run, masking the
-                # failure (devin-bot caught this on PR #1481).
+                # failure.
                 _rmtree(task_dir)
-                skipped += 1
+                self.failed_tasks.append((tid, f"{type(e).__name__}: {e}"))
                 continue
             generated += 1
         return generated, skipped
 
     def inspect_pip_install(self) -> list[str] | None:
-        """Return bridge-only pip installs for generated inspect_config.json.
+        """Return runtime pip installs for the generated inspect_config.json.
 
-        Default Inspect-AI datasets preinstall the bridge runtime in Docker,
-        so the config must not trigger runtime package installs. CLI datasets
-        keep the legacy config as a fallback because they do not include the
-        bridge runtime layer.
+        Inspect-AI bridge datasets preinstall the bridge runtime in Docker, so
+        the config never triggers runtime package installs.  CLI datasets do
+        not ship an inspect_config.json at all (see `finalize_task`).
         """
-        return ASTABENCH_PIP_INSTALL if self.cli else None
+        return None
 
     def finalize_task(self, task_dir: Path) -> None:
-        if not self.cli:
+        if self.cli:
+            # Standard CLI agents must not see which upstream task / sample
+            # this is: inspect_config.json names both and exists only for
+            # the Inspect-AI bridge.
+            strip_inspect_config(task_dir)
+        else:
             wire_inspect_bridge_runtime(task_dir)
 
 
@@ -173,6 +187,54 @@ def make_oracle_nonce() -> str:
     only so the value is recognisable in logs.
     """
     return f"asta-bench-oracle/{secrets.token_hex(24)}"
+
+
+# --- Verifier contract (shared by every family) -----------------------------
+#
+#   * A reward left behind by an earlier phase is never trusted: test.sh
+#     deletes it before the scorer runs.
+#   * The scorer exits 0 only after writing reward.txt for a *scored*
+#     outcome.  A missing, unparsable or schema-invalid answer is a scored
+#     outcome (reward 0), exactly where the upstream scorer would score 0.
+#   * Any non-zero exit means the verifier itself failed (judge/API outage,
+#     missing config, scorer bug, or an input on which the upstream scorer
+#     raises a sample error).  No reward is recorded, so Harbor reports a
+#     verifier error for the trial instead of a fabricated zero.
+_VERIFIER_TEST_SH_TEMPLATE = """\
+#!/bin/bash
+set -u
+REWARD_DIR=/logs/verifier
+mkdir -p "$REWARD_DIR"
+# Never trust a pre-existing reward: the verifier always recomputes it.
+rm -f "$REWARD_DIR/reward.txt" "$REWARD_DIR/reward.json"
+__PRE__
+__SCORER_CMD__
+exit_code=$?
+
+if [ "$exit_code" -ne 0 ]; then
+  # Verifier failure, not a score: make sure no partial reward survives.
+  rm -f "$REWARD_DIR/reward.txt" "$REWARD_DIR/reward.json"
+  echo "verifier failed (exit $exit_code); no reward recorded" >&2
+  exit "$exit_code"
+fi
+if [ ! -s "$REWARD_DIR/reward.txt" ]; then
+  echo "scorer exited 0 without writing a reward" >&2
+  exit 1
+fi
+exit 0
+"""
+
+
+def make_verifier_test_sh(
+    scorer_cmd: str = "python3 /tests/run_scorer.py", pre: str = ""
+) -> str:
+    """Render the shared ``tests/test.sh`` implementing the verifier contract."""
+    return _VERIFIER_TEST_SH_TEMPLATE.replace("__PRE__\n", pre).replace(
+        "__SCORER_CMD__", scorer_cmd
+    )
+
+
+VERIFIER_TEST_SH = make_verifier_test_sh()
 
 
 def make_inspect_config(
@@ -330,8 +392,8 @@ _ASTA_INSTRUCTION_FOOTER = """
 
 ## Tools available to you via MCP
 
-A local MCP server `asta` is wired into your environment. It proxies the
-official Allen AI Asta tool API and exposes 8 tools you can call directly:
+A local MCP server `asta` is wired into your environment. It exposes 8
+scientific-literature tools you can call directly:
 
 - `search_papers_by_relevance(query, limit)` — semantic-relevance search,
   returns paper metadata with `corpus_id` you can submit as `paper_id`.
@@ -343,8 +405,8 @@ official Allen AI Asta tool API and exposes 8 tools you can call directly:
 - `get_citations(corpus_id)` — citation graph.
 - `search_authors_by_name(name)` / `get_author_papers(author_id)`.
 
-Prefer the MCP tools over WebSearch/WebFetch — they hit the same Semantic
-Scholar corpus the upstream benchmark uses and return structured results.
+Prefer the MCP tools over WebSearch/WebFetch — they search a large
+scientific-paper corpus and return structured results.
 Write your final answer to `/app/answer.txt` exactly as instructed above.
 """
 
@@ -373,6 +435,54 @@ RUN uv pip install --system 'inspect_ai==0.3.203' \\
         'astabench @ git+https://github.com/smiky2011/asta-bench.git@claude-haiku-judges' \\
     && touch {_INSPECT_BRIDGE_MARKER}
 """
+
+
+def strip_inspect_config(task_dir: Path) -> None:
+    """Remove the bridge-only inspect_config.json from a CLI-dataset task.
+
+    Deletes every copy under environment/ and the Dockerfile line(s) that
+    copy it into the image, and fails if any reference survives.
+    """
+    env_dir = task_dir / "environment"
+    for cfg in list(env_dir.rglob("inspect_config.json")):
+        parent = cfg.parent
+        cfg.unlink()
+        if not any(parent.iterdir()):
+            # Keep directories non-empty: `COPY workspace/ ...` (and Daytona's
+            # tar packaging) need the source path to exist.
+            (parent / ".keep").write_text("")
+
+    dockerfile = env_dir / "Dockerfile"
+    if dockerfile.exists():
+        kept: list[str] = []
+        lines = dockerfile.read_text(encoding="utf-8").splitlines()
+        i = 0
+        while i < len(lines):
+            line = lines[i]
+            if "inspect_config.json" in line and line.lstrip().startswith("COPY"):
+                # Drop the comment block that introduces this COPY as well.
+                while kept and kept[-1].lstrip().startswith("#"):
+                    kept.pop()
+                i += 1
+                continue
+            if line.lstrip().startswith("#") and "inspect_config" in line:
+                # A stray comment that only talks about the bridge config.
+                i += 1
+                continue
+            kept.append(line)
+            i += 1
+        dockerfile.write_text("\n".join(kept).rstrip() + "\n", encoding="utf-8")
+
+    leftovers = [
+        str(f.relative_to(task_dir))
+        for f in [task_dir / "instruction.md", *env_dir.rglob("*")]
+        if f.is_file() and "inspect_config" in f.read_text(errors="ignore")
+    ]
+    if leftovers:
+        raise RuntimeError(
+            f"{task_dir.name}: inspect_config reference survives in CLI task: "
+            + ", ".join(leftovers)
+        )
 
 
 def wire_inspect_bridge_runtime(task_dir: Path) -> None:

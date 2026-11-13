@@ -14,7 +14,7 @@ if TYPE_CHECKING:
     from .base import BenchmarkBuilder
 
 
-def get_registry() -> dict[str, Type["BenchmarkBuilder"]]:
+def get_registry() -> dict[str, type[BenchmarkBuilder]]:
     from .arxivdigestables import ArxivDigestTablesCleanBuilder
     from .core_bench_hard import CoreBenchHardBuilder
     from .discoverybench import DiscoveryBenchBuilder

@@ -37,9 +37,25 @@ Optional fields:
                   (list[dict])    narrowly scoped text replacements applied
                                   to installed Python packages after
                                   `pip_install` and before `inspect eval`.
+  - `export_files`
+                  (list[dict])    `[{"src": "report.json", "dest": "/app/report.json"}]`.
+                                  Files the upstream scorer reads from the
+                                  sandbox.  The configured solver is wrapped
+                                  by a small file-based solver that, after the
+                                  inner solver returns (or hits a sample
+                                  limit), copies each `src` out of the sandbox
+                                  via `sandbox().read_file()` to `dest` -- i.e.
+                                  before the sandbox is torn down (under
+                                  `--sandbox local` the sandbox dir is a temp
+                                  dir removed at sample cleanup).  Stale
+                                  `dest` files are deleted before the run.
+  - `require_tools` (bool)        fail the run if the first model call in the
+                                  log was offered no tool other than `submit`
+                                  (task tools were dropped by the solver).
 
 CLI overrides (via `-S` at trial-launch time):
-  - `solver`     (default "react")
+  - `solver`     (default "astabench/react"; bare "react" is Inspect's
+                  built-in agent, which ignores the task's `use_tools` tools)
   - `inspect_config_path`         alternate config-file path
   - `task`, `sample_id`, ...      any field above; CLI overrides config-file
 
@@ -62,7 +78,6 @@ from harbor.agents.installed.base import (
 )
 from harbor.environments.base import BaseEnvironment
 from harbor.models.agent.context import AgentContext
-
 
 DEFAULT_INSPECT_AI_VERSION = "0.3.203"
 
@@ -206,7 +221,7 @@ class InspectSolver(BaseInstalledAgent):
             raise ValueError("InspectSolver: --model is required for the solver.")
 
         flags = self._resolved_flags
-        solver = flags.get("solver") or "react"
+        solver = flags.get("solver") or "astabench/react"
         cli_task = flags.get("task")
         cli_sample_id = flags.get("sample_id")
         cli_config_path = flags.get("inspect_config_path")
@@ -261,6 +276,65 @@ import sys
 from pathlib import Path
 
 LOG_DIR = "/logs/agent/inspect-logs"
+EXPORT_DIR = "/tmp/asta-inspect-bridge"
+
+# Solver module written to EXPORT_DIR when the config has `export_files`.
+# It wraps the configured solver (resolved by name, exactly as `inspect eval
+# --solver <name> -S ...` would) and copies sandbox files out after it
+# returns, i.e. while the sandbox still exists.  A sample limit (token /
+# message / time) still leads to upstream scoring, so files are exported in
+# that case too; on any other solver error upstream does not score, so
+# nothing is exported.
+EXPORT_SOLVER_SRC = '''
+import json
+import os
+from pathlib import Path
+
+from inspect_ai.solver import Generate, Solver, TaskState, solver
+from inspect_ai.util import LimitExceededError, sandbox
+
+
+async def _export_files():
+    specs = json.loads(os.environ.get("ASTA_BRIDGE_EXPORT_FILES") or "[]")
+    for spec in specs:
+        src, dest = spec["src"], Path(spec["dest"])
+        try:
+            data = await sandbox().read_file(src, text=False)
+        except FileNotFoundError:
+            print(f"[inspect-bridge] export: {src} not found in sandbox", flush=True)
+            continue
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        dest.write_bytes(data)
+        print(
+            f"[inspect-bridge] export: {src} -> {dest} ({len(data)} bytes)",
+            flush=True,
+        )
+
+
+@solver
+def asta_bridge_export(**kwargs) -> Solver:
+    from inspect_ai._eval.loader import solver_from_spec
+    from inspect_ai.solver._solver import SolverSpec
+
+    inner = solver_from_spec(
+        SolverSpec(
+            solver=os.environ["ASTA_BRIDGE_INNER_SOLVER"],
+            args=dict(kwargs),
+            args_passed=dict(kwargs),
+        )
+    )
+
+    async def solve(state: TaskState, generate: Generate) -> TaskState:
+        try:
+            state = await inner(state, generate)
+        except LimitExceededError:
+            await _export_files()
+            raise
+        await _export_files()
+        return state
+
+    return solve
+'''
 
 
 def _load_config_file(path):
@@ -370,6 +444,35 @@ def _format_kv_args(args_dict, flag):
     return out
 
 
+def _prepare_exports(export_files, solver, env):
+    # Returns the --solver value to use; mutates env for the wrapper.
+    if not export_files:
+        return solver
+    for spec in export_files:
+        if not isinstance(spec, dict) or not spec.get("src") or not spec.get("dest"):
+            raise ValueError(f"export_files entry must have src and dest: {spec!r}")
+        if not str(spec["dest"]).startswith("/"):
+            raise ValueError(f"export_files dest must be absolute: {spec!r}")
+        # Never let a stale file (e.g. from a previous attempt) be scored.
+        Path(spec["dest"]).unlink(missing_ok=True)
+    mod = Path(EXPORT_DIR) / "asta_bridge_export.py"
+    mod.parent.mkdir(parents=True, exist_ok=True)
+    mod.write_text(EXPORT_SOLVER_SRC, encoding="utf-8")
+    env["ASTA_BRIDGE_INNER_SOLVER"] = solver
+    env["ASTA_BRIDGE_EXPORT_FILES"] = json.dumps(export_files)
+    print(f"[inspect-bridge] wrapping solver {solver!r} to export {export_files}", flush=True)
+    return f"{mod}@asta_bridge_export"
+
+
+def _first_model_tool_names(sample):
+    # Tool names offered to the model on its first call, or None if the
+    # log has no model event.
+    for ev in sample.get("events") or []:
+        if ev.get("event") == "model":
+            return [str(t.get("name")) for t in (ev.get("tools") or [])]
+    return None
+
+
 def main():
     raw = os.environ.get("__INSPECT_BRIDGE_PAYLOAD")
     if not raw:
@@ -392,11 +495,15 @@ def main():
     _pip_install(cfg.get("pip_install") or [])
     _apply_site_package_replacements(cfg.get("site_package_replacements") or [])
 
+    sub_env = dict(os.environ)
+    export_files = cfg.get("export_files") or []
+    solver_arg = _prepare_exports(export_files, payload["solver"], sub_env)
+
     cmd = [
         "inspect",
         "eval",
         "--solver",
-        payload["solver"],
+        solver_arg,
         "--model",
         payload["model_name"],
         "--sample-id",
@@ -434,7 +541,9 @@ def main():
     )
     # Capture stdout/stderr explicitly so a non-zero exit doesn't lose its
     # traceback to Harbor's stream truncation.
-    proc = subprocess.run(cmd, check=False, capture_output=True, text=True)
+    proc = subprocess.run(
+        cmd, check=False, capture_output=True, text=True, env=sub_env
+    )
     if proc.stdout:
         print("[inspect-bridge] === inspect eval stdout ===", flush=True)
         sys.stdout.write(proc.stdout)
@@ -459,6 +568,25 @@ def main():
     if not samples:
         print("[inspect-bridge] inspect log has no samples", file=sys.stderr)
         sys.exit(5)
+    # Cheap harness-health guard: if the model was only ever offered
+    # `submit`, the task's tools were dropped (e.g. bare `--solver react`)
+    # and the run says nothing about the agent.
+    tool_names = _first_model_tool_names(samples[0])
+    if tool_names is not None and set(tool_names) <= {"submit"}:
+        msg = (
+            "[inspect-bridge] first model call was offered only "
+            f"{tool_names}; task tools were not passed to the solver"
+        )
+        if cfg.get("require_tools"):
+            for spec in export_files:
+                Path(spec["dest"]).unlink(missing_ok=True)
+            print(msg + " -- failing the run (require_tools)", file=sys.stderr, flush=True)
+            sys.exit(6)
+        print(msg + " (WARNING)", flush=True)
+    for spec in export_files:
+        state = "present" if Path(spec["dest"]).is_file() else "MISSING"
+        print(f"[inspect-bridge] export dest {spec['dest']}: {state}", flush=True)
+
     completion = (samples[0].get("output") or {}).get("completion") or ""
     Path("/app").mkdir(parents=True, exist_ok=True)
     Path("/app/answer.txt").write_text(completion, encoding="utf-8")

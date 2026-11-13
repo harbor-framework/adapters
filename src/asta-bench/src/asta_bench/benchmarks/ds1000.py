@@ -11,11 +11,16 @@ downloading the dataset, rendering the template, running DS-1000's hidden
 test cases.  We just supply the filtered instance IDs and relabel the
 generated task directories under the `asta-bench/` namespace.
 
-Parity note: the DS-1000 scoring logic, Docker environment, and instruction
-template come directly from Harbor's `ds1000` adapter.  That adapter's
-task.toml is minimal (no `[task] name`), so after generation we patch each
-task.toml to set `name = "asta-bench/ds1000-<split>-<id>"` for registry
-consistency with the other AstaBench families.
+What we keep from the sibling adapter: dataset loading, the Docker
+environment and the oracle `solve.sh`.  What we replace after generation, so
+the task matches AstaBench's ds1000 rather than the standalone adapter's:
+
+- `task.toml` (AstaBench naming/metadata, `allenai/asta-bench__ds1000-...`);
+- `instruction.md` -- upstream `Sample.input` only (see `_patch_instruction`;
+  the sibling template would leak the test harness);
+- `tests/test.sh` + `tests/run_test.py` -- the shared verifier contract and a
+  grader that mirrors inspect_evals' ds1000 scorer plus the AstaBench
+  postprocess patch (see `ds1000_run_test.py`).
 """
 
 from __future__ import annotations
@@ -24,14 +29,15 @@ import importlib.util
 import json
 import shutil
 import sys
+from collections.abc import Iterable
 from pathlib import Path
-from typing import Iterable
 
 from .base import (
     INSPECT_DEFAULT_EVAL_ARGS,
     BenchmarkBuilder,
     SampleRecord,
     make_inspect_config,
+    make_verifier_test_sh,
 )
 
 _SPLIT_TO_INSPECT_TASK = {
@@ -186,9 +192,13 @@ build_timeout_sec = 1800.0
 cpus = 2
 memory_mb = 4096
 storage_mb = 10240
-# Pure offline code generation (no network to solve). Disabling internet
-# blocks the backdoor of the agent fetching the upstream reference solution.
-allow_internet = false
+# Solving needs no data downloads, but Harbor's Docker environment
+# implements allow_internet=false as `network_mode: none` for the whole
+# container, which also cuts the agent off from its model API (installed
+# agents and the Inspect bridge both run inside the container).  The
+# family therefore needs egress.  DS-1000 is a public dataset; the
+# reference solution is not shipped in the agent image or instruction.
+allow_internet = true
 """
     toml_path.write_text(rewritten, encoding="utf-8")
 
@@ -290,27 +300,12 @@ def _patch_dockerfile(task_dir: Path) -> None:
         dockerfile.write_text(fixed, encoding="utf-8")
 
 
-_TEST_SH_TEMPLATE = r"""#!/bin/sh
-set -eu
-
-mkdir -p /logs/verifier
-
-# No agent-trusted score sidecar — scoring is verifier-side only.
-set +e
-python /tests/run_test.py /solution/solution.py /tests/config.json
-exit_code=$?
-set -e
-case "$exit_code" in
-  "" ) exit_code=1 ;;
-  *[!0-9]* ) exit_code=1 ;;
-esac
-if [ "$exit_code" -eq 0 ]; then
-  echo 1 > /logs/verifier/reward.txt
-else
-  echo 0 > /logs/verifier/reward.txt
-fi
-exit "$exit_code"
-"""
+# Shared verifier contract (see base.py).  run_test.py reads the answer from
+# /app/answer.txt first (bridge + CLI agents), then the oracle's
+# /solution/solution.py, and writes the reward itself.
+_TEST_SH_TEMPLATE = make_verifier_test_sh(
+    scorer_cmd="python3 /tests/run_test.py /solution/solution.py /tests/config.json"
+)
 
 
 # asta-bench-owned scorer, co-located with this builder (sibling to
@@ -351,40 +346,52 @@ def _patch_test_sh(task_dir: Path) -> None:
     test_sh.chmod(0o755)
 
 
-# Verbatim from inspect_evals.ds1000.ds1000.DEFAULT_SYSTEM_MESSAGE — the
-# framing upstream AstaBench gives the agent.  The harbor ds1000 template
-# instead instructs *bare* code with "no Markdown fences, no tags", which
-# directly contradicts upstream and means a conversational agent's output is
-# delimited differently on the bridge vs. non-bridge path — scored
-# differently even though the scorer is now byte-identical.  Re-aligning the
-# instruction closes that residual parity gap.
-_UPSTREAM_DS1000_DIRECTIVE = (
-    "Write a short code following the given format and indentation. "
-    "Place the executable code between <code> and </code> tags, without "
-    "any other non-executable things."
+# Verbatim from astabench/evals/inspect_eval_wrappers/ds1000.py (fork HEAD
+# 17c84ca, identical to allenai/asta-bench main): AstaBench appends this to
+# every DS-1000 `prompt` to form `Sample.input`.  (inspect_evals' own
+# DEFAULT_SYSTEM_MESSAGE is NOT part of what an AstaBench solver sees: the
+# AstaBench wrapper replaces the inspect_evals solver chain.)
+_UPSTREAM_FORMAT_INSTRUCTIONS = (
+    "\n\nWrite the remaining python code to append to the program above "
+    "(but do not repeat the part of the code that is already given in "
+    "`<code>...</code>`; just write the new code).  Put your answer inside "
+    "<code> and </code> tags."
 )
 
-_CONFLICTING_INSTRUCTION_LINE = (
-    "- Output only the code lines for [insert]; no Markdown fences, no "
-    "explanations, no bullets."
+# Harbor-side addition: where the final answer goes.  Upstream reads the
+# solver's final completion; Harbor reads this file.
+_SUBMIT_INSTRUCTIONS = (
+    "\n\n---\n\n## How to submit\n\n"
+    "Write your final answer to `/app/answer.txt`: the new code only, inside "
+    "`<code>` and `</code>` tags.  You may run code in the environment to "
+    "check your work before submitting.\n"
 )
 
 
 def _patch_instruction(task_dir: Path) -> None:
-    """Re-align the generated ds1000 instruction with upstream's framing.
+    """Replace the sibling adapter's instruction with upstream's task input.
 
-    Replaces the harbor template's bare-code directive (which contradicts
-    upstream's `<code>...</code>` system message) so the agent receives
-    parity-equivalent instructions on the non-bridge path.
+    The `src/ds1000` template embeds the problem's `code_context` in the
+    instruction.  That context is the hidden test harness: it contains
+    `generate_ans`, i.e. the reference logic the answer is checked against.
+    AstaBench never shows it to the solver -- `Sample.input` is the DS-1000
+    `prompt` plus `_UPSTREAM_FORMAT_INSTRUCTIONS` -- so we emit exactly that
+    (plus where to write the answer) and nothing from the harness.
     """
-    instruction = task_dir / "instruction.md"
-    if not instruction.exists():
-        return
-    text = instruction.read_text(encoding="utf-8")
-    if _CONFLICTING_INSTRUCTION_LINE in text:
-        text = text.replace(
-            _CONFLICTING_INSTRUCTION_LINE, f"- {_UPSTREAM_DS1000_DIRECTIVE}"
-        )
-    else:
-        text = text.rstrip() + f"\n\n{_UPSTREAM_DS1000_DIRECTIVE}\n"
-    instruction.write_text(text, encoding="utf-8")
+    config_path = task_dir / "tests" / "config.json"
+    config = json.loads(config_path.read_text(encoding="utf-8"))
+    prompt = config["prompt"]
+    if not isinstance(prompt, str) or not prompt.strip():
+        raise ValueError(f"{task_dir.name}: DS-1000 record has no prompt")
+    (task_dir / "instruction.md").write_text(
+        prompt + _UPSTREAM_FORMAT_INSTRUCTIONS + _SUBMIT_INSTRUCTIONS,
+        encoding="utf-8",
+    )
+
+    # The verifier only needs `code_context`.  Drop the reference solution
+    # from tests/config.json: the graded snippet runs at verification time,
+    # when /tests is mounted, and has no business being able to read it.
+    # (The oracle keeps its own copy in solution/solve.sh.)
+    if "reference_code" in config:
+        del config["reference_code"]
+        config_path.write_text(json.dumps(config, indent=2), encoding="utf-8")

@@ -12,24 +12,22 @@ Mirrors astabench's `paper_finder_litqa2_test` task:
 Both the id mapping and the per-subset query lists are vendored into
 `litqa2_search_data.json` next to this file (extracted verbatim from upstream).
 
-Scoring re-uses the exact predefined-judgement + recall-at-K logic the
-sibling `paper_finder.py` builder ships, but specialises on:
-  - query_type = "litqa2"
-  - headline_metric = "known_recall_at_30"
+Scoring uses the sibling `paper_finder.py` scorer (a port of upstream's
+`score_paper_finder`) with query_type "litqa2": strict JSON parsing with the
+upstream Haiku repair call for non-JSON answers, all-or-nothing output
+validation, predefined judgements against the gold corpus ids, and
+`known_recall_at_30` normalised by upstream's normalizer entry for the
+query, which equals `len(corpus_ids)` for every litqa2 query.
 
-Pattern:
-  - Specific/metadata/litqa2 query types are exact-match on a small known
-    gold set, so submitting the gold set yields recall_at_30=1.0 naturally
-    (Pattern A).  We additionally retain the `paper_finder.py` Pattern-C
-    short-circuit for symmetry: if the agent's submitted set equals the
-    gold set, reward=1.0 directly.
+Oracle: submits the gold corpus ids and scores 1.0 through the formula
+(no short-circuit).
 """
 
 from __future__ import annotations
 
 import json
+from collections.abc import Iterable
 from pathlib import Path
-from typing import Iterable
 
 from .base import (
     INSPECT_DEFAULT_EVAL_ARGS,
@@ -84,9 +82,11 @@ timeout_sec = 1800
 [verifier]
 timeout_sec = 300
 
+# The shared paper_finder scorer makes upstream's anthropic/claude-haiku-4-5
+# JSON-repair call when the answer is not strict JSON.
 [verifier.env]
-OPENAI_API_KEY = "${{OPENAI_API_KEY:-}}"
-OPENAI_BASE_URL = "${{OPENAI_BASE_URL:-}}"
+ANTHROPIC_API_KEY = "${{ANTHROPIC_API_KEY:-}}"
+ANTHROPIC_BASE_URL = "${{ANTHROPIC_BASE_URL:-}}"
 
 [environment]
 build_timeout_sec = 600.0
@@ -131,14 +131,16 @@ class LitQA2FullTextSearchBuilder(BenchmarkBuilder):
             yield SampleRecord(
                 sample_id=query_id,
                 split=split,
-                instruction=str(row["question"]).strip(),
+                # Upstream formats the raw question (no stripping).
+                instruction=str(row["question"]),
                 target=corpus_ids,
                 metadata={
                     "query_type": "litqa2",
                     "scorer_criteria": {"corpus_ids": corpus_ids},
-                    # Upstream's normalizer for litqa2 entries equals
-                    # len(corpus_ids); we embed that directly so the scorer
-                    # doesn't need network access.
+                    # Upstream's normalizer_reference entry for every litqa2
+                    # query equals len(corpus_ids) (checked against
+                    # normalizer_reference.json @ a600dc7); embedded so the
+                    # scorer needs no network access.
                     "total_relevant": len(corpus_ids),
                     "lab_bench_id": row.get("id"),
                 },
@@ -185,7 +187,8 @@ class LitQA2FullTextSearchBuilder(BenchmarkBuilder):
             "query_type": "litqa2",
             "headline_metric": "known_recall_at_30",
             "gold_corpus_ids": list(gold_for_oracle),
-            "total_relevant": record.metadata.get("total_relevant"),
+            "relevance_criteria": [],
+            "total_relevant": record.metadata["total_relevant"],
         }
 
         task_name = f"allenai/asta-bench__{self.task_id(record)}"

@@ -11,14 +11,16 @@ criterion is met across paper / code / artifacts.  The headline metric is
 
 Scoring resolution (verifier-side only — no agent-trusted score sidecar):
 (1) Pattern C oracle short-circuit — `solve.sh` writes a canonical oracle
-JSON keyed on an `_oracle_marker` matched against `tests/config.json`;
-(2) otherwise a real verifier-side rubric judge — a faithful port of
-upstream `RubricEvaluation.evaluate_rubric` (verbatim `mkPrompt`, 2-pass
-evaluate+reflect per criterion, headline = `average_required_overall`)
-run against JUDGE_MODEL via litellm.  Every non-oracle score is a measured
-LLM-judge verdict (GAIA2-cli style), not a hardcoded stub.  Needs
-`(num_required + num_optional) * 2` judge calls per task; the rubric is
-embedded in `tests/config.json` so no network/dataset access is required.
+JSON keyed on an unforgeable per-task `_oracle_marker` nonce matched against
+`tests/config.json`;
+(2) otherwise a port of upstream `score_rubric` / `check_rubric` /
+`RubricEvaluation.evaluate_rubric` (strict `json.loads` of the answer,
+verbatim `mkPrompt`, 2-pass evaluate+reflect per criterion, verbatim
+consolidation loop, headline = `average_required_overall`) run against
+JUDGE_MODEL via litellm with upstream's effective judge parameters (no
+temperature → API default; max_tokens 32000 = Inspect 0.3.203's Anthropic
+default for Haiku 4.5).  Needs `len(rubric) * 2` judge calls per task; the
+rubric is embedded in `tests/config.json` so no dataset access is required.
 
 The same module ships two near-identical builders:
   * E2EBenchBuilder       (family = "e2e-bench")
@@ -30,11 +32,13 @@ from __future__ import annotations
 
 import json
 import os
+from collections.abc import Iterable
 from pathlib import Path
-from typing import Any, Iterable
+from typing import Any
 
 from .base import (
     INSPECT_DEFAULT_EVAL_ARGS,
+    VERIFIER_TEST_SH,
     BenchmarkBuilder,
     SampleRecord,
     make_inspect_config,
@@ -114,7 +118,7 @@ RUN pip install --no-cache-dir \\
     "datasets>=3.0" \\
     "ipykernel>=6.30" \\
     "jupyter-client>=8.6" \\
-    "litellm>=1.40"
+    "litellm==1.82.3"
 
 # Optional: consumed by the Inspect-AI bridge agent (`-a inspect-solver`).
 COPY workspace/inspect_config.json /app/inspect_config.json
@@ -160,33 +164,45 @@ ORACLE_ANSWER_EOF
 """
 
 
-TEST_SH = """\
-#!/bin/bash
-set -u
-mkdir -p /logs/verifier
-python3 /tests/run_scorer.py
-exit_code=$?
-if [ ! -f /logs/verifier/reward.txt ]; then
-  echo 0 > /logs/verifier/reward.txt
-fi
-exit "$exit_code"
-"""
+TEST_SH = VERIFIER_TEST_SH
 
 
-RUN_SCORER_PY = r'''"""E2E-Discovery verifier (oracle short-circuit + real rubric judge).
+RUN_SCORER_PY = r'''"""E2E-Discovery verifier (oracle short-circuit + upstream rubric judge).
+
+Ported from allenai/asta-bench astabench/evals/e2e_discovery/task.py
+(fork smiky2011/asta-bench@17c84ca; file last changed in 451d9e1, which only
+swaps RUBRIC_SCORING_MODEL to claude-haiku-4-5):
+  score_rubric.score -> check_rubric -> RubricEvaluation.evaluate_rubric
+  -> getLLMResponseJSON / _getLLMResponseJSON.
 
 Resolution order (verifier-side only — no agent-trusted score sidecar):
-  1. Oracle short-circuit — answer.txt carries the canonical `_oracle_marker`.
-  2. Real rubric judge — a faithful port of
-     astabench/evals/e2e_discovery/task.py::RubricEvaluation.evaluate_rubric:
-     for each rubric criterion, a 2-pass (evaluate + reflect) LLM-judge call
-     with the verbatim upstream `mkPrompt`, then headline reward
-     = average_required_overall = (# required criteria whose reflected
-     overall_evaluation.criteria_met >= 1) / (# required criteria).
+  1. Oracle short-circuit — the answer JSON carries this task's unforgeable
+     `_oracle_marker` nonce (Harbor-only; a judge-based oracle cannot score
+     1.0 deterministically).
+  2. Upstream rubric scoring:
+       * answer = json.loads(answer.txt); any parse failure -> {} -> 0;
+       * no "results" key -> 0; report/code/artifacts read with the exact
+         upstream .get() defaults, no coercion; any exception upstream's
+         catch-all in score_rubric turns into a 0 is a 0 here too;
+       * per criterion: evaluate pass + reflection pass with the verbatim
+         mkPrompt, judge text parsed with the verbatim two-pass JSON
+         extraction (no parse retry);
+       * verbatim consolidation loop (criteria with a missing / malformed /
+         non-numeric judge response are skipped from the denominator), then
+         check_rubric's explanation loop (a required criterion without
+         response["overall_evaluation"]["criteria_met"] -> 0);
+       * reward = average_required_overall.
 
-This is a *measured* verdict (GAIA2-cli style): every score comes from the
-judge actually evaluating the answer, never a hardcoded stub.  The judge is
-JUDGE_MODEL (default anthropic/claude-haiku-4-5, temperature 0) via litellm.
+Judge: JUDGE_MODEL (default anthropic/claude-haiku-4-5) via litellm with the
+parameters upstream effectively sends through Inspect 0.3.203's Anthropic
+provider: no temperature (API default), max_tokens 32000 (Inspect's default
+for Claude 4.x when GenerateConfig.max_tokens is unset), timeout 300 s.
+
+Intentional deviations (Harbor verifier contract):
+  * A judge transport/API error is retried a bounded number of times and then
+    exits non-zero with NO reward; upstream catches it and scores 0.
+  * Judge calls are bounded by a semaphore (E2E_JUDGE_MAX_CONNECTIONS,
+    default 10 = Inspect's DEFAULT_MAX_CONNECTIONS).
 """
 
 from __future__ import annotations
@@ -194,7 +210,6 @@ from __future__ import annotations
 import asyncio
 import json
 import os
-import re
 import sys
 from pathlib import Path
 
@@ -206,7 +221,38 @@ REWARD_FILE = Path("/logs/verifier/reward.txt")
 
 # Verbatim from astabench/evals/e2e_discovery/task.py
 MAX_ARTIFACT_CHARACTERS = 10000
-DEFAULT_MAX_TOKENS = 8000
+RUBRIC_SCORING_MODEL = "anthropic/claude-haiku-4-5"
+
+# Upstream passes GenerateConfig(max_retries=10, timeout=60*5) and no
+# max_tokens / temperature; Inspect 0.3.203's Anthropic provider then sends
+# max_tokens = max_tokens_for_config() = 32000 for claude-haiku-4-5 and omits
+# temperature.
+JUDGE_MAX_TOKENS = 32000
+JUDGE_TIMEOUT_SEC = 60 * 5
+# Bounded API retry (Harbor contract: an outage must not become an hours-long
+# retry loop); upstream's Inspect-level max_retries is 10.
+JUDGE_NUM_RETRIES = int(os.environ.get("E2E_JUDGE_NUM_RETRIES", "3"))
+JUDGE_MAX_CONNECTIONS = max(1, int(os.environ.get("E2E_JUDGE_MAX_CONNECTIONS", "10")))
+
+# Inspect 0.3.203 anthropic.py::handle_bad_request turns these 400 errors (and
+# any 413) into a ModelOutput whose content is a plain string; upstream's
+# `responseTextObj[0].text` then raises AttributeError, getLLMResponseJSON
+# re-raises it as ValueError (its own "prompt is too long" check never matches
+# that message), and score_rubric's catch-all scores the sample 0.
+_MODEL_LENGTH_MESSAGES = (
+    "prompt is too long",
+    "input is too long",
+    "input length and `max_tokens` exceed context limit",
+)
+_CONTENT_FILTER_MESSAGE = "content filtering"
+
+
+class JudgeUnavailable(RuntimeError):
+    """Judge transport/API failure: verifier failure, no reward is written."""
+
+
+class _UpstreamScoresZero(Exception):
+    """A judge outcome that upstream's score_rubric catch-all turns into 0."""
 
 
 def _write_reward(value: float) -> None:
@@ -214,86 +260,84 @@ def _write_reward(value: float) -> None:
     REWARD_FILE.write_text(f"{value:.6f}\n")
 
 
-def _extract_first_json(raw: str) -> dict | None:
-    raw = raw.strip()
-    fenced = re.search(r"```(?:json)?\s*(\{.*\})\s*```", raw, flags=re.DOTALL)
-    candidate = fenced.group(1) if fenced else None
-    if candidate is None:
-        try:
-            start = raw.index("{")
-            end = raw.rindex("}")
-            candidate = raw[start : end + 1]
-        except ValueError:
-            return None
+def _response_text_to_json(responseText):
+    """Verbatim JSON extraction from _getLLMResponseJSON (no retry)."""
+    responseOutJSON = None
+    # Convert the response text to JSON
     try:
-        obj = json.loads(candidate)
-    except json.JSONDecodeError:
-        return None
-    return obj if isinstance(obj, dict) else None
-
-
-def _parse_judge_json(response_text: str) -> dict | None:
-    """Verbatim port of getLLMResponseJSON's two-pass JSON extraction:
-    try the whole text, else the last ```-fenced block."""
-    try:
-        obj = json.loads(response_text)
-        return obj if isinstance(obj, dict) else None
+        responseOutJSON = json.loads(responseText)
     except Exception:
         pass
-    lines = response_text.split("\n")
-    start_idx = 0
-    end_idx = 0
-    for idx, line in enumerate(lines):
-        if line.startswith("```"):
-            start_idx = end_idx
-            end_idx = idx
-    if start_idx >= 0 and end_idx > 0:
-        block = "\n".join(lines[start_idx + 1 : end_idx])
-        try:
-            obj = json.loads(block)
-            return obj if isinstance(obj, dict) else None
-        except Exception:
-            return None
-    return None
+
+    # Second pass for converting to JSON
+    if responseOutJSON is None:
+        # Try to find the last JSON block in the response, which starts with "```"
+        lines = responseText.split("\n")
+        startIdx = 0
+        endIdx = 0
+        for idx, line in enumerate(lines):
+            if line.startswith("```"):
+                startIdx = endIdx
+                endIdx = idx
+
+        if (startIdx >= 0) and (endIdx > 0):
+            # Exclude the start and end line
+            linesJSON = lines[startIdx + 1 : endIdx]
+            # Join the lines
+            linesJSONStr = "\n".join(linesJSON)
+            # Try to convert to JSON
+            try:
+                responseOutJSON = json.loads(linesJSONStr)
+            except Exception:
+                print(
+                    "ERROR: Could not convert response to JSON on second pass. ",
+                    file=sys.stderr,
+                )
+        else:
+            print("ERROR: Could not find JSON block in response. ", file=sys.stderr)
+    return responseOutJSON
 
 
-async def _judge(prompt: str, model: str) -> dict | None:
-    """One judge call.  litellm to JUDGE_MODEL; no response_format (Anthropic
-    over litellm returns empty content with it — see discoverybench fix).
-    Anthropic requires max_tokens, so we pass DEFAULT_MAX_TOKENS."""
+async def _call_judge(prompt: str, model: str, sem: asyncio.Semaphore) -> str:
+    """One judge call; returns the response text."""
     import litellm  # type: ignore
 
-    litellm.drop_params = True
     api_key = (
         os.environ.get("ANTHROPIC_API_KEY")
         if model.startswith("anthropic/")
         else os.environ.get("OPENAI_API_KEY")
     )
-    last = ""
-    for _ in range(3):
-        try:
+    try:
+        async with sem:
             resp = await litellm.acompletion(
                 model=model,
-                messages=[{"role": "user", "content": prompt}],
+                # Same message shape as upstream _getLLMResponseJSON.
+                messages=[
+                    {"role": "user", "content": [{"type": "text", "text": prompt}]}
+                ],
                 api_key=api_key,
-                temperature=0,
-                max_tokens=DEFAULT_MAX_TOKENS,
+                max_tokens=JUDGE_MAX_TOKENS,
+                timeout=JUDGE_TIMEOUT_SEC,
+                num_retries=JUDGE_NUM_RETRIES,
             )
-        except Exception as e:  # noqa: BLE001
-            last = f"<litellm error: {e}>"
-            continue
-        content = resp.choices[0].message.content
-        if isinstance(content, list):
-            content = "".join(
-                p.get("text", "") if isinstance(p, dict) else str(p)
-                for p in content
-            )
-        last = content or ""
-        parsed = _parse_judge_json(last)
-        if parsed is not None:
-            return parsed
-    print(f"judge JSON parse failed; last: {last[:200]!r}", file=sys.stderr)
-    return None
+    except Exception as e:  # noqa: BLE001
+        msg = str(e).lower()
+        if getattr(e, "status_code", None) == 413 or any(
+            m in msg for m in _MODEL_LENGTH_MESSAGES + (_CONTENT_FILTER_MESSAGE,)
+        ):
+            raise _UpstreamScoresZero(f"judge rejected the prompt: {e}") from e
+        raise JudgeUnavailable(f"judge call failed: {e}") from e
+    content = resp.choices[0].message.content
+    if not isinstance(content, str) or content == "":
+        # Upstream would raise on `responseTextObj[0].text` (score 0); an empty
+        # completion is treated as an API failure here (no reward).
+        raise JudgeUnavailable(f"judge returned no text content: {content!r}")
+    return content
+
+
+async def _get_llm_response_json(prompt: str, model: str, sem: asyncio.Semaphore):
+    responseText = await _call_judge(prompt, model, sem)
+    return _response_text_to_json(responseText), responseText
 
 
 def _mk_prompt(full_rubric, rubric_question, paper, code, artifacts, reflection=None):
@@ -473,92 +517,293 @@ def _mk_prompt(full_rubric, rubric_question, paper, code, artifacts, reflection=
     return prompt
 
 
-async def _evaluate_criterion(idx, rubric, paper, code, artifacts, model):
-    """2-pass (evaluate + reflect), verbatim to evaluate_rubric_question."""
-    question = rubric[idx]["criteria_met_question"]
-    p0 = _mk_prompt(rubric, question, paper, code, artifacts)
-    r0 = await _judge(p0, model)
-    p1 = _mk_prompt(rubric, question, paper, code, artifacts, reflection=r0)
-    r1 = await _judge(p1, model)
-    return {"idx": idx, "rubric_elem": rubric[idx], "response": r1}
+async def _evaluate_rubric(rubric, paper, code, artifacts, model):
+    """Port of RubricEvaluation.evaluate_rubric (judge calls + verbatim
+    consolidation).  Exceptions other than JudgeUnavailable are upstream
+    exceptions that score_rubric's catch-all turns into 0."""
+    sem = asyncio.Semaphore(JUDGE_MAX_CONNECTIONS)
+    errors = []
 
+    # Upstream builds every evaluate_rubric_question task up front; the first
+    # mkPrompt depends only on the answer + gold rubric, so an answer that
+    # makes mkPrompt raise (non-str report, non-dict code entries, ...) fails
+    # every task before any judge call.  Build those prompts first so no
+    # judge call is spent on an answer upstream scores 0 without one.
+    questions = [rubric_elem["criteria_met_question"] for rubric_elem in rubric]
+    first_prompts = [
+        _mk_prompt(rubric, q, paper, code, artifacts) for q in questions
+    ]
 
-async def _score(parsed, cfg, model) -> tuple[float, str]:
-    results = parsed.get("results", parsed)
-    paper = str(results.get("report") or results.get("paper") or "")
-    code = results.get("code") or []
-    artifacts = results.get("artifacts") or []
-    rubric = cfg.get("rubric") or []
-    if not rubric:
-        return 0.0, "no rubric in config"
+    async def evaluate_rubric_question(idx, rubric_question, prompt):
+        rubric_elem = rubric[idx]
+        responseJSON, _ = await _get_llm_response_json(prompt, model, sem)
+        # Make the reflection prompt (reflection=None when pass 1 did not
+        # parse, exactly as upstream: the second prompt is then pass 1 again)
+        prompt1 = _mk_prompt(
+            rubric, rubric_question, paper, code, artifacts, reflection=responseJSON
+        )
+        responseJSON1, responseText1 = await _get_llm_response_json(
+            prompt1, model, sem
+        )
+        return {
+            "idx": idx,
+            "response": responseJSON1,
+            "responseText": responseText1,
+            "rubric_elem": rubric_elem,
+        }
 
-    packed = await asyncio.gather(
-        *[
-            _evaluate_criterion(i, rubric, paper, code, artifacts, model)
-            for i in range(len(rubric))
-        ]
+    evaluated_rubric_output = list(
+        await asyncio.gather(
+            *[
+                evaluate_rubric_question(idx, questions[idx], first_prompts[idx])
+                for idx in range(len(rubric))
+            ]
+        )
     )
+
+    # ---- verbatim from evaluate_rubric (task.py ~716-847) ----
+    evaluated_rubric = []
+    evaluated_rubric_output.sort(key=lambda x: x["idx"])
+
+    for packed in evaluated_rubric_output:
+        idx = packed["idx"]
+        response = packed["response"]
+        rubric_elem = packed["rubric_elem"]
+        criteria_name = rubric_elem["criteria_name"]
+        required_or_optional = rubric_elem["required_or_optional"]
+
+        pack_step = {
+            "idx": idx,
+            "rubric_elem": rubric_elem,
+            "criteria_name": criteria_name,
+            "required_or_optional": required_or_optional,
+            "response": response,
+        }
+        evaluated_rubric.append(pack_step)
 
     num_required = 0
-    count_required_overall = 0
-    lines = []
-    for rec in sorted(packed, key=lambda x: x["idx"]):
-        elem = rec["rubric_elem"]
-        resp = rec["response"]
-        roo = str(elem.get("required_or_optional", "")).strip().lower()
-        name = elem.get("criteria_name", f"criterion-{rec['idx']}")
-        if not isinstance(resp, dict):
-            met = -1
-        else:
-            try:
-                met = int(resp["overall_evaluation"]["criteria_met"])
-            except (KeyError, TypeError, ValueError):
-                met = -1
-        if roo == "required":
-            num_required += 1
-            passed = met >= 1
-            if passed:
-                count_required_overall += 1
-            lines.append(f"  [{'PASS' if passed else 'FAIL'}] {name}")
-        else:
-            lines.append(f"  [opt:{met}] {name}")
+    num_optional = 0
+    count_required_all3 = 0
+    count_optional_all3 = 0
+    count_required_atleast1 = 0
+    count_optional_atleast1 = 0
 
-    score = count_required_overall / num_required if num_required > 0 else 0.0
-    expl = (
-        f"average_required_overall = {count_required_overall}/{num_required} "
-        f"= {score:.4f}\n" + "\n".join(lines)
+    count_required_overall = 0
+    count_optional_overall = 0
+
+    consistency_issues_list = []
+
+    for idx, rubric_eval_record in enumerate(evaluated_rubric):
+        try:
+            eval_response = rubric_eval_record["response"]
+
+            criteria_name = rubric_eval_record["criteria_name"]
+            required_or_optional = (
+                rubric_eval_record["required_or_optional"].strip().lower()
+            )
+
+            consistency_issues = 0
+
+            scores = []
+            scores.append(eval_response["paper_evaluation"]["criteria_met"])
+            scores.append(eval_response["code_evaluation"]["criteria_met"])
+            scores.append(eval_response["artifacts_evaluation"]["criteria_met"])
+            consistency_issues = eval_response["consistency_evaluation"][
+                "consistency_score"
+            ]
+            if consistency_issues < 1:
+                consistency_str = (
+                    "Rubric question "
+                    + str(idx)
+                    + " has consistency issues between the sources.\n"
+                )
+                consistency_str += (
+                    "Question text: " + eval_response["rubric_question"] + "\n"
+                )
+                consistency_str += (
+                    "Consistency evaluation: "
+                    + eval_response["consistency_evaluation"][
+                        "consistency_evaluation_explanation"
+                    ]
+                    + "\n"
+                )
+                consistency_issues_list.append(consistency_str)
+
+            # Get the 'overall' evaluation
+            overall_evaluation = eval_response["overall_evaluation"]["criteria_met"]
+
+            # Check if there's at least one 1 in the scores
+            score_sum = 0
+            for score in scores:
+                if score >= 1:
+                    score_sum += 1
+
+            if required_or_optional == "required":
+                num_required += 1
+                if score_sum >= 1:
+                    count_required_atleast1 += 1
+                if score_sum == 3:
+                    count_required_all3 += 1
+                if overall_evaluation >= 1:
+                    count_required_overall += 1
+            elif required_or_optional == "optional":
+                num_optional += 1
+                if score_sum >= 1:
+                    count_optional_atleast1 += 1
+                if score_sum == 3:
+                    count_optional_all3 += 1
+                if overall_evaluation >= 1:
+                    count_optional_overall += 1
+            else:
+                errors.append(
+                    "Rubric element "
+                    + str(idx)
+                    + " does not contain a valid required_or_optional value.  Must be either 'required' or 'optional'. Found: `"
+                    + str(required_or_optional)
+                    + "`."
+                )
+
+        except Exception as e:
+            errors.append(
+                "Error consolodating rubric evaluation for question "
+                + str(idx)
+                + ": "
+                + str(e)
+            )
+            continue
+
+    average_required_all3 = 0.0
+    average_optional_all3 = 0.0
+    average_required_atleast1 = 0.0
+    average_optional_atleast1 = 0.0
+    average_required_overall = 0.0
+    average_optional_overall = 0.0
+    if num_required > 0:
+        average_required_all3 = count_required_all3 / num_required
+        average_required_atleast1 = count_required_atleast1 / num_required
+        average_required_overall = count_required_overall / num_required
+    if num_optional > 0:
+        average_optional_all3 = count_optional_all3 / num_optional
+        average_optional_atleast1 = count_optional_atleast1 / num_optional
+        average_optional_overall = count_optional_overall / num_optional
+
+    return {
+        "evaluated_rubric": evaluated_rubric,
+        "overall_score": {
+            "average_required_all3": average_required_all3,
+            "average_optional_all3": average_optional_all3,
+            "average_required_atleast1": average_required_atleast1,
+            "average_optional_atleast1": average_optional_atleast1,
+            "average_required_overall": average_required_overall,
+            "average_optional_overall": average_optional_overall,
+        },
+        "consistency_issues_list": consistency_issues_list,
+        "errors": errors,
+    }
+
+
+async def _check_rubric(answer, rubrics, model):
+    """Port of check_rubric (task.py ~278-365)."""
+    # get the answer elements
+    if answer and "results" in answer:
+        results = answer["results"]
+    else:
+        return 0, "Warning! No results found. Assigning a score of 0."
+
+    paper = results.get("report", "")
+    code = results.get("code", [])
+    artifacts = results.get("artifacts", [])
+
+    evaluated_rubric_output = await _evaluate_rubric(
+        rubrics, paper, code, artifacts, model
     )
-    return score, expl
+    for err in evaluated_rubric_output["errors"]:
+        print(err, file=sys.stderr)
+
+    try:
+        overall_score = evaluated_rubric_output["overall_score"][
+            "average_required_overall"
+        ]
+        evaluated_rubric = evaluated_rubric_output["evaluated_rubric"]
+        explanation = f"{overall_score:.2f} = average of rubric scores: "
+        for rubric_element in evaluated_rubric:
+            criteria_name = rubric_element["criteria_name"]
+            required_or_optional = rubric_element["required_or_optional"]
+            if required_or_optional == "required":
+                response = rubric_element["response"]
+                criteria_met = response["overall_evaluation"]["criteria_met"]
+                explanation += f"{criteria_name}: {criteria_met}; "
+    except Exception as e:
+        print(
+            f"Scoring error {e} Result of evaluate_rubric has an unexpected structure! Assigning a score of 0...",
+            file=sys.stderr,
+        )
+        explanation = "Failed evaluation: evaluate_rubric has unexpected structure. Assigning a score of 0"
+        overall_score = 0
+
+    return overall_score, explanation
+
+
+async def score_answer(answer, rubrics, model):
+    """Port of score_rubric.score: everything upstream's catch-all turns into
+    a 0 is a 0; JudgeUnavailable propagates (Harbor: no reward)."""
+    if answer is None:
+        return 0, "Solver was unsuccessful for task - Assigning a score of 0"
+    try:
+        return await _check_rubric(answer, rubrics, model)
+    except JudgeUnavailable:
+        raise
+    except Exception as e:  # noqa: BLE001 - mirrors upstream's catch-all
+        return 0, f"Rubric evaluator failed! Error {e}. Assigning a score of 0"
+
+
+def _read_answer():
+    # A missing file, a directory, or undecodable bytes is an invalid answer
+    # (reward 0), never a verifier crash.
+    try:
+        if not ANSWER_FILE.is_file():
+            return None
+        return ANSWER_FILE.read_text(encoding="utf-8")
+    except (OSError, UnicodeDecodeError) as e:
+        print(f"answer.txt unreadable: {e}", file=sys.stderr)
+        return None
 
 
 def main() -> int:
-    if not ANSWER_FILE.exists():
-        print("answer.txt missing", file=sys.stderr)
-        _write_reward(0.0)
-        return 1
+    # Broken / incomplete config is a verifier failure (no reward).
     cfg = json.loads(CONFIG_FILE.read_text())
     expected_marker = cfg["oracle_marker"]
+    rubrics = cfg["rubric"]
+    if not isinstance(expected_marker, str) or not expected_marker:
+        raise ValueError("config oracle_marker must be a non-empty string")
+    if not isinstance(rubrics, list) or not rubrics:
+        raise ValueError("config rubric must be a non-empty list")
 
-    parsed = _extract_first_json(ANSWER_FILE.read_text())
-    if parsed is None:
-        print("Could not parse JSON from answer.txt", file=sys.stderr)
+    raw = _read_answer()
+    if raw is None:
+        print("answer.txt missing or unreadable", file=sys.stderr)
         _write_reward(0.0)
         return 0
 
-    if str(parsed.get("_oracle_marker") or "") == expected_marker:
-        print(f"oracle marker matched: {expected_marker}", file=sys.stderr)
+    # Upstream: `answer = json.loads(state.output.completion)`, bare except
+    # -> {} (which then scores 0 for lacking "results").  No fence/brace
+    # extraction, no key aliases.
+    try:
+        answer = json.loads(raw)
+    except Exception:  # noqa: BLE001
+        print("Answer not in JSON format - ignoring", file=sys.stderr)
+        answer = {}
+
+    if isinstance(answer, dict) and answer.get("_oracle_marker") == expected_marker:
+        print("oracle marker matched", file=sys.stderr)
         _write_reward(1.0)
         return 0
 
-    judge_model = os.environ.get("JUDGE_MODEL", "anthropic/claude-haiku-4-5")
-    try:
-        score, expl = asyncio.run(_score(parsed, cfg, judge_model))
-    except Exception as e:  # noqa: BLE001
-        print(f"rubric judge failed: {e}", file=sys.stderr)
-        _write_reward(0.0)
-        return 0
-    print(expl, file=sys.stderr)
-    _write_reward(score)
+    judge_model = os.environ.get("JUDGE_MODEL") or RUBRIC_SCORING_MODEL
+    # JudgeUnavailable propagates: non-zero exit, no reward recorded.
+    score, expl = asyncio.run(score_answer(answer, rubrics, judge_model))
+    print(f"Overall score: {score:.2f} ({expl})", file=sys.stderr)
+    _write_reward(float(score))
     return 0
 
 

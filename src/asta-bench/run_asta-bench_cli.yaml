@@ -22,7 +22,6 @@
 # Required env vars:
 #   ANTHROPIC_API_KEY     solver (claude-code) AND judges
 #   ANTHROPIC_BASE_URL    optional; defaults to https://api.anthropic.com
-#   HF_TOKEN              gated allenai/asta-bench + allenai/super HF datasets
 #   ASTA_TOOL_KEY         Asta MCP literature search for paper-finder/sqa/litqa2-fulltext-search
 #   ASTA_MCP_UPSTREAM     optional; defaults to https://asta-tools.allen.ai/mcp/v1
 
@@ -40,8 +39,10 @@ environment:
   type: docker
   force_build: true
   delete: true
+  # HF_TOKEN is deliberately NOT forwarded: it is needed only to generate the
+  # dataset, and inside the task container it would let an agent download
+  # gated benchmark data.
   env:
-    HF_TOKEN: ${HF_TOKEN}
     ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY}
     ANTHROPIC_BASE_URL: ${ANTHROPIC_BASE_URL:-}
     ASTA_TOOL_KEY: ${ASTA_TOOL_KEY:-}

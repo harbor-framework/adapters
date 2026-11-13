@@ -1,10 +1,17 @@
 import json
 import os
 import re
+import secrets
+import subprocess
 import sys
-import traceback
+import tempfile
 
 LOG_DIR = "/logs/verifier"
+# Where the inspect-solver bridge (and any agent following instruction.md)
+# leaves the final completion.  Checked first.
+ANSWER_FILE = "/app/answer.txt"
+# inspect_evals.ds1000 runs the test program with `timeout=180`.
+EXEC_TIMEOUT_SEC = 180
 CODEX_LOG = "/logs/agent/codex.txt"
 CLAUDE_CODE_LOG = "/logs/agent/claude-code.txt"
 COMMAND_STDOUT = [
@@ -144,9 +151,9 @@ def read_first_available(paths) -> tuple[str | None, str | None]:
     """
     for path in paths:
         try:
-            text = open(path, "r", encoding="utf-8").read()
-            return text, path
-        except (FileNotFoundError, IOError):
+            with open(path, encoding="utf-8") as f:
+                return f.read(), path
+        except (OSError, UnicodeDecodeError):
             continue
     return None, None
 
@@ -158,6 +165,7 @@ def main() -> int:
 
     snippet_path, config_path = sys.argv[1], sys.argv[2]
     candidates = [
+        ANSWER_FILE,  # bridge / agent final completion (postprocessed)
         snippet_path,  # provided path
         *CODE_FILES,  # explicit code files (preferred)
         CODEX_LOG,  # codex logs
@@ -168,8 +176,10 @@ def main() -> int:
 
     raw, src = read_first_available(candidates)
     if raw is None:
+        # No answer at all is a scored outcome (0), not a verifier failure.
         print(f"Missing solution content; tried: {candidates}", file=sys.stderr)
-        return 2
+        _write_reward(0)
+        return 0
 
     # If coming from agent trajectory logs, extract message text first
     if src == CLAUDE_CODE_LOG:
@@ -202,54 +212,73 @@ def main() -> int:
 
     code_context = cfg.get("code_context", "")
 
-    # Build test program like official DS-1000 eval: insert snippet then call tests.
+    # Build the test program like inspect_evals.ds1000: insert the snippet,
+    # then call the tests.  Upstream runs it as a separate `python` process
+    # and passes iff the exit status is 0.  We do the same, and additionally
+    # require a completion sentinel printed *after* the tests return: DS-1000
+    # exec()s the snippet in-process, so a snippet calling os._exit(0) or
+    # sys.exit(0) would otherwise end the process "successfully" before any
+    # assertion ran.  (A snippet that walks interpreter frames to recover the
+    # sentinel could still forge it -- in-process exec is inherent to DS-1000
+    # -- but a bare early exit no longer scores.)
+    sentinel = "DS1000-TESTS-COMPLETED-" + secrets.token_hex(16)
     test_program = (
         code_context
         + "\n"
-        + f"code = {repr(snippet)}\n"
+        + f"code = {snippet!r}\n"
         + "test_execution(code)\n"
         + ("test_string(code)\n" if "test_string(" in code_context else "\n")
+        + "import sys as _ds1000_sys\n"
+        + "_ds1000_sys.stdout.flush()\n"
+        + f"print({sentinel!r}, flush=True)\n"
     )
 
     os.makedirs(LOG_DIR, exist_ok=True)
-    with open(os.path.join(LOG_DIR, "raw_snippet.txt"), "w", encoding="utf-8") as f:
-        f.write(raw)
-    with open(
-        os.path.join(LOG_DIR, "raw_snippet_filtered.txt"), "w", encoding="utf-8"
-    ) as f:
-        f.write(raw_filtered)
-    with open(os.path.join(LOG_DIR, "solution.py"), "w", encoding="utf-8") as f:
-        f.write(snippet)
-    with open(os.path.join(LOG_DIR, "test_program.py"), "w", encoding="utf-8") as f:
-        f.write(test_program)
+    _dump("raw_snippet.txt", raw)
+    _dump("raw_snippet_filtered.txt", raw_filtered)
+    _dump("solution.py", snippet)
 
-    env = {}
-    try:
-        exec(test_program, env)
+    with tempfile.TemporaryDirectory() as workdir:
+        prog = os.path.join(workdir, "test_program.py")
+        with open(prog, "w", encoding="utf-8") as f:
+            f.write(test_program)
+        try:
+            proc = subprocess.run(
+                [sys.executable, prog],
+                check=False,
+                cwd=workdir,
+                capture_output=True,
+                text=True,
+                errors="replace",
+                timeout=EXEC_TIMEOUT_SEC,
+            )
+            returncode, out, err = proc.returncode, proc.stdout, proc.stderr
+        except subprocess.TimeoutExpired as e:
+            returncode = -1
+            out = e.stdout if isinstance(e.stdout, str) else ""
+            err = f"timed out after {EXEC_TIMEOUT_SEC}s"
 
-        # Best-effort repr dumps if available
-        if "expected_result" in env:
-            with open(
-                os.path.join(LOG_DIR, "expected_repr.txt"), "w", encoding="utf-8"
-            ) as f:
-                f.write(repr(env["expected_result"]))
-        if "result" in env:
-            with open(
-                os.path.join(LOG_DIR, "result_repr.txt"), "w", encoding="utf-8"
-            ) as f:
-                f.write(repr(env["result"]))
+    _dump("test_stdout.txt", out)
+    _dump("test_stderr.txt", err)
 
-        with open(os.path.join(LOG_DIR, "reward.txt"), "w", encoding="utf-8") as f:
-            f.write("1\n")
-        print("PASS")
-        return 0
-    except Exception as e:
-        with open(os.path.join(LOG_DIR, "traceback.txt"), "w", encoding="utf-8") as f:
-            traceback.print_exc(file=f)
-        with open(os.path.join(LOG_DIR, "reward.txt"), "w", encoding="utf-8") as f:
-            f.write("0\n")
-        print(f"test_execution failed: {e}", file=sys.stderr)
-        return 1
+    completed = out.rstrip().endswith(sentinel)
+    passed = returncode == 0 and completed
+    if returncode == 0 and not completed:
+        print("exit status 0 without completing the tests", file=sys.stderr)
+    _write_reward(1 if passed else 0)
+    print("PASS" if passed else f"FAIL (exit {returncode})", file=sys.stderr)
+    return 0
+
+
+def _dump(name: str, text: str) -> None:
+    with open(os.path.join(LOG_DIR, name), "w", encoding="utf-8") as f:
+        f.write(text or "")
+
+
+def _write_reward(value: int) -> None:
+    os.makedirs(LOG_DIR, exist_ok=True)
+    with open(os.path.join(LOG_DIR, "reward.txt"), "w", encoding="utf-8") as f:
+        f.write(f"{value}\n")
 
 
 if __name__ == "__main__":
