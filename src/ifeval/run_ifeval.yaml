@@ -1,0 +1,52 @@
+# Reference job configuration for the IFEval adapter.
+#
+# Uses the Docker environment so the 541 IFEval task containers build and run
+# locally without cloud credentials.
+#
+# Each generated task includes a solution/solve.sh oracle that writes a synthesized
+# response for verifier validation. That oracle satisfies 536 of 541 tasks. The
+# remaining five tasks (keys 1627, 3369, 3371, 3718, and 374) are unsatisfiable under
+# strict upstream scoring. They stay in the 541-task denominator. The
+# `AgentGatewayAgent` reference agent runs host-side and makes one HTTP request from
+# the Harbor host through AgentGateway's Responses, Messages, or Chat Completions API.
+# It uploads /workspace/response.txt into the task environment for the deterministic
+# verifier to score. Standard Harbor CLI agents (such as claude-code, codex, and
+# copilot-cli) also work without prompt modification because verify.py falls back to
+# reading the final textual response from /logs/agent/trajectory.json.
+#
+# Prerequisites:
+#   1. Generate the tasks first:
+#        (cd src/ifeval && uv run ifeval --overwrite)
+#   2. Run an AgentGateway endpoint reachable from the Harbor host at
+#      the api_base below. Replace the placeholder model name and api_base
+#      with a model and endpoint that your environment exposes.
+#
+# Then, from the repository root:
+#   PYTHONPATH=src/ifeval/src uv run --project src/ifeval harbor run -c src/ifeval/run_ifeval.yaml
+
+jobs_dir: jobs
+n_attempts: 1
+timeout_multiplier: 1.0
+n_concurrent_trials: 2
+quiet: false
+
+environment:
+  type: docker
+  force_build: true
+  delete: true
+
+agents:
+  # Optional generated-oracle agent for verifier validation. It is inactive, so the
+  # reference run uses only the AgentGatewayAgent entry below.
+  # - name: oracle
+  - import_path: ifeval.agentgateway_agent:AgentGatewayAgent
+    # Replace YOUR_MODEL_NAME with a model that the AgentGateway instance
+    # at api_base exposes.
+    model_name: YOUR_MODEL_NAME
+    kwargs:
+      # Placeholder endpoint. Replace it with your AgentGateway API prefix.
+      api_base: http://localhost:8000/v1
+      reasoning_effort: medium
+
+datasets:
+  - path: datasets/ifeval
