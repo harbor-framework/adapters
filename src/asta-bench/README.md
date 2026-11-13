@@ -86,48 +86,48 @@ src/asta-bench/
 
 ## Run Evaluation / Harness
 
-All commands run from the repository root. `uv run --project src/asta-bench --with harbor==0.8.0` runs the Harbor CLI inside this adapter's environment so the bridge agent resolves by import path.
+All commands run from the repository root. `uv run --project src/asta-bench --with harbor==0.25.0` runs the Harbor CLI inside this adapter's environment so the bridge agent resolves by import path.
 
 ### Running with Datasets Registry
 
 ```bash
 # Oracle agent
-uv run --project src/asta-bench --with harbor==0.8.0 harbor run -d asta-bench
+uv run --project src/asta-bench --with harbor==0.25.0 harbor run -d asta-bench
 
 # Specific agent + model
-uv run --project src/asta-bench --with harbor==0.8.0 harbor run -d asta-bench -a <agent_name> -m "<model_name>"
+uv run --project src/asta-bench --with harbor==0.25.0 harbor run -d asta-bench -a <agent_name> -m "<model_name>"
 
 # Parity subset
-uv run --project src/asta-bench --with harbor==0.8.0 harbor run -d asta-bench@parity -a <agent_name> -m "<model_name>"
+uv run --project src/asta-bench --with harbor==0.25.0 harbor run -d asta-bench@parity -a <agent_name> -m "<model_name>"
 ```
 
 ### Using Job Configurations
 
 ```bash
 # Oracle
-uv run --project src/asta-bench --with harbor==0.8.0 harbor run -c src/asta-bench/run_asta-bench.yaml
+uv run --project src/asta-bench --with harbor==0.25.0 harbor run -c src/asta-bench/run_asta-bench.yaml
 
 # Inspect-AI bridge agent (the parity path)
-uv run --project src/asta-bench --with harbor==0.8.0 harbor run -c src/asta-bench/run_asta-bench_inspect-ai.yaml
+uv run --project src/asta-bench --with harbor==0.25.0 harbor run -c src/asta-bench/run_asta-bench_inspect-ai.yaml
 
 # Standard CLI agent (claude-code) on the CLI packaging
-uv run --project src/asta-bench --with harbor==0.8.0 harbor run -c src/asta-bench/run_asta-bench_cli.yaml
+uv run --project src/asta-bench --with harbor==0.25.0 harbor run -c src/asta-bench/run_asta-bench_cli.yaml
 
 # Resume a job
-uv run --project src/asta-bench --with harbor==0.8.0 harbor job resume -p /path/to/jobs/directory
+uv run --project src/asta-bench --with harbor==0.25.0 harbor job resume -p /path/to/jobs/directory
 ```
 
 ### Running Individual Trials
 
 ```bash
 # Oracle
-uv run --project src/asta-bench --with harbor==0.8.0 harbor run -p datasets/asta-bench/asta-bench-inspect-ai/<task_id>
+uv run --project src/asta-bench --with harbor==0.25.0 harbor run -p datasets/asta-bench/asta-bench-inspect-ai/<task_id>
 
 # Standard agent on the CLI packaging
-uv run --project src/asta-bench --with harbor==0.8.0 harbor run -p datasets/asta-bench/asta-bench-cli/<task_id> -a <agent> -m "<model>"
+uv run --project src/asta-bench --with harbor==0.25.0 harbor run -p datasets/asta-bench/asta-bench-cli/<task_id> -a <agent> -m "<model>"
 
 # Bridge agent
-uv run --project src/asta-bench --with harbor==0.8.0 harbor run -p datasets/asta-bench/asta-bench-inspect-ai/<task_id> \
+uv run --project src/asta-bench --with harbor==0.25.0 harbor run -p datasets/asta-bench/asta-bench-inspect-ai/<task_id> \
   --agent-import-path asta_bench.inspect_solver:InspectSolver \
   -m anthropic/claude-haiku-4-5-20251001
 ```
@@ -186,7 +186,7 @@ Generation needs `HF_TOKEN` with access to the gated `allenai/asta-bench` and `a
 cd src/asta-bench && uv run asta-bench --split parity \
   --output-dir ../../datasets/asta-bench/asta-bench-inspect-ai-parity && cd ../..
 export ANTHROPIC_API_KEY=... HF_TOKEN=... ASTA_TOOL_KEY=...
-uv run --project src/asta-bench --with harbor==0.8.0 harbor run \
+uv run --project src/asta-bench --with harbor==0.25.0 harbor run \
   -p datasets/asta-bench/asta-bench-inspect-ai-parity \
   --agent-import-path asta_bench.inspect_solver:InspectSolver \
   -m anthropic/claude-haiku-4-5-20251001
@@ -240,7 +240,7 @@ uv sync
 
 - Docker installed and running.
 - Python 3.12+ for the adapter. An upstream checkout for the original side needs **Python 3.11**.
-- Run Harbor as `uv run --project src/asta-bench --with harbor==0.8.0 harbor ...` so that `asta_bench.inspect_solver:InspectSolver` is importable. The `oracle` and standard agents need nothing extra.
+- Run Harbor as `uv run --project src/asta-bench --with harbor==0.25.0 harbor ...` so that `asta_bench.inspect_solver:InspectSolver` is importable. The `oracle` and standard agents need nothing extra.
 - Environment variables:
   - `ANTHROPIC_API_KEY` (and optionally `ANTHROPIC_BASE_URL`) — solver and judges.
   - `ASTA_TOOL_KEY` — Asta literature tools; required for `paper-finder`, `sqa`, `litqa2-fulltext` and `litqa2-fulltext-search`.
@@ -250,7 +250,7 @@ uv sync
 
 ## Troubleshooting
 
-- **`ModuleNotFoundError: No module named 'asta_bench'`** — run Harbor with `uv run --project src/asta-bench --with harbor==0.8.0 harbor ...` from the repository root and reference the agent with `--agent-import-path asta_bench.inspect_solver:InspectSolver` (not `-a inspect-solver`).
+- **`ModuleNotFoundError: No module named 'asta_bench'`** — run Harbor with `uv run --project src/asta-bench --with harbor==0.25.0 harbor ...` from the repository root and reference the agent with `--agent-import-path asta_bench.inspect_solver:InspectSolver` (not `-a inspect-solver`).
 - **Bridge run exits with "first model call was offered only ['submit']"** — the solver did not receive the task's tools. Use `astabench/react`, not bare `react`.
 - **A trial shows a verifier error instead of a reward** — the judge call failed or the scorer raised. This is deliberate: an outage is not a score. Re-run the trial.
 - **`LocalEntryNotFoundError` / 404 from Hugging Face** — the token lacks access to the gated dataset; request access to `allenai/asta-bench` and `allenai/super`.
