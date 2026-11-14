@@ -1,4 +1,4 @@
-"""Display actual selected oracle evidence and its source jobs."""
+"""Display original campaign outcomes and distinguish selected historical evidence."""
 
 import hashlib
 import json
@@ -24,7 +24,16 @@ if len(scores) != 240 or any(row["final_score"] != 100 for row in scores):
 
 report = json.loads(Path(__file__).with_name("validation.json").read_text())
 trials = report["trials"]
-print("ASI-Bench: selected oracle validation evidence")
+campaign = json.loads((root.parent / "review-evidence/oracle-original-campaign.json").read_text())
+print("Current upstream-restored contracts: no new full campaign; historical results follow.")
+print("Original historical oracle campaign: 240 cells")
+print(f"Full rewards: {campaign['full_reward_count']}/240")
+for trial in campaign['non_full_trials']:
+    print(f"  {trial['task_name']}: reward={trial['reward']}, exception={trial['exception_type']}")
+print("CMOS reevaluation changed the judge configuration; it is not same-config recovery.")
+print("DNA repeats are nondeterministic observations, not permitted score-based recovery.")
+print()
+print("Historical selected evidence (not the original campaign):")
 print("=" * 70)
 print("Scientific problems: 60    Prompt levels: B1-B4")
 print(f"Selected cells: {len(trials)}/240")

@@ -8,9 +8,10 @@ import zipfile
 from pathlib import Path
 
 import pytest
-from asibench_adapter.executor import configure_executor
 
-PACKAGE = Path(__file__).parents[1] / "src/asibench_adapter"
+from asibench.executor import configure_executor
+
+PACKAGE = Path(__file__).parents[1] / "src/asibench"
 
 
 @pytest.fixture
@@ -193,3 +194,12 @@ quit
     assert report.get("infrastructure_error") is None
     assert report["exit_code"] == 0, report
     assert "result.dat" in report["artifacts"], report
+
+
+def test_executor_rejects_unknown_upstream_layout(executor):
+    source = executor / "server.py"
+    source.write_text(
+        source.read_text().replace("str(run_root / input_name)", "input_name")
+    )
+    with pytest.raises(ValueError, match="transport contract changed"):
+        configure_executor(executor)

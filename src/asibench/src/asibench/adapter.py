@@ -6,6 +6,7 @@ import re
 import shutil
 import tarfile
 import tempfile
+import tomllib
 from pathlib import Path
 
 import yaml
@@ -30,6 +31,7 @@ def sha256(path):
 class ASIBenchAdapter:
     def __init__(self, args):
         self.args = args
+        self.output_dir = args.output_dir
 
     def run(self):
         package_dir = Path(__file__).parent
@@ -169,6 +171,20 @@ class ASIBenchAdapter:
                         'ASIBENCH_HARBOR_EXECUTOR_TOKEN = "${ASIBENCH_HARBOR_EXECUTOR_TOKEN}"',
                         text,
                     )
+                    task_config = tomllib.loads(text)
+                    if task_config["verifier"]["timeout_sec"] != 7200:
+                        raise ValueError(
+                            "Verifier timeout update did not match the pinned exporter"
+                        )
+                    if task_config["task"]["version"] != "0.2.0":
+                        raise ValueError(
+                            "Task version update did not match the pinned exporter"
+                        )
+                    text = text.replace(
+                        "[task]\n",
+                        '[task]\nauthors = [{ name = "Junwei Zhou et al. (ASI-Bench authors)" }]\n',
+                        1,
+                    )
                     config.write_text(text)
                     compose = dest / "tests/docker-compose.yaml"
                     if compose.exists():
@@ -196,7 +212,7 @@ class ASIBenchAdapter:
                             "exec asibench harbor-verify",
                             'ASIBENCH_SUBMISSION_DIR="$(mktemp -d /tmp/asibench-submission-XXXXXX)"\n'
                             'python /tests/stage_submission.py /workspace "$ASIBENCH_SUBMISSION_DIR"\n'
-                            "exec asibench harbor-verify",
+                            "exec python -m ai4sci_bench.cli harbor-verify",
                         )
                         .replace(
                             "--outputs-dir /workspace",
@@ -205,18 +221,17 @@ class ASIBenchAdapter:
                     )
                     if compose.exists():
                         configure_task(dest)
+                    verifier_script = (dest / "tests/test.sh").read_text()
+                    if (
+                        "exec asibench " in verifier_script
+                        or "--outputs-dir /workspace" in verifier_script
+                    ):
+                        raise ValueError(
+                            "Verifier dispatch/staging update did not match the pinned exporter"
+                        )
                     (dest / "instruction.md").write_bytes(
                         (task / f"instruction_{level}.md").read_bytes()
                     )
-                    if "openai/gpt-6.1-sol" in (task / "task_eval.yaml").read_text():
-                        config = dest / "task.toml"
-                        text = config.read_text()
-                        if "ASIBENCH_JUDGE_API_BASE =" not in text:
-                            text = text.replace(
-                                "[verifier.env]\n",
-                                '[verifier.env]\nASIBENCH_JUDGE_API_BASE = "${ASIBENCH_JUDGE_API_BASE}"\nASIBENCH_JUDGE_API_PROTOCOL = "openai"\n',
-                            )
-                        config.write_text(text)
                     solution = dest / "solution"
                     entry = oracle_entries[tid]
                     origin = oracle_dir / tid

@@ -2,7 +2,7 @@ from pathlib import Path
 
 import pytest
 
-from asibench_adapter.main import parse_args
+from asibench.main import parse_args
 
 
 def test_full_export_uses_all_levels_and_bundled_assets():
@@ -29,3 +29,10 @@ def test_full_subset_keeps_explicit_level_selection():
     args = parse_args(["--levels", "b2,b4", "--task-ids", "math.tsp_exact"])
     assert args.levels == "b2,b4"
     assert args.task_ids == ["math.tsp_exact"]
+
+
+def test_adapter_exposes_output_directory():
+    from asibench.adapter import ASIBenchAdapter
+
+    args = parse_args(["--output-dir", "/tmp/example-output"])
+    assert ASIBenchAdapter(args).output_dir == args.output_dir

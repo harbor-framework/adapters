@@ -86,6 +86,15 @@ def configure_executor(executor: Path) -> None:
             '"stdout_tail": _tail(stdout, limit=MAX_FILE if kind == "ngspice" else TAIL_BYTES),',
         )
         server.write_text(text)
+    required_fragments = (
+        'cwd=solver_path.parent if kind == "solver" else run_root',
+        "run_root.chmod(0o1777)",
+        "str(run_root / input_name)",
+        "str(run_root / output_name)",
+        'capture_limit=MAX_FILE if kind == "ngspice" else TAIL_BYTES',
+    )
+    if any(fragment not in text for fragment in required_fragments):
+        raise ValueError("Frozen executor transport contract changed")
     shutil.copy2(helper, executor / "artifact_reader.py")
     shutil.copy2(
         helper.with_name("executor_control.py"), executor / "executor_control.py"
@@ -120,7 +129,7 @@ def configure_task(task: Path) -> None:
     script = task / "tests/test.sh"
     script.write_text(
         script.read_text().replace(
-            "exec asibench harbor-verify",
+            "exec python -m ai4sci_bench.cli harbor-verify",
             "exec python /tests/run_verifier.py harbor-verify",
         )
     )

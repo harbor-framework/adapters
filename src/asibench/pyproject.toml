@@ -13,10 +13,10 @@ dependencies = [
 ]
 
 [project.scripts]
-asibench-adapter = "asibench_adapter.main:main"
+asibench = "asibench.main:main"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/asibench_adapter"]
+packages = ["src/asibench"]
 
 [tool.hatch.metadata]
 allow-direct-references = true
@@ -25,10 +25,10 @@ allow-direct-references = true
 dev = ["pytest>=8", "ruff>=0.11", "ty>=0.0.1"]
 
 [tool.ruff]
-extend-exclude = ["src/asibench_adapter/tasks", "src/asibench_adapter/task-template", "src/asibench_adapter/assets"]
+extend-exclude = ["src/asibench/tasks", "src/asibench/task-template", "src/asibench/assets"]
 
 [tool.ty.src]
-include = ["src/asibench_adapter/main.py", "src/asibench_adapter/adapter.py", "src/asibench_adapter/executor.py"]
+include = ["src/asibench/main.py", "src/asibench/adapter.py", "src/asibench/executor.py"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

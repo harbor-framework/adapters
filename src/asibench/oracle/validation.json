@@ -3613,5 +3613,7 @@
       "identical_scientific_inputs": true
     }
   ],
-  "all_trials_full_reward": false
+  "all_trials_full_reward": false,
+  "evidence_status": "Historical evaluation variant; current upstream-restored contracts have not been scored in a new campaign.",
+  "acceptance_use": "Original campaign outcomes are reported separately; score-selected DNA evidence is not formal acceptance proof."
 }

@@ -15,6 +15,10 @@ Harbor reward is the scientific score divided by 100. This experiment supports c
 
 The independent agents produced different programs and outputs. Their small average score gap is compatible with agent variability, but this single-run comparison cannot identify randomness as the only cause or measure its variance. Normal harness prompt and user differences remain. The experiment covers 5/60 scientific problems and 5/240 exported task/level cells, all without LLM judges; other tasks, levels and judge nondeterminism are not validated by this sample. Broader coverage or repeats can be requested during review. We submit this measured comparison for maintainer assessment; upstream acceptance is not presumed.
 
+## Review status
+
+This historical pilot predates the restoration of exact upstream/HF definitions and subsequent executor fixes. It remains raw observed evidence, not current-configuration acceptance proof. We request acceptance of the five-task single-run scope as an exception; the maximum proposed fallback is 60 B1 tasks, one run per side. No new run, SEM estimate or official acceptance is implied.
+
 ## Configuration and provenance
 
 - Codex CLI **0.166.0**, model **gpt-6.1-sol**, reasoning effort **low**, seed **31415**, B1 fixed before scoring.
@@ -31,7 +35,7 @@ The independent agents produced different programs and outputs. Their small aver
 Run the offline integrity check from the repository root:
 
 ```bash
-python adapters/asibench/parity/verify.py
+python src/asibench/parity/verify.py
 ```
 
 - [results.json](results.json): measured scores, times, completion states, hard-gate outcomes and original/regrade identities.
@@ -46,7 +50,7 @@ The lossless evidence archive preserves all original file bytes and permissions.
 
 ```bash
 mkdir -p /tmp/asibench-parity-evidence
-tar -xzf adapters/asibench/parity/evidence.tar.gz -C /tmp/asibench-parity-evidence
+tar -xzf src/asibench/parity/evidence.tar.gz -C /tmp/asibench-parity-evidence
 ```
 
 Before the effective run, five native prompt-loading preflight failures were corrected by restoring the byte-identical frozen prompt. Five native transport failures and five Harbor capability failures executed zero shell tool commands. They therefore contain no discarded scientific solutions. In the effective run, astronomy's first Harbor verifier failed with a task-ID mismatch and no reward. Its preserved agent artifact was regraded once with the same scientific task/scorer; the artifact bytes were verified unchanged. The root cause of that verifier mismatch remains unresolved. We do not claim this establishes absence of all framework defects.
@@ -58,7 +62,7 @@ The scripts in [reproduction/](reproduction/) preserve the executed launch confi
 Install Python 3.12, Docker/Compose and the adapter's locked environment, then add Harbor 0.25.0 to a dedicated experiment environment with the bundled ASI-Bench wheel installed with its `[full]` extra and PyYAML. The scientific dependencies are required for native scoring as well as task execution. The scripts use the executables alongside their Python interpreter. Set:
 
 ```bash
-export ASIBENCH_ADAPTER="$PWD/adapters/asibench"
+export ASIBENCH_ADAPTER="$PWD/src/asibench"
 export ASIBENCH_PARITY_WORK="/absolute/path/to/a/new/experiment"
 export ASIBENCH_NATIVE_SOURCE="/absolute/path/to/ASI-Bench-eb609521"
 export ASIBENCH_HF_SNAPSHOT="/absolute/path/to/the/pinned/HF/snapshot"
@@ -68,7 +72,7 @@ export ASIBENCH_HF_SNAPSHOT="/absolute/path/to/the/pinned/HF/snapshot"
 `ASIBENCH_NATIVE_SOURCE` must contain the source at the exact framework revision above; the HF snapshot must contain `tasks/<task-id>__seed31415/prompt_b1.md`, `data/` and `reference/`. Use a new writable experiment directory, outside the source checkout. Select these five task IDs before launching:
 
 ```bash
-python -m asibench_adapter.main --split parity --parity-level b1 \
+python -m asibench.main --split parity --parity-level b1 \
   --task-ids astronomy.nbody_close_encounters,biology.gillespie_ssssa_michaelis_menten,chemistry.reaction_path_bifurcation_vri,math.symplectic_integrators,robotics.particle_filter \
   --instances-dir "$ASIBENCH_HF_SNAPSHOT/tasks" \
   --output-dir "$ASIBENCH_PARITY_WORK/exported"

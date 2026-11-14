@@ -63,13 +63,13 @@ for row in read(W / "selection.json")["tasks"]:
 wheel_root = W / "scoring-wheel"
 with zipfile.ZipFile(
     Path(os.environ["ASIBENCH_ADAPTER"])
-    / "src/asibench_adapter/assets/runtime/asibench-0.3.0-py3-none-any.whl"
+    / "src/asibench/assets/runtime/asibench-0.3.0-py3-none-any.whl"
 ) as archive:
     archive.extractall(wheel_root)
 env = os.environ.copy()
 env.update(PYTHON_DOTENV_DISABLED="1", PYTHONPATH=str(wheel_root))
 cmd = [
-    str(B / "asibench"),
+    str(B / "python"), "-m", "ai4sci_bench.cli",
     "score",
     "--repo",
     "seed31415",

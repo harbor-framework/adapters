@@ -25,14 +25,14 @@ for row in rows:
 wheel_root = RUN / "scoring-wheel"
 with zipfile.ZipFile(
     Path(os.environ["ASIBENCH_ADAPTER"])
-    / "src/asibench_adapter/assets/runtime/asibench-0.3.0-py3-none-any.whl"
+    / "src/asibench/assets/runtime/asibench-0.3.0-py3-none-any.whl"
 ) as archive:
     archive.extractall(wheel_root)
 env = os.environ.copy()
 env["PYTHON_DOTENV_DISABLED"] = "1"
 env["PYTHONPATH"] = str(wheel_root)
 cmd = [
-    str(BIN / "asibench"),
+    str(BIN / "python"), "-m", "ai4sci_bench.cli",
     "score",
     "--repo",
     "seed31415",
