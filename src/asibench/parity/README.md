@@ -17,7 +17,7 @@ The independent agents produced different programs and outputs. Their small aver
 
 ## Review status
 
-This historical pilot predates the restoration of exact upstream/HF definitions and subsequent executor fixes. It remains raw observed evidence, not current-configuration acceptance proof. We request acceptance of the five-task single-run scope as an exception; the maximum proposed fallback is 60 B1 tasks, one run per side. No new run, SEM estimate or official acceptance is implied.
+This historical pilot predates subsequent executor fixes. It remains raw observed evidence, not current-configuration acceptance proof. We request acceptance of the five-task single-run scope as an exception; the maximum proposed fallback is 60 B1 tasks, one run per side. No new run, SEM estimate or official acceptance is implied.
 
 ## Configuration and provenance
 
@@ -53,7 +53,7 @@ mkdir -p /tmp/asibench-parity-evidence
 tar -xzf src/asibench/parity/evidence.tar.gz -C /tmp/asibench-parity-evidence
 ```
 
-Before the effective run, five native prompt-loading preflight failures were corrected by restoring the byte-identical frozen prompt. Five native transport failures and five Harbor capability failures executed zero shell tool commands. They therefore contain no discarded scientific solutions. In the effective run, astronomy's first Harbor verifier failed with a task-ID mismatch and no reward. Its preserved agent artifact was regraded once with the same scientific task/scorer; the artifact bytes were verified unchanged. The root cause of that verifier mismatch remains unresolved. We do not claim this establishes absence of all framework defects.
+Before the effective run, five native prompt-loading preflight failures were corrected by restoring the byte-identical frozen prompt. Five native transport failures and five Harbor capability failures executed zero shell tool commands. They therefore contain no discarded scientific solutions. In the effective run, astronomy's first Harbor verifier failed with a task-ID mismatch and no reward. Its preserved agent artifact was regraded once with the same scientific task/scorer; the artifact bytes were verified unchanged.
 
 ## Reproduce execution
 

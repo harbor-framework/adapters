@@ -14,11 +14,11 @@
   "cell_count": 240,
   "published": false,
   "dataset_manifest_sha256": null,
-  "task_definition_manifest_sha256": "79d2415ff4748f322f97fafeb7dba95fa594e3b4277597e57f549e84d374b1e4",
+  "task_definition_manifest_sha256": "d935ef7de3f0fdcf96f31424a7f735104a963b9f6f46de0556adf9fce1a402ef",
   "oracle_manifest_sha256": "c7a2bdb75fe630a6fc50d540f65e51c92f3cdee8c3652257aae8ec53d7599a58",
   "validation_sha256": "2fa361edcf93ab600b82a85c6d662ae53be342cf63c3d35546f93954bc424289",
-  "default_judge_model": "upstream task-specific model IDs",
-  "task_specific_models_preserved": true,
+  "default_judge_model": "openai/gpt-6.1-sol",
+  "task_specific_models_preserved": false,
   "full_oracle_campaign_completed": true,
   "all_240_strict_full_reward": false,
   "current_configuration_single_campaign_completed": false,
@@ -27,7 +27,5 @@
   "selected_evidence_all_240_full_reward": true,
   "formal_parity_accepted": false,
   "historical_evidence_default_judge_model": "openai/gpt-6.1-sol",
-  "current_task_definitions_match_pinned_sources": true,
-  "historical_evidence_precedes_upstream_restoration": true,
-  "dataset_manifest_note": "Regenerate from current package; old manifest belonged to historical evaluation variant."
+  "current_task_definitions_match_pinned_sources": false
 }

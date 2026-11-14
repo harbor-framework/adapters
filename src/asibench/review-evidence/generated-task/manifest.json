@@ -36,7 +36,7 @@
   },
   {
     "path": "astronomy-nbody-close-encounters-b1/instruction.md",
-    "sha256": "d5d23a7f1c64a9cac1000a702a115b851e1ddafdd5f88e9476f8fc10690998d2",
+    "sha256": "9fda59243d41e73058d8d1068fc794fd5dc18837ebe19dc9de1a0b47a9ac2642",
     "mode": "0o664"
   },
   {
@@ -126,7 +126,7 @@
   },
   {
     "path": "astronomy-nbody-close-encounters-b1/tests/task_bundle/task_eval.yaml",
-    "sha256": "b349048d3d353603972056aff444659720c4a7538aa8ef5abe4286a217fdd746",
+    "sha256": "4a39e2d5ce52f476de689b733568f507cfa665b9f25210176e0e6f834ba49451",
     "mode": "0o644"
   },
   {
