@@ -1,0 +1,147 @@
+[
+  {
+    "path": "astronomy-nbody-close-encounters-b1/environment/Dockerfile",
+    "sha256": "8f07c249af13bf41ac9a92fd6976ff2b39cea5791f58b811a44b5a26cfcf7c91",
+    "mode": "0o664"
+  },
+  {
+    "path": "astronomy-nbody-close-encounters-b1/environment/workspace/data/input_0.json",
+    "sha256": "8838aaefb9ad595ec76713f83af4b2fc144fc7c699ddc2e16138888ff64ca459",
+    "mode": "0o644"
+  },
+  {
+    "path": "astronomy-nbody-close-encounters-b1/environment/workspace/data/input_1.npy",
+    "sha256": "e081751d2d6369580a0bfbe1b649df8b1c129627120205bf073c6d04c64b9320",
+    "mode": "0o644"
+  },
+  {
+    "path": "astronomy-nbody-close-encounters-b1/environment/workspace/data/input_2.npy",
+    "sha256": "a395b09ff496096dfcf9483ee1c69f525bd93f506cd1e25739b8496a83aa6ada",
+    "mode": "0o644"
+  },
+  {
+    "path": "astronomy-nbody-close-encounters-b1/environment/workspace/data/input_3.npy",
+    "sha256": "9fffd8c73d80e15c0ce0443491a10a4cc0ade47c9c88a9aae926a77d45cd5b82",
+    "mode": "0o644"
+  },
+  {
+    "path": "astronomy-nbody-close-encounters-b1/environment/workspace/data/input_4.npy",
+    "sha256": "6aeca4502a62e37083c189401afc344fd5e1045c47e0bb208a4605058cfe2809",
+    "mode": "0o644"
+  },
+  {
+    "path": "astronomy-nbody-close-encounters-b1/environment/workspace/data/input_5.npy",
+    "sha256": "1abc5393b2eda8b4d2bb7a8a673b3f14bcfc73316c2bed028f17589cb4e1c5ce",
+    "mode": "0o644"
+  },
+  {
+    "path": "astronomy-nbody-close-encounters-b1/instruction.md",
+    "sha256": "9fda59243d41e73058d8d1068fc794fd5dc18837ebe19dc9de1a0b47a9ac2642",
+    "mode": "0o664"
+  },
+  {
+    "path": "astronomy-nbody-close-encounters-b1/solution/reference/prediction_quantiles.npy",
+    "sha256": "3855f3661055ebbf468c65e25825062f33e9e66711f08f742412c8cabcae4d3c",
+    "mode": "0o644"
+  },
+  {
+    "path": "astronomy-nbody-close-encounters-b1/solution/reference/risk_summary.csv",
+    "sha256": "d0b252abfc44709a66c20b5b183173602130a6b77e96ebd080442bb6da85a009",
+    "mode": "0o644"
+  },
+  {
+    "path": "astronomy-nbody-close-encounters-b1/solution/solve.sh",
+    "sha256": "a91d686f15563133b71ba6a635eac94e39ce9f6f0d950efa4c732542d2e34e36",
+    "mode": "0o755"
+  },
+  {
+    "path": "astronomy-nbody-close-encounters-b1/task.toml",
+    "sha256": "744dd03b9638e2cc860e84bc93c1ea0068545368e7eeea01718fc33c8d11a419",
+    "mode": "0o664"
+  },
+  {
+    "path": "astronomy-nbody-close-encounters-b1/tests/Dockerfile",
+    "sha256": "e01eecbc9b0aa0b0638cf4675cc4232653abfbda47c7c9a1d56494df7dc880f1",
+    "mode": "0o664"
+  },
+  {
+    "path": "astronomy-nbody-close-encounters-b1/tests/instance/astronomy.nbody_close_encounters__seed31415/data/input_0.json",
+    "sha256": "8838aaefb9ad595ec76713f83af4b2fc144fc7c699ddc2e16138888ff64ca459",
+    "mode": "0o644"
+  },
+  {
+    "path": "astronomy-nbody-close-encounters-b1/tests/instance/astronomy.nbody_close_encounters__seed31415/data/input_1.npy",
+    "sha256": "e081751d2d6369580a0bfbe1b649df8b1c129627120205bf073c6d04c64b9320",
+    "mode": "0o644"
+  },
+  {
+    "path": "astronomy-nbody-close-encounters-b1/tests/instance/astronomy.nbody_close_encounters__seed31415/data/input_2.npy",
+    "sha256": "a395b09ff496096dfcf9483ee1c69f525bd93f506cd1e25739b8496a83aa6ada",
+    "mode": "0o644"
+  },
+  {
+    "path": "astronomy-nbody-close-encounters-b1/tests/instance/astronomy.nbody_close_encounters__seed31415/data/input_3.npy",
+    "sha256": "9fffd8c73d80e15c0ce0443491a10a4cc0ade47c9c88a9aae926a77d45cd5b82",
+    "mode": "0o644"
+  },
+  {
+    "path": "astronomy-nbody-close-encounters-b1/tests/instance/astronomy.nbody_close_encounters__seed31415/data/input_4.npy",
+    "sha256": "6aeca4502a62e37083c189401afc344fd5e1045c47e0bb208a4605058cfe2809",
+    "mode": "0o644"
+  },
+  {
+    "path": "astronomy-nbody-close-encounters-b1/tests/instance/astronomy.nbody_close_encounters__seed31415/data/input_5.npy",
+    "sha256": "1abc5393b2eda8b4d2bb7a8a673b3f14bcfc73316c2bed028f17589cb4e1c5ce",
+    "mode": "0o644"
+  },
+  {
+    "path": "astronomy-nbody-close-encounters-b1/tests/instance/astronomy.nbody_close_encounters__seed31415/instance_meta.json",
+    "sha256": "1fae9ae57c046b02947fea399ebf7d40eb35f0f27b2dab594e4b0f8ce3614634",
+    "mode": "0o644"
+  },
+  {
+    "path": "astronomy-nbody-close-encounters-b1/tests/instance/astronomy.nbody_close_encounters__seed31415/reference/prediction_quantiles.npy",
+    "sha256": "3855f3661055ebbf468c65e25825062f33e9e66711f08f742412c8cabcae4d3c",
+    "mode": "0o644"
+  },
+  {
+    "path": "astronomy-nbody-close-encounters-b1/tests/instance/astronomy.nbody_close_encounters__seed31415/reference/reference_metrics.json",
+    "sha256": "59cf5f78c6bee17898b810accda757c4979de85f89cf8e32d0144d0526b55d92",
+    "mode": "0o644"
+  },
+  {
+    "path": "astronomy-nbody-close-encounters-b1/tests/instance/astronomy.nbody_close_encounters__seed31415/reference/risk_summary.csv",
+    "sha256": "d0b252abfc44709a66c20b5b183173602130a6b77e96ebd080442bb6da85a009",
+    "mode": "0o644"
+  },
+  {
+    "path": "astronomy-nbody-close-encounters-b1/tests/stage_submission.py",
+    "sha256": "6d96124956808a2a457efd74973481c9c9785291aef4c1b971cee3b764894cda",
+    "mode": "0o664"
+  },
+  {
+    "path": "astronomy-nbody-close-encounters-b1/tests/task_bundle/custom_scorer.py",
+    "sha256": "21fe1175eba9e59051f88312cf889f72d35f22076d227a5d6d0d90bfd89f128b",
+    "mode": "0o644"
+  },
+  {
+    "path": "astronomy-nbody-close-encounters-b1/tests/task_bundle/task_eval.yaml",
+    "sha256": "4a39e2d5ce52f476de689b733568f507cfa665b9f25210176e0e6f834ba49451",
+    "mode": "0o644"
+  },
+  {
+    "path": "astronomy-nbody-close-encounters-b1/tests/task_bundle/task_meta.yaml",
+    "sha256": "a64f79f3338aee09727218bef8a928365c05d79bfc6eda74b85d311ec788d01c",
+    "mode": "0o644"
+  },
+  {
+    "path": "astronomy-nbody-close-encounters-b1/tests/test.sh",
+    "sha256": "147ca5158fcb1ad31c3b819c1856de66f211961c0212ea13b69b15f10420cfb3",
+    "mode": "0o755"
+  },
+  {
+    "path": "astronomy-nbody-close-encounters-b1/tests/wheels/asibench-0.3.0-py3-none-any.whl",
+    "sha256": "b873b4239e705209a7cc7c09410f426dddc0b2e87176e397ea6ab8afaa2ab47c",
+    "mode": "0o644"
+  }
+]
