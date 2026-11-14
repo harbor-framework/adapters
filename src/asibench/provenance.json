@@ -27,5 +27,6 @@
   "selected_evidence_all_240_full_reward": true,
   "formal_parity_accepted": false,
   "historical_evidence_default_judge_model": "openai/gpt-6.1-sol",
-  "current_task_definitions_match_pinned_sources": false
+  "current_task_definitions_match_pinned_sources": false,
+  "task_scoring_revision": "515e6d41b5717d2ba43d977f57a0698a5c959836"
 }
