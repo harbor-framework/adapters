@@ -29,7 +29,7 @@
         "parity_matching_agents": [],
         "parity_unmatching_agents": null,
         "parity_costs": null,
-        "notes": "All 60 rows are kept, including the duplicate (second copy suffixed -2), to match inspect_evals. reward.json carries reward (1 if judge points >= 7, the paper's criterion) and score (points / 10, the inspect_evals metric)."
+        "notes": "All 60 rows are kept, including the duplicate (second copy suffixed -2), to match inspect_evals. reward.json carries reward (1 if judge points >= 7, the paper's success criterion and the headline metric) and score (points / 10, the inspect_evals metric, reported as secondary)."
       }
     ]
   }

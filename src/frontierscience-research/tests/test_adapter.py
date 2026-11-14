@@ -100,6 +100,7 @@ def test_generated_task_layout_and_rubric_isolation(tmp_path, monkeypatch):
     instruction = (task_dir / "instruction.md").read_text()
     assert instruction.startswith("P1 {braces} $x$")
     assert "/workspace/answer.md" in instruction
+    assert "You must not use the internet" in instruction
 
     # The rubric may only appear under tests/.
     for path in task_dir.rglob("*"):

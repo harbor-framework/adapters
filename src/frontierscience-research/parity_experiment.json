@@ -7,7 +7,7 @@
     "adapted_benchmark_size": 60,
     "parity_benchmark_size": 60,
     "number_of_runs": null,
-    "notes": "Parity not run yet; agent, model, judge and number of runs are to be agreed with the Harbor team. Both sides must use the same judge model and settings.",
+    "notes": "Parity not run yet; agent, model, judge and number of runs are to be agreed with the Harbor team. Headline metric: success rate (points >= 7 of 10), as in the FrontierScience paper; mean score is secondary. Both sides must use the same judge model and settings.",
     "original_parity_repo": null,
     "adapter_pr": [
       "https://github.com/harbor-framework/adapters/pull/88"

@@ -9,7 +9,7 @@ This adapter turns the Research split of OpenAI's FrontierScience benchmark into
 - **Source:** Hugging Face [`openai/frontierscience`](https://huggingface.co/datasets/openai/frontierscience), file `research/test.jsonl`, Apache-2.0. The adapter pins revision `25ed67db7da8f4591484e764008ff585544f5a30` and checks the file's SHA-256.
 - **Original harness:** OpenAI released no evaluation code. The closest public implementation is [`inspect_evals/frontierscience`](https://github.com/UKGovernmentBEIS/inspect_evals/tree/main/src/inspect_evals/frontierscience) with `format=research`. It sends the problem to a model with no tools and grades the reply with the same judge prompt.
 - **Adapted size:** 60 tasks, one per row of the file: 20 physics, 20 chemistry and 20 biology. Rows 6 and 11 are an exact duplicate, so there are 59 distinct problems. Both rows are kept, as in inspect_evals.
-- **Main adaptation:** the agent receives the problem verbatim, followed by one paragraph that names the answer file.
+- **Main adaptation:** the agent receives the problem verbatim, followed by two short paragraphs: one forbids internet use, the other names the answer file.
 - **Not included:** the Olympiad split, which uses short reference answers instead of rubrics.
 
 ## What is FrontierScience-Research?
@@ -22,7 +22,7 @@ This adapter turns the Research split of OpenAI's FrontierScience benchmark into
 - **Stable task names.** Tasks are named `openai/frontierscience-research__<subject>-<first 8 characters of task_group_id>`, for example `physics-222e24bf`. The second copy of the duplicate is `physics-af50243e-2`.
 - **Rubric isolation.** The rubric is written only to `tests/task.json`, which Harbor uploads at verification time. A unit test generates tasks from a sentinel rubric and checks that it never appears in a file the agent can see.
 - **Grading as in inspect_evals.** `tests/grader.py` uses the inspect_evals research judge prompt verbatim, which is the paper's Appendix B prompt. It takes the first `VERDICT:` number in the reply, clamps it to [0, 10], and scores an empty or missing answer as 0 without calling the judge.
-- **Two rewards.** `reward.json` holds `reward`, which is 1 when the answer earns at least 7 points (the paper's success criterion), and `score`, which is points / 10 (the inspect_evals metric).
+- **Two rewards.** `reward.json` holds `reward`, which is 1 when the answer earns at least 7 points, and `score`, which is points / 10. The headline metric is the mean of `reward`, the success rate the paper reports. The mean of `score` is inspect_evals' built-in metric and is kept as a secondary number.
 - **Judge failures are not zeros.** If the judge refuses (`stop_reason == "refusal"`) on all three attempts, or the API call fails after the SDK's retries, the verifier exits non-zero without writing a reward, and Harbor reports a verifier error. `grading.json` keeps the judge's reply, the model that answered, token usage and any refusal details.
 - **Configurable judge.** `JUDGE_MODEL` (default `claude-sonnet-5-5`), `JUDGE_EFFORT` (default `high`) and `ANTHROPIC_BASE_URL` are passed to the verifier from the host environment.
 - **Oracle answers.** `oracle_solutions/` holds an answer for each of the 59 distinct problems; see [Notes & Caveats](#notes--caveats).
@@ -33,7 +33,7 @@ This adapter turns the Research split of OpenAI's FrontierScience benchmark into
 datasets/frontierscience-research/
 └── <subject>-<tgid8>/            # e.g. physics-222e24bf
     ├── task.toml                 # name, metadata, judge environment, timeouts
-    ├── instruction.md            # the problem and where to write the answer
+    ├── instruction.md            # the problem, a no-internet rule, where to write the answer
     ├── environment/
     │   └── Dockerfile            # python:3.12-slim with anthropic 2.8.0 for the grader
     ├── solution/
@@ -141,7 +141,7 @@ Parity has not been run. The plan below is still to be agreed with the Harbor te
 - **Original side:** `inspect_evals/frontierscience` with `format=research`, on a fork that runs the same agent as the Harbor side with the same instruction text (Scenario 2), unless the team prefers another setup.
 - **Judge:** the same judge model and settings on both sides (`grader_model` in inspect_evals, `JUDGE_MODEL` / `JUDGE_EFFORT` here). Which judge to use is an open question; the paper used GPT-5 with high reasoning.
 - **Tasks:** all 60. The benchmark is small, so no parity subset is needed.
-- **Metrics:** success rate (share of tasks with at least 7 points) and mean score (points / 10), each reported as mean ± sample SEM over runs.
+- **Metrics:** the headline is the success rate, the share of tasks with at least 7 of 10 points, as in the paper. Mean score (points / 10) is reported as a secondary metric. Both are given as mean ± sample SEM over runs. On the original side, inspect_evals' built-in metric is the mean score, so the success rate is computed from each sample's `raw_points` in the inspect log (a pass is `raw_points >= 7`).
 
 Commands, to be finalized with the plan (one invocation per run):
 
@@ -157,7 +157,7 @@ inspect eval inspect_evals/frontierscience -T format=research -T grader_model=<j
 
 | Agent | Model | Metric | Number of Runs | Dataset Size | Original Benchmark Performance | Harbor Adapter Performance |
 |-------|-------|--------|----------------|--------------|--------------------------------|----------------------------|
-| TBD | TBD | Success rate (points ≥ 7) | TBD | 60 | pending | pending |
+| TBD | TBD | Success rate, points ≥ 7 (headline) | TBD | 60 | pending | pending |
 | TBD | TBD | Mean score (points / 10) | TBD | 60 | pending | pending |
 
 **Oracle check (not parity).** Harbor 0.25.0, Docker 28.3.2 on macOS arm64, 8 concurrent trials, judge `claude-sonnet-5-5` with effort `high`: 60 trials, 0 exceptions, `reward` 1.000 and `score` 0.999. 58 tasks scored 10/10 and two scored 9.75 (see Notes & Caveats). The judge refused none of the 60 tasks, including the 20 biology tasks.
@@ -166,9 +166,15 @@ inspect eval inspect_evals/frontierscience -T format=research -T grader_model=<j
 
 **Duplicate row.** Rows 6 and 11 of `research/test.jsonl` are identical (task_group_id `af50243e…`). inspect_evals keeps both, so this adapter does too, as `physics-af50243e` and `physics-af50243e-2`. That problem therefore counts twice in the 60-task mean, as it does in inspect_evals. Match tasks across the two sides by task_group_id, not by inspect sample id: inspect_evals numbers the duplicate with a module-level counter, so its ids change if the task is built twice in one process.
 
-**Instruction.** The problem text is passed verbatim. It already ends with the paper's request to show all intermediate derivations, formulas, important steps and justifications. The adapter adds a horizontal rule and one paragraph telling the agent to write the complete answer to `/workspace/answer.md`, the only file that is graded. inspect_evals sends the bare problem, so for parity the original side has to add the same paragraph.
+**Instruction.** The problem text is passed verbatim. It already ends with the paper's request to show all intermediate derivations, formulas, important steps and justifications. After a horizontal rule, the adapter adds two short paragraphs. The first tells the agent to solve the problem from its own knowledge and not to use the internet. The second tells it to write the complete answer to `/workspace/answer.md`, the only file that is graded. inspect_evals sends the bare problem, so for parity the original side has to add the same two paragraphs.
 
-**Tools and network.** The paper evaluated models without browsing, and inspect_evals calls the model with no tools. Harbor agents work in a container with network access, which the verifier also needs to reach the judge. The problems and rubrics are public on Hugging Face, so an agent with web access could look up a rubric. The adapter does not prevent this, so parity runs should apply the same tool policy on both sides.
+**Tools and network.** The paper evaluated models without browsing, and inspect_evals calls the model with no tools. In Harbor the container keeps public network access for two reasons: installed agents call their model API from inside it, and the verifier calls the judge API. The problems and rubrics are public on Hugging Face, so an agent with web access could look up a rubric. As in `programbench`, the adapter forbids internet use in the instruction instead of blocking it. Harbor 0.25 can also set separate `[agent]` and `[verifier]` network policies, but this is not used, for three reasons:
+
+- it needs an environment with egress control;
+- an allowlist that keeps the agent's model API reachable still lets server-side search tools through (Claude Code's WebSearch runs on Anthropic's API);
+- the original side has no equivalent setting.
+
+The rule is enforced only by the prompt, so trajectories should be checked for web access.
 
 **Judge.** The paper's judge is GPT-5 with high reasoning effort. inspect_evals grades with the model under test unless `grader_model` is set. This adapter defaults to `claude-sonnet-5-5` with effort `high`, which was used to validate the oracle. Scores are comparable only under the same judge. The grader supports only the Anthropic API.
 
