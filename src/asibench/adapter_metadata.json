@@ -33,7 +33,7 @@
           "None"
         ],
         "parity_costs": null,
-        "notes": "Five-task B1 comparison: native mean 74.2448, Harbor mean 74.8665 (+0.6217 points). Same-artifact grading gap is zero for all five. One run per side; sample excludes LLM judges. Matching is limited to this measured sample, not a statistical guarantee or full-240 equivalence. The CLI can also export all 60 problems at one common level. Dataset registration pending. Statistical parity classification is pending maintainer acceptance of the single-run scope."
+        "notes": "Five-task B1 comparison: native mean 74.2448, Harbor mean 74.8665 (+0.6217 points). Same-artifact grading gap is zero for all five. One run per side; sample excludes LLM judges. Matching is limited to this measured sample, not a statistical guarantee or full-240 equivalence. The CLI can also export all 60 problems at one common level. Dataset PR #281 submitted; registry publication pending. HF PR #284 is draft with file ingestion blocked by the shared repository file quota; upload payload is available in the adapter review evidence. Statistical parity classification is pending maintainer acceptance of the single-run scope."
       }
     ]
   }

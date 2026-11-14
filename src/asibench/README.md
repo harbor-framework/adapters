@@ -112,7 +112,7 @@ Verify published evidence offline:
 python src/asibench/parity/verify.py
 ```
 
-See [parity/README.md](parity/README.md) for exact settings, provenance and execution commands. The `--split parity` CLI can still export all 60 scientific problems at one fixed common prompt level if broader comparison is requested. Dataset registration and separate HuggingFace result publication are pending.
+See [parity/README.md](parity/README.md) for exact settings, provenance and execution commands. The `--split parity` CLI can still export all 60 scientific problems at one fixed common prompt level if broader comparison is requested. The [dataset PR](https://github.com/harbor-framework/harbor-datasets/pull/281) is submitted; registry publication is pending. The [HF results PR](https://huggingface.co/datasets/harborframework/parity-experiments/discussions/284) is a draft awaiting file ingestion because the shared repository exceeds its file quota. The complete [results upload package](review-evidence/asibench-experiments.tar.gz) and [per-file hashes](review-evidence/asibench-experiments.json) are available for review.
 
 ## Notes & Caveats
 
