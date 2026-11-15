@@ -419,7 +419,7 @@ def test_judge_request_parameters(env, monkeypatch):
         assert kw["temperature"] == 0.5
         assert kw["max_tokens"] == 32000
         assert kw["api_base"] == "http://proxy.example:3000"
-        assert kw["num_retries"] == 3
+        assert "num_retries" not in kw  # retries: _judge_with_backoff
         assert kw["output_format"] == {
             "type": "json_schema",
             "schema": schemas[c["kind"]],

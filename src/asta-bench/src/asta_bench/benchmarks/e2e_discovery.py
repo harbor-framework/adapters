@@ -298,6 +298,26 @@ def _response_text_to_json(responseText):
     return responseOutJSON
 
 
+async def _judge_with_backoff(call):
+    """Retry transient judge failures: up to 8 attempts, waits 2,4,..,60 s."""
+    import asyncio
+
+    import litellm  # type: ignore
+
+    names = ("InternalServerError", "APIConnectionError", "RateLimitError",
+             "Timeout", "ServiceUnavailableError")
+    transient = tuple(
+        e for e in (getattr(litellm, n, None) for n in names) if isinstance(e, type)
+    )
+    for attempt in range(8):
+        try:
+            return await call()
+        except transient:
+            if attempt == 7:
+                raise
+            await asyncio.sleep(min(2 ** (attempt + 1), 60))
+
+
 async def _call_judge(prompt: str, model: str, sem: asyncio.Semaphore) -> str:
     """One judge call; returns the response text."""
     import litellm  # type: ignore
@@ -309,16 +329,17 @@ async def _call_judge(prompt: str, model: str, sem: asyncio.Semaphore) -> str:
     )
     try:
         async with sem:
-            resp = await litellm.acompletion(
-                model=model,
-                # Same message shape as upstream _getLLMResponseJSON.
-                messages=[
-                    {"role": "user", "content": [{"type": "text", "text": prompt}]}
-                ],
-                api_key=api_key,
-                max_tokens=JUDGE_MAX_TOKENS,
-                timeout=JUDGE_TIMEOUT_SEC,
-                num_retries=JUDGE_NUM_RETRIES,
+            resp = await _judge_with_backoff(
+                lambda: litellm.acompletion(
+                    model=model,
+                    # Same message shape as upstream _getLLMResponseJSON.
+                    messages=[
+                        {"role": "user", "content": [{"type": "text", "text": prompt}]}
+                    ],
+                    api_key=api_key,
+                    max_tokens=JUDGE_MAX_TOKENS,
+                    timeout=JUDGE_TIMEOUT_SEC,
+                )
             )
     except Exception as e:  # noqa: BLE001
         msg = str(e).lower()

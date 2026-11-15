@@ -347,15 +347,36 @@ def _llm_call(model: str, prompt: str) -> str:
         litellm.drop_params = True
         api_key = os.environ["OPENAI_API_KEY"]
     # litellm reads ANTHROPIC_BASE_URL / OPENAI_BASE_URL itself.
-    resp = litellm.completion(
-        model=model,
-        messages=[{"role": "user", "content": prompt}],
-        api_key=api_key,
-        temperature=0.0,
-        num_retries=API_NUM_RETRIES,
-        **kwargs,
+    resp = _judge_with_backoff(
+        lambda: litellm.completion(
+            model=model,
+            messages=[{"role": "user", "content": prompt}],
+            api_key=api_key,
+            temperature=0.0,
+            **kwargs,
+        )
     )
     return resp.choices[0].message.content or ""
+
+
+def _judge_with_backoff(call):
+    """Retry transient judge failures: up to 8 attempts, waits 2,4,..,60 s."""
+    import time
+
+    import litellm  # type: ignore
+
+    names = ("InternalServerError", "APIConnectionError", "RateLimitError",
+             "Timeout", "ServiceUnavailableError")
+    transient = tuple(
+        e for e in (getattr(litellm, n, None) for n in names) if isinstance(e, type)
+    )
+    for attempt in range(8):
+        try:
+            return call()
+        except transient:
+            if attempt == 7:
+                raise
+            time.sleep(min(2 ** (attempt + 1), 60))
 
 
 def _read_answer():

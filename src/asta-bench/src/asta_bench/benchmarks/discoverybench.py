@@ -352,6 +352,28 @@ def _resolve_provider(model: str) -> tuple[str, dict]:
     return f"openai/{model}", OPENAI_GEN_HYP
 
 
+
+
+def _judge_with_backoff(call):
+    """Retry transient judge failures: up to 8 attempts, waits 2,4,..,60 s."""
+    import time
+
+    import litellm  # type: ignore
+
+    names = ("InternalServerError", "APIConnectionError", "RateLimitError",
+             "Timeout", "ServiceUnavailableError")
+    transient = tuple(
+        e for e in (getattr(litellm, n, None) for n in names) if isinstance(e, type)
+    )
+    for attempt in range(8):
+        try:
+            return call()
+        except transient:
+            if attempt == 7:
+                raise
+            time.sleep(min(2 ** (attempt + 1), 60))
+
+
 def _generate(messages, model_name, json_response=False) -> str:
     """Harbor stand-in for `get_model(qualified, config=GenerateConfig(...))
     .generate(messages)`: one completion request with the same messages and
@@ -367,13 +389,12 @@ def _generate(messages, model_name, json_response=False) -> str:
     kwargs = dict(
         model=qualified,
         messages=messages,
-        num_retries=API_NUM_RETRIES,
         timeout=API_TIMEOUT_SEC,
         **hyp,
     )
     if use_schema:
         kwargs["response_format"] = {"type": "json_object"}
-    response = litellm.completion(**kwargs)
+    response = _judge_with_backoff(lambda: litellm.completion(**kwargs))
     raw_content = response.choices[0].message.content
     if isinstance(raw_content, list):
         raw_content = "".join(

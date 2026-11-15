@@ -488,7 +488,6 @@ def _judge_request_kwargs(messages, temperature, top_p, response_schema) -> dict
         model=model,
         messages=messages,
         temperature=temperature,
-        num_retries=API_NUM_RETRIES,
     )
     if top_p is not None:
         kwargs["top_p"] = top_p
@@ -519,12 +518,34 @@ def _judge_request_kwargs(messages, temperature, top_p, response_schema) -> dict
     return kwargs
 
 
+async def _judge_with_backoff(call):
+    """Retry transient judge failures: up to 8 attempts, waits 2,4,..,60 s."""
+    import asyncio
+
+    import litellm  # type: ignore
+
+    names = ("InternalServerError", "APIConnectionError", "RateLimitError",
+             "Timeout", "ServiceUnavailableError")
+    transient = tuple(
+        e for e in (getattr(litellm, n, None) for n in names) if isinstance(e, type)
+    )
+    for attempt in range(8):
+        try:
+            return await call()
+        except transient:
+            if attempt == 7:
+                raise
+            await asyncio.sleep(min(2 ** (attempt + 1), 60))
+
+
 async def _generate(messages, temperature, top_p, response_schema) -> str:
     """One judge call.  Transport/API errors propagate (no reward)."""
     import litellm  # type: ignore
 
-    resp = await litellm.acompletion(
-        **_judge_request_kwargs(messages, temperature, top_p, response_schema)
+    resp = await _judge_with_backoff(
+        lambda: litellm.acompletion(
+            **_judge_request_kwargs(messages, temperature, top_p, response_schema)
+        )
     )
     content = resp.choices[0].message.content
     if isinstance(content, list):

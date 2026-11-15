@@ -317,6 +317,26 @@ def _read_answer():
 
 
 # --- LLM calls (litellm stands in for inspect's get_model().generate) ----
+async def _judge_with_backoff(call):
+    """Retry transient judge failures: up to 8 attempts, waits 2,4,..,60 s."""
+    import asyncio
+
+    import litellm  # type: ignore
+
+    names = ("InternalServerError", "APIConnectionError", "RateLimitError",
+             "Timeout", "ServiceUnavailableError")
+    transient = tuple(
+        e for e in (getattr(litellm, n, None) for n in names) if isinstance(e, type)
+    )
+    for attempt in range(8):
+        try:
+            return await call()
+        except transient:
+            if attempt == 7:
+                raise
+            await asyncio.sleep(min(2 ** (attempt + 1), 60))
+
+
 async def _generate(model: str, prompt: str) -> str:
     """Return the completion text; raise on any transport/API failure."""
     import litellm  # type: ignore
@@ -325,14 +345,13 @@ async def _generate(model: str, prompt: str) -> str:
         model=model,
         messages=[{"role": "user", "content": prompt}],
         max_tokens=JUDGE_MAX_TOKENS,
-        num_retries=API_NUM_RETRIES,
         timeout=API_TIMEOUT_SEC,
     )
     if os.environ.get("ANTHROPIC_API_KEY"):
         kwargs["api_key"] = os.environ["ANTHROPIC_API_KEY"]
     if os.environ.get("ANTHROPIC_BASE_URL"):
         kwargs["api_base"] = os.environ["ANTHROPIC_BASE_URL"]
-    resp = await litellm.acompletion(**kwargs)
+    resp = await _judge_with_backoff(lambda: litellm.acompletion(**kwargs))
     content = resp.choices[0].message.content
     if isinstance(content, list):
         content = "".join(

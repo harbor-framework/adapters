@@ -161,7 +161,7 @@ def _load_scorer(tmp_path: Path, calls: list[str] | None = None, responses=None)
         def completion(**kw):
             assert kw["temperature"] == 0.0
             assert kw["max_tokens"] == 32000
-            assert kw["num_retries"] == 3
+            assert "num_retries" not in kw  # retries: _judge_with_backoff
             assert len(kw["messages"]) == 1 and kw["messages"][0]["role"] == "user"
             calls.append(kw["messages"][0]["content"])
             text = responses[len(calls) - 1]

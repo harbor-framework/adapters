@@ -121,7 +121,6 @@ class _Judge:
         self.calls: list[dict] = []
         self.module = types.ModuleType("litellm")
         self.module.completion = self.completion
-        self.module.APIConnectionError = APIConnectionError
 
     def completion(self, **kwargs):
         self.calls.append(kwargs)
@@ -206,7 +205,7 @@ def test_scorer_matches_upstream(case_id: str, tmp_path: Path, monkeypatch) -> N
         assert call["max_tokens"] == 250
         assert "top_p" not in call and "response_format" not in call
         # Transport retries are bounded (then the error propagates).
-        assert 0 <= call["num_retries"] <= 5
+        assert "num_retries" not in call  # retries: _judge_with_backoff
 
 
 def test_fixture_covers_failure_modes() -> None:
