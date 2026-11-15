@@ -2,15 +2,15 @@
 #
 # Usage:
 #   # Oracle smoke test (all 2,422 tasks)
-#   uv run --project src/asta-bench --with harbor==0.25.0 harbor run -c src/asta-bench/run_asta-bench.yaml
+#   uv run --project src/asta-bench --with harbor==0.26.0 harbor run -c src/asta-bench/run_asta-bench.yaml
 #
 #   # Standard CLI agent path (all 11 families, including Asta MCP families).
-#   uv run --project src/asta-bench --with harbor==0.25.0 harbor run -c src/asta-bench/run_asta-bench_cli.yaml
+#   uv run --project src/asta-bench --with harbor==0.26.0 harbor run -c src/asta-bench/run_asta-bench_cli.yaml
 #
 #   # Inspect-AI bridge (parity-correct upstream-style path for all 11 families).
 #   # The bridge agent ships in THIS adapter package; `--project` runs Harbor
 #   # in the adapter's env so its import path resolves:
-#   uv run --project src/asta-bench --with harbor==0.25.0 harbor run -c src/asta-bench/run_asta-bench_inspect-ai.yaml
+#   uv run --project src/asta-bench --with harbor==0.26.0 harbor run -c src/asta-bench/run_asta-bench_inspect-ai.yaml
 #
 # Before running, generate the dataset (from the repository root; all
 # commands above also run from the repository root):

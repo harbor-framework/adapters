@@ -16,7 +16,7 @@
 # Run on the GCP n2-highmem-8 VM (hard-tier families need >24 GB RAM):
 #
 #   cd ~/adapters   # repository root
-#   uv run --project src/asta-bench --with harbor==0.25.0 harbor run \
+#   uv run --project src/asta-bench --with harbor==0.26.0 harbor run \
 #     -c src/asta-bench/run_asta-bench_cli.yaml
 #
 # Required env vars:

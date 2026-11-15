@@ -5,10 +5,10 @@
 # import path resolves; from the repository root:
 #
 #   cd src/asta-bench && uv run asta-bench --output-dir ../../datasets/asta-bench/asta-bench-inspect-ai
-#   cd ../.. && uv run --project src/asta-bench --with harbor==0.25.0 harbor run -c src/asta-bench/run_asta-bench_inspect-ai.yaml
+#   cd ../.. && uv run --project src/asta-bench --with harbor==0.26.0 harbor run -c src/asta-bench/run_asta-bench_inspect-ai.yaml
 #
 # Or without a config file:
-#   uv run --project src/asta-bench --with harbor==0.25.0 harbor run -p datasets/asta-bench/asta-bench-inspect-ai \
+#   uv run --project src/asta-bench --with harbor==0.26.0 harbor run -p datasets/asta-bench/asta-bench-inspect-ai \
 #     --agent-import-path asta_bench.inspect_solver:InspectSolver \
 #     -m anthropic/claude-haiku-4-5
 #
