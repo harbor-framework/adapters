@@ -1,0 +1,1 @@
+{"command": "env PATH=/workspace/venv/bin:$PATH PYTHONPATH=/workspace/al_nlp_feasible HYDRA_CONFIG_PATH=../experiments/ag_news HYDRA_EXP_CONFIG_NAME=ag_distilbert_single /workspace/venv/bin/python active_learning/run_tasks_on_multiple_gpus.py", "cwd": "/workspace/al_nlp_feasible"}

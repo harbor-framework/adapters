@@ -1,0 +1,1 @@
+{"command": "/workspace/venv/bin/python run_prompt_selection.py decoder=opt-125m dataset=sst2 num_samples=10", "cwd": "/workspace/unified-prompt-selection"}

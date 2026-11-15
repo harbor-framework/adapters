@@ -4,23 +4,25 @@
 # the subset is defined by this file, not re-derived by sampling.
 #
 # Provenance: these are the task ids of the 150-task subset used for the May
-# 2026 parity runs, with two documented changes (below). That subset was
+# 2026 parity runs, with one documented change (below). That subset was
 # allocated per family in proportion to family size with a floor of 5,
 # max(round(200 / 2422 * family_size), 5), divided between the test and
 # validation splits; within a (family, split) it is the head of the adapter's
 # generation order (upstream dataset order), except ds1000, which was trimmed
 # from an earlier 80-task selection down to 30 (27 test + 3 validation).
 #
-# Changes relative to the May 2026 subset:
-#   1. The 4 super-expert *validation* (SUPER "Auto" split) tasks are gone:
-#      that split is excluded from the adapter (see benchmarks/super_expert.py).
-#   2. The 7 core-bench-hard ids were replaced. The adapter now applies
-#      upstream's GPU filter (filter_out_gpu=True); 5 of the 7 old ids are GPU
-#      capsules that upstream never evaluates. The replacements are the first
-#      4 test / 3 validation capsules that pass the filter, i.e. the same
-#      rule as the other families.
+# Change relative to the May 2026 subset:
+#   The 7 core-bench-hard ids were replaced. The adapter now applies
+#   upstream's GPU filter (filter_out_gpu=True); 5 of the 7 old ids are GPU
+#   capsules that upstream never evaluates. The replacements are the first
+#   4 test / 3 validation capsules that pass the filter, i.e. the same
+#   rule as the other families.
 #
-# 146 tasks: 114 test + 32 validation, covering all 11 families.
+# The 4 super-expert *validation* (SUPER "Auto" split) ids are the same as in
+# May, but the tasks are not: they are now scored by re-running the submitted
+# entrypoint command (see benchmarks/super_auto.py) on both parity sides.
+#
+# 150 tasks: 114 test + 36 validation, covering all 11 families.
 arxivdigestables-clean-test-608b47fc-9e08-4e3d-acd7-78956dc5528b
 arxivdigestables-clean-test-784760eb-6081-4b4a-b6bf-8e9f6496dbaf
 arxivdigestables-clean-test-8cea604c-38ae-4688-98e7-eb319fc79f7b
@@ -167,3 +169,7 @@ super-expert-test-amrbart-a8bef84a11cdd3ab908ff2406c1c3e24
 super-expert-test-colbert-77b89c6496c5d655af41d18d4a765042
 super-expert-test-g-transformer-6e9488910f26afc0c7893aba7e6bf765
 super-expert-test-textbox-46350b43ab85bd91a71769e71e77c8f0
+super-expert-validation-al-nlp-feasible-eb18f568e7fb000d891ce4b1e6731a80
+super-expert-validation-gener-1c0c65a0cd1ed2308d0587e0011e1ccd
+super-expert-validation-unified-prompt-selection-fc1229f0b055fc5bbb2ed32de95cf533
+super-expert-validation-ws-orconvqa-dbf5d0df392141806892e3deefd1e708

@@ -1,0 +1,1 @@
+{"command": "bash run_qa.sh train hpqa 1", "cwd": "/workspace/EvalQAExpl"}

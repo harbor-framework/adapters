@@ -1,0 +1,1 @@
+{"command": "/workspace/venv/bin/python main.py --eval_data mnli_m_dev --model_type hub --model_name roberta-base-mnli", "cwd": "/workspace/UNLU"}

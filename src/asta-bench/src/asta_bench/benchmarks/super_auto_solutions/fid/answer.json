@@ -1,0 +1,1 @@
+{"command": "/workspace/venv/bin/python train_reader.py --train_data open_domain_data/NQ/train.json --eval_data open_domain_data/NQ/dev.json --model_size small --per_gpu_batch_size 1 --n_context 5 --text_maxlength 200 --total_steps 10 --eval_freq 10 --save_freq 10 --name fid_nq --checkpoint_dir checkpoint", "cwd": "/workspace/FiD"}

@@ -1,0 +1,3 @@
+{
+  "checkdst": "The entrypoint only aggregates prediction files that already exist. Producing them needs the wise-east/trippy submodule (repository no longer accessible), the LAUG perturbation data (download server unreachable) and a CSV export step that no public code provides, so the entrypoint cannot run for 10 seconds without fabricated prediction files."
+}

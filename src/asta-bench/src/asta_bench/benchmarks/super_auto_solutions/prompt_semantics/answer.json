@@ -1,0 +1,1 @@
+{"command": "/workspace/venv/bin/python src/encoder.py --model-name bert-base-uncased --dataset rte --save-dir runs/rte_bert/ --prompt-path data/binary_NLI_prompts.csv --experiment-name sec4 --num-shots 8 --epochs 1 --train-batch-size 4 --eval-batch-size 16 --grad-accumulation 1 --learning-rate 1e-5 --production --seeds 1", "cwd": "/workspace/prompt_semantics"}

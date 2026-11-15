@@ -1,0 +1,1 @@
+{"command": "PYTHONUNBUFFERED=1 bash scripts/nss_20newsgroups_6s/kfolden/kfolden_roberta.sh", "cwd": "/workspace/kfolden-ood-detection"}

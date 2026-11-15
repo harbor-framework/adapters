@@ -1,0 +1,1 @@
+{"command": "/workspace/venv/bin/python -u run.py --name nast_simple --dataid ../data/yelp --clsrestore cls_yelp_best --cpu --epoch 1", "cwd": "/workspace/NAST/styletransformer"}

@@ -1,0 +1,1 @@
+{"command": "/workspace/venv/bin/python train.py --tasks ag --epochs 1 --disen True --reg True --reggen 0.5 --regspe 0.3 --n-labeled 80 --n-val 20", "cwd": "/workspace/IDBR/src"}

@@ -1,0 +1,1 @@
+{"command": "/workspace/venv/bin/python train.py --config config_gen/en_bert_student_crf_ner.yaml", "cwd": "/workspace/StructuralKD"}

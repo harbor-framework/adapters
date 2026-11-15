@@ -1,0 +1,1 @@
+{"command": "env PATH=/workspace/venv/bin:/usr/local/bin:/usr/bin:/bin bash example_scripts/train.sh", "cwd": "/workspace/TLM"}

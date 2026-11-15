@@ -25,7 +25,7 @@ from typing import Any
 # Pinned to a commit (not the moving branch) so both parity sides and every
 # generated image use exactly the same benchmark code.  The commit is on the
 # fork's `claude-haiku-judges` branch; bump it deliberately.
-ASTABENCH_FORK_COMMIT = "027d8128914688eaa864e6f3422ccb83ebff8aa9"
+ASTABENCH_FORK_COMMIT = "04293fbaf714a4e63c4b10a06d844f24557cd0c3"
 ASTABENCH_FORK_REQUIREMENT = (
     "astabench @ git+https://github.com/smiky2011/asta-bench.git@"
     + ASTABENCH_FORK_COMMIT

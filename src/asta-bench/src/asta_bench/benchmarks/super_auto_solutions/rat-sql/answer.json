@@ -1,0 +1,1 @@
+{"command": "PYTHONPATH=/workspace/rat-sql/third_party/wikisql /workspace/venv/bin/python run.py train experiments/spider-bert-run.jsonnet --model_config_args '{bert_version: \"bert-base-uncased\", bs: 2, num_batch_accumulated: 1, max_steps: 10}'", "cwd": "/workspace/rat-sql"}

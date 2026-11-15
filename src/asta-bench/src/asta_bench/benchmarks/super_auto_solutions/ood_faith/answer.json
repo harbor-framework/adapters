@@ -1,0 +1,1 @@
+{"command": "/workspace/venv/bin/python train_fulltext_and_kuma.py --dataset SST --data_dir datasets/ --model_dir models/ --seed 5", "cwd": "/workspace/ood_faith"}

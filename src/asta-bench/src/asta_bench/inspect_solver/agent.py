@@ -49,6 +49,13 @@ Optional fields:
                                   `--sandbox local` the sandbox dir is a temp
                                   dir removed at sample cleanup).  Stale
                                   `dest` files are deleted before the run.
+  - `keep_sandbox_dir` (bool)     keep the Inspect `local` sandbox's working
+                                  directory after the run.  Inspect creates
+                                  it as a temporary directory and deletes it
+                                  at sample cleanup; a verifier that must
+                                  re-run something the solver set up there
+                                  (SUPER-Auto re-runs the submitted command)
+                                  needs it to survive, at the same path.
   - `require_tools` (bool)        fail the run if the first model call in the
                                   log was offered no tool other than `submit`
                                   (task tools were dropped by the solver).
@@ -294,6 +301,32 @@ from inspect_ai.solver import Generate, Solver, TaskState, solver
 from inspect_ai.util import LimitExceededError, sandbox
 
 
+def _keep_sandbox_dir():
+    # Inspect's `local` sandbox works in a tempfile.TemporaryDirectory that is
+    # removed at sample cleanup (and by its finalizer at interpreter exit).
+    # Disarm both so the directory, and every absolute path the solver used
+    # inside it, is still there when the Harbor verifier runs.
+    if os.environ.get("ASTA_BRIDGE_KEEP_SANDBOX_DIR") != "1":
+        return
+    env = sandbox()
+    try:
+        # sandbox() returns an event-recording proxy; unwrap it.
+        from inspect_ai.util._sandbox.local import LocalSandboxEnvironment
+
+        env = env.as_type(LocalSandboxEnvironment)
+    except Exception:
+        env = getattr(env, "_sandbox", env)
+    directory = getattr(env, "directory", None)
+    if directory is None or not hasattr(directory, "cleanup"):
+        print("[inspect-bridge] keep_sandbox_dir: sandbox has no temp directory", flush=True)
+        return
+    finalizer = getattr(directory, "_finalizer", None)
+    if finalizer is not None:
+        finalizer.detach()
+    directory.cleanup = lambda: None
+    print(f"[inspect-bridge] keeping sandbox directory {directory.name}", flush=True)
+
+
 async def _export_files():
     specs = json.loads(os.environ.get("ASTA_BRIDGE_EXPORT_FILES") or "[]")
     for spec in specs:
@@ -325,6 +358,7 @@ def asta_bridge_export(**kwargs) -> Solver:
     )
 
     async def solve(state: TaskState, generate: Generate) -> TaskState:
+        _keep_sandbox_dir()
         try:
             state = await inner(state, generate)
         except LimitExceededError:
@@ -444,10 +478,12 @@ def _format_kv_args(args_dict, flag):
     return out
 
 
-def _prepare_exports(export_files, solver, env):
+def _prepare_exports(export_files, solver, env, keep_sandbox_dir=False):
     # Returns the --solver value to use; mutates env for the wrapper.
-    if not export_files:
+    if not export_files and not keep_sandbox_dir:
         return solver
+    if keep_sandbox_dir:
+        env["ASTA_BRIDGE_KEEP_SANDBOX_DIR"] = "1"
     for spec in export_files:
         if not isinstance(spec, dict) or not spec.get("src") or not spec.get("dest"):
             raise ValueError(f"export_files entry must have src and dest: {spec!r}")
@@ -497,7 +533,12 @@ def main():
 
     sub_env = dict(os.environ)
     export_files = cfg.get("export_files") or []
-    solver_arg = _prepare_exports(export_files, payload["solver"], sub_env)
+    solver_arg = _prepare_exports(
+        export_files,
+        payload["solver"],
+        sub_env,
+        keep_sandbox_dir=bool(cfg.get("keep_sandbox_dir")),
+    )
 
     cmd = [
         "inspect",

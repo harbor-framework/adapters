@@ -324,15 +324,6 @@ def test_gold_fixture_counts():
     }
 
 
-def test_validation_split_is_not_available(tmp_path):
-    from asta_bench.benchmarks.base import SplitNotAvailable
-
-    builder = super_expert.SuperExpertBuilder(output_dir=tmp_path)
-    with pytest.raises(SplitNotAvailable):
-        builder.run(split="validation")
-    assert not any(tmp_path.iterdir())
-
-
 def test_json_to_record_fails_loudly_where_upstream_raises():
     base = {
         "task_id": "t",

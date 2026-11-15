@@ -1,0 +1,1 @@
+{"command": "/workspace/venv/bin/python run_expt.py -s confounder -d MultiNLI -t gold_label_random -c sentence2_has_negation --root_dir /workspace/data/multinli --lr 2e-05 --batch_size 32 --weight_decay 0 --model bert --n_epochs 1 --reweight_groups --robust --generalization_adjustment 0 --log_dir ./logs", "cwd": "/workspace/group_DRO"}

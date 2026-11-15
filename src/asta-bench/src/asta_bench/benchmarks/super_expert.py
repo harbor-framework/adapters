@@ -9,18 +9,13 @@ astabench/evals/super/task.py (allenai/asta-bench, vendored at fork commit
 `output_match`, the primary metric AstaBench's suite config uses for
 `SUPER_Expert_test` (`astabench/config/v1.0.0.yml`: `output_match/mean`).
 
-SUPER "Auto" split (AstaBench `super_validation`) is EXCLUDED
+SUPER "Auto" split (AstaBench `super_validation`, Harbor `validation`)
 ---------------------------------------------------------------
-Upstream scores Auto with `check_super_auto` -> `evaluate_entrypoints()`,
-which rewards any execution-history step that mentions the entrypoint file,
-lasts >= 10 s and shows no "Traceback".  That history comes either from the
-agent's own answer JSON (`parse_super_output` Case 1: `{"submitted": ...,
-"history": [...]}`) or from `jupyter_cell_history.json`, which the sandbox
-Jupyter server writes in the agent's own working directory.  Both are
-agent-writable, so the Auto metric cannot be made unforgeable in Harbor while
-staying faithful to upstream.  The builder therefore generates no tasks for
-the `validation` split: it raises `SplitNotAvailable` (see
-`SuperExpertBuilder.load_samples`).
+Upstream scores Auto with `check_super_auto` -> `evaluate_entrypoints()` over
+an execution history the agent can write.  Harbor keeps the same rule but has
+the verifier run the submitted command itself; see `super_auto.py`, which also
+holds the reference solutions and the list of Auto samples that are not
+generated because no working reference solution exists.
 
 `pre_execute_cells`: upstream only copies them into `Sample.metadata`; nothing
 executes them, and no Expert sample has any, so the adapter ignores them.
@@ -34,12 +29,12 @@ from collections.abc import Iterable
 from hashlib import md5
 from pathlib import Path
 
+from . import super_auto
 from .base import (
     INSPECT_DEFAULT_EVAL_ARGS,
     VERIFIER_TEST_SH,
     BenchmarkBuilder,
     SampleRecord,
-    SplitNotAvailable,
     make_inspect_config,
     write_task_files,
 )
@@ -62,7 +57,7 @@ authors = [
     {{ name = "Allen Institute for AI (AstaBench)", email = "asta@allenai.org" }},
     {{ name = "Ben Bogin et al. (SUPER, arXiv:2409.07440)" }},
 ]
-keywords = ["ml-experiments", "code-execution", "research-reproduction", "expert"]
+keywords = ["ml-experiments", "code-execution", "research-reproduction", "{super_split_keyword}"]
 
 [metadata]
 category = "code-execution"
@@ -74,7 +69,7 @@ source_sample_id = "{source_id}"
 timeout_sec = 7200
 
 [verifier]
-timeout_sec = 60
+timeout_sec = {verifier_timeout_sec}
 
 [environment]
 build_timeout_sec = 1800.0
@@ -265,9 +260,8 @@ Harbor difference: the verifier only sees the final completion
   * Case 3 (no parsable answer): upstream would mine the last Jupyter cell
     output; with no history the submission stays None, and
     evaluate(None, gold) == 0.0.  Harbor always takes the no-history branch.
-The SUPER "Auto" split (`check_super_auto` / `evaluate_entrypoints`) is not
-shipped: its execution history is agent-writable, so it cannot be scored
-unforgeably.
+The SUPER "Auto" split is not scored here: it has its own verifier
+(`super_auto.py`), which re-runs the submitted entrypoint command.
 """
 
 from __future__ import annotations
@@ -503,13 +497,8 @@ class SuperExpertBuilder(BenchmarkBuilder):
 
     def load_samples(self, split: str) -> Iterable[SampleRecord]:
         if split == "validation":
-            raise SplitNotAvailable(
-                "super_validation (SUPER 'Auto') is excluded: its metric, "
-                "evaluate_entrypoints(), scores an execution history the agent "
-                "can write (parse_super_output Case 1 answer JSON, or "
-                "jupyter_cell_history.json in its working dir), so it cannot be "
-                "scored unforgeably"
-            )
+            yield from self._load_auto_samples()
+            return
         if split != "test":
             raise ValueError(f"super-expert: unknown split {split!r}")
 
@@ -523,32 +512,112 @@ class SuperExpertBuilder(BenchmarkBuilder):
         for obj in map(dict, ds["all_examples"]):
             yield json_to_record(obj, split)
 
+    def _load_auto_samples(self) -> Iterable[SampleRecord]:
+        """Upstream `super_validation`: the first 50 samples of the Auto split."""
+        try:
+            from datasets import load_dataset
+        except ImportError as e:
+            raise RuntimeError("`datasets` required") from e
+
+        token = os.getenv("HF_TOKEN") or os.getenv("HF_ACCESS_TOKEN")
+        ds = load_dataset("allenai/super", "Auto", token=token)
+        objs = list(map(dict, ds["all_examples"]))[: super_auto.AUTO_SAMPLE_LIMIT]
+        excluded = super_auto.load_excluded()
+        for obj in objs:
+            task_id = obj["task_id"]
+            entrypoint = (obj.get("entrypoint") or "").strip()
+            if entrypoint and not entrypoint.endswith((".py", ".sh", ".bash")):
+                raise RuntimeError(
+                    "super-auto: entry point not correct format, must be Python "
+                    f"or Bash file: {entrypoint}"
+                )
+            if task_id in excluded:
+                print(f"[super-expert/validation] {task_id}: not generated "
+                      f"({excluded[task_id]})")
+                continue
+            solution = super_auto.load_solution(task_id)
+            if solution is None:
+                # Neither solved nor listed as excluded: refuse to guess.
+                raise RuntimeError(
+                    f"super-auto: {task_id} has no reference solution and is "
+                    "not listed in super_auto_excluded.json"
+                )
+            if not entrypoint:
+                raise RuntimeError(f"super-auto: {task_id} has no entrypoint")
+            instance_rep = md5(str(obj["query_components"]).encode("utf-8")).hexdigest()
+            yield SampleRecord(
+                sample_id=f"{task_id}_{instance_rep}",
+                split="validation",
+                instruction=obj["query"],
+                target="",
+                metadata={
+                    "super_split": "Auto",
+                    "task_id": task_id,
+                    "entrypoint": entrypoint,
+                    "github_repo": obj.get("github_repo"),
+                    "git_commit": obj.get("git_commit"),
+                    "solve_sh": solution[0],
+                    "answer": solution[1],
+                },
+                workspace_files={},
+            )
+
     def write_task(self, record: SampleRecord, task_dir: Path) -> None:
+        is_auto = record.metadata.get("super_split") == "Auto"
         task_name = f"allenai/asta-bench__{self.task_id(record)}"
         task_toml = TASK_TOML_TEMPLATE.format(
             task_name=task_name,
             split=record.split,
             source_id=record.sample_id,
+            super_split_keyword="auto" if is_auto else "expert",
+            # Auto: the verifier runs the entrypoint for a 15 s window.
+            verifier_timeout_sec=180 if is_auto else 60,
         )
-        instruction = INSTRUCTION_TEMPLATE.format(query=record.instruction)
-        solve_sh = SOLVE_SH_TEMPLATE.format(
-            oracle_answer=oracle_answer_for(record.target)
-        )
-
-        tests_config = {
-            "family": self.family_name,
-            "source_sample_id": record.sample_id,
-            "split": record.split,
-            "gold_answer_json": record.target,
-            "landmarks": record.metadata["landmarks"],
-        }
+        if is_auto:
+            instruction = (
+                record.instruction
+                + super_auto.SUBMIT_INSTRUCTIONS
+                + super_auto.HARBOR_FILE_NOTE
+            )
+            solve_sh = super_auto.render_solve_sh(
+                record.metadata["solve_sh"], record.metadata["answer"]
+            )
+            tests_config = {
+                "family": self.family_name,
+                "source_sample_id": record.sample_id,
+                "split": record.split,
+                "super_split": "Auto",
+                "entrypoint": record.metadata["entrypoint"],
+            }
+            scorer = super_auto.RUN_SCORER_PY
+            inspect_task = super_auto.INSPECT_TASK
+        else:
+            instruction = INSTRUCTION_TEMPLATE.format(query=record.instruction)
+            solve_sh = SOLVE_SH_TEMPLATE.format(
+                oracle_answer=oracle_answer_for(record.target)
+            )
+            tests_config = {
+                "family": self.family_name,
+                "source_sample_id": record.sample_id,
+                "split": record.split,
+                "gold_answer_json": record.target,
+                "landmarks": record.metadata["landmarks"],
+            }
+            scorer = RUN_SCORER_PY
+            inspect_task = _INSPECT_TASK
 
         bridge_config = make_inspect_config(
-            task=_INSPECT_TASK,
+            task=inspect_task,
             sample_id=record.sample_id,
             pip_install=self.inspect_pip_install(),
             eval_args=_BRIDGE_EVAL_ARGS,
         )
+        if is_auto:
+            # The verifier re-runs the solver's command, so whatever the
+            # solver set up in Inspect's (normally temporary) local sandbox
+            # directory must still exist, at the same path, afterwards.
+            bridge_config["keep_sandbox_dir"] = True
+            bridge_config["require_tools"] = True
         # Lands at /app/inspect_config.json via `COPY workspace/ /app/`.
         ws_files = dict(record.workspace_files)
         ws_files["inspect_config.json"] = json.dumps(bridge_config, indent=2)
@@ -561,7 +630,7 @@ class SuperExpertBuilder(BenchmarkBuilder):
             solve_sh=solve_sh,
             test_sh=TEST_SH,
             tests_config=tests_config,
-            extra_tests={"run_scorer.py": RUN_SCORER_PY},
+            extra_tests={"run_scorer.py": scorer},
             workspace_files=ws_files,
         )
         # Build-context-only files (environment/ is the Docker build context);

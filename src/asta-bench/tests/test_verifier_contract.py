@@ -196,8 +196,47 @@ def _non_ds1000(tasks: list[Path]) -> list[Path]:
     return [t for t in tasks if _family(t) != "ds1000"]
 
 
+def _is_super_auto(task_dir: Path) -> bool:
+    cfg = task_dir / "tests" / "config.json"
+    return cfg.exists() and json.loads(cfg.read_text()).get("super_split") == "Auto"
+
+
+def _offline_oracle(tasks: list[Path]) -> list[Path]:
+    # A SUPER-Auto oracle is a real environment setup (clone, install, download)
+    # followed by the verifier running the entrypoint; it needs the task
+    # container and the network.  See test_super_auto_oracle_answer_is_runnable.
+    return [t for t in _non_ds1000(tasks) if not _is_super_auto(t)]
+
+
+_AUTO_TASKS = [t for t in _TASKS if _is_super_auto(t)]
+
+
 @_needs_tasks
-@pytest.mark.parametrize("task_dir", _non_ds1000(_TASKS), ids=_ids(_non_ds1000(_TASKS)))
+@pytest.mark.parametrize("task_dir", _AUTO_TASKS, ids=_ids(_AUTO_TASKS))
+def test_super_auto_oracle_answer_is_runnable(task_dir: Path) -> None:
+    """Static half of the Auto oracle: solve.sh submits a command the verifier
+    would accept for execution (the execution itself needs the container)."""
+    solve = (task_dir / "solution" / "solve.sh").read_text(encoding="utf-8")
+    assert "set -euo pipefail" in solve
+    body = solve.split("<<'SUPER_AUTO_ANSWER_EOF'\n", 1)[1]
+    answer = json.loads(body.split("\nSUPER_AUTO_ANSWER_EOF", 1)[0])
+    assert set(answer) == {"command", "cwd"}
+    assert answer["cwd"].startswith("/")
+    entrypoint = json.loads((task_dir / "tests" / "config.json").read_text())["entrypoint"]
+    name = os.path.basename(entrypoint)
+    command = answer["command"]
+    assert name in command or (
+        name.replace(".py", "").replace("/", ".") in command and "python -m" in command
+    )
+    # No nonce and no gold in the verifier config: nothing to short-circuit on.
+    cfg = json.loads((task_dir / "tests" / "config.json").read_text())
+    assert not any("nonce" in k or "gold" in k for k in cfg)
+
+
+@_needs_tasks
+@pytest.mark.parametrize(
+    "task_dir", _offline_oracle(_TASKS), ids=_ids(_offline_oracle(_TASKS))
+)
 def test_oracle_scores_one(task_dir: Path, tmp_path: Path) -> None:
     sb = Sandbox(task_dir, tmp_path)
     solved = sb.solve()

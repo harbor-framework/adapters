@@ -1,0 +1,1 @@
+{"command": "/workspace/venv/bin/python train.py -t ./data/train/dailydialog/ -e bert-base-uncased -s ./checkpoints -m 1 -r 1 -b 32", "cwd": "/workspace/Dialogue-Topic-Segmenter"}

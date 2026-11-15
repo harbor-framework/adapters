@@ -1,0 +1,1 @@
+{"command": "/workspace/venv/bin/python run.py --task-type sentence --language eng --attribute nli --contextualizer bert --seed 2 --trainer-num-epochs 3000 --step_size 1e-2 --trainer-batch-size 64 --output-file nli_bert.json marglik --depths 0 --widths 100 --posterior-structure diag", "cwd": "/workspace/evidence-probing"}
