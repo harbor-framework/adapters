@@ -228,7 +228,7 @@ Links: [original benchmark](https://github.com/allenai/asta-bench) · [fork used
 - **Open-book and internet.** Every family has `allow_internet = true`: agents need their model API, the literature families need the Asta tools, and SUPER and CORE-Bench tasks install packages and download data. Harbor's Docker environment implements `allow_internet = false` as no network at all, which also cuts off the model API. Several underlying datasets are public, so answer lookup is not prevented by the environment.
 - **Asta tool date cutoff.** Upstream restricts the Asta tools to papers inserted before a cutoff date (2025-06-01 for Paper-Finder, 2024-10-17 for the LitQA2 families). The bridge applies it; the MCP proxy used by standard CLI agents does not yet.
 - **Paper-Finder verification cost.** Semantic queries are judged with one LLM call per submitted paper (up to 250).
-- **`ds1000-test-701`**: the upstream reference solution is multi-statement while the test harness expects a single expression, so the oracle fails on this task. This is a DS-1000 data issue.
+- **`ds1000-test-701` is sensitive to a trailing newline.** Its test template continues on the line where the solution is inserted (`[insert].numpy()`), so an answer that ends with a newline becomes a syntax error and scores 0. This is how DS-1000 and upstream behave for this problem; it is the only one of the 1,000 with such a template. The oracle writes the reference solution byte for byte and passes.
 - **Resources.** `core-bench-hard` declares 16 GB memory / 30 GB storage and `e2e-bench*` 8 GB / 20 GB; hosted sandboxes with lower caps need Harbor's override flags.
 
 ## Installation / Prerequisites

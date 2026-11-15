@@ -272,6 +272,7 @@ class DS1000Builder(BenchmarkBuilder):
                 pip_install=self.inspect_pip_install(),
             )
             _patch_test_sh(task_dir)
+            _patch_solve_sh(task_dir)
             _patch_run_test(task_dir)
             _patch_instruction(task_dir)
             self.finalize_task(task_dir)
@@ -329,6 +330,29 @@ def _patch_run_test(task_dir: Path) -> None:
         return
     shutil.copy2(_DS1000_RUN_TEST_SRC, run_test)
     run_test.chmod(0o755)
+
+
+_SOLVE_SH_EXACT_BYTES = """
+# The here-document above appends one newline to the reference solution.
+# DS-1000 substitutes the solution into its test program textually, and for
+# a problem whose template continues on the same line (e.g. `[insert].numpy()`)
+# that extra newline turns a correct reference into a syntax error.  Drop it
+# so the oracle submits the reference byte for byte.
+truncate -s -1 /solution/solution.py
+"""
+
+
+def _patch_solve_sh(task_dir: Path) -> None:
+    """Make the oracle write the reference solution without an added newline."""
+    solve_sh = task_dir / "solution" / "solve.sh"
+    text = solve_sh.read_text(encoding="utf-8")
+    if not text.rstrip().endswith("PY"):
+        raise ValueError(
+            f"{task_dir.name}: unexpected solve.sh layout from the ds1000 template"
+        )
+    if "truncate -s -1 /solution/solution.py" not in text:
+        solve_sh.write_text(text.rstrip("\n") + "\n" + _SOLVE_SH_EXACT_BYTES, encoding="utf-8")
+        solve_sh.chmod(0o755)
 
 
 def _patch_test_sh(task_dir: Path) -> None:
