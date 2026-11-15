@@ -276,6 +276,7 @@ class DS1000Builder(BenchmarkBuilder):
             _patch_run_test(task_dir)
             _patch_instruction(task_dir)
             self.finalize_task(task_dir)
+            _restore_ds1000_matplotlib(task_dir)
             generated += 1
         return generated, skipped
 
@@ -330,6 +331,39 @@ def _patch_run_test(task_dir: Path) -> None:
         return
     shutil.copy2(_DS1000_RUN_TEST_SRC, run_test)
     run_test.chmod(0o755)
+
+
+# DS-1000's own environment pins matplotlib==3.8.4 (the sibling adapter's
+# Dockerfile and upstream's ds1000_requirements.txt agree).  The Inspect
+# bridge runtime layer, like upstream's shared sandbox image, then installs
+# matplotlib==3.10.0 -- upstream added that for an unrelated solver
+# ("Datavoyager requirement" in astabench/util/sandbox/Dockerfile).  Under
+# 3.10.0 two DS-1000 problems cannot pass even with the reference solution:
+# 649 fails inside its own `generate_test_case`, 520 fails a patch-type
+# assertion.  Both pass under 3.8.4.  We keep DS-1000's pin so every
+# reference solution is gradable; this is a documented deviation from
+# upstream's sandbox image (README, Notes & Caveats).
+DS1000_MATPLOTLIB_PIN = "matplotlib==3.8.4"
+_DS1000_MATPLOTLIB_MARKER = "Restore DS-1000's matplotlib pin"
+
+
+def _restore_ds1000_matplotlib(task_dir: Path) -> None:
+    """Re-pin matplotlib after any layer that may have upgraded it."""
+    dockerfile = task_dir / "environment" / "Dockerfile"
+    text = dockerfile.read_text(encoding="utf-8")
+    if _DS1000_MATPLOTLIB_MARKER in text:
+        return
+    dockerfile.write_text(
+        text.rstrip()
+        + f"""
+
+# {_DS1000_MATPLOTLIB_MARKER} (the layers above may have upgraded it; two
+# DS-1000 problems are unsolvable under matplotlib 3.10).
+RUN python3 -m pip install --no-cache-dir "{DS1000_MATPLOTLIB_PIN}" \\
+    && python3 -c "import matplotlib, sys; sys.exit(matplotlib.__version__ != '3.8.4')"
+""",
+        encoding="utf-8",
+    )
 
 
 _SOLVE_SH_EXACT_BYTES = """
