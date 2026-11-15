@@ -22,6 +22,17 @@ jobs_dir: jobs
 n_attempts: 1
 timeout_multiplier: 1.0
 
+# The bridge exits non-zero only when it could not produce an answer (Inspect
+# crashed, the task did not load, the sample errored, or the model was offered
+# no tools); a wrong answer exits 0 and is scored. Model-provider failures are
+# raised as Harbor's own Api* errors (no valid reward). Everything else is
+# InspectHarnessError, which Harbor would otherwise treat as a valid 0 reward.
+override_error_policy:
+  InspectHarnessError:
+    should_retry: true
+    should_grade: false
+    has_valid_reward: false
+
 orchestrator:
   type: local
   n_concurrent_trials: 4

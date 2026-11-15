@@ -125,3 +125,51 @@ def test_bridge_installs_pin_anthropic() -> None:
     assert base._INSPECT_BRIDGE_DOCKERFILE_SNIPPET.count("'anthropic==0.97.0'") == 2
     assert _module_string("DEFAULT_ANTHROPIC_VERSION") == "0.97.0"
     assert "anthropic=={DEFAULT_ANTHROPIC_VERSION}" in AGENT_PY.read_text()
+    assert "'pyarrow==24.0.0'" in base._INSPECT_BRIDGE_DOCKERFILE_SNIPPET
+    assert "'pyarrow==24.0.0'" in AGENT_PY.read_text()
+
+
+# Needs Harbor (not in the offline test environment); run with
+# `uv run --with 'harbor==0.26.0' ... pytest tests/test_inspect_bridge_harness.py`.
+FAILURE_OUTPUTS = {
+    "[inspect-bridge] inspect eval status='error', sample error: "
+    "TypeError('Cannot instantiate typing.Union') -- failing the run": "InspectHarnessError",
+    "Error: No inspect tasks were found at the specified paths.": "InspectHarnessError",
+    "sample error: InternalServerError('Error code: 500')": "ApiInternalServerError",
+    "sample error: APIStatusError('Error code: 529 - overloaded_error')": "ApiOverloadedError",
+    "sample error: APIConnectionError('Connection error.')": "UnknownApiError",
+}
+
+
+def test_bridge_failures_never_count_as_rewards(tmp_path: Path) -> None:
+    import asyncio
+    from types import SimpleNamespace
+
+    import pytest
+    import yaml
+
+    pytest.importorskip("harbor")
+    from harbor.models.job.config import JobConfig
+    from harbor.models.trial.error_policy import policy_for
+
+    from asta_bench.inspect_solver.agent import InspectSolver
+
+    job_yaml = Path(__file__).resolve().parents[1] / "run_asta-bench_inspect-ai.yaml"
+    overrides = JobConfig.model_validate(
+        yaml.safe_load(job_yaml.read_text().replace("${", "$${"))
+    ).override_error_policy
+
+    class FailingEnv:
+        def __init__(self, output: str) -> None:
+            self.output = output
+
+        async def exec(self, command, **kwargs):
+            return SimpleNamespace(return_code=7, stdout=self.output, stderr="")
+
+    for output, expected in FAILURE_OUTPUTS.items():
+        agent = InspectSolver(logs_dir=tmp_path, model_name="anthropic/claude-haiku-4-5")
+        with pytest.raises(Exception) as info:
+            asyncio.run(agent.run("x", FailingEnv(output), SimpleNamespace()))
+        name = type(info.value).__name__
+        assert name == expected, output
+        assert not policy_for(name, overrides.get(name)).has_valid_reward, name

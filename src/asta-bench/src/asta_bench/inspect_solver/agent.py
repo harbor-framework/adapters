@@ -79,9 +79,15 @@ import shlex
 
 from harbor.agents.capabilities import AgentCapabilities
 from harbor.agents.installed.base import (
+    ApiError,
+    ApiInternalServerError,
+    ApiOverloadedError,
     BaseInstalledAgent,
     CliFlag,
     EnvVar,
+    ErrorPattern,
+    NonZeroAgentExitCodeError,
+    UnknownApiError,
     with_prompt_template,
 )
 from harbor.environments.base import BaseEnvironment
@@ -96,6 +102,17 @@ CONFIG_PATH_ALT = "/tests/inspect_config.json"
 BRIDGE_READY_MARKER = "/opt/asta-inspect-bridge-ready"
 
 
+class InspectHarnessError(NonZeroAgentExitCodeError):
+    """The bridge failed before producing an answer (Inspect crashed, the task
+    did not load, the sample errored, or the model was offered no tools).
+
+    The harness exits non-zero only for such failures; a wrong answer exits 0
+    and is scored. Harbor's default policy treats an unknown agent exception as
+    a valid 0 reward, so job configs map this type to "not graded, no valid
+    reward" via `override_error_policy` (see run_asta-bench_inspect-ai.yaml).
+    """
+
+
 class InspectSolver(BaseInstalledAgent):
     """Run any Inspect-AI solver against the configured Inspect Task + Sample,
     then write the final completion to `/app/answer.txt`.
@@ -107,6 +124,16 @@ class InspectSolver(BaseInstalledAgent):
     # ASTA_TOOL_KEY), so it does not register the Harbor-level server again.
     # Harbor >= 0.26 refuses tasks with MCP servers unless this is declared.
     capabilities = AgentCapabilities(mcp_servers=True)
+
+    # Provider errors as Inspect's Anthropic/OpenAI clients report them, mapped
+    # to Harbor's API error types (retryable, no valid reward). Checked in
+    # addition to Harbor's own patterns; the match nearest the end wins.
+    ERROR_PATTERNS = [
+        *BaseInstalledAgent.ERROR_PATTERNS,
+        ErrorPattern(r"InternalServerError|Error code: 5(?!29)\d\d", ApiInternalServerError),
+        ErrorPattern(r"overloaded_error|OverloadedError|Error code: 529", ApiOverloadedError),
+        ErrorPattern(r"APIConnectionError|APITimeoutError", UnknownApiError),
+    ]
 
     CLI_FLAGS = [
         CliFlag("solver", cli="--solver", type="str", default="astabench/react"),
@@ -200,7 +227,7 @@ class InspectSolver(BaseInstalledAgent):
                 "curl -LsSf https://astral.sh/uv/install.sh | sh; "
                 'if [ -f "$HOME/.local/bin/env" ]; then source "$HOME/.local/bin/env"; fi; '
                 f"uv pip install --system 'inspect_ai=={DEFAULT_INSPECT_AI_VERSION}' "
-                f"'anthropic=={DEFAULT_ANTHROPIC_VERSION}'; "
+                f"'anthropic=={DEFAULT_ANTHROPIC_VERSION}' 'pyarrow==24.0.0'; "
                 # astabench/util/sandbox/sandbox_jupyter.py hardcodes
                 # `/opt/inspect_tool_support/bin/python` (matches the upstream
                 # SandboxToolManager.make_docker_sandbox_spec() Dockerfile).
@@ -260,19 +287,24 @@ class InspectSolver(BaseInstalledAgent):
         }
         harness_q = shlex.quote(json.dumps(harness_payload))
 
-        await self.exec_as_agent(
-            environment,
-            command=(
-                "set -o pipefail; "
-                ". $HOME/.local/bin/env 2>/dev/null || true; "
-                "mkdir -p /app /logs/agent/inspect-logs /logs/agent/bridge && "
-                f"export __INSPECT_BRIDGE_PAYLOAD={harness_q} && "
-                f"PYTHONUNBUFFERED=1 python3 -u - <<'PYEOF' 2>&1 "
-                "| tee /logs/agent/bridge/harness.log\n"
-                f"{HARNESS_PY}\nPYEOF"
-            ),
-            env=self.resolve_env_vars(),
-        )
+        try:
+            await self.exec_as_agent(
+                environment,
+                command=(
+                    "set -o pipefail; "
+                    ". $HOME/.local/bin/env 2>/dev/null || true; "
+                    "mkdir -p /app /logs/agent/inspect-logs /logs/agent/bridge && "
+                    f"export __INSPECT_BRIDGE_PAYLOAD={harness_q} && "
+                    f"PYTHONUNBUFFERED=1 python3 -u - <<'PYEOF' 2>&1 "
+                    "| tee /logs/agent/bridge/harness.log\n"
+                    f"{HARNESS_PY}\nPYEOF"
+                ),
+                env=self.resolve_env_vars(),
+            )
+        except ApiError:
+            raise  # provider failure: Harbor already records no valid reward
+        except NonZeroAgentExitCodeError as exc:
+            raise InspectHarnessError(str(exc)) from exc
 
     def populate_context_post_run(self, context: AgentContext) -> None:
         pass
