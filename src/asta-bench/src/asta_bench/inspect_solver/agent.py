@@ -77,6 +77,7 @@ from __future__ import annotations
 import json
 import shlex
 
+from harbor.agents.capabilities import AgentCapabilities
 from harbor.agents.installed.base import (
     BaseInstalledAgent,
     CliFlag,
@@ -97,6 +98,13 @@ class InspectSolver(BaseInstalledAgent):
     """Run any Inspect-AI solver against the configured Inspect Task + Sample,
     then write the final completion to `/app/answer.txt`.
     """
+
+    # Literature tasks declare the Asta MCP server in task.toml for standard
+    # agents. The bridge gives the model the same tools through the Inspect
+    # task itself (astabench.tools connects to the Asta MCP endpoint with
+    # ASTA_TOOL_KEY), so it does not register the Harbor-level server again.
+    # Harbor >= 0.26 refuses tasks with MCP servers unless this is declared.
+    capabilities = AgentCapabilities(mcp_servers=True)
 
     CLI_FLAGS = [
         CliFlag("solver", cli="--solver", type="str", default="astabench/react"),
