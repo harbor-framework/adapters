@@ -1,0 +1,27 @@
+datasets:
+  - path: ../../datasets/flashinfer-bench
+# Run from this adapter directory. Harbor's default mean imputes missing scores
+# as zero; upstream instead averages scorable definitions and reports coverage.
+metrics:
+  - type: uv-script
+    kwargs:
+      script_path: src/flashinfer_bench/aggregate.py
+agents:
+  - name: oracle
+# Native protocol (after agreeing the parity plan and exact model):
+# agents:
+#   - import_path: flashinfer_bench.native_agent:FlashInferNativeAgent
+#     model_name: gpt-5-2025-08-07
+#     kwargs:
+#       language: triton
+#       rounds: 10
+#       attempts: 2
+#       reasoning_effort: high
+#       seed: 0
+# CLI agents use the packaging instruction, so are a separate protocol comparison.
+environment:
+  type: docker
+  delete: true
+orchestrator:
+  type: local
+  n_concurrent_trials: 1
