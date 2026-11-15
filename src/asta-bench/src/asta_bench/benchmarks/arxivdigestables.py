@@ -365,6 +365,10 @@ def _judge_with_backoff(call):
 
     import litellm  # type: ignore
 
+    # litellm's default aiohttp transport is disconnected by the parity proxy
+    # on large request bodies (~30K+ chars); httpx, as the Anthropic SDK and
+    # Inspect use, is not.
+    litellm.disable_aiohttp_transport = True
     names = ("InternalServerError", "APIConnectionError", "RateLimitError",
              "Timeout", "ServiceUnavailableError")
     transient = tuple(
