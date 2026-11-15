@@ -88,6 +88,8 @@ from harbor.environments.base import BaseEnvironment
 from harbor.models.agent.context import AgentContext
 
 DEFAULT_INSPECT_AI_VERSION = "0.3.203"
+# The pinned fork's uv.lock version; inspect_ai 0.3.203 breaks on anthropic>=2.
+DEFAULT_ANTHROPIC_VERSION = "0.97.0"
 
 CONFIG_PATH_PRIMARY = "/app/inspect_config.json"
 CONFIG_PATH_ALT = "/tests/inspect_config.json"
@@ -197,7 +199,8 @@ class InspectSolver(BaseInstalledAgent):
                 "set -ex; "
                 "curl -LsSf https://astral.sh/uv/install.sh | sh; "
                 'if [ -f "$HOME/.local/bin/env" ]; then source "$HOME/.local/bin/env"; fi; '
-                f"uv pip install --system 'inspect_ai=={DEFAULT_INSPECT_AI_VERSION}'; "
+                f"uv pip install --system 'inspect_ai=={DEFAULT_INSPECT_AI_VERSION}' "
+                f"'anthropic=={DEFAULT_ANTHROPIC_VERSION}'; "
                 # astabench/util/sandbox/sandbox_jupyter.py hardcodes
                 # `/opt/inspect_tool_support/bin/python` (matches the upstream
                 # SandboxToolManager.make_docker_sandbox_spec() Dockerfile).
@@ -617,6 +620,22 @@ def main():
     if not samples:
         print("[inspect-bridge] inspect log has no samples", file=sys.stderr)
         sys.exit(5)
+    # An errored sample (or an eval that did not finish) is a harness failure,
+    # not an answer: fail the run so Harbor records an agent error instead of
+    # the verifier scoring an empty completion as 0. Upstream likewise does not
+    # score errored samples.
+    sample_error = samples[0].get("error")
+    if obj.get("status") != "success" or sample_error:
+        message = (sample_error or obj.get("error") or {}).get("message", "")
+        for spec in export_files:
+            Path(spec["dest"]).unlink(missing_ok=True)
+        print(
+            f"[inspect-bridge] inspect eval status={obj.get('status')!r}, "
+            f"sample error: {message or 'none'} -- failing the run",
+            file=sys.stderr,
+            flush=True,
+        )
+        sys.exit(7)
     # Cheap harness-health guard: if the model was only ever offered
     # `submit`, the task's tools were dropped (e.g. bare `--solver react`)
     # and the run says nothing about the agent.

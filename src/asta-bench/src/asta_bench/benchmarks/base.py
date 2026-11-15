@@ -431,7 +431,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \\
     && rm -rf /var/lib/apt/lists/*
 RUN curl -LsSf https://astral.sh/uv/install.sh | sh
 ENV PATH="/root/.local/bin:${{PATH}}"
-RUN uv pip install --system 'inspect_ai==0.3.203' \\
+# anthropic==0.97.0: the version in the pinned fork's uv.lock (the original
+# side of parity). inspect_ai 0.3.203 fails on anthropic>=2 with
+# "TypeError: Cannot instantiate typing.Union" before any model call.
+RUN uv pip install --system 'inspect_ai==0.3.203' 'anthropic==0.97.0' \\
     && python3 -m venv /opt/inspect_tool_support \\
     && /opt/inspect_tool_support/bin/pip install --no-cache-dir \\
         inspect-tool-support requests \\
@@ -440,7 +443,8 @@ RUN uv pip install --system 'inspect_ai==0.3.203' \\
     && python3 -m pip install --no-cache-dir \\
         jupyterlab==4.4.3 jupyter_kernel_gateway==3.0.1 \\
         numpy pandas matplotlib==3.10.0 'mcp~=1.10' \\
-        '{ASTABENCH_FORK_REQUIREMENT}' \\
+        '{ASTABENCH_FORK_REQUIREMENT}' 'anthropic==0.97.0' \\
+    && python3 -c "import anthropic, sys; sys.exit(anthropic.__version__ != '0.97.0')" \\
     && touch {_INSPECT_BRIDGE_MARKER}
 """
 
