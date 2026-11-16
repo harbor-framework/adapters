@@ -8,7 +8,7 @@
     "parity_benchmark_size": 500,
     "number_of_runs": 3,
     "notes": "Matched generation (see README): both sides make upstream's single API call per question (gpt-4o-mini-2024-07-18, max_tokens 1000, temperature 0, top_p 1, seed 42); the Harbor side runs the charxiv-direct agent. Judge gpt-4o-2024-08-06 on both sides (upstream's gpt-4o-2024-05-13 is retired), exact-match short-circuit off (CHARXIV_EXACT_MATCH_SHORTCUT=0), descriptive grading one question per judge call on both sides. Parity subset --split parity: 100 of 1000 validation charts (random.Random(42)) x 5 questions = 400 descriptive + 100 reasoning tasks. Runs: 3 independent upstream runs; Harbor n_attempts=3, run k = the k-th attempt of each task by start time. No generation failures or judge failures on either side. Run-score ranges overlap for both metrics.",
-    "original_parity_repo": "TBD",
+    "original_parity_repo": "https://github.com/lijrjyan/CharXiv/tree/harbor-parity",
     "adapter_pr": [
       "https://github.com/harbor-framework/adapters/pull/85"
     ],

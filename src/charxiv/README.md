@@ -120,9 +120,10 @@ Both sides thus run the same generation, and only the harness differs (task pack
 
 Per-run scores: reasoning original 33.0 / 36.0 / 34.0, Harbor 33.0 / 31.0 / 32.0; descriptive original 74.5 / 73.5 / 75.0, Harbor 74.0 / 74.5 / 74.0. The run-score ranges overlap for both metrics. Neither side had a generation failure (`"Error in generating response."`) or a judge failure (score -1). Even at temperature 0 the OpenAI API is not deterministic: 83% of Harbor descriptive replies and 68% of Harbor reasoning replies are byte-identical to one of the three original replies for the same question. The 2.3-point reasoning gap comes from 11 of the 100 questions whose solve count differs between the sides (8 favour the original side, 3 the Harbor side). By majority vote over the three runs, 3 questions are solved only on the original side and 2 only on the Harbor side, which fits sampling noise on 100 questions. The Harbor side's runs are the three attempts of one job (`n_attempts: 3`); run *k* is the *k*-th attempt of each task by start time.
 
-Reproduction, original side: the parity fork (TBD) is upstream `7ebe88f` with the three changes above. Restrict `data/descriptive_val.json` and `data/reasoning_val.json` to the 100 parity chart ids (`uv run charxiv --split parity` and read the ids from the task names), then run upstream's scripts from the repository root:
+Reproduction, original side: the [parity fork](https://github.com/lijrjyan/CharXiv/tree/harbor-parity) is upstream `7ebe88f` with the three changes above, plus `harbor_parity/` (the 100 parity chart ids, a script that builds the subset, and a run script). Per run, from the fork's root (`harbor_parity/run_parity.sh parity_run1` does the same):
 
 ```bash
+python harbor_parity/make_subset.py --out parity_run1 && cd parity_run1   # data/, images/ and src/ for the 100 parity charts
 M=gpt-4o-mini-2024-07-18
 for mode in descriptive reasoning; do
   python src/generate.py --model_name $M --model_path $M --model_api "$OPENAI_API_KEY" --mode $mode --data_dir ./data --image_dir ./images --output_dir ./results
@@ -148,7 +149,7 @@ A 50-question pilot run before parity (10 parity charts, one run per side) gave 
 The full validation split was run with the oracle agent on Harbor 0.23.0 (Docker, local orchestrator, separate verifier): **5,000 / 5,000 tasks scored 1.0**, with no errors. The oracle answer is the ground truth, so it is graded by the exact-match short-circuit and does not call the LLM judge. The judge path was checked separately in Harbor with `CHARXIV_EXACT_MATCH_SHORTCUT=0` and the default judge: oracle answers for three tasks (two reasoning, one descriptive) were scored 1 by the judge, and a deliberately wrong answer was scored 0.
 
 
-Links: original benchmark https://github.com/princeton-nlp/CharXiv · parity fork TBD · adapter PR https://github.com/harbor-framework/adapters/pull/85 · dataset PR TBD · parity upload TBD.
+Links: original benchmark https://github.com/princeton-nlp/CharXiv · parity fork https://github.com/lijrjyan/CharXiv/tree/harbor-parity · adapter PR https://github.com/harbor-framework/adapters/pull/85 · dataset PR TBD · parity upload TBD.
 
 ## Notes & Caveats
 
