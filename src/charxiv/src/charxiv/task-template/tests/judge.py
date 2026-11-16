@@ -5,8 +5,9 @@ Ports the grading path of princeton-nlp/CharXiv@7ebe88f (src/evaluate.py,
 src/descriptive_utils.py, src/reasoning_utils.py, src/get_stats.py). Prompts
 and rubrics come from the vendored, unmodified upstream constants
 (charxiv_constants.py). Judge call parameters match upstream exactly:
-gpt-4o-2024-05-13, temperature 0, top_p 1, seed 42, json_object response
-format, max_tokens 256 doubling to 1024 on truncated JSON, 10 attempts.
+temperature 0, top_p 1, seed 42, json_object response format, max_tokens 256
+doubling to 1024 on truncated JSON, 10 attempts. Judge model: upstream
+gpt-4o-2024-05-13 is retired, so the default is gpt-4o-2024-08-06.
 
 Adapter-level behaviour (documented in the README):
   * Descriptive questions are graded with batch size 1 (upstream batches 5
@@ -42,7 +43,10 @@ TESTS_DIR = Path(__file__).resolve().parent
 CONFIG_PATH = TESTS_DIR / "config.json"
 ANSWER_PATH = Path("/app/answer.txt")
 LOG_DIR = Path("/logs/verifier")
-DEFAULT_JUDGE_MODEL = "gpt-4o-2024-05-13"
+# Upstream uses gpt-4o-2024-05-13, which OpenAI has retired (404 model_not_found);
+# gpt-4o-2024-08-06 is the closest pinned GPT-4o snapshot that accepts the same
+# call parameters. Override with CHARXIV_JUDGE_MODEL.
+DEFAULT_JUDGE_MODEL = "gpt-4o-2024-08-06"
 MAX_RETRIES = 10
 # Upstream answers are short strings; anything larger is not a usable answer.
 MAX_ANSWER_BYTES = 64 * 1024

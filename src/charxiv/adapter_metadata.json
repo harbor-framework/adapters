@@ -13,7 +13,7 @@
           "None"
         ],
         "adaptable": true,
-        "notes": "1000 charts x (4 descriptive + 1 reasoning) questions with public answers. Upstream queries MLLMs directly (src/generate_lib) and grades with a GPT-4o (gpt-4o-2024-05-13) judge."
+        "notes": "1000 charts x (4 descriptive + 1 reasoning) questions with public answers. Upstream queries MLLMs directly (src/generate_lib) and grades with a GPT-4o (gpt-4o-2024-05-13) judge. That model is retired; the adapter defaults to gpt-4o-2024-08-06 on both sides."
       },
       {
         "split": "test",

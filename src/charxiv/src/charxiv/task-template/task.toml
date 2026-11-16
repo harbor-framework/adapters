@@ -26,7 +26,7 @@ timeout_sec = 600.0
 # is not an exact match of the ground truth (see tests/judge.py).
 OPENAI_API_KEY = "${OPENAI_API_KEY:-}"
 OPENAI_BASE_URL = "${OPENAI_BASE_URL:-}"
-JUDGE_MODEL = "${CHARXIV_JUDGE_MODEL:-gpt-4o-2024-05-13}"
+JUDGE_MODEL = "${CHARXIV_JUDGE_MODEL:-gpt-4o-2024-08-06}"
 CHARXIV_EXACT_MATCH_SHORTCUT = "${CHARXIV_EXACT_MATCH_SHORTCUT:-1}"
 
 [environment]
