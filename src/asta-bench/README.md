@@ -194,7 +194,7 @@ Per family (mean ± SEM over the 3 runs, %):
 | `sqa` | 17 | 67.7 ± 2.3 | 71.9 ± 1.4 |
 | `super-expert` | 8 | 8.3 ± 2.1 | 8.3 ± 5.5 |
 
-**Standard CLI agent (not a parity row).** Upstream has no terminal-agent path, so a standard-agent run has no original side. One Harbor-only run of `claude-code@2.1.325` (model `claude-haiku-4-5`) on the CLI packaging of the parity subset shows that the tasks are usable by a standard agent. It is not part of `parity_experiment.json`.
+**Standard CLI agent.** One Harbor-only run of `claude-code@2.1.325` (model `claude-haiku-4-5`) on the CLI packaging of the parity subset shows that the tasks are usable by a standard agent.
 
 | Agent | Model | Metric | Runs | Dataset Size | Harbor |
 |-------|-------|--------|------|--------------|--------|
