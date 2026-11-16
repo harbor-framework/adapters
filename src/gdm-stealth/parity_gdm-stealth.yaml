@@ -1,0 +1,23 @@
+# Planned parity configuration. Replace provider/model with the exact
+# dated model ID agreed with the Harbor team, set rater credentials,
+# after `uv sync` in this adapter directory, run from repo root:
+#   PYTHONPATH=src/gdm-stealth/src harbor run -c src/gdm-stealth/parity_gdm-stealth.yaml
+# n_attempts=10 mirrors Inspect's default epochs for one parity run;
+# aggregate externally using each task family's upstream reducer.
+jobs_dir: jobs
+n_attempts: 10
+timeout_multiplier: 1.0
+orchestrator:
+  type: local
+  n_concurrent_trials: 4
+  quiet: false
+environment:
+  type: docker
+  force_build: true
+  delete: true
+agents:
+  - name:
+    import_path: gdm_stealth.custom_agent.agent:GDMStealthParityAgent
+    model_name: provider/model
+datasets:
+  - path: datasets/gdm-stealth

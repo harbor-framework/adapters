@@ -1,0 +1,26 @@
+[
+  {
+    "adapter_name": "gdm-stealth",
+    "agent": "gdm-stealth-parity-agent@0.1.0",
+    "model": "TBD",
+    "date": "TBD",
+    "adapted_benchmark_size": 13,
+    "parity_benchmark_size": 0,
+    "number_of_runs": 0,
+    "notes": "NOT RUN. WIP placeholder so the file exists during development; values are not measurements. Parity requires pinned rater/judger/chat models, API keys, and Step 4 team agreement. The Scenario 3 custom agent is implemented and has run real-model smoke episodes host-side via OpenRouter, but no parity experiment has run. Upstream Inspect commit a68dade7efb803ef50c8442d3f16264b293d1414.",
+    "original_parity_repo": "https://github.com/UKGovernmentBEIS/inspect_evals",
+    "adapter_pr": [],
+    "dataset_pr": [],
+    "parity_pr": [],
+    "metrics": [
+      {
+        "benchmark_name": "GDM Stealth",
+        "metric": "binary reward per task (upstream success for oversight/classifier; full upstream score required for cover_your_tracks 7/7 and strategic raw/33)",
+        "original": "not run",
+        "harbor": "not run",
+        "original_runs": [],
+        "harbor_runs": []
+      }
+    ]
+  }
+]
