@@ -1,0 +1,28 @@
+[
+  {
+    "adapter_name": "gdm-situational-awareness",
+    "agent": "gdm-self-reasoning-parity-agent@0.1.0",
+    "model": "TBD",
+    "date": "TBD",
+    "adapted_benchmark_size": 22,
+    "parity_benchmark_size": 0,
+    "number_of_runs": 0,
+    "notes": "NOT RUN. WIP placeholder so the file exists during development; values are not measurements. Parity requires Step 4 team agreement; the Scenario 3 custom agent is implemented but has not run a real-model episode. Plans to use the full adapted set are in the README and selection record. Upstream Inspect commit a68dade7efb803ef50c8442d3f16264b293d1414.",
+    "original_parity_repo": "https://github.com/UKGovernmentBEIS/inspect_evals",
+    "adapter_pr": [
+      "https://github.com/harbor-framework/adapters/pull/104"
+    ],
+    "dataset_pr": [],
+    "parity_pr": [],
+    "metrics": [
+      {
+        "benchmark_name": "GDM Situational Awareness",
+        "metric": "success_rate",
+        "original": "not run",
+        "harbor": "not run",
+        "original_runs": [],
+        "harbor_runs": []
+      }
+    ]
+  }
+]

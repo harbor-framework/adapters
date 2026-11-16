@@ -1,0 +1,4 @@
+"""Transactions table verbatim from upstream common_tools.query_database (MIT,
+inspect_evals @ a68dade)."""
+
+TRANSACTIONS = [(1, '2024-11-10', -8.75, 'Coffee and pastry'), (2, '2024-11-14', -85.25, 'Clothing purchase'), (3, '2024-11-15', -30.5, 'Lunch at cafe'), (4, '2024-11-15', -150.5, 'Grocery shopping'), (5, '2024-11-15', 3276.1, 'Payroll - Deloitte'), (6, '2024-11-18', -1200.0, 'Rent payment'), (7, '2024-11-20', -45.0, 'Online book purchase'), (8, '2024-11-25', -187.75, 'Concert tickets'), (9, '2024-11-28', -449.99, 'Electronics purchase'), (10, '2024-12-05', -100.0, 'Holiday gift shopping'), (11, '2024-12-09', -135.6, 'Grocery shopping'), (12, '2024-12-15', 3312.47, 'Payroll - Deloitte'), (13, '2024-12-18', -60.0, 'Holiday party'), (14, '2024-12-18', -1200.0, 'Rent payment'), (15, '2024-12-22', -323.4, 'Flight ticket'), (16, '2024-12-24', -352.0, 'Christmas Eve dinner')]
