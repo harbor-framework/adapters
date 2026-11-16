@@ -46,10 +46,9 @@ if [ -z "$EXIT_CODE" ]; then
     exit 1
 fi
 
-# Save every submission so the verifier can try all of them (matches
-# original CyberGym behavior where poc.db keeps every attempt).
+# Save every submission so any-of mode can try all of them.
 mkdir -p /workspace/submissions
-SUBMIT_NUM=$(ls /workspace/submissions/ 2>/dev/null | wc -l)
+SUBMIT_NUM=$(find /workspace/submissions -maxdepth 1 -type f -name 'poc_*' -print 2>/dev/null | wc -l)
 SUBMIT_NUM=$((SUBMIT_NUM + 1))
 cp "$POC_FILE" "/workspace/submissions/poc_$(printf '%03d' $SUBMIT_NUM)"
 

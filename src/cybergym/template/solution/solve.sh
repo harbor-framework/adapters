@@ -20,6 +20,11 @@ HTTP_CODE=$(curl -sf -o /workspace/poc -w "%{http_code}" \
 
 if [ "$HTTP_CODE" -eq 200 ] && [ -s /workspace/poc ]; then
     echo "Oracle: retrieved ground truth PoC to /workspace/poc"
+    # Archive the reference input using the same convention as submit.sh.
+    mkdir -p /workspace/submissions
+    SUBMIT_NUM=$(find /workspace/submissions -maxdepth 1 -type f -name 'poc_*' -print | wc -l)
+    SUBMIT_NUM=$((SUBMIT_NUM + 1))
+    cp /workspace/poc "/workspace/submissions/poc_$(printf '%03d' "$SUBMIT_NUM")"
 else
     echo "ERROR: task-server returned HTTP $HTTP_CODE or empty response" >&2
     touch /workspace/poc

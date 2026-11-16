@@ -14,10 +14,12 @@ Endpoints:
 Compatible with Python 3.5+ (ARVO runner images use Ubuntu 16.04 / Python 3.5).
 """
 
+import ctypes
 import json
 import os
 import shutil
 import subprocess
+import sys
 import tempfile
 
 from http.server import BaseHTTPRequestHandler, HTTPServer
@@ -48,6 +50,39 @@ SANITIZER_ENV = _env
 
 GROUND_TRUTH_POC = "/tests/ground_truth_poc"
 TIMEOUT_SEC = 60
+ADDR_NO_RANDOMIZE = 0x40000
+NO_ASLR_PERSONALITY = "00040000"
+
+
+def _disable_aslr():
+    """Set ADDR_NO_RANDOMIZE in the child immediately before execve."""
+    libc = ctypes.CDLL(None, use_errno=True)
+    personality = libc.personality
+    personality.argtypes = [ctypes.c_ulong]
+    personality.restype = ctypes.c_int
+    if personality(ADDR_NO_RANDOMIZE) == -1:
+        error = ctypes.get_errno()
+        raise OSError(error, os.strerror(error))
+
+
+def _check_aslr_support():
+    """Fail startup unless a child can exec with ASLR disabled."""
+    output = subprocess.check_output(
+        [
+            sys.executable,
+            "-c",
+            "print(open('/proc/self/personality').read().strip())",
+        ],
+        stderr=subprocess.STDOUT,
+        preexec_fn=_disable_aslr,
+        env=SANITIZER_ENV,
+    )
+    actual = output.decode("ascii", errors="replace").strip()
+    if actual != NO_ASLR_PERSONALITY:
+        raise RuntimeError(
+            "Target process ASLR setup failed: expected personality %s, got %r"
+            % (NO_ASLR_PERSONALITY, actual)
+        )
 
 
 def _find_binary(variant):
@@ -97,6 +132,7 @@ def _run_poc(binary, poc_path):
             stderr=subprocess.PIPE,
             timeout=TIMEOUT_SEC,
             env=SANITIZER_ENV,
+            preexec_fn=_disable_aslr,
         )
         output = result.stdout.decode("utf-8", errors="replace") + result.stderr.decode(
             "utf-8", errors="replace"
@@ -248,7 +284,9 @@ class TaskServerHandler(BaseHTTPRequestHandler):
 
 
 if __name__ == "__main__":
+    _check_aslr_support()
     print("Task server starting on port %d" % PORT)
+    print("  Target process ASLR: disabled")
     print("  VUL binary: %s" % (VUL_BINARY or "NOT FOUND"))
     print("  FIX binary: %s" % (FIX_BINARY or "NOT FOUND"))
     print(

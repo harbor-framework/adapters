@@ -8,7 +8,7 @@
 # Whitelisted traffic:
 #   - Docker internal networks (task-server sidecar, RFC1918 ranges)
 #   - System package managers (apt)
-#   - Language package managers (pip, npm, GitHub)
+#   - Language package managers (pip, npm)
 #   - Agent installers (Claude Code, Aider, Cursor, etc.)
 #   - LLM API endpoints (Anthropic, OpenAI, Google, etc.)
 #   - Custom endpoints from *_BASE_URL environment variables
@@ -35,11 +35,8 @@ PACKAGE_HOSTS=(
     files.pythonhosted.org
     bootstrap.pypa.io
     registry.npmjs.org
-    github.com
-    raw.githubusercontent.com
-    objects.githubusercontent.com
-    codeload.github.com
     nodejs.org
+    deb.debian.org
 )
 
 # Agent installers
