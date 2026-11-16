@@ -1,0 +1,30 @@
+[
+  {
+    "adapter_name": "longbench-v2",
+    "adapter_builders": ["Jialin Zhang (jiz297@berkeley.edu)"],
+    "original_benchmark": [
+      {
+        "split": "full",
+        "size": 503,
+        "harness": "llm",
+        "supported_agents": null,
+        "adaptable": true,
+        "notes": "LongBench v2 (THUDM/LongBench, arXiv:2412.15204): 503 long-context multiple-choice questions (8k-2M words) in six categories. Original harness is a direct zero-shot LLM call (pred.py) scored by accuracy (result.py)."
+      }
+    ],
+    "harbor_adapter": [
+      {
+        "split": "full",
+        "adapted_benchmark_size": 503,
+        "parity_benchmark_size": null,
+        "parity_sampling_rate": null,
+        "registry_benchmark_size": 503,
+        "added_agents": [],
+        "parity_matching_agents": [],
+        "parity_unmatching_agents": null,
+        "parity_costs": null,
+        "notes": "All 503 questions adapted; context shipped as /app/context.txt, answer written to /app/answer.txt, deterministic verifier that is a verbatim port of the official extract_answer (no bare-letter leniency). Dataset pinned to zai-org/LongBench-v2@2b48e494f2c7a2f0af81aae178e05c7e1dde0fe9 (data.json sha256 15d61c22d92c96900b3c4948b6aeea218d3214b676a65df48e7b8555604c7fe2, verified at generation time); prompt/scorer pinned to THUDM/LongBench@2e00731f8d0bff23dc4325161044d0ed8af94c1e. A stratified 176-task parity split is available via --split parity. Parity pending (Scenario 2: fork with a CLI-agent runner; file-reading agent protocol reported separately from the upstream single-call/truncated-context setting)."
+      }
+    ]
+  }
+]
