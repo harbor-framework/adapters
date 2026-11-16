@@ -1,0 +1,6 @@
+{
+  "FAIL_TO_PASS": [
+    "lighthouse-core/test/lib/stack-collector-test.js"
+  ],
+  "PASS_TO_PASS": []
+}

@@ -8,6 +8,7 @@ from __future__ import annotations
 
 from collections.abc import Generator
 import contextlib
+import json
 import os
 import re
 import shutil
@@ -26,7 +27,7 @@ TEMPLATE_DIR = PACKAGE_DIR / "task-template"
 #   [docker.io/]swebench/sweb.eval.x86_64.<task>[:<tag>]
 #   [docker.io/]aorwall/swe-bench-multimodal-<task>[:<tag>]
 IMAGE_PATTERN = re.compile(
-    r"^(docker\.io/)?(swebench/sweb\.eval\.x86_64\.[a-zA-Z0-9_.-]+|aorwall/swe-bench-multimodal-[a-zA-Z0-9_.-]+)(:[a-zA-Z0-9_.-]+)?$"
+    r"^(docker\.io/)?(swebench/sweb\.eval\.x86_64\.[a-zA-Z0-9_.-]+|aorwall/swe-bench-multimodal-[a-zA-Z0-9_.-]+)(:[a-zA-Z0-9_.-]+)?(@sha256:[0-9a-f]{64})?$"
 )
 
 # Pattern strictly matching adapter-generated backup directories
@@ -129,11 +130,31 @@ class SWEBenchMultimodalAdapter:
             if folder.is_dir() and (folder / "task.yaml").exists():
                 with open(folder / "task.yaml", encoding="utf-8") as f:
                     meta = yaml.safe_load(f) or {}
-                iid = meta.get("instance_id", folder.name)
+                iid = meta.get("instance_id") if isinstance(meta, dict) else None
+                if not isinstance(iid, str) or not iid.strip():
+                    raise ValueError(
+                        f"Invalid upstream instance_id in {folder / 'task.yaml'}: "
+                        "expected an explicit non-empty string"
+                    )
+                if iid in self.tasks_by_id:
+                    raise ValueError(
+                        f"Duplicate upstream instance_id {iid!r}: "
+                        f"{self.tasks_by_id[iid]} and {folder}"
+                    )
                 self.tasks_by_id[iid] = folder
                 self.task_metadata[iid] = meta
 
         self.all_task_ids = sorted(self.tasks_by_id.keys())
+        names = [self._task_name(iid) for iid in self.all_task_ids]
+        if len(names) != len(set(names)):
+            raise ValueError("Upstream IDs collide after task-name normalization")
+
+    @staticmethod
+    def _task_name(instance_id: str) -> str:
+        name = re.sub(r"[^a-z0-9]+", "-", instance_id.lower()).strip("-")
+        if not name:
+            raise ValueError("Empty normalized task name")
+        return name
 
     @staticmethod
     def _normalize_instance_id(instance_id: str) -> str:
@@ -176,29 +197,43 @@ class SWEBenchMultimodalAdapter:
 
         return selected
 
-    def _recover_orphaned_backups(self) -> None:
-        """Restore any orphaned backup directories left behind by abnormal process termination."""
+    def _orphaned_backups(self) -> dict[str, list[Path]]:
         if not self.output_dir.exists():
+            return {}
+        known_names = set(self.tasks_by_id) | {
+            self._task_name(i) for i in self.tasks_by_id
+        }
+        grouped: dict[str, list[Path]] = {}
+        for backup in self.output_dir.iterdir():
+            match = BACKUP_DIR_PATTERN.fullmatch(backup.name)
+            if backup.is_dir() and match and match.group("task_id") in known_names:
+                grouped.setdefault(match.group("task_id"), []).append(backup)
+        return grouped
+
+    def _recover_backups_locked(self) -> None:
+        """Recover under the install lock; UUIDs do not encode generation order."""
+        grouped = self._orphaned_backups()
+        for name, backups in grouped.items():
+            if not (self.output_dir / name).exists() and len(backups) > 1:
+                raise RuntimeError(
+                    f"Multiple orphaned backups for {name}; "
+                    "preserved all versions for explicit recovery"
+                )
+        for name, backups in grouped.items():
+            target = self.output_dir / name
+            if target.exists():
+                for backup in backups:
+                    # A cleanup failure must prevent another backup generation.
+                    shutil.rmtree(backup)
+            else:
+                backups[0].rename(target)
+
+    def _recover_orphaned_backups(self) -> None:
+        """Avoid creating a lock for a read-only no-op; recheck after locking."""
+        if not self._orphaned_backups():
             return
-        lock_file = self.output_dir / ".adapter_install.lock"
-        with _file_lock(lock_file):
-            for backup in self.output_dir.iterdir():
-                if not backup.is_dir():
-                    continue
-                match = BACKUP_DIR_PATTERN.match(backup.name)
-                if not match:
-                    continue
-                target_name = match.group("task_id")
-                if not target_name or target_name not in self.tasks_by_id:
-                    continue
-                target_dir = self.output_dir / target_name
-                if not target_dir.exists():
-                    try:
-                        backup.rename(target_dir)
-                    except OSError:
-                        pass
-                else:
-                    shutil.rmtree(backup, ignore_errors=True)
+        with _file_lock(self.output_dir / ".adapter_install.lock"):
+            self._recover_backups_locked()
 
     def generate_task(self, instance_id: str, overwrite: bool | None = None) -> Path:
         """Generate a single Harbor task directory."""
@@ -213,7 +248,17 @@ class SWEBenchMultimodalAdapter:
 
         src_folder = self.tasks_by_id[instance_id]
         meta = self.task_metadata[instance_id]
-        task_dir = self.output_dir / instance_id
+        task_name = self._task_name(instance_id)
+        task_dir = self.output_dir / task_name
+        for filename in ("gold.patch", "eval.sh", "tests.json", "problem_statement.md"):
+            if not (src_folder / filename).is_file():
+                raise FileNotFoundError(f"Missing required task file: {src_folder / filename}")
+        if not (src_folder / "problem_statement.md").read_text(encoding="utf-8").strip():
+            raise ValueError("Empty problem statement")
+        if (meta.get("image_assets") or {}).get("problem_statement") and not (
+            src_folder / "problem_assets"
+        ).is_dir():
+            raise FileNotFoundError(f"Missing problem assets: {src_folder}")
 
         if task_dir.exists() and not overwrite:
             raise FileExistsError(
@@ -225,7 +270,7 @@ class SWEBenchMultimodalAdapter:
             "image",
             f"swebench/sweb.eval.x86_64.{instance_id.lower().replace('/', '_')}:latest",
         )
-        if not isinstance(raw_image, str) or not IMAGE_PATTERN.match(raw_image):
+        if not isinstance(raw_image, str) or not IMAGE_PATTERN.fullmatch(raw_image):
             raise ValueError(
                 f"Untrusted or malformed container image for task {instance_id}: {raw_image!r}."
             )
@@ -233,7 +278,7 @@ class SWEBenchMultimodalAdapter:
 
         # Stage generation in a temporary directory for atomic creation
         self.output_dir.mkdir(parents=True, exist_ok=True)
-        staging_dir = self.output_dir / f".tmp_{instance_id}_{uuid.uuid4().hex[:8]}"
+        staging_dir = self.output_dir / f".tmp_{task_name}_{uuid.uuid4().hex[:8]}"
         backup_dir: Path | None = None
         if staging_dir.exists():
             shutil.rmtree(staging_dir)
@@ -267,6 +312,25 @@ class SWEBenchMultimodalAdapter:
             # Copy test.sh & eval.sh into tests/
             shutil.copy2(TEMPLATE_DIR / "tests" / "test.sh", tests_dir / "test.sh")
             (tests_dir / "test.sh").chmod(0o755)
+
+            for filename in ("grade.py", "upstream.py", "SWEBENCH_LICENSE"):
+                shutil.copy2(TEMPLATE_DIR / "tests" / filename, tests_dir / filename)
+            for key in ("log_parser", "eval_type", "version"):
+                if key not in meta:
+                    raise ValueError(f"Missing upstream grading metadata: {key}")
+            grading_tests = json.loads((src_folder / "tests.json").read_text())
+            for key in ("FAIL_TO_PASS", "PASS_TO_PASS"):
+                cases = grading_tests.get(key)
+                if not isinstance(cases, list) or any(
+                    not isinstance(case, str) for case in cases
+                ):
+                    raise ValueError(f"Invalid upstream grading tests: {key}")
+            if not any(grading_tests[key] for key in ("FAIL_TO_PASS", "PASS_TO_PASS")):
+                raise ValueError("Upstream grading test lists are both empty")
+            shutil.copy2(src_folder / "tests.json", tests_dir / "tests.json")
+            (tests_dir / "task_metadata.json").write_text(
+                json.dumps(meta, default=str), encoding="utf-8"
+            )
 
             eval_sh_file = src_folder / "eval.sh"
             if eval_sh_file.exists():
@@ -316,7 +380,7 @@ class SWEBenchMultimodalAdapter:
             # Format task.toml
             task_toml_tpl = (TEMPLATE_DIR / "task.toml").read_text(encoding="utf-8")
             task_toml_content = (
-                task_toml_tpl.replace("{instance_id}", instance_id)
+                task_toml_tpl.replace("{instance_id}", instance_id).replace("{task_name}", task_name)
                 .replace("{repo}", meta.get("repo", "unknown"))
                 .replace("{version}", str(meta.get("version", "latest")))
                 .replace("{split}", str(meta.get("split", "test")))
@@ -326,6 +390,7 @@ class SWEBenchMultimodalAdapter:
             # Atomically move staging_dir to task_dir with backup restoration on failure
             lock_file = self.output_dir / ".adapter_install.lock"
             with _file_lock(lock_file):
+                self._recover_backups_locked()
                 if task_dir.exists():
                     if not overwrite:
                         if staging_dir.exists():
@@ -334,7 +399,7 @@ class SWEBenchMultimodalAdapter:
                             f"Target task directory already exists: {task_dir} (use --overwrite to replace)"
                         )
                     backup_dir = (
-                        self.output_dir / f".backup_{instance_id}_{uuid.uuid4().hex}"
+                        self.output_dir / f".backup_{task_name}_{uuid.uuid4().hex}"
                     )
                     task_dir.rename(backup_dir)
                     try:
@@ -349,27 +414,32 @@ class SWEBenchMultimodalAdapter:
                 else:
                     staging_dir.rename(task_dir)
 
-            # Cleanup backup directory outside the critical section to prevent lock contention
-            if backup_dir and backup_dir.exists():
-                shutil.rmtree(backup_dir, ignore_errors=True)
+                # Finish cleanup before another writer can create a backup.
+                if backup_dir and backup_dir.exists():
+                    shutil.rmtree(backup_dir)
 
             return task_dir
 
         except BaseException:
             if staging_dir.exists():
                 shutil.rmtree(staging_dir, ignore_errors=True)
-            if backup_dir and backup_dir.exists() and not task_dir.exists():
-                try:
-                    backup_dir.rename(task_dir)
-                except OSError:
-                    pass
+            if backup_dir:
+                with _file_lock(self.output_dir / ".adapter_install.lock"):
+                    if backup_dir.exists() and not task_dir.exists():
+                        backup_dir.rename(task_dir)
             raise
+
+    def run(self) -> list[Path]:
+        return self.generate()
 
     def generate(self) -> list[Path]:
         """Generate all selected tasks."""
+        selected_ids = self._selected_task_ids()
+        if not selected_ids:
+            self._recover_orphaned_backups()
+            return []
         self.output_dir.mkdir(parents=True, exist_ok=True)
         self._recover_orphaned_backups()
-        selected_ids = self._selected_task_ids()
         generated_paths: list[Path] = []
 
         for tid in selected_ids:

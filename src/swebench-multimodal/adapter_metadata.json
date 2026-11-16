@@ -8,8 +8,10 @@
       {
         "split": "test",
         "size": 480,
-        "harness": "swe-bench",
-        "supported_agents": null,
+        "harness": "agent",
+        "supported_agents": [
+          "None"
+        ],
         "adaptable": true,
         "notes": "SWE-bench Multimodal v2 release containing 480 test tasks across web and frontend software engineering repositories with visual assets."
       }
@@ -21,13 +23,17 @@
         "parity_benchmark_size": 25,
         "parity_sampling_rate": 0.052,
         "registry_benchmark_size": 480,
-        "added_agents": [],
-        "parity_matching_agents": [
-          "oracle@1.0+reference"
+        "added_agents": [
+          "None"
         ],
-        "parity_unmatching_agents": null,
+        "parity_matching_agents": [
+          "None"
+        ],
+        "parity_unmatching_agents": [
+          "None"
+        ],
         "parity_costs": "$0",
-        "notes": "Evaluated using prebuilt Docker testbed images and upstream evaluation scripts."
+        "notes": "Historical oracle matching is unvalidated because the exit-code verifier could award false positives. Corrected local log-based grading validation executed the reconstructed 25-task parity cohort: 24 golden rewards of 1, one reward of 0 from a required PASS_TO_PASS timeout (1549), and three unsolved controls rewarded 0. An identical 1549 rerun also scored 0 at the same timeout. This is grading validation, not independent model parity. Generated tasks must be regenerated to receive the fix. A separate native x64 fixed-image diagnostic on 2026-11-16 passed Lighthouse 1549 golden (reward 1) and rejected its base (reward 0), retaining the 2000 ms threshold; this does not convert the earlier mixed-environment cohort into a uniform 25/25 rerun. See validation/lighthouse-1549-20261116.json."
       }
     ]
   }

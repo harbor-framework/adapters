@@ -1,4 +1,4 @@
-# Task: {instance_id}
+# Task: Fix the reported issue
 
 ## Repository
 `{repo}` (version: `{version}`, base commit: `{base_commit}`)

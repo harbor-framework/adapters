@@ -1,18 +1,23 @@
 schema_version = "1.0"
 
 [task]
-name = "swebench-multimodal/{instance_id}"
+name = "swebench-multimodal/{task_name}"
 description = "SWE-bench Multimodal visual bug fixing task: {instance_id} in {repo}."
 authors = [
     { name = "Carlos E. Jimenez" },
     { name = "John Yang" },
     { name = "Alexander Wettig" },
+    { name = "Shunyu Luan" },
+    { name = "Justin Shen" },
+    { name = "Baian Mo" },
+    { name = "Shunyu Wang" },
     { name = "Karthik Narasimhan" },
     { name = "Ofir Press" },
 ]
 keywords = ["debugging", "multimodal", "swe-bench", "software-engineering"]
 
 [metadata]
+instance_id = "{instance_id}"
 difficulty = "hard"
 category = "debugging"
 repo = "{repo}"

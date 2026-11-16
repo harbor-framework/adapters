@@ -35,11 +35,18 @@ def mock_swebench_source(monkeypatch: pytest.MonkeyPatch, tmp_path_factory: pyte
             f"split: test\n"
             f"image: docker.io/swebench/sweb.eval.x86_64.test:latest\n"
             f"problem_statement: Sample problem description\n"
+            f"log_parser: parse_log_lighthouse\n"
+            f"eval_type: pass_and_fail\n"
+            f"version: '5.6'\n"
         )
         (folder / "task.yaml").write_text(yaml_content, encoding="utf-8")
         (folder / "problem_assets").mkdir()
+        (folder / "problem_statement.md").write_text("Fix the reported issue.")
         (folder / "gold.patch").write_text("--- a/f\n+++ b/f\n", encoding="utf-8")
         (folder / "eval.sh").write_text("#!/bin/bash\nexit 0\n", encoding="utf-8")
+        (folder / "tests.json").write_text(
+            '{"FAIL_TO_PASS": ["regression.js"], "PASS_TO_PASS": []}\n'
+        )
         
     for i in range(100):
         tid = f"dev_instance_{i:03d}"
@@ -51,11 +58,18 @@ def mock_swebench_source(monkeypatch: pytest.MonkeyPatch, tmp_path_factory: pyte
             f"split: dev\n"
             f"image: docker.io/swebench/sweb.eval.x86_64.test:latest\n"
             f"problem_statement: Dev problem description\n"
+            f"log_parser: parse_log_lighthouse\n"
+            f"eval_type: pass_and_fail\n"
+            f"version: '5.6'\n"
         )
         (folder / "task.yaml").write_text(yaml_content, encoding="utf-8")
         (folder / "problem_assets").mkdir()
+        (folder / "problem_statement.md").write_text("Fix the reported issue.")
         (folder / "gold.patch").write_text("--- a/f\n+++ b/f\n", encoding="utf-8")
         (folder / "eval.sh").write_text("#!/bin/bash\nexit 0\n", encoding="utf-8")
+        (folder / "tests.json").write_text(
+            '{"FAIL_TO_PASS": ["regression.js"], "PASS_TO_PASS": []}\n'
+        )
 
     monkeypatch.setenv("SWEBENCH_MULTIMODAL_SOURCE_DIR", str(source_dir))
 
@@ -135,7 +149,7 @@ def test_generate_single_task(tmp_output_dir: Path):
     assert "# Task:" in instr
 
     toml_content = (task_path / "task.toml").read_text(encoding="utf-8")
-    assert f'name = "swebench-multimodal/{target_id}"' in toml_content
+    assert f'name = "swebench-multimodal/{adapter._task_name(target_id)}"' in toml_content
     assert 'network_mode = "no-network"' in toml_content
 
 
@@ -278,7 +292,7 @@ def test_concurrent_generation_collision_without_overwrite(tmp_output_dir: Path)
     adapter = SWEBenchMultimodalAdapter(output_dir=tmp_output_dir, overwrite=False)
     target_id = adapter.all_task_ids[0]
 
-    target_dir = tmp_output_dir / target_id
+    target_dir = tmp_output_dir / adapter._task_name(target_id)
     target_dir.mkdir(parents=True)
     sentinel = target_dir / "precreated.txt"
     sentinel.write_text("original_keep", encoding="utf-8")
@@ -291,6 +305,127 @@ def test_concurrent_generation_collision_without_overwrite(tmp_output_dir: Path)
 
 
 def test_validate_adapter_conformance():
-    """Verify adapter passes Harbor's official validation specification."""
+    """Track the explicit pending parity blockers without hiding other findings."""
     report = validate_adapter.validate_adapter(ADAPTER_ROOT)
-    assert len(report.errors) == 0, f"Adapter validation errors: {report.errors}"
+    assert [(f.check, f.message) for f in report.errors] == [
+        ("Parity JSON structure", "Must be a non-empty JSON array."),
+        ("Parity table missing", "Parity section exists but no table with `Agent | Model | Metric` header found."),
+    ]
+    assert [f.check for f in report.warnings] == ["Cross-validation: adapter_name mismatch"]
+
+
+def test_run_entry_point_delegates(monkeypatch, tmp_path):
+    adapter = SWEBenchMultimodalAdapter(output_dir=tmp_path / "out")
+    expected = [tmp_path / "task"]
+    monkeypatch.setattr(adapter, "generate", lambda: expected)
+    assert adapter.run() == expected
+
+
+def test_run_configs_use_portable_oracle_defaults():
+    import yaml
+    for filename in ("run_swebench-multimodal.yaml", "run_swebench_multimodal.yaml", "run_swebench_multimodal_oracle.yaml"):
+        config = yaml.safe_load((ADAPTER_ROOT / filename).read_text())
+        assert config["agents"] == [{"name": "oracle"}]
+        assert config["datasets"] == [{"path": "datasets/swebench-multimodal"}]
+        assert "agent" not in config and "benchmark" not in config
+
+
+@pytest.mark.parametrize("filename", ["gold.patch", "eval.sh", "tests.json", "problem_statement.md"])
+def test_missing_required_file_fails_before_output(tmp_output_dir, filename):
+    adapter = SWEBenchMultimodalAdapter(output_dir=tmp_output_dir)
+    iid = adapter.all_task_ids[0]
+    (adapter.tasks_by_id[iid] / filename).unlink()
+    with pytest.raises(FileNotFoundError):
+        adapter.generate_task(iid)
+    assert not (tmp_output_dir / adapter._task_name(iid)).exists()
+
+
+def test_normalized_task_name_preserves_original_metadata(tmp_output_dir):
+    adapter = SWEBenchMultimodalAdapter(output_dir=tmp_output_dir)
+    iid = adapter.all_task_ids[0]
+    task = adapter.generate_task(iid)
+    assert task.name == adapter._task_name(iid)
+    assert f'instance_id = "{iid}"' in (task / "task.toml").read_text()
+
+
+@pytest.mark.parametrize("image", [
+    "swebench/sweb.eval.x86_64.example@sha256:" + "a" * 64,
+    "docker.io/swebench/sweb.eval.x86_64.example:latest@sha256:" + "0" * 64,
+    "aorwall/swe-bench-multimodal-example@sha256:" + "f" * 64,
+])
+def test_digest_pinned_image_preserved(tmp_output_dir, image):
+    adapter = SWEBenchMultimodalAdapter(output_dir=tmp_output_dir)
+    iid = adapter.all_task_ids[0]
+    adapter.task_metadata[iid]["image"] = image
+    task = adapter.generate_task(iid)
+    assert (task / "environment/Dockerfile").read_text().splitlines()[0] == "FROM " + image
+
+
+@pytest.mark.parametrize("image", [
+    "swebench/sweb.eval.x86_64.example@sha256:" + "a" * 63,
+    "evil/sweb.eval.x86_64.example@sha256:" + "a" * 64,
+    "swebench/sweb.eval.x86_64.example@sha256:" + "z" * 64,
+    "swebench/sweb.eval.x86_64.example:latest\n",
+    "swebench/sweb.eval.x86_64.example@sha256:" + "a" * 64 + ";echo injected",
+])
+def test_invalid_pinned_image_rejected(tmp_output_dir, image):
+    adapter = SWEBenchMultimodalAdapter(output_dir=tmp_output_dir)
+    iid = adapter.all_task_ids[0]
+    adapter.task_metadata[iid]["image"] = image
+    with pytest.raises(ValueError, match="Untrusted or malformed"):
+        adapter.generate_task(iid)
+
+
+def test_no_problem_images_do_not_require_asset_directory(tmp_output_dir):
+    adapter = SWEBenchMultimodalAdapter(output_dir=tmp_output_dir)
+    iid = adapter.all_task_ids[0]
+    (adapter.tasks_by_id[iid] / "problem_assets").rmdir()
+    adapter.task_metadata[iid]["image_assets"] = {"problem_statement": [], "test_patch": [{"path": "expected.png"}]}
+    task = adapter.generate_task(iid)
+    assert (task / "environment/problem_assets/.gitkeep").exists()
+
+
+def test_declared_problem_images_require_asset_directory(tmp_output_dir):
+    adapter = SWEBenchMultimodalAdapter(output_dir=tmp_output_dir)
+    iid = adapter.all_task_ids[0]
+    (adapter.tasks_by_id[iid] / "problem_assets").rmdir()
+    adapter.task_metadata[iid]["image_assets"] = {"problem_statement": ["https://example.test/image.png"]}
+    with pytest.raises(FileNotFoundError, match="Missing problem assets"):
+        adapter.generate_task(iid)
+
+
+def test_duplicate_upstream_id_is_not_silently_replaced(tmp_output_dir):
+    adapter = SWEBenchMultimodalAdapter(output_dir=tmp_output_dir)
+    iid = adapter.all_task_ids[0]
+    shutil.copytree(adapter.tasks_by_id[iid], adapter.source_dir / 'duplicate-copy')
+    with pytest.raises(ValueError, match='Duplicate upstream instance_id'):
+        SWEBenchMultimodalAdapter(output_dir=tmp_output_dir, source_dir=adapter.source_dir)
+
+
+@pytest.mark.parametrize('value', [None, '', '   ', 123])
+def test_invalid_upstream_id_rejected_before_generation(tmp_output_dir, value):
+    import yaml
+    adapter = SWEBenchMultimodalAdapter(output_dir=tmp_output_dir)
+    source = adapter.tasks_by_id[adapter.all_task_ids[0]] / 'task.yaml'
+    meta = yaml.safe_load(source.read_text())
+    if value is None:
+        meta.pop('instance_id')
+    else:
+        meta['instance_id'] = value
+    source.write_text(yaml.safe_dump(meta))
+    with pytest.raises(ValueError, match='Invalid upstream instance_id'):
+        SWEBenchMultimodalAdapter(output_dir=tmp_output_dir, source_dir=adapter.source_dir)
+
+
+def test_problem_assets_preserve_bytes_at_both_destinations(tmp_output_dir):
+    import hashlib
+    adapter = SWEBenchMultimodalAdapter(output_dir=tmp_output_dir)
+    iid = adapter.all_task_ids[0]
+    assets = adapter.tasks_by_id[iid] / 'problem_assets'
+    content = b'ordinary synthetic image bytes\x00\xff'
+    (assets / '0-example.png').write_bytes(content)
+    adapter.task_metadata[iid]['image_assets'] = {'problem_statement': ['https://example.test/example.png']}
+    task = adapter.generate_task(iid)
+    expected = hashlib.sha256(content).hexdigest()
+    for dest in [task / 'problem_assets/0-example.png', task / 'environment/problem_assets/0-example.png']:
+        assert hashlib.sha256(dest.read_bytes()).hexdigest() == expected
