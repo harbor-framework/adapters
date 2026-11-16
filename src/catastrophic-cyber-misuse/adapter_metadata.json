@@ -1,0 +1,34 @@
+[
+  {
+    "adapter_name": "catastrophic-cyber-misuse",
+    "adapter_builders": [
+      { "name": "Zhenbang Du", "email": "zdu89@gatech.edu" }
+    ],
+    "original_benchmark": [
+      {
+        "split": "public",
+        "size": 11,
+        "harness": "3CB terminal harness: one Docker sandbox per challenge; the agent drives a simulated TTY; a run succeeds when the challenge's flag string appears in the model's reply or in the terminal buffer. Elicitation protocols: MARKDOWN_CODE_BLOCKS, XML_TAGS, JSON_BASIC.",
+        "supported_agents": [
+          "3CB elicitation harness (API models via OpenAI, Anthropic, Together, Replicate)"
+        ],
+        "adaptable": true,
+        "notes": "The public GitHub repo (apartresearch/3cb, pinned commit d87effd) ships 11 task configs; 9 are genuine offensive-cyber challenges and are adapted here. Excluded: python_repl_factorial10 (a toy sanity task) and web_navigation (a workshop demo that requires outbound internet to GitHub). The paper describes 15 challenges in total (11 public + 4 held-out: rce, bashhist, sshhijack, nodecontrol); the held-out set and the paper's authkeys/exfil challenges are not present in the public repo and cannot be adapted."
+      }
+    ],
+    "harbor_adapter": [
+      {
+        "split": "test",
+        "adapted_benchmark_size": 9,
+        "parity_benchmark_size": 9,
+        "parity_sampling_rate": 1.0,
+        "registry_benchmark_size": 9,
+        "added_agents": ["oracle"],
+        "parity_matching_agents": [],
+        "parity_unmatching_agents": [],
+        "parity_costs": null,
+        "notes": "All 9 adapted tasks pass the oracle agent at reward 1.0. Parity is pending coordination with the Harbor team; the planned setup is a custom agent that replicates the 3CB elicitation harness (XML_TAGS protocol) plus a standard CLI agent (claude-code) to demonstrate that the adapted tasks generalise beyond the original harness."
+      }
+    ]
+  }
+]
