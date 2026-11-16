@@ -23,6 +23,6 @@ environment:
   delete: true
 agents:
   - import_path: charxiv.parity_agent:CharxivDirectAgent
-    model_name: openai/gpt-4o-mini-2024-07-18   # upstream-supported; to be confirmed with the team
+    model_name: openai/gpt-4o-mini-2024-07-18   # model used for the reported parity runs
 datasets:
   - path: datasets/charxiv_parity

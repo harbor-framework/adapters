@@ -30,20 +30,20 @@
       {
         "split": "val",
         "adapted_benchmark_size": 5000,
-        "parity_benchmark_size": 0,
-        "parity_sampling_rate": 0.0,
+        "parity_benchmark_size": 500,
+        "parity_sampling_rate": 0.1,
         "registry_benchmark_size": 5000,
         "added_agents": [
-          "None"
+          "charxiv-direct@1.0.0"
         ],
         "parity_matching_agents": [
-          "None"
+          "charxiv-direct@1.0.0+gpt-4o-mini-2024-07-18"
         ],
         "parity_unmatching_agents": [
           "None"
         ],
-        "parity_costs": null,
-        "notes": "Parity not yet run (pending team approval of agent/model). Proposed parity subset: 100 charts x 5 questions = 500 tasks (10%), sampled with seed 42 (--split parity). The verifier runs in a separate container (environment_mode = separate)."
+        "parity_costs": "$25",
+        "notes": "Parity subset: 100 charts x 5 questions = 500 tasks (10%), sampled with seed 42 (--split parity). Parity uses the charxiv-direct agent (matched single-call generation, see README); parity_costs is an estimate from list prices (generation + judge, both sides, 3 runs each). The verifier runs in a separate container (environment_mode = separate)."
       }
     ]
   }

@@ -101,7 +101,6 @@ CHARXIV_UPSTREAM_DIR=/path/to/CharXiv uv run pytest
 
 ## Comparison with Original Benchmark (Parity)
 
-Parity has not been run yet; the agent, model and number of runs are pending team approval.
 
 **Approach: matched generation.** Upstream CharXiv does not run an agent: `src/generate.py` makes one API call per question with the chart and the question text and stores the reply, which `src/evaluate.py` grades. The adapter therefore ships a parity agent, `charxiv-direct` (`src/charxiv/parity_agent.py`), that makes the same call inside Harbor, as `kumo-vanilla` and `contractbench-parity-agent` do for their benchmarks:
 
@@ -110,13 +109,29 @@ Parity has not been run yet; the agent, model and number of runs are pending tea
 - the retry loop of `generate_lib/utils.py` (10 attempts, sleep 1 s × 1.6 per failure, `"Error in generating response."` if all fail);
 - the reply is written verbatim to `/app/answer.txt` and graded by the Harbor verifier.
 
-Both sides thus run the same generation, and only the harness differs (task packaging and the verifier). The original side runs upstream `src/generate.py`, `src/evaluate.py` and `src/get_stats.py` with three small changes, needed because upstream hard-codes them: the judge model (`gpt-4o-2024-05-13` is retired; both sides use `gpt-4o-2024-08-06`), descriptive grading with `nq_per_query=1` (one question per judge call, as in each Harbor task), and the OpenAI base URL for an API proxy. Parity runs disable the exact-match short-circuit (`CHARXIV_EXACT_MATCH_SHORTCUT=0`), so every answer goes through the judge on both sides. The planned model is one that upstream supports natively, e.g. `gpt-4o-mini-2024-07-18` or `gpt-4o-2024-08-06`. A CLI agent (e.g. Claude Code) can additionally be reported on the Harbor side to show that the tasks work with standard agents; that run is not part of parity.
+Both sides thus run the same generation, and only the harness differs (task packaging and the verifier). The original side runs upstream `src/generate.py`, `src/evaluate.py` and `src/get_stats.py` with three small changes, needed because upstream hard-codes them: the judge model (`gpt-4o-2024-05-13` is retired; both sides use `gpt-4o-2024-08-06`), descriptive grading with `nq_per_query=1` (one question per judge call, as in each Harbor task), and the OpenAI base URL for an API proxy. Parity runs disable the exact-match short-circuit (`CHARXIV_EXACT_MATCH_SHORTCUT=0`), so every answer goes through the judge on both sides. Parity uses `gpt-4o-mini-2024-07-18`, which upstream supports natively. A CLI agent (e.g. Claude Code) can additionally be reported on the Harbor side to show that the tasks work with standard agents; that run is not part of parity.
 
-Smoke test (not parity): 50 questions from 10 parity charts, `gpt-4o-mini-2024-07-18`, one run per side. The two sides produced identical replies for 40 of 50 questions and the same score for 49 of 50 (original 39/50, Harbor 38/50); the one score difference came from a question where the two replies differed.
+**Result.** `charxiv-direct@1.0.0` with `gpt-4o-mini-2024-07-18`, 3 runs per side on the parity subset (`--split parity`: 100 of the 1,000 validation charts sampled with `random.Random(42)`, all 5 questions per chart, i.e. 400 descriptive + 100 reasoning = 500 tasks, 10%). Judge `gpt-4o-2024-08-06` on both sides, exact-match short-circuit off. Accuracy in %, mean ± sample SEM:
 
-Proposed parity subset (`--split parity`, to be confirmed with the team): 100 of the 1,000 validation charts (10%) sampled uniformly with `random.Random(42)`, keeping all 5 questions per chart, i.e. 400 descriptive + 100 reasoning = 500 tasks. The 100 reasoning questions split by answer type as 46 text-in-chart, 5 text-in-general, 32 number-in-chart and 17 number-in-general (full validation split: 440 / 99 / 232 / 229).
+| Agent | Model | Metric | Runs | Dataset Size | Original (mean ± SEM) | Harbor (mean ± SEM) |
+|-------|-------|--------|------|--------------|-----------------------|---------------------|
+| charxiv-direct@1.0.0 | gpt-4o-mini-2024-07-18 | reasoning accuracy | 3 | 100 (10% of 1,000) | 34.33 ± 0.8819 | 32.00 ± 0.5774 |
+| charxiv-direct@1.0.0 | gpt-4o-mini-2024-07-18 | descriptive accuracy | 3 | 400 (10% of 4,000) | 74.33 ± 0.4410 | 74.17 ± 0.1667 |
 
-Reproduction (Harbor side; original-side commands to be added with the parity fork):
+Per-run scores: reasoning original 33.0 / 36.0 / 34.0, Harbor 33.0 / 31.0 / 32.0; descriptive original 74.5 / 73.5 / 75.0, Harbor 74.0 / 74.5 / 74.0. The run-score ranges overlap for both metrics. Neither side had a generation failure (`"Error in generating response."`) or a judge failure (score -1). Even at temperature 0 the OpenAI API is not deterministic: 83% of Harbor descriptive replies and 68% of Harbor reasoning replies are byte-identical to one of the three original replies for the same question. The 2.3-point reasoning gap comes from 11 of the 100 questions whose solve count differs between the sides (8 favour the original side, 3 the Harbor side). By majority vote over the three runs, 3 questions are solved only on the original side and 2 only on the Harbor side, which fits sampling noise on 100 questions. The Harbor side's runs are the three attempts of one job (`n_attempts: 3`); run *k* is the *k*-th attempt of each task by start time.
+
+Reproduction, original side: the parity fork (TBD) is upstream `7ebe88f` with the three changes above. Restrict `data/descriptive_val.json` and `data/reasoning_val.json` to the 100 parity chart ids (`uv run charxiv --split parity` and read the ids from the task names), then run upstream's scripts from the repository root:
+
+```bash
+M=gpt-4o-mini-2024-07-18
+for mode in descriptive reasoning; do
+  python src/generate.py --model_name $M --model_path $M --model_api "$OPENAI_API_KEY" --mode $mode --data_dir ./data --image_dir ./images --output_dir ./results
+  python src/evaluate.py --model_name $M --split val --mode $mode --api_key "$OPENAI_API_KEY"
+done
+python src/get_stats.py --model_name $M --split val
+```
+
+Reproduction, Harbor side:
 
 ```bash
 cd src/charxiv && uv run charxiv --split parity --output-dir ../../datasets/charxiv_parity && cd ../..
@@ -126,14 +141,12 @@ export CHARXIV_EXACT_MATCH_SHORTCUT=0
 harbor run -c src/charxiv/run_charxiv_parity.yaml
 ```
 
+A 50-question pilot run before parity (10 parity charts, one run per side) gave identical replies for 40 of 50 questions and the same score for 49 of 50.
+
 ### Oracle Verification
 
 The full validation split was run with the oracle agent on Harbor 0.23.0 (Docker, local orchestrator, separate verifier): **5,000 / 5,000 tasks scored 1.0**, with no errors. The oracle answer is the ground truth, so it is graded by the exact-match short-circuit and does not call the LLM judge. The judge path was checked separately in Harbor with `CHARXIV_EXACT_MATCH_SHORTCUT=0` and the default judge: oracle answers for three tasks (two reasoning, one descriptive) were scored 1 by the judge, and a deliberately wrong answer was scored 0.
 
-| Agent | Model | Metric | Runs | Dataset Size | Original (mean ± SEM) | Harbor (mean ± SEM) |
-|-------|-------|--------|------|--------------|-----------------------|---------------------|
-| TBD | TBD | reasoning accuracy | TBD | TBD | TBD | TBD |
-| TBD | TBD | descriptive accuracy | TBD | TBD | TBD | TBD |
 
 Links: original benchmark https://github.com/princeton-nlp/CharXiv · parity fork TBD · adapter PR https://github.com/harbor-framework/adapters/pull/85 · dataset PR TBD · parity upload TBD.
 
