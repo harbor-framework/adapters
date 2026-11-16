@@ -17,16 +17,15 @@ agents:
 # gemini-cli read_file). The LLM judge needs OPENAI_API_KEY (and optionally
 # OPENAI_BASE_URL / CHARXIV_JUDGE_MODEL) exported in the host environment.
 #
-# The agent runs with no network (task.toml: [agent] network_mode = "no-network"),
-# as upstream queries each model once with no tools or internet. Allow only the
-# model API host, and turn off the agent's hosted web tools (Claude Code's
-# WebSearch runs on Anthropic's side, so a network allowlist alone does not
-# block it):
 # agents:
 #   - name: claude-code
 #     model_name: anthropic/claude-haiku-4-5-20251001
-#     extra_allowed_hosts: ["api.anthropic.com"]   # or your API proxy host
-#     kwargs:
+#
+# Optional: closer to upstream's no-tools, no-internet setting (see README,
+# "Web lookup"). Allow only the model API host during the agent phase and turn
+# off hosted web tools (Claude Code's WebSearch runs on Anthropic's side):
+#     extra_allowed_hosts: ["api.anthropic.com"]   # needs [agent] network_mode
+#     kwargs:                                      # = "no-network" in task.toml
 #       disallowed_tools: "WebSearch,WebFetch"
 
 environment:

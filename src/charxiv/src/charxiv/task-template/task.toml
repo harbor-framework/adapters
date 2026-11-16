@@ -16,12 +16,6 @@ source = "princeton-nlp/CharXiv (validation split)"
 
 [agent]
 timeout_sec = 900.0
-# Upstream CharXiv queries each model once with the chart and question, with no
-# tools and no internet access, and the validation answers are public. The
-# agent therefore runs with no network by default. Allow only the model API
-# host at run time, e.g. `harbor run ... --allow-agent-host api.anthropic.com`.
-# (Agent installation and the separate verifier keep normal network access.)
-network_mode = "no-network"
 
 [verifier]
 environment_mode = "separate"

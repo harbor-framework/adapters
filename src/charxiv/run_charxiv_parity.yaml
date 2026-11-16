@@ -1,0 +1,28 @@
+# Parity configuration (matched generation, see README "Comparison with Original
+# Benchmark"). Generate the subset first:
+#   cd src/charxiv && uv run charxiv --split parity --output-dir ../../datasets/charxiv_parity
+#
+# charxiv-direct (src/charxiv/parity_agent.py) makes the same single API call as
+# upstream src/generate.py, so both sides run the same generation and only the
+# harness differs. It runs on the host and needs the parity extra installed in
+# the environment that runs Harbor (`uv pip install -e "src/charxiv[parity]"`)
+# and OPENAI_API_KEY (and OPENAI_BASE_URL for a proxy) in the shell. The judge
+# uses the same OpenAI credentials.
+#
+# n_attempts: 3 runs every task three times in one job (three full runs).
+jobs_dir: jobs
+n_attempts: 3
+timeout_multiplier: 1.0
+orchestrator:
+  type: local
+  n_concurrent_trials: 8
+  quiet: true
+environment:
+  type: docker
+  force_build: false
+  delete: true
+agents:
+  - import_path: charxiv.parity_agent:CharxivDirectAgent
+    model_name: openai/gpt-4o-mini-2024-07-18   # upstream-supported; to be confirmed with the team
+datasets:
+  - path: datasets/charxiv_parity
