@@ -103,7 +103,7 @@ def build_json_keys(length: int) -> str:
 def populate_grading_inputs(batch) -> str:
     query = ""
     for i, (_, response, answer) in enumerate(batch):
-        query += "T{}:\nResponse {}: {}\nGround Truth {}: {}\n\n".format(
+        query += "T{}:\nResponse {}: {}\nGround Truth {}: {}\n\n".format(  # noqa: UP032 - verbatim upstream
             i + 1, i + 1, response, i + 1, answer
         )
     return query
@@ -126,9 +126,9 @@ def build_reasoning_grading_query(
     """reasoning_utils.build_reasoning_grading_queries for a single figure."""
     return C.REASONING_GRADING_PREFIX + deepcopy(
         C.REASONING_GRADING_INST[inst_category]
-    ).replace("<|question|>", raw_question).replace(
-        "<|ground_truth|>", answer
-    ).replace("<|response|>", response)
+    ).replace("<|question|>", raw_question).replace("<|ground_truth|>", answer).replace(
+        "<|response|>", response
+    )
 
 
 # --------------------------------------------------------------------------
@@ -192,7 +192,9 @@ def run_judge(chat_fn, prompt: str, parse_fn):
 
 def parse_descriptive(raw: str):
     content = json.loads(raw)
-    assert "extract_answer_T1" in content, f"extract_answer_T1 is not found in {content}"
+    assert "extract_answer_T1" in content, (
+        f"extract_answer_T1 is not found in {content}"
+    )
     assert "score_T1" in content, f"score_T1 is not found in {content}"
     assert content["score_T1"] in [0, 1], "score_T1 is not in [0, 1]"
     return content["extract_answer_T1"], content["score_T1"]
@@ -257,7 +259,9 @@ def make_openai_chat_fn():
         del os.environ["OPENAI_BASE_URL"]
     from openai import OpenAI
 
-    client = OpenAI()
+    # Bounded per-request timeout so one hung call cannot use up the whole
+    # verifier timeout; failed attempts are retried by run_judge as upstream.
+    client = OpenAI(timeout=60.0)
     model = os.environ.get("JUDGE_MODEL") or DEFAULT_JUDGE_MODEL
     print(f"Judge model: {model}")
     return lambda prompt, max_tokens: _chat(client, model, prompt, max_tokens)
@@ -327,18 +331,32 @@ def main(
         response = read_answer(answer_path).strip()
     except AgentFault as e:
         print(f"method=agent_fault score=0 ({e})")
-        write_result(log_dir, {"mode": cfg.get("mode"), "score": 0,
-                               "method": "agent_fault", "error": str(e)}, 0)
+        write_result(
+            log_dir,
+            {
+                "mode": cfg.get("mode"),
+                "score": 0,
+                "method": "agent_fault",
+                "error": str(e),
+            },
+            0,
+        )
         return 0
 
-    shortcut = os.environ.get("CHARXIV_EXACT_MATCH_SHORTCUT", "1").strip().lower() not in (
-        "0", "false", "no",
+    shortcut = os.environ.get(
+        "CHARXIV_EXACT_MATCH_SHORTCUT", "1"
+    ).strip().lower() not in (
+        "0",
+        "false",
+        "no",
     )
     try:
         result = grade(cfg, response, chat_fn=chat_fn, shortcut=shortcut)
     except Exception as e:  # noqa: BLE001 - any verifier failure must not become a score
         print(f"VERIFIER ERROR: {type(e).__name__}: {e}", file=sys.stderr)
-        write_result(log_dir, {"error": f"{type(e).__name__}: {e}", "response": response}, None)
+        write_result(
+            log_dir, {"error": f"{type(e).__name__}: {e}", "response": response}, None
+        )
         return 2
     write_result(log_dir, result, result["score"])
     print(f"method={result['method']} score={result['score']}")

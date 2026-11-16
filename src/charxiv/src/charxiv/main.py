@@ -13,23 +13,52 @@ def main() -> None:
     parser = argparse.ArgumentParser(
         description="Generate Harbor tasks for CharXiv (validation split)."
     )
-    parser.add_argument("--output-dir", type=Path, default=DEFAULT_OUTPUT_DIR,
-                        help="Directory to write generated tasks (default: datasets/charxiv)")
-    parser.add_argument("--limit", type=int, default=None, help="Generate only the first N tasks")
-    parser.add_argument("--overwrite", action="store_true", help="Overwrite existing task dirs")
-    parser.add_argument("--task-ids", nargs="+", default=None,
-                        help="Only generate these task ids (e.g. charxiv-reasoning-12)")
-    parser.add_argument("--modes", nargs="+", choices=list(MODES), default=list(MODES),
-                        help="Question types to generate (default: both)")
-    parser.add_argument("--split", choices=["full", "parity"], default="full",
-                        help="full: all 1000 validation charts (5000 tasks); parity: "
-                             f"{PARITY_NUM_FIGURES} charts sampled with seed 42, all 5 questions "
-                             f"each ({PARITY_NUM_FIGURES * 5} tasks)")
-    parser.add_argument("--source-dir", type=Path, default=None,
-                        help="Optional local CharXiv checkout containing data/ and images/ "
-                             "(default: download pinned sources)")
-    parser.add_argument("--cache-dir", type=Path, default=DEFAULT_CACHE_DIR,
-                        help="Download cache for pinned sources")
+    parser.add_argument(
+        "--output-dir",
+        type=Path,
+        default=DEFAULT_OUTPUT_DIR,
+        help="Directory to write generated tasks (default: datasets/charxiv)",
+    )
+    parser.add_argument(
+        "--limit", type=int, default=None, help="Generate only the first N tasks"
+    )
+    parser.add_argument(
+        "--overwrite", action="store_true", help="Overwrite existing task dirs"
+    )
+    parser.add_argument(
+        "--task-ids",
+        nargs="+",
+        default=None,
+        help="Only generate these task ids (e.g. charxiv-reasoning-12)",
+    )
+    parser.add_argument(
+        "--modes",
+        nargs="+",
+        choices=list(MODES),
+        default=list(MODES),
+        help="Question types to generate (default: both)",
+    )
+    parser.add_argument(
+        "--split",
+        choices=["full", "parity"],
+        default="full",
+        help="full: all 1000 validation charts (5000 tasks); parity: "
+        f"{PARITY_NUM_FIGURES} charts sampled with seed 42, all 5 questions "
+        f"each ({PARITY_NUM_FIGURES * 5} tasks)",
+    )
+    parser.add_argument(
+        "--source-dir",
+        type=Path,
+        default=None,
+        help="Optional local CharXiv checkout containing data/ and images/ "
+        "(default: download pinned sources)",
+    )
+    parser.add_argument(
+        "--cache-dir",
+        type=Path,
+        default=DEFAULT_CACHE_DIR,
+        help="Download cache for pinned sources",
+    )
     args = parser.parse_args()
     if args.limit is not None and args.limit < 1:
         parser.error("--limit must be >= 1")
@@ -45,7 +74,9 @@ def main() -> None:
         split=args.split,
     ).run()
     if args.task_ids and not paths:
-        print("ERROR: no task matched --task-ids; nothing was generated.", file=sys.stderr)
+        print(
+            "ERROR: no task matched --task-ids; nothing was generated.", file=sys.stderr
+        )
         sys.exit(1)
 
 

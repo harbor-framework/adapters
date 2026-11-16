@@ -86,11 +86,13 @@ def descriptive_query_helper(qid: int, subplot_loc: Any) -> str:
         if subplot_loc[0] == 0:
             prefix = "For the current plot, "
         else:
-            prefix = f"For the subplot at row {subplot_loc[0]} and column {subplot_loc[1]}, "
+            prefix = (
+                f"For the subplot at row {subplot_loc[0]} and column {subplot_loc[1]}, "
+            )
     elif isinstance(subplot_loc, str):
         prefix = f"For {subplot_loc}, "
     else:
-        raise ValueError(f"Invalid subplot_loc: {subplot_loc}")
+        raise ValueError(f"Invalid subplot_loc: {subplot_loc}")  # noqa: TRY004 - as upstream
     return C.DESCRIPTIVE_RESP_INST[qid].format(prefix)
 
 
@@ -102,7 +104,9 @@ def get_number_instruction(answer: str) -> str:
         inst = "* Your final answer must be an exact integer."
     elif whole is not None and decimal is not None:
         num_decimal = len(decimal)
-        inst = f"* Your final answer must be a number with {num_decimal} decimal places."
+        inst = (
+            f"* Your final answer must be a number with {num_decimal} decimal places."
+        )
     else:
         raise ValueError(f"Invalid answer: {answer}")
     return inst
@@ -134,7 +138,9 @@ class CharXivTask:
     subq_idx: int | None = None  # descriptive only
     qid: int | None = None  # descriptive template id
     inst_category: int | None = None  # reasoning answer type
-    raw_question: str | None = None  # reasoning query without instructions (judge input)
+    raw_question: str | None = (
+        None  # reasoning query without instructions (judge input)
+    )
     qa_source: int | None = None
     num_subplots: int | None = None
     image_meta: dict[str, Any] | None = None
@@ -183,7 +189,7 @@ def _download(url: str, dest: Path) -> None:
     try:
         with urllib.request.urlopen(req, timeout=600) as resp, tmp.open("wb") as f:
             shutil.copyfileobj(resp, f)
-    except (urllib.error.URLError, TimeoutError, OSError) as e:
+    except OSError as e:  # includes urllib.error.URLError and TimeoutError
         tmp.unlink(missing_ok=True)
         raise RuntimeError(
             f"Failed to download {url}: {e}. Check network access, or pass --source-dir "
@@ -203,9 +209,12 @@ def _sha256(path: Path) -> str:
 class CharXivSource:
     """Pinned CharXiv validation data (QA json from GitHub, images from HF)."""
 
-    def __init__(self, source_dir: Path | None = None, cache_dir: Path = DEFAULT_CACHE_DIR):
+    def __init__(
+        self, source_dir: Path | None = None, cache_dir: Path = DEFAULT_CACHE_DIR
+    ):
         self.source_dir = Path(source_dir) if source_dir else None
         self.cache_dir = Path(cache_dir)
+        self._zip: zipfile.ZipFile | None = None
 
     def data_dir(self) -> Path:
         if self.source_dir is not None:
@@ -229,7 +238,9 @@ class CharXivSource:
         try:
             return json.loads(path.read_text(encoding="utf-8"))
         except json.JSONDecodeError as e:
-            raise ValueError(f"Invalid JSON in {path}: {e}. Delete it to re-download.") from e
+            raise ValueError(
+                f"Invalid JSON in {path}: {e}. Delete it to re-download."
+            ) from e
 
     def images_zip(self) -> Path:
         z = self.cache_dir / HF_REVISION / "images.zip"
@@ -238,7 +249,9 @@ class CharXivSource:
             _download(url, z)
         digest = _sha256(z)
         if digest != IMAGES_ZIP_SHA256:
-            raise RuntimeError(f"images.zip sha256 mismatch: {digest} != {IMAGES_ZIP_SHA256}")
+            raise RuntimeError(
+                f"images.zip sha256 mismatch: {digest} != {IMAGES_ZIP_SHA256}"
+            )
         return z
 
     def image_reader(self):
@@ -255,7 +268,7 @@ class CharXivSource:
 
             return read_local
         try:
-            zf = zipfile.ZipFile(self.images_zip())
+            zf = self._zip = zipfile.ZipFile(self.images_zip())
         except zipfile.BadZipFile as e:
             raise RuntimeError(f"Corrupt images.zip under {self.cache_dir}: {e}") from e
 
@@ -267,8 +280,15 @@ class CharXivSource:
 
         return read_zip
 
+    def close(self) -> None:
+        if self._zip is not None:
+            self._zip.close()
+            self._zip = None
 
-def load_tasks(source: CharXivSource, modes: tuple[str, ...] = MODES) -> list[CharXivTask]:
+
+def load_tasks(
+    source: CharXivSource, modes: tuple[str, ...] = MODES
+) -> list[CharXivTask]:
     descriptive = source.load_json("descriptive_val.json")
     reasoning = source.load_json("reasoning_val.json")
     image_meta = source.load_json("image_metadata_val.json")
@@ -369,11 +389,18 @@ class CharxivAdapter:
             keep = parity_figure_ids(sorted({t.figure_id for t in tasks}))
             tasks = [t for t in tasks if t.figure_id in keep]
         if self.task_ids is not None:
-            tasks = [t for t in tasks if t.task_id in self.task_ids or t.task_name in self.task_ids]
+            tasks = [
+                t
+                for t in tasks
+                if t.task_id in self.task_ids or t.task_name in self.task_ids
+            ]
             found = {t.task_id for t in tasks} | {t.task_name for t in tasks}
             unmatched = sorted(self.task_ids - found)
             if unmatched:
-                print(f"WARNING: --task-ids not found: {', '.join(unmatched)}", file=sys.stderr)
+                print(
+                    f"WARNING: --task-ids not found: {', '.join(unmatched)}",
+                    file=sys.stderr,
+                )
         if self.limit is not None:
             tasks = tasks[: self.limit]
         return tasks
@@ -382,9 +409,10 @@ class CharxivAdapter:
         tasks = self.select_tasks()
         self.output_dir.mkdir(parents=True, exist_ok=True)
         read_image = self.source.image_reader()
-        paths = []
-        for task in tasks:
-            paths.append(self.write_task(task, read_image(task.figure_id)))
+        try:
+            paths = [self.write_task(t, read_image(t.figure_id)) for t in tasks]
+        finally:
+            self.source.close()
         print(f"Generated {len(paths)} CharXiv tasks in {self.output_dir}")
         return paths
 
@@ -395,7 +423,9 @@ class CharxivAdapter:
                 raise FileExistsError(f"{task_dir} exists; pass --overwrite")
             shutil.rmtree(task_dir)
         shutil.copytree(
-            TEMPLATE_DIR, task_dir, ignore=shutil.ignore_patterns("__pycache__", "*.pyc")
+            TEMPLATE_DIR,
+            task_dir,
+            ignore=shutil.ignore_patterns("__pycache__", "*.pyc"),
         )
 
         meta = task.image_meta or {}
@@ -412,9 +442,16 @@ class CharxivAdapter:
             "question": task.question,
             "answer": heredoc_safe(task.answer, "CHARXIV_ORACLE_EOF"),
         }
-        for rel in ["task.toml", "instruction.md", "solution/solve.sh", "environment/Dockerfile"]:
+        for rel in [
+            "task.toml",
+            "instruction.md",
+            "solution/solve.sh",
+            "environment/Dockerfile",
+        ]:
             p = task_dir / rel
-            p.write_text(render(p.read_text(encoding="utf-8"), values), encoding="utf-8")
+            p.write_text(
+                render(p.read_text(encoding="utf-8"), values), encoding="utf-8"
+            )
 
         img_dir = task_dir / "environment" / "images"
         img_dir.mkdir(parents=True, exist_ok=True)
