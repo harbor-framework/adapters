@@ -1,0 +1,42 @@
+schema_version = "1.4"
+artifacts = ["/workspace/output"]
+
+[task]
+name = "jobbench/{task_id}"
+description = "JobBench {split} task: {occupation} {task_number}"
+authors = [{ name = "JobBench" }]
+keywords = ["jobbench", "{split}", "{occupation}"]
+
+[metadata]
+id = "{task_id}"
+split = "{split}"
+occupation = "{occupation}"
+task_number = "{task_number}"
+repo_id = "{repo_id}"
+revision = "{revision}"
+
+[agent]
+timeout_sec = 7200.0
+network_mode = "public"
+
+[verifier]
+timeout_sec = 3600.0
+environment_mode = "separate"
+network_mode = "public"
+env = { JUDGE_API_BASE = "${JUDGE_API_BASE:-https://api.x.ai/v1}", JUDGE_API_KEY = "${JUDGE_API_KEY:-}", JUDGE_MODEL = "${JUDGE_MODEL:-grok-4.3}", JUDGE_MAX_WORKERS = "${JUDGE_MAX_WORKERS:-10}", JUDGE_MAX_RETRIES = "${JUDGE_MAX_RETRIES:-3}", JUDGE_TIMEOUT_PER_RUBRIC = "${JUDGE_TIMEOUT_PER_RUBRIC:-300}" }
+
+[verifier.environment]
+build_timeout_sec = 1800.0
+network_mode = "public"
+cpus = 2
+memory_mb = 4096
+storage_mb = 8192
+workdir = "/tests"
+
+[environment]
+build_timeout_sec = 1800.0
+network_mode = "public"
+cpus = 4
+memory_mb = 8192
+storage_mb = 20480
+workdir = "/workspace"
