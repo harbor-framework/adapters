@@ -136,7 +136,7 @@ async def main() -> int:
     )
     await runner.run()
     outcome = compute_outcome(
-        OUTCOME, dataset, runner.status, runner.last_text, metadata
+        OUTCOME, dataset, runner.status, runner.last_text, metadata, host
     )
     OUTCOME.OUTCOME.parent.mkdir(parents=True, exist_ok=True)
     OUTCOME.OUTCOME.write_text(json.dumps(outcome, indent=2), encoding="utf-8")

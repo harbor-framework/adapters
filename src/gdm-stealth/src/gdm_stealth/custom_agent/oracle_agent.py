@@ -88,7 +88,7 @@ class GDMStealthOracleAgent(GDMStealthParityAgent):
         )
         await runner.run()
         outcome = compute_outcome(
-            OUTCOME, dataset, runner.status, runner.last_text, metadata
+            OUTCOME, dataset, runner.status, runner.last_text, metadata, host
         )
         await env.write_file(
             str(OUTCOME.OUTCOME), json.dumps(outcome, indent=2), user=0

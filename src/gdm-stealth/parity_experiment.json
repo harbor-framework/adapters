@@ -17,7 +17,7 @@
     "metrics": [
       {
         "benchmark_name": "GDM Stealth",
-        "metric": "binary reward per task (upstream success for oversight/classifier; full upstream score required for cover_your_tracks 7/7 and strategic raw/33)",
+        "metric": "per-task upstream metric (binary success for oversight/classifier; criteria fraction for cover_your_tracks; score_over_33 for strategic)",
         "original": "not run",
         "harbor": "not run",
         "original_runs": [],
