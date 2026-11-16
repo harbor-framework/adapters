@@ -57,7 +57,7 @@ Once the dataset is published to the registry:
 
 ```bash
 harbor run -d princeton-nlp/charxiv -a oracle
-harbor run -d princeton-nlp/charxiv -a claude-code -m anthropic/claude-sonnet-4-5-20250929
+harbor run -d princeton-nlp/charxiv -a claude-code -m anthropic/claude-haiku-4-5-20251001
 ```
 
 Before publication, generate the tasks locally (next section) and run from the `harbor-framework/adapters` repository root:
@@ -100,7 +100,7 @@ CHARXIV_UPSTREAM_DIR=/path/to/CharXiv uv run pytest
 
 ## Comparison with Original Benchmark (Parity)
 
-Parity has not been run yet. The plan (pending team approval) is Scenario 2. The original benchmark calls MLLM APIs directly (`src/generate_lib/*`), so the plan is to fork CharXiv and add a `generate_lib` backend that runs the same CLI agent (e.g. Codex or Claude Code) on each chart/question. That backend uses the same instruction wrapper as this adapter (image path line plus `/app/answer.txt` line) and grades with upstream `src/evaluate.py` and `src/get_stats.py`. The fork makes two documented changes to grading: descriptive questions are graded with `nq_per_query=1`, and the same exact-match short-circuit is applied (see Notes & Caveats). Prompts and rubrics are otherwise untouched.
+Parity has not been run yet. The plan (pending team approval) is Scenario 2. The original benchmark calls MLLM APIs directly (`src/generate_lib/*`), so the plan is to fork CharXiv and add a `generate_lib` backend that runs the same CLI agent (planned: Claude Code with `claude-haiku-4-5-20251001`, following the HLE adapter) on each chart/question. That backend uses the same instruction wrapper as this adapter (image path line plus `/app/answer.txt` line) and grades with upstream `src/evaluate.py` and `src/get_stats.py`. The fork makes two documented changes to grading: descriptive questions are graded with `nq_per_query=1`, and the same exact-match short-circuit is applied (see Notes & Caveats). Prompts and rubrics are otherwise untouched.
 
 Proposed parity subset (`--split parity`, to be confirmed with the team): 100 of the 1,000 validation charts (10%) sampled uniformly with `random.Random(42)`, keeping all 5 questions per chart, i.e. 400 descriptive + 100 reasoning = 500 tasks. The 100 reasoning questions split by answer type as 46 text-in-chart, 5 text-in-general, 32 number-in-chart and 17 number-in-general (full validation split: 440 / 99 / 232 / 229).
 
@@ -109,7 +109,7 @@ Reproduction (Harbor side; original-side commands to be added with the fork):
 ```bash
 cd src/charxiv && uv run charxiv --split parity --output-dir ../../datasets/charxiv_parity && cd ../..
 export OPENAI_API_KEY=...   # judge
-harbor run -p datasets/charxiv_parity -a codex -m openai/<model>
+harbor run -p datasets/charxiv_parity -a claude-code -m anthropic/claude-haiku-4-5-20251001
 ```
 
 | Agent | Model | Metric | Runs | Dataset Size | Original (mean ± SEM) | Harbor (mean ± SEM) |
@@ -117,7 +117,7 @@ harbor run -p datasets/charxiv_parity -a codex -m openai/<model>
 | TBD | TBD | reasoning accuracy | TBD | TBD | TBD | TBD |
 | TBD | TBD | descriptive accuracy | TBD | TBD | TBD | TBD |
 
-Links: original benchmark https://github.com/princeton-nlp/CharXiv · parity fork TBD · adapter PR TBD · dataset PR TBD · parity upload TBD.
+Links: original benchmark https://github.com/princeton-nlp/CharXiv · parity fork TBD · adapter PR https://github.com/harbor-framework/adapters/pull/85 · dataset PR TBD · parity upload TBD.
 
 ## Notes & Caveats
 
@@ -163,4 +163,9 @@ Links: original benchmark https://github.com/princeton-nlp/CharXiv · parity for
 
 ## Authors & Contributions
 
-Adapter built by TBD for Harbor. The original benchmark is by the CharXiv authors (Princeton Language and Intelligence). Contact and contribution details are TBD.
+This adapter is developed and maintained by Junnan Li (junnanl@cs.wisc.edu). The original benchmark is by the CharXiv authors (Princeton Language and Intelligence).
+
+**Issues and Contributions:**
+
+- Submit Issues and Pull Requests to the main repository
+- Follow the project's coding style and commit guidelines
