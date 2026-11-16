@@ -6,7 +6,7 @@ object `{"hypothesis": "...", "workflow": "..."}`.
 
 Scoring (`tests/run_scorer.py`) is the upstream HMS scorer vendored verbatim
 from astabench/evals/discoverybench/{task.py,eval_utils.py,lm_utils.py}
-(smiky2011/asta-bench@claude-haiku-judges, commit 17c84ca):
+(smiky2011/asta-bench@claude-haiku-judges, commit 04293fb):
   1. Parse the answer exactly like `task.py::extract_output` (brace carve-out,
      both `hypothesis` and `workflow` must be strings, else score 0; non-JSON
      output is judged as `str(None)`).
@@ -22,14 +22,9 @@ Judge: `anthropic/claude-haiku-4-5`, temperature 0, max_tokens 250 (the fork's
 `ANTHROPIC_GEN_HYP`), sent through litellm instead of Inspect.  The oracle is
 recognised by an unforgeable per-task nonce (`make_oracle_nonce`).
 
-Parity notes:
-- AstaBench's original also attaches a `python_session` tool (Jupyter-like
-  sandboxed kernel).  Harbor expects agents to bring their own code-execution
-  tooling (built into claude-code, codex, etc.), so we provide Python +
-  pandas in the task environment but do not inject a tool.
-- CSV files are baked into `environment/workspace/` at build time from the
-  ungated `allenai/discoverybench` HF dataset, so task execution needs no
-  network access to HF.
+The Inspect bridge runs upstream's `python_session` tool in the task container
+(`--sandbox local`); CLI agents bring their own code execution.  CSV files are
+baked into the image from the ungated `allenai/discoverybench` HF dataset.
 """
 
 from __future__ import annotations
@@ -51,9 +46,8 @@ from .base import (
 )
 
 ASTA_BENCH_REVISION = "a600dc767f850385f4664772e3ba7a7f8be17d5e"
-# task.py::score_discoverybench hardcodes llm_used="claude-haiku-4-5"
-# (resolved to anthropic/claude-haiku-4-5); the verifier does the same and
-# does not read a JUDGE_MODEL override.
+# task.py::score_discoverybench hardcodes llm_used="claude-haiku-4-5"; the
+# verifier does the same and does not read a JUDGE_MODEL override.
 DEFAULT_JUDGE_MODEL = "anthropic/claude-haiku-4-5"
 
 _SPLIT_TO_INSPECT_TASK = {
@@ -61,10 +55,8 @@ _SPLIT_TO_INSPECT_TASK = {
     "validation": "astabench/discoverybench_validation",
 }
 
-# Upstream's discoverybench_test declares sandbox=("docker", sandbox_compose.yaml).
-# We override with --sandbox local so inspect-ai runs the agent's python_session
-# tool calls inside the harbor task container itself (no docker-in-docker
-# needed; the container already has pandas/numpy/scipy/sklearn).
+# Upstream declares a docker sandbox; --sandbox local runs python_session in
+# the task container itself (no docker-in-docker).
 _BRIDGE_EVAL_ARGS = INSPECT_DEFAULT_EVAL_ARGS + ["--sandbox", "local"]
 
 TASK_TOML_TEMPLATE = """\
@@ -88,8 +80,7 @@ source_sample_id = "{source_id}"
 timeout_sec = 3600
 
 [verifier]
-# Verifier runs the vendored HMS LLM judge here (multi-call loop), so this
-# sits above harbor's 900s default.
+# Multi-call HMS judge loop; above Harbor's 600 s default.
 timeout_sec = 2400
 
 [verifier.env]
@@ -103,11 +94,8 @@ build_timeout_sec = 900.0
 cpus = 2
 memory_mb = 4096
 storage_mb = 8192
-# The CSV datasets are bundled into the image, so the task itself needs no
-# downloads.  Internet is still required: Harbor's Docker environment maps
-# allow_internet = false to `network_mode: none` for the whole container,
-# and both the agent (its model API calls) and the verifier (the Claude
-# Haiku HMS judge) run in this container and need egress.
+# Harbor maps allow_internet = false to `network_mode: none`, which would
+# also block the agent's model API and the verifier's judge calls.
 allow_internet = true
 """
 
@@ -126,16 +114,13 @@ RUN pip install --no-cache-dir \\
     "scikit-learn>=1.3" \\
     "statsmodels>=0.14"
 
-# Verifier-side: tests/run_scorer.py needs only the stdlib plus litellm for
-# the judge.  Pinned to the litellm version resolved in the upstream
-# asta-bench environment used for parity.
+# Verifier: tests/run_scorer.py needs only the stdlib plus litellm (the
+# litellm version of the upstream asta-bench environment).
 RUN pip install --no-cache-dir "litellm==1.82.3"
 
 # inspect-tool-support venv at the path SandboxJupyter hard-codes
-# (asta-bench/astabench/util/sandbox/sandbox_jupyter.py: command=
-# "/opt/inspect_tool_support/bin/python"). Mirrors upstream's sandbox
-# image so `--sandbox local` can spawn the jupyter MCP server in-process
-# without needing docker-in-docker.
+# (astabench/util/sandbox/sandbox_jupyter.py), as in upstream's sandbox
+# image, so `--sandbox local` can spawn the jupyter MCP server.
 ENV PATH="$PATH:/opt/inspect_tool_support/bin"
 # libatomic1: Playwright's bundled node (installed by post-install) needs it
 # on arm64 slim images.
@@ -149,20 +134,14 @@ RUN python -m venv /opt/inspect_tool_support \\
 RUN pip install --no-cache-dir \\
     jupyterlab==4.4.3 jupyter_kernel_gateway==3.0.1 "mcp~=1.10"
 
-# Bridge config first, so the inspect-solver harness finds it at
-# /app/inspect_config.json during the agent phase (harbor only mounts
-# /tests during the verifier phase, so we cannot ship the bridge config
-# in tests/).
+# Bridge config must be in the image: /tests is mounted only for the verifier.
 COPY workspace/inspect_config.json /app/inspect_config.json
-# CSV data + the (redundant) inspect_config.json under /app/data/.  Kept
-# as a single subtree copy to preserve nested data-folder structure.
+# Single subtree copy preserves the nested data-folder structure.
 COPY workspace/ /app/data/
 """
 
 
-# The task description is upstream's `Sample.input` verbatim (see
-# `_format_query`); the sections after it are Harbor-specific (data location
-# and the answer file).  No benchmark-identifying heading.
+# Upstream's `Sample.input` verbatim, followed by Harbor-specific sections.
 INSTRUCTION_TEMPLATE = """\
 {formatted_query}
 
@@ -203,7 +182,7 @@ TEST_SH = VERIFIER_TEST_SH
 RUN_SCORER_PY = r'''"""DiscoveryBench verifier -- vendored upstream HMS scorer.
 
 Vendored from allenai/asta-bench (fork smiky2011/asta-bench@claude-haiku-judges,
-commit 17c84ca), files:
+commit 04293fb), files:
   astabench/evals/discoverybench/task.py       (extract_output, score_discoverybench)
   astabench/evals/discoverybench/eval_utils.py (prompts, retries, HMS formula)
   astabench/evals/discoverybench/lm_utils.py   (judge config, get_response)
@@ -213,7 +192,8 @@ Upstream code is copied verbatim; the only changes are:
   * `async`/`await` removed (the scorer is synchronous);
   * Inspect's `get_model(...).generate(...)` is replaced by `_generate()`, which
     sends the same messages with the same generation config through litellm
-    (Harbor verifiers do not depend on inspect_ai);
+    (Harbor verifiers do not depend on inspect_ai), retrying transient API
+    errors with backoff;
   * upstream `print`/`logger` diagnostics go to stderr.
 
 HMS = context_score * var_f1 * rel_score
@@ -234,10 +214,8 @@ REWARD_FILE = Path("/logs/verifier/reward.txt")
 # task.py::score_discoverybench hardcodes `llm_used="claude-haiku-4-5"`.
 LLM_USED = "claude-haiku-4-5"
 
-# Transport/API errors (connection, 5xx, rate limit): small bounded retry
-# inside litellm, then the exception propagates -> non-zero exit, no reward.
-# (Upstream relies on Inspect's own retry policy before raising a sample
-# error.)  This is distinct from upstream's *parse* retries, vendored below.
+# Transient API errors are retried by `_judge_with_backoff`, then propagate
+# -> non-zero exit, no reward.  Distinct from upstream's *parse* retries below.
 API_NUM_RETRIES = 3
 API_TIMEOUT_SEC = 300
 
@@ -360,12 +338,11 @@ def _judge_with_backoff(call):
 
     import litellm  # type: ignore
 
-    # litellm's default aiohttp transport is disconnected by the parity proxy
-    # on large request bodies (~30K+ chars); httpx, as the Anthropic SDK and
-    # Inspect use, is not.
+    # Use httpx (as the Anthropic SDK and Inspect do): some API endpoints drop
+    # large requests on litellm's default aiohttp transport.
     litellm.disable_aiohttp_transport = True
     names = ("InternalServerError", "APIConnectionError", "RateLimitError",
-             "Timeout", "ServiceUnavailableError")
+             "Timeout", "ServiceUnavailableError", "BadGatewayError")
     transient = tuple(
         e for e in (getattr(litellm, n, None) for n in names) if isinstance(e, type)
     )
@@ -383,7 +360,7 @@ def _generate(messages, model_name, json_response=False) -> str:
     .generate(messages)`: one completion request with the same messages and
     the same generation config.  Returns the text content (upstream
     concatenates text-bearing parts when the content is a list).  API errors
-    raise after `API_NUM_RETRIES` transport retries."""
+    raise once `_judge_with_backoff` gives up."""
     import litellm  # type: ignore
 
     qualified, hyp = _resolve_provider(model_name)
@@ -896,9 +873,8 @@ def run_eval_gold_vs_gen_NL_hypo_workflow(
 
 
 def _is_oracle(raw: str, expected_marker: str) -> bool:
-    """Harbor-only oracle short-circuit (not in upstream): the oracle's
-    solve.sh emits the per-task unforgeable nonce that also lives in
-    tests/config.json (both outside the agent image).  A judge-based oracle
+    """Harbor-only oracle check: solve.sh emits the per-task nonce stored in
+    tests/config.json (neither is in the agent image), since a judged oracle
     could not score 1.0 deterministically."""
     if not isinstance(expected_marker, str) or not expected_marker:
         raise ValueError("tests/config.json: missing oracle_marker")
@@ -1103,7 +1079,7 @@ class DiscoveryBenchBuilder(BenchmarkBuilder):
             )
 
     def write_task(self, record: SampleRecord, task_dir: Path) -> None:
-        task_name = f"allenai/asta-bench__{self.task_id(record)}"
+        task_name = self.harbor_task_name(self.task_id(record))
         task_toml = TASK_TOML_TEMPLATE.format(
             task_name=task_name,
             split=record.split,
@@ -1111,9 +1087,8 @@ class DiscoveryBenchBuilder(BenchmarkBuilder):
         )
 
         gold_hypo, gold_workflow = record.target
-        # Unforgeable per-task nonce shared by solve.sh and tests/config.json
-        # (neither is in the agent image).  The scorer short-circuits to 1.0
-        # only on this marker; a gold-text match is judged like any answer.
+        # Per-task nonce shared only by solve.sh and tests/config.json; a
+        # gold-text match without it is judged like any answer.
         oracle_marker = make_oracle_nonce()
         oracle_payload = {
             "_oracle_marker": oracle_marker,
@@ -1140,7 +1115,6 @@ class DiscoveryBenchBuilder(BenchmarkBuilder):
             "judge_model": DEFAULT_JUDGE_MODEL,
         }
 
-        # Copy CSVs into environment/workspace/ preserving subdir structure.
         ws = task_dir / "environment" / "workspace"
         ws.mkdir(parents=True, exist_ok=True)
         for rel_path, content in record.workspace_files.items():
@@ -1157,9 +1131,7 @@ class DiscoveryBenchBuilder(BenchmarkBuilder):
             pip_install=self.inspect_pip_install(),
             eval_args=_BRIDGE_EVAL_ARGS,
         )
-        # Place inspect_config.json at workspace root so the Dockerfile's
-        # `COPY workspace/inspect_config.json /app/inspect_config.json` lands
-        # the bridge config at the agent-phase-visible path.
+        # The Dockerfile copies this to /app/inspect_config.json.
         (ws / "inspect_config.json").write_text(
             json.dumps(bridge_config, indent=2), encoding="utf-8"
         )
@@ -1173,5 +1145,5 @@ class DiscoveryBenchBuilder(BenchmarkBuilder):
             test_sh=TEST_SH,
             tests_config=tests_config,
             extra_tests={"run_scorer.py": _render_run_scorer()},
-            # workspace handled manually above to preserve nested paths
+            # workspace written above to preserve nested paths
         )

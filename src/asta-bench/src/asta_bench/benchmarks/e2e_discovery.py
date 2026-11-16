@@ -9,10 +9,9 @@ asks anthropic/claude-haiku-4-5 (with a reflection step per criterion) whether e
 criterion is met across paper / code / artifacts.  The headline metric is
 `average_required_overall`.
 
-Scoring resolution (verifier-side only — no agent-trusted score sidecar):
-(1) Pattern C oracle short-circuit — `solve.sh` writes a canonical oracle
-JSON keyed on an unforgeable per-task `_oracle_marker` nonce matched against
-`tests/config.json`;
+Scoring (verifier-side only):
+(1) oracle: `solve.sh` writes a JSON carrying the per-task `_oracle_marker`
+nonce that is matched against `tests/config.json`;
 (2) otherwise a port of upstream `score_rubric` / `check_rubric` /
 `RubricEvaluation.evaluate_rubric` (strict `json.loads` of the answer,
 verbatim `mkPrompt`, 2-pass evaluate+reflect per criterion, verbatim
@@ -72,8 +71,7 @@ source_sample_id = "{source_id}"
 timeout_sec = 7200
 
 [verifier]
-# Verifier runs the vendored rubric judge here (multi-call loop), so this
-# sits above harbor's 600s default.
+# Multi-call rubric judge loop; above Harbor's 600 s default.
 timeout_sec = 2400
 
 [verifier.env]
@@ -86,11 +84,9 @@ build_timeout_sec = 1800.0
 cpus = 4
 memory_mb = 8192
 storage_mb = 20480
-# Internet required for the real-agent path: the Inspect-AI bridge runs the
-# upstream astabench task, and the end-to-end discovery task itself expects
-# open web/data access. Canonical bridge datasets preinstall astabench in the
-# generated Dockerfile. The rubric and gold are never exposed to the agent
-# (verifier-side only).
+# Harbor maps allow_internet = false to `network_mode: none`, which would
+# also block the agent's model API and the verifier's judge calls; the task
+# itself also expects open web/data access.
 allow_internet = true
 """
 
@@ -100,9 +96,7 @@ FROM python:3.12
 
 WORKDIR /app
 
-# E2E-Discovery agents can run a wide variety of ML experiments in the
-# sandbox.  We ship the standard scientific-Python stack plus a Jupyter
-# kernel so agents can drive a code-execution loop.
+# Scientific-Python / ML stack plus a Jupyter kernel for agent experiments.
 RUN apt-get update && apt-get install -y --no-install-recommends \\
     git build-essential wget curl \\
     && rm -rf /var/lib/apt/lists/*
@@ -120,7 +114,7 @@ RUN pip install --no-cache-dir \\
     "jupyter-client>=8.6" \\
     "litellm==1.82.3"
 
-# Optional: consumed by the Inspect-AI bridge agent (`-a inspect-solver`).
+# Read by the Inspect bridge agent (stripped from the CLI dataset).
 COPY workspace/inspect_config.json /app/inspect_config.json
 """
 
@@ -170,15 +164,14 @@ TEST_SH = VERIFIER_TEST_SH
 RUN_SCORER_PY = r'''"""E2E-Discovery verifier (oracle short-circuit + upstream rubric judge).
 
 Ported from allenai/asta-bench astabench/evals/e2e_discovery/task.py
-(fork smiky2011/asta-bench@17c84ca; file last changed in 451d9e1, which only
-swaps RUBRIC_SCORING_MODEL to claude-haiku-4-5):
+(fork smiky2011/asta-bench@04293fb, whose only change to this file swaps
+RUBRIC_SCORING_MODEL to claude-haiku-4-5):
   score_rubric.score -> check_rubric -> RubricEvaluation.evaluate_rubric
   -> getLLMResponseJSON / _getLLMResponseJSON.
 
-Resolution order (verifier-side only — no agent-trusted score sidecar):
-  1. Oracle short-circuit — the answer JSON carries this task's unforgeable
-     `_oracle_marker` nonce (Harbor-only; a judge-based oracle cannot score
-     1.0 deterministically).
+Resolution order:
+  1. Oracle — the answer JSON carries this task's `_oracle_marker` nonce
+     (Harbor-only; a judged oracle cannot score 1.0 deterministically).
   2. Upstream rubric scoring:
        * answer = json.loads(answer.txt); any parse failure -> {} -> 0;
        * no "results" key -> 0; report/code/artifacts read with the exact
@@ -199,8 +192,9 @@ provider: no temperature (API default), max_tokens 32000 (Inspect's default
 for Claude 4.x when GenerateConfig.max_tokens is unset), timeout 300 s.
 
 Intentional deviations (Harbor verifier contract):
-  * A judge transport/API error is retried a bounded number of times and then
-    exits non-zero with NO reward; upstream catches it and scores 0.
+  * A transient judge API error is retried (up to 8 attempts, 2-60 s backoff);
+    any judge API failure then exits non-zero with NO reward, whereas
+    upstream catches it and scores 0.
   * Judge calls are bounded by a semaphore (E2E_JUDGE_MAX_CONNECTIONS,
     default 10 = Inspect's DEFAULT_MAX_CONNECTIONS).
 """
@@ -216,8 +210,6 @@ from pathlib import Path
 ANSWER_FILE = Path("/app/answer.txt")
 CONFIG_FILE = Path("/tests/config.json")
 REWARD_FILE = Path("/logs/verifier/reward.txt")
-# No agent-trusted score sidecar — scoring is verifier-side only, against
-# verifier-only gold in /tests.
 
 # Verbatim from astabench/evals/e2e_discovery/task.py
 MAX_ARTIFACT_CHARACTERS = 10000
@@ -229,8 +221,7 @@ RUBRIC_SCORING_MODEL = "anthropic/claude-haiku-4-5"
 # temperature.
 JUDGE_MAX_TOKENS = 32000
 JUDGE_TIMEOUT_SEC = 60 * 5
-# Bounded API retry (Harbor contract: an outage must not become an hours-long
-# retry loop); upstream's Inspect-level max_retries is 10.
+# Not used: transient errors are retried by `_judge_with_backoff`.
 JUDGE_NUM_RETRIES = int(os.environ.get("E2E_JUDGE_NUM_RETRIES", "3"))
 JUDGE_MAX_CONNECTIONS = max(1, int(os.environ.get("E2E_JUDGE_MAX_CONNECTIONS", "10")))
 
@@ -304,12 +295,11 @@ async def _judge_with_backoff(call):
 
     import litellm  # type: ignore
 
-    # litellm's default aiohttp transport is disconnected by the parity proxy
-    # on large request bodies (~30K+ chars); httpx, as the Anthropic SDK and
-    # Inspect use, is not.
+    # Use httpx (as the Anthropic SDK and Inspect do): some API endpoints drop
+    # large requests on litellm's default aiohttp transport.
     litellm.disable_aiohttp_transport = True
     names = ("InternalServerError", "APIConnectionError", "RateLimitError",
-             "Timeout", "ServiceUnavailableError")
+             "Timeout", "ServiceUnavailableError", "BadGatewayError")
     transient = tuple(
         e for e in (getattr(litellm, n, None) for n in names) if isinstance(e, type)
     )
@@ -944,7 +934,7 @@ class _BaseE2EBuilder(BenchmarkBuilder):
             "dataset_name": record.metadata.get("dataset_name"),
         }
 
-        task_name = f"allenai/asta-bench__{self.task_id(record)}"
+        task_name = self.harbor_task_name(self.task_id(record))
         task_toml = TASK_TOML_TEMPLATE.format(
             task_name=task_name,
             family=self.family_name,

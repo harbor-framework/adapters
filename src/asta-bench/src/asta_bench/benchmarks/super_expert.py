@@ -3,19 +3,14 @@
 Each SUPER Expert sample describes a research-repository task (set up the
 repo, run an experiment) and asks for the result in a stated JSON shape.
 
-Scoring mirrors upstream `check_super_execution` from
-astabench/evals/super/task.py (allenai/asta-bench, vendored at fork commit
-17c84ca; the file is unchanged from upstream main).  The Harbor reward is
-`output_match`, the primary metric AstaBench's suite config uses for
-`SUPER_Expert_test` (`astabench/config/v1.0.0.yml`: `output_match/mean`).
+Scoring ports upstream `check_super_execution` (astabench/evals/super/
+task.py; the Expert code is unchanged in the pinned fork).  The reward is
+`output_match`, the suite's primary metric for `SUPER_Expert_test`
+(`astabench/config/v1.0.0.yml`: `output_match/mean`).
 
-SUPER "Auto" split (AstaBench `super_validation`, Harbor `validation`)
----------------------------------------------------------------
-Upstream scores Auto with `check_super_auto` -> `evaluate_entrypoints()` over
-an execution history the agent can write.  Harbor keeps the same rule but has
-the verifier run the submitted command itself; see `super_auto.py`, which also
-holds the reference solutions and the list of Auto samples that are not
-generated because no working reference solution exists.
+The SUPER "Auto" split (upstream `super_validation`) is generated as this
+family's `validation` split and scored by re-running the submitted command;
+see `super_auto.py`.
 
 `pre_execute_cells`: upstream only copies them into `Sample.metadata`; nothing
 executes them, and no Expert sample has any, so the adapter ignores them.
@@ -41,10 +36,8 @@ from .base import (
 
 _INSPECT_TASK = "astabench/super_test"
 
-# Upstream's super_test declares sandbox=("docker", ...) for the agent's
-# python_session.  We override with --sandbox local so the agent's code runs
-# inside the harbor task container itself, whose image mirrors upstream's
-# sandbox image (see DOCKERFILE below).
+# Upstream uses a docker sandbox; `--sandbox local` runs the agent's code in
+# the task container, whose image mirrors upstream's sandbox image.
 _BRIDGE_EVAL_ARGS = INSPECT_DEFAULT_EVAL_ARGS + ["--sandbox", "local"]
 
 
@@ -76,22 +69,16 @@ build_timeout_sec = 1800.0
 cpus = 4
 memory_mb = 8192
 storage_mb = 10240
-# Internet is required: nothing task-specific is bundled in the image.  Every
-# SUPER task asks the agent to `git clone` a research repository, pip-install
-# its dependencies and download data/checkpoints (GitHub, PyPI, Google Drive,
-# Hugging Face), exactly as upstream's sandbox (network_mode: bridge) allows.
-# In Harbor's Docker environment allow_internet=false means network_mode:
-# none, which would also cut the agent off from its model API.
+# Every SUPER task clones a repository and downloads dependencies and data,
+# as upstream's sandbox allows.  allow_internet=false would also cut the
+# agent off from its model API.
 allow_internet = true
 """
 
 
-# Upstream sandbox requirement files, vendored verbatim from
-# astabench/util/sandbox/{ds1000,super,diagnostics}_requirements.txt
-# (allenai/asta-bench @ 645722c, the last commit touching that directory).
-# Upstream builds ONE shared sandbox image for all code families and installs
-# all three files, in this order; we do the same so agent code sees the same
-# package versions.
+# Verbatim from upstream astabench/util/sandbox/*_requirements.txt
+# (allenai/asta-bench @ 645722c).  Upstream's shared sandbox image installs
+# all three, in this order; so does this image.
 DS1000_REQUIREMENTS_TXT = """\
 # Dependencies for evaluations of generated code.
 
@@ -181,12 +168,8 @@ _REQUIREMENTS_DIR = "sandbox_requirements"
 
 
 # Mirrors upstream's sandbox image (astabench/util/sandbox/Dockerfile @
-# 645722c): python:3.11-bookworm (ships git, curl, wget and a C toolchain),
-# the three pinned requirement files in upstream's order, then the
-# system-env Jupyter / matplotlib / mcp pins.  Upstream's
-# /opt/inspect_tool_support venv is Inspect tool plumbing, not agent
-# environment; the bridge runtime layer appended by base.py
-# (`wire_inspect_bridge_runtime`) creates it for bridge datasets.
+# 645722c).  Its /opt/inspect_tool_support venv is Inspect plumbing, added
+# for bridge datasets by `wire_inspect_bridge_runtime` in base.py.
 DOCKERFILE = f"""\
 FROM python:3.11-bookworm
 
@@ -209,9 +192,8 @@ COPY workspace/ /app/
 """
 
 
-# Upstream `Sample.input` is exactly `obj["query"]` (task.py json_to_sample);
-# the query itself states the required answer shape.  We append only where to
-# put the answer, since Harbor reads it from a file.
+# Upstream's input is exactly `obj["query"]`, which states the answer shape;
+# only the answer file location is added.
 INSTRUCTION_TEMPLATE = """\
 {query}
 
@@ -237,10 +219,10 @@ TEST_SH = VERIFIER_TEST_SH
 
 RUN_SCORER_PY = r'''"""SUPER-Expert verifier (AstaBench super_test).
 
-Faithful port of upstream `check_super_execution` (astabench/evals/super/
-task.py) with `extract_json_from_response` (astabench/evals/utils.py), both
-vendored from allenai/asta-bench (fork commit 17c84ca; unchanged from upstream
-main).  Reward = `output_match` (suite primary metric `output_match/mean`).
+Port of upstream `check_super_execution` (astabench/evals/super/task.py)
+with `extract_json_from_response` (astabench/evals/utils.py), from
+allenai/asta-bench.  Reward = `output_match` (suite metric
+`output_match/mean`).
 
 Upstream flow on `state.output.completion`:
   try:   submission, submitted, trajectory = parse_super_output(completion)
@@ -259,9 +241,8 @@ Harbor difference: the verifier only sees the final completion
     landmarks is computed over an empty trajectory (not part of the reward).
   * Case 3 (no parsable answer): upstream would mine the last Jupyter cell
     output; with no history the submission stays None, and
-    evaluate(None, gold) == 0.0.  Harbor always takes the no-history branch.
-The SUPER "Auto" split is not scored here: it has its own verifier
-(`super_auto.py`), which re-runs the submitted entrypoint command.
+    evaluate(None, gold) == 0.0.
+The SUPER "Auto" split has its own verifier (`super_auto.py`).
 """
 
 from __future__ import annotations
@@ -564,7 +545,7 @@ class SuperExpertBuilder(BenchmarkBuilder):
 
     def write_task(self, record: SampleRecord, task_dir: Path) -> None:
         is_auto = record.metadata.get("super_split") == "Auto"
-        task_name = f"allenai/asta-bench__{self.task_id(record)}"
+        task_name = self.harbor_task_name(self.task_id(record))
         task_toml = TASK_TOML_TEMPLATE.format(
             task_name=task_name,
             split=record.split,
@@ -633,8 +614,7 @@ class SuperExpertBuilder(BenchmarkBuilder):
             extra_tests={"run_scorer.py": scorer},
             workspace_files=ws_files,
         )
-        # Build-context-only files (environment/ is the Docker build context);
-        # they are COPY'd to /opt/sandbox_requirements, not into /app.
+        # Build-context files, copied to /opt/sandbox_requirements (not /app).
         req_dir = task_dir / "environment" / _REQUIREMENTS_DIR
         req_dir.mkdir(parents=True, exist_ok=True)
         for name, content in _REQUIREMENTS_FILES.items():

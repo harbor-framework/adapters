@@ -1,10 +1,7 @@
 #!/bin/bash
 
-# Per-family builders generate the actual tests/test.sh from the shared
-# verifier contract in `asta_bench/benchmarks/base.py` (VERIFIER_TEST_SH).
-# This stub is never shipped; it only mirrors that contract's shape: remove
-# any pre-existing reward, score, and record a reward only for a scored
-# outcome.
+# Stub, never shipped: the builders generate tests/test.sh from
+# VERIFIER_TEST_SH in `asta_bench/benchmarks/base.py`.
 set -u
 mkdir -p /logs/verifier
 rm -f /logs/verifier/reward.txt /logs/verifier/reward.json

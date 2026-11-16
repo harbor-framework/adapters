@@ -6,19 +6,14 @@ table is unrolled into natural-language statements, and each gold statement is
 checked for entailment.
 
 Parity notes:
-- AstaBench's original task provides a `snippet_search` tool scoped to the
-  given paper IDs (backed by the Asta MCP).  We omit that tool.  Each paper's
-  title and abstract is already embedded in the input prompt, which is
-  sufficient for most tasks; agents that would have fetched additional
-  snippets will see slightly less context.
+- Upstream gives the solver a `snippet_search` tool scoped to the given
+  papers.  The Inspect bridge runs upstream's task, so it has the tool; the
+  CLI packaging does not (each paper's title and abstract are in the prompt).
 - The unroller and entailment judge are both `anthropic/claude-haiku-4-5`
-  (the fork's claude-haiku-judges branch default).  API key is plumbed through
-  `[verifier.env] ANTHROPIC_API_KEY`.
-- Oracle short-circuit: the oracle's answer carries an unforgeable per-task
-  `_oracle_marker` nonce (`make_oracle_nonce()`), matched against
-  `tests/config.json["oracle_marker"]`; only then does the scorer skip the
-  LLM calls and return 1.0.  Any other answer -- including one whose cells
-  equal the gold table -- is scored by the judge exactly as upstream does.
+  (the fork's claude-haiku-judges branch default), temperature 0.
+- Oracle short-circuit: only an answer carrying this task's per-task
+  `_oracle_marker` nonce skips the LLM calls and scores 1.0.  Any other
+  answer, even one equal to the gold table, is judged as upstream does.
 """
 
 from __future__ import annotations
@@ -38,15 +33,14 @@ from .base import (
     write_task_files,
 )
 
-# == astabench.constants.ASTA_BENCH_DATASET_REVISION (upstream fork 17c84ca).
+# == astabench.constants.ASTA_BENCH_DATASET_REVISION (fork 04293fb).
 ASTA_BENCH_REVISION = "a600dc767f850385f4664772e3ba7a7f8be17d5e"
 
 DEFAULT_JUDGE_MODEL = "anthropic/claude-haiku-4-5"
 
 # Prompts vendored byte-for-byte from astabench/evals/arxivdigestables/prompts.py
-# (allenai/asta-bench, fork commit 17c84cab81cfaf87bbca0e11780803c3d6347ba6).
+# (fork commit 04293fb, identical to allenai/asta-bench main).
 # NOTE: several lines carry significant TRAILING SPACES; do not strip them.
-# tests/test_arxivdigestables_scorer.py pins each constant's sha256.
 INPUT_PROMPT = """
 We would like you to build a table that has each paper as a row and, 
 as each column, a dimension that compares between the papers. 
@@ -158,8 +152,7 @@ source_sample_id = "{source_id}"
 timeout_sec = 1800
 
 [verifier]
-# Verifier runs the vendored LLM judge here (~81 sequential cell-judge
-# calls, ~10-15 min), so this sits well above harbor's 600s default.
+# ~81 sequential judge calls (~10-15 min), well above Harbor's 600 s default.
 timeout_sec = 2400
 
 [verifier.env]
@@ -174,10 +167,8 @@ build_timeout_sec = 600.0
 cpus = 1
 memory_mb = 2048
 storage_mb = 4096
-# Internet required for the real-agent path: the Inspect-AI bridge runs the
-# upstream astabench task, and canonical bridge datasets preinstall astabench
-# in the generated Dockerfile. Gold tables are never exposed to the agent, so
-# this is not an answer-lookup backdoor.
+# Needed for the agent's model API and the verifier's judge calls (false maps
+# to network_mode none).  Gold tables are never exposed to the agent.
 allow_internet = true
 """
 
@@ -187,12 +178,8 @@ FROM python:3.12-slim
 
 WORKDIR /app
 
-# ALL agents (bridge and claude-code alike) are scored verifier-side by the
-# vendored scorer in tests/run_scorer.py, which needs pydantic (the upstream
-# `Table` model validates the answer), pandas+tabulate (DataFrame.to_markdown
-# table rendering) and litellm (the unroller/judge calls).  Versions are
-# pinned to those in the upstream reference environment (inspect_ai 0.3.203
-# venv) so validation and markdown rendering are byte-identical.
+# Verifier deps for tests/run_scorer.py, pinned to the upstream reference
+# environment (inspect_ai 0.3.203) so validation and markdown rendering match.
 RUN pip install --no-cache-dir "litellm==1.82.3" "pydantic==2.13.3" "pandas==3.0.2" "tabulate==0.10.0"
 COPY workspace/inspect_config.json /app/inspect_config.json
 """
@@ -208,10 +195,8 @@ SOLVE_SH_TEMPLATE = """\
 #!/bin/bash
 set -e
 
-# Oracle solution: emit the gold table plus this task's unforgeable
-# `_oracle_marker` nonce (also stored in tests/config.json).  The verifier
-# short-circuits to 1.0 only on the marker, so the oracle run is free; the
-# payload is still a valid upstream `Table` (extra keys are ignored).
+# Oracle: the gold table plus this task's `_oracle_marker` nonce (also in
+# tests/config.json); the verifier scores 1.0 on the marker without LLM calls.
 cat > /app/answer.txt <<'ORACLE_ANSWER_EOF'
 {oracle_answer}
 ORACLE_ANSWER_EOF
@@ -224,7 +209,7 @@ TEST_SH = VERIFIER_TEST_SH
 RUN_SCORER_PY = r'''"""ArxivDIGESTables-Clean verifier.
 
 Port of `score_tables` in astabench/evals/arxivdigestables/task.py
-(allenai/asta-bench, fork commit 17c84cab81cfaf87bbca0e11780803c3d6347ba6).
+(fork commit 04293fb, identical to allenai/asta-bench main).
 Parsing, validation, prompts, call sequence and the recall formula are copied
 verbatim; only the plumbing is Harbor-shaped (answer read from
 /app/answer.txt, gold statements from /tests/config.json, judge calls through
@@ -252,13 +237,9 @@ from typing import List
 ANSWER_FILE = Path("/app/answer.txt")
 CONFIG_FILE = Path("/tests/config.json")
 REWARD_FILE = Path("/logs/verifier/reward.txt")
-# No agent-trusted score sidecar -- scoring is verifier-side only, against
-# verifier-only gold in /tests.
 
 DEFAULT_JUDGE_MODEL = "anthropic/claude-haiku-4-5"
-# Bounded API-level retries (litellm `num_retries`); after these the error
-# propagates and the verifier fails with no reward.  (Inspect retries API
-# errors with backoff before failing the sample.)
+# Unused: transient judge errors are retried by _judge_with_backoff.
 API_NUM_RETRIES = 3
 # What Inspect 0.3.203 sends for these calls: GenerateConfig(temperature=0.0)
 # with max_tokens unset resolves, for claude-haiku-4-5 via the Anthropic
@@ -365,12 +346,11 @@ def _judge_with_backoff(call):
 
     import litellm  # type: ignore
 
-    # litellm's default aiohttp transport is disconnected by the parity proxy
-    # on large request bodies (~30K+ chars); httpx, as the Anthropic SDK and
-    # Inspect use, is not.
+    # litellm's aiohttp transport gets disconnected by some proxies on large
+    # request bodies; httpx (as used by the Anthropic SDK and Inspect) does not.
     litellm.disable_aiohttp_transport = True
     names = ("InternalServerError", "APIConnectionError", "RateLimitError",
-             "Timeout", "ServiceUnavailableError")
+             "Timeout", "ServiceUnavailableError", "BadGatewayError")
     transient = tuple(
         e for e in (getattr(litellm, n, None) for n in names) if isinstance(e, type)
     )
@@ -552,9 +532,7 @@ class ArxivDigestTablesCleanBuilder(BenchmarkBuilder):
     default_split = "test"
 
     def _inspect_workspace_files(self, sample_id: str, split: str) -> dict[str, str]:
-        # Fork's arxivdigestables() defaults already use
-        # anthropic/claude-haiku-4-5 for both unroller_model and
-        # scorer_model, so no -T override needed.
+        # The fork's task defaults both judge models to claude-haiku-4-5.
         cfg = make_inspect_config(
             task=_SPLIT_TO_INSPECT_TASK[split],
             sample_id=sample_id,
@@ -615,7 +593,7 @@ class ArxivDigestTablesCleanBuilder(BenchmarkBuilder):
             )
 
     def write_task(self, record: SampleRecord, task_dir: Path) -> None:
-        task_name = f"allenai/asta-bench__{self.task_id(record)}"
+        task_name = self.harbor_task_name(self.task_id(record))
         task_toml = TASK_TOML_TEMPLATE.format(
             task_name=task_name,
             split=record.split,

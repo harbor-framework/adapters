@@ -1,20 +1,11 @@
-"""Thin stdio MCP proxy for Allen AI's hosted Asta tools.
+"""Stdio MCP proxy for Allen AI's hosted Asta tools, for CLI agents.
 
-Harbor's MCPServerConfig has no `headers` field, so the agent can't point
-directly at https://asta-tools.allen.ai/mcp/v1 (which requires x-api-key).
-This proxy runs as a **stdio** MCP server: Claude Code launches it as a
-child process inside the main task container (`command`/`args` in the
-task's `[[environment.mcp_servers]]`), so it inherits the container env
-(including ASTA_TOOL_KEY) — the env path Harbor reliably resolves. For each
-tool call it forwards to the upstream with the API key injected.
-
-(An earlier design ran this as an HTTP sidecar container, but Harbor's
-docker-compose `${VAR}` interpolation never propagated the secret to the
-sidecar — it received the literal `${ASTA_TOOL_KEY:-}`. stdio-in-main
-sidesteps that entire failure class.)
-
-Implementation uses FastMCP.as_proxy(), which preserves upstream tool
-schemas without us having to re-implement signature introspection.
+Harbor's MCPServerConfig has no `headers` field, so an agent cannot reach
+https://asta-tools.allen.ai/mcp/v1 (which requires x-api-key) directly. The
+agent launches this proxy as a stdio MCP server inside the task container
+(the task's `[[environment.mcp_servers]]`), so it inherits ASTA_TOOL_KEY from
+the container env and adds it to every upstream call. FastMCP.as_proxy()
+re-exports the upstream tools with their schemas.
 
 Required env:
   ASTA_TOOL_KEY        Allen AI Asta tools API key
@@ -27,13 +18,25 @@ from __future__ import annotations
 import os
 import sys
 
-from fastmcp import FastMCP
+# The MCP client discards this process's stderr; under Harbor, keep it in the
+# agent log directory (downloaded with the trial) so startup failures are
+# visible.
+if os.path.isdir("/logs/agent"):
+    sys.stderr = open("/logs/agent/asta-mcp-proxy.log", "a", buffering=1)
+    os.dup2(sys.stderr.fileno(), 2)
 
-UPSTREAM = os.environ.get("ASTA_MCP_UPSTREAM", "https://asta-tools.allen.ai/mcp/v1")
+from fastmcp import FastMCP  # noqa: E402
+
+_DEFAULT_UPSTREAM = "https://asta-tools.allen.ai/mcp/v1"
+UPSTREAM = os.environ.get("ASTA_MCP_UPSTREAM", "")
+if not UPSTREAM.startswith(("http://", "https://")):
+    if UPSTREAM:
+        print(f"asta-proxy: ignoring invalid ASTA_MCP_UPSTREAM={UPSTREAM!r}", file=sys.stderr)
+    UPSTREAM = _DEFAULT_UPSTREAM
 KEY = os.environ.get("ASTA_TOOL_KEY", "")
 
-if not KEY:
-    print("FATAL: ASTA_TOOL_KEY env var not set", file=sys.stderr)
+if not KEY or KEY.startswith("${"):
+    print("FATAL: ASTA_TOOL_KEY env var not set (or an unresolved template)", file=sys.stderr)
     sys.exit(2)
 
 
@@ -48,14 +51,11 @@ _UPSTREAM_CFG = {
 }
 
 
-# FastMCP.as_proxy accepts an MCP-config dict / transport / URL directly.
-# It auto-discovers upstream tools and re-exports them with matching schemas.
 proxy: FastMCP = FastMCP.as_proxy(_UPSTREAM_CFG, name="asta-proxy")
 
 
 if __name__ == "__main__":
-    # stdio transport: the MCP client (Claude Code) speaks JSON-RPC over
-    # this process's stdin/stdout, so nothing may be written to stdout.
+    # stdout carries the MCP JSON-RPC stream; log to stderr only.
     print(
         f"asta-proxy: forwarding to {UPSTREAM} over stdio",
         file=sys.stderr,

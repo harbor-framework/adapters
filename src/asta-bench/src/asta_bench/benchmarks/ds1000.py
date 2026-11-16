@@ -5,15 +5,10 @@ AstaBench uses a specific 900-test / 100-validation split over the upstream
 IDs are vendored from `astabench/evals/inspect_eval_wrappers/ds1000_splits.json`
 into `ds1000_splits.json` next to this file.
 
-Implementation: we reuse the sibling `src/ds1000/adapter.py` adapter in this
-repo verbatim (imported by file path) for the heavy lifting —
-downloading the dataset, rendering the template, running DS-1000's hidden
-test cases.  We just supply the filtered instance IDs and relabel the
-generated task directories under the `asta-bench/` namespace.
-
-What we keep from the sibling adapter: dataset loading, the Docker
-environment and the oracle `solve.sh`.  What we replace after generation, so
-the task matches AstaBench's ds1000 rather than the standalone adapter's:
+The sibling `src/ds1000/adapter.py` (imported by file path, unmodified)
+generates each task; from it we keep dataset loading, the Docker environment
+and the oracle `solve.sh`.  Replaced after generation, so the task matches
+AstaBench's ds1000 rather than the standalone adapter's:
 
 - `task.toml` (AstaBench naming/metadata, `allenai/asta-bench__ds1000-...`);
 - `instruction.md` -- upstream `Sample.input` only (see `_patch_instruction`;
@@ -45,11 +40,8 @@ _SPLIT_TO_INSPECT_TASK = {
     "validation": "astabench/ds1000_validation",
 }
 
-# Upstream's ds1000_test/validation declare sandbox=("docker", ...).  We
-# override with --sandbox local so the agent's python_session runs inside
-# the harbor task container itself (Harbor's ds1000 adapter Dockerfile
-# already includes the deps DS-1000 problems need: numpy, pandas, scipy,
-# sklearn, scikit-image, tensorflow, etc.).
+# Upstream uses a docker sandbox; `--sandbox local` runs the agent's
+# python_session in the task container, which has DS-1000's dependencies.
 _BRIDGE_EVAL_ARGS = INSPECT_DEFAULT_EVAL_ARGS + ["--sandbox", "local"]
 
 
@@ -59,12 +51,10 @@ def _write_inspect_config(
     split: str,
     pip_install: list[str] | None,
 ) -> None:
-    """Drop the bridge config in environment/workspace/ AND patch the
-    Dockerfile to COPY it to /app/inspect_config.json.
+    """Write the bridge config and COPY it to /app/inspect_config.json.
 
-    We can't use /tests/inspect_config.json: harbor only mounts /tests during
-    the verifier phase, but the inspect-solver bridge runs in the agent
-    phase, so the config must be baked into the image at build time."""
+    It must be in the image: /tests is mounted only for the verifier, while
+    the bridge runs in the agent phase."""
 
     cfg = make_inspect_config(
         task=_SPLIT_TO_INSPECT_TASK[split],
@@ -96,7 +86,7 @@ def _write_inspect_config(
 _THIS_DIR = Path(__file__).resolve().parent
 # Sibling adapter in this repo: <repo>/src/ds1000/ (parents[3] is <repo>/src).
 _HARBOR_DS1000_DIR = _THIS_DIR.parents[3] / "ds1000"
-# Legacy flat layout first, then the src/<pkg>/ layout it may migrate to.
+# Current flat layout first, then a src/<pkg>/ layout.
 _DS1000_ADAPTER_CANDIDATES = (
     _HARBOR_DS1000_DIR / "adapter.py",
     _HARBOR_DS1000_DIR / "src" / "ds1000" / "adapter.py",
@@ -105,11 +95,9 @@ _SPLITS_FILE = _THIS_DIR / "ds1000_splits.json"
 
 
 def _load_ds1000_adapter_class():
-    """Dynamically load Harbor's DS-1000 `Adapter` class.
+    """Load the sibling DS-1000 `Adapter` class from its file path.
 
-    The adapter is a standalone uv package (not installable from PyPI), so we
-    import its `adapter.py` module directly via its file path.  This avoids
-    both subprocess overhead and code duplication.
+    It is a standalone uv package, not installable from PyPI.
     """
 
     module_path = next((p for p in _DS1000_ADAPTER_CANDIDATES if p.exists()), None)
@@ -143,13 +131,8 @@ def _load_split_ids(split: str) -> list[str]:
 def _patch_task_toml(
     task_dir: Path, task_name: str, family: str, split: str, source_id: str
 ) -> None:
-    """Rewrite Harbor's old-style ds1000 task.toml into modern Harbor schema.
-
-    The upstream template emits fields under `[task]` that belong under
-    `[metadata]` in the current schema, and refers to a pre-built docker
-    image that doesn't exist on Daytona.  We extract `difficulty` from the
-    generated file and rewrite the TOML from scratch using the standard
-    schema (matching the other AstaBench families).
+    """Rewrite the sibling adapter's task.toml in the schema the other
+    AstaBench families use, keeping its `difficulty` and agent time limit.
     """
 
     import re
@@ -192,12 +175,9 @@ build_timeout_sec = 1800.0
 cpus = 2
 memory_mb = 4096
 storage_mb = 10240
-# Solving needs no data downloads, but Harbor's Docker environment
-# implements allow_internet=false as `network_mode: none` for the whole
-# container, which also cuts the agent off from its model API (installed
-# agents and the Inspect bridge both run inside the container).  The
-# family therefore needs egress.  DS-1000 is a public dataset; the
-# reference solution is not shipped in the agent image or instruction.
+# No downloads are needed, but allow_internet=false would also cut the
+# agent off from its model API.  The reference solution is not in the
+# agent image or instruction.
 allow_internet = true
 """
     toml_path.write_text(rewritten, encoding="utf-8")
@@ -208,9 +188,7 @@ class DS1000Builder(BenchmarkBuilder):
     default_split = "test"
 
     def load_samples(self, split: str) -> Iterable[SampleRecord]:
-        # DS-1000 is fully materialised by Harbor's own adapter; we only
-        # need the split IDs here.  The actual task-dir generation happens
-        # in `run()` (overridden below) so we yield minimal records.
+        # Only the IDs are needed; `run()` generates the task directories.
         for iid in _load_split_ids(split):
             yield SampleRecord(
                 sample_id=iid,
@@ -222,8 +200,6 @@ class DS1000Builder(BenchmarkBuilder):
             )
 
     def write_task(self, record: SampleRecord, task_dir: Path) -> None:
-        # Intentionally unused: we delegate to Harbor's DS-1000 adapter in
-        # `run()` below, which writes each task directory itself.
         raise NotImplementedError(
             "DS1000Builder bypasses the per-sample write path; run() handles "
             "generation by calling Harbor's ds1000 Adapter directly."
@@ -259,7 +235,7 @@ class DS1000Builder(BenchmarkBuilder):
             inner.generate_task(iid, local_id, overwrite=True)
             _patch_task_toml(
                 task_dir,
-                task_name=f"allenai/asta-bench__{local_id}",
+                task_name=self.harbor_task_name(local_id),
                 family=self.family_name,
                 split=split,
                 source_id=iid,
@@ -282,50 +258,39 @@ class DS1000Builder(BenchmarkBuilder):
 
 
 def _patch_dockerfile(task_dir: Path) -> None:
-    """Work around a bug in Harbor's ds1000 Dockerfile template.
+    """Fix the sibling template's `FROM` line.
 
-    Upstream writes `FROM ${docker_base}` but `render_literal` does a plain
-    `str.format()`, so `${docker_base}` becomes `$python:3.10-slim` —
-    which Docker/Daytona reject as an invalid image reference.  We fix it
-    by replacing the orphan `$` with the real image name.
+    Its `FROM ${docker_base}` goes through `str.format()` and comes out as
+    `FROM $python:3.10-slim`, an invalid image reference.
     """
 
     dockerfile = task_dir / "environment" / "Dockerfile"
     if not dockerfile.exists():
         return
     text = dockerfile.read_text(encoding="utf-8")
-    # Collapse "FROM $<image>" (buggy output) -> "FROM <image>".
     fixed = text.replace("FROM $python:", "FROM python:")
-    # astabench requires Python>=3.11; harbor native ds1000 template uses 3.10-slim.
+    # astabench requires Python>=3.11.
     fixed = fixed.replace("FROM python:3.10-slim", "FROM python:3.11-slim")
     if fixed != text:
         dockerfile.write_text(fixed, encoding="utf-8")
 
 
-# Shared verifier contract (see base.py).  run_test.py reads the answer from
-# /app/answer.txt first (bridge + CLI agents), then the oracle's
-# /solution/solution.py, and writes the reward itself.
+# run_test.py reads /app/answer.txt first, then the oracle's
+# /solution/solution.py.
 _TEST_SH_TEMPLATE = make_verifier_test_sh(
     scorer_cmd="python3 /tests/run_test.py /solution/solution.py /tests/config.json"
 )
 
 
-# asta-bench-owned scorer, co-located with this builder (sibling to
-# ds1000_splits.json).  It is NOT a change to the ds1000 adapter's shared
-# template, which stays pristine — `_patch_run_test` only copies this file
-# into asta-bench's *generated* task dir, the same way BixBench ships its
-# own task-template/tests scorer.  Adds claude-code stream-json extraction
-# + a parity-faithful postprocess (verbatim upstream extract_from_tags
-# chain + the fork c63f0a2 <code> patch) so the standard claude-code agent
-# scores ds1000 identically to the inspect-solver bridge.
+# Replaces the sibling template's tests/run_test.py in generated tasks (the
+# sibling adapter itself is not modified).  Ports upstream's postprocess,
+# including the fork's c63f0a2 <code> patch, so every agent is graded as the
+# Inspect bridge would be.
 _DS1000_RUN_TEST_SRC = _THIS_DIR / "ds1000_run_test.py"
 
 
 def _patch_run_test(task_dir: Path) -> None:
-    """Overwrite the harbor-template tests/run_test.py with the asta-bench
-    claude-code-aware + parity-faithful scorer.  Same post-generation idiom
-    as _patch_test_sh; keeps all changes inside src/asta-bench/.
-    """
+    """Install `ds1000_run_test.py` as the task's tests/run_test.py."""
     run_test = task_dir / "tests" / "run_test.py"
     if not run_test.parent.exists():
         return
@@ -333,16 +298,11 @@ def _patch_run_test(task_dir: Path) -> None:
     run_test.chmod(0o755)
 
 
-# DS-1000's own environment pins matplotlib==3.8.4 (the sibling adapter's
-# Dockerfile and upstream's ds1000_requirements.txt agree).  The Inspect
-# bridge runtime layer, like upstream's shared sandbox image, then installs
-# matplotlib==3.10.0 -- upstream added that for an unrelated solver
-# ("Datavoyager requirement" in astabench/util/sandbox/Dockerfile).  Under
-# 3.10.0 two DS-1000 problems cannot pass even with the reference solution:
-# 649 fails inside its own `generate_test_case`, 520 fails a patch-type
-# assertion.  Both pass under 3.8.4.  We keep DS-1000's pin so every
-# reference solution is gradable; this is a documented deviation from
-# upstream's sandbox image (README, Notes & Caveats).
+# DS-1000 pins matplotlib==3.8.4.  The bridge runtime layer, like upstream's
+# shared sandbox image, installs 3.10.0 (an unrelated "Datavoyager
+# requirement" upstream), under which the reference solutions of problems 520
+# and 649 fail.  DS-1000's pin is restored last; a deliberate deviation from
+# upstream's sandbox image.
 DS1000_MATPLOTLIB_PIN = "matplotlib==3.8.4"
 _DS1000_MATPLOTLIB_MARKER = "Restore DS-1000's matplotlib pin"
 
@@ -367,11 +327,10 @@ RUN python3 -m pip install --no-cache-dir "{DS1000_MATPLOTLIB_PIN}" \\
 
 
 _SOLVE_SH_EXACT_BYTES = """
-# The here-document above appends one newline to the reference solution.
-# DS-1000 substitutes the solution into its test program textually, and for
-# a problem whose template continues on the same line (e.g. `[insert].numpy()`)
-# that extra newline turns a correct reference into a syntax error.  Drop it
-# so the oracle submits the reference byte for byte.
+# The here-document above appends a newline to the reference.  DS-1000
+# splices the solution into its test program textually, and where the
+# template continues on the same line (e.g. `[insert].numpy()`) that newline
+# breaks a correct reference.  Drop it.
 truncate -s -1 /solution/solution.py
 """
 
@@ -390,13 +349,8 @@ def _patch_solve_sh(task_dir: Path) -> None:
 
 
 def _patch_test_sh(task_dir: Path) -> None:
-    """Overwrite the harbor-template tests/test.sh with the asta-bench version.
-
-    Harbor's native ds1000 test.sh runs `run_test.py /solution/solution.py`.
-    Our template keeps that verifier-side scoring path for ALL agents (oracle,
-    claude-code, and the inspect-solver bridge alike) — there is no
-    agent-trusted score sidecar; scoring happens only in the verifier.
-    """
+    """Replace the sibling template's tests/test.sh with the shared
+    verifier contract (base.py); every agent is scored by the verifier."""
     test_sh = task_dir / "tests" / "test.sh"
     if not test_sh.parent.exists():
         return
@@ -404,11 +358,9 @@ def _patch_test_sh(task_dir: Path) -> None:
     test_sh.chmod(0o755)
 
 
-# Verbatim from astabench/evals/inspect_eval_wrappers/ds1000.py (fork HEAD
-# 17c84ca, identical to allenai/asta-bench main): AstaBench appends this to
-# every DS-1000 `prompt` to form `Sample.input`.  (inspect_evals' own
-# DEFAULT_SYSTEM_MESSAGE is NOT part of what an AstaBench solver sees: the
-# AstaBench wrapper replaces the inspect_evals solver chain.)
+# Verbatim from upstream astabench/evals/inspect_eval_wrappers/ds1000.py:
+# appended to every DS-1000 `prompt` to form `Sample.input`.  inspect_evals'
+# DEFAULT_SYSTEM_MESSAGE is not shown; AstaBench replaces that solver chain.
 _UPSTREAM_FORMAT_INSTRUCTIONS = (
     "\n\nWrite the remaining python code to append to the program above "
     "(but do not repeat the part of the code that is already given in "
@@ -416,8 +368,7 @@ _UPSTREAM_FORMAT_INSTRUCTIONS = (
     "<code> and </code> tags."
 )
 
-# Harbor-side addition: where the final answer goes.  Upstream reads the
-# solver's final completion; Harbor reads this file.
+# Harbor addition: the answer is read from a file, not the completion.
 _SUBMIT_INSTRUCTIONS = (
     "\n\n---\n\n## How to submit\n\n"
     "Write your final answer to `/app/answer.txt`: the new code only, inside "
@@ -429,12 +380,9 @@ _SUBMIT_INSTRUCTIONS = (
 def _patch_instruction(task_dir: Path) -> None:
     """Replace the sibling adapter's instruction with upstream's task input.
 
-    The `src/ds1000` template embeds the problem's `code_context` in the
-    instruction.  That context is the hidden test harness: it contains
-    `generate_ans`, i.e. the reference logic the answer is checked against.
-    AstaBench never shows it to the solver -- `Sample.input` is the DS-1000
-    `prompt` plus `_UPSTREAM_FORMAT_INSTRUCTIONS` -- so we emit exactly that
-    (plus where to write the answer) and nothing from the harness.
+    The sibling template embeds `code_context`, the hidden test harness
+    (including the reference logic `generate_ans`).  Upstream shows only the
+    `prompt` plus `_UPSTREAM_FORMAT_INSTRUCTIONS`.
     """
     config_path = task_dir / "tests" / "config.json"
     config = json.loads(config_path.read_text(encoding="utf-8"))
@@ -446,10 +394,8 @@ def _patch_instruction(task_dir: Path) -> None:
         encoding="utf-8",
     )
 
-    # The verifier only needs `code_context`.  Drop the reference solution
-    # from tests/config.json: the graded snippet runs at verification time,
-    # when /tests is mounted, and has no business being able to read it.
-    # (The oracle keeps its own copy in solution/solve.sh.)
+    # The graded snippet runs while /tests is mounted, so keep the
+    # reference solution out of tests/config.json (the oracle has its own).
     if "reference_code" in config:
         del config["reference_code"]
         config_path.write_text(json.dumps(config, indent=2), encoding="utf-8")

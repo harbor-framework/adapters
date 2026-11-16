@@ -1,19 +1,14 @@
-"""Generic Inspect-AI solver bridge agent.
+"""Inspect-AI solver bridge agent.
 
-Runs an `inspect_ai` solver (e.g. `react`, `generate`, `smolagents`) inside
-the task sandbox against a configured upstream Inspect Task + Sample, then
-extracts the agent's final completion to `/app/answer.txt` so Harbor's
-verifier can score it the same way as a structurally-translated agent.
+Runs `inspect eval --solver <solver> --no-score` in the task container for the
+configured upstream Inspect task and sample, and writes the final completion
+to `/app/answer.txt`. Scoring happens only in the Harbor verifier.
 
-This bridge is task-agnostic.  Any Harbor adapter that wraps an Inspect Task
-can use it; the per-task wiring is read at runtime from a JSON config file.
-The config file is loose-schema (no Pydantic model in Harbor core) and is
-loaded from one of (in priority order):
+The per-task wiring is read from a JSON config file, first found of:
 
-  1. `/app/inspect_config.json`   -- normal path, baked into workspace
-  2. `/tests/inspect_config.json` -- alt path, useful when the workspace
-                                     dir isn't writable / copied
-  3. `-S inspect_config_path=/abs/path` overriding either of the above
+  1. the `inspect_config_path` agent kwarg
+  2. `/app/inspect_config.json` (baked into the image)
+  3. `/tests/inspect_config.json`
 
 Required fields in `inspect_config.json`:
   - `task`       (str)            upstream Inspect task identifier, e.g.
@@ -21,55 +16,39 @@ Required fields in `inspect_config.json`:
   - `sample_id`  (str | int)      sample id within that task
 
 Optional fields:
-  - `pip_install` (list[str])     extra pip requirements for ad hoc runs.
-                                  Canonical bridge datasets preinstall deps
-                                  in Docker and leave this empty.
+  - `pip_install` (list[str])     extra pip requirements for ad hoc runs
+                                  (generated datasets preinstall everything).
   - `apt_install` (list[str])     extra apt packages for ad hoc runs.
-  - `task_args`   (dict[str,str]) k=v pairs forwarded to the task via
-                                  `inspect eval -T k=v` (most AstaBench
-                                  family knobs go here, e.g.
-                                  `with_asta_tools`, `scorer_model`).
-  - `solver_args` (dict[str,str]) k=v pairs forwarded to the solver via
-                                  `inspect eval -S k=v`.
-  - `eval_args`   (list[str])     extra positional flags forwarded to
-                                  `inspect eval` (e.g. ["--max-tokens=8000"]).
+  - `task_args`   (dict[str,str]) forwarded as `inspect eval -T k=v`.
+  - `solver_args` (dict[str,str]) forwarded as `inspect eval -S k=v`.
+  - `eval_args`   (list[str])     extra flags for `inspect eval`.
   - `site_package_replacements`
                   (list[dict])    narrowly scoped text replacements applied
                                   to installed Python packages after
                                   `pip_install` and before `inspect eval`.
   - `export_files`
                   (list[dict])    `[{"src": "report.json", "dest": "/app/report.json"}]`.
-                                  Files the upstream scorer reads from the
-                                  sandbox.  The configured solver is wrapped
-                                  by a small file-based solver that, after the
-                                  inner solver returns (or hits a sample
-                                  limit), copies each `src` out of the sandbox
-                                  via `sandbox().read_file()` to `dest` -- i.e.
-                                  before the sandbox is torn down (under
-                                  `--sandbox local` the sandbox dir is a temp
-                                  dir removed at sample cleanup).  Stale
-                                  `dest` files are deleted before the run.
-  - `keep_sandbox_dir` (bool)     keep the Inspect `local` sandbox's working
-                                  directory after the run.  Inspect creates
-                                  it as a temporary directory and deletes it
-                                  at sample cleanup; a verifier that must
-                                  re-run something the solver set up there
-                                  (SUPER-Auto re-runs the submitted command)
-                                  needs it to survive, at the same path.
-  - `require_tools` (bool)        fail the run if the first model call in the
-                                  log was offered no tool other than `submit`
+                                  Sandbox files the scorer reads (CORE-Bench
+                                  `report.json`). A wrapper solver copies each
+                                  `src` to `dest` after the inner solver
+                                  returns (or hits a sample limit), before the
+                                  sandbox is torn down. Stale `dest` files are
+                                  deleted before the run.
+  - `keep_sandbox_dir` (bool)     keep Inspect's temporary `local` sandbox
+                                  directory after the run, at the same path,
+                                  so the verifier can re-run the submitted
+                                  command (SUPER-Auto).
+  - `require_tools` (bool)        fail the run (exit 6) if the first model
+                                  call was offered no tool other than `submit`
                                   (task tools were dropped by the solver).
 
-CLI overrides (via `-S` at trial-launch time):
+Agent kwargs (`--ak k=v`):
   - `solver`     (default "astabench/react"; bare "react" is Inspect's
                   built-in agent, which ignores the task's `use_tools` tools)
-  - `inspect_config_path`         alternate config-file path
-  - `task`, `sample_id`, ...      any field above; CLI overrides config-file
+  - `inspect_config_path`, `task`, `sample_id` override the config file.
 
-Required runtime env vars (forwarded via `--ae` or task-level `[verifier.env]`):
-  - HF_TOKEN, OPENAI_API_KEY, ANTHROPIC_API_KEY, GOOGLE_API_KEY as needed
-    by the upstream task's solver and scorer.  ASTA_TOOL_KEY for
-    AstaBench literature families.
+Env vars (from the agent kwargs or the host env, see ENV_VARS): the model
+provider keys, HF_TOKEN, and ASTA_TOOL_KEY for the literature families.
 """
 
 from __future__ import annotations
@@ -94,7 +73,7 @@ from harbor.environments.base import BaseEnvironment
 from harbor.models.agent.context import AgentContext
 
 DEFAULT_INSPECT_AI_VERSION = "0.3.203"
-# The pinned fork's uv.lock version; inspect_ai 0.3.203 breaks on anthropic>=2.
+# The fork's uv.lock version; inspect_ai 0.3.203 breaks on anthropic>=2.
 DEFAULT_ANTHROPIC_VERSION = "0.97.0"
 
 CONFIG_PATH_PRIMARY = "/app/inspect_config.json"
@@ -118,11 +97,9 @@ class InspectSolver(BaseInstalledAgent):
     then write the final completion to `/app/answer.txt`.
     """
 
-    # Literature tasks declare the Asta MCP server in task.toml for standard
-    # agents. The bridge gives the model the same tools through the Inspect
-    # task itself (astabench.tools connects to the Asta MCP endpoint with
-    # ASTA_TOOL_KEY), so it does not register the Harbor-level server again.
     # Harbor >= 0.26 refuses tasks with MCP servers unless this is declared.
+    # The bridge does not use the task's Harbor-level Asta MCP server: the
+    # Inspect task gives the model the same tools itself.
     capabilities = AgentCapabilities(mcp_servers=True)
 
     # Provider errors as Inspect's Anthropic/OpenAI clients report them, mapped
@@ -174,9 +151,8 @@ class InspectSolver(BaseInstalledAgent):
 
     @staticmethod
     def name() -> str:
-        # Referenced from job YAML via
-        # `import_path: asta_bench.inspect_solver:InspectSolver`
-        # (not a Harbor-core AgentName enum member).
+        # Not a Harbor-core agent; select it with
+        # `import_path: asta_bench.inspect_solver:InspectSolver`.
         return "inspect-solver"
 
     def get_version_command(self) -> str | None:
@@ -193,10 +169,9 @@ class InspectSolver(BaseInstalledAgent):
         return stdout.strip() or DEFAULT_INSPECT_AI_VERSION
 
     async def install(self, environment: BaseEnvironment) -> None:
-        # Canonical AstaBench bridge datasets bake this runtime into the
-        # Dockerfile so agent setup time is not polluted by environment
-        # installation.  Keep the old installer only as an explicit debug
-        # fallback for ad hoc tasks.
+        # Generated bridge datasets bake this runtime into the image. The
+        # install below is a debug-only fallback for ad hoc tasks
+        # (ASTA_BRIDGE_ALLOW_RUNTIME_INSTALL=1).
         await self.exec_as_root(
             environment,
             command=(
@@ -228,20 +203,14 @@ class InspectSolver(BaseInstalledAgent):
                 'if [ -f "$HOME/.local/bin/env" ]; then source "$HOME/.local/bin/env"; fi; '
                 f"uv pip install --system 'inspect_ai=={DEFAULT_INSPECT_AI_VERSION}' "
                 f"'anthropic=={DEFAULT_ANTHROPIC_VERSION}' 'pyarrow==24.0.0'; "
-                # astabench/util/sandbox/sandbox_jupyter.py hardcodes
-                # `/opt/inspect_tool_support/bin/python` (matches the upstream
-                # SandboxToolManager.make_docker_sandbox_spec() Dockerfile).
-                # Install inspect-tool-support into that venv path; a system-
-                # wide install is not discovered.  Without this, python_session
-                # raises FileNotFoundError and the agent cannot run code.
+                # astabench's sandbox_jupyter.py hardcodes
+                # /opt/inspect_tool_support/bin/python; a system-wide install
+                # is not found and python_session cannot run code.
                 "python3 -m venv /opt/inspect_tool_support && "
                 "/opt/inspect_tool_support/bin/pip install inspect-tool-support && "
                 "/opt/inspect_tool_support/bin/inspect-tool-support post-install; "
-                # python_session is a jupyter-kernel-gateway MCP server.
-                # Mirror the package set from asta-bench util/sandbox/
-                # Dockerfile so the kernel can actually start; otherwise
-                # the gateway child dies immediately and the MCP channel
-                # reports ConnectionResetError on the first tool call.
+                # Package set of upstream's util/sandbox/Dockerfile; without it
+                # the kernel gateway behind python_session does not start.
                 "/opt/inspect_tool_support/bin/pip install requests "
                 "  jupyter_client==8.6.3 jupyter_kernel_gateway==3.0.1 "
                 "  'mcp~=1.10'; "
@@ -271,11 +240,6 @@ class InspectSolver(BaseInstalledAgent):
         cli_sample_id = flags.get("sample_id")
         cli_config_path = flags.get("inspect_config_path")
 
-        # Build a small Python harness that reads the config file, merges in
-        # CLI overrides, performs any pip/apt installs, runs `inspect eval`,
-        # then extracts the completion to /app/answer.txt.  Doing this in
-        # one Python invocation keeps the agent runtime self-contained and
-        # avoids escaping a large multi-line shell pipeline.
         harness_payload = {
             "solver": solver,
             "model_name": self.model_name,
@@ -310,11 +274,9 @@ class InspectSolver(BaseInstalledAgent):
         pass
 
 
-# Embedded harness.  Lives here as a string so we can ship it via a single
-# heredoc without touching the surrounding image.  Reads $__INSPECT_BRIDGE_PAYLOAD,
-# loads the optional inspect_config.json, performs lazy apt/pip installs,
-# invokes `inspect eval` for the configured (task, sample_id), and copies
-# the agent's final completion to /app/answer.txt.
+# Harness run in the container via a heredoc: reads $__INSPECT_BRIDGE_PAYLOAD
+# and the config file, runs `inspect eval` for the configured sample, and
+# writes the completion to /app/answer.txt.
 HARNESS_PY = r"""
 from __future__ import annotations
 
@@ -437,7 +399,6 @@ def _pip_install(packages):
     if not packages:
         return
     print(f"[inspect-bridge] pip install: {packages}", flush=True)
-    # Prefer uv if available, fall back to pip.
     cmd = ["uv", "pip", "install", "--system", *packages]
     rc = subprocess.run(cmd, check=False).returncode
     if rc != 0:
@@ -505,7 +466,7 @@ def _resolve_config(payload):
             print(f"[inspect-bridge] using config from {path}", flush=True)
             cfg = loaded
             break
-    # CLI overrides win
+    # Agent kwargs override the config file.
     if payload.get("cli_task"):
         cfg["task"] = payload["cli_task"]
     if payload.get("cli_sample_id") is not None:
@@ -514,7 +475,6 @@ def _resolve_config(payload):
 
 
 def _format_kv_args(args_dict, flag):
-    # Render {k: v} as `flag k=v flag k=v ...` for inspect's -T/-S CLI.
     out = []
     for k, v in (args_dict or {}).items():
         out.extend([flag, f"{k}={v}"])
@@ -596,16 +556,14 @@ def main():
         "json",
         "--log-dir",
         LOG_DIR,
-        # Solver only: scoring must run in the harbor verifier (outside the
-        # agent's writable trust boundary), so skip it here.
+        # Scoring runs only in the verifier, outside the agent's reach.
         "--no-score",
         *_format_kv_args(cfg.get("task_args"), "-T"),
         *_format_kv_args(cfg.get("solver_args"), "-S"),
         *(cfg.get("eval_args") or []),
         task,
     ]
-    # Pre-flight env diagnostics so failures are debuggable without
-    # spelunking through Harbor's captured streams.
+    # Log which keys are present (never their values).
     diag_keys = (
         "OPENAI_API_KEY",
         "OPENAI_BASE_URL",
@@ -623,8 +581,8 @@ def main():
         f"[inspect-bridge] running: {' '.join(shlex.quote(c) for c in cmd)}",
         flush=True,
     )
-    # Capture stdout/stderr explicitly so a non-zero exit doesn't lose its
-    # traceback to Harbor's stream truncation.
+    # Capture output so a failure's traceback is not lost to Harbor's
+    # stream truncation.
     proc = subprocess.run(
         cmd, check=False, capture_output=True, text=True, env=sub_env
     )
@@ -652,10 +610,9 @@ def main():
     if not samples:
         print("[inspect-bridge] inspect log has no samples", file=sys.stderr)
         sys.exit(5)
-    # An errored sample (or an eval that did not finish) is a harness failure,
-    # not an answer: fail the run so Harbor records an agent error instead of
-    # the verifier scoring an empty completion as 0. Upstream likewise does not
-    # score errored samples.
+    # An errored sample or unfinished eval is a harness failure, not an answer
+    # (upstream does not score errored samples either): fail instead of letting
+    # the verifier score an empty completion as 0.
     sample_error = samples[0].get("error")
     if obj.get("status") != "success" or sample_error:
         message = (sample_error or obj.get("error") or {}).get("message", "")
@@ -668,9 +625,8 @@ def main():
             flush=True,
         )
         sys.exit(7)
-    # Cheap harness-health guard: if the model was only ever offered
-    # `submit`, the task's tools were dropped (e.g. bare `--solver react`)
-    # and the run says nothing about the agent.
+    # Only `submit` offered means the task's tools were dropped (e.g. bare
+    # `--solver react`).
     tool_names = _first_model_tool_names(samples[0])
     if tool_names is not None and set(tool_names) <= {"submit"}:
         msg = (
@@ -692,8 +648,8 @@ def main():
     Path("/app/answer.txt").write_text(completion, encoding="utf-8")
     print(f"[inspect-bridge] wrote {len(completion)} chars to /app/answer.txt", flush=True)
 
-    # No score sidecar: an agent-writable /app/inspect_score.json would let
-    # any agent forge reward=1.0.  The verifier re-scores /app/answer.txt.
+    # No score sidecar: an agent-writable score file would let agents forge
+    # rewards. The verifier scores /app/answer.txt itself.
 
 
 if __name__ == "__main__":

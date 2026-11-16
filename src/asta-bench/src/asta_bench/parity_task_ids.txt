@@ -1,26 +1,12 @@
 # AstaBench adapter: parity subset manifest (one Harbor task id per line).
+# Used by `asta-bench --split parity`; the subset is this file, not re-sampled.
 #
-# Used by `asta-bench --split parity`. This is a fixed, committed manifest:
-# the subset is defined by this file, not re-derived by sampling.
-#
-# Provenance: these are the task ids of the 150-task subset used for the May
-# 2026 parity runs, with one documented change (below). That subset was
-# allocated per family in proportion to family size with a floor of 5,
-# max(round(200 / 2422 * family_size), 5), divided between the test and
-# validation splits; within a (family, split) it is the head of the adapter's
-# generation order (upstream dataset order), except ds1000, which was trimmed
-# from an earlier 80-task selection down to 30 (27 test + 3 validation).
-#
-# Change relative to the May 2026 subset:
-#   The 7 core-bench-hard ids were replaced. The adapter now applies
-#   upstream's GPU filter (filter_out_gpu=True); 5 of the 7 old ids are GPU
-#   capsules that upstream never evaluates. The replacements are the first
-#   4 test / 3 validation capsules that pass the filter, i.e. the same
-#   rule as the other families.
-#
-# The 4 super-expert *validation* (SUPER "Auto" split) ids are the same as in
-# May, but the tasks are not: they are now scored by re-running the submitted
-# entrypoint command (see benchmarks/super_auto.py) on both parity sides.
+# Provenance: per family, max(round(200 / N * family_size), 5) tasks over the
+# task set of the first parity runs (N = 2,422), split between test and
+# validation; within a (family, split), the first ids in upstream dataset
+# order. ds1000 was trimmed to 30 (27 test + 3 validation). The 7
+# core-bench-hard ids are the first 4 test / 3 validation capsules that pass
+# upstream's GPU filter.
 #
 # 150 tasks: 114 test + 36 validation, covering all 11 families.
 arxivdigestables-clean-test-608b47fc-9e08-4e3d-acd7-78956dc5528b

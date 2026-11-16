@@ -40,11 +40,9 @@ for split in ["train", "dev", "test"]:
 shutil.copy(f"{src}/tag_to_id.json", "data/conll10/tag_to_id.json")
 EOF
 
-# Defensive patch (not triggered in the verification run): eval/predict load
-# <output_dir>/checkpoint-best, which is only written when dev F1 improves
-# during training. With 10 training rows and 1 epoch dev F1 can stay 0, and the
-# script would then crash with OSError. Fall back to the final model saved in
-# <output_dir>.
+# eval/predict load <output_dir>/checkpoint-best, which is only written when
+# dev F1 improves; with 10 rows and 1 epoch it can stay 0 and the script would
+# crash with OSError. Fall back to the final model saved in <output_dir>.
 $PY - <<'EOF2'
 p = "self_training/run_ner.py"
 s = open(p).read()

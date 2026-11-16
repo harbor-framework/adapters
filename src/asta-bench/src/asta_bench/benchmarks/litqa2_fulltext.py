@@ -35,9 +35,7 @@ from .base import (
     write_task_files,
 )
 
-# Pinned allenai/asta-bench HF dataset revision (matches
-# astabench/constants.py::ASTA_BENCH_DATASET_REVISION).  Ensures the split
-# mapping file is byte-identical to what upstream AstaBench sees.
+# == astabench.constants.ASTA_BENCH_DATASET_REVISION (same split mapping file).
 ASTA_BENCH_REVISION = "a600dc767f850385f4664772e3ba7a7f8be17d5e"
 
 UNSURE_CHOICE = "Insufficient information to answer the question"
@@ -46,7 +44,7 @@ SHUFFLE_SEED = 0  # matches astabench.evals.labbench.litqa2.task.litqa2_inspect 
 
 
 # Verbatim from astabench/evals/utils.py::DEFAULT_MULTICHOICE_TEMPLATE (fork
-# HEAD 17c84ca, identical to allenai/asta-bench main).  This is upstream's
+# 04293fb, identical to allenai/asta-bench main).  This is upstream's
 # whole `Sample.input` for litqa2_test / litqa2_validation.
 UPSTREAM_MULTICHOICE_TEMPLATE = """{question}
 
@@ -105,9 +103,8 @@ FROM python:3.12-slim
 
 WORKDIR /app
 
-# The verifier is a self-contained exact-match on the chosen letter (no
-# third-party packages).  inspect_config.json is read only by the optional
-# Inspect-AI bridge agent to look up the upstream Inspect task / sample.
+# The verifier needs no third-party packages.  inspect_config.json is read
+# only by the Inspect-AI bridge agent.
 COPY workspace/inspect_config.json /app/inspect_config.json
 """
 
@@ -122,8 +119,7 @@ SOLVE_SH_TEMPLATE = """\
 #!/bin/bash
 set -e
 
-# Oracle reference solution: write the gold letter so parity runs against the
-# `oracle` agent produce a perfect score (sanity check for the plumbing).
+# Oracle: write the gold letter.
 cat > /app/answer.txt <<'EOF'
 {{"answer": "{gold_letter}"}}
 EOF
@@ -133,16 +129,8 @@ EOF
 TEST_SH_TEMPLATE = VERIFIER_TEST_SH
 
 
-# Vendored scorer logic: a verbatim port of
-# astabench.evals.utils.mark_multichoice_answer's text parsing.  Upstream
-# parses state.output.completion in three tiers (single-letter output;
-# JSON `{"answer": "X"}` or `{"answer": ["A","B"]}`; LAB-Bench
-# `[ANSWER]X[/ANSWER]` / `<ANS>X</ANS>` with re.DOTALL), maps each letter
-# to a 0-based choice index, marks state.choices, then exact-match scores.
-# We replicate the parsing 1:1 and the same exact-match semantics: correct
-# iff the parsed index set is exactly {gold index}.
 RUN_SCORER_PY = '''\
-"""Closed-book LitQA2 verifier.
+"""LitQA2-FullText verifier.
 
 Reads the agent's answer from /app/answer.txt and the gold letter from
 /tests/config.json.  Answer extraction is a verbatim port of
@@ -301,10 +289,8 @@ class LitQA2FullTextBuilder(BenchmarkBuilder):
     default_split = "test"
 
     def _inspect_workspace_files(self, sample_id: str, split: str) -> dict[str, str]:
-        # Bridge parity: run the upstream `litqa2_*` task as-is (open-book,
-        # with_search_tools=True by default).  The Asta MCP literature
-        # search tools are gated behind ASTA_TOOL_KEY, which the operator
-        # must export for the bridge to forward into the sandbox.
+        # Upstream `litqa2_*` task as-is (open-book, search tools on); the
+        # Asta tools need ASTA_TOOL_KEY exported for the bridge to forward.
         cfg = make_inspect_config(
             task=_SPLIT_TO_INSPECT_TASK[split],
             sample_id=sample_id,
@@ -392,7 +378,7 @@ class LitQA2FullTextBuilder(BenchmarkBuilder):
             + SUBMIT_INSTRUCTIONS
         )
 
-        task_name = f"allenai/asta-bench__{self.task_id(record)}"
+        task_name = self.harbor_task_name(self.task_id(record))
         task_toml = TASK_TOML_TEMPLATE.format(
             task_name=task_name,
             split=record.split,

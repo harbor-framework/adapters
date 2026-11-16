@@ -16,11 +16,9 @@ citation judges and temperature=0.5 / no top_p for the precision judge,
 max_tokens=32000 (Inspect's Anthropic default) and Anthropic structured
 output (`SQA_JUDGE_STRUCTURED_OUTPUT=0` turns the latter off).
 
-Scoring resolution (verifier-side only — no agent-trusted score sidecar):
-(1) oracle short-circuit — `solve.sh` writes a canonical oracle JSON keyed
-on an `_oracle_marker` (Pattern C, `financeagent` idiom), matched against
-the unforgeable per-task nonce in `tests/config.json`; (2) otherwise a
-verifier-side port of upstream's scorer: RubricCorpusQaGenericMetric
+Scoring (verifier-side only): (1) oracle short-circuit — `solve.sh` writes
+an oracle JSON whose `_oracle_marker` matches the per-task nonce in
+`tests/config.json`; (2) otherwise a port of upstream's scorer: RubricCorpusQaGenericMetric
 (simplified+jointly) + PrecisionEval + CitationEval (all_at_once),
 0.25-weighted mean -> `global_avg` reward.  Where upstream raises (Inspect
 sample error) the scorer exits non-zero and writes no reward.  The full
@@ -32,10 +30,8 @@ Data parity:
   prompt from upstream `json_to_sample`.
 - Test split = `rubrics_v2_recomputed.json` (100 cases).  Validation split =
   `rubrics_v1_recomputed.json` (dev cases).
-- The full rubric (`ingredients`, `exp`, etc.) is NOT included in the agent
-  instruction (upstream hides the gold rubric from the agent), but is
-  embedded into `tests/config.json` so the bridge agent or future scorer can
-  reproduce upstream's metrics on demand.
+- The full rubric is hidden from the agent (as upstream) and lives only in
+  `tests/config.json` for the verifier.
 """
 
 from __future__ import annotations
@@ -130,8 +126,7 @@ source_sample_id = "{source_id}"
 timeout_sec = 3600
 
 [verifier]
-# Verifier runs the vendored rubric judge here (multi-call loop), so this
-# sits above harbor's 600s default.
+# Several judge calls with retries; above Harbor's 600 s default.
 timeout_sec = 2400
 
 [verifier.env]
@@ -147,9 +142,7 @@ build_timeout_sec = 600.0
 cpus = 1
 memory_mb = 2048
 storage_mb = 4096
-# Internet genuinely required: long-form scientific QA over the live Asta
-# literature corpus (ASTA_TOOL_KEY MCP). The scoring rubric stays verifier-side
-# (tests/), never in the agent image.
+# Needed for the Asta literature MCP, the model API and the judge.
 allow_internet = true
 """
 
@@ -159,12 +152,8 @@ FROM python:3.12-slim
 
 WORKDIR /app
 
-# ALL agents (bridge and claude-code alike) are scored verifier-side by the
-# vendored upstream rubric/precision/citation judge in tests/run_scorer.py,
-# which needs litellm (judge calls; same pin as upstream astabench), pydantic
-# (upstream's report / judge-output models; version of the upstream venv) and
-# nltk + punkt_tab (citation-group sentence counting, pre-fetched so the
-# verifier does not depend on a runtime download).
+# Verifier deps for tests/run_scorer.py: litellm (judge calls), pydantic
+# (upstream models) and nltk + punkt_tab (pre-fetched, no runtime download).
 RUN pip install --no-cache-dir "litellm==1.82.3" "pydantic==2.13.3" "nltk==3.9.4" \
     && python -m nltk.downloader -d /usr/local/share/nltk_data punkt_tab
 COPY workspace/inspect_config.json /app/inspect_config.json
@@ -190,20 +179,12 @@ ORACLE_ANSWER_EOF
 TEST_SH = VERIFIER_TEST_SH
 
 
-# Scoring resolution (verifier-side only): (1) the unforgeable per-task oracle
-# nonce short-circuit; (2) otherwise a port of upstream's default sqa scorer
-# (astabench/evals/sqa/task.py::sqa -> aggregate_scorer over score_sqa
-# (simplified_eval + assess_jointly) + score_precision + score_citation
-# (all_at_once), reduced by weighted_mean_score with 0.25 weights into
-# `global_avg`, which is the reward).  Upstream code is copied verbatim where
-# possible; only the Inspect `model.generate` call is replaced by litellm with
-# the request parameters Inspect's Anthropic provider sends (see
-# `_judge_request_kwargs`).  The rubric payload is embedded in
-# tests/config.json so no dataset access is needed.
+# Port of upstream's default sqa scorer (task.py::sqa). Upstream code is
+# copied verbatim where possible; only Inspect's `model.generate` is replaced
+# by litellm with the request Inspect's Anthropic provider sends.
 RUN_SCORER_PY = r'''"""SQA verifier: oracle nonce short-circuit + port of upstream's scorer.
 
-Source: allenai/asta-bench @ smiky2011/asta-bench claude-haiku-judges
-(HEAD 17c84ca), files astabench/evals/sqa/{task.py, rubric.py,
+Source: smiky2011/asta-bench claude-haiku-judges @ 04293fb, files astabench/evals/sqa/{task.py, rubric.py,
 precision_eval.py, citation_eval.py, pydantic_models.py, retry_utils.py} and
 astabench/types/sqa.py.  Judge = JUDGE_MODEL (default
 anthropic/claude-haiku-4-5) via litellm.
@@ -215,7 +196,7 @@ error rather than a score):
   * non-zero exit, no reward -> every input on which upstream raises
     (malformed report, judge output still invalid after 21 attempts,
     precision judge output without `irrelevant_paragraphs`, ...) and every
-    judge transport/API failure.
+    judge API failure that persists after retries.
 """
 
 import asyncio
@@ -231,8 +212,6 @@ from typing import Any, Callable, Dict, List, Optional
 ANSWER_FILE = Path("/app/answer.txt")
 CONFIG_FILE = Path("/tests/config.json")
 REWARD_FILE = Path("/logs/verifier/reward.txt")
-# No agent-trusted score sidecar: scoring is verifier-side only, against
-# verifier-only gold in /tests.
 
 # task.py::METRIC_LABELS; sqa(weights=None) -> [0.25, 0.25, 0.25, 0.25].
 METRIC_LABELS = [
@@ -254,10 +233,8 @@ TOP_P = 0.95
 # SQA_JUDGE_RETRY_BASE_DELAY only exists so offline tests can skip the sleeps.
 MAX_RETRIES = 20
 BASE_DELAY = float(os.environ.get("SQA_JUDGE_RETRY_BASE_DELAY", "2.0"))
-# Intentional deviation (Harbor maintainers require outages to leave the
-# reward missing quickly): a transport/API error is retried a few times by
-# litellm and then raised, instead of going through the 21-attempt
-# parse-retry loop as it does upstream.
+# Unused: transport/API errors are retried by _judge_with_backoff instead of
+# the 21-attempt parse-retry loop, then raised (no reward).
 API_NUM_RETRIES = 3
 
 JUST_HAS_A_TITLE = "Paper content unavailable. The paper's title is: "
@@ -463,7 +440,7 @@ def _structured_output_enabled() -> bool:
     # Upstream always passes GenerateConfig(response_schema=...), which Inspect
     # turns into Anthropic structured output (`output_format` + the
     # structured-outputs beta).  Default ON (= upstream); set
-    # SQA_JUDGE_STRUCTURED_OUTPUT=0 if the API proxy rejects it.
+    # SQA_JUDGE_STRUCTURED_OUTPUT=0 if the API endpoint rejects it.
     v = os.environ.get("SQA_JUDGE_STRUCTURED_OUTPUT", "1").strip().lower()
     return v not in ("0", "false", "no", "off")
 
@@ -524,12 +501,11 @@ async def _judge_with_backoff(call):
 
     import litellm  # type: ignore
 
-    # litellm's default aiohttp transport is disconnected by the parity proxy
-    # on large request bodies (~30K+ chars); httpx, as the Anthropic SDK and
-    # Inspect use, is not.
+    # Use httpx (as the Anthropic SDK and Inspect do): some API endpoints drop
+    # large requests on litellm's default aiohttp transport.
     litellm.disable_aiohttp_transport = True
     names = ("InternalServerError", "APIConnectionError", "RateLimitError",
-             "Timeout", "ServiceUnavailableError")
+             "Timeout", "ServiceUnavailableError", "BadGatewayError")
     transient = tuple(
         e for e in (getattr(litellm, n, None) for n in names) if isinstance(e, type)
     )
@@ -543,7 +519,7 @@ async def _judge_with_backoff(call):
 
 
 async def _generate(messages, temperature, top_p, response_schema) -> str:
-    """One judge call.  Transport/API errors propagate (no reward)."""
+    """One judge call.  Errors that persist after backoff propagate (no reward)."""
     import litellm  # type: ignore
 
     resp = await _judge_with_backoff(
@@ -570,7 +546,7 @@ async def generate_with_retry(
     parsed_validator: Optional[Callable[[Dict[str, Any]], None]] = None,
 ) -> Any:
     """retry_utils.generate_with_retry, except that the model call sits
-    outside the try: API errors raise immediately (see API_NUM_RETRIES)."""
+    outside the try: API errors are not parse-retried (see _judge_with_backoff)."""
     if isinstance(prompt_or_messages, str):
         messages = [{"role": "user", "content": prompt_or_messages}]
     else:
@@ -1132,9 +1108,8 @@ if __name__ == "__main__":
 
 
 def _build_oracle_payload(case_id: str, question: str, marker: str) -> dict[str, Any]:
-    """Canonical oracle answer.  The scorer keys on `_oracle_marker` rather
-    than the full payload; `marker` is the unforgeable per-task nonce (see
-    `make_oracle_nonce`) shared with `tests/config.json`."""
+    """Oracle answer; the scorer matches only `_oracle_marker` against the
+    per-task nonce in `tests/config.json`."""
     return {
         "_oracle_marker": marker,
         "sections": [
@@ -1190,9 +1165,7 @@ class SqaBuilder(BenchmarkBuilder):
                 metadata={
                     "annotator": item.get("annotator"),
                     "agreement": item.get("agreement", False),
-                    # Hidden rubric data; embedded into tests/config.json so
-                    # the bridge can reproduce upstream scoring without
-                    # network access.
+                    # Hidden rubric; goes only into tests/config.json.
                     "rubric_payload": item,
                 },
                 workspace_files={
@@ -1201,10 +1174,7 @@ class SqaBuilder(BenchmarkBuilder):
                             task=_SPLIT_TO_INSPECT_TASK[split],
                             sample_id=case_id,
                             pip_install=self.inspect_pip_install(),
-                            # Asta MCP literature search is a task-level arg
-                            # consumed by sqa() upstream.  scorer_model is no
-                            # longer overridden here: the fork's sqa() default
-                            # is already anthropic/claude-haiku-4-5.
+                            # Asta MCP literature search (sqa() task arg).
                             task_args={"with_search_tools": "1"},
                             eval_args=INSPECT_DEFAULT_EVAL_ARGS,
                         ),
@@ -1232,22 +1202,13 @@ class SqaBuilder(BenchmarkBuilder):
             "case_id": case_id,
             "oracle_marker": oracle_marker,
             "judge_model": DEFAULT_JUDGE_MODEL,
-            # Full scoring rubric, consumed verifier-side by run_scorer.py's
-            # faithful `score_all` port (so the judge needs no dataset
-            # access). It is NOT consumed by the Inspect-AI bridge (that
-            # reads inspect_config.json) and MUST never reach the agent:
-            # the rubric enumerates exactly what a high-scoring answer must
-            # contain, so leaking it lets the agent trivially game the
-            # judge. This is safe today only because Harbor does not upload
-            # /tests/ into the agent container during agent.run() (it lands
-            # in tests/config.json, oracle/verifier-only). SECURITY
-            # INVARIANT: never add a Dockerfile `COPY tests/` (or any step
-            # that bakes /tests/ into the agent image) for this family —
-            # doing so would silently leak the full rubric to the solver.
+            # Full rubric for the verifier. It must never reach the agent
+            # (it lists what a high-scoring answer must contain): never bake
+            # /tests/ into the agent image.
             "rubric_payload": record.metadata.get("rubric_payload"),
         }
 
-        task_name = f"allenai/asta-bench__{self.task_id(record)}"
+        task_name = self.harbor_task_name(self.task_id(record))
         task_toml = TASK_TOML_TEMPLATE.format(
             task_name=task_name,
             split=record.split,

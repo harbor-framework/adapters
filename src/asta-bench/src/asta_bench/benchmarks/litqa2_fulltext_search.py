@@ -93,9 +93,8 @@ build_timeout_sec = 600.0
 cpus = 1
 memory_mb = 2048
 storage_mb = 4096
-# Internet genuinely required: this is the open-book search variant — the
-# agent must retrieve the supporting passage over the live Asta corpus
-# (ASTA_TOOL_KEY MCP) rather than receive it inline.
+# Needed for the live Asta search tools (MCP), the model API and the
+# verifier's JSON-repair call.
 allow_internet = true
 """
 
@@ -137,10 +136,8 @@ class LitQA2FullTextSearchBuilder(BenchmarkBuilder):
                 metadata={
                     "query_type": "litqa2",
                     "scorer_criteria": {"corpus_ids": corpus_ids},
-                    # Upstream's normalizer_reference entry for every litqa2
-                    # query equals len(corpus_ids) (checked against
-                    # normalizer_reference.json @ a600dc7); embedded so the
-                    # scorer needs no network access.
+                    # Equals upstream's normalizer_reference entry for every
+                    # litqa2 query (normalizer_reference.json @ a600dc7).
                     "total_relevant": len(corpus_ids),
                     "lab_bench_id": row.get("id"),
                 },
@@ -191,7 +188,7 @@ class LitQA2FullTextSearchBuilder(BenchmarkBuilder):
             "total_relevant": record.metadata["total_relevant"],
         }
 
-        task_name = f"allenai/asta-bench__{self.task_id(record)}"
+        task_name = self.harbor_task_name(self.task_id(record))
         task_toml = TASK_TOML_TEMPLATE.format(
             task_name=task_name,
             split=record.split,

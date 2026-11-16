@@ -14,17 +14,12 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-# Fork of upstream AstaBench whose LLM-judge families (arxivdigestables, sqa,
-# e2e_discovery, paper_finder relevance + parser, discoverybench) use
-# anthropic/claude-haiku-4-5 as the judge model (sampling parameters are
-# upstream's, per family).  Upstream-side parity runs score with this fork;
-# the harbor-side inspect-solver bridge uses it only to run the *solver*
-# (`inspect eval --no-score`) -- Harbor scoring is done by the verifier-side
-# ports in each family's run_scorer.py.  Canonical bridge datasets preinstall
-# this dependency in the generated Dockerfile.
-# Pinned to a commit (not the moving branch) so both parity sides and every
-# generated image use exactly the same benchmark code.  The commit is on the
-# fork's `claude-haiku-judges` branch; bump it deliberately.
+# Fork of upstream AstaBench (branch `claude-haiku-judges`) whose LLM judges
+# use anthropic/claude-haiku-4-5 with upstream's per-family sampling
+# parameters.  The original side of parity scores with it; the Harbor bridge
+# uses it only to run the solver (`inspect eval --no-score`), and the verifier
+# scores with its own ports.  Pinned to a commit so both parity sides and
+# every generated image run the same benchmark code.
 ASTABENCH_FORK_COMMIT = "04293fbaf714a4e63c4b10a06d844f24557cd0c3"
 ASTABENCH_FORK_REQUIREMENT = (
     "astabench @ git+https://github.com/smiky2011/asta-bench.git@"
@@ -32,15 +27,9 @@ ASTABENCH_FORK_REQUIREMENT = (
 )
 ASTABENCH_PIP_INSTALL: list[str] = [ASTABENCH_FORK_REQUIREMENT]
 
-# Default `inspect eval` extra args injected into every bridge-using task's
-# inspect_config.json.  We bump the per-tool-call output cap to 64 KB
-# because solver submit() outputs frequently exceed the inspect-ai 16 KB
-# default, which would silently truncate the agent's answer to
-# "<truncation message>" and force a score of 0.
-#
-# IMPORTANT: when running upstream-side parity sanity checks
-# (`uv run inspect eval astabench/<task> ...` from asta-bench/), pass the
-# SAME flag (`--max-tool-output 65536`) so both sides apply the same cap.
+# Extra `inspect eval` args for every bridge task.  submit() outputs often
+# exceed Inspect's 16 KB tool-output default, which truncates the answer.
+# The original side of parity passes the same flag.
 INSPECT_DEFAULT_EVAL_ARGS: list[str] = ["--max-tool-output", "65536"]
 
 
@@ -79,6 +68,12 @@ class BenchmarkBuilder(ABC):
         # (task_id, reason) for tasks whose generation raised; the dispatcher
         # turns a non-empty list into a failed run.
         self.failed_tasks: list[tuple[str, str]] = []
+
+    def harbor_task_name(self, local_id: str) -> str:
+        """Registry task name.  The CLI packaging is published as a separate
+        dataset, so its tasks get their own names."""
+        dataset = "asta-bench-cli" if getattr(self, "cli", False) else "asta-bench"
+        return f"allenai/{dataset}__{local_id}"
 
     @abstractmethod
     def load_samples(self, split: str) -> Iterable[SampleRecord]:
@@ -177,20 +172,11 @@ def _rmtree(path: Path) -> None:
 def make_oracle_nonce() -> str:
     """Return an unguessable per-task oracle marker.
 
-    The marker is written *identically* into the oracle's
-    ``solution/solve.sh`` payload and the verifier's ``tests/config.json``
-    — both of which live outside the agent's container image (the task
-    Dockerfile only copies ``workspace/inspect_config.json``). The scorer
-    short-circuits to reward 1.0 only when the submitted answer echoes
-    this exact string.
-
-    It MUST NOT be derived from ``sample_id`` or any other value the
-    agent can read (``/app/inspect_config.json`` carries ``sample_id``).
-    A deterministic ``asta-bench/<family>-oracle/<sample_id>`` formula —
-    public in this source — let any agent forge the marker in one line
-    and score 1.0 without solving the task. ``secrets.token_hex`` makes
-    the marker cryptographically unforgeable; the static prefix is kept
-    only so the value is recognisable in logs.
+    The same value goes into ``solution/solve.sh`` and ``tests/config.json``,
+    neither of which is in the agent's image; LLM-judged scorers give 1.0
+    only when the answer echoes it.  It must stay random: anything derived
+    from ``sample_id`` (readable in ``/app/inspect_config.json``) could be
+    forged by an agent.  The prefix only makes it recognisable in logs.
     """
     return f"asta-bench-oracle/{secrets.token_hex(24)}"
 
@@ -254,15 +240,10 @@ def make_inspect_config(
     eval_args: list[str] | None = None,
     site_package_replacements: list[dict[str, Any]] | None = None,
 ) -> dict[str, Any]:
-    """Build a loose-schema dict for the generic Inspect-AI bridge agent.
+    """Build the task's ``inspect_config.json`` for the Inspect-AI bridge.
 
-    The result is meant to be JSON-serialised and dropped into a task's
-    `workspace/inspect_config.json`.  The Dockerfile must then copy that
-    file to `/app/inspect_config.json` for the bridge agent to read at
-    runtime.  See `asta_bench.inspect_solver` (this adapter package;
-    referenced from job YAML via
-    `import_path: asta_bench.inspect_solver:InspectSolver`) for the
-    consumer side.
+    Written to ``workspace/inspect_config.json``; the Dockerfile copies it to
+    ``/app/inspect_config.json``, where ``asta_bench.inspect_solver`` reads it.
     """
     cfg: dict[str, Any] = {"task": task, "sample_id": str(sample_id)}
     if pip_install:
@@ -344,40 +325,27 @@ def write_task_files(
 
 # --- Asta MCP wiring (literature/search families) ---------------------------
 #
-# paper-finder / sqa / litqa2-fulltext-search are open-book in upstream
-# AstaBench: the agent uses Allen AI's hosted Asta tool API for literature
-# search.  Under the inspect-solver bridge those tools are provided by
-# `astabench` itself; the standard `claude-code` agent has no such tools.
-#
-# We ship a FastMCP proxy that forwards to https://asta-tools.allen.ai/mcp/v1
-# with the ASTA_TOOL_KEY injected (Harbor's MCPServerConfig has no `headers`
-# field, so the agent can't auth to the upstream directly).  It runs as a
-# **stdio** MCP server: Claude Code launches it as a child process inside the
-# main task container, so it inherits the container env (ASTA_TOOL_KEY) — the
-# env path Harbor reliably resolves.  An earlier HTTP-sidecar design failed
-# because Harbor's docker-compose `${VAR}` interpolation never propagated the
-# secret to the sidecar container (it got the literal `${ASTA_TOOL_KEY:-}`,
-# so every upstream call 403'd).  stdio-in-main sidesteps that entirely.
-# Harbor reads the `[[environment.mcp_servers]]` block and registers it into
-# Claude Code's `.claude.json` automatically.
+# The literature families are open-book upstream (Allen AI's hosted Asta
+# tool API).  Under the Inspect bridge `astabench` provides those tools; for
+# CLI agents we ship a FastMCP proxy to https://asta-tools.allen.ai/mcp/v1
+# that injects ASTA_TOOL_KEY (Harbor's MCPServerConfig has no `headers`
+# field).  It runs as a stdio server inside the main container, so it
+# inherits the key from the task's [environment.env].
 
 _ASTA_MCP_SRC = Path(__file__).resolve().parent.parent / "asta_mcp"
 
 _ASTA_PROXY_FILENAME = "asta_mcp_proxy.py"
 _ASTA_PROXY_CONTAINER_PATH = "/opt/asta-mcp/asta_mcp_proxy.py"
 
-# Appended to the (slim) main Dockerfile so the proxy + its deps are present
-# in the container Claude Code launches the stdio server in.
 _ASTA_DOCKERFILE_SNIPPET = f"""
-# Asta MCP stdio proxy (claude-code literature tools)
-RUN pip install --no-cache-dir 'fastmcp>=2.7' 'mcp>=1.5' httpx
+# Asta MCP stdio proxy (claude-code literature tools).  Pinned: fastmcp 4.x
+# removed FastMCP.as_proxy, which the proxy uses.
+RUN pip install --no-cache-dir 'fastmcp==2.14.7' 'mcp==1.30.0' httpx
 COPY {_ASTA_PROXY_FILENAME} {_ASTA_PROXY_CONTAINER_PATH}
 """
 
-# The main container env is resolved by Harbor's standard agent-env injection
-# (the same path that delivers ANTHROPIC_API_KEY).  ASTA_TOOL_KEY is required
-# here so missing literature-tool credentials fail before a doomed 403-heavy run.
-# The stdio proxy subprocess inherits this env.
+# ASTA_TOOL_KEY is required (no default) so a missing key fails at startup
+# instead of producing a run of 403s.
 _ASTA_TASK_TOML_ENV_BLOCK = """
 [environment.env]
 ASTA_TOOL_KEY = "${ASTA_TOOL_KEY}"
@@ -552,8 +520,6 @@ def wire_asta_mcp(task_dir: Path) -> None:
         src += _ASTA_TASK_TOML_MCP_BLOCK
     task_toml.write_text(src, encoding="utf-8")
 
-    # Forward ASTA_TOOL_KEY to the verifier env too (cheap; some scorers
-    # may reach Asta during grading).
     src_again = task_toml.read_text(encoding="utf-8")
     if "[verifier.env]" in src_again and "ASTA_TOOL_KEY" not in src_again:
         task_toml.write_text(

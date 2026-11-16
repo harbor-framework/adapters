@@ -1,14 +1,8 @@
-"""Top-level dispatcher for the AstaBench -> Harbor adapter.
+"""Top-level dispatcher: runs one BenchmarkBuilder per AstaBench family.
 
-Each AstaBench family is handled by a dedicated BenchmarkBuilder under
-`asta_bench.benchmarks`.  This Adapter class just selects the right builder(s)
-and aggregates the generation counts.
-
-Generation is fail-loud: the adapter advertises a fixed task set, so a family
-or task that cannot be generated is an error (non-zero exit), never a silent
-omission.  The only non-error "nothing generated" case is a builder that
-declares a split unavailable by raising `SplitNotAvailable` (a documented
-exclusion).
+Generation is fail-loud: a family or task that cannot be generated is an
+error (non-zero exit), never a silent omission. The only exception is a
+builder that raises `SplitNotAvailable` for a deliberately absent split.
 """
 
 from __future__ import annotations
@@ -68,8 +62,7 @@ class AstaBenchAdapter:
         # `--split parity` so a short parity set cannot go unnoticed).
         self.required_task_ids = required_task_ids
 
-        # Resolve splits: prefer the `splits=` plural arg; fall back to the
-        # legacy `split=` (str or list).
+        # `splits=` wins over `split=` (str or list).
         resolved: list[str]
         if splits is not None:
             resolved = list(splits)
@@ -107,7 +100,6 @@ class AstaBenchAdapter:
                         task_ids=self.task_ids,
                     )
                 except SplitNotAvailable as e:
-                    # Documented exclusion, not a failure.
                     print(f"[{family}/{split}] not available: {e}")
                     continue
                 except Exception as e:  # noqa: BLE001 — reported, then fatal

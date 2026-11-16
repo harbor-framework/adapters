@@ -7,8 +7,7 @@ import sys
 import tempfile
 
 LOG_DIR = "/logs/verifier"
-# Where the inspect-solver bridge (and any agent following instruction.md)
-# leaves the final completion.  Checked first.
+# Final completion from the bridge or any agent following instruction.md.
 ANSWER_FILE = "/app/answer.txt"
 # inspect_evals.ds1000 runs the test program with `timeout=180`.
 EXEC_TIMEOUT_SEC = 180
@@ -18,7 +17,7 @@ COMMAND_STDOUT = [
     "/logs/agent/command-0/stdout.txt",
     "/logs/agent/command-1/stdout.txt",
 ]
-# Prefer explicit code files if codex agent emits them (aligned with official tooling)
+# Plain code files, graded as-is (no postprocess).
 CODE_FILES = [
     "/logs/agent/0.py",
     "/logs/agent/snippet.py",
@@ -40,16 +39,10 @@ def _extract_from_tags(text: str, start_tag: str, end_tag: str) -> str:
 
 
 def postprocess(code: str) -> str:
-    """Parity-faithful port of the upstream DS-1000 postprocess.
-
-    This must score an agent's output identically to how the AstaBench
-    inspect-bridge path would, so it mirrors
-    ``inspect_evals.ds1000.ds1000.postprocess`` exactly, prefixed with the
-    AstaBench fork's ``c63f0a2`` patch: a real DOTALL ``<code>...</code>``
-    match first, because upstream's ``extract_from_tags`` only honors the
-    ``<code>`` start tag when the text *starts with* it, so any prose
-    preamble the agent emits leaks in and breaks ``exec()`` in the sandbox.
-    Deliberately neither more lenient nor stricter than upstream.
+    """Port of ``inspect_evals.ds1000.ds1000.postprocess`` with the fork's
+    ``c63f0a2`` patch in front: a delimited ``<code>...</code>`` match, since
+    upstream's ``extract_from_tags`` honors ``<code>`` only at the very start
+    and would otherwise keep any prose preamble.
     """
     if isinstance(code, list):
         code = code[0]
@@ -167,7 +160,7 @@ def main() -> int:
     candidates = [
         ANSWER_FILE,  # bridge / agent final completion (postprocessed)
         snippet_path,  # provided path
-        *CODE_FILES,  # explicit code files (preferred)
+        *CODE_FILES,  # plain code files
         CODEX_LOG,  # codex logs
         CLAUDE_CODE_LOG,  # claude-code stream-json trajectory
         *COMMAND_STDOUT,  # command stdout logs
@@ -212,15 +205,10 @@ def main() -> int:
 
     code_context = cfg.get("code_context", "")
 
-    # Build the test program like inspect_evals.ds1000: insert the snippet,
-    # then call the tests.  Upstream runs it as a separate `python` process
-    # and passes iff the exit status is 0.  We do the same, and additionally
-    # require a completion sentinel printed *after* the tests return: DS-1000
-    # exec()s the snippet in-process, so a snippet calling os._exit(0) or
-    # sys.exit(0) would otherwise end the process "successfully" before any
-    # assertion ran.  (A snippet that walks interpreter frames to recover the
-    # sentinel could still forge it -- in-process exec is inherent to DS-1000
-    # -- but a bare early exit no longer scores.)
+    # Test program as in inspect_evals.ds1000 (pass iff exit status 0), plus
+    # a random completion marker printed after the tests return: the snippet
+    # is exec()'d in-process, so an early os._exit(0) / sys.exit(0) would
+    # otherwise pass without any assertion running.
     sentinel = "DS1000-TESTS-COMPLETED-" + secrets.token_hex(16)
     test_program = (
         code_context

@@ -1,8 +1,8 @@
 """CLI entry point for the asta-bench Harbor adapter.
 
 The four standard flags (--output-dir, --limit, --overwrite, --task-ids)
-follow the Harbor adapter template and must not be renamed.  `--split parity`
-generates exactly the committed parity subset (parity_task_ids.txt).
+follow the Harbor adapter template. `--split parity` generates exactly the
+committed parity subset (parity_task_ids.txt).
 """
 
 from __future__ import annotations
@@ -97,7 +97,6 @@ def main() -> None:
         splits = ["test", "validation"]
     if "all" in splits:
         splits = ["test", "validation"]
-    # Deduplicate while preserving order.
     seen: set[str] = set()
     splits = [s for s in splits if not (s in seen or seen.add(s))]
 

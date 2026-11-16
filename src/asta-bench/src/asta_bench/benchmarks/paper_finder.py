@@ -6,9 +6,9 @@ The agent is given a research query and must return a JSON blob of the form
 
 Scoring is a port of upstream's `score_paper_finder`
 (astabench/evals/paper_finder/{task,eval,relevance,paper_finder_utils,datamodel}.py,
-fork commit 17c84cab81cfaf87bbca0e11780803c3d6347ba6, eval code identical to
-allenai/asta-bench main apart from the judge-model constant) and runs in the
-Harbor verifier (`tests/run_scorer.py`) for EVERY agent, bridge or not:
+fork commit 04293fb, eval code identical to allenai/asta-bench main apart
+from the judge-model constant) and runs in the verifier (`tests/run_scorer.py`)
+for every agent:
 
   - Parsing: strict `json.loads` of the answer; on `JSONDecodeError` the
     upstream Haiku "repair" call; an `"error"` key / missing `"output"` /
@@ -22,17 +22,15 @@ Harbor verifier (`tests/run_scorer.py`) for EVERY agent, bridge or not:
     `total_relevant`, combined with the lower-bound-corrected nDCG `rank`.
   - `litqa2_*` (sibling `litqa2_fulltext_search.py`) -> known_recall_at_30.
 
-Upstream also consults a local `detailed_reference.json` judgement cache.
-That file is not part of the dataset: it is created and mutated by each
-upstream run, so a fresh install has none.  The port judges without it; the
-upstream side of a parity run must delete its local copy first.
+Upstream also consults a local `detailed_reference.json` judgement cache that
+each upstream run creates and mutates (absent on a fresh install).  The port
+judges without it, so delete it before an upstream-side parity run.
 
 Oracle: specific/metadata/litqa2 oracles submit the gold list and score 1.0
-through the real formula.  A semantic oracle cannot score 1.0 through the
-formula (submitting only `known_to_be_good` makes every judgement PERFECT,
-so `rank` degenerates to 0), so its payload carries the per-task
-unforgeable nonce from `make_oracle_nonce()` and the scorer short-circuits
-on it.
+through the real formula.  A semantic oracle cannot (submitting only
+`known_to_be_good` makes every judgement PERFECT, so `rank` degenerates to
+0), so it carries the per-task nonce from `make_oracle_nonce()` and the
+scorer short-circuits on it.
 """
 
 from __future__ import annotations
@@ -87,9 +85,8 @@ timeout_sec = 1800
 [verifier]
 timeout_sec = 600
 
-# The verifier calls anthropic/claude-haiku-4-5 (relevance judge for
-# semantic queries; JSON-repair call for any non-JSON answer), exactly as
-# upstream's scorer does.  The model is fixed in run_scorer.py like upstream.
+# Verifier LLM calls (semantic relevance judge, JSON repair) use
+# anthropic/claude-haiku-4-5, fixed in run_scorer.py as upstream.
 [verifier.env]
 ANTHROPIC_API_KEY = "${{ANTHROPIC_API_KEY:-}}"
 ANTHROPIC_BASE_URL = "${{ANTHROPIC_BASE_URL:-}}"
@@ -99,9 +96,7 @@ build_timeout_sec = 600.0
 cpus = 1
 memory_mb = 2048
 storage_mb = 4096
-# Internet genuinely required: the task is paper retrieval over Allen AI's
-# live Asta corpus (ASTA_TOOL_KEY-gated MCP). There is no static answer
-# source to leak — the corpus is the task.
+# Needed for the Asta literature MCP, the model API and the judge.
 allow_internet = true
 """
 
@@ -111,12 +106,8 @@ FROM python:3.12-slim
 
 WORKDIR /app
 
-# The verifier (tests/run_scorer.py) runs upstream's scorer, which makes LLM
-# calls to anthropic/claude-haiku-4-5: the relevance judge for semantic
-# queries and the JSON-repair call for answers that are not strict JSON.
-# litellm (which brings pydantic/httpx) is pinned here so nothing is
-# installed at verify time.  The inspect-solver bridge still installs
-# astabench itself at runtime.
+# litellm for the verifier's judge / JSON-repair calls (tests/run_scorer.py),
+# pinned here so nothing is installed at verify time.
 RUN pip install --no-cache-dir "litellm==1.82.3"
 COPY workspace/inspect_config.json /app/inspect_config.json
 """
@@ -129,7 +120,7 @@ _FAMILY_TO_INSPECT_TASK = {
 
 
 # Verbatim copy of astabench/evals/paper_finder/task.py::TASK_INSTRUCTIONS
-# (fork commit 17c84ca), followed by the Harbor file-submission footer.
+# (fork commit 04293fb), followed by the Harbor file-submission footer.
 TASK_INSTRUCTIONS = """Find papers relevant to the following query: {query}
 Try to be comprehensive in your search yet efficient and accurate, i.e. find as many highly relevant papers as possible, but try to keep efficiency in mind. You may submit up to 250 papers.
 If the query asks for a specific paper known to the user, i.e. "the Transformer paper", "the BERT paper", "the GPT-3 paper" etc, try to find that specific paper and only return that one. This does not apply to any query phrased in singular "paper" or "article" - those can be general queries and should return multiple relevant papers, e.g. "which paper introduced a transformer-based generative model for text generation".
@@ -177,7 +168,7 @@ TEST_SH = VERIFIER_TEST_SH
 # litqa2-fulltext-search family (query_type "litqa2").
 RUN_SCORER_PY = r'''"""PaperFinder verifier: port of astabench's `score_paper_finder`.
 
-Source: allenai/asta-bench, fork commit 17c84cab81cfaf87bbca0e11780803c3d6347ba6
+Source: smiky2011/asta-bench, fork commit 04293fb
 (eval code identical to upstream main except the judge-model constants):
   astabench/evals/paper_finder/task.py               score_paper_finder
   astabench/evals/paper_finder/paper_finder_utils.py get_model_json_output,
@@ -192,7 +183,7 @@ Source: allenai/asta-bench, fork commit 17c84cab81cfaf87bbca0e11780803c3d6347ba6
 Outcomes (see benchmarks/base.py verifier contract):
   * exit 0 + reward  -- a scored outcome (upstream returns a Score);
   * non-zero, no reward -- upstream raises (sample error), an LLM API
-    failure, or a broken config.
+    failure that persists after retries, or a broken config.
 """
 
 from __future__ import annotations
@@ -221,9 +212,10 @@ PARSE_RESULT_MODEL_NAME = "anthropic/claude-haiku-4-5"
 # temperature / top_p / top_k / thinking is sent (API defaults apply).  The
 # request below reproduces exactly that: one user message, max_tokens=32000.
 JUDGE_MAX_TOKENS = 32000
-# Transport/API errors: small bounded retry, then the verifier fails (no
-# reward).  Inspect would retry indefinitely; an outage must never become a
-# score.  Concurrency only bounds parallel requests (upstream gathers all).
+# Transient API errors are retried by _judge_with_backoff, then the verifier
+# fails (no reward); an outage never becomes a score.  API_NUM_RETRIES is
+# unused.  JUDGE_CONCURRENCY only bounds parallel requests (upstream gathers
+# all).
 API_NUM_RETRIES = 2
 API_TIMEOUT_SEC = 120
 JUDGE_CONCURRENCY = 16
@@ -323,12 +315,11 @@ async def _judge_with_backoff(call):
 
     import litellm  # type: ignore
 
-    # litellm's default aiohttp transport is disconnected by the parity proxy
-    # on large request bodies (~30K+ chars); httpx, as the Anthropic SDK and
-    # Inspect use, is not.
+    # Use httpx (as the Anthropic SDK and Inspect do): some API endpoints drop
+    # large requests on litellm's default aiohttp transport.
     litellm.disable_aiohttp_transport = True
     names = ("InternalServerError", "APIConnectionError", "RateLimitError",
-             "Timeout", "ServiceUnavailableError")
+             "Timeout", "ServiceUnavailableError", "BadGatewayError")
     transient = tuple(
         e for e in (getattr(litellm, n, None) for n in names) if isinstance(e, type)
     )
@@ -342,7 +333,7 @@ async def _judge_with_backoff(call):
 
 
 async def _generate(model: str, prompt: str) -> str:
-    """Return the completion text; raise on any transport/API failure."""
+    """Return the completion text; raise on API failure after backoff."""
     import litellm  # type: ignore
 
     kwargs = dict(
@@ -386,9 +377,7 @@ def extract_json_from_response(response: str):
 #   ExpectedAgentOutput(query_id: str | None = None, results: list[SingleResult])
 #   SingleResult(paper_id: str, markdown_evidence: str)
 # for json.loads-produced input (extra keys ignored; no int->str coercion).
-# Kept dependency-free so the non-judge path runs without pydantic; the
-# equivalence is pinned by tests/test_paper_finder_scorer.py against
-# outcomes computed with upstream's pydantic models.
+# Kept dependency-free so the non-judge path runs without pydantic.
 def _expected_agent_output(output) -> list[dict]:
     if not isinstance(output, dict):
         # `ExpectedAgentOutput(**output)` on a non-mapping: uncaught TypeError
@@ -754,9 +743,8 @@ def main() -> int:
         return 0
     cfg = json.loads(CONFIG_FILE.read_text())
 
-    # Harbor-only oracle short-circuit (semantic queries only): the per-task
-    # nonce lives in solve.sh and config.json, neither of which is in the
-    # agent image.  Specific/metadata/litqa2 oracles go through the formula.
+    # Harbor-only oracle short-circuit (semantic queries only); the nonce is
+    # only in solve.sh and config.json, never in the agent image.
     expected_marker = cfg.get("oracle_marker") or ""
     if (
         cfg.get("query_type") == "semantic"
@@ -863,8 +851,7 @@ class PaperFinderBuilder(BenchmarkBuilder):
             task=_FAMILY_TO_INSPECT_TASK[split],
             sample_id=sample_id,
             pip_install=self.inspect_pip_install(),
-            # Asta MCP literature search is a TASK arg (consumed by
-            # `paper_finder()` upstream task constructor), not a solver arg.
+            # Asta MCP literature search (paper_finder() task arg).
             task_args={"with_search_tools": "1"},
             eval_args=INSPECT_DEFAULT_EVAL_ARGS,
         )
@@ -971,7 +958,7 @@ class PaperFinderBuilder(BenchmarkBuilder):
         if oracle_marker is not None:
             tests_config["oracle_marker"] = oracle_marker
 
-        task_name = f"allenai/asta-bench__{self.task_id(record)}"
+        task_name = self.harbor_task_name(self.task_id(record))
         task_toml = TASK_TOML_TEMPLATE.format(
             task_name=task_name,
             split=record.split,

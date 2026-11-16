@@ -6,35 +6,28 @@ the test split, `core_train.json` for validation) is a published research code
 whose values are scored against the gold trials.
 
 Mirrors `astabench/evals/inspect_eval_wrappers/core_bench.py` (asta-bench
-fork HEAD 17c84ca; eval code identical to allenai/asta-bench main) on top of
+fork 04293fb; eval code identical to allenai/asta-bench main) on top of
 the pinned `inspect_evals` submodule at commit
 c2bec9ebee7a5995512bf5ff67a2e82afe4d12e1:
 
-* Difficulty is fixed at "hard" (upstream `core_bench()` default).  The
-  capsule is downloaded, extracted with `--strip-components=1` into the
-  agent's working directory (`/app`) and stripped of `results/`,
-  `REPRODUCING.md`, `run`, `run.sh` and `environment/` -- the exact upstream
-  hard-track setup command -- at image BUILD time, so the agent never sees
-  the answer files or the raw tarball URL.  Tarballs are NOT bundled in the
-  dataset (MB-GB each).
-* `filter_out_gpu=True` (upstream `core_bench()` default): capsules whose
-  `REPRODUCING.md` mentions "gpu" are dropped, using a port of
-  `inspect_evals.core_bench.dataset.requires_gpu`.  The per-capsule verdicts
-  are pinned in `core_bench_gpu_filter.json` (computed once from all 90
-  capsule tarballs), so generation needs no capsule downloads; the dataset
-  is 37 test + 35 validation capsules, as upstream evaluates.  Set
-  `ASTA_BENCH_CORE_BENCH_GPU_FILTER=recompute` to re-derive the verdicts
-  from the tarballs.
+* Difficulty is fixed at "hard" (upstream `core_bench()` default).  At image
+  build time the capsule is downloaded, extracted into `/app` and stripped of
+  `results/`, `REPRODUCING.md`, `run`, `run.sh` and `environment/` (upstream's
+  hard-track setup command), so the agent never sees the answer files.
+* `filter_out_gpu=True` (upstream default): capsules whose `REPRODUCING.md`
+  mentions "gpu" are dropped (port of
+  `inspect_evals.core_bench.dataset.requires_gpu`).  Verdicts for all 90
+  capsules are pinned in `core_bench_gpu_filter.json`, leaving 37 test + 35
+  validation capsules; `ASTA_BENCH_CORE_BENCH_GPU_FILTER=recompute`
+  re-derives them from the tarballs.
 * The instruction is upstream's hard-track prompt verbatim (incl. the
   `dict_keys([...])` rendering of the fields); the only addition is the
   absolute path of `report.json`.
 * Scoring reads `/app/report.json` with strict `json.loads` and runs the
   pinned `evaluate_results` + `utils.py` verbatim (no tolerance tweaks, no
   fallback when scipy is missing).
-* Oracle: `solve.sh` writes the first gold trial to `/app/report.json`.
-  Checked offline against the pinned scorer: all 90 capsules (45 test +
-  45 train) score CORRECT with that payload, including
-  `capsule-5975162` (zero-variance interval [4.44e-16, 4.44e-16]).
+* Oracle: `solve.sh` writes the first gold trial to `/app/report.json`,
+  which the pinned scorer marks CORRECT for every capsule.
 
 The bridge (`InspectSolver`) runs `astabench/core_bench` restricted to the
 one capsule (`-T capsule_ids=[...]`, which avoids upstream's eager download
@@ -71,24 +64,20 @@ CAPSULE_URL = "https://corebench.cs.princeton.edu/capsules/{capsule_id}.tar.gz"
 # Pinned inspect_evals commit the scorer below is vendored from.
 INSPECT_EVALS_COMMIT = "c2bec9ebee7a5995512bf5ff67a2e82afe4d12e1"
 
-# Where the agent works and where report.json is scored from.  Upstream
-# reads `report.json` relative to the sandbox working directory, which is
-# the directory the capsule is extracted into; in the Harbor image that
-# directory is /app.
+# Upstream reads `report.json` relative to the sandbox working directory
+# (where the capsule is extracted); in the Harbor image that is /app.
 CAPSULE_DIR = "/app"
 REPORT_PATH = "/app/report.json"
 
 # Upstream `core_bench_validation` uses the CORE-Bench *train* split.
 _SPLIT_TO_UPSTREAM = {"test": "test", "validation": "train"}
 
-# Upstream's core_bench tasks declare sandbox=("docker", ...).  The bridge
-# overrides with --sandbox local so the agent's tool calls run inside the
-# harbor task container itself.
+# Upstream declares a docker sandbox; --sandbox local runs the agent's tool
+# calls inside the Harbor task container itself.
 _BRIDGE_EVAL_ARGS = INSPECT_DEFAULT_EVAL_ARGS + ["--sandbox", "local"]
 
-# Opt-out for offline generation (e.g. CI without the capsule tarballs).
-# Setting it generates the UNFILTERED 45+45 set, which does NOT match
-# upstream's sample set (upstream runs show 37 test / 35 validation).
+# GPU filter mode: unset = pinned verdicts, `recompute` = re-derive from the
+# tarballs, `off` = unfiltered 45+45 set (does NOT match upstream).
 _GPU_FILTER_ENV = "ASTA_BENCH_CORE_BENCH_GPU_FILTER"
 
 
@@ -122,21 +111,17 @@ build_timeout_sec = 1800.0
 cpus = 4
 memory_mb = 16384
 storage_mb = 30720
-# Internet required, and it is the same exposure upstream has (its sandbox
-# runs with network_mode: bridge): the agent must install the capsule's
-# requirements (pip / CRAN / apt) to reproduce it, and model API calls
-# leave the container.  The capsule itself is baked into the image at build
-# time with its answer files stripped, so no runtime download is needed for
-# the task input.  (The inspect-solver bridge additionally re-downloads the
-# capsule inside its local sandbox, as upstream's sample setup does.)
+# As upstream (network_mode: bridge): the agent installs the capsule's
+# requirements (pip / CRAN / apt) and calls its model API.  The Inspect
+# bridge also re-downloads the capsule into its local sandbox, as upstream's
+# sample setup does.
 allow_internet = true
 """
 
 
-# The verifier runs from an isolated venv so that packages the agent
-# installs (capsule requirements frequently pin old numpy/scipy) cannot
-# change or break the scorer's numeric stack.  numpy/scipy versions match
-# the upstream asta-bench venv used for parity runs.
+# The verifier runs from an isolated venv so packages the agent installs
+# (capsules often pin old numpy/scipy) cannot break the scorer; numpy/scipy
+# versions match the upstream asta-bench venv.
 DOCKERFILE_TEMPLATE = """\
 FROM python:3.12
 
@@ -162,11 +147,9 @@ RUN python3 -m venv /opt/core-bench-verifier \\
         "numpy==2.4.4" "scipy==1.17.1" \\
     && /opt/core-bench-verifier/bin/python -c "import numpy, scipy.stats"
 
-# Capsule: same steps as the upstream hard-track sample setup
-#   tar --no-same-owner --strip-components=1 -xzf <capsule>.tar.gz && rm ...
-#   && rm -rf results && rm -f REPRODUCING.md run run.sh && rm -rf environment
-# executed at build time.  Any download / extraction / strip failure fails
-# the build, and the build verifies the stripped paths are gone.
+# Capsule: upstream's hard-track sample setup (extract, then remove results,
+# REPRODUCING.md, run, run.sh, environment), at build time.  Any failure
+# fails the build, which also checks the stripped paths are gone.
 RUN set -eux; \\
     curl -fSL --retry 5 --retry-delay 5 --retry-all-errors \\
         -o /tmp/capsule.tar.gz "{capsule_url}"; \\
@@ -183,8 +166,7 @@ RUN set -eux; \\
     done; \\
     test -n "$(ls -A {capsule_dir})"
 
-# Bridge config at /app/inspect_config.json (agent-phase-visible path; harbor
-# only mounts /tests during the verifier phase).
+# Bridge config (Harbor mounts /tests only for the verifier).
 COPY workspace/inspect_config.json /app/inspect_config.json
 """
 
@@ -636,8 +618,7 @@ def _gpu_filter_enabled() -> bool:
 
 
 def _format_oracle_payload(results: list[dict]) -> str:
-    """First gold trial.  Verified offline against the pinned upstream
-    scorer: CORRECT for every one of the 90 capsules."""
+    """First gold trial (CORRECT under the pinned scorer for all 90 capsules)."""
     return json.dumps(results[0], indent=2)
 
 
@@ -723,7 +704,7 @@ class CoreBenchHardBuilder(BenchmarkBuilder):
             "gold_results": results,
         }
 
-        task_name = f"allenai/asta-bench__{self.task_id(record)}"
+        task_name = self.harbor_task_name(self.task_id(record))
         task_toml = TASK_TOML_TEMPLATE.format(
             task_name=task_name,
             split=record.split,
@@ -736,10 +717,8 @@ class CoreBenchHardBuilder(BenchmarkBuilder):
             capsule_dir=CAPSULE_DIR, capsule_url=capsule_url
         )
 
-        # `astabench/core_bench` with the split + a single capsule id is the
-        # same task as `core_bench_test` / `core_bench_validation` (same
-        # defaults: hard, filter_out_gpu=True) restricted to this capsule, so
-        # the bridge does not download all ~45 capsules for one sample.
+        # Same task as `core_bench_test` / `core_bench_validation` restricted
+        # to this capsule, so the bridge does not download every capsule.
         bridge_config = make_inspect_config(
             task="astabench/core_bench",
             sample_id=cid,

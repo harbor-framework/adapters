@@ -4,22 +4,16 @@ Upstream (`astabench/evals/super/task.py`) scores an Auto sample with
 `evaluate_entrypoints`: some executed command must (a) mention the entrypoint
 file (or run it as `python -m <module>`), (b) show no `Traceback` and no
 `<entrypoint file>: error` in its output, and (c) have run for at least 10
-seconds.  Upstream takes the command, its output and its timestamps from an
-execution history that the agent can write (its own answer JSON, or
-`jupyter_cell_history.json` in its working directory), so the metric can be
-satisfied without running anything.
+seconds.  Upstream reads that evidence from an agent-writable execution
+history, so it can be satisfied without running anything.
 
-Here the rule is the same but the evidence is produced by the verifier: the
-agent submits the command it used and the directory it ran it in; the verifier
-runs that command itself for a short window and applies (a)-(c) to what it
-observes.  The agent's claims about output or timing are never used.
+Here the agent submits `{command, cwd}` and the verifier runs the command
+itself for a short window, applying (a)-(c) to what it observes.
 
 Reference solutions (`super_auto_solutions/<task_id>/`) are real: `solve.sh`
-clones the repository, installs pinned dependencies into a virtualenv, fetches
-data and applies whatever small patches the repository needs to run on CPU,
-and `answer.json` holds the command.  A task without a working reference
-solution is not generated; `super_auto_excluded.json` lists each one with the
-reason.
+sets up the repository (with any patches it needs to run on CPU) and
+`answer.json` holds the command.  Samples without one are not generated and
+are listed, with the reason, in `super_auto_excluded.json`.
 """
 
 from __future__ import annotations

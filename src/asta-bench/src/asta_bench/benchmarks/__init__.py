@@ -1,9 +1,8 @@
 """Registry of AstaBench family builders.
 
-All 11 upstream AstaBench families are now adaptable.  The literature/discovery
-families (paper-finder, sqa, litqa2-fulltext-search, e2e-bench, e2e-bench-hard)
-require an `ASTA_TOOL_KEY` for real-agent runs; their oracle paths are
-self-contained.  See README for the parity matrix per family.
+The literature families (litqa2-fulltext, litqa2-fulltext-search,
+paper-finder, sqa) give the agent the Asta literature tools, which need
+`ASTA_TOOL_KEY`.
 """
 
 from __future__ import annotations
