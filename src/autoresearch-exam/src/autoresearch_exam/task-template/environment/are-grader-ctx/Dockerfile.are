@@ -1,0 +1,18 @@
+
+
+# ---- ARE 1.1 grader layer (appended to the task's own verifier Dockerfile) ----
+ARG ARE_ROLE
+# python.org images ship /usr/local/bin/python3; distro-python bases (kaggle GPU) lack
+# ensurepip, so fall back to a pip-less venv filled by the base interpreter's pip.
+RUN PY=$(command -v /usr/local/bin/python3 || command -v python3) \
+    && if "$PY" -m venv /opt/are/venv; then \
+         /opt/are/venv/bin/pip install --no-cache-dir "fastmcp==2.14.7"; \
+       else rm -rf /opt/are/venv && "$PY" -m venv --without-pip /opt/are/venv \
+         && "$PY" -m pip --python /opt/are/venv/bin/python install --no-cache-dir "fastmcp==2.14.7"; fi
+COPY are/ /opt/are/
+# The val grader, whose output reaches the agent, never holds the private grader or its
+# data. The test grader keeps everything; nothing from it reaches the agent.
+RUN rm -rf /tests/are /tests/Dockerfile.are \
+    && if [ "$ARE_ROLE" = "val" ]; then rm -rf /tests/test.sh {val_strip}; fi
+ENV ARE_ROLE=$ARE_ROLE
+CMD ["/opt/are/venv/bin/python", "/opt/are/server.py"]
