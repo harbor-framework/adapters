@@ -175,12 +175,17 @@ class SWEGymToHarbor:
             instr += "\n"
         paths.instruction_path.write_text(instr)
 
+        docker_image = self.id_to_docker_image[rec.instance_id]
+
         # task.toml
         cfg_tpl = read_text(self.t_config)
         cfg = render_literal(
             cfg_tpl,
+            # Registry task names are lower case.
+            task_id=rec.instance_id.lower(),
             difficulty=rec.difficulty or "hard",
             max_timeout=str(int(self.max_timeout)),
+            docker_image=docker_image,
         )
         paths.config_path.write_text(cfg)
 
@@ -203,7 +208,6 @@ class SWEGymToHarbor:
         paths.test_sh_path.chmod(0o755)
 
         # environment/Dockerfile
-        docker_image = self.id_to_docker_image[rec.instance_id]
         dockerfile_tpl = read_text(self.t_dockerfile)
         dockerfile = render_literal(dockerfile_tpl, docker_image=docker_image)
         paths.dockerfile_path.write_text(dockerfile)
