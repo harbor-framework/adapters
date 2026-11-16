@@ -1,0 +1,38 @@
+[
+  {
+    "adapter_name": "threedcodebench",
+    "adapter_builders": ["Zhenbang Du (zdu89@gatech.edu)"],
+    "original_benchmark": [
+      {
+        "split": "text_to_3d",
+        "size": 212,
+        "harness": "agent",
+        "supported_agents": ["claude-code@unspecified", "codex@unspecified", "gemini-cli@unspecified", "antigravity@unspecified"],
+        "adaptable": true,
+        "notes": "Coding-agent setting (tasks/coding_agent/run_*_agent.sh @ 42c7780). Neither the scripts nor the paper pin CLI versions. Upstream also has single-shot and multi-turn LLM harnesses for the same 212 instances."
+      },
+      {
+        "split": "image_to_3d",
+        "size": 212,
+        "harness": "agent",
+        "supported_agents": ["gemini-cli@unspecified", "antigravity@unspecified"],
+        "adaptable": false,
+        "notes": "Not adapted in this version: the evaluation set ships no reference images (they must be rendered from the factories), and the paper's coding-agent table covers text-to-3D only."
+      }
+    ],
+    "harbor_adapter": [
+      {
+        "split": "text_to_3d",
+        "adapted_benchmark_size": 212,
+        "parity_benchmark_size": null,
+        "parity_sampling_rate": null,
+        "registry_benchmark_size": 212,
+        "added_agents": ["None"],
+        "parity_matching_agents": [],
+        "parity_unmatching_agents": ["None"],
+        "parity_costs": null,
+        "notes": "Parity pending. Oracle: 212/212. Reward = upstream executability; Chamfer distance in /logs/verifier/metrics.json."
+      }
+    ]
+  }
+]

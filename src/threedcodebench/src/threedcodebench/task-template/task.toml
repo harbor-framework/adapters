@@ -1,0 +1,43 @@
+version = "1.0"
+# Files handed from the agent's sandbox to the separate verifier container
+# (re-materialised at the same paths) and kept with the trial for re-scoring.
+artifacts = ["/workspace/{{INSTANCE}}.py", "/workspace/.agent_done"]
+
+[task]
+name = "{{TASK_ORG}}/{{TASK_ID}}"
+description = "3DCodeBench text-to-3D: write a Blender 5.0 Python script that procedurally builds the described object ({{CATEGORY}})."
+authors = [
+  { name = "Yipeng Gao" },
+  { name = "Lei Shu" },
+  { name = "Genzhi Ye" },
+  { name = "Xi Xiong" },
+  { name = "Ameesh Makadia" },
+  { name = "Meiqi Guo" },
+  { name = "Laurent Itti" },
+  { name = "Jindong Chen" },
+]
+keywords = ["3dcodebench", "blender", "procedural-3d", "text-to-3d", "coding"]
+
+[metadata]
+difficulty = "medium"
+category = "programming"
+upstream_instance = "{{INSTANCE}}"
+upstream_category = "{{CATEGORY}}"
+
+[agent]
+# Upstream coding-agent harness: `timeout {{TIME_LIMIT}}s` around the CLI agent.
+timeout_sec = {{TIME_LIMIT}}.0
+
+[verifier]
+# Score in a fresh container built from the same image, so nothing the agent
+# changed in its sandbox (Blender binary, Python packages, /tests) can affect
+# grading. Only the artifacts above are carried over.
+environment_mode = "separate"
+# render + agent GLB export + reference GLB export (600 s cap each) + Chamfer.
+timeout_sec = 2400.0
+
+[environment]
+build_timeout_sec = 1800.0
+cpus = 4
+memory_mb = 8192
+storage_mb = 10240
