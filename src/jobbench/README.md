@@ -1,216 +1,213 @@
-## JobBench → Harbor Adapter
+# JobBench → Harbor Adapter
 
-**Notice:**
-1. This is the template file for harbor adapter README. Please follow this structure and fill the contents and/or replace parts if necessary. If a prior version of the adapter code and README exists (i.e., under the `terminal-bench` repo), you could reuse some sections, but make sure they align with the new requirements and commands.
-2. Make sure your default task preparation dir is `datasets/jobbench` instead of other default paths like `tasks/jobbench`. If the prior version is using a different path, please update it accordingly.
-3. Read and understand our tutorial before you go — [agent version](https://www.harborframework.com/docs/datasets/adapters) or [human version](https://www.harborframework.com/docs/datasets/adapters-human).
+> **Status: work in progress.** Task generation is complete. Oracle deliverables and parity experiments are not done yet, and the sections that depend on them are marked as pending.
 
 ## Overview
 
-Describe at a high level what JobBench evaluates. Include:
-- Task types, domains, languages, dataset size/splits
-- Provenance (paper/repo), licensing notes, known constraints
-- Any differences from similarly named benchmarks
-- Explicitly state how many tasks are in this adapter and how that number is derived from the source benchmark
-- Briefly mention the main modifications for adaptation (e.g., prompt changes for agents vs. LLMs, excluded tasks and reasons)
+[JobBench](https://job-bench.github.io/) evaluates agentic CLI tools on the tedious, multi-source work that professionals most want to hand off: reconciling contradictory data, cross-referencing records, tracing citations, and producing a finished deliverable such as a workbook, memo or report.
+
+- **Size:** 128 tasks across 35 white-collar occupations, in two splits: `main` (65 tasks, the leaderboard split) and `easy` (63 simplified tasks).
+- **This adapter:** generates all 128 tasks. Nothing is excluded. Task IDs are `<split>--<occupation>--task<N>`, for example `main--lawyers--task1`.
+- **Sources:** tasks come from the Hugging Face dataset [`JobBench/job-bench`](https://huggingface.co/datasets/JobBench/job-bench) (MIT), pinned to revision `d43a66575635da0d3f6cb9a20976dc1a60f3ffc9`. The instruction text, Docker images and judge come from [`Job-Bench/job-bench-eval`](https://github.com/Job-Bench/job-bench-eval) (Apache-2.0), pinned to commit `660b33a86ed032559df0b2fdc1ad38cf7ceb83f3`.
+- **Grading:** an LLM judge scores the agent's deliverables against a weighted rubric. There are no unit tests and no reference solutions upstream.
+- **Modifications:** none to the prompt, environment or judge. The only additions are `solution/solve.sh` (upstream has no oracle) and a comment in `tests/test.sh`.
 
 ## What is JobBench?
 
-Write a short paragraph explaining the original benchmark, goals, and audience. Link to the paper and/or site. Clarify scoring/metrics used in the original.
+JobBench asks what workers actually want automated, not only what can be automated. Its tasks are drawn from Workbank, a survey of worker preferences across 35 occupations. Each task gives the agent a working folder with a `TASK_INSTRUCTIONS.txt` and reference files (spreadsheets, PDFs, databases, documents), and asks for final deliverables in an output folder. Some tasks need live web search.
+
+After the agent finishes, an LLM judge checks the deliverables against the task's `RUBRICS.json`. A rubric block earns its full weight only if all of its criteria pass, otherwise it earns zero. The task score is `round(earned weight / total weight, 4)`, and the benchmark score is the mean of the task scores. The upstream default judge is xAI `grok-4.3`.
+
+Links: [website and leaderboard](https://job-bench.github.io/), [evaluation code](https://github.com/Job-Bench/job-bench-eval), [dataset](https://huggingface.co/datasets/JobBench/job-bench).
 
 ## Adapter Features
 
-Bullet the notable features your adapter implements. Examples to tailor/remove:
-- Automatic repo/data management (clone, cache, cleanup)
-- Comprehensive task generation (schema extraction, solution validation, id mapping)
-- Dockerized environments; language/toolchain support
-- Evaluation specifics (pytest, judge, diff checks, speedups, resource limits)
-- Prompt adaptations vs. the original harness (if any)
+- **Pinned sources.** The dataset is downloaded from Hugging Face at a fixed revision. Only `task_folder/` and `RUBRICS.json` are fetched for each task; the upstream task card is never given to the agent.
+- **Unmodified upstream harness.** The instruction text, the agent image, the verifier image and the rubric judge are copied from the upstream evaluation repository without changes. JobBench ships its own Harbor converter, and for all 128 tasks the files this adapter shares with that converter's output are byte-identical, except for an added comment in `tests/test.sh`.
+- **Separate verifier image.** Tasks use `environment_mode = "separate"`, so the judge runs in its own container and the judge API key is never visible to the agent. The agent's `/workspace/output` is passed to the verifier as an artifact.
+- **Same reward as upstream.** The verifier writes the weighted rubric score (0 to 1) to `/logs/verifier/reward.json`. If the output folder is empty the reward is 0 and the judge is not called. If the judge itself fails, no reward is written, so an infrastructure error is not scored as a zero.
+- **Configurable judge.** `JUDGE_MODEL`, `JUDGE_API_BASE` and `JUDGE_API_KEY` are read from the host environment and default to xAI `grok-4.3`.
+- **Split selection.** `--split main|easy|all` selects which tasks to generate.
+- **Rubric validation at generation time.** A task with a malformed rubric fails generation instead of failing later in the verifier.
 
 ## Generated Task Structure
 
-Show the on-disk layout produced by this adapter. Replace or extend as needed:
 ```
 jobbench/
-├── {task_id}/
-│   ├── task.toml                 # Task configuration
-│   ├── instruction.md            # Task instructions for the agent
-│   ├── environment/              # Container definition
-│   │   └── Dockerfile
-│   ├── solution/                 # Oracle/golden solution (optional if original benchmark doesn't have one)
-│   │   └── solve.sh
-│   └── tests/                    # Test assets and scripts
-│       └── test.sh               # Test execution script
+└── <split>--<occupation>--task<N>/
+    ├── task.toml                 # Task configuration (timeouts, resources, judge env)
+    ├── instruction.md            # Upstream agent instruction, unchanged
+    ├── environment/
+    │   ├── Dockerfile            # Upstream agent image
+    │   ├── requirements.txt
+    │   └── task_folder/          # Task inputs, including TASK_INSTRUCTIONS.txt
+    ├── solution/
+    │   ├── solve.sh              # Copies deliverables/ to /workspace/output
+    │   └── deliverables/         # Reference deliverable (only when one exists)
+    └── tests/
+        ├── test.sh               # Runs verify.py
+        ├── verify.py             # Upstream verifier entry point
+        ├── judge.py              # Upstream rubric judge
+        ├── jobbench_eval/        # Upstream judge library
+        ├── Dockerfile            # Upstream verifier image
+        ├── calc-runtime/
+        ├── requirements.txt
+        └── RUBRICS.json          # This task's weighted rubric
 ```
 
-And make sure your adapter code has a task-template directory that includes these files, even if they are empty or dummy. The adapter reads from the `task-template/` directory to replace/add contents and generate task directories correspondingly.
-
-The adapter is scaffolded as a Python package via `uv init --package`. A typical adapter code directory looks as follows:
-```
-adapters/jobbench/
-├── README.md
-├── adapter_metadata.json
-├── parity_experiment.json
-├── pyproject.toml
-└── src/jobbench/
-    ├── __init__.py
-    ├── adapter.py
-    ├── main.py
-    └── task-template/
-        ├── task.toml
-        ├── instruction.md
-        ├── environment/
-        │   └── Dockerfile
-        ├── solution/
-        │   └── solve.sh
-        └── tests/
-            └── test.sh
-```
-
-> **Note:** `adapter.py` should define a `<Benchmark>Adapter` class with a `run()` method if possible; `main.py` constructs the adapter and calls `run()` through the standard CLI flags.
-
+The adapter is a standalone `uv` package under `src/jobbench/`, with the code in `src/jobbench/src/jobbench/` and the task template in `src/jobbench/src/jobbench/task-template/`.
 
 ## Run Evaluation / Harness
-Harbor Registry & Datasets makes running adapter evaluation easy and flexible.
+
+Run these commands from the root of the adapters repository, with the Harbor CLI installed. Every run that scores an agent needs a judge key:
+
+```bash
+export JUDGE_API_KEY="your_xai_key"
+# Optional overrides (defaults shown)
+export JUDGE_MODEL="grok-4.3"
+export JUDGE_API_BASE="https://api.x.ai/v1"
+```
 
 ### Running with Datasets Registry
 
- Simply run
+Once the dataset is published:
 
 ```bash
-# Use oracle agent (reference solution)
-uv run harbor run -d jobbench
+# Oracle agent (reference deliverables)
+harbor run -d jobbench/jobbench
 
-# Use your specified agent and model
-uv run harbor run -d jobbench -a <agent_name> -m "<model_name>"
+# A specific agent and model
+harbor run -d jobbench/jobbench -a <agent_name> -m "<model_name>"
 ```
-from the harbor root to evaluate on the entire dataset.
 
-> [For adapter creators]: You will need to (1) upload the prepared task directories to https://github.com/laude-institute/harbor-datasets (2) Add your dataset entries to [registry.json](../../../registry.json) following a similar format as others. Only after all the PRs are merged, can you run the above scripts (otherwise the datasets are not yet registered). At development time, use the scripts below to run experiments.
-
-However, if you choose to prepare the task directories locally and/or with custom versions/subsets for evaluation, you may either use `harbor run` or `harbor trial`. Instructions for using the adapter code to prepare task directories are provided in the [Usage](#usage-create-task-directories) session.
+The dataset is not registered yet. Until the `harbor-datasets` PR is merged, use the local methods below.
 
 ### Using Job Configurations
-The example configuration file(s) for the adapter is provided under `harbor/adapters/jobbench`. You may either use `-c path/to/configuration.yaml` or `-p path/to/dataset` to run evaluation on the entire benchmark after preparing the task directories locally.
-
-> [For adapter creators]: Please specify the file(s), e.g., `run_jobbench.yaml`, `run_jobbench-python.yaml` for subsets/versions. Examples of config yaml can be seen from [harbor/examples/configs](../../../examples/configs/).
 
 ```bash
-# From the repository root
-# Run a job with the default adapter configuration
-uv run harbor run -c adapters/jobbench/run_jobbench.yaml -a <agent_name> -m "<model_name>"
+# Run the reference configuration on the locally generated dataset
+harbor run -c src/jobbench/run_jobbench.yaml -a <agent_name> -m "<model_name>"
 
-# Or run a job without configuration yaml but instead with locally prepared dataset path
-uv run harbor run -p datasets/jobbench -a <agent_name> -m "<model_name>"
+# Or point directly at the generated tasks
+harbor run -p datasets/jobbench -a <agent_name> -m "<model_name>"
 
 # Resume a previously started job
-uv run harbor job resume -p /path/to/jobs/directory
+harbor job resume -p /path/to/jobs/directory
 ```
 
-Results are saved in the `jobs/` directory by default (configurable via `jobs_dir` in the YAML config).
+Results are saved in `jobs/` by default.
 
 ### Running Individual Trial
 
-For quick testing or debugging a single task:
-
 ```bash
-# Run a single task with oracle (pre-written solution)
-uv run harbor trial start -p datasets/jobbench/<task_id>
+# Oracle on one task
+harbor trial start -p datasets/jobbench/<task_id>
 
-# Run a single task with a specific agent and model
-uv run harbor trial start -p datasets/jobbench/<task_id> -a <agent_name> -m "<model_name>"
+# A specific agent and model on one task
+harbor trial start -p datasets/jobbench/<task_id> -a <agent_name> -m "<model_name>"
 ```
 
-Trial outputs are saved in the `trials/` directory by default (configurable via `--trials-dir`).
-
+Trial outputs are saved in `trials/` by default.
 
 ## Usage: Create Task Directories
 
 ```bash
-cd adapters/jobbench
+cd src/jobbench
 uv run jobbench --output-dir ../../datasets/jobbench
 ```
 
 Available flags:
-- `--output-dir` — Directory to write generated tasks (defaults to `datasets/jobbench` at the repo root)
-- `--limit` — Generate only the first N tasks
-- `--overwrite` — Overwrite existing tasks
-- `--task-ids` — Only generate specific task IDs
 
-Tasks are written to `datasets/jobbench/` with one directory per task. Each task follows the structure shown in ["Generated Task Structure"](#generated-task-structure) above.
+- `--output-dir`: directory to write generated tasks (defaults to `datasets/jobbench` at the repository root)
+- `--limit`: generate only the first N tasks
+- `--overwrite`: replace task directories that already exist
+- `--task-ids`: generate only these task IDs, for example `main--lawyers--task1`
+- `--split`: `main` (65 tasks), `easy` (63 tasks) or `all` (default)
+- `--revision`: Hugging Face dataset revision (defaults to the pinned commit)
+- `--source-dir`: use a local copy of the dataset instead of downloading
+
+The first run downloads about 620 MB from Hugging Face. The generated dataset is about 290 MB.
 
 ## Comparison with Original Benchmark (Parity)
 
-Summarize how you validated fidelity to the original benchmark. Include a small table of headline metrics and a pointer to `parity_experiment.json`. Report each score as **mean ± sample SEM**.
+Parity experiments have not been run yet. This table will be filled in from `parity_experiment.json` once they are complete.
 
 | Agent | Model | Metric | Number of Runs | Dataset Size | Original Benchmark Performance | Harbor Adapter Performance |
-|-------|-------|--------|------------------|--------------|------------------------------|----------------------------|
-| \<agent\>@\<agent_version\> | \<model\> | \<metric\> | \<n\> | \<size\> | \<x% ± y%\> | \<x% ± y%\> |
+|-------|-------|--------|----------------|--------------|--------------------------------|----------------------------|
+| TBD | TBD | Mean weighted rubric score | TBD | TBD | TBD | TBD |
 
-If there's a prior version parity experiment done in `terminal-bench`:
-- If your parity for Harbor is a direct comparison to the original benchmark (which we recommend if claude-4.5-haiku is easily supported), then you may only include these scores and do not need to include the `terminal-bench` parity.
-- However, if you are comparing to `terminal-bench` adapters, then please include both parity scores to show that "original <--> terminal bench adapter" and then "terminal bench adapter <--> harbor adapter".
+Reproduction steps, to be confirmed against the final parity setup.
 
-Reproduction requirements and steps (mandatory):
-- Which repo/fork and commit to use for the original benchmark; which scripts/commands to run; any env variables needed
-- Which commands to run in Harbor to reproduce adapter-side results:
-  ```bash
-  uv run harbor run -c adapters/jobbench/run_jobbench.yaml -a <agent> -m "<model>"
-  ```
-- How to interpret the results/scores; if metrics are non-trivial, briefly explain their computation
+Original benchmark (repository `Job-Bench/job-bench-eval` at commit `660b33a86ed032559df0b2fdc1ad38cf7ceb83f3`):
+
+```bash
+git clone https://github.com/Job-Bench/job-bench-eval.git
+cd job-bench-eval
+git checkout 660b33a86ed032559df0b2fdc1ad38cf7ceb83f3
+./setup.sh
+
+# Generate deliverables with the chosen agent, then judge them
+BENCHMARK_MODELS="<model>" ./eval/run_benchmark_claude_code_cli.sh
+JUDGE_API_KEY="your_xai_key" uv run ./eval/run_judge.sh
+```
+
+Harbor adapter:
+
+```bash
+cd src/jobbench && uv run jobbench --split main --output-dir ../../datasets/jobbench && cd ../..
+export JUDGE_API_KEY="your_xai_key"
+harbor run -p datasets/jobbench -a <agent_name> -m "<model_name>"
+```
+
+Scores on both sides are the mean of the per-task weighted rubric scores, as described in [What is JobBench?](#what-is-jobbench). Both sides must use the same judge model.
 
 ## Notes & Caveats
 
-Call out known limitations, failing instances, large downloads, platform caveats, time/memory constraints, or evaluation differences vs. the original benchmark.
+- **No upstream oracle.** JobBench ships rubrics, not reference solutions. `solution/solve.sh` submits a reference deliverable when one exists for the task and exits non-zero otherwise, so that a missing oracle is never mistaken for an empty answer. No reference deliverables are included yet, so the oracle agent currently fails on every task. The plan is to build them from the strongest agent outputs and confirm they score the same under the original judge and under Harbor.
+- **LLM judge.** Scores depend on the judge model and are not fully deterministic. Use the same judge on both sides of any comparison. A full judging pass over all tasks costs roughly $20 with the default judge, per the upstream documentation.
+- **Network access.** Tasks run with public network access, as upstream, because some require online research. Results can vary with what the agent's search tools return.
+- **Timeouts.** The agent timeout is 7200 seconds and the verifier timeout is 3600 seconds, matching the upstream Harbor converter. The upstream Claude Code and Codex CLI runners default to 3600 seconds per task (`TIMEOUT_PER_TASK`), so that value has to be raised to 7200 on the original side for a like-for-like comparison.
+- **Environment difference on the original side.** The upstream CLI runners run the agent on the host machine, while Harbor runs it in the upstream Docker image. This is a known difference between the two sides that parity will need to account for.
+- **Task schema.** Tasks use `schema_version = "1.4"` and write `reward.json`, matching the upstream converter.
+- **Verified so far.** Harbor 0.22.0 loads all 128 task configurations. One task has been run end to end in Docker: both images build and the verifier returns a valid reward. That run had an empty output, so the LLM judge has not graded a real deliverable through this adapter yet.
 
 ## Installation / Prerequisites
 
-Adapters are managed as standalone uv Python packages. You can add or remove dependencies using `uv add` / `uv remove` from the adapter directory:
-
-```bash
-cd adapters/jobbench
-uv add datasets  # add a dependency
-uv remove datasets  # remove a dependency
-```
-
-List environment setup specific to this adapter (edit as needed):
-- Docker installed and running
-- Harbor installed and working (see main repository README)
-- Python environment with dependencies:
+- Docker installed and running. The agent image is large (LibreOffice, Tesseract, GDAL and other document tooling). Both images built with 8 GB of memory assigned to Docker; larger tasks may need more.
+- The Harbor CLI installed and working.
+- `uv`, to run the adapter:
   ```bash
-  cd adapters/jobbench
+  cd src/jobbench
   uv sync
   ```
-- Dataset-specific steps (e.g., creds, downloads):
-  - API keys for agents/models (export as environment variables)
-  - Large docker images, toolchains, or dataset downloads
-  - Any benchmark-specific dependencies
+- A judge API key in `JUDGE_API_KEY` (xAI by default), plus the API key for whichever agent you run.
+- About 1 GB of free disk space for the dataset download and the generated tasks, in addition to the Docker images.
 
 ## Troubleshooting
 
-List frequent issues and fixes (docker cleanup, timeouts, flaky tests, etc.).
+- **The oracle fails with "No reference deliverable is available for this JobBench task."** This is expected until reference deliverables are added. See Notes & Caveats.
+- **A trial finishes with no reward.** The judge failed (missing or invalid `JUDGE_API_KEY`, wrong `JUDGE_API_BASE`, or a model the endpoint does not serve). The verifier deliberately writes no reward in this case. Fix the judge settings and rerun.
+- **Reward is 0 and the judge was not called.** The agent wrote nothing to `/workspace/output`.
+- **The image build is slow or times out.** The first build installs a large toolchain. The build timeout is 1800 seconds; later builds reuse the Docker cache.
+- **Generation says tasks were skipped.** The task directories already exist. Pass `--overwrite` to replace them.
 
 ## Citation
 
-Provide BibTeX or links to cite the original benchmark (and this adapter if desired):
+No paper citation has been found for JobBench yet. Until one is confirmed, cite the project website:
+
 ```bibtex
-@article{<key>,
-  title={<benchmark_name>: <paper title>},
-  author={<authors>},
-  year={<year>},
-  url={<paper_or_repo_url>}
+@misc{jobbench,
+  title={JobBench},
+  author={{JobBench Team}},
+  howpublished={\url{https://job-bench.github.io/}},
+  note={Evaluation code: https://github.com/Job-Bench/job-bench-eval}
 }
 ```
 
 ## Authors & Contributions
-This adapter is developed and maintained by [<your_name>](mailto:<your_email>) from the Harbor team.
+
+This adapter is developed and maintained by [Yogya Mehrotra](mailto:ymehrotra@ucsd.edu).
 
 **Issues and Contributions:**
-- Submit Issues and Pull Requests to the main repository
+- Submit Issues and Pull Requests to the [adapters repository](https://github.com/harbor-framework/adapters)
 - Follow the project's coding style and commit guidelines
-
-## Acknowledgement
-
-If you used API keys provided via [adapters/parity_api_instructions.md](../parity_api_instructions.md) for running parity experiments, please include the following acknowledgement:
-
-> API inference compute for running parity tests is generously supported by [2077AI](https://www.2077ai.com/) (https://www.2077ai.com/).
