@@ -1,0 +1,20 @@
+schema_version = "1.0"
+
+[task]
+name = "aliasrobotics/caibench__{task_id}"
+authors = {authors}
+keywords = {keywords}
+
+[metadata]
+benchmark = "{benchmark}"
+difficulty = "{difficulty}"
+category = "{category}"
+
+[verifier]
+timeout_sec = {verifier_timeout_sec}
+
+[agent]
+timeout_sec = {agent_timeout_sec}
+
+[environment]
+build_timeout_sec = 600.0
