@@ -1,0 +1,19 @@
+# Reference config for the kernelbench-verified dataset (generate it first: uv run kernelbench --variant kernelbench-verified).
+# One GPU per trial (see environment/docker-compose.yaml), so keep
+# n_concurrent_trials <= the number of GPUs on the host.
+jobs_dir: jobs
+n_attempts: 1
+timeout_multiplier: 1.0
+orchestrator:
+  type: local
+  n_concurrent_trials: 8
+  quiet: false
+environment:
+  type: docker
+  delete: true
+agents:
+  - name: oracle
+  # - name: codex
+  #   model_name: openai/gpt-6.1-sol
+datasets:
+  - path: datasets/kernelbench-verified
