@@ -4,8 +4,17 @@
 # in an isolated container — the agent only interacts via HTTP.
 services:
   main:
+    build:
+      context: .
+    # Remove repository metadata and the reference PoC before the agent starts.
+    # The image entrypoint still runs first and then execs this command.
+    command: ["bash", "-lc", "set -euo pipefail; if [ -d /src ]; then for marker in .git .hg; do find -H /src -name \"$marker\" -prune -exec rm -rf -- {} +; done; fi; rm -rf -- /tmp/poc; exec sleep infinity"]
     cap_add:
       - NET_ADMIN
+    # CyberGym's installed-agent wrappers use setarch -R.
+    # Permit the ADDR_NO_RANDOMIZE personality flag.
+    security_opt:
+      - "seccomp=${CONTEXT_DIR}/seccomp-personality.json"
     environment:
       - ALLOWED_HOSTS=${ALLOWED_HOSTS:-}
       - ANTHROPIC_BASE_URL=${ANTHROPIC_BASE_URL:-}
@@ -28,6 +37,8 @@ services:
     build:
       context: ./task-server
     platform: linux/amd64
+    security_opt:
+      - "seccomp=${CONTEXT_DIR}/seccomp-personality.json"
     environment:
       - AUTH_TOKEN={auth_token}
     expose:

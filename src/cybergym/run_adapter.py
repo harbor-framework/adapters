@@ -14,6 +14,7 @@ for _p in (_HARBOR_ROOT, _ADAPTER_DIR):
 try:
     from adapters.cybergym.adapter import (
         DIFFICULTY_LEVELS,
+        SCORING_MODES,
         TASK_TYPES,
         CyberGymLoader,
         CyberGymToHarbor,
@@ -22,6 +23,7 @@ try:
 except ModuleNotFoundError:
     from adapter import (  # type: ignore[no-redef]
         DIFFICULTY_LEVELS,
+        SCORING_MODES,
         TASK_TYPES,
         CyberGymLoader,
         CyberGymToHarbor,
@@ -106,6 +108,16 @@ Examples:
         type=float,
         default=180.0,
         help="Verifier timeout in seconds (default: 180).",
+    )
+    parser.add_argument(
+        "--scoring-mode",
+        choices=SCORING_MODES,
+        default="final-submission",
+        help=(
+            "PoC scoring policy: final-submission scores the last submission; "
+            "any-of accepts any successful submission "
+            "(default: final-submission)."
+        ),
     )
     parser.add_argument(
         "--template-dir",
@@ -240,6 +252,7 @@ Examples:
             agent_timeout_sec=args.agent_timeout,
             verifier_timeout_sec=args.verifier_timeout,
             data_dir=args.data_dir,
+            scoring_mode=args.scoring_mode,
         )
 
         ok, bad = converter.generate_many(records, overwrite=args.overwrite)

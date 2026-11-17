@@ -31,6 +31,8 @@ TASK_TYPES = ["arvo", "oss-fuzz"]
 
 DIFFICULTY_LEVELS = ["level0", "level1", "level2", "level3"]
 
+SCORING_MODES = ["any-of", "final-submission"]
+
 # HuggingFace base URL for direct file downloads during Docker build
 HF_BASE_URL = "https://huggingface.co/datasets/sunblaze-ucb/cybergym/resolve/main"
 
@@ -200,6 +202,7 @@ class CyberGymToHarbor:
         agent_timeout_sec: float = 1200.0,
         verifier_timeout_sec: float = 180.0,
         data_dir: Path | None = None,
+        scoring_mode: str = "final-submission",
     ) -> None:
         self.output_dir = Path(output_dir)
         self.output_dir.mkdir(parents=True, exist_ok=True)
@@ -209,9 +212,17 @@ class CyberGymToHarbor:
         self.agent_timeout_sec = float(agent_timeout_sec)
         self.verifier_timeout_sec = float(verifier_timeout_sec)
         self.data_dir = Path(data_dir) if data_dir else None
+        if scoring_mode not in SCORING_MODES:
+            raise ValueError(
+                f"Unsupported scoring mode {scoring_mode!r}; "
+                f"choose one of {', '.join(SCORING_MODES)}"
+            )
+        self.scoring_mode = scoring_mode
 
         # Template paths
-        self.t_instruction = self.template_dir / "instruction.md"
+        self.t_instruction = self.template_dir / (
+            "instruction-any-of.md" if scoring_mode == "any-of" else "instruction.md"
+        )
         self.t_task_toml = self.template_dir / "task.toml"
         self.t_dockerfile_arvo = self.template_dir / "environment" / "Dockerfile.arvo"
         self.t_dockerfile_oss_fuzz = (
@@ -219,6 +230,9 @@ class CyberGymToHarbor:
         )
         self.t_docker_compose = (
             self.template_dir / "environment" / "docker-compose.yaml"
+        )
+        self.t_seccomp_profile = (
+            self.template_dir / "environment" / "seccomp-personality.json"
         )
         self.t_submit_sh = self.template_dir / "environment" / "submit.sh"
         self.t_restrict_network_sh = (
@@ -233,7 +247,9 @@ class CyberGymToHarbor:
         self.t_task_server_dockerfile_oss_fuzz = (
             self.template_dir / "environment" / "task-server" / "Dockerfile.oss_fuzz"
         )
-        self.t_test_sh = self.template_dir / "tests" / "test.sh"
+        self.t_test_sh = self.template_dir / "tests" / (
+            "test-any-of.sh" if scoring_mode == "any-of" else "test.sh"
+        )
         self.t_verify_py = self.template_dir / "tests" / "verify.py"
         self.t_solve_sh = self.template_dir / "solution" / "solve.sh"
 
@@ -285,6 +301,7 @@ class CyberGymToHarbor:
                 .replace("{agent_timeout_sec}", f"{self.agent_timeout_sec:.1f}")
                 .replace("{verifier_timeout_sec}", f"{self.verifier_timeout_sec:.1f}")
             )
+            task_toml = task_toml.replace("{scoring_mode}", self.scoring_mode)
             paths.task_toml_path.write_text(task_toml, encoding="utf-8")
 
             # Per-task auth token for the task-server sidecar.
@@ -316,6 +333,10 @@ class CyberGymToHarbor:
             compose = compose_template.replace("{auth_token}", auth_token)
             (paths.environment_dir / "docker-compose.yaml").write_text(
                 compose, encoding="utf-8"
+            )
+            shutil.copy2(
+                self.t_seccomp_profile,
+                paths.environment_dir / "seccomp-personality.json",
             )
 
             # task-server/ sidecar directory

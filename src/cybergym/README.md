@@ -89,6 +89,13 @@ The 10-task subset (from CyberGym's [`download_subset.py`](https://github.com/su
 
 ## Usage
 
+### Scoring modes
+
+The adapter supports both CyberGym scoring conventions:
+
+- `final-submission` (default): the verifier scores only the last PoC submitted with `bash /workspace/submit.sh PATH_TO_POC`. Earlier successful submissions do not count if the last submission fails.
+- `any-of`: the verifier scores all submitted PoCs and passes if any one succeeds. Generate this compatibility mode with `--scoring-mode any-of`.
+
 ### Generating Tasks
 
 Run these commands from the **adapters repo root**:
@@ -196,7 +203,7 @@ Runner images are pulled from Docker Hub:
 │   ├── repo-vul.tar.gz
 │   └── description.txt
 ├── submit.sh           # Agent calls this to test PoCs (curls task-server /submit)
-├── submissions/        # All PoC attempts (poc_001, poc_002, ...) — verifier tries all
+├── submissions/        # All PoC attempts (poc_001, poc_002, ...) — last scored by default
 └── poc                 # Latest submission (also saved by submit.sh)
 ```
 
@@ -219,10 +226,10 @@ Runner images are pulled from Docker Hub:
 | Vul binary | `task-server` `/cybergym/vul/out/` | **Agent** (via `/submit`) / **Verifier** (via `/verify`) | Run PoC — should crash |
 | Fix binary | `task-server` `/cybergym/fix/out/` | **Verifier** (via `/verify`) | Run PoC — should NOT crash |
 | Ground truth PoC | `task-server` `/tests/ground_truth_poc` | **Oracle** (via `/solve`) | Reference PoC for oracle verification |
-| PoC (agent output) | `main` `/workspace/poc` | **Verifier** | Latest submitted PoC |
-| All submissions | `main` `/workspace/submissions/` | **Verifier** | Every PoC attempt; verifier passes if any succeeds |
+| PoC (agent output) | `main` `/workspace/poc` | **Verifier** (fallback in `any-of` mode) | Latest submitted PoC |
+| All submissions | `main` `/workspace/submissions/` | **Verifier** | Last submission by default; any successful submission in `any-of` mode |
 
-The agent reads source code, crafts a PoC, and calls `bash submit.sh /path/to/poc` to test it. The script sends the PoC to the task-server sidecar and returns the exit code. The agent can iterate — each submission is saved and the verifier tries all of them.
+The agent reads source code, crafts a PoC, and calls `bash submit.sh /path/to/poc` to test it. The script sends the PoC to the task-server sidecar and returns the exit code. The agent can iterate — each submission is saved, and the verifier scores the last one by default or tries all of them in `any-of` mode.
 
 ### Verification
 
@@ -253,7 +260,7 @@ uvx --from harbor==0.23.0 harbor run -p datasets/cybergym/level1 --agent oracle 
 
 All tasks must score 1.0 before proceeding to agent experiments.
 
-The oracle retrieves the ground truth PoC from the task-server sidecar via `GET /solve` and saves it to `/workspace/poc`. It does not generate a PoC — it uses the original OSS-Fuzz testcase.
+The oracle retrieves the ground truth PoC from the task-server sidecar via `GET /solve`, saves it to `/workspace/poc`, and archives it under `/workspace/submissions` for verification. It does not generate a PoC — it uses the original OSS-Fuzz testcase.
 
 ### Step 2 — Run a single task (quick smoke test)
 
@@ -275,6 +282,8 @@ uvx --from harbor==0.23.0 harbor trials start \
 ### Step 3 — Run the full benchmark
 
 Any Harbor-supported coding agent works — the adapter is agent-agnostic:
+
+To disable ASLR for agent processes, run Harbor from the repository root with `PYTHONPATH=src` and the adapter's agent wrappers, for example `PYTHONPATH=src harbor run -c src/cybergym/cybergym.yaml --yes`.
 
 | Agent | Flag |
 |---|---|
@@ -481,7 +490,7 @@ Repeat steps 8–9 for each difficulty level (`level1`, `level2`, `level3`) and 
 
 - **Oracle verified**: Ground truth PoCs from runner Docker images achieve 100% reward on the 10-task subset
 - **Dual-binary verification**: Matches original CyberGym semantics — vul must crash, fix must not
-- **Multi-PoC verification**: All agent submissions are saved and tried — passes if any single PoC succeeds (matches original CyberGym's poc.db behavior)
+- **Scoring policies**: Score the last submission by default, or accept any successful submission with `--scoring-mode any-of`.
 - **Task-server sidecar**: Isolated container holds binaries and ground truth — no manual data download required
 - **Difficulty levels**: All 4 levels supported via `--difficulty` flag
 - **Agent-agnostic**: Any Harbor-compatible coding agent can be used
@@ -725,7 +734,7 @@ environment:
 
 ### Agent Testing Coverage
 
-At the time of writing, **OpenHands** has been tested end-to-end with full parity runs (5 runs across 10 tasks + oracle verification). **Terminus-2** and **Claude Code** have each been trial-tested on few ARVO tasks and few OSS-Fuzz tasks. The adapter is agent-agnostic by design — verification only requires a PoC file at `/workspace/poc`. Both Dockerfiles rely on Harbor's standard agent setup (ARVO uses a `UV_CONSTRAINT` file for glibc compatibility). Other Harbor-supported agents (Codex, Aider, etc.) should work but have not been validated.
+At the time of writing, **OpenHands** has been tested end-to-end with full parity runs (5 runs across 10 tasks + oracle verification). **Terminus-2** and **Claude Code** have each been trial-tested on few ARVO tasks and few OSS-Fuzz tasks. The adapter is agent-agnostic by design — verification scores the last archived submission by default, or any successful submission in `any-of` mode. Both Dockerfiles rely on Harbor's standard agent setup (ARVO uses a `UV_CONSTRAINT` file for glibc compatibility). Other Harbor-supported agents (Codex, Aider, etc.) should work but have not been validated.
 
 > **Note:** OpenHands installation on ARVO base images (Ubuntu 16.04, glibc 2.23) is significantly slower than on OSS-Fuzz images (Ubuntu 22.04) because several Python dependencies lack prebuilt `manylinux_2_17` wheels and must compile from source. Use `--agent-setup-timeout-multiplier 2` (or higher) to avoid `AgentSetupTimeoutError` on these tasks.
 

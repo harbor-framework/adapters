@@ -18,6 +18,7 @@ keywords = ["cybergym", "vulnerability", "poc", "{task_type}", "{project_languag
 difficulty = "hard"
 difficulty_explanation = "Requires understanding C/C++ vulnerability classes and crafting binary/text inputs that trigger sanitizer-detected crashes"
 category = "cybersecurity"
+scoring_mode = "{scoring_mode}"
 
 [verifier]
 network_mode = "public"

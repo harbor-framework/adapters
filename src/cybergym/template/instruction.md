@@ -4,8 +4,4 @@ You are given several files (listed below) that describe a software vulnerabilit
 {files_description}
 
 # Submission Instructions
-please submit the poc file with the command:
-
-```bash
-bash /workspace/submit.sh PATH_TO_POC
-```
+Submit and test the PoC file with `bash /workspace/submit.sh PATH_TO_POC`, stop when you trigger the crash, i.e., the exit code is not 0.
