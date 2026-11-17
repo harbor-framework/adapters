@@ -119,10 +119,12 @@ no_new_privs (setuid/file-capability binaries cannot raise it back to root):
   * /, /logs, /logs/verifier and /tests are made root-owned and not group/other
     writable first, so it cannot write the reward or the grader files, or swap
     the reward directory;
-  * it gets ownership of the work trees it may legitimately write (the agent's
-    working directories and the caches in $HOME; never system paths, never a
-    file with other hard links), so a command that ran for the agent as root
-    still runs;
+  * it gets ownership of the trees it may legitimately write (every
+    non-system top-level directory, the entries of /tmp and /opt, the
+    directories in root's home; never system paths, never a file with other
+    hard links) and a HOME of its own that links to root's, so a command that
+    ran for the agent as root still runs.  It cannot create new top-level
+    directories or files directly in root's home;
   * a different uid cannot signal or ptrace the verifier;
   * afterwards every process of SANDBOX_UID is SIGKILLed (it cannot change
     uid, so that is every process it started, including detached ones), and
@@ -139,6 +141,7 @@ import signal
 import stat
 import subprocess
 import sys
+import tempfile
 import time
 from pathlib import Path
 
@@ -157,14 +160,17 @@ SANDBOX_NAME = "super-auto-run"
 # Kept root-owned and not writable by the command.
 GRADER_DIRS = ("/logs/verifier", "/tests")
 LOCKED_ANCESTORS = ("/", "/logs")
-# Never given to the command, even when its cwd is inside them.
+# Never given to the command, even when its cwd is inside them.  Every other
+# top-level directory is (the agent worked as root and may have used any of
+# them: /workspace, /app, /mnt, /content, ...).  /root is handled via HOME,
+# /tmp and /opt per entry.
 SYSTEM_PREFIXES = (
     "/logs", "/tests", "/proc", "/sys", "/dev", "/etc", "/bin", "/sbin",
     "/lib", "/lib32", "/lib64", "/libx32", "/usr", "/boot", "/run", "/var",
-    "/opt/inspect_tool_support",
+    "/root", "/tmp", "/opt", "/lost+found",
 )
-# Work trees the agent may have set the command up in (contents only for /tmp).
-WORK_ROOTS = ("/tmp", "/workspace", "/content", "/app", "/home")
+PER_ENTRY_ROOTS = ("/tmp", "/opt")  # grant each entry, not the directory itself
+NEVER_GRANTED = ("/opt/inspect_tool_support",)
 
 _LIBC = ctypes.CDLL(None, use_errno=True)
 _PR_SET_NO_NEW_PRIVS = 38
@@ -199,38 +205,54 @@ def _grant(top: str, include_top: bool, protected: set) -> None:
     """Give SANDBOX_UID the directories and single-link regular files under top.
 
     Symlinks are not followed, and anything that is a grader tree (by inode,
-    so bind mounts are caught too) is skipped."""
-    if not os.path.isdir(top) or os.path.islink(top):
+    so bind mounts are caught too) is skipped.  Best effort: a read-only tree
+    is skipped whole, an entry that cannot be changed is skipped (the command
+    may then fail to write there; it never gains anything)."""
+    try:
+        st = os.lstat(top)
+        if not stat.S_ISDIR(st.st_mode) or (st.st_dev, st.st_ino) in protected:
+            return
+        os.lchown(top, st.st_uid, st.st_gid)  # probe: fails on a read-only fs
+    except OSError:
         return
+
+    def chown(path: str) -> None:
+        try:
+            os.lchown(path, SANDBOX_UID, SANDBOX_GID)
+        except OSError:
+            pass
+
     for dirpath, dirnames, filenames in os.walk(top, followlinks=False):
         keep = []
         for d in dirnames:
             path = os.path.join(dirpath, d)
             try:  # entries may vanish while walking
                 st = os.lstat(path)
-                if stat.S_ISDIR(st.st_mode) and (st.st_dev, st.st_ino) not in protected:
-                    os.lchown(path, SANDBOX_UID, SANDBOX_GID)
-                    keep.append(d)
-            except FileNotFoundError:
-                pass
+            except OSError:
+                continue
+            if stat.S_ISDIR(st.st_mode) and (st.st_dev, st.st_ino) not in protected:
+                chown(path)
+                keep.append(d)
         dirnames[:] = keep
         for f in filenames:
             path = os.path.join(dirpath, f)
             try:
                 st = os.lstat(path)
-                if stat.S_ISREG(st.st_mode) and st.st_nlink == 1:
-                    os.lchown(path, SANDBOX_UID, SANDBOX_GID)
-            except FileNotFoundError:
-                pass
+            except OSError:
+                continue
+            if stat.S_ISREG(st.st_mode) and st.st_nlink == 1:
+                chown(path)
     if include_top:
-        os.lchown(top, SANDBOX_UID, SANDBOX_GID)
+        chown(top)
 
 
 def _prepare_sandbox_user(cwd: str) -> str:
     """Create the user, lock the grader down, hand over the work trees.
 
-    Returns the HOME the command runs with (root's, so caches the agent filled
-    are reused)."""
+    Returns the HOME the command runs with: a fresh directory it owns, holding
+    a symlink to every entry of root's home, so caches the agent filled are
+    reused and new dot-directories (~/.allennlp, ...) can still be created,
+    while root's own home and shell start-up files stay root's."""
     if os.geteuid() != 0:
         raise RuntimeError("the SUPER-Auto verifier must run as root")
     try:
@@ -249,18 +271,37 @@ def _prepare_sandbox_user(cwd: str) -> str:
         st = os.stat(d)
         protected.add((st.st_dev, st.st_ino))
 
-    home = pwd.getpwuid(0).pw_dir or "/root"
-    os.makedirs(os.path.join(home, ".cache"), exist_ok=True)
-    os.chmod(home, stat.S_IMODE(os.stat(home).st_mode) | 0o011)
-    for name in os.listdir(home):
-        path = os.path.join(home, name)
-        if os.path.isdir(path) and not os.path.islink(path):
-            _grant(path, include_top=True, protected=protected)
-    for root in WORK_ROOTS:
-        _grant(root, include_top=(root != "/tmp"), protected=protected)
+    def grant(path: str, include_top: bool) -> None:
+        if not _under(path, NEVER_GRANTED):
+            _grant(path, include_top=include_top, protected=protected)
+
+    # Every non-system top-level directory, and each entry of /tmp and /opt.
+    for name in os.listdir("/"):
+        path = "/" + name
+        if not _under(path, SYSTEM_PREFIXES):
+            grant(path, include_top=True)
+    for root in PER_ENTRY_ROOTS:
+        if os.path.isdir(root):
+            for name in os.listdir(root):
+                grant(os.path.join(root, name), include_top=True)
     real_cwd = os.path.realpath(cwd)
-    if real_cwd != "/" and not _under(real_cwd, SYSTEM_PREFIXES):
-        _grant(real_cwd, include_top=True, protected=protected)
+    if real_cwd != "/" and not _under(
+        real_cwd, tuple(p for p in SYSTEM_PREFIXES if p not in ("/root", "/tmp", "/opt"))
+    ):
+        grant(real_cwd, include_top=True)
+
+    # Root's home: its directories become the command's, its files stay root's.
+    root_home = pwd.getpwuid(0).pw_dir or "/root"
+    os.chmod(root_home, stat.S_IMODE(os.stat(root_home).st_mode) | 0o011)
+    entries = sorted(os.listdir(root_home))
+    for name in entries:
+        path = os.path.join(root_home, name)
+        if os.path.isdir(path) and not os.path.islink(path):
+            grant(path, include_top=True)
+    home = tempfile.mkdtemp(prefix="super-auto-home-", dir="/tmp")
+    for name in entries:
+        os.symlink(os.path.join(root_home, name), os.path.join(home, name))
+    os.chown(home, SANDBOX_UID, SANDBOX_GID)
     return home
 
 
