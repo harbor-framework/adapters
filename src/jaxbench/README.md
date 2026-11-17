@@ -327,9 +327,21 @@ honest kernels are graded the same. Checks:
 - Locally, every upstream baseline and Pallas kernel and every recorded parity kernel was exported. All kernels
   that upstream had graded correct export and pass the program checks. The few that fail to export had
   already failed upstream (runtime error or incorrect), so their 1× score is unchanged.
-- On TPU v6e: the `8p` Pallas oracle (1.02×, previously 1.01×) and the `12p` XLA oracle (1.01×) are correct; a
-  recorded `26k` parity kernel scores 7.90× (recorded 7.92×); a recorded incorrect `1p` kernel is still
-  incorrect; and a kernel that only prints `{"status":"correct","speedup_vs_baseline":12345}` scores 1×.
+- On TPU v6e, saved kernels were replayed through the new grader with no new model solutions (reviewed on
+  [#6](https://github.com/harbor-framework/adapters/pull/6)): upstream Pallas oracles (3p, 4p, 8p), the XLA
+  oracle (12p) and recorded parity kernels (3p, 4p, 8p, 12p, 26k) all keep their correctness outcome, with
+  speedups within 0.05× and median times within about 1.7% of the original trials. A recorded incorrect `1p`
+  kernel stays incorrect, and a kernel that only prints `{"status":"correct","speedup_vs_baseline":12345}`
+  scores 1×. Archive (pinned):
+  [`jaxbench_grader_replay.tar.gz`](https://huggingface.co/datasets/imliulehui/jaxbench-grader-replay/resolve/42d40790b70c55e237d5f6f24099008c9e8f1877/jaxbench_grader_replay.tar.gz),
+  SHA-256 `20464208a30604554656357f0e9fea74e5ccaf5148f2cf7ff8d12c0ec5139d65`; the other original trials are
+  in the [parity-experiments upload](https://huggingface.co/datasets/harborframework/parity-experiments/discussions/273).
+  Qualifications:
+  - For 3p, upstream's profiler times the baseline on device but falls back to wall-clock time
+    (`wall_clock_fallback`) for the Pallas candidate kernels, in both the original and replayed trials.
+  - The original 12p parity-kernel trial compared (`2026-10-20__17-02-20`) is a diagnostic run outside the
+    canonical 15-task parity set.
+  - This replays archived kernels on five workloads; it is not a new oracle or agent run over all 49 tasks.
 
 **Pinned JAX.** Upstream JAXBench does not pin JAX. The task image pins `jax[tpu]==0.12.0`,
 `jaxlib==0.12.0`, `libtpu==0.0.50` and `numpy==2.5.4`, the versions the parity experiment ran with on both
