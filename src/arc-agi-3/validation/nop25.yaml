@@ -1,0 +1,14 @@
+job_name: nop25-docker
+jobs_dir: jobs
+n_concurrent_trials: 2
+retry:
+  max_retries: 0
+agents:
+  - name: nop
+    override_timeout_sec: 60
+environment:
+  type: docker
+  force_build: true
+  delete: true
+datasets:
+  - path: datasets/all25

@@ -1,0 +1,651 @@
+{
+  "date": "2026-10-28",
+  "harbor_commit": "b7e015809847d109dddadefc9cd824124cff3e15",
+  "adapter_execution_source_commit": "77cae6a",
+  "host_python": "3.13.17",
+  "docker_version": "26.1.3",
+  "compose_version": "2.27.0",
+  "model_api_calls": 0,
+  "jobs": {
+    "oracle9-docker": {
+      "expected_trials": 9,
+      "completed_trials": 9,
+      "infrastructure_errors": 0,
+      "trials": [
+        {
+          "game_id": "ar25-0c556536",
+          "trial_name": "ar25-0c556536__PJpg7cQ",
+          "task_checksum": "94e8498d08aad43adb86f536449c29710a093909731dd37a634cb7a2e853e10b",
+          "started_at": "2026-10-28T08:34:39.461117Z",
+          "finished_at": "2026-10-28T08:35:26.759901Z",
+          "rewards": {
+            "score": 8,
+            "is_win": 1,
+            "efficiency": 0.9375
+          },
+          "error_type": null,
+          "metrics": {
+            "state": "win",
+            "total_actions": 455
+          },
+          "source_result_sha256": "6be2261254e4a0db2451d4e55435f4302365495fcf426603935c0d8ba79e1c99"
+        },
+        {
+          "game_id": "cd82-fb555c5d",
+          "trial_name": "cd82-fb555c5d__kXUWUuS",
+          "task_checksum": "2c0940f41b65b485bf95561c6ffa6702a76e09ea9975b4dd7d844eb038f725a7",
+          "started_at": "2026-10-28T08:34:41.417456Z",
+          "finished_at": "2026-10-28T08:35:25.260488Z",
+          "rewards": {
+            "score": 6,
+            "is_win": 1,
+            "efficiency": 0.7723
+          },
+          "error_type": null,
+          "metrics": {
+            "state": "win",
+            "total_actions": 177
+          },
+          "source_result_sha256": "3c37230079ef3bcdbe1b2bf3e2e4cb8e7bee2a9470223d5ee506bc8ee6f7c129"
+        },
+        {
+          "game_id": "cn04-2fe56bfb",
+          "trial_name": "cn04-2fe56bfb__djJ53HL",
+          "task_checksum": "2653db8429132641c8fdb302332facb9804fd4e5302fc058d21afc7a498a04f5",
+          "started_at": "2026-10-28T08:35:26.442917Z",
+          "finished_at": "2026-10-28T08:36:14.774602Z",
+          "rewards": {
+            "score": 6,
+            "is_win": 1,
+            "efficiency": 0.6567
+          },
+          "error_type": null,
+          "metrics": {
+            "state": "win",
+            "total_actions": 2651
+          },
+          "source_result_sha256": "cea92cdf3c2038a4ff76b4a0b0cc761f6ab45756fb60ce1f6f48d8d965740381"
+        },
+        {
+          "game_id": "ft09-0d8bbf25",
+          "trial_name": "ft09-0d8bbf25__2SdK2KM",
+          "task_checksum": "b7b3859da7b1f1733a8874fa29f9a628d05e947760db3ebd074be58237aefe1b",
+          "started_at": "2026-10-28T08:35:28.037403Z",
+          "finished_at": "2026-10-28T08:36:08.496608Z",
+          "rewards": {
+            "score": 6,
+            "is_win": 1,
+            "efficiency": 0.6658
+          },
+          "error_type": null,
+          "metrics": {
+            "state": "win",
+            "total_actions": 216
+          },
+          "source_result_sha256": "5aa4ff9cc5ccedb4966610eef96b3c1f690e623301e03d6572ed2b5380b14e92"
+        },
+        {
+          "game_id": "lp85-305b61c3",
+          "trial_name": "lp85-305b61c3__JGQkYqZ",
+          "task_checksum": "9f3beabcf030ecbc53af36830c02103c8b11d897a65be137e047667ff646a669",
+          "started_at": "2026-10-28T08:36:09.689858Z",
+          "finished_at": "2026-10-28T08:36:52.126427Z",
+          "rewards": {
+            "score": 8,
+            "is_win": 1,
+            "efficiency": 0.7996
+          },
+          "error_type": null,
+          "metrics": {
+            "state": "win",
+            "total_actions": 348
+          },
+          "source_result_sha256": "6aeaf60d205940c4dfceb7fbe0b2885b819ea1ed33c5fab065d94e0b90568ff6"
+        },
+        {
+          "game_id": "m0r0-492f87ba",
+          "trial_name": "m0r0-492f87ba__RHog6Br",
+          "task_checksum": "1f699b125cb454867e07886bdce28288865af2f811739ffc707caf7ec05404e8",
+          "started_at": "2026-10-28T08:36:16.090044Z",
+          "finished_at": "2026-10-28T08:36:58.202173Z",
+          "rewards": {
+            "score": 6,
+            "is_win": 1,
+            "efficiency": 1.0
+          },
+          "error_type": null,
+          "metrics": {
+            "state": "win",
+            "total_actions": 438
+          },
+          "source_result_sha256": "d42b2daa48164e6b78164e2fd016ccc601491b1e6453657feba538597d20cd4e"
+        },
+        {
+          "game_id": "sb26-7fbdac44",
+          "trial_name": "sb26-7fbdac44__LAqLYJB",
+          "task_checksum": "cf689802eb60523a4f42de3b54293287b481957e77783c6092dd0e86428f386b",
+          "started_at": "2026-10-28T08:36:53.710201Z",
+          "finished_at": "2026-10-28T08:38:09.202675Z",
+          "rewards": {
+            "score": 8,
+            "is_win": 1,
+            "efficiency": 0.41
+          },
+          "error_type": null,
+          "metrics": {
+            "state": "win",
+            "total_actions": 1056
+          },
+          "source_result_sha256": "f06282ff73f43d3d3f80d325b1f13f5c1eefaa2e4af7a1ff5e705ed104e43846"
+        },
+        {
+          "game_id": "sc25-635fd71a",
+          "trial_name": "sc25-635fd71a__i5TKNkn",
+          "task_checksum": "240eaf3615c1ca510e8c97a7931805d6d91a7f093d739279e224bde02989b7a5",
+          "started_at": "2026-10-28T08:36:59.650336Z",
+          "finished_at": "2026-10-28T08:37:54.720708Z",
+          "rewards": {
+            "score": 6,
+            "is_win": 1,
+            "efficiency": 0.2446
+          },
+          "error_type": null,
+          "metrics": {
+            "state": "win",
+            "total_actions": 836
+          },
+          "source_result_sha256": "ee4ee9575c2a7cfb54f6f0c5b7ef556d53155929291f90aa157b331cb02bb5af"
+        },
+        {
+          "game_id": "tu93-0768757b",
+          "trial_name": "tu93-0768757b__p6nGDKi",
+          "task_checksum": "fdc435791335e4e1a10039889a5864198d69c8cdab3042c799420941dc180c7c",
+          "started_at": "2026-10-28T08:37:56.402020Z",
+          "finished_at": "2026-10-28T08:38:46.527236Z",
+          "rewards": {
+            "score": 9,
+            "is_win": 1,
+            "efficiency": 0.6292
+          },
+          "error_type": null,
+          "metrics": {
+            "state": "win",
+            "total_actions": 449
+          },
+          "source_result_sha256": "3f1c17a2ba3077d3cde3fe32a0f414a69a4401d7532114206a41eb00a5c28ce2"
+        }
+      ]
+    },
+    "nop25-docker": {
+      "expected_trials": 25,
+      "completed_trials": 25,
+      "infrastructure_errors": 0,
+      "trials": [
+        {
+          "game_id": "ar25-0c556536",
+          "trial_name": "ar25-0c556536__7Fxr7L9",
+          "task_checksum": "94e8498d08aad43adb86f536449c29710a093909731dd37a634cb7a2e853e10b",
+          "started_at": "2026-10-28T08:41:20.829900Z",
+          "finished_at": "2026-10-28T08:41:54.206482Z",
+          "rewards": {
+            "score": 0,
+            "is_win": 0,
+            "efficiency": 0.0
+          },
+          "error_type": null,
+          "metrics": {
+            "state": "not_finished",
+            "total_actions": 0
+          },
+          "source_result_sha256": "ef705ba331c410813c6ed868717a2bf22f45670f239c3c9a4ffe7221fa115020"
+        },
+        {
+          "game_id": "bp35-0a0ad940",
+          "trial_name": "bp35-0a0ad940__YnoPCbC",
+          "task_checksum": "eb95412881d70506d3bc9813f13010a2c2e3a90b30f37b04ebaa3ae2a0b37c95",
+          "started_at": "2026-10-28T08:41:22.781204Z",
+          "finished_at": "2026-10-28T08:42:04.887022Z",
+          "rewards": {
+            "score": 0,
+            "is_win": 0,
+            "efficiency": 0.0
+          },
+          "error_type": null,
+          "metrics": {
+            "state": "not_finished",
+            "total_actions": 0
+          },
+          "source_result_sha256": "1537a737390a1d0850ad917a6a2fb5152e07b10a4ae385ebef0a674b3a9381e5"
+        },
+        {
+          "game_id": "cd82-fb555c5d",
+          "trial_name": "cd82-fb555c5d__3xkwyhh",
+          "task_checksum": "2c0940f41b65b485bf95561c6ffa6702a76e09ea9975b4dd7d844eb038f725a7",
+          "started_at": "2026-10-28T08:41:57.913460Z",
+          "finished_at": "2026-10-28T08:42:34.204318Z",
+          "rewards": {
+            "score": 0,
+            "is_win": 0,
+            "efficiency": 0.0
+          },
+          "error_type": null,
+          "metrics": {
+            "state": "not_finished",
+            "total_actions": 0
+          },
+          "source_result_sha256": "e76e49f38d1af3cc5a8b0589d422ed08b15ee0d27537dfb089911f7c898f8547"
+        },
+        {
+          "game_id": "cn04-2fe56bfb",
+          "trial_name": "cn04-2fe56bfb__Q4drbeH",
+          "task_checksum": "2653db8429132641c8fdb302332facb9804fd4e5302fc058d21afc7a498a04f5",
+          "started_at": "2026-10-28T08:42:09.431104Z",
+          "finished_at": "2026-10-28T08:42:41.716612Z",
+          "rewards": {
+            "score": 0,
+            "is_win": 0,
+            "efficiency": 0.0
+          },
+          "error_type": null,
+          "metrics": {
+            "state": "not_finished",
+            "total_actions": 0
+          },
+          "source_result_sha256": "4da3c483b8fbd7d22ecdef529c6b8fbfb9a3b33c7097d1a300a732ffcad6ea95"
+        },
+        {
+          "game_id": "dc22-fdcac232",
+          "trial_name": "dc22-fdcac232__7cvj49f",
+          "task_checksum": "07e943d09e4c92cf91364acb69380b858a8ebbba4a94864d0e600b04d76a51e4",
+          "started_at": "2026-10-28T08:42:35.495901Z",
+          "finished_at": "2026-10-28T08:43:17.542466Z",
+          "rewards": {
+            "score": 0,
+            "is_win": 0,
+            "efficiency": 0.0
+          },
+          "error_type": null,
+          "metrics": {
+            "state": "not_finished",
+            "total_actions": 0
+          },
+          "source_result_sha256": "549f221caf059b39eb5409a7c314355246d47795d5e031e5747ec2af3db40de9"
+        },
+        {
+          "game_id": "ft09-0d8bbf25",
+          "trial_name": "ft09-0d8bbf25__C4Zvksn",
+          "task_checksum": "b7b3859da7b1f1733a8874fa29f9a628d05e947760db3ebd074be58237aefe1b",
+          "started_at": "2026-10-28T08:42:43.109486Z",
+          "finished_at": "2026-10-28T08:43:15.406908Z",
+          "rewards": {
+            "score": 0,
+            "is_win": 0,
+            "efficiency": 0.0
+          },
+          "error_type": null,
+          "metrics": {
+            "state": "not_finished",
+            "total_actions": 0
+          },
+          "source_result_sha256": "56820fe0e439998c54be6cb87f5fb9ea3752bb4c6b6a044a34840c4396244590"
+        },
+        {
+          "game_id": "g50t-5849a774",
+          "trial_name": "g50t-5849a774__DbAc9sS",
+          "task_checksum": "9c482f42633ebcc3082ac5b4772cf9401863c5235425ec44924578d8edcdee08",
+          "started_at": "2026-10-28T08:43:17.050179Z",
+          "finished_at": "2026-10-28T08:44:02.911435Z",
+          "rewards": {
+            "score": 0,
+            "is_win": 0,
+            "efficiency": 0.0
+          },
+          "error_type": null,
+          "metrics": {
+            "state": "not_finished",
+            "total_actions": 0
+          },
+          "source_result_sha256": "c9a0b8ab71012dfb25ee7d92b538692eb2bad840d051abb109f2c351e35fa581"
+        },
+        {
+          "game_id": "ka59-38d34dbb",
+          "trial_name": "ka59-38d34dbb__3eimaGP",
+          "task_checksum": "74e47b10610aaa14e2223b35082a50487fc4769c0fd0d452a23dffabb37ceaa2",
+          "started_at": "2026-10-28T08:43:19.754230Z",
+          "finished_at": "2026-10-28T08:44:04.625469Z",
+          "rewards": {
+            "score": 0,
+            "is_win": 0,
+            "efficiency": 0.0
+          },
+          "error_type": null,
+          "metrics": {
+            "state": "not_finished",
+            "total_actions": 0
+          },
+          "source_result_sha256": "3910b1e544e7e268349d3f6dd4711cff9ae6c18ea1dfc97019702ad8debf4d38"
+        },
+        {
+          "game_id": "lf52-271a04aa",
+          "trial_name": "lf52-271a04aa__tAHyxRb",
+          "task_checksum": "51340930e4d9629153b2a965cb1813d1493c5c7c7b0369ca4a500429a946f350",
+          "started_at": "2026-10-28T08:44:04.295674Z",
+          "finished_at": "2026-10-28T08:44:46.379322Z",
+          "rewards": {
+            "score": 0,
+            "is_win": 0,
+            "efficiency": 0.0
+          },
+          "error_type": null,
+          "metrics": {
+            "state": "not_finished",
+            "total_actions": 0
+          },
+          "source_result_sha256": "2ee118e6bc421cd5c3b8558e18db9ebc2a3136937c0c4decff8402b313cb308d"
+        },
+        {
+          "game_id": "lp85-305b61c3",
+          "trial_name": "lp85-305b61c3__52bJ2NQ",
+          "task_checksum": "9f3beabcf030ecbc53af36830c02103c8b11d897a65be137e047667ff646a669",
+          "started_at": "2026-10-28T08:44:06.190082Z",
+          "finished_at": "2026-10-28T08:44:36.092851Z",
+          "rewards": {
+            "score": 0,
+            "is_win": 0,
+            "efficiency": 0.0
+          },
+          "error_type": null,
+          "metrics": {
+            "state": "not_finished",
+            "total_actions": 0
+          },
+          "source_result_sha256": "12b2118b8e776cfad24e9012556f5117442198038d7b595c790ce3e75072f78b"
+        },
+        {
+          "game_id": "ls20-9607627b",
+          "trial_name": "ls20-9607627b__PjMnYzf",
+          "task_checksum": "ff0c0b74665073a5980bad73f3276b1f27dd4a6c4dc51c3a8e14d5f4ea2a80d4",
+          "started_at": "2026-10-28T08:44:37.894264Z",
+          "finished_at": "2026-10-28T08:45:18.219322Z",
+          "rewards": {
+            "score": 0,
+            "is_win": 0,
+            "efficiency": 0.0
+          },
+          "error_type": null,
+          "metrics": {
+            "state": "not_finished",
+            "total_actions": 0
+          },
+          "source_result_sha256": "1abc41bd2885f975dcf6c428f9f3fc44cb331160a51e136ee7299853866c7d85"
+        },
+        {
+          "game_id": "m0r0-492f87ba",
+          "trial_name": "m0r0-492f87ba__7G7duCH",
+          "task_checksum": "1f699b125cb454867e07886bdce28288865af2f811739ffc707caf7ec05404e8",
+          "started_at": "2026-10-28T08:44:48.026368Z",
+          "finished_at": "2026-10-28T08:45:20.692006Z",
+          "rewards": {
+            "score": 0,
+            "is_win": 0,
+            "efficiency": 0.0
+          },
+          "error_type": null,
+          "metrics": {
+            "state": "not_finished",
+            "total_actions": 0
+          },
+          "source_result_sha256": "5688727241f3d3b9d7ab9c68366da776cffe761da29b86d9beb1bd8eb5379f81"
+        },
+        {
+          "game_id": "r11l-495a7899",
+          "trial_name": "r11l-495a7899__pDV3qGk",
+          "task_checksum": "1593a866c4be00bece9ff1375409e4eb95acf3b2f5e05dce81e406db45879071",
+          "started_at": "2026-10-28T08:45:20.204957Z",
+          "finished_at": "2026-10-28T08:45:59.956772Z",
+          "rewards": {
+            "score": 0,
+            "is_win": 0,
+            "efficiency": 0.0
+          },
+          "error_type": null,
+          "metrics": {
+            "state": "not_finished",
+            "total_actions": 0
+          },
+          "source_result_sha256": "fc0996274b8efb7f04be52a865c6c1e461a295b59cecbcbba601be9ad5d2a307"
+        },
+        {
+          "game_id": "re86-8af5384d",
+          "trial_name": "re86-8af5384d__79TkzYL",
+          "task_checksum": "74b8faa17c7b5c9be6b7ad13432daf71dea856525ae8cdf462d0509198445352",
+          "started_at": "2026-10-28T08:45:22.684771Z",
+          "finished_at": "2026-10-28T08:46:03.517262Z",
+          "rewards": {
+            "score": 0,
+            "is_win": 0,
+            "efficiency": 0.0
+          },
+          "error_type": null,
+          "metrics": {
+            "state": "not_finished",
+            "total_actions": 0
+          },
+          "source_result_sha256": "fb7b72d94b2149187beb3910d998d70cd97be456a9e8c22a8a52d6dec9dd4e4b"
+        },
+        {
+          "game_id": "s5i5-18d95033",
+          "trial_name": "s5i5-18d95033__n2kvkte",
+          "task_checksum": "b3dd2c7d6e2ed1a3cd46cd9acd900cbfa99b3a09475ece662f02877e9c63b033",
+          "started_at": "2026-10-28T08:46:01.794350Z",
+          "finished_at": "2026-10-28T08:46:41.636127Z",
+          "rewards": {
+            "score": 0,
+            "is_win": 0,
+            "efficiency": 0.0
+          },
+          "error_type": null,
+          "metrics": {
+            "state": "not_finished",
+            "total_actions": 0
+          },
+          "source_result_sha256": "8cca7899d823faebdf3b410c5da0d5ab16a7d78e1da8e6d2ba0f59e2fb410a13"
+        },
+        {
+          "game_id": "sb26-7fbdac44",
+          "trial_name": "sb26-7fbdac44__5knvSzm",
+          "task_checksum": "cf689802eb60523a4f42de3b54293287b481957e77783c6092dd0e86428f386b",
+          "started_at": "2026-10-28T08:46:05.151568Z",
+          "finished_at": "2026-10-28T08:46:35.714001Z",
+          "rewards": {
+            "score": 0,
+            "is_win": 0,
+            "efficiency": 0.0
+          },
+          "error_type": null,
+          "metrics": {
+            "state": "not_finished",
+            "total_actions": 0
+          },
+          "source_result_sha256": "7f07419c493686da7a98f7f6370003b1872fc73bfb10caf512d3cc9343cdb867"
+        },
+        {
+          "game_id": "sc25-635fd71a",
+          "trial_name": "sc25-635fd71a__vHAZ5cg",
+          "task_checksum": "240eaf3615c1ca510e8c97a7931805d6d91a7f093d739279e224bde02989b7a5",
+          "started_at": "2026-10-28T08:46:38.138905Z",
+          "finished_at": "2026-10-28T08:47:08.782632Z",
+          "rewards": {
+            "score": 0,
+            "is_win": 0,
+            "efficiency": 0.0
+          },
+          "error_type": null,
+          "metrics": {
+            "state": "not_finished",
+            "total_actions": 0
+          },
+          "source_result_sha256": "9c78275fcdac0409a78b232d524dfe722b697e10091ea085335434f095f153a9"
+        },
+        {
+          "game_id": "sk48-d8078629",
+          "trial_name": "sk48-d8078629__KVtRAct",
+          "task_checksum": "aaef66570b9d4d838e571ed4937c4e5a5527414445302f459ba0ec70c7a7dbd6",
+          "started_at": "2026-10-28T08:46:43.351000Z",
+          "finished_at": "2026-10-28T08:47:23.642890Z",
+          "rewards": {
+            "score": 0,
+            "is_win": 0,
+            "efficiency": 0.0
+          },
+          "error_type": null,
+          "metrics": {
+            "state": "not_finished",
+            "total_actions": 0
+          },
+          "source_result_sha256": "8f0164ba6deb9e265b0bfa4a15e67800e134d641c066f58094017915d69310ab"
+        },
+        {
+          "game_id": "sp80-589a99af",
+          "trial_name": "sp80-589a99af__iGcRWVX",
+          "task_checksum": "69b64fa89ebcb2e6e680329c2e9f42af855e7f4bedbb6933780e97c4df83b1c8",
+          "started_at": "2026-10-28T08:47:10.536139Z",
+          "finished_at": "2026-10-28T08:47:50.361477Z",
+          "rewards": {
+            "score": 0,
+            "is_win": 0,
+            "efficiency": 0.0
+          },
+          "error_type": null,
+          "metrics": {
+            "state": "not_finished",
+            "total_actions": 0
+          },
+          "source_result_sha256": "2788968ce8cc55034c14aa6f54dee1c28ecd1392c5d318210da12405c5037cc9"
+        },
+        {
+          "game_id": "su15-1944f8ab",
+          "trial_name": "su15-1944f8ab__BLYPcoD",
+          "task_checksum": "0c203b9897f42ab998958d635b5a1ee522192c2e5b3e41fb3d205eb7278c02a9",
+          "started_at": "2026-10-28T08:47:25.091176Z",
+          "finished_at": "2026-10-28T08:48:04.645799Z",
+          "rewards": {
+            "score": 0,
+            "is_win": 0,
+            "efficiency": 0.0
+          },
+          "error_type": null,
+          "metrics": {
+            "state": "not_finished",
+            "total_actions": 0
+          },
+          "source_result_sha256": "dc5cf2961bec3827229778263a28c8eacae03b31d5b405146ea35104ce6c27e1"
+        },
+        {
+          "game_id": "tn36-ef4dde99",
+          "trial_name": "tn36-ef4dde99__H2hH4vo",
+          "task_checksum": "d69b3dc46afa0dbf581478596c462955d386272f4a8a247e4c7798c2bd486041",
+          "started_at": "2026-10-28T08:47:51.474829Z",
+          "finished_at": "2026-10-28T08:48:30.371986Z",
+          "rewards": {
+            "score": 0,
+            "is_win": 0,
+            "efficiency": 0.0
+          },
+          "error_type": null,
+          "metrics": {
+            "state": "not_finished",
+            "total_actions": 0
+          },
+          "source_result_sha256": "10152bcaeafeb06043cb4964993ef2ec1b1ae5cbf1dacd3485dd61962b5766a4"
+        },
+        {
+          "game_id": "tr87-cd924810",
+          "trial_name": "tr87-cd924810__he8aPuv",
+          "task_checksum": "01cd5e0dc0a4d791bb9146ec1176fda63abe8d1926a23be62d51b5fea104fa9e",
+          "started_at": "2026-10-28T08:48:05.993574Z",
+          "finished_at": "2026-10-28T08:48:52.791228Z",
+          "rewards": {
+            "score": 0,
+            "is_win": 0,
+            "efficiency": 0.0
+          },
+          "error_type": null,
+          "metrics": {
+            "state": "not_finished",
+            "total_actions": 0
+          },
+          "source_result_sha256": "1da950cc043fe02e7674a0ba563ff74e21f371ec36a373fcd5c858fa8726305a"
+        },
+        {
+          "game_id": "tu93-0768757b",
+          "trial_name": "tu93-0768757b__DUNVdjB",
+          "task_checksum": "fdc435791335e4e1a10039889a5864198d69c8cdab3042c799420941dc180c7c",
+          "started_at": "2026-10-28T08:48:31.860962Z",
+          "finished_at": "2026-10-28T08:49:01.964553Z",
+          "rewards": {
+            "score": 0,
+            "is_win": 0,
+            "efficiency": 0.0
+          },
+          "error_type": null,
+          "metrics": {
+            "state": "not_finished",
+            "total_actions": 0
+          },
+          "source_result_sha256": "854044c208a184467f538d28273cfca8f10507585b41adcb4014891c0680f91c"
+        },
+        {
+          "game_id": "vc33-5430563c",
+          "trial_name": "vc33-5430563c__j73sLQ8",
+          "task_checksum": "58a38f4d50dcb7545a3e491fefd14eefa2c0c973aaf7625e84a544658bc80768",
+          "started_at": "2026-10-28T08:48:54.354342Z",
+          "finished_at": "2026-10-28T08:49:33.716705Z",
+          "rewards": {
+            "score": 0,
+            "is_win": 0,
+            "efficiency": 0.0
+          },
+          "error_type": null,
+          "metrics": {
+            "state": "not_finished",
+            "total_actions": 0
+          },
+          "source_result_sha256": "c9a8d82e7b7cf0183f35d32cecc3263b7cc93c79565406cec9810acd82510bf5"
+        },
+        {
+          "game_id": "wa30-ee6fef47",
+          "trial_name": "wa30-ee6fef47__VchMz3d",
+          "task_checksum": "2283c3c8e7d88c5be4b3f63572d6cd38b8a4aaa631f58f55cc6956011b31ecff",
+          "started_at": "2026-10-28T08:49:03.663886Z",
+          "finished_at": "2026-10-28T08:49:43.074455Z",
+          "rewards": {
+            "score": 0,
+            "is_win": 0,
+            "efficiency": 0.0
+          },
+          "error_type": null,
+          "metrics": {
+            "state": "not_finished",
+            "total_actions": 0
+          },
+          "source_result_sha256": "6da598a78b230b1962d27382c558a61239c6dd2df7c83f46c2ba7b5f35491cce"
+        }
+      ]
+    }
+  },
+  "representative_images": {
+    "game": {
+      "versions": {
+        "python": "3.12.13",
+        "packages": {
+          "numpy": "2.5.4",
+          "pydantic": "2.14.1"
+        }
+      },
+      "image_id": "sha256:a816fe3725d550acba761d23f405a38b297f507a7e5774574a7459efd47ecbe8",
+      "representative_trial": "dc22-fdcac232__7cvj49f__env"
+    }
+  },
+  "execution_source_files_verified": 107
+}
