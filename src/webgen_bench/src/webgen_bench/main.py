@@ -48,6 +48,14 @@ def parse_args() -> argparse.Namespace:
         help="Path to a newline-delimited file of task IDs to convert.",
     )
     parser.add_argument(
+        "--task-ids",
+        nargs="+",
+        action="extend",
+        default=[],
+        help="Explicit task IDs, combined with positional IDs and --task-id-file.",
+        dest="selected_task_ids",
+    )
+    parser.add_argument(
         "--split",
         type=str,
         default="test",
@@ -92,6 +100,7 @@ def main() -> None:
     requested_ids: list[str] = []
     if args.task_ids:
         requested_ids.extend(args.task_ids)
+    requested_ids.extend(args.selected_task_ids)
     if args.task_id_file:
         if not args.task_id_file.exists():
             raise FileNotFoundError(f"Task id file not found: {args.task_id_file}")
@@ -115,9 +124,9 @@ def main() -> None:
 
     try:
         generated_paths = adapter.run()
-    except Exception:
+    except Exception as exc:
         LOGGER.exception("Failed to convert WebGen-Bench tasks")
-        generated_paths = []
+        raise SystemExit(1) from exc
 
     generated = len(generated_paths)
     skipped = len(candidate_ids) - generated

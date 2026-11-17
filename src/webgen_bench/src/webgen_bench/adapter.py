@@ -11,9 +11,10 @@ import json
 import logging
 import re
 import shutil
+from collections.abc import Iterable
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Iterable
+from typing import Any
 
 from harbor.models.task.config import TaskConfig
 from harbor.models.task.paths import TaskPaths
@@ -31,7 +32,7 @@ class UITestCase:
     subcategories: list[str] = field(default_factory=list)
 
     @classmethod
-    def from_dict(cls, d: dict) -> "UITestCase":
+    def from_dict(cls, d: dict) -> UITestCase:
         cat = d.get("task_category", {})
         return cls(
             task=str(d.get("task", "")),
@@ -51,7 +52,7 @@ class WebGenBenchTask:
     ui_instruct: list[UITestCase]
 
     @classmethod
-    def from_dict(cls, d: dict) -> "WebGenBenchTask":
+    def from_dict(cls, d: dict) -> WebGenBenchTask:
         cat = d.get("Category", {})
         return cls(
             id=str(d.get("id", "")),
@@ -241,8 +242,8 @@ class WebGenBenchAdapter:
         shutil.copy2(template, task_paths.solve_path)
         task_paths.solve_path.chmod(0o755)
 
-        # Copy pre-staged oracle app files from adapters/webgen_bench/solutions/{task_id}/
-        solutions_dir = Path(__file__).parent.parent.parent / "solutions"
+        # Keep oracle assets inside the module so installed wheels can find them.
+        solutions_dir = Path(__file__).parent / "solutions"
         staged_app = solutions_dir / record.id
         if staged_app.exists():
             app_dst = task_paths.solution_dir / "app"
