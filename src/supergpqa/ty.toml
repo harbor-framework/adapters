@@ -1,0 +1,6 @@
+[environment]
+extra-paths = ["src", "src/supergpqa"]
+
+[src]
+include = ["src", "scripts", "tests"]
+exclude = ["src/supergpqa/upstream_parser.py"]

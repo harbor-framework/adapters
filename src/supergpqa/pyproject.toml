@@ -1,0 +1,29 @@
+[project]
+name = "harbor-supergpqa-adapter"
+version = "0.1.0"
+description = "Pinned SuperGPQA zero-shot task adapter for Harbor"
+readme = "README.md"
+authors = [
+    { name = "jiale.ning1", email = "jiale.ning1@bytedance.com" }
+]
+requires-python = ">=3.12"
+dependencies = ["pyyaml==6.0.3", "timeout-decorator==0.5.0"]
+
+[dependency-groups]
+dev = ["pytest>=8", "ruff>=0.14", "ty>=0.0.1"]
+
+[tool.ruff.lint.per-file-ignores]
+"src/supergpqa/upstream_parser.py" = ["ALL"]
+
+[tool.ruff.format]
+exclude = ["src/supergpqa/upstream_parser.py"]
+
+[project.scripts]
+supergpqa = "supergpqa.main:main"
+
+[build-system]
+requires = ["uv_build>=0.13.7,<0.14.0"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "supergpqa"

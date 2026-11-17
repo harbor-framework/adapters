@@ -1,0 +1,36 @@
+[
+  {
+    "adapter_name": "supergpqa",
+    "adapter_builders": [
+      "jiale.ning1 (jiale.ning1@bytedance.com)"
+    ],
+    "original_benchmark": [
+      {
+        "split": "full",
+        "size": 26529,
+        "harness": "llm",
+        "supported_agents": [
+          "None"
+        ],
+        "adaptable": true,
+        "notes": "Pinned SuperGPQA-all; zero-shot initial scope. Source taxonomy is preserved."
+      }
+    ],
+    "harbor_adapter": [
+      {
+        "split": "full",
+        "adapted_benchmark_size": 26529,
+        "parity_benchmark_size": 0,
+        "parity_sampling_rate": 0.0,
+        "registry_benchmark_size": 0,
+        "added_agents": [
+          "None"
+        ],
+        "parity_matching_agents": [],
+        "parity_unmatching_agents": [],
+        "parity_costs": "$0",
+        "notes": "Pre-parity implementation. No model experiments or publication. Empty match arrays mean untested, not all matched."
+      }
+    ]
+  }
+]
