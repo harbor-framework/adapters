@@ -1,24 +1,25 @@
-# Harbor side of a parity run. The agent repeats upstream's continuation loop and uses the CLI
-# version that the task image already ships.
+# Harbor side of a parity run. The agent repeats upstream's wrapper (deadline, continuation loop,
+# restarts) and uses the CLI version that the task image already ships. Harbor passes
+# ANTHROPIC_API_KEY, and ANTHROPIC_BASE_URL if it is set, from the host environment. The judge
+# uses CLAUDE_CODE_OAUTH_TOKEN if the host sets it, and the same ANTHROPIC_API_KEY otherwise.
+# Each trial gets its own sandbox and GPU, so -n can be raised to your H100 quota.
 # From the repository root:
 #   uv run --project src/inferencebench --with 'harbor[daytona]==0.25.0' harbor run -c src/inferencebench/inferencebench_parity.yaml
 jobs_dir: jobs
 n_attempts: 1
 timeout_multiplier: 1.0
-orchestrator:
-  type: local
-  n_concurrent_trials: 12
-  quiet: false
+n_concurrent_trials: 1
+quiet: false
 environment:
   type: daytona
   delete: true
 agents:
   - import_path: inferencebench.agents:ClaudeCodeUntilDeadline
     model_name: anthropic/claude-sonnet-4-6
+    # The agent stops the CLI when the task's 2-hour budget ends. Harbor's own agent timeout
+    # only backs that up, so it leaves the agent time to return.
+    override_timeout_sec: 7320
     kwargs:
       version: 2.1.258
-    env:
-      ANTHROPIC_BASE_URL: ${ANTHROPIC_BASE_URL}
-      BASH_MAX_TIMEOUT_MS: "36000000"
 datasets:
   - path: datasets/inferencebench

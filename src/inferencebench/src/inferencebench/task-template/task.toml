@@ -19,6 +19,8 @@ base_model = "{base_model}"
 agent_seed = "{agent_seed}"
 eval_seed = "{eval_seed}"
 num_hours = "{num_hours}"
+model_revision = "{model_revision}"
+upstream_commit = "{upstream_commit}"
 
 [environment]
 gpus = 1
@@ -31,7 +33,11 @@ build_timeout_sec = 3600.0
 workdir = "/home/agent/task"
 
 [environment.healthcheck]
-command = "test -f /timer_start || { python3 -c 'import os, huggingface_hub; huggingface_hub.snapshot_download(os.environ[\"INFERENCE_BENCH_BASE_MODEL\"])' && chown -R agent:agent /home/agent/hf_cache && date +%s > /timer_start; }"
+# download_model.py fills the agent's cache with the pinned revision of the model, and a cache
+# that only root can write with its tokenizer and configuration files; the final evaluation
+# builds its requests from that copy. The command also closes the verifier's log directory,
+# which Harbor creates world-writable, so that only the verifier can ever write a reward there.
+command = "test -f /timer_start || { python3 /usr/local/lib/inferencebench/download_model.py && chown -R agent:agent /home/agent/hf_cache && chmod -R a+rX,go-w /opt/ib_eval_hf && chown root:root /logs/verifier && chmod 700 /logs/verifier && date +%s > /timer_start; }"
 interval_sec = 10
 timeout_sec = 3600
 start_period_sec = 0
@@ -42,7 +48,10 @@ HF_TOKEN = "${HF_TOKEN}"
 NUM_HOURS = "{num_hours}"
 INFERENCE_BENCH_SCENARIO = "{scenario}"
 INFERENCE_BENCH_BASE_MODEL = "{base_model}"
+INFERENCE_BENCH_MODEL_REVISION = "{model_revision}"
 INFERENCE_BENCH_DATASET_SEED = "{agent_seed}"
+# As upstream's agents/common.sh: Claude Code may wait for a long command in the foreground.
+BASH_MAX_TIMEOUT_MS = "36000000"
 {shared_env}
 
 [agent]
@@ -51,15 +60,19 @@ user = "agent"
 
 # The final evaluation restarts the agent's own launcher on the agent's GPU, so the
 # verifier shares the sandbox. The collect hook below stops every agent process before
-# Harbor uploads /tests; see "Notes & Caveats" in the README.
+# Harbor uploads /tests, and test.sh checks that again; see "Notes & Caveats" in the README.
 [verifier]
 timeout_sec = 43200.0
 environment_mode = "shared"
 
+# The judge's credential. A trial without a valid judge verdict is ungraded and gets no reward:
+# without a credential, test.sh skips the evaluation; if the judge fails, it still measures the
+# server. INFERENCE_BENCH_JUDGE=off makes the run an unscored diagnostic run without the judge.
 [verifier.env]
 CLAUDE_CODE_OAUTH_TOKEN = "${CLAUDE_CODE_OAUTH_TOKEN:-}"
 ANTHROPIC_API_KEY = "${ANTHROPIC_API_KEY:-}"
 ANTHROPIC_BASE_URL = "${ANTHROPIC_BASE_URL:-}"
+INFERENCE_BENCH_JUDGE = "${INFERENCE_BENCH_JUDGE:-required}"
 INFERENCE_BENCH_DATASET_SEED = "{eval_seed}"
 
 [[verifier.collect]]

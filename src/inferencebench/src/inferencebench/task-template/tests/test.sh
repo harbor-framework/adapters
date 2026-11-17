@@ -11,34 +11,57 @@ export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 export PYTHONPATH="/opt/filelock_workarounds/soft_file_locks"
 export PYTHONNOUSERSITE=1
 unset PYTHONUSERBASE PIP_USER
+source /usr/local/lib/inferencebench/agent_processes.sh
 
 IB=/tests/ib
 STATE=/var/lib/ib_state
-JUDGE_HOME=/var/lib/ib_judge
 LOGS=/logs/verifier
-TASK=/home/agent/task
+AGENT_HOME=/home/agent
+TASK="${AGENT_HOME}/task"
+JUDGE_HOME=/var/lib/ib_judge
+# The healthcheck fills this cache before the agent starts, and only root can write to it.
+EVAL_HF=/opt/ib_eval_hf
 EVAL_LOG="${LOGS}/eval.log"
 SCENARIO="${INFERENCE_BENCH_SCENARIO}"
 STUB_MARKER="ERROR: start_server.sh has no engine configured"
 SERVER_PID=""
+WATCHER_PID=""
 FINAL_EVAL_RC=1
-JUDGE_RC=1
+EVAL_ATTEMPT=0
+# required (the default) or off. With off, the judge does not run and the trial is an unscored
+# diagnostic run.
+JUDGE_MODE="${INFERENCE_BENCH_JUDGE:-required}"
+# valid, off, no_credential, or failed. Only a valid judge leads to a reward.
+JUDGE_STATE=no_credential
+JUDGE_NOTE=""
+JUDGE_ATTEMPTS=3
+JUDGE_TIMEOUT=15m
 # Upstream has no limit on an evaluation attempt, and a slow but valid server needs hours:
 # scenario B sends 64 sequential requests of about 7400 tokens, so vLLM's default 18 ms per
 # token takes 2.4 h. Stop early enough to write a reward before Harbor's 12-hour verifier limit.
 EVAL_DEADLINE=$(( $(date +%s) + 41400 ))
 : "${PORT:=8000}" "${INFERENCE_BENCH_SERVER_URL:=http://127.0.0.1:8000}" "${INFERENCE_BENCH_SERVER_WAIT_S:=900}"
-chmod 700 /tests
-mkdir -p "${LOGS}" /root/eval_home /root/eval_tmp
-chmod 755 "${LOGS}"
-source "${IB}/src/disallowed_usage_judge/judge.sh"
 
 log() {
     echo "[${SCENARIO}] $(date --iso-8601=seconds) $*" | tee -a "${EVAL_LOG}"
 }
 
+# Harbor ignores this script's exit status and takes any reward file that it finds.
+no_reward() {
+    echo "[fatal] $*; no reward is written, so Harbor records an infrastructure error"
+    rm -f "${LOGS}/reward.json" "${LOGS}/reward.txt"
+    exit 1
+}
+
+finish() {
+    [ -z "${WATCHER_PID}" ] || kill "${WATCHER_PID}" 2> /dev/null
+    # Harbor reads this directory as the host user when it is a bind mount.
+    chmod 755 "${LOGS}"
+}
+trap finish EXIT
+
 write_error_metrics() {
-    python3 - "${LOGS}/metrics.json" "${SCENARIO}" "${INFERENCE_BENCH_BASE_MODEL}" "$1" <<'PY'
+    python3 -I - "${LOGS}/metrics.json" "${SCENARIO}" "${INFERENCE_BENCH_BASE_MODEL}" "$1" <<'PY'
 import json
 import sys
 from pathlib import Path
@@ -60,13 +83,18 @@ link_eval_samples() {
     ln -sfn /opt/inference_eval/baselines/quality "${baselines}/quality"
 }
 
+# Put back the /tmp targets that collect.sh saved, including names that start with a dot.
 restore_tmp() {
-    local entry
-    for entry in "${STATE}"/tmp/*; do
-        [ -e "${entry}" ] || continue
-        rm -rf "/tmp/$(basename "${entry}")"
-        cp -a "${entry}" /tmp/ && chown -R agent:agent "/tmp/$(basename "${entry}")"
-    done
+    local entry name
+    while IFS= read -r -d '' entry; do
+        name="$(basename "${entry}")"
+        rm -rf "/tmp/${name}"
+        cp -a "${entry}" /tmp/ && chown -R agent:agent "/tmp/${name}" || return 1
+    done < <(find "${STATE}/tmp" -mindepth 1 -maxdepth 1 -print0)
+}
+
+purge_tmp() {
+    find /tmp /var/tmp /dev/shm -mindepth 1 -user agent -delete 2> /dev/null
 }
 
 agent_env() {
@@ -75,89 +103,145 @@ agent_env() {
         PIP_CACHE_DIR SOFT_FILELOCK NO_PROXY no_proxy LD_LIBRARY_PATH HOST PORT INFERENCE_BENCH_SERVER_URL
         INFERENCE_BENCH_SERVER_WAIT_S INFERENCE_BENCH_BASE_MODEL INFERENCE_BENCH_MAX_MODEL_LEN)
     local name
-    AGENT_ENV=(HOME=/home/agent "PATH=${AGENT_PATH}" "PYTHONPATH=${IMAGE_PYTHONPATH}" PIP_USER=1
-        PYTHONUSERBASE=/home/agent/.local)
+    AGENT_ENV=("HOME=${AGENT_HOME}" "PATH=${AGENT_PATH}" "PYTHONPATH=${IMAGE_PYTHONPATH}" PIP_USER=1
+        "PYTHONUSERBASE=${AGENT_HOME}/.local")
     for name in "${names[@]}" $(compgen -e | grep -E '^(NVIDIA_|CUDA_|RAY_)'); do
         [ -z "${!name+x}" ] || AGENT_ENV+=("${name}=${!name}")
     done
 }
 
-port_listeners() {
-    ss -lptn "sport = :${PORT}" 2>/dev/null | grep -o 'pid=[0-9]*' | cut -d= -f2
+verdict_files_valid() {
+    local f
+    for f in contamination_judgement.txt disallowed_model_judgement.txt; do
+        [ -f "$1/${f}" ] && [ ! -L "$1/${f}" ] && [ "$(stat -c %s "$1/${f}")" -le 1024 ] || return 1
+    done
+    valid_judgements "$1"
 }
 
-# The judge reviews a copy of the task directory, as condor's judge reviews a read-only mount.
-# The real home directory is closed to the agent user until the judge has finished.
+# The judge reviews a read-only copy of the task directory, as the original's judge reviews a
+# read-only mount, with the agent's /tmp targets in place. The agent's home directory is closed
+# to it until it has finished. A trial is graded only if the judge exits with status 0 and
+# writes two valid verdicts. If the judge fails to start or fails three times, the evaluation
+# still runs, as it does in run_task.sh, but the trial stays ungraded: it gets no reward.
+# Without a credential the judge does not start, and the main sequence skips the evaluation.
 run_judge() {
-    if [ -z "${ANTHROPIC_API_KEY:-}${CLAUDE_CODE_OAUTH_TOKEN:-}" ]; then
-        echo "No judge credential; skipping the disallowed-usage judge."
-        return
+    if [ "${JUDGE_MODE}" = off ]; then
+        JUDGE_STATE=off
+        JUDGE_NOTE="diagnostic run: INFERENCE_BENCH_JUDGE=off"
+        return 0
     fi
-    chown root:root /home/agent
-    chmod 700 /home/agent
+    local credential
+    if [ -n "${CLAUDE_CODE_OAUTH_TOKEN:-}" ]; then
+        credential=("CLAUDE_CODE_OAUTH_TOKEN=${CLAUDE_CODE_OAUTH_TOKEN}")
+    elif [ -n "${ANTHROPIC_API_KEY:-}" ]; then
+        credential=("ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}")
+        [ -z "${ANTHROPIC_BASE_URL:-}" ] || credential+=("ANTHROPIC_BASE_URL=${ANTHROPIC_BASE_URL}")
+    else
+        JUDGE_NOTE="no judge credential (ANTHROPIC_API_KEY or CLAUDE_CODE_OAUTH_TOKEN)"
+        return 0
+    fi
+    JUDGE_STATE=failed
+    local judge_bin home_mode prompt="${STATE}/judge_prompt.txt" f attempt status
+    if ! judge_bin="$(command -v claude)"; then
+        JUDGE_NOTE="the judge's CLI is not installed in the image"
+        return 0
+    fi
+    if ! restore_tmp; then
+        JUDGE_NOTE="could not restore the /tmp snapshot for the judge"
+        return 0
+    fi
+    home_mode="$(stat -c %a "${AGENT_HOME}")" || no_reward "could not read the mode of ${AGENT_HOME}"
+    chown root:root "${AGENT_HOME}" && chmod 700 "${AGENT_HOME}" ||
+        no_reward "could not close the agent's home directory"
+
+    local problem="could not prepare the judge's copy of the task directory"
+    local fatal=""
     rm -rf "${JUDGE_HOME}"
-    mkdir -p "${JUDGE_HOME}"
-    cp -a "${TASK}" "${JUDGE_HOME}/task"
-    chown -R agent:agent "${JUDGE_HOME}"
-    local prompt
-    prompt="$(python3 "${IB}/src/disallowed_usage_judge/get_judge_prompt.py" \
-        --benchmark "$(cat "${IB}/src/eval/tasks/${SCENARIO}/benchmark.txt")" \
-        --model "${INFERENCE_BENCH_BASE_MODEL}" --task-dir "${JUDGE_HOME}/task")"
-    local credential="ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}"
-    [ -z "${CLAUDE_CODE_OAUTH_TOKEN:-}" ] || credential="CLAUDE_CODE_OAUTH_TOKEN=${CLAUDE_CODE_OAUTH_TOKEN}"
-    local base_url=()
-    [ -z "${ANTHROPIC_BASE_URL:-}" ] || base_url=("ANTHROPIC_BASE_URL=${ANTHROPIC_BASE_URL}")
-    (
-        cd "${JUDGE_HOME}" || exit 1
-        /usr/bin/env -i "${AGENT_ENV[@]}" "HOME=${JUDGE_HOME}" "${credential}" "${base_url[@]}" \
-            /usr/bin/timeout --signal=TERM --kill-after=30s 15m \
-            /usr/bin/setpriv --reuid=agent --regid=agent --clear-groups \
-            claude --print --dangerously-skip-permissions --model "${DEFAULT_JUDGE_MODEL}" "${prompt}" < /dev/null
-    ) > "${LOGS}/judge.log" 2>&1
-    JUDGE_RC=$?
-    pkill -9 -u agent
-    valid_judgements "${JUDGE_HOME}" || JUDGE_RC=1
-    for f in contamination_judgement.txt disallowed_model_judgement.txt; do
-        if [ -f "${JUDGE_HOME}/${f}" ] && [ ! -L "${JUDGE_HOME}/${f}" ]; then
-            cp "${JUDGE_HOME}/${f}" "${LOGS}/${f}"
-        else
-            echo "[warn] ${f} was not produced."
-        fi
-    done
+    if mkdir -p "${JUDGE_HOME}" && chown agent:agent "${JUDGE_HOME}" &&
+        cp -a "${TASK}" "${JUDGE_HOME}/task" && chown -R -h root:root "${JUDGE_HOME}/task" &&
+        chmod -R a+rX,a-s,go-w "${JUDGE_HOME}/task" &&
+        python3 "${IB}/src/disallowed_usage_judge/get_judge_prompt.py" \
+            --benchmark "$(cat "${IB}/src/eval/tasks/${SCENARIO}/benchmark.txt")" \
+            --model "${INFERENCE_BENCH_BASE_MODEL}" --task-dir "${JUDGE_HOME}/task" > "${prompt}"; then
+        problem="the judge produced no valid verdict in ${JUDGE_ATTEMPTS} attempts"
+        for ((attempt = 1; attempt <= JUDGE_ATTEMPTS; attempt++)); do
+            rm -f "${JUDGE_HOME}/contamination_judgement.txt" "${JUDGE_HOME}/disallowed_model_judgement.txt"
+            (
+                cd "${JUDGE_HOME}" || exit 1
+                # The prompt arrives on stdin, as in run_rejudge.sh, because one argument
+                # cannot hold more than 128 KiB.
+                /usr/bin/env -i "${AGENT_ENV[@]}" "HOME=${JUDGE_HOME}" "${credential[@]}" \
+                    /usr/bin/timeout --signal=TERM --kill-after=30s "${JUDGE_TIMEOUT}" \
+                    /usr/bin/setpriv --no-new-privs --reuid=agent --regid=agent --clear-groups \
+                    "${judge_bin}" --print --dangerously-skip-permissions --model "${DEFAULT_JUDGE_MODEL}" < "${prompt}"
+            ) >> "${LOGS}/judge.log" 2>&1
+            status=$?
+            log "judge attempt ${attempt} exit code: ${status}"
+            if ! kill_agent_processes; then
+                fatal="could not stop the judge's processes"
+                break
+            fi
+            # Keep what every attempt wrote. Only a valid pair gets the names that count.
+            for f in contamination_judgement disallowed_model_judgement; do
+                if [ -f "${JUDGE_HOME}/${f}.txt" ] && [ ! -L "${JUDGE_HOME}/${f}.txt" ]; then
+                    head -c 1024 "${JUDGE_HOME}/${f}.txt" > "${LOGS}/${f}.attempt-${attempt}.txt"
+                fi
+            done
+            if [ "${status}" -eq 0 ] && verdict_files_valid "${JUDGE_HOME}"; then
+                for f in contamination_judgement disallowed_model_judgement; do
+                    cp "${LOGS}/${f}.attempt-${attempt}.txt" "${LOGS}/${f}.txt"
+                done
+                problem=""
+                break
+            fi
+        done
+    fi
     rm -rf "${JUDGE_HOME}"
-    find /tmp /var/tmp /dev/shm -mindepth 1 -user agent -delete 2>/dev/null
-    chown agent:agent /home/agent
-    chmod 755 /home/agent
-    echo "Disallowed-usage judge exit code: ${JUDGE_RC}"
+    chown agent:agent "${AGENT_HOME}" && chmod "${home_mode}" "${AGENT_HOME}" ||
+        no_reward "could not reopen the agent's home directory"
+    [ -z "${fatal}" ] || no_reward "${fatal}"
+    if [ -n "${problem}" ]; then
+        JUDGE_NOTE="${problem}"
+        return 0
+    fi
+    JUDGE_STATE=valid
 }
 
 server_ready() {
     python3 /opt/inference_eval/bin/server_ready.py "${INFERENCE_BENCH_SERVER_URL}"
 }
 
+supervisor_alive() {
+    [ -n "${SERVER_PID}" ] && kill -0 "${SERVER_PID}" 2> /dev/null
+}
+
+# The original runs the server in a container that dies with its supervisor, so a server that
+# outlives its launcher is not evaluated. Here, a watcher stops every process of user agent as
+# soon as the supervisor is gone.
+watch_supervisor() {
+    while kill -0 "$1" 2> /dev/null; do
+        sleep 1
+    done
+    kill_agent_processes > /dev/null
+}
+
 stop_server() {
+    if [ -n "${WATCHER_PID}" ]; then
+        kill "${WATCHER_PID}" 2> /dev/null
+        wait "${WATCHER_PID}" 2> /dev/null
+        WATCHER_PID=""
+    fi
     if [ -n "${SERVER_PID}" ]; then
-        kill -- "-${SERVER_PID}" 2>/dev/null
+        kill -- "-${SERVER_PID}" 2> /dev/null
         sleep 2
-        kill -9 -- "-${SERVER_PID}" 2>/dev/null
         SERVER_PID=""
     fi
-    local pid
-    for pid in $(port_listeners); do
-        kill "${pid}" 2>/dev/null
-        sleep 2
-        kill -9 "${pid}" 2>/dev/null
-    done
+    kill_agent_processes
 }
 
 start_server() {
-    stop_server
-    local wait_s=0
-    while [ "${wait_s}" -lt 30 ] && [ -n "$(port_listeners)" ]; do
-        sleep 1
-        wait_s=$((wait_s + 1))
-    done
-    restore_tmp
+    stop_server || return 1
+    restore_tmp || return 1
     local launch=""
     local f
     for f in start_server.sh start_server_original.sh; do
@@ -172,18 +256,22 @@ start_server() {
     fi
     log "starting the eval server via ${launch}"
     cd "${TASK}" || return 1
-    /usr/bin/env -i "${AGENT_ENV[@]}" /usr/bin/setsid /usr/bin/setpriv --reuid=agent --regid=agent --clear-groups \
+    /usr/bin/env -i "${AGENT_ENV[@]}" /usr/bin/setsid \
+        /usr/bin/setpriv --no-new-privs --reuid=agent --regid=agent --clear-groups \
         /bin/bash -c 'set -euo pipefail; if [ -f /home/agent/task/final_runtime_env.sh ]; then . /home/agent/task/final_runtime_env.sh; fi; exec /opt/inference_eval/bin/launch_supervised_server.sh "$1"' \
         _ "${launch}" >> "${LOGS}/server.log" 2>&1 &
     SERVER_PID=$!
     cd "${IB}" || return 1
+    watch_supervisor "${SERVER_PID}" &
+    WATCHER_PID=$!
     local deadline=$(( $(date +%s) + INFERENCE_BENCH_SERVER_WAIT_S ))
     while [ "$(date +%s)" -lt "${deadline}" ]; do
-        if server_ready; then
+        # An endpoint that answers after its supervisor is gone belongs to a detached server.
+        if server_ready && supervisor_alive; then
             log "eval server is ready at ${INFERENCE_BENCH_SERVER_URL}"
             return 0
         fi
-        if ! kill -0 "${SERVER_PID}" 2>/dev/null; then
+        if ! supervisor_alive; then
             log "eval server exited before becoming ready"
             return 1
         fi
@@ -195,7 +283,11 @@ start_server() {
 
 run_eval_attempt() {
     local left=$(( EVAL_DEADLINE - $(date +%s) ))
+    # GNU timeout takes 0 to mean no limit.
+    [ "${left}" -gt 0 ] || return 124
     HOME=/root/eval_home TMPDIR=/root/eval_tmp XDG_CACHE_HOME=/root/eval_home/.cache \
+        HF_HOME="${EVAL_HF}" HF_HUB_CACHE="${EVAL_HF}/hub" HUGGINGFACE_HUB_CACHE="${EVAL_HF}/hub" \
+        TRANSFORMERS_CACHE="${EVAL_HF}/hub" \
         INFERENCE_BENCH_ALLOW_HF_DOWNLOAD=0 timeout --signal=TERM --kill-after=60s "${left}" \
         python3 "src/eval/tasks/${SCENARIO}/evaluate.py" \
         --server-url "${INFERENCE_BENCH_SERVER_URL}" \
@@ -210,14 +302,21 @@ run_eval_with_retry() {
     local attempt
     for ((attempt = 1; attempt <= max_retries; attempt++)); do
         [ "$(date +%s)" -lt "${EVAL_DEADLINE}" ] || return 1
-        if ! server_ready && ! start_server; then
+        if { ! supervisor_alive || ! server_ready; } && ! start_server; then
             FINAL_EVAL_RC=1
             continue
         fi
         log "eval attempt ${attempt}/${max_retries} $*"
         FINAL_EVAL_RC=0
+        rm -f "${LOGS}/metrics.json"
         run_eval_attempt "$@" || FINAL_EVAL_RC=$?
-        if [ "${FINAL_EVAL_RC}" -eq 0 ] && python3 /tests/valid_eval_metrics.py "${LOGS}/metrics.json" "${IB}"; then
+        # metrics.json is the last attempt's; keep every attempt's.
+        EVAL_ATTEMPT=$((EVAL_ATTEMPT + 1))
+        [ ! -f "${LOGS}/metrics.json" ] || cp "${LOGS}/metrics.json" "${LOGS}/metrics.attempt-${EVAL_ATTEMPT}.json"
+        # A measurement only counts if the supervisor outlived it: the original's server
+        # cannot answer after its supervisor is gone.
+        if [ "${FINAL_EVAL_RC}" -eq 0 ] && supervisor_alive &&
+            python3 /tests/valid_eval_metrics.py "${LOGS}/metrics.json" "${IB}"; then
             return 0
         fi
         [ "${FINAL_EVAL_RC}" -ne 0 ] || FINAL_EVAL_RC=1
@@ -226,27 +325,54 @@ run_eval_with_retry() {
     return 1
 }
 
-echo "=== InferenceBench verifier: ${SCENARIO} ${INFERENCE_BENCH_BASE_MODEL} eval_seed=${INFERENCE_BENCH_DATASET_SEED} ==="
-if [ ! -f "${STATE}/complete" ]; then
-    echo "[fatal] collect.sh did not finish; no reward written, so Harbor records an infrastructure error"
-    exit 1
-fi
+echo "=== InferenceBench verifier: ${SCENARIO} ${INFERENCE_BENCH_BASE_MODEL} ==="
+# Whatever happened to collect.sh, nothing of the agent's may run from here on, and root may
+# not read or run anything that user agent can still write.
+kill_agent_processes || no_reward "could not stop the agent's processes"
+chown root:root "${LOGS}" && chmod 700 "${LOGS}" || no_reward "could not take over ${LOGS}"
+find "${LOGS}" -mindepth 1 ! -name test-stdout.txt -delete
+# Harbor's upload keeps the host user's uid on Daytona and Modal, which can be user agent's.
+chown -R -h root:root /tests && chmod -R go-rwx /tests || no_reward "could not take over /tests"
+mkdir -p /root/eval_home /root/eval_tmp
+[ -f "${STATE}/complete" ] || no_reward "collect.sh did not finish"
+[ -d "${EVAL_HF}/hub" ] || no_reward "the healthcheck did not cache the tokenizer in ${EVAL_HF}"
+case "${JUDGE_MODE}" in
+    required | off) ;;
+    *) no_reward "INFERENCE_BENCH_JUDGE must be required or off, not '${JUDGE_MODE}'" ;;
+esac
+source "${IB}/src/disallowed_usage_judge/judge.sh"
+
+# What this trial ran on, for the record. It cannot change the outcome, and a GPU that does
+# not answer cannot hold up the verifier.
+JUDGE_MODEL="${DEFAULT_JUDGE_MODEL}" JUDGE_ATTEMPTS="${JUDGE_ATTEMPTS}" JUDGE_TIMEOUT="${JUDGE_TIMEOUT}" \
+    EVAL_DEADLINE="${EVAL_DEADLINE}" /usr/bin/timeout --kill-after=10s 300s \
+    python3 -I /tests/record_environment.py "${LOGS}/environment.json" ||
+    log "could not record the environment"
 
 agent_env
 link_eval_samples
 log "judge start"
 run_judge
-log "judge done (rc=${JUDGE_RC})"
+log "judge done (${JUDGE_STATE}${JUDGE_NOTE:+: ${JUDGE_NOTE}})"
 
-unset ANTHROPIC_API_KEY CLAUDE_CODE_OAUTH_TOKEN HF_TOKEN
+unset ANTHROPIC_API_KEY CLAUDE_CODE_OAUTH_TOKEN ANTHROPIC_BASE_URL HF_TOKEN
+purge_tmp
 for f in metrics_preview.json server.log final_runtime_env.sh final_runtime_manifest.txt; do
-    [ ! -f "${TASK}/${f}" ] || [ -L "${TASK}/${f}" ] || cp "${TASK}/${f}" "${LOGS}/${f}"
+    [ ! -f "${TASK}/${f}" ] || [ -L "${TASK}/${f}" ] || head -c 67108864 "${TASK}/${f}" > "${LOGS}/${f}"
 done
 python3 /tests/snapshot.py "${TASK}" "${LOGS}/task"
+# snapshot.py keeps mode bits, and these copies belong to root.
+chmod -R a-s,go-w "${LOGS}/task"
 
-cd "${IB}" || exit 0
+cd "${IB}" || no_reward "the verifier's files are missing"
 rm -f "${LOGS}/metrics.json"
-if start_server; then
+if [ "${JUDGE_STATE}" = no_credential ]; then
+    # Such a trial can never be graded, so it does not spend hours of GPU time on a measurement.
+    # A run without the judge on purpose sets INFERENCE_BENCH_JUDGE=off.
+    JUDGE_NOTE="${JUDGE_NOTE}; the evaluation did not run (set INFERENCE_BENCH_JUDGE=off for an unscored diagnostic run)"
+    FINAL_EVAL_RC=not_run
+    log "${JUDGE_NOTE}"
+elif start_server; then
     log "starting final evaluation (speed + quality)"
     if ! run_eval_with_retry 3; then
         log "phase 1 failed; retrying with reduced request-timeout"
@@ -257,7 +383,14 @@ else
     write_error_metrics "inference server unavailable before final eval at ${INFERENCE_BENCH_SERVER_URL}"
 fi
 log "final eval exit code: ${FINAL_EVAL_RC}"
-stop_server
-# Writes /logs/verifier/reward.json.
-python3 /tests/write_reward.py "${LOGS}" "${SCENARIO}" "${FINAL_EVAL_RC}" "${JUDGE_RC}"
+stop_server || no_reward "could not stop the evaluation server's processes"
+# Writes /logs/verifier/reward.json for a judged trial, and ungraded.json with the measurement,
+# if there is one, otherwise.
+PYTHONPATH="${IB}:${PYTHONPATH}" python3 /tests/write_reward.py \
+    "${LOGS}" "${SCENARIO}" "${FINAL_EVAL_RC}" "${JUDGE_STATE}" "${JUDGE_NOTE}" ||
+    no_reward "write_reward.py failed"
+if [ "${JUDGE_STATE}" != valid ]; then
+    rm -f "${LOGS}/reward.json" "${LOGS}/reward.txt"
+    echo "[ungraded] ${JUDGE_NOTE}; ungraded.json has the details, and no reward is written"
+fi
 exit 0

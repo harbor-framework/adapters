@@ -4,7 +4,7 @@ import argparse
 import logging
 from pathlib import Path
 
-from .adapter import InferenceBenchAdapter
+from .adapter import InferenceBenchAdapter, parse_num_hours
 
 DEFAULT_OUTPUT_DIR = Path(__file__).resolve().parents[4] / "datasets" / "inferencebench"
 
@@ -42,6 +42,7 @@ def main() -> None:
     )
     parser.add_argument(
         "--num-hours",
+        type=parse_num_hours,
         default="2",
         help="Agent time budget in hours (the paper's main results use 2)",
     )

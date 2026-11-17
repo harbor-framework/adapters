@@ -1,11 +1,16 @@
-"""Write /logs/verifier/reward.json with the paper's failure-aware speedup."""
+"""Write the verifier's outcome: reward.json for a judged trial, ungraded.json otherwise.
+
+A trial gets a reward only if the integrity judge returned two valid verdicts. Without them the
+measurement is kept in ungraded.json, which Harbor does not read, so the trial has no reward.
+test.sh puts the verifier's copy of upstream's evaluator, /tests/ib, on PYTHONPATH.
+"""
 
 import json
+import math
 import sys
 from pathlib import Path
 
-sys.path.insert(0, "/tests/ib")
-from src.eval.inference.hpo_search_baselines import (  # noqa: E402
+from src.eval.inference.hpo_search_baselines import (
     FAILURE_SCORE,
     SCENARIO_TO_SHORT,
     primary_metric,
@@ -27,14 +32,23 @@ VERDICTS = {
         "only allowed use detected",
     ),
 }
+# Why test.sh has no valid verdict: the judge was off for a diagnostic run, the run had no
+# judge credential, or the judge could not run or failed.
+UNGRADED_STATES = ("off", "no_credential", "failed")
+# The final evaluation's status when test.sh skipped it.
+NOT_RUN = "not_run"
 
 
 def read_verdict(path: Path, flagged: str, clean: str) -> bool | None:
-    lines = path.read_text(encoding="utf-8").splitlines() if path.is_file() else []
+    try:
+        lines = path.read_text(encoding="utf-8").splitlines()
+    except (OSError, ValueError):
+        return None
     return lines == [flagged] if lines in ([flagged], [clean]) else None
 
 
-def rewards_for(logs: Path, scenario: str, eval_rc: str, judge_rc: str) -> dict[str, float]:
+def measurement(logs: Path, scenario: str, eval_rc: str) -> dict[str, float]:
+    """Return the evaluation's gates and the speedup over the PyTorch baseline."""
     try:
         metrics = json.loads((logs / "metrics.json").read_text(encoding="utf-8"))
     except (OSError, ValueError):
@@ -52,31 +66,59 @@ def rewards_for(logs: Path, scenario: str, eval_rc: str, judge_rc: str) -> dict[
     primary = 0.0
     if all(gates.values()) and metrics.get("score") != 0:
         value = primary_metric(metrics, scenario)[0]
-        primary = value if value > FAILURE_SCORE else 0.0
+        primary = value if math.isfinite(value) and value > FAILURE_SCORE else 0.0
+    return {
+        "speedup": primary / PYTORCH_BASELINE[SCENARIO_TO_SHORT[scenario]],
+        "primary_metric": primary,
+        **{key: int(value) for key, value in gates.items()},
+    }
+
+
+def rewards_for(logs: Path, scenario: str, eval_rc: str) -> dict[str, float]:
+    """Return the reward keys of a trial whose judge returned two valid verdicts."""
     verdicts = {
         key: read_verdict(logs / name, flagged, clean)
         for key, (name, flagged, clean) in VERDICTS.items()
     }
-    speedup = primary / PYTORCH_BASELINE[SCENARIO_TO_SHORT[scenario]]
+    if None in verdicts.values():
+        raise SystemExit("the judge's verdict files are missing or invalid")
+    measured = measurement(logs, scenario, eval_rc)
     # A run that fails a gate, ships no working server, or is flagged by the judge is worth
     # the PyTorch baseline (1x), as in the paper's Table 2.
-    valid = primary > 0 and not any(verdicts.values())
+    valid = measured["primary_metric"] > 0 and not any(verdicts.values())
     return {
-        "reward": speedup if valid else 1.0,
+        "reward": measured["speedup"] if valid else 1.0,
         "valid": int(valid),
-        "speedup": speedup,
-        "primary_metric": primary,
-        **{key: int(value) for key, value in gates.items()},
-        "judge_valid": int(judge_rc == "0" and None not in verdicts.values()),
-        **{key: int(value is True) for key, value in verdicts.items()},
+        **measured,
+        "judge_valid": 1,
+        **{key: int(value) for key, value in verdicts.items()},
     }
 
 
+def ungraded_for(logs: Path, scenario: str, eval_rc: str, judge: str, note: str) -> dict:
+    """Return the record of a trial without a valid judge verdict. It has no reward key."""
+    record = {"status": "ungraded", "judge": judge, "reason": note, "judge_valid": 0}
+    if eval_rc == NOT_RUN:
+        return {**record, "evaluated": 0}
+    measured = measurement(logs, scenario, eval_rc)
+    return {**record, "evaluated": 1, "gates_passed": int(measured["primary_metric"] > 0), **measured}
+
+
 def main() -> None:
-    logs, scenario, eval_rc, judge_rc = Path(sys.argv[1]), *sys.argv[2:5]
-    rewards = rewards_for(logs, scenario, eval_rc, judge_rc)
-    (logs / "reward.json").write_text(json.dumps(rewards, indent=2) + "\n", encoding="utf-8")
-    print(json.dumps(rewards))
+    logs, scenario, eval_rc, judge = Path(sys.argv[1]), *sys.argv[2:5]
+    note = sys.argv[5] if len(sys.argv) > 5 else ""
+    for name in ("reward.json", "reward.txt", "ungraded.json"):
+        (logs / name).unlink(missing_ok=True)
+    if judge == "valid" and eval_rc == NOT_RUN:
+        raise SystemExit("a judged trial was not evaluated")
+    if judge == "valid":
+        name, outcome = "reward.json", rewards_for(logs, scenario, eval_rc)
+    elif judge in UNGRADED_STATES:
+        name, outcome = "ungraded.json", ungraded_for(logs, scenario, eval_rc, judge, note)
+    else:
+        raise SystemExit(f"unknown judge state: {judge!r}")
+    (logs / name).write_text(json.dumps(outcome, indent=2) + "\n", encoding="utf-8")
+    print(f"{name}: {json.dumps(outcome)}")
 
 
 if __name__ == "__main__":

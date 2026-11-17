@@ -9,43 +9,45 @@ export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 export PYTHONPATH="/opt/filelock_workarounds/soft_file_locks"
 export PYTHONNOUSERSITE=1
 unset PYTHONUSERBASE PIP_USER
+source /usr/local/lib/inferencebench/agent_processes.sh
 
 STATE=/var/lib/ib_state
 TASK=/home/agent/task
 rm -rf "${STATE}" /tests
 mkdir -m 700 "${STATE}" "${STATE}/tmp"
-exec > >(tee -a "${STATE}/collect.log") 2>&1
-: "${PORT:=8000}" "${INFERENCE_BENCH_SERVER_URL:=http://127.0.0.1:8000}"
+# Keep the log where only root can write it. Harbor gets a copy however this script ends.
+exec 3>&1 >> "${STATE}/collect.log" 2>&1
+publish_log() {
+    cat "${STATE}/collect.log" >&3
+    mkdir -p /logs/artifacts
+    cp --remove-destination "${STATE}/collect.log" /logs/artifacts/collect.log
+}
+trap publish_log EXIT
 
 phase() {
     echo "[collect] $(date --iso-8601=seconds) $*"
 }
 
-# Find the live server first, freeze the agent's processes so they cannot race the writes
-# into its task directory, capture the server's environment, and then stop them.
-phase "runtime capture"
-pid=""
-if python3 /opt/inference_eval/bin/server_ready.py "${INFERENCE_BENCH_SERVER_URL}"; then
-    pid="$(ss -lptn "sport = :${PORT}" | sed -n 's/.*pid=\([0-9][0-9]*\).*/\1/p' | head -1)"
+# As in run_task.sh, where the agent's container is gone before anything else happens: stop
+# the agent's processes first. The final evaluation restarts start_server.sh from scratch, so
+# the environment of a server that the agent left running is not carried over.
+if ! kill_agent_processes; then
+    phase "ERROR: could not stop the agent's processes"
+    exit 1
 fi
-pkill -STOP -u agent
-if [ -n "${pid}" ] && [ -r "/proc/${pid}/environ" ] &&
-    python3 /usr/local/bin/capture_runtime_env.py "${pid}" "${TASK}/final_runtime_env.sh" \
-        "${TASK}/final_runtime_manifest.txt" "${INFERENCE_BENCH_SERVER_URL}"; then
-    chown -h agent:agent "${TASK}/final_runtime_env.sh" "${TASK}/final_runtime_manifest.txt"
-    phase "captured the server environment from pid=${pid}"
-else
-    phase "no live agent server found for runtime capture"
-fi
-pkill -9 -u agent
-sleep 2
 phase "stopped the agent's processes"
 
-# The verifier reads and writes these paths as root, and the agent could write to them.
-[ ! -L "${TASK}" ] || rm -f "${TASK}"
+# Harbor runs every command with the task directory as its working directory, so this script
+# only starts if that path resolves. A symbolic link there is not the agent's task directory.
+if [ -L "${TASK}" ]; then
+    rm -f "${TASK}"
+    mkdir "${TASK}" && chown agent:agent "${TASK}"
+    phase "the task directory was a symbolic link; replaced it with an empty directory"
+fi
+
+# The verifier writes here as root, and the agent could write here until now.
 find /logs/verifier -mindepth 1 -delete
-rm -rf /logs/artifacts/collect.log
-mkdir -p /logs/artifacts
+chown root:root /logs/verifier && chmod 700 /logs/verifier
 
 # As in run_task.sh: keep the /tmp targets of symbolic links in the task directory, and drop
 # everything else the agent left in scratch space.
@@ -60,6 +62,11 @@ while IFS= read -r link; do
         *..*) continue ;;
     esac
     [ -e "${target}" ] || continue
+    resolved="$(realpath -e -- "${target}")" || continue
+    case "${resolved}" in
+        /tmp/?*) ;;
+        *) continue ;;
+    esac
     if mkdir -p "$(dirname "${STATE}${target}")" && cp -aT -- "${target}" "${STATE}${target}"; then
         phase "snapshot ${link} -> ${target} ($(du -sh "${STATE}${target}" | cut -f1))"
     else
@@ -67,14 +74,17 @@ while IFS= read -r link; do
         exit 1
     fi
 done < <(find "${TASK}" -maxdepth 1 -type l)
-find /tmp /var/tmp /dev/shm -mindepth 1 -user agent -delete 2>/dev/null
+find /tmp /var/tmp /dev/shm -mindepth 1 -user agent -delete 2> /dev/null
 
-# The evaluation server does not get the agent CLI's state or credentials.
-rm -rf /home/agent/.nvm /home/agent/.npm /home/agent/.claude /home/agent/.claude.json \
+# The evaluation server does not get the agent CLI's state or credentials. Remove them as
+# user agent, so that root never follows a path that the agent laid out.
+as_agent() {
+    /usr/bin/env -i /usr/bin/setpriv --reuid=agent --regid=agent --clear-groups "$@"
+}
+as_agent /bin/rm -rf /home/agent/.nvm /home/agent/.npm /home/agent/.claude /home/agent/.claude.json \
     /home/agent/.codex /home/agent/.gemini /home/agent/.config/opencode \
     /home/agent/.local/share/opencode /home/agent/.local/share/claude
-find /home/agent \( -name oauth_token -o -name api_key \) -type f -delete
+as_agent /usr/bin/find /home/agent \( -name oauth_token -o -name api_key \) -type f -delete
 
 date --iso-8601=seconds > "${STATE}/complete"
 phase "ready for the verifier; /home/agent is $(du -sh /home/agent | cut -f1)"
-cp "${STATE}/collect.log" /logs/artifacts/collect.log

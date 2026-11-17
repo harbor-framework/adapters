@@ -3,8 +3,10 @@
 
 # LongBench-v2 has exactly 503 rows and the benchmark asks for 503, so the cached file is
 # the same for every seed (the seed selects requests at evaluation time). It is 465 MB, so
-# it is downloaded once in a layer that all tasks share instead of being stored in each
-# task. The checksums fail the build if the upstream dataset changes.
+# the build downloads it instead of each task storing it. The 12 tasks' Dockerfiles are
+# identical up to the last two instructions, so a local Docker build cache downloads it once;
+# environments that build each task's image separately download it once per task. The
+# checksums fail the build if the upstream dataset changes.
 COPY inference_eval /opt/inference_eval
 RUN cd /opt && HF_HOME=/opt/tmp/hf_samples HF_HUB_CACHE=/opt/tmp/hf_samples/hub \
     HUGGINGFACE_HUB_CACHE=/opt/tmp/hf_samples/hub XDG_CACHE_HOME=/opt/tmp/hf_samples/xdg \
@@ -18,11 +20,17 @@ RUN cd /opt && HF_HOME=/opt/tmp/hf_samples HF_HUB_CACHE=/opt/tmp/hf_samples/hub 
     chmod a+x /opt/inference_eval/bin/launch_supervised_server.sh
 
 # Harbor runs the collect hook and the verifier as root in this sandbox and resolves commands
-# through the image's PATH, so the agent-writable bin directory must come last. The agent's own
-# shell and the evaluation server still get it first (Harbor's agents and test.sh prepend it).
+# through the image's PATH, so the agent-writable bin directory must come last. The evaluation
+# server still gets it first, because test.sh prepends it, and so does Claude Code, because
+# Harbor's agent prepends it.
 ENV PATH="/usr/local/nvidia/bin:/usr/local/cuda/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/root/.local/bin:/home/agent/.local/bin"
 
-COPY collect.sh capture_runtime_env.py /usr/local/bin/
+# On Daytona and Modal, Harbor's upload gives /tests the uid of the user who runs Harbor, and
+# upstream's image gives user agent uid 1000, which is that user's uid on many Linux hosts.
+RUN usermod -u 64321 agent && groupmod -g 64321 agent
+
+COPY collect.sh /usr/local/bin/
+COPY agent_processes.sh download_model.py /usr/local/lib/inferencebench/
 COPY home /home/agent
 RUN if [ "{agent_seed}" != "{quality_seed}" ]; then \
         mkdir -p /opt/inference_eval/baselines/samples/longbench_v2/{agent_seed}_{longbench_n} && \
