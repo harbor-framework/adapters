@@ -1,0 +1,34 @@
+[
+  {
+    "adapter_name": "kernelbench",
+    "agent": "TBD",
+    "model": "TBD",
+    "date": "TBD",
+    "adapted_benchmark_size": 249,
+    "parity_benchmark_size": null,
+    "number_of_runs": null,
+    "notes": "Parity not yet run; plan to be agreed with the Harbor team. Metrics will be correct and fast_1 (per-task binary rates), for both kernelbench and kernelbench-verified.",
+    "original_parity_repo": null,
+    "adapter_pr": [],
+    "dataset_pr": [],
+    "parity_pr": [],
+    "metrics": [
+      {
+        "benchmark_name": "KernelBench",
+        "metric": "correct",
+        "original": "TBD",
+        "harbor": "TBD",
+        "original_runs": [],
+        "harbor_runs": []
+      },
+      {
+        "benchmark_name": "KernelBench-Verified",
+        "metric": "correct",
+        "original": "TBD",
+        "harbor": "TBD",
+        "original_runs": [],
+        "harbor_runs": []
+      }
+    ]
+  }
+]

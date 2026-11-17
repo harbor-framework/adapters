@@ -1,0 +1,35 @@
+schema_version = "1.0"
+artifacts = ["/workspace/solution.py"]
+
+[task]
+name = "{name}"
+description = "KernelBench level {level} problem {pid} ({problem_name}): write a faster CUDA ModelNew."
+authors = [{authors}]
+keywords = ["cuda", "gpu", "kernels", "{variant}"]
+
+[metadata]
+category = "gpu-kernels"
+difficulty = "hard"
+variant = "{variant}"
+level = {level}
+problem_id = {pid}
+problem_name = "{problem_name}"
+
+[agent]
+timeout_sec = {agent_timeout}.0
+
+[environment]
+build_timeout_sec = 1800.0
+cpus = 16
+memory_mb = 262144
+gpus = 1
+gpu_types = ["H100"]
+
+[verifier]
+# Grade in a fresh container built from the same image: the agent cannot have
+# altered the eval code, the GPU state, or the reference it is compared to.
+environment_mode = "separate"
+timeout_sec = 1800.0
+
+[verifier.env]
+KB_VARIANT = "{variant}"

@@ -1,0 +1,10 @@
+# One GPU per trial: timing is only meaningful when the kernel has the card to itself.
+services:
+  main:
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]

@@ -1,0 +1,50 @@
+[
+  {
+    "adapter_name": "kernelbench",
+    "adapter_builders": ["haoqingwang (1506751656@qq.com)"],
+    "original_benchmark": [
+      {
+        "split": "kernelbench",
+        "size": 250,
+        "harness": "llm",
+        "supported_agents": ["None"],
+        "adaptable": true,
+        "notes": "ScalingIntelligence/KernelBench @ 423217d, levels 1-3. One-shot LLM generation; no agent harness upstream."
+      },
+      {
+        "split": "kernelbench-verified",
+        "size": 247,
+        "harness": "llm",
+        "supported_agents": ["None"],
+        "adaptable": true,
+        "notes": "facebookresearch/kernel_bench_verified @ 3fdf6fe: same 250 problems, stricter grader; its leaderboard drops L2-23/80/83."
+      }
+    ],
+    "harbor_adapter": [
+      {
+        "split": "kernelbench",
+        "adapted_benchmark_size": 249,
+        "parity_benchmark_size": null,
+        "parity_sampling_rate": null,
+        "registry_benchmark_size": 249,
+        "added_agents": ["None"],
+        "parity_matching_agents": [],
+        "parity_unmatching_agents": ["None"],
+        "parity_costs": null,
+        "notes": "L2-66 excluded (training-mode dropout; the reference fails its own check). Parity pending."
+      },
+      {
+        "split": "kernelbench-verified",
+        "adapted_benchmark_size": 246,
+        "parity_benchmark_size": null,
+        "parity_sampling_rate": null,
+        "registry_benchmark_size": 246,
+        "added_agents": ["None"],
+        "parity_matching_agents": [],
+        "parity_unmatching_agents": ["None"],
+        "parity_costs": null,
+        "notes": "L2-66 and L2-23/80/83 excluded. Parity pending."
+      }
+    ]
+  }
+]
