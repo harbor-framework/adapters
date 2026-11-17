@@ -1,0 +1,29 @@
+# Single entry point for gdm-stealth (docs Step 3): the built-in
+# oracle agent replays each task's stored reference solution
+# in-container (solution/solve.sh + replay.py + trajectory.json).
+# Role models are called from inside the container, so the rater
+# endpoint is allowlisted for the agent phase and credentials come
+# from [solution.env] in each task.toml (export GDM_RATER_API_KEY,
+# e.g. your OpenRouter key, before running).
+#
+#   harbor run -c src/gdm-stealth/run_gdm-stealth.yaml
+jobs_dir: jobs
+n_attempts: 1
+timeout_multiplier: 1.0
+orchestrator:
+  type: local
+  n_concurrent_trials: 1
+  quiet: false
+environment:
+  type: docker
+  force_build: true
+  delete: true
+agents:
+  # Default: oracle agent for verification
+  - name: oracle
+    extra_allowed_hosts:
+      - openrouter.ai
+  # Parity/custom-agent runs use oracle_gdm-stealth.yaml /
+  # parity_gdm-stealth.yaml instead.
+datasets:
+  - path: datasets/gdm-stealth
