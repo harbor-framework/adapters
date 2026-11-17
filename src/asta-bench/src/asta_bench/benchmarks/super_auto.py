@@ -125,6 +125,10 @@ no_new_privs (setuid/file-capability binaries cannot raise it back to root):
     hard links) and a HOME of its own that links to root's, so a command that
     ran for the agent as root still runs.  It cannot create new top-level
     directories or files directly in root's home;
+  * directories on root's PATH / LD_LIBRARY_PATH (e.g. /root/.local/bin), their
+    contents and their ancestors are never handed over, so it cannot plant a
+    program that root runs later (test.sh's `rm`, Harbor's `tar` of the reward
+    directory on non-mounted environments);
   * a different uid cannot signal or ptrace the verifier;
   * afterwards every process of SANDBOX_UID is SIGKILLed (it cannot change
     uid, so that is every process it started, including detached ones), and
@@ -201,13 +205,26 @@ def _lock_down_grader() -> None:
                     os.chmod(path, stat.S_IMODE(st.st_mode) & ~0o022)
 
 
-def _grant(top: str, include_top: bool, protected: set) -> None:
+def _grant(top: str, include_top: bool, protected: set, exec_dirs: tuple = ()) -> None:
     """Give SANDBOX_UID the directories and single-link regular files under top.
 
     Symlinks are not followed, and anything that is a grader tree (by inode,
     so bind mounts are caught too) is skipped.  Best effort: a read-only tree
     is skipped whole, an entry that cannot be changed is skipped (the command
-    may then fail to write there; it never gains anything)."""
+    may then fail to write there; it never gains anything).
+
+    exec_dirs are directories root resolves programs or libraries from after
+    the run (PATH, LD_LIBRARY_PATH): they, their contents and their ancestors
+    stay root's, so nothing can be planted there for root to run."""
+
+    def is_exec(path: str) -> bool:
+        return any(path == d or path.startswith(d + "/") for d in exec_dirs)
+
+    def is_exec_ancestor(path: str) -> bool:
+        return any(d.startswith(path.rstrip("/") + "/") for d in exec_dirs)
+
+    if is_exec(top):
+        return
     try:
         st = os.lstat(top)
         if not stat.S_ISDIR(st.st_mode) or (st.st_dev, st.st_ino) in protected:
@@ -230,8 +247,13 @@ def _grant(top: str, include_top: bool, protected: set) -> None:
                 st = os.lstat(path)
             except OSError:
                 continue
-            if stat.S_ISDIR(st.st_mode) and (st.st_dev, st.st_ino) not in protected:
-                chown(path)
+            if (
+                stat.S_ISDIR(st.st_mode)
+                and (st.st_dev, st.st_ino) not in protected
+                and not is_exec(path)
+            ):
+                if not is_exec_ancestor(path):
+                    chown(path)
                 keep.append(d)
         dirnames[:] = keep
         for f in filenames:
@@ -242,7 +264,7 @@ def _grant(top: str, include_top: bool, protected: set) -> None:
                 continue
             if stat.S_ISREG(st.st_mode) and st.st_nlink == 1:
                 chown(path)
-    if include_top:
+    if include_top and not is_exec_ancestor(top):
         chown(top)
 
 
@@ -271,9 +293,17 @@ def _prepare_sandbox_user(cwd: str) -> str:
         st = os.stat(d)
         protected.add((st.st_dev, st.st_ino))
 
+    exec_dirs = tuple(sorted({
+        os.path.realpath(d)
+        for var in ("PATH", "LD_LIBRARY_PATH")
+        for d in os.environ.get(var, "").split(":")
+        if d.startswith("/")
+    }))
+
     def grant(path: str, include_top: bool) -> None:
         if not _under(path, NEVER_GRANTED):
-            _grant(path, include_top=include_top, protected=protected)
+            _grant(path, include_top=include_top, protected=protected,
+                   exec_dirs=exec_dirs)
 
     # Every non-system top-level directory, and each entry of /tmp and /opt.
     for name in os.listdir("/"):
