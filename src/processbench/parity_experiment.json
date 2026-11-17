@@ -1,0 +1,26 @@
+[
+  {
+    "adapter_name": "processbench",
+    "agent": "<agent>@<version>",
+    "model": "<model>",
+    "date": "YYYY-MM-DD",
+    "adapted_benchmark_size": 3400,
+    "parity_benchmark_size": 200,
+    "number_of_runs": null,
+    "notes": "Parity not yet run; plan (agent, model, subset, runs) to be agreed with the Harbor team. Planned subset: --split parity (50 per subset, stratified by error/correct, seed 42).",
+    "original_parity_repo": "https://github.com/XBsleepy/ProcessBench/tree/codex-backend",
+    "adapter_pr": ["https://github.com/harbor-framework/adapters/pull/70"],
+    "dataset_pr": null,
+    "parity_pr": null,
+    "metrics": [
+      {
+        "benchmark_name": "ProcessBench",
+        "metric": "Average F1",
+        "original": null,
+        "harbor": null,
+        "original_runs": [],
+        "harbor_runs": []
+      }
+    ]
+  }
+]
