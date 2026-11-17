@@ -609,7 +609,7 @@ class SuperExpertBuilder(BenchmarkBuilder):
             instruction_md=instruction,
             dockerfile=DOCKERFILE,
             solve_sh=solve_sh,
-            test_sh=TEST_SH,
+            test_sh=super_auto.TEST_SH if is_auto else TEST_SH,
             tests_config=tests_config,
             extra_tests={"run_scorer.py": scorer},
             workspace_files=ws_files,

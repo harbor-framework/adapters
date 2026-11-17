@@ -24,6 +24,8 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+from .base import make_verifier_test_sh
+
 _HERE = Path(__file__).resolve().parent
 SOLUTIONS_DIR = _HERE / "super_auto_solutions"
 EXCLUDED_FILE = _HERE / "super_auto_excluded.json"
@@ -100,6 +102,30 @@ def render_solve_sh(solve_sh: str, answer: dict[str, str]) -> str:
     )
 
 
+# Ownership is not enforced on every bind mount (Docker Desktop lets any uid
+# write a mounted /tests), and bash reads a script as it runs it, so a replayed
+# command could rewrite the rest of test.sh.  The verifier therefore continues
+# from a root-only copy of /tests on the container's own filesystem.
+_PRIVATE_TESTS_PRE = """\
+case "$0" in
+  /var/lib/super-auto-verifier.*/test.sh)
+    TESTS_DIR=$(dirname "$0")
+    ;;
+  *)
+    mkdir -p /var/lib || exit 1
+    private=$(mktemp -d /var/lib/super-auto-verifier.XXXXXX) || exit 1
+    chmod 700 "$private" || exit 1
+    cp -R /tests/. "$private"/ || exit 1
+    exec bash "$private/test.sh"
+    ;;
+esac
+"""
+
+TEST_SH = make_verifier_test_sh(
+    scorer_cmd='python3 "$TESTS_DIR/run_scorer.py"', pre=_PRIVATE_TESTS_PRE
+)
+
+
 RUN_SCORER_PY = r'''"""SUPER-Auto verifier: re-run the submitted entrypoint command.
 
 Applies upstream's `evaluate_entrypoints` rule (astabench/evals/super/task.py)
@@ -130,6 +156,9 @@ no_new_privs (setuid/file-capability binaries cannot raise it back to root):
     program that root runs later (test.sh's `rm`, Harbor's `tar` of the reward
     directory on non-mounted environments);
   * a different uid cannot signal or ptrace the verifier;
+  * test.sh runs this file from a root-only copy of /tests, and nothing is
+    read from /tests or the reward directory after the command starts, so a
+    mount that does not enforce ownership gives it nothing to tamper with;
   * afterwards every process of SANDBOX_UID is SIGKILLed (it cannot change
     uid, so that is every process it started, including detached ones), and
     only then is the reward written, after removing any reward file.
@@ -141,6 +170,7 @@ import ctypes
 import json
 import os
 import pwd
+import shutil
 import signal
 import stat
 import subprocess
@@ -150,7 +180,8 @@ import time
 from pathlib import Path
 
 ANSWER_FILE = Path("/app/answer.txt")
-CONFIG_FILE = Path("/tests/config.json")
+PRIVATE_DIR = Path(__file__).resolve().parent  # root-only copy of /tests
+CONFIG_FILE = PRIVATE_DIR / "config.json"
 REWARD_DIR = Path("/logs/verifier")
 REWARD_FILE = REWARD_DIR / "reward.txt"
 REWARD_JSON = REWARD_DIR / "reward.json"
@@ -435,14 +466,22 @@ def output_is_clean(entrypoint: str, observation: str) -> bool:
     return True
 
 
+def _remove(path: Path) -> None:
+    if path.is_dir() and not path.is_symlink():
+        shutil.rmtree(path)
+    else:
+        path.unlink(missing_ok=True)
+
+
 def run_for_window(command: str, cwd: str) -> tuple[float, bool, str]:
     """Run `command` in `cwd` as SANDBOX_UID; return (seconds, still running, output)."""
     home = _prepare_sandbox_user(cwd)
     _kill_sandbox_processes()  # nothing of that uid may predate the run
     env = dict(os.environ)
     env.update(HOME=home, USER=SANDBOX_NAME, LOGNAME=SANDBOX_NAME)
-    LOG_FILE.parent.mkdir(parents=True, exist_ok=True)
-    with LOG_FILE.open("wb") as log:
+    # The command's output goes to a file in the private directory; a copy is
+    # written to the reward directory afterwards for the trial record.
+    with tempfile.NamedTemporaryFile(dir=str(PRIVATE_DIR)) as log:
         start = time.monotonic()
         proc = subprocess.Popen(
             ["bash", "-lc", command],
@@ -473,7 +512,8 @@ def run_for_window(command: str, cwd: str) -> tuple[float, bool, str]:
         # Then everything the command started, detached or not.
         _kill_sandbox_processes()
         proc.wait()
-    output = LOG_FILE.read_text(encoding="utf-8", errors="replace")
+        with open(log.name, "rb") as fh:
+            output = fh.read().decode("utf-8", errors="replace")
     return elapsed, still_running, output
 
 
@@ -515,10 +555,11 @@ def main() -> int:
         f"-> {'PASS' if passed else 'FAIL'}",
         file=sys.stderr,
     )
-    # Its processes are gone and it never had write access here; still, only
-    # this verifier's own reward may be collected.
-    for stale in (REWARD_JSON, REWARD_FILE):
-        stale.unlink(missing_ok=True)
+    # Its processes are gone; only this verifier's own files may be collected,
+    # whatever the command managed to leave in the reward directory.
+    for stale in (REWARD_JSON, REWARD_FILE, LOG_FILE):
+        _remove(stale)
+    LOG_FILE.write_text(output, encoding="utf-8")
     _write_reward(1.0 if passed else 0.0)
     return 0
 
