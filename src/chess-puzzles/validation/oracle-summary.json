@@ -1,0 +1,533 @@
+{
+  "date": "2026-11-16",
+  "harbor_version": "0.25.0",
+  "environment": "Docker Desktop on macOS",
+  "image": "python:3.12-slim-bookworm",
+  "job_id": "a1f2ab9f-4843-4b48-9129-eb6cdcc21069",
+  "job_name": "2026-11-16__22-00-29",
+  "started_at": "2026-11-16T22:00:29.688798",
+  "finished_at": "2026-11-16T22:03:17.456351",
+  "trials": 100,
+  "exceptions": 0,
+  "retries": 0,
+  "mean_reward": 1.0,
+  "reward_counts": {
+    "1.0": 100
+  },
+  "parity_performed": false,
+  "model_api_calls": 0,
+  "source_files_sha256": {
+    "src/chess_puzzles/__init__.py": "75ad4f4c2943325f88064ad2beae890b59674be2bf0404b30afc5584dc4de4bb",
+    "src/chess_puzzles/adapter.py": "efad17e04a70897e654e5934667e5fced866359b18b5794ebc74c9b4a63f7f54",
+    "src/chess_puzzles/main.py": "582b58f869d679dfa3b6779e22f71128737af02f337c32d5fe57dac0e90bb88b",
+    "src/chess_puzzles/scoring.py": "b8fb41369487eef9c56a92ffd525b525f812864292aa98d9880e5a278353d361",
+    "src/chess_puzzles/task-template/environment/Dockerfile": "55d30926cbb558ec7575737cab06d416b1cc04ccc572dca910f8c68c5c92c236",
+    "src/chess_puzzles/task-template/instruction.md": "66471a5fb4e662ed0b7a041c268d2fa8271f180960a1e6132082a88a90d5ebb3",
+    "src/chess_puzzles/task-template/solution/solve.sh": "af1f660f896ce4cae46c37ed1d2bbd1a96473f009e86a3f1e1cfeba29dfe55c4",
+    "src/chess_puzzles/task-template/task.toml": "183473198ed61cd9b05f5c941e43636a8d39ef4f581645692101b4918f247ff4",
+    "src/chess_puzzles/task-template/tests/grade.py": "5118aba99c77310faf757159405d3911815bb3b164f584337fe9e3a672f4f46a",
+    "src/chess_puzzles/task-template/tests/test.sh": "279798b5f1c573ce7b4347eb9b9fcfe59b093aef39776b4ee13081a6525bb57c"
+  },
+  "trial_checksums": [
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-001",
+      "trial_name": "chess-puzzles-001__kwyLTMw",
+      "task_checksum": "7c716863ef0481218be931b7e3d03388e191011ecade0043c6646a8ba98ad1b8"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-002",
+      "trial_name": "chess-puzzles-002__d7DXuSE",
+      "task_checksum": "5428ba470916ceb17c623d617f128b1616b41e9a353c28a524b99e2e78bdcc9d"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-003",
+      "trial_name": "chess-puzzles-003__7prv6RA",
+      "task_checksum": "6cd88cc559e3509106bd9e71a940ef78883d287fd2a16097766491b679298d14"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-004",
+      "trial_name": "chess-puzzles-004__4s7bRdP",
+      "task_checksum": "a57f356074bcd1d72b78562f4c6ef9a5f876f938052caa5e4653a6d150a72161"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-005",
+      "trial_name": "chess-puzzles-005__7AabrDj",
+      "task_checksum": "02cf581a60fb8e5c7195ce4a93d1ec5782348735232e490583c132f39792e007"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-006",
+      "trial_name": "chess-puzzles-006__fABABsa",
+      "task_checksum": "adae814927aaf2bd33dbf8b64412da60bc39c3fcc7764a9122e2cb66c985f27c"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-007",
+      "trial_name": "chess-puzzles-007__nfwcTt3",
+      "task_checksum": "0523777237f39e93d1fa0f076ad633c164794236c60ed0ce298f43c0393f343a"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-008",
+      "trial_name": "chess-puzzles-008__NKNnn4c",
+      "task_checksum": "2e2f499526f1eafe0418994294d77422e51073e00e792ef123d398deef86cc8d"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-009",
+      "trial_name": "chess-puzzles-009__UWTGP8i",
+      "task_checksum": "0fbfef472892750531a9ece86f1352c88dd7efb67bd6606b576b18dc1ff2e499"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-010",
+      "trial_name": "chess-puzzles-010__8X8Lw2E",
+      "task_checksum": "470f331f3024a861562a172212c530cfc87e238c1b33de5182483afc4ce6fdfa"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-011",
+      "trial_name": "chess-puzzles-011__wPHMUmS",
+      "task_checksum": "dd29ca2bc13fc61709d63fa7ef8fb9e00ea8871e15af4c0f802cf8df46b44c6c"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-012",
+      "trial_name": "chess-puzzles-012__T2Rzukv",
+      "task_checksum": "9bb5bd4a0dd44181eba2c428fd5f4b2b79e55cbe3376573d59742ddf2d1f1202"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-013",
+      "trial_name": "chess-puzzles-013__z7rnPCq",
+      "task_checksum": "49b35b2c989a6b0cdd16a8dbfa1c4a8d1f8f593496474327f0d2f6e311325cc8"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-014",
+      "trial_name": "chess-puzzles-014__bWWi8Dn",
+      "task_checksum": "d26776b747a360f7a709523cf0f6fe413180af85c24fa3ffd3bec0c5d9793cbb"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-015",
+      "trial_name": "chess-puzzles-015__9T4JFNs",
+      "task_checksum": "75e95c3bd2b602e8140edb4d491ee69d80ca817f57f71c4f25fc99a938a14bcc"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-016",
+      "trial_name": "chess-puzzles-016__5KycJxY",
+      "task_checksum": "2ce917d37d67026362db68122160c1455bb25a5508a5b047df3d5bfc8bae5d72"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-017",
+      "trial_name": "chess-puzzles-017__sLn3iu4",
+      "task_checksum": "9b18321c88146d8f0067cd6e6d2486e5a06c3d887b3a464e0b544e80f7c83f2c"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-018",
+      "trial_name": "chess-puzzles-018__oDzMR8Y",
+      "task_checksum": "0183fdad222f3cc518effdefdbcdcb456378865cc07476fd10d00ba718387012"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-019",
+      "trial_name": "chess-puzzles-019__4TkB77w",
+      "task_checksum": "c82eecb25ec43c77e7580b8492f800a30f5832cc75c53df3338d718451fe4500"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-020",
+      "trial_name": "chess-puzzles-020__WW3AcCW",
+      "task_checksum": "41692ad94861f4467fb08198cb940da6e6dc39652138a0475e82580823e35685"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-021",
+      "trial_name": "chess-puzzles-021__uyvC6xP",
+      "task_checksum": "9d32de0bfd95e7923456701a675e5aac474035b01499c5cc6bf80e6fc04e0587"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-022",
+      "trial_name": "chess-puzzles-022__ASYiVLr",
+      "task_checksum": "9d19e12cff9e4ade1a1bfdaf8c233d3018411f4168da6cae2fb8f9ba3cabb6ce"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-023",
+      "trial_name": "chess-puzzles-023__CgHLFu8",
+      "task_checksum": "c76458e712d7fe71bdd9c5ec8c76574bb1a31e9947d5d33a566edc4059106b96"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-024",
+      "trial_name": "chess-puzzles-024__hx3fdZt",
+      "task_checksum": "7694cc5eab55a500017b7ddf9d4b43144f891372e2556820ab87f9bc1e31faf5"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-025",
+      "trial_name": "chess-puzzles-025__JymBrBV",
+      "task_checksum": "8cb88213a324d6d466442a739830bf547e7fda6e2b2c8c0d3928de882369ac02"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-026",
+      "trial_name": "chess-puzzles-026__9b4PCyi",
+      "task_checksum": "1545eb3d6e0cc7d5442f8836e7372aa64c1166c3770be03b0253a01cde768841"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-027",
+      "trial_name": "chess-puzzles-027__i3xNuKD",
+      "task_checksum": "c71a2dcb6789c38b7186ab802f77f881d037d332d03993a767b2a4fbbbe692e6"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-028",
+      "trial_name": "chess-puzzles-028__CUdTjvB",
+      "task_checksum": "a5744a1eeed0718a48cc23d12fd40e31ce8703d0870b52b842e9d160aac5dcdd"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-029",
+      "trial_name": "chess-puzzles-029__gMf4Q2V",
+      "task_checksum": "187776c125f2b0ef7361a3510781e07459bfceea9b4b57f919fb14bb0fddb33a"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-030",
+      "trial_name": "chess-puzzles-030__Sif6s7B",
+      "task_checksum": "c3e062168d05670aa1142054222e2193322a24e58222fff724da36e23008995a"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-031",
+      "trial_name": "chess-puzzles-031__RnY5xmG",
+      "task_checksum": "3fdaec37fefe283166b79c9f7feaf977a7d02ba59b516f2c3c575dcdc1b02e81"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-032",
+      "trial_name": "chess-puzzles-032__3wXjxDZ",
+      "task_checksum": "0548c0b0751c9e12ff0065ff69f50c63c7cf349b634aab1d3377fa66673e74d8"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-033",
+      "trial_name": "chess-puzzles-033__wjVX5DY",
+      "task_checksum": "7fce207e799175ce36a939f1548b463b11d285ffc2054844ffc5577957d88928"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-034",
+      "trial_name": "chess-puzzles-034__G2MDHyJ",
+      "task_checksum": "0d4c0e07021eb2b9c9c307c5380996e6bb3a07e807182319c9ce65ec76586586"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-035",
+      "trial_name": "chess-puzzles-035__V7Xzvgp",
+      "task_checksum": "aea44b686d79773f6c85f401abc8ec620236dde9f5e2b4826c2de653c3e053a3"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-036",
+      "trial_name": "chess-puzzles-036__8LwGxbw",
+      "task_checksum": "ca2277b975aaa9cb458e50fbc8503ec3067df8ba94cc9764632b6596227b8c2f"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-037",
+      "trial_name": "chess-puzzles-037__9G534Zi",
+      "task_checksum": "55b36e80b4d586bceac28e79a2f07f76ce0d9da5dc297fa4131fead1737b682a"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-038",
+      "trial_name": "chess-puzzles-038__ExXj6xm",
+      "task_checksum": "f5da1aaa6958512314cdad1d62be47dbd44222420461bc0c6ff7d0e0a1df18b6"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-039",
+      "trial_name": "chess-puzzles-039__T4fuMFG",
+      "task_checksum": "2adecd18c5703760b0be3180ac688629cbfda0546d10a6ef3ba28ab787b8abfb"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-040",
+      "trial_name": "chess-puzzles-040__kGMBS2F",
+      "task_checksum": "ba5e629fd72604fa6e56827339df2c3977acbab5a3389e1336a2c984713711a8"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-041",
+      "trial_name": "chess-puzzles-041__Ndb8heJ",
+      "task_checksum": "0f3684ce7247636355aaa4131ccb327ae412bb0b19ca149cb195609cbd918efd"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-042",
+      "trial_name": "chess-puzzles-042__F44MvyJ",
+      "task_checksum": "46a6c396af0a47bf23b49e4b18d8eac1060b38251159dc98ced2bb0cd4b7408a"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-043",
+      "trial_name": "chess-puzzles-043__HCaSK6x",
+      "task_checksum": "149316d71448de6a1d2dcf8f5f1bc36795499193f7fa1e5b19b2e5feb1963de3"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-044",
+      "trial_name": "chess-puzzles-044__UVM3De8",
+      "task_checksum": "44091ade0a46945446e9e1253c7c122a63287a430d095cb653aba9aab6000a1c"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-045",
+      "trial_name": "chess-puzzles-045__uvB4VYK",
+      "task_checksum": "0efb49c7ef2994ad237fe89255a613373e07348be1e3ef63aa39d5fe0161af4e"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-046",
+      "trial_name": "chess-puzzles-046__G8v3aZr",
+      "task_checksum": "9fb274c55b39560522c40b2b95d08f0e13a731d0ea96ad5092f5b2b484bc81be"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-047",
+      "trial_name": "chess-puzzles-047__vNkzKWu",
+      "task_checksum": "64c1413f7a7190cbc9df66fbdc02e6935d7aa5af62b9d3989b7b61bbf223fab0"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-048",
+      "trial_name": "chess-puzzles-048__kadTZNT",
+      "task_checksum": "f3221341044ac8511b8b7f13879ff6917087e67c8031c1b55ef88cc997abadf7"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-049",
+      "trial_name": "chess-puzzles-049__V4fjMg3",
+      "task_checksum": "d83e5751b83656c3d2e0b47ebb8baf7b86fd39d9d465042f17e1cc1004610e65"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-050",
+      "trial_name": "chess-puzzles-050__Tyka2ZN",
+      "task_checksum": "a927bd01bdfe6ac6da3332b501233916d2f1e6507d19906dbc352619243bcb26"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-051",
+      "trial_name": "chess-puzzles-051__Bja38RP",
+      "task_checksum": "ff02462aefdce74b6ca7ba10d040ba324bee20185a9cc94e42290fbad21cb443"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-052",
+      "trial_name": "chess-puzzles-052__pKUVYmN",
+      "task_checksum": "b3a2822141e0948ef2b73249734e77c8c03e60744357c4812c7f38a488024a1b"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-053",
+      "trial_name": "chess-puzzles-053__kuNwivw",
+      "task_checksum": "30646caa9900296e66a0a1db8cc9a42a36b33ed3e84c994ca72afa608fdee7bc"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-054",
+      "trial_name": "chess-puzzles-054__KdRcaY2",
+      "task_checksum": "abbcdda9b0132ebb0fe46144e8e23029ba6f2b75c1d5094cb73819e66ec5a82f"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-055",
+      "trial_name": "chess-puzzles-055__QWvQnpx",
+      "task_checksum": "2e69fa6d6aae313f8594a17642dada86c289bc32c8a574a51068f4debf585cd1"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-056",
+      "trial_name": "chess-puzzles-056__uJTYheF",
+      "task_checksum": "b7cdda9dbe2729172d77194195d5c78ea0253ea58cf5a3202fbcad73232721db"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-057",
+      "trial_name": "chess-puzzles-057__vRrxM5D",
+      "task_checksum": "0a44d01cf9a204b94c010bcf247c3d09ed73a9511852626e8a0ec042201ccfc9"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-058",
+      "trial_name": "chess-puzzles-058__RxuYk2C",
+      "task_checksum": "11065e3087c4c3d4b5ebad1733141e021bf2562a92e6a993ab3f56f69de5583d"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-059",
+      "trial_name": "chess-puzzles-059__z5uzPtX",
+      "task_checksum": "30039ffd2a39c61a7303044654bc8a666c11ec6c9c9d9df2a084b91e1556ae03"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-060",
+      "trial_name": "chess-puzzles-060__UAQHXsn",
+      "task_checksum": "39c2622869807adeb59576303b75924c0f7633daedbdbdd4121f32bd7cb469aa"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-061",
+      "trial_name": "chess-puzzles-061__SThBWDu",
+      "task_checksum": "9914284f6d44c848cf0f3ba3d1a9435de73ebb0ce18e4bafab22dbc6b7edf7a2"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-062",
+      "trial_name": "chess-puzzles-062__tseGbrD",
+      "task_checksum": "033fdc16d2ea89ed7d578c55699eceda768f1191784fb961edeee1055d7ca7c7"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-063",
+      "trial_name": "chess-puzzles-063__9jerjcZ",
+      "task_checksum": "20e1fbd9ff03297e4a869f1224254aba37607e9ae19430e88233b1af8e32585f"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-064",
+      "trial_name": "chess-puzzles-064__ppgUaW2",
+      "task_checksum": "8e9cdaadae0a345afe31379e41f29370aadb3c3dbbf7ddb41b4fb766726929ec"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-065",
+      "trial_name": "chess-puzzles-065__HqUvwfu",
+      "task_checksum": "f123abb0529671fa6ec1152c9ec9e5e3679e3c80cec350511586187ffc3cf225"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-066",
+      "trial_name": "chess-puzzles-066__ndjRued",
+      "task_checksum": "d7e561221f73f1eca0a26b9ad5637c9f4764c409bbc8f63e8c65ebaddf4e117b"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-067",
+      "trial_name": "chess-puzzles-067__zFAuXbn",
+      "task_checksum": "5395ed3dcf4873239984dc7eb23cd0d28690e30eddb38661af8d6de5537c94c1"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-068",
+      "trial_name": "chess-puzzles-068__JjZWZ2E",
+      "task_checksum": "e683d0d779a6bcb58c45d959fa4c044bf09e25385470630307cdc952d09d8d9c"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-069",
+      "trial_name": "chess-puzzles-069__LXgLY3W",
+      "task_checksum": "44180f13ce907272bdbe6bfe01cf68671ab3e737164378ff896ea1fe8b8304bc"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-070",
+      "trial_name": "chess-puzzles-070__45A4F8W",
+      "task_checksum": "06d67b5d019e600b31e474df9e3e751326a4bdc9dbabfa8b84b65050a1fd5e52"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-071",
+      "trial_name": "chess-puzzles-071__zNowRr4",
+      "task_checksum": "7c153723439ab86ca4ce9c525dc5444d3db9ca39fdd0b854436dc361e85f73a5"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-072",
+      "trial_name": "chess-puzzles-072__HnDGpEc",
+      "task_checksum": "6280e5af6f5f1504f9c626adf78c102488428f29d6ba610098db73dbbb3ae6dc"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-073",
+      "trial_name": "chess-puzzles-073__nHgB8kB",
+      "task_checksum": "a98b0bb9deadb6168ed272376a227628aef30a90860cc2844f6f3a879dbf59fd"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-074",
+      "trial_name": "chess-puzzles-074__NmnVkLq",
+      "task_checksum": "7c71659baa8916a781d0c551db2b80ccdb0b576f1eca2d2538ed4a61bb3fe175"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-075",
+      "trial_name": "chess-puzzles-075__z8ym2W6",
+      "task_checksum": "69b5f386b6471f628590d29b6cd4d683ff951fa4fed1f7857c3a53c7edb6c085"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-076",
+      "trial_name": "chess-puzzles-076__Siq8G4o",
+      "task_checksum": "d882c471091538c37bfa7bed30589bdbf6af37d7b83402cdc935efc7252d3b50"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-077",
+      "trial_name": "chess-puzzles-077__WHUzneq",
+      "task_checksum": "4cdba3473986914bd6ba2aa80721feeb3d7aed9cf71ace34048420b497a64fbb"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-078",
+      "trial_name": "chess-puzzles-078__GYf4rET",
+      "task_checksum": "066fb7967ed0054eb9c17f94dbcc7d2f737d03cd60e059e5938cf31830703d38"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-079",
+      "trial_name": "chess-puzzles-079__s2cyD3T",
+      "task_checksum": "935bcd4bbdcd1a33232c54ca5cbf3cdeac78b92383d4572b55d4de501ffc8db6"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-080",
+      "trial_name": "chess-puzzles-080__tvtNnqs",
+      "task_checksum": "38990e3ef81370b77ae9bb94b676e6b73da83e80187ac2415d501dfab6964e47"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-081",
+      "trial_name": "chess-puzzles-081__ZidBU5R",
+      "task_checksum": "285a4f558ada92d3bf170bdf492dbd00c3242e7236ec7df0c264a6d4aa285d83"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-082",
+      "trial_name": "chess-puzzles-082__aTjqe9R",
+      "task_checksum": "6aa4110be1b94ea6d522ed3a2108b2eb26e86a6bcca8220d308000d44203dd75"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-083",
+      "trial_name": "chess-puzzles-083__CehUDca",
+      "task_checksum": "dc30da578f886104e8a4d141cbe5cfc626bd89236107cf2d78a610b7025764be"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-084",
+      "trial_name": "chess-puzzles-084__zns26Yw",
+      "task_checksum": "5e32b692bc77cd4e4e75101adaaa449004b20bf09c05457c328de934db861748"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-085",
+      "trial_name": "chess-puzzles-085__sQ5WgYg",
+      "task_checksum": "53d46660032200a60469bd21a55e63af4eda880c2262bdde2e8a5464f68afde2"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-086",
+      "trial_name": "chess-puzzles-086__aqJ5S3u",
+      "task_checksum": "2e187fe77133dd60902a376e0a8eccc57d4aa8958519ad1c1a8462f2c7f289ae"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-087",
+      "trial_name": "chess-puzzles-087__Y4PCf2R",
+      "task_checksum": "3dd004f53dc9ff9f6ea87c0ff5fb3705519c512d2093cf8d734ebea475a1a96e"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-088",
+      "trial_name": "chess-puzzles-088__4sWK5Nt",
+      "task_checksum": "bf6721aedd1a034b967611421a7f668fc4a9b81c5d3ef70e3b28359ada53cf57"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-089",
+      "trial_name": "chess-puzzles-089__E475TVu",
+      "task_checksum": "636a64f2b7ac0d73c88df73010d302ff6b07c8d4ee44575ffbbd8566fb03e1d6"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-090",
+      "trial_name": "chess-puzzles-090__AMY9yRs",
+      "task_checksum": "ff2dfc5ff6d3557bc5c07f95311657813f3a9802a259b1e0c95aa24041dd82b1"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-091",
+      "trial_name": "chess-puzzles-091__YbKDYXN",
+      "task_checksum": "995b4b47bc2e3f0017cfc154641c79b3a9687b6b2608459d024f3a2d7025074e"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-092",
+      "trial_name": "chess-puzzles-092__tDmkvMg",
+      "task_checksum": "895283ad9ad387456aa6ac9e047bade79b03b0a2857e2877417cf04d5b757fb4"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-093",
+      "trial_name": "chess-puzzles-093__xNwDLmw",
+      "task_checksum": "fe8b874bed1a2ee0da0d84aaad68a767d2fad8ffcefe7479b9e356d0167e1f2d"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-094",
+      "trial_name": "chess-puzzles-094__Tn87byH",
+      "task_checksum": "407965c4b1e85f3cbafa4ad2add5970ad5ea5a5c5f307ab278aef9eba3a53304"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-095",
+      "trial_name": "chess-puzzles-095__Us7bfSp",
+      "task_checksum": "e503ecb68b7e393792d706e7c212362b2abc1ace7c3acc85434a1c4edda143d8"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-096",
+      "trial_name": "chess-puzzles-096__LsjBG5m",
+      "task_checksum": "d20216bf3992f39b8c20337904731edf15ea889794b97e8a30b2a982299df4ee"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-097",
+      "trial_name": "chess-puzzles-097__VuWhtbm",
+      "task_checksum": "670c49e790b41fd6e0489cd5e477df2340269e5e405d2790bf4988a6b2f785bc"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-098",
+      "trial_name": "chess-puzzles-098__JjBnCRH",
+      "task_checksum": "2bb003b054bfae63a1c8145814e9453eb4aa6ce08ec6f23a66f6c0d9ae0aff7e"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-099",
+      "trial_name": "chess-puzzles-099__L6Qi3dF",
+      "task_checksum": "f07fbd56dbb9a9a0ef0939d1934013697fd41bfe9d130fac49f47061875f77ab"
+    },
+    {
+      "task_name": "epoch-ai/chess-puzzles__chess-puzzles-100",
+      "trial_name": "chess-puzzles-100__Wi2KCda",
+      "task_checksum": "3d6cfbb2b81ad4adc0033d3aeff864c1b505b55cb2015f22b246c208250089a0"
+    }
+  ]
+}

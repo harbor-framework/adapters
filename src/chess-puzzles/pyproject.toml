@@ -1,0 +1,26 @@
+[project]
+name = "harbor-chess-puzzles-adapter"
+version = "0.1.0"
+description = "Harbor adapter for Epoch AI's Chess Puzzles v2 benchmark"
+readme = "README.md"
+authors = [
+    { name = "Yuxuan Tang", email = "tangalantt@gmail.com" }
+]
+requires-python = ">=3.13"
+dependencies = []
+
+[project.scripts]
+chess-puzzles = "chess_puzzles.main:main"
+
+[dependency-groups]
+dev = ["pytest>=8"]
+
+[build-system]
+requires = ["uv_build>=0.11.32,<0.12.0"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "chess_puzzles"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
