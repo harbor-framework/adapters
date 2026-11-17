@@ -157,8 +157,12 @@ For quick testing or debugging a single task:
 # Run a single task with oracle (pre-written solution)
 uv run --project src/browsecomp --group test harbor trial start -p datasets/browsecomp/browsecomp-0001
 
-# Run a single task with a specific agent and model
-uv run --project src/browsecomp --group test harbor trial start -p datasets/browsecomp/browsecomp-0001 -a <agent_name> -m "<model_name>"
+# Run a single task with a specific agent and model. Use `harbor run`: at the
+# pinned Harbor, `harbor trial start` has no `--extra-instruction-path`, and
+# without the appended instruction ordinary agents never write
+# /app/response.txt and score zero.
+uv run --project src/browsecomp --group test harbor run -p datasets/browsecomp/browsecomp-0001 -a <agent_name> -m "<model_name>" \
+  --extra-instruction-path src/browsecomp/agentic_instruction.md
 ```
 
 The verifier still requires `OPENAI_API_KEY` for the pinned grader model.
@@ -288,7 +292,7 @@ exact historical Harbor commit or all modern preflight fields. Any new live/pari
 run or methodology change needs maintainer coordination. Dataset registration and
 acceptance of the 30-task/custom-agent parity scope remain review decisions.
 
-The destination contract was initially read at adapters commit `08cbb3a6198adbf7b87323c884180e0e0fffd7d1` and rechecked against review revisions `c6eb509c459c994b90750d7d880dc93530e55d8f` and `7b4df9deb2381ae32f26e6cebec06aaa2975dc56`; `docs/adapters.mdx` and `scripts/validate_adapter.py` are unchanged between those two revisions. Its Harbor compatibility baseline is pinned in the test group. The task template now uses the contract's `version = "1.0"`; at the baseline, Harbor accepts that legacy key and retains artifact transfer, separate verification, and phase network policies. `--split parity` aliases the original `--examples 30` sampling. Registry publication, including a `parity` tag, remains deferred: `registry_benchmark_size` is `0` for this contribution. `dataset_pr` stays `null` with a compatibility warning because the validator rejects an empty array and no publication PR exists.
+The destination contract was initially read at adapters commit `08cbb3a6198adbf7b87323c884180e0e0fffd7d1` and rechecked against review revisions `c6eb509c459c994b90750d7d880dc93530e55d8f`, `7b4df9deb2381ae32f26e6cebec06aaa2975dc56`, and `40b140eab2aae7375b2369aeddd2f8b3f872e2da`; `docs/adapters.mdx` and `scripts/validate_adapter.py` are unchanged between the first two, and their changes up to the third (validator reporting of errors already present at a PR's merge base, and pointers to parity guidance) add no adapter requirement. Its Harbor compatibility baseline is pinned in the test group. The task template now uses the contract's `version = "1.0"`; at the baseline, Harbor accepts that legacy key and retains artifact transfer, separate verification, and phase network policies. `--split parity` aliases the original `--examples 30` sampling. Registry publication, including a `parity` tag, remains deferred: `registry_benchmark_size` is `0` for this contribution. `dataset_pr` stays `null` with a compatibility warning because the validator rejects an empty array and no publication PR exists.
 
 ### Offline migration validation
 

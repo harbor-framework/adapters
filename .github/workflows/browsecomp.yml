@@ -35,6 +35,10 @@ jobs:
       - name: Run synthetic and mocked protocol tests
         run: uv run --project src/browsecomp --group test --locked pytest src/browsecomp/tests -q
       - name: Validate adapter structure
+        # The shared validator reads and prints without an explicit encoding;
+        # Windows' cp1252 default cannot encode its status emoji.
+        env:
+          PYTHONUTF8: '1'
         run: uv run --project src/browsecomp --group test --locked python scripts/validate_adapter.py browsecomp
       - name: Check lint
         run: uv run --project src/browsecomp --group test --locked ruff check src/browsecomp
