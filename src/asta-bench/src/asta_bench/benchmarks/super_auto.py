@@ -8,7 +8,10 @@ seconds.  Upstream reads that evidence from an agent-writable execution
 history, so it can be satisfied without running anything.
 
 Here the agent submits `{command, cwd}` and the verifier runs the command
-itself for a short window, applying (a)-(c) to what it observes.
+itself for a short window, applying (a)-(c) to what it observes.  The command
+runs as an unprivileged user with no way back to root, so it cannot write the
+reward directory or the grader files, or signal the verifier; every process it
+leaves behind is killed before the reward is written.
 
 Reference solutions (`super_auto_solutions/<task_id>/`) are real: `solve.sh`
 sets up the repository (with any patches it needs to run on CPU) and
@@ -110,13 +113,30 @@ history:
 
 The command is stopped at WINDOW_SECONDS; whatever would happen later is not
 part of the rule ("ran for more than 10 seconds ... without error").
+
+The submitted command is untrusted code, so it runs as SANDBOX_UID with
+no_new_privs (setuid/file-capability binaries cannot raise it back to root):
+  * /, /logs, /logs/verifier and /tests are made root-owned and not group/other
+    writable first, so it cannot write the reward or the grader files, or swap
+    the reward directory;
+  * it gets ownership of the work trees it may legitimately write (the agent's
+    working directories and the caches in $HOME; never system paths, never a
+    file with other hard links), so a command that ran for the agent as root
+    still runs;
+  * a different uid cannot signal or ptrace the verifier;
+  * afterwards every process of SANDBOX_UID is SIGKILLed (it cannot change
+    uid, so that is every process it started, including detached ones), and
+    only then is the reward written, after removing any reward file.
 """
 
 from __future__ import annotations
 
+import ctypes
 import json
 import os
+import pwd
 import signal
+import stat
 import subprocess
 import sys
 import time
@@ -124,16 +144,175 @@ from pathlib import Path
 
 ANSWER_FILE = Path("/app/answer.txt")
 CONFIG_FILE = Path("/tests/config.json")
-REWARD_FILE = Path("/logs/verifier/reward.txt")
-LOG_FILE = Path("/logs/verifier/entrypoint_run.log")
+REWARD_DIR = Path("/logs/verifier")
+REWARD_FILE = REWARD_DIR / "reward.txt"
+REWARD_JSON = REWARD_DIR / "reward.json"
+LOG_FILE = REWARD_DIR / "entrypoint_run.log"
 
 MIN_SECONDS = 10.0  # upstream: `step_execution_time.total_seconds() < 10` fails
 WINDOW_SECONDS = 15.0  # stop here; MIN_SECONDS plus a margin for start-up jitter
+
+SANDBOX_UID = SANDBOX_GID = 54321
+SANDBOX_NAME = "super-auto-run"
+# Kept root-owned and not writable by the command.
+GRADER_DIRS = ("/logs/verifier", "/tests")
+LOCKED_ANCESTORS = ("/", "/logs")
+# Never given to the command, even when its cwd is inside them.
+SYSTEM_PREFIXES = (
+    "/logs", "/tests", "/proc", "/sys", "/dev", "/etc", "/bin", "/sbin",
+    "/lib", "/lib32", "/lib64", "/libx32", "/usr", "/boot", "/run", "/var",
+    "/opt/inspect_tool_support",
+)
+# Work trees the agent may have set the command up in (contents only for /tmp).
+WORK_ROOTS = ("/tmp", "/workspace", "/content", "/app", "/home")
+
+_LIBC = ctypes.CDLL(None, use_errno=True)
+_PR_SET_NO_NEW_PRIVS = 38
 
 
 def _write_reward(value: float) -> None:
     REWARD_FILE.parent.mkdir(parents=True, exist_ok=True)
     REWARD_FILE.write_text(f"{value:.6f}\n")
+
+
+def _under(path: str, prefixes) -> bool:
+    return any(path == p or path.startswith(p.rstrip("/") + "/") for p in prefixes)
+
+
+def _lock_down_grader() -> None:
+    """Root-own the reward and test trees and every directory above them."""
+    for d in LOCKED_ANCESTORS:
+        os.chown(d, 0, 0)
+        os.chmod(d, stat.S_IMODE(os.lstat(d).st_mode) & ~0o022)
+    for top in GRADER_DIRS:
+        os.makedirs(top, exist_ok=True)
+        for dirpath, dirnames, filenames in os.walk(top):
+            for name in [""] + dirnames + filenames:
+                path = os.path.join(dirpath, name) if name else dirpath
+                st = os.lstat(path)
+                os.lchown(path, 0, 0)
+                if not stat.S_ISLNK(st.st_mode):
+                    os.chmod(path, stat.S_IMODE(st.st_mode) & ~0o022)
+
+
+def _grant(top: str, include_top: bool, protected: set) -> None:
+    """Give SANDBOX_UID the directories and single-link regular files under top.
+
+    Symlinks are not followed, and anything that is a grader tree (by inode,
+    so bind mounts are caught too) is skipped."""
+    if not os.path.isdir(top) or os.path.islink(top):
+        return
+    for dirpath, dirnames, filenames in os.walk(top, followlinks=False):
+        keep = []
+        for d in dirnames:
+            path = os.path.join(dirpath, d)
+            try:  # entries may vanish while walking
+                st = os.lstat(path)
+                if stat.S_ISDIR(st.st_mode) and (st.st_dev, st.st_ino) not in protected:
+                    os.lchown(path, SANDBOX_UID, SANDBOX_GID)
+                    keep.append(d)
+            except FileNotFoundError:
+                pass
+        dirnames[:] = keep
+        for f in filenames:
+            path = os.path.join(dirpath, f)
+            try:
+                st = os.lstat(path)
+                if stat.S_ISREG(st.st_mode) and st.st_nlink == 1:
+                    os.lchown(path, SANDBOX_UID, SANDBOX_GID)
+            except FileNotFoundError:
+                pass
+    if include_top:
+        os.lchown(top, SANDBOX_UID, SANDBOX_GID)
+
+
+def _prepare_sandbox_user(cwd: str) -> str:
+    """Create the user, lock the grader down, hand over the work trees.
+
+    Returns the HOME the command runs with (root's, so caches the agent filled
+    are reused)."""
+    if os.geteuid() != 0:
+        raise RuntimeError("the SUPER-Auto verifier must run as root")
+    try:
+        pwd.getpwuid(SANDBOX_UID)
+    except KeyError:
+        with open("/etc/group", "a") as fh:
+            fh.write(f"{SANDBOX_NAME}:x:{SANDBOX_GID}:\n")
+        with open("/etc/passwd", "a") as fh:
+            fh.write(
+                f"{SANDBOX_NAME}:x:{SANDBOX_UID}:{SANDBOX_GID}::/root:/bin/bash\n"
+            )
+
+    _lock_down_grader()
+    protected = set()
+    for d in GRADER_DIRS + LOCKED_ANCESTORS:
+        st = os.stat(d)
+        protected.add((st.st_dev, st.st_ino))
+
+    home = pwd.getpwuid(0).pw_dir or "/root"
+    os.makedirs(os.path.join(home, ".cache"), exist_ok=True)
+    os.chmod(home, stat.S_IMODE(os.stat(home).st_mode) | 0o011)
+    for name in os.listdir(home):
+        path = os.path.join(home, name)
+        if os.path.isdir(path) and not os.path.islink(path):
+            _grant(path, include_top=True, protected=protected)
+    for root in WORK_ROOTS:
+        _grant(root, include_top=(root != "/tmp"), protected=protected)
+    real_cwd = os.path.realpath(cwd)
+    if real_cwd != "/" and not _under(real_cwd, SYSTEM_PREFIXES):
+        _grant(real_cwd, include_top=True, protected=protected)
+    return home
+
+
+def _drop_privileges() -> None:
+    """preexec_fn: no setuid/file-capability escalation after the uid change."""
+    if _LIBC.prctl(_PR_SET_NO_NEW_PRIVS, 1, 0, 0, 0) != 0:
+        raise OSError(ctypes.get_errno(), "prctl(PR_SET_NO_NEW_PRIVS) failed")
+
+
+def _live_sandbox_pids() -> list[int]:
+    pids = []
+    for name in os.listdir("/proc"):
+        if not name.isdigit():
+            continue
+        try:
+            status = Path(f"/proc/{name}/status").read_text()
+        except OSError:
+            continue
+        fields = dict(
+            line.split(":", 1) for line in status.splitlines() if ":" in line
+        )
+        uids = fields.get("Uid", "").split()
+        state = fields.get("State", "").strip()[:1]
+        if state != "Z" and str(SANDBOX_UID) in uids:
+            pids.append(int(name))
+    return pids
+
+
+def _kill_sandbox_processes(deadline_seconds: float = 30.0) -> None:
+    """SIGKILL every process of SANDBOX_UID, wherever it was reparented.
+
+    kill(-1) from a process of that uid reaches all of them at once; it cannot
+    reach root's processes."""
+    end = time.monotonic() + deadline_seconds
+    while _live_sandbox_pids():
+        if time.monotonic() > end:
+            raise RuntimeError(
+                f"processes of uid {SANDBOX_UID} survived SIGKILL: "
+                f"{_live_sandbox_pids()}"
+            )
+        pid = os.fork()
+        if pid == 0:  # child: become the sandbox user, kill all of its processes
+            try:
+                os.setgroups([])
+                os.setgid(SANDBOX_GID)
+                os.setuid(SANDBOX_UID)
+                os.kill(-1, signal.SIGKILL)
+            except BaseException:
+                pass
+            os._exit(0)
+        os.waitpid(pid, 0)
+        time.sleep(0.2)
 
 
 def _read_answer():
@@ -186,17 +365,26 @@ def output_is_clean(entrypoint: str, observation: str) -> bool:
 
 
 def run_for_window(command: str, cwd: str) -> tuple[float, bool, str]:
-    """Run `command` in `cwd`; return (seconds it ran, still running, output)."""
+    """Run `command` in `cwd` as SANDBOX_UID; return (seconds, still running, output)."""
+    home = _prepare_sandbox_user(cwd)
+    _kill_sandbox_processes()  # nothing of that uid may predate the run
+    env = dict(os.environ)
+    env.update(HOME=home, USER=SANDBOX_NAME, LOGNAME=SANDBOX_NAME)
     LOG_FILE.parent.mkdir(parents=True, exist_ok=True)
     with LOG_FILE.open("wb") as log:
         start = time.monotonic()
         proc = subprocess.Popen(
             ["bash", "-lc", command],
             cwd=cwd,
+            env=env,
             stdin=subprocess.DEVNULL,
             stdout=log,
             stderr=subprocess.STDOUT,
             start_new_session=True,
+            user=SANDBOX_UID,
+            group=SANDBOX_GID,
+            extra_groups=[],
+            preexec_fn=_drop_privileges,
         )
         still_running = False
         try:
@@ -205,17 +393,15 @@ def run_for_window(command: str, cwd: str) -> tuple[float, bool, str]:
             still_running = True
         elapsed = time.monotonic() - start
         if still_running:
-            # Stop the whole process group (entrypoints often spawn children).
-            for sig in (signal.SIGTERM, signal.SIGKILL):
-                try:
-                    os.killpg(proc.pid, sig)
-                except ProcessLookupError:
-                    break
-                try:
-                    proc.wait(timeout=5)
-                    break
-                except subprocess.TimeoutExpired:
-                    continue
+            # Give the process group a chance to exit cleanly first.
+            try:
+                os.killpg(proc.pid, signal.SIGTERM)
+                proc.wait(timeout=5)
+            except (ProcessLookupError, subprocess.TimeoutExpired):
+                pass
+        # Then everything the command started, detached or not.
+        _kill_sandbox_processes()
+        proc.wait()
     output = LOG_FILE.read_text(encoding="utf-8", errors="replace")
     return elapsed, still_running, output
 
@@ -258,6 +444,10 @@ def main() -> int:
         f"-> {'PASS' if passed else 'FAIL'}",
         file=sys.stderr,
     )
+    # Its processes are gone and it never had write access here; still, only
+    # this verifier's own reward may be collected.
+    for stale in (REWARD_JSON, REWARD_FILE):
+        stale.unlink(missing_ok=True)
     _write_reward(1.0 if passed else 0.0)
     return 0
 
