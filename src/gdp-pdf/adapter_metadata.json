@@ -1,0 +1,40 @@
+[
+  {
+    "adapter_name": "gdp-pdf",
+    "adapter_builders": [
+      "Pranav Vashistha (220042524+Pranavv-dev@users.noreply.github.com)"
+    ],
+    "original_benchmark": [
+      {
+        "split": "full",
+        "size": 100,
+        "harness": "llm",
+        "supported_agents": [
+          "None"
+        ],
+        "adaptable": true,
+        "notes": "100 expert prompts over professional PDFs in 10 domains, graded per rubric point by an LLM judge (gemini-3.5-flash). Surge's harness is an Inspect eval that sends the PDF to the model in one call and ships no agent. Surge's Hugging Face dataset is no longer public; the adapter uses the public copy cloudybean/GDP.pdf at revision 1b73b865."
+      }
+    ],
+    "harbor_adapter": [
+      {
+        "split": "full",
+        "adapted_benchmark_size": 99,
+        "parity_benchmark_size": 30,
+        "parity_sampling_rate": 0.303,
+        "registry_benchmark_size": 99,
+        "added_agents": [
+          "None"
+        ],
+        "parity_matching_agents": [
+          "claude-code@2.1.311+claude-haiku-4-5"
+        ],
+        "parity_unmatching_agents": [
+          "None"
+        ],
+        "parity_costs": "$81",
+        "notes": "legal-03 is excluded because two of its rubric points contradict each other, so no answer can pass all of them. Parity ran on a 30-task subset (3 per domain, seed 0; `--split parity`), 3 runs per side. parity_costs is everything spent on parity with the 2077AI key (sanity checks, the stopped first run, the 3 runs and the cross-grading check), judge included; the 3 counted runs cost $55.72. The oracle re-run after the separate-grader change cost another $12.56 on the same key."
+      }
+    ]
+  }
+]
