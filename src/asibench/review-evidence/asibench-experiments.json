@@ -1,0 +1,3867 @@
+{
+  "file": "asibench-experiments.tar.gz",
+  "sha256": "29f76a4fcf2a25c5773695debacbc555dbe7be1a461f7065aba54e71c729cb95",
+  "bytes": 29679919,
+  "files": [
+    {
+      "path": "adapters/asibench/README.md",
+      "bytes": 1159,
+      "sha256": "b80524d42aaf4288ffb0ac4797321e197315be913d83279d50917c7c2268c19a"
+    },
+    {
+      "path": "adapters/asibench/config.yaml",
+      "bytes": 771,
+      "sha256": "cc5d9fda748f4cd68f08408b06592e41942721c7b289d97c297b06706780890b"
+    },
+    {
+      "path": "adapters/asibench/harbor_parity/astronomy.nbody_close_encounters/outputs.tar.gz",
+      "bytes": 40916,
+      "sha256": "391336589621fcc9f2c5d9cd05347ba978ff1a26a37332968ed5a4804310b9a4"
+    },
+    {
+      "path": "adapters/asibench/harbor_parity/astronomy.nbody_close_encounters/score_detail.json",
+      "bytes": 2716,
+      "sha256": "90a46fe2a834dfdb5b332d96be24a0af079931fe75fcb47df4e6ac328c74fe45"
+    },
+    {
+      "path": "adapters/asibench/harbor_parity/astronomy.nbody_close_encounters/trajectory.json",
+      "bytes": 63977,
+      "sha256": "cbccb048f0da5dd49de0d94893ebacbb140a1144398842c8bcf8f1876b2050c2"
+    },
+    {
+      "path": "adapters/asibench/harbor_parity/biology.gillespie_ssssa_michaelis_menten/outputs.tar.gz",
+      "bytes": 111328,
+      "sha256": "55555e1734c8d5cd46f863932de108bd534b7a4793a50d5fc8a399315ed44d1c"
+    },
+    {
+      "path": "adapters/asibench/harbor_parity/biology.gillespie_ssssa_michaelis_menten/score_detail.json",
+      "bytes": 19270,
+      "sha256": "16eb72bff0eda27782e8d58c1c54535d653790ec8c5ce0500cfc2fa6e8538209"
+    },
+    {
+      "path": "adapters/asibench/harbor_parity/biology.gillespie_ssssa_michaelis_menten/trajectory.json",
+      "bytes": 199850,
+      "sha256": "463ce2a0bf183efb1620480569203d4a3d7decbb8d578b7bf1e065be2a810d99"
+    },
+    {
+      "path": "adapters/asibench/harbor_parity/chemistry.reaction_path_bifurcation_vri/outputs.tar.gz",
+      "bytes": 1159097,
+      "sha256": "aa8304758418ac630755831b24fdef76c660261b7418cbbc1c04d6eee2ad5de0"
+    },
+    {
+      "path": "adapters/asibench/harbor_parity/chemistry.reaction_path_bifurcation_vri/score_detail.json",
+      "bytes": 11017,
+      "sha256": "b8a3f8bda9cd280afdc6ba0d89ca4d719b43def5b19c5efa0b476fcc58795944"
+    },
+    {
+      "path": "adapters/asibench/harbor_parity/chemistry.reaction_path_bifurcation_vri/trajectory.json",
+      "bytes": 241045,
+      "sha256": "eedca0ed2501cfc8ca09709356abdd0b5dcea771c1cdd81f9252869fc6dfe84d"
+    },
+    {
+      "path": "adapters/asibench/harbor_parity/math.symplectic_integrators/outputs.tar.gz",
+      "bytes": 13463889,
+      "sha256": "4bfe2720467e5932a7cde800299f87491ecdca2f83274f45039b2642406ec559"
+    },
+    {
+      "path": "adapters/asibench/harbor_parity/math.symplectic_integrators/score_detail.json",
+      "bytes": 5977,
+      "sha256": "91b9fc6056736dddc533620480743965e9e37a3644c029a803a73b7d5389034e"
+    },
+    {
+      "path": "adapters/asibench/harbor_parity/math.symplectic_integrators/trajectory.json",
+      "bytes": 98932,
+      "sha256": "70a515aaa2d906c5317afe75575fc04a31bd5732e5d95193a8434b67b41e07db"
+    },
+    {
+      "path": "adapters/asibench/harbor_parity/robotics.particle_filter/outputs.tar.gz",
+      "bytes": 275972,
+      "sha256": "91befc35c40f9dbd356874861c1ca96aeb29152405df195a98cd38925bb529e3"
+    },
+    {
+      "path": "adapters/asibench/harbor_parity/robotics.particle_filter/score_detail.json",
+      "bytes": 4512,
+      "sha256": "f91bab2b3d38fca5f58cabb7fc2fdf0a7f0eb629fdba0376b7a8b80dd321a727"
+    },
+    {
+      "path": "adapters/asibench/harbor_parity/robotics.particle_filter/trajectory.json",
+      "bytes": 78019,
+      "sha256": "dfed85cd9e0daa0ad42956161d4a488a633e00b6a81b36ff8077073f00e55c5d"
+    },
+    {
+      "path": "adapters/asibench/oracle/acceptance-summary.txt",
+      "bytes": 450,
+      "sha256": "8424844eb8f9ca0269dfaf215f904f8c86313e1f0a0ed062aa9dce82f48118c2"
+    },
+    {
+      "path": "adapters/asibench/oracle/archives.json",
+      "bytes": 91,
+      "sha256": "a04986ffd5b9fac6525372c5e8b101dd3c389bd551fe3b4bbe0114a08f51e9de"
+    },
+    {
+      "path": "adapters/asibench/oracle/job-result.json",
+      "bytes": 18497,
+      "sha256": "de8bfd94b4c712860e7103b505cffe26db7ebf1da816e7e12886a9865d5a2d4e"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/astronomy-nbody-close-encounters-b1/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/astronomy-nbody-close-encounters-b1/score_detail.json",
+      "bytes": 2757,
+      "sha256": "8864516ce012c03ecd5302c1794c636a870e176fd4adc91e1684b5efda15c02a"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/astronomy-nbody-close-encounters-b1/trial.json",
+      "bytes": 1156,
+      "sha256": "e95675ed4675adbeb3359deb00e9a3a10ae094b8e1d6d41f6e13b9612f73da2c"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/astronomy-nbody-close-encounters-b2/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/astronomy-nbody-close-encounters-b2/score_detail.json",
+      "bytes": 2757,
+      "sha256": "a04796a278bbab675bdc69d5ef6ac32bfc069b8b907fb516577bc68fbf0d73cd"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/astronomy-nbody-close-encounters-b2/trial.json",
+      "bytes": 1156,
+      "sha256": "890093c42372f23f3db2b336e6f5eec1804db1f88361e2333b6dddfd0d732066"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/astronomy-nbody-close-encounters-b3/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/astronomy-nbody-close-encounters-b3/score_detail.json",
+      "bytes": 2757,
+      "sha256": "5307440d2d2288410f5b02541925d52829ec330851371acdbea1c684f4fe6bca"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/astronomy-nbody-close-encounters-b3/trial.json",
+      "bytes": 1156,
+      "sha256": "2101f44e812039be479b84022eec7399f737bb2d4b61bd6b21be19c66ef5e2cc"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/astronomy-nbody-close-encounters-b4/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/astronomy-nbody-close-encounters-b4/score_detail.json",
+      "bytes": 2757,
+      "sha256": "649721d97326c88a5196ec8f094fd2f8251b1db67d1759a01f2afb8f03cbf128"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/astronomy-nbody-close-encounters-b4/trial.json",
+      "bytes": 1156,
+      "sha256": "56d219e2e81cb87f1094cb14ff8ea38040c6c4470ac5d2976a8e843c2fbc4671"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/astronomy-planet-activity-sep-b1/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/astronomy-planet-activity-sep-b1/score_detail.json",
+      "bytes": 5125,
+      "sha256": "a6d42ce3b8ff97394de2ec016f7470abbab3a21ec54fc44bed44acae982c0889"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/astronomy-planet-activity-sep-b1/trial.json",
+      "bytes": 1150,
+      "sha256": "715aaddcccb6a8d598eead49b3e9eecb9fc5fc11a885fde475533adbae293c2e"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/astronomy-planet-activity-sep-b2/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/astronomy-planet-activity-sep-b2/score_detail.json",
+      "bytes": 5125,
+      "sha256": "dd5c74b0158c4e95b2a3c2ea89add487e23cbf682b267e4e927d7ec3138e4455"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/astronomy-planet-activity-sep-b2/trial.json",
+      "bytes": 1150,
+      "sha256": "f0029aac14859e77c0f6ec56741ef64225d7e3c8f3352b44c239e2719b9a9b6b"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/astronomy-planet-activity-sep-b3/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/astronomy-planet-activity-sep-b3/score_detail.json",
+      "bytes": 5125,
+      "sha256": "f07f7d2bd163cf70760096c13d87fa66b57ba08593bf761682ec35a1ef16ab64"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/astronomy-planet-activity-sep-b3/trial.json",
+      "bytes": 1150,
+      "sha256": "5d8ecf2c9fe02b7fb4bdbac6c8370f140031ae8141bf7d2d00fec4a922a630b1"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/astronomy-planet-activity-sep-b4/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/astronomy-planet-activity-sep-b4/score_detail.json",
+      "bytes": 5125,
+      "sha256": "8e18ca126f4510f3366ecc3931b36e8c491ee671398ba97fead7ecc0bcd59cbe"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/astronomy-planet-activity-sep-b4/trial.json",
+      "bytes": 1150,
+      "sha256": "3ca9bedf364e119e5007c548c7b9edfc12053cd281cfcb146467ac000478eadb"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/astronomy-white-dwarf-sparse-inference-b1/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/astronomy-white-dwarf-sparse-inference-b1/score_detail.json",
+      "bytes": 3965,
+      "sha256": "e9a35efbc90da05e24c4f576d4d6f34c4237d6d67424296fa0f7f4b11d39c6a1"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/astronomy-white-dwarf-sparse-inference-b1/trial.json",
+      "bytes": 1168,
+      "sha256": "bd2ef2d74ce4dc55de263539abf5f584f06ffa08a0c2760fec60f5885e20ae6b"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/astronomy-white-dwarf-sparse-inference-b2/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/astronomy-white-dwarf-sparse-inference-b2/score_detail.json",
+      "bytes": 3965,
+      "sha256": "34852956a8ba7b3eb4e0e9cb1b1aeaeab583e2c64d91d8d388ba1238e484c382"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/astronomy-white-dwarf-sparse-inference-b2/trial.json",
+      "bytes": 1168,
+      "sha256": "65c234183fb80d479be3eb6520aa8508243abb631f20c66293dee3d5c22ce809"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/astronomy-white-dwarf-sparse-inference-b3/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/astronomy-white-dwarf-sparse-inference-b3/score_detail.json",
+      "bytes": 3965,
+      "sha256": "cfa7d310d16a85b6c0f1b08a1feaa08b865736728cd5b4afc1ccc530a2aeff64"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/astronomy-white-dwarf-sparse-inference-b3/trial.json",
+      "bytes": 1168,
+      "sha256": "be367f61e492269dda14c2648f77666555506f8d4fd3db0fa4b4e2235cca703a"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/astronomy-white-dwarf-sparse-inference-b4/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/astronomy-white-dwarf-sparse-inference-b4/score_detail.json",
+      "bytes": 3965,
+      "sha256": "a72e58e3dc871f6849a48a93e5de619e40f79645259530335f872cbf5d3f5477"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/astronomy-white-dwarf-sparse-inference-b4/trial.json",
+      "bytes": 1168,
+      "sha256": "f2cb51d5dbd9042f6239c49d4d5ceabcad1464af31b79230944517ddc8599bec"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biology-calcium-ip3-dyk-oscillations-b1/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biology-calcium-ip3-dyk-oscillations-b1/score_detail.json",
+      "bytes": 5749,
+      "sha256": "840604221a9457f4eb7f26bee797045b722e079b9d96ae5a5963589f902193a1"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biology-calcium-ip3-dyk-oscillations-b1/trial.json",
+      "bytes": 1164,
+      "sha256": "d9986006bc229c3e2c98b7a1919e50a8da75b7a31b3f3c76dee814e30f2d3510"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biology-calcium-ip3-dyk-oscillations-b2/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biology-calcium-ip3-dyk-oscillations-b2/score_detail.json",
+      "bytes": 5683,
+      "sha256": "7c4c267b7da4bfbda577d62e5a16a442a1dc0e317e8a61be4520b780918835e2"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biology-calcium-ip3-dyk-oscillations-b2/trial.json",
+      "bytes": 1164,
+      "sha256": "8dc5347bf7925fae4007fdb83e43b84d9dddf953451840c2b822beb072545f0b"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biology-calcium-ip3-dyk-oscillations-b3/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biology-calcium-ip3-dyk-oscillations-b3/score_detail.json",
+      "bytes": 5760,
+      "sha256": "362749ce9937b05946577ec8838154bca56b1826b8eea3b612560c2762a9fb18"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biology-calcium-ip3-dyk-oscillations-b3/trial.json",
+      "bytes": 1164,
+      "sha256": "4324ab540772f9ee6a57abd8536f0fb39a6a07390a174ee2d7005eae1f6ba002"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biology-calcium-ip3-dyk-oscillations-b4/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biology-calcium-ip3-dyk-oscillations-b4/score_detail.json",
+      "bytes": 5749,
+      "sha256": "8d0e3cb96a6dbb4aa801d19868cd3d7816f5b0d356f189277a4b76f8307d5984"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biology-calcium-ip3-dyk-oscillations-b4/trial.json",
+      "bytes": 1164,
+      "sha256": "e08c61dc99091ea45f21e8d1881104203c4feb887c7dd417f7f30b714251178a"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biology-contextual-dna-regime-mapping-b1/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biology-contextual-dna-regime-mapping-b1/score_detail.json",
+      "bytes": 8769,
+      "sha256": "dc334ddf04a614ef1e3380a4c32be9ff2616959687d66f88a60d3e52d1e933c2"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biology-contextual-dna-regime-mapping-b1/trial.json",
+      "bytes": 1166,
+      "sha256": "61efd6f252f3dec2cf7171a49239d7e8c66a16f94d4d34e2564cd9a121476028"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biology-contextual-dna-regime-mapping-b2/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biology-contextual-dna-regime-mapping-b2/score_detail.json",
+      "bytes": 8736,
+      "sha256": "8314ac9a75414e5454334147c149e8c23fad9b3538051cbf28f6395b70928160"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biology-contextual-dna-regime-mapping-b2/trial.json",
+      "bytes": 1166,
+      "sha256": "6c98ff2d37b634c81745db6a1041d5998e4607bbb148270b9e0633ecaae2f3e0"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biology-contextual-dna-regime-mapping-b3/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biology-contextual-dna-regime-mapping-b3/score_detail.json",
+      "bytes": 8736,
+      "sha256": "b37049b653a151300b99ee8f843f880db01fa2a286bbf047e98a43b0c5c814b1"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biology-contextual-dna-regime-mapping-b3/trial.json",
+      "bytes": 1166,
+      "sha256": "bad31a8816f14bb0dbf187dac10eedf6b53ab7403bbaddd53bc884a81fab92bb"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biology-contextual-dna-regime-mapping-b4/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biology-contextual-dna-regime-mapping-b4/score_detail.json",
+      "bytes": 8784,
+      "sha256": "60cd15dcddfa9b19652a83663cdb31bfd53bc07a2db854bd6bad007148888df4"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biology-contextual-dna-regime-mapping-b4/trial.json",
+      "bytes": 1166,
+      "sha256": "ca24b4a8a3ee8b87ca8121cad04d3cdeef48a045d9f4d01acd5543967bb0409c"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biology-gene-network-timeseries-b1/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biology-gene-network-timeseries-b1/score_detail.json",
+      "bytes": 4398,
+      "sha256": "c6d61eef84ab0b4b2cada555f82dda361d11e1c7eef1a97b010232079ea35318"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biology-gene-network-timeseries-b1/trial.json",
+      "bytes": 1153,
+      "sha256": "ed140398b8a950523e8b54cc9136fe66ac9e4d0ff14fc94a95a4da4dc5b321ff"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biology-gene-network-timeseries-b2/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biology-gene-network-timeseries-b2/score_detail.json",
+      "bytes": 4398,
+      "sha256": "ddbe59c222957a8651b7bb1852cc16f408dcc739c7e5602612b32380f8e3b550"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biology-gene-network-timeseries-b2/trial.json",
+      "bytes": 1153,
+      "sha256": "6c301cf17258629ae2bbd0851e87c0d5ae627687965c9a29bc766e7b912b4123"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biology-gene-network-timeseries-b3/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biology-gene-network-timeseries-b3/score_detail.json",
+      "bytes": 4398,
+      "sha256": "dd59beb1d70d0a1d622caf439f86ad7bf1ff9f3c1bf482ad5407c4c5940e6058"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biology-gene-network-timeseries-b3/trial.json",
+      "bytes": 1153,
+      "sha256": "6d83058367ba2ecea4bef62d7790520ad4ecf7edbb2a472a374687877d1f1f03"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biology-gene-network-timeseries-b4/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biology-gene-network-timeseries-b4/score_detail.json",
+      "bytes": 4398,
+      "sha256": "93d37b5a9f4f1b8d9b87718ba9002abe00acfe484405a67f5970649ad7e0af7a"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biology-gene-network-timeseries-b4/trial.json",
+      "bytes": 1153,
+      "sha256": "62652ca404a965a7f1b36a9a177de05d98f96bcd491b9c15309a072874f35870"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biology-gillespie-ssssa-michaelis-menten-b1/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biology-gillespie-ssssa-michaelis-menten-b1/score_detail.json",
+      "bytes": 18540,
+      "sha256": "14a2c24bbc3bc34ffea1fdd6088e5433f60885deb12907c876cb3f8829397e16"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biology-gillespie-ssssa-michaelis-menten-b1/trial.json",
+      "bytes": 1172,
+      "sha256": "01b82c4123f8e25a2bab2a99e4703d644db1a88250133aa53188d18740b2c4b1"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biology-gillespie-ssssa-michaelis-menten-b2/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biology-gillespie-ssssa-michaelis-menten-b2/score_detail.json",
+      "bytes": 18540,
+      "sha256": "fce0e5b9bdd975db434343065e0bc010a230dbbf04aa519268fcd0de2f788eaa"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biology-gillespie-ssssa-michaelis-menten-b2/trial.json",
+      "bytes": 1172,
+      "sha256": "4d16cd7c8a5a592dc2b5b27f4a29b1bbf2b92b042e2a08f9819d6efa9ed7945c"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biology-gillespie-ssssa-michaelis-menten-b3/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biology-gillespie-ssssa-michaelis-menten-b3/score_detail.json",
+      "bytes": 18540,
+      "sha256": "b3207d61d1f879b7956180c6be9d4eb548b1acc163bffd261d937f8c335d603b"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biology-gillespie-ssssa-michaelis-menten-b3/trial.json",
+      "bytes": 1172,
+      "sha256": "656e7ffdf25ae182889f4869b6c5fbeb446f6cd172a4fdf46498b8a803836de7"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biology-gillespie-ssssa-michaelis-menten-b4/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biology-gillespie-ssssa-michaelis-menten-b4/score_detail.json",
+      "bytes": 18540,
+      "sha256": "7eb784846c2a371ee31829490626045fe5b254c660f97cdbf0b6615ebea5b7b6"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biology-gillespie-ssssa-michaelis-menten-b4/trial.json",
+      "bytes": 1172,
+      "sha256": "e98b7e5b1b5eff69733721db3f8421bc58ce02b4e15d519f86b8c0d1bd9d6bbc"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biology-protein-folding-go-model-b1/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biology-protein-folding-go-model-b1/score_detail.json",
+      "bytes": 14067,
+      "sha256": "57e0e3d049527c94485b16d03872e15b2b4c9f71858bf3b1cc2ccf567e439ce0"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biology-protein-folding-go-model-b1/trial.json",
+      "bytes": 1156,
+      "sha256": "f69feccfe54ade7975dd10074b0dd83cf97f5a0accd4bde5f85dd756d588b5c1"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biology-protein-folding-go-model-b2/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biology-protein-folding-go-model-b2/score_detail.json",
+      "bytes": 13963,
+      "sha256": "802334988420656b9f1d0e8f23b68d97c6a5e44d21cc5f6cac93748d19c3432d"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biology-protein-folding-go-model-b2/trial.json",
+      "bytes": 1156,
+      "sha256": "59e8ae86b5afd925b018ffedadf5ecab211afb0d8c6822be28f3db480409c93e"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biology-protein-folding-go-model-b3/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biology-protein-folding-go-model-b3/score_detail.json",
+      "bytes": 14049,
+      "sha256": "44a5cc22c6d4fe5b0f2c7e7905a1c08082ba2dd2f524cb712131e163812e18f4"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biology-protein-folding-go-model-b3/trial.json",
+      "bytes": 1156,
+      "sha256": "828ca505172c854045e9b329adffa341d43cdf2f50ded77dca187c6dd1b4d373"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biology-protein-folding-go-model-b4/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biology-protein-folding-go-model-b4/score_detail.json",
+      "bytes": 14010,
+      "sha256": "355497685b9306e09bfa8602f0026e74332d78fef4f83a9aaf44902ceaaa5a1b"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biology-protein-folding-go-model-b4/trial.json",
+      "bytes": 1156,
+      "sha256": "5ae856a06b18eb8fdaffd67279c4591306818540f2cb04c1d13986101ae7c591"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biology-scrna-seq-analysis-b1/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biology-scrna-seq-analysis-b1/score_detail.json",
+      "bytes": 4905,
+      "sha256": "2e61e59fff6ae0940761cf811bdff1ca8babd480182f29b1cf205c41cb87f89f"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biology-scrna-seq-analysis-b1/trial.json",
+      "bytes": 1141,
+      "sha256": "3d3b9abb4659dc3c54c408722cb5327181c769a383146df23de41d1d840abde9"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biology-scrna-seq-analysis-b2/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biology-scrna-seq-analysis-b2/score_detail.json",
+      "bytes": 4905,
+      "sha256": "cfdec9006486cb75828fcfebaa5b8de6dd51c36326dbd4ff1cc9f0f7ce2e1940"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biology-scrna-seq-analysis-b2/trial.json",
+      "bytes": 1141,
+      "sha256": "57627d3d7877a396dd96788ae6b8896652838be68c56783f5f2c1db636e16124"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biology-scrna-seq-analysis-b3/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biology-scrna-seq-analysis-b3/score_detail.json",
+      "bytes": 4905,
+      "sha256": "62b6f3314479dfea72e52c3631bda0392b11ebb9717491905d57d87fff38af64"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biology-scrna-seq-analysis-b3/trial.json",
+      "bytes": 1141,
+      "sha256": "0f9ae0089acea2da3797bb08838e7f7ecedd031c501b7c7613873710a5c8b776"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biology-scrna-seq-analysis-b4/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biology-scrna-seq-analysis-b4/score_detail.json",
+      "bytes": 4905,
+      "sha256": "48ee2ec9c451a739dac50bf3b3ef6124a96a59ec89c2aee27eb9e1fcbd667d71"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biology-scrna-seq-analysis-b4/trial.json",
+      "bytes": 1141,
+      "sha256": "2158713b179dc687966405e1f689f5ba627f9822d7ba23f13905f307dccd8032"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biostat-perturbation-convergence-testing-b1/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biostat-perturbation-convergence-testing-b1/score_detail.json",
+      "bytes": 11379,
+      "sha256": "26df71931736871d3e2186f1df10679b3ad35f18ab8f46e38ea025bae0e17dc0"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biostat-perturbation-convergence-testing-b1/trial.json",
+      "bytes": 1172,
+      "sha256": "600adc85fc880fa49675e8c62d3f0d2856642b8a5ea198a76b90d1424b2f819a"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biostat-perturbation-convergence-testing-b2/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biostat-perturbation-convergence-testing-b2/score_detail.json",
+      "bytes": 11379,
+      "sha256": "f9bd7af6362a08f8a09dc7940ca14ea08995c663e6d27b999081db76e121e352"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biostat-perturbation-convergence-testing-b2/trial.json",
+      "bytes": 1172,
+      "sha256": "39aa933a0af19f0a9f0a05b5bdb2df5e40787eabed652ea0a3025acd6910294d"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biostat-perturbation-convergence-testing-b3/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biostat-perturbation-convergence-testing-b3/score_detail.json",
+      "bytes": 11379,
+      "sha256": "7388243515c359305e3f2f4c1f8636897501f7090f2cae6036e8fc8e26f0f074"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biostat-perturbation-convergence-testing-b3/trial.json",
+      "bytes": 1172,
+      "sha256": "0442c3312549b9f44efeb982d2b1fd2d4e5782df85e58b7a374d795a90dc2bec"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biostat-perturbation-convergence-testing-b4/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biostat-perturbation-convergence-testing-b4/score_detail.json",
+      "bytes": 11379,
+      "sha256": "9b7fb4177fd1c381401cb669d690dfdc7939f98643e11543c63d74c7701041de"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/biostat-perturbation-convergence-testing-b4/trial.json",
+      "bytes": 1172,
+      "sha256": "a50d94822c3bb3d323695ab3e5717626b152b07a072e5930d9bf579e4503c9d8"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/chemistry-implicit-solvent-pb-gb-b1/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/chemistry-implicit-solvent-pb-gb-b1/score_detail.json",
+      "bytes": 6231,
+      "sha256": "e7f7f7704f7d4ff7825214f8c85cd8104c1be5c47ce7848ce3cdc7898fa029bc"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/chemistry-implicit-solvent-pb-gb-b1/trial.json",
+      "bytes": 1156,
+      "sha256": "3bad5e751d2b776ffab4408d68711d51f6381adf1fefe57a010720b417bb124a"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/chemistry-implicit-solvent-pb-gb-b2/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/chemistry-implicit-solvent-pb-gb-b2/score_detail.json",
+      "bytes": 6231,
+      "sha256": "ecffceb1e22737bd935ebc8ceb0ab63af205b3c69eb0b2d1275e352789c0fb0b"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/chemistry-implicit-solvent-pb-gb-b2/trial.json",
+      "bytes": 1156,
+      "sha256": "4b5126b1f230bc95ef4f67ba0dc0e896f9d40d8c5c5590132a660d89ce4b50c9"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/chemistry-implicit-solvent-pb-gb-b3/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/chemistry-implicit-solvent-pb-gb-b3/score_detail.json",
+      "bytes": 6231,
+      "sha256": "9057cbe8a5f0a12843bc1f571ee877b15bae1e40531a2fdd966b6d0d04207062"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/chemistry-implicit-solvent-pb-gb-b3/trial.json",
+      "bytes": 1156,
+      "sha256": "fe952b82e928b28f81cdb4b19998443405d7617a3123896745fa647ea2f6202f"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/chemistry-implicit-solvent-pb-gb-b4/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/chemistry-implicit-solvent-pb-gb-b4/score_detail.json",
+      "bytes": 6231,
+      "sha256": "b10ce54a5702415b57e8c6987a8d9a24dddaeeb377ebc94a278fd0dd71b44be9"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/chemistry-implicit-solvent-pb-gb-b4/trial.json",
+      "bytes": 1156,
+      "sha256": "587d839fdf99bc5ec2b0da9104c1a1c0d7309171aef539c37b2de5ed0368d305"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/chemistry-marcus-et-reorganization-energy-b1/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/chemistry-marcus-et-reorganization-energy-b1/score_detail.json",
+      "bytes": 30982,
+      "sha256": "23847863d5b345371c9ed8298d6d4a95f316475ad23f745a292e72fc1982fd4a"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/chemistry-marcus-et-reorganization-energy-b1/trial.json",
+      "bytes": 1174,
+      "sha256": "21486409860e03681782228b3ae6a395ded0a6eb1fa4f3f164a564de2a3c7082"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/chemistry-marcus-et-reorganization-energy-b2/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/chemistry-marcus-et-reorganization-energy-b2/score_detail.json",
+      "bytes": 30982,
+      "sha256": "91f2276001075b237364469301a00856139cd73fa8297cf882defbddeb80473a"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/chemistry-marcus-et-reorganization-energy-b2/trial.json",
+      "bytes": 1174,
+      "sha256": "29d4360b3a2c765e8f8ba609a4af4fe94512ce71af639a2976fd4e796df32ce4"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/chemistry-marcus-et-reorganization-energy-b3/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/chemistry-marcus-et-reorganization-energy-b3/score_detail.json",
+      "bytes": 30982,
+      "sha256": "a189633b6dbbaf27834976478f77b4d13ac99e932dbf7c288dc54d5657427256"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/chemistry-marcus-et-reorganization-energy-b3/trial.json",
+      "bytes": 1174,
+      "sha256": "b4bd3348933d6ff844aaf629b74314ba175875099356a1a788fd26af7e730a6e"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/chemistry-marcus-et-reorganization-energy-b4/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/chemistry-marcus-et-reorganization-energy-b4/score_detail.json",
+      "bytes": 30982,
+      "sha256": "ea78d8de52ec92d18337c6d32dfacd920f8f4d31b78761e03f447be1c4f53373"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/chemistry-marcus-et-reorganization-energy-b4/trial.json",
+      "bytes": 1174,
+      "sha256": "d74c3b64853cd9d6eeeb499e10d403e9428f2eef4544e9f88ad43b7ac1ada712"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/chemistry-metadynamics-for-dipeptide-in-vacuum-b1/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/chemistry-metadynamics-for-dipeptide-in-vacuum-b1/score_detail.json",
+      "bytes": 6468,
+      "sha256": "56b9934ef0d13022dd59617ca5c041911b9ae32f6d0362856a209865ab5b8285"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/chemistry-metadynamics-for-dipeptide-in-vacuum-b1/trial.json",
+      "bytes": 1184,
+      "sha256": "4e33edced1ae12229d8cc7ac406aa553c2c7e7f9733828a8a8c6f4c7ee847ce0"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/chemistry-metadynamics-for-dipeptide-in-vacuum-b2/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/chemistry-metadynamics-for-dipeptide-in-vacuum-b2/score_detail.json",
+      "bytes": 6468,
+      "sha256": "b0ae103337ac3dc6d3594e16c733f7912304d75db4cef0bbe39ca7ec57f3d95e"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/chemistry-metadynamics-for-dipeptide-in-vacuum-b2/trial.json",
+      "bytes": 1184,
+      "sha256": "c08118203a475083c25276bab76e3c780a0aa888acafd53db56fe0040d03021b"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/chemistry-metadynamics-for-dipeptide-in-vacuum-b3/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/chemistry-metadynamics-for-dipeptide-in-vacuum-b3/score_detail.json",
+      "bytes": 6513,
+      "sha256": "4c820bc52235f6294b7dcc3ba4d73e6713c876ccc5f8e4e691d41d31d82137cf"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/chemistry-metadynamics-for-dipeptide-in-vacuum-b3/trial.json",
+      "bytes": 1184,
+      "sha256": "42a517b1d4073e0a6e2a508d6bcfe56bcc4644310520f76896ca399090e917bd"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/chemistry-metadynamics-for-dipeptide-in-vacuum-b4/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/chemistry-metadynamics-for-dipeptide-in-vacuum-b4/score_detail.json",
+      "bytes": 6504,
+      "sha256": "0801363e857a2618f5e6f31ae276f5a109eefcdecfb8db2aabebfc9bc3d80a35"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/chemistry-metadynamics-for-dipeptide-in-vacuum-b4/trial.json",
+      "bytes": 1184,
+      "sha256": "ec590e65abc39a613361a01baf1179be7c3a4d2f0e985ac3e337dbe8b9e8408c"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/chemistry-reaction-path-bifurcation-vri-b1/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/chemistry-reaction-path-bifurcation-vri-b1/score_detail.json",
+      "bytes": 10314,
+      "sha256": "a0bd881604d8c1bfbe28a60c2d4f5a81b7955e4a2e20d9869d2f72664918ed28"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/chemistry-reaction-path-bifurcation-vri-b1/trial.json",
+      "bytes": 1170,
+      "sha256": "91c2a501f250a7eb5563aa236e3faccf89527b7791f778dfe74dbaaf3303855f"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/chemistry-reaction-path-bifurcation-vri-b2/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/chemistry-reaction-path-bifurcation-vri-b2/score_detail.json",
+      "bytes": 10314,
+      "sha256": "dd2771a773366de2e8b7e6348ecfdd7e0b0055ba41a0f9b3e0a267de0e2e69be"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/chemistry-reaction-path-bifurcation-vri-b2/trial.json",
+      "bytes": 1170,
+      "sha256": "e17f44638aa0a928ed00c8349a37477514320b82c39041ba4f6ed4a073a2049a"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/chemistry-reaction-path-bifurcation-vri-b3/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/chemistry-reaction-path-bifurcation-vri-b3/score_detail.json",
+      "bytes": 10314,
+      "sha256": "5c061874180b1e12446b569541bc164e2842badba8c0bf1043de33b6655e8f69"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/chemistry-reaction-path-bifurcation-vri-b3/trial.json",
+      "bytes": 1170,
+      "sha256": "f8c48177612727018b3532557fb3ee8e59620451068842fd29e2980ef77876d9"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/chemistry-reaction-path-bifurcation-vri-b4/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/chemistry-reaction-path-bifurcation-vri-b4/score_detail.json",
+      "bytes": 10314,
+      "sha256": "6555e23102eec283b20f9928ab9be9b8e8e6d7f29ccd8cb96f98d8a4ae57301e"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/chemistry-reaction-path-bifurcation-vri-b4/trial.json",
+      "bytes": 1170,
+      "sha256": "591d7644cd8ba20d3d4d24a917977898364af34779b1d86778b10d14b0890f4d"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/chemistry-sapt-water-dimer-b1/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/chemistry-sapt-water-dimer-b1/score_detail.json",
+      "bytes": 9379,
+      "sha256": "fc4abe36bbe51270afdcf620a982b9fe29c58f43bf3048a9d5c7679682a6b7c4"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/chemistry-sapt-water-dimer-b1/trial.json",
+      "bytes": 1141,
+      "sha256": "f280e5cf99b5ebd584603360b2ad7758dcf54ed579009469d85409b2bf8823f3"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/chemistry-sapt-water-dimer-b2/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/chemistry-sapt-water-dimer-b2/score_detail.json",
+      "bytes": 9501,
+      "sha256": "db8b1b1a7f76ada5eca9e9a8f22f6e0af0a2be7a97372c32b9ab06e8a2c39e87"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/chemistry-sapt-water-dimer-b2/trial.json",
+      "bytes": 1141,
+      "sha256": "f07ddc2471c86f9d688632996e95fb8751cf220fe1285fc83fcf6dc78e1007ab"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/chemistry-sapt-water-dimer-b3/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/chemistry-sapt-water-dimer-b3/score_detail.json",
+      "bytes": 9982,
+      "sha256": "b8564756056bf9cb73a6a5c1df1d849b1bf60c92b2c897917c8f9bf16e26b2ea"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/chemistry-sapt-water-dimer-b3/trial.json",
+      "bytes": 1141,
+      "sha256": "07a6d78db012c712281aa3b056ef3e3b60890e77aaeb69dcbf77678a56eb1450"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/chemistry-sapt-water-dimer-b4/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/chemistry-sapt-water-dimer-b4/score_detail.json",
+      "bytes": 9868,
+      "sha256": "d6dfd6df9b0f25540cab9269717ca0c4201863f29c264fb3dcc52fcaddcb300f"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/chemistry-sapt-water-dimer-b4/trial.json",
+      "bytes": 1141,
+      "sha256": "20a2ba88404d34c8a3e05ba2624c6e7f45c1cfc358097018e8ba83656159b868"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/chemistry-vtst-tunneling-corrections-b1/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/chemistry-vtst-tunneling-corrections-b1/score_detail.json",
+      "bytes": 8251,
+      "sha256": "49f3de9074cd589013867160b1bbceb352b13a42a241c6daa2f363228136bc54"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/chemistry-vtst-tunneling-corrections-b1/trial.json",
+      "bytes": 1164,
+      "sha256": "8951dfef3a583e8398d8aa2d6c7a53d86125efadb77f2d4a42650dc7cc399b5c"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/chemistry-vtst-tunneling-corrections-b2/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/chemistry-vtst-tunneling-corrections-b2/score_detail.json",
+      "bytes": 8299,
+      "sha256": "3c9dc7c326e58250565affae55d2a7f8b166bf5ef1afe5e709e4d57344f0f909"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/chemistry-vtst-tunneling-corrections-b2/trial.json",
+      "bytes": 1164,
+      "sha256": "f0980c0f9ac2c3e5a7ce7de29c060f88bcfe482bd33492885a4ada62d910dd06"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/chemistry-vtst-tunneling-corrections-b3/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/chemistry-vtst-tunneling-corrections-b3/score_detail.json",
+      "bytes": 8317,
+      "sha256": "62823da79c79bd7ac9895925aa0ca8492fb38e2ffbf97365d79c35a4e3e4308f"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/chemistry-vtst-tunneling-corrections-b3/trial.json",
+      "bytes": 1164,
+      "sha256": "dc8e3c7f446ee72884bbe26ef98c9d23be910796c2c68d1adf44c8866d2da1f9"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/chemistry-vtst-tunneling-corrections-b4/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/chemistry-vtst-tunneling-corrections-b4/score_detail.json",
+      "bytes": 8312,
+      "sha256": "e870cb2574d8c31bf41e5c12ed58925dc84dfb302feeb40fb3559fecd904ecee"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/chemistry-vtst-tunneling-corrections-b4/trial.json",
+      "bytes": 1164,
+      "sha256": "7997284d6d33a42996b4566877772cbac80364f9432c092fe869ff1e1542ef89"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-affinity-subset-bound-audit-b1/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-affinity-subset-bound-audit-b1/score_detail.json",
+      "bytes": 5199,
+      "sha256": "285920a26c1f6b94e34622263be9ae204e2066a54c3905b1256f3b27d8ed3562"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-affinity-subset-bound-audit-b1/trial.json",
+      "bytes": 1180,
+      "sha256": "adcf48245f581fb32fa96bfa6b2a9bb9812d73955b349e48e45b54aecdba8c74"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-affinity-subset-bound-audit-b2/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-affinity-subset-bound-audit-b2/score_detail.json",
+      "bytes": 5199,
+      "sha256": "91abc374efeb2846001b45f00e1bbaa9a50516afa6451c6cd58cadbf7fe4c965"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-affinity-subset-bound-audit-b2/trial.json",
+      "bytes": 1180,
+      "sha256": "e59921d3713aaf53d6af9aa59939b510bb1bf32d55886de55b23f438af7de620"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-affinity-subset-bound-audit-b3/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-affinity-subset-bound-audit-b3/score_detail.json",
+      "bytes": 5199,
+      "sha256": "1fa42a4d205311841438f26de57369936468b115e9d8c49b0fed911ba0838f8a"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-affinity-subset-bound-audit-b3/trial.json",
+      "bytes": 1180,
+      "sha256": "1f7220640d1b7f5e3535f2622ad2947c7d224a37e359748316f397f301218780"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-affinity-subset-bound-audit-b4/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-affinity-subset-bound-audit-b4/score_detail.json",
+      "bytes": 5199,
+      "sha256": "a8f99183e7d08a9a34c5fa14372ae1c5ebab6ecc57b777451c65e1c0e6ef93f3"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-affinity-subset-bound-audit-b4/trial.json",
+      "bytes": 1180,
+      "sha256": "d2132fc350df7b81ba5bf91cdda6478c7bb830c47a67bc1bf1547d3726a5ea00"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-bci-forensics-b1/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-bci-forensics-b1/score_detail.json",
+      "bytes": 11741,
+      "sha256": "543d97a625b8dac0fe61eac95925f361eeb53ca0853afa9242b4fa842b99639c"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-bci-forensics-b1/trial.json",
+      "bytes": 1152,
+      "sha256": "b6d01df2023c9b2be07e35c34c944ade7dcbae9718e2e8b0e826d1ac1ccb677e"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-bci-forensics-b2/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-bci-forensics-b2/score_detail.json",
+      "bytes": 11741,
+      "sha256": "76697e4a0aff5faefdd8323b3f551e31745e0e4caa0993fc2a4718a339d01e29"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-bci-forensics-b2/trial.json",
+      "bytes": 1152,
+      "sha256": "64d2a9862c9c0108c9d1a1413795db6b7c114812ef03a13d8617e0077aed9117"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-bci-forensics-b3/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-bci-forensics-b3/score_detail.json",
+      "bytes": 11741,
+      "sha256": "b1ef7d786108f727abfc2b9369870882c948bfa8afda8b3be3eb4d25a8e2fb9d"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-bci-forensics-b3/trial.json",
+      "bytes": 1152,
+      "sha256": "57239a5871621b10676288e3c213ef73c9288c41f5a1e2a5b12b4777f744c20b"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-bci-forensics-b4/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-bci-forensics-b4/score_detail.json",
+      "bytes": 11741,
+      "sha256": "82c1b8213d52f666448c49101c76f85cd45e34932441bd539672e55507da29ec"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-bci-forensics-b4/trial.json",
+      "bytes": 1152,
+      "sha256": "2d82222af6bd711f1fa84877f07fd3f639b93d82d3c75acfbf5874283a70c568"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-causal-attention-b1/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-causal-attention-b1/score_detail.json",
+      "bytes": 4992,
+      "sha256": "afaa57242ff8e527584d082a170bfec9bc745431c2317d99aeec7f3d97305e9a"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-causal-attention-b1/trial.json",
+      "bytes": 1158,
+      "sha256": "69bc9fa24e90d81e3bc9da0eee33f388e5c2a3083abc1aa72b90abcb7d7ec101"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-causal-attention-b2/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-causal-attention-b2/score_detail.json",
+      "bytes": 4992,
+      "sha256": "da6b38b4500391e1c5e8c8bd570ed6009372971db3ee1f0e81eee18d3b3def02"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-causal-attention-b2/trial.json",
+      "bytes": 1158,
+      "sha256": "bc1c19607a96f1fdce5f3a6a8863d3f46928200234785ee3084fcab97814f789"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-causal-attention-b3/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-causal-attention-b3/score_detail.json",
+      "bytes": 4992,
+      "sha256": "69689c2787e5e35c560545d9836840e699aaa320f4eefb82bd2a0b4c4413ea9d"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-causal-attention-b3/trial.json",
+      "bytes": 1158,
+      "sha256": "eabc0efdc82f882358eba767ef377c2abd8f97aa6d418fba22115b331f104597"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-causal-attention-b4/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-causal-attention-b4/score_detail.json",
+      "bytes": 4992,
+      "sha256": "6d581aa0db231f8df15a4edacf50078c95a8cfedf08b5ca4f3c7d16381588fa9"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-causal-attention-b4/trial.json",
+      "bytes": 1158,
+      "sha256": "537d0d5aacd0bee30b6a80f1615f8cc33bdac1c0e0fcff7db31b82fdd596ca8d"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-deployment-prediction-sets-b1/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-deployment-prediction-sets-b1/score_detail.json",
+      "bytes": 17991,
+      "sha256": "73cc0617c258317a82d1c6fceee26dada96eb9f7cd982d67e4e3ff5199305913"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-deployment-prediction-sets-b1/trial.json",
+      "bytes": 1178,
+      "sha256": "924efd1af7345d5bed26b43507efb0e35cd4690c679e7d36b2eb770aca9ec225"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-deployment-prediction-sets-b2/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-deployment-prediction-sets-b2/score_detail.json",
+      "bytes": 17991,
+      "sha256": "28cfa4346b6fa1c170a1f4d6d8a2d16c5a789716bf8ee9f21e7825210aaf5e62"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-deployment-prediction-sets-b2/trial.json",
+      "bytes": 1178,
+      "sha256": "dd2ae532d5198dd7c3ab6f59dd1d29850fd6c0af1554a1238ee5d461b0f18e70"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-deployment-prediction-sets-b3/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-deployment-prediction-sets-b3/score_detail.json",
+      "bytes": 17991,
+      "sha256": "0e4725d17481528408cfccc2333f281b0dd55c2ebaa11853b06229aaee75e274"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-deployment-prediction-sets-b3/trial.json",
+      "bytes": 1178,
+      "sha256": "3cff3b31076d7dfbbd69fe8ba9add8aa7c96dec167e475efbc36cd3492388981"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-deployment-prediction-sets-b4/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-deployment-prediction-sets-b4/score_detail.json",
+      "bytes": 17991,
+      "sha256": "f6c6b98919bf5c5666503c09264de58c8e05ed17fd218f075a5536bd4784a302"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-deployment-prediction-sets-b4/trial.json",
+      "bytes": 1178,
+      "sha256": "a58b9da667c4767f397238d1aceea562754795f8a916cd98d3578f8dfea40ce5"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-dp-accountant-forensics-b1/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-dp-accountant-forensics-b1/score_detail.json",
+      "bytes": 9761,
+      "sha256": "840f408ffed64ef4b07305bb4cb43ea1094b3af0c513ef1a37d56527b8337d09"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-dp-accountant-forensics-b1/trial.json",
+      "bytes": 1172,
+      "sha256": "50fb644b333f7ac2f624cb43f97efc25d5872621f7e41e4f816f5ac337cd5b53"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-dp-accountant-forensics-b2/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-dp-accountant-forensics-b2/score_detail.json",
+      "bytes": 9761,
+      "sha256": "5e04e88c9908383c751cb2537a5bfd56e29d5b8b36b7cda392048ce973d0e3e6"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-dp-accountant-forensics-b2/trial.json",
+      "bytes": 1172,
+      "sha256": "fea51398c43ac5011430cebac9ebed0563ad188af66c2b49477b5a3d24e03c53"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-dp-accountant-forensics-b3/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-dp-accountant-forensics-b3/score_detail.json",
+      "bytes": 9761,
+      "sha256": "313f273b8a51814e13a516414d187bd07c296e191cd1be3c94f2e030c2016c10"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-dp-accountant-forensics-b3/trial.json",
+      "bytes": 1172,
+      "sha256": "a4591d9816aab9fe1e595fbaef4acd2fd41bdd8039979bda160cb61b352eb6a5"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-dp-accountant-forensics-b4/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-dp-accountant-forensics-b4/score_detail.json",
+      "bytes": 9761,
+      "sha256": "9cb44b6bf513d2ed3163acf3960d2f3e7be57a7efe05e2e7a5ec9f3ab428da97"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-dp-accountant-forensics-b4/trial.json",
+      "bytes": 1172,
+      "sha256": "4d816636309565e876f74926b17c32d03f849a9bcf48068e6aa6aca1d7d134a3"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-euclidean-tsp-tour-optimization-b1/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-euclidean-tsp-tour-optimization-b1/score_detail.json",
+      "bytes": 2348,
+      "sha256": "1daed869811614943a406b687737b91b005b2269c6c79608e87e60e071563541"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-euclidean-tsp-tour-optimization-b1/trial.json",
+      "bytes": 1188,
+      "sha256": "d0d6f354feeecca59435be42c72eb80c3e787dbd88f2f80ab56a8608098b3013"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-euclidean-tsp-tour-optimization-b2/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-euclidean-tsp-tour-optimization-b2/score_detail.json",
+      "bytes": 2349,
+      "sha256": "da805dff566b46c1c4d14db4a6e34575b89eebb116e694dc15132e8ef7466bc9"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-euclidean-tsp-tour-optimization-b2/trial.json",
+      "bytes": 1188,
+      "sha256": "57649046e42ac65fee5dba335a4ea760267f1714183ffc27debd6b9ae25ea38c"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-euclidean-tsp-tour-optimization-b3/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-euclidean-tsp-tour-optimization-b3/score_detail.json",
+      "bytes": 2351,
+      "sha256": "b5a91521059fe9ae81768a06e49daf9df8bfd763dc06f7edbd9aafb1683eb655"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-euclidean-tsp-tour-optimization-b3/trial.json",
+      "bytes": 1188,
+      "sha256": "904a7805edfb0b1652f057e6f25da021fd703d600da38c2572492854e84d1e8d"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-euclidean-tsp-tour-optimization-b4/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-euclidean-tsp-tour-optimization-b4/score_detail.json",
+      "bytes": 2350,
+      "sha256": "1c496592bd63214cde7f7891f703afd09096a8b034d3d256c2d8ed36a268653b"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-euclidean-tsp-tour-optimization-b4/trial.json",
+      "bytes": 1188,
+      "sha256": "668c7180701531b8565ce26eda9bdffe10830ea0879e90611949e8411b26ac6d"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-hmc-neal-funnel-b1/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-hmc-neal-funnel-b1/score_detail.json",
+      "bytes": 11922,
+      "sha256": "38817eb8b593a31756cc6318ca943d4ad4aa81ad440b86665e32a5fc7d24f95e"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-hmc-neal-funnel-b1/trial.json",
+      "bytes": 1156,
+      "sha256": "7b3fbc77d0faf476722348f06536fdc7dfc3b3283f46d88e477799054e4b4720"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-hmc-neal-funnel-b2/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-hmc-neal-funnel-b2/score_detail.json",
+      "bytes": 11922,
+      "sha256": "6b676812f7593db127a42508f1c83a48ef94e979a885d32ff6c89a279b8c84ac"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-hmc-neal-funnel-b2/trial.json",
+      "bytes": 1156,
+      "sha256": "85212db67944bf2e39b72482a24ab16112af8848c01808466b80db3be5fc3013"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-hmc-neal-funnel-b3/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-hmc-neal-funnel-b3/score_detail.json",
+      "bytes": 11922,
+      "sha256": "ff79b4415a43ececc34f33b198eab76ecaf90dc36f644c65503a5fa0101a82e5"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-hmc-neal-funnel-b3/trial.json",
+      "bytes": 1156,
+      "sha256": "6792b9fc6f72def41cdfd672129144a3d8010f230f15c53f2d23e04aa742f817"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-hmc-neal-funnel-b4/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-hmc-neal-funnel-b4/score_detail.json",
+      "bytes": 11922,
+      "sha256": "985b471137e9e65b463b55f5f3129164159158003c16b44170ad245f789120de"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-hmc-neal-funnel-b4/trial.json",
+      "bytes": 1156,
+      "sha256": "aa4ca7e529aa0827ce33a4a8944296f09ee622290ff9b3a44dc5a1ed86298d6e"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-max3sat-assignment-optimization-b1/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-max3sat-assignment-optimization-b1/score_detail.json",
+      "bytes": 2501,
+      "sha256": "424e8c59a5af291b0252bbb03c939711ddb7efb0ce43025aa136b3db281029e9"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-max3sat-assignment-optimization-b1/trial.json",
+      "bytes": 1188,
+      "sha256": "d7d5cec4253efaea73fe8f9a3d145e768eece3382881dc0d69e7887daeff1569"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-max3sat-assignment-optimization-b2/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-max3sat-assignment-optimization-b2/score_detail.json",
+      "bytes": 2501,
+      "sha256": "96019cf345dd23f1aeb7c6e5a53b7915385ca8313049a75dccc9f20b48bf04d0"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-max3sat-assignment-optimization-b2/trial.json",
+      "bytes": 1188,
+      "sha256": "d5d09391fa875491b13563fb832e46fe5f43f13b5b0597e80e04364ec264d871"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-max3sat-assignment-optimization-b3/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-max3sat-assignment-optimization-b3/score_detail.json",
+      "bytes": 2502,
+      "sha256": "ff7b3c6a150198f813bd382505786dfd7de24925284e728519d4a3ea39655c17"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-max3sat-assignment-optimization-b3/trial.json",
+      "bytes": 1188,
+      "sha256": "751851f4aa5bd9844aa69d1805c02f78c42342bad72510d995f51a39c8d8fc48"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-max3sat-assignment-optimization-b4/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-max3sat-assignment-optimization-b4/score_detail.json",
+      "bytes": 2502,
+      "sha256": "d3703bddfd96d444005381119a8b365e76a5e6f67c37934271bc3ebf81556ab1"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-max3sat-assignment-optimization-b4/trial.json",
+      "bytes": 1188,
+      "sha256": "da88afc1e565ac092cb504593bddffa18bbec3ac0ecd2780970198d0a2fc6486"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-stable-latent-state-fitting-b1/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-stable-latent-state-fitting-b1/score_detail.json",
+      "bytes": 48695,
+      "sha256": "0032ac0fb8eaaeaf74671701160976188d6a9687a79a0dde51f498dcd1a73b8a"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-stable-latent-state-fitting-b1/trial.json",
+      "bytes": 1180,
+      "sha256": "348dbe90d427dec66997463863a07d81a88f1e8b6af9f3c677c21811cc9c9796"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-stable-latent-state-fitting-b2/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-stable-latent-state-fitting-b2/score_detail.json",
+      "bytes": 48695,
+      "sha256": "c121e588417d5c0ff581541b5c230f81bcbed0a881fa73ae41e00be4005af09b"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-stable-latent-state-fitting-b2/trial.json",
+      "bytes": 1180,
+      "sha256": "ee8aa9f18abfbf6266b22f7b149baaa0e2e67a25ae4598e7dab06ee06d3bd278"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-stable-latent-state-fitting-b3/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-stable-latent-state-fitting-b3/score_detail.json",
+      "bytes": 48695,
+      "sha256": "33b8eb3183ea49b21cdcee05c583b746a3c32863e783655f34080d7e11f6c942"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-stable-latent-state-fitting-b3/trial.json",
+      "bytes": 1180,
+      "sha256": "557972bfd059429d1be82acade70bf4282d7bdfd41aeef59d029f97b8500aa5a"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-stable-latent-state-fitting-b4/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-stable-latent-state-fitting-b4/score_detail.json",
+      "bytes": 48695,
+      "sha256": "ec6c4d4e3fefa15133079b982a81e5de384396977472e6afc4e54885b8a999fe"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/computer-science-stable-latent-state-fitting-b4/trial.json",
+      "bytes": 1180,
+      "sha256": "2e39a5ed43dbbdc94771eae34e3700abdae6b7b3fa67721d0864c98f235b720e"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/earth-science-2-e-soil-carbon-nitrogen-cycling-b1/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/earth-science-2-e-soil-carbon-nitrogen-cycling-b1/score_detail.json",
+      "bytes": 61289,
+      "sha256": "c4a5d3b13368a98be620c469567cafe1b1de7441da5f6d38cd474582852d0090"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/earth-science-2-e-soil-carbon-nitrogen-cycling-b1/trial.json",
+      "bytes": 1184,
+      "sha256": "61ebda72b1af89b4ec82e8cc31774fd9bbf6411fb63d487fc2704fde6969074d"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/earth-science-2-e-soil-carbon-nitrogen-cycling-b2/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/earth-science-2-e-soil-carbon-nitrogen-cycling-b2/score_detail.json",
+      "bytes": 61302,
+      "sha256": "e4f158d0c8cfedf36bf86ce3670ffbcd30ad8ea2bbebc600dbe3a563d1c22a49"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/earth-science-2-e-soil-carbon-nitrogen-cycling-b2/trial.json",
+      "bytes": 1184,
+      "sha256": "91c759a1ba98048987d8a2550d977d966d4b082d6c2959d21a0842e8f242aa16"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/earth-science-2-e-soil-carbon-nitrogen-cycling-b3/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/earth-science-2-e-soil-carbon-nitrogen-cycling-b3/score_detail.json",
+      "bytes": 61272,
+      "sha256": "92f89c6ff3a817a711b09188f9781a3a60301911222854935fbbfee23e1bd828"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/earth-science-2-e-soil-carbon-nitrogen-cycling-b3/trial.json",
+      "bytes": 1184,
+      "sha256": "888b708af89d754f763e8dffe20b268046f94057750610fd799c3f11a0d086fa"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/earth-science-2-e-soil-carbon-nitrogen-cycling-b4/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/earth-science-2-e-soil-carbon-nitrogen-cycling-b4/score_detail.json",
+      "bytes": 61275,
+      "sha256": "66fc1e2684d71fe3b06abbb7acf8e1d659fd6bd4a2a51005efa8390eb2804af2"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/earth-science-2-e-soil-carbon-nitrogen-cycling-b4/trial.json",
+      "bytes": 1184,
+      "sha256": "e06b1dc09df7b4b9dbe07add157d20db3d44ea1f08da4d6fa924244ad9f38602"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/earth-science-farquhar-ballberry-photosynthesis-b1/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/earth-science-farquhar-ballberry-photosynthesis-b1/score_detail.json",
+      "bytes": 4803,
+      "sha256": "c40b67067b870299e14b10a3432cd4744c183dd29398f7af1e38d930b72573c5"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/earth-science-farquhar-ballberry-photosynthesis-b1/trial.json",
+      "bytes": 1186,
+      "sha256": "12367a73a98689cccaee0d920347d95c5a2b7f47161ae932be1054e8b0daa59c"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/earth-science-farquhar-ballberry-photosynthesis-b2/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/earth-science-farquhar-ballberry-photosynthesis-b2/score_detail.json",
+      "bytes": 4803,
+      "sha256": "6dcd12bf1354b9ac3099e3e82304de0a57dd5dc1b00c37a12e62b4abcd2fedb5"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/earth-science-farquhar-ballberry-photosynthesis-b2/trial.json",
+      "bytes": 1186,
+      "sha256": "9f4732563663727668b8ecbb78ca385a391eafa5fc346cbf651d3e6fba52efde"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/earth-science-farquhar-ballberry-photosynthesis-b3/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/earth-science-farquhar-ballberry-photosynthesis-b3/score_detail.json",
+      "bytes": 4803,
+      "sha256": "fcd9c9636f862da7130ef18bc326340af3816e87264e5c8e0b4b67b45acc19de"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/earth-science-farquhar-ballberry-photosynthesis-b3/trial.json",
+      "bytes": 1186,
+      "sha256": "9fd9c39c7aa5b728df3c94c2371b57ac1c2dcd2d876485cf5186f7ce65c08bbc"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/earth-science-farquhar-ballberry-photosynthesis-b4/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/earth-science-farquhar-ballberry-photosynthesis-b4/score_detail.json",
+      "bytes": 4803,
+      "sha256": "1782e790bb246c370abb6510257e572efd802dc561003c9e41b39f0717805ace"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/earth-science-farquhar-ballberry-photosynthesis-b4/trial.json",
+      "bytes": 1186,
+      "sha256": "2c074e2b6b85ecf8bc894653976d989bfc1df4784e12e17df200130cb8085ffa"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/earth-science-richards-topmodel-hydrology-b1/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/earth-science-richards-topmodel-hydrology-b1/score_detail.json",
+      "bytes": 5134,
+      "sha256": "206f476275b8b240a6732594b9f473fea4f2f055483fc7091cc5992aeced3fdd"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/earth-science-richards-topmodel-hydrology-b1/trial.json",
+      "bytes": 1173,
+      "sha256": "be2373b083766d987f0118616150e9d2c7b9c78ae9adf826e73326f4eca552f9"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/earth-science-richards-topmodel-hydrology-b2/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/earth-science-richards-topmodel-hydrology-b2/score_detail.json",
+      "bytes": 5134,
+      "sha256": "dd13dfd2b37275269ce4c09eba1dbec7295198eaca09571800368d489b7f5752"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/earth-science-richards-topmodel-hydrology-b2/trial.json",
+      "bytes": 1173,
+      "sha256": "d03bdde3e90bc44ce344ce446f28c9098cf7ce9dce9baae2b477b09e10214883"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/earth-science-richards-topmodel-hydrology-b3/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/earth-science-richards-topmodel-hydrology-b3/score_detail.json",
+      "bytes": 5134,
+      "sha256": "8ba2995e55d87669afee0c3434cf217ecd1298e973fad2888e3da463e6821956"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/earth-science-richards-topmodel-hydrology-b3/trial.json",
+      "bytes": 1173,
+      "sha256": "d2f5f43c1d8754c370ea47c8c45edac2cf28e1ede7a0c22d9e07cb788a07e938"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/earth-science-richards-topmodel-hydrology-b4/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/earth-science-richards-topmodel-hydrology-b4/score_detail.json",
+      "bytes": 5134,
+      "sha256": "15bcd5cd529677c0311af25b241879ed6f1b5cabd9e16583f474d51cab8df7de"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/earth-science-richards-topmodel-hydrology-b4/trial.json",
+      "bytes": 1173,
+      "sha256": "0f21b1b93de14fddde9f55cf751a70f87075820a755815c845ce37eae6adb5e3"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/earth-science-snow-3layer-compaction-b1/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/earth-science-snow-3layer-compaction-b1/score_detail.json",
+      "bytes": 5015,
+      "sha256": "8eb2c6cd88350e55d36b823a9b62a1020b68140f9d175c49f2f6a9197b193885"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/earth-science-snow-3layer-compaction-b1/trial.json",
+      "bytes": 1164,
+      "sha256": "15ba62716e28ae5c4bb8211c52c4d0b654d7b627db065a71d849a8f6ea8f6d2a"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/earth-science-snow-3layer-compaction-b2/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/earth-science-snow-3layer-compaction-b2/score_detail.json",
+      "bytes": 5015,
+      "sha256": "3cf99fc565f1886a2e48725a14c49ad82f7a4868dd60b8853eaad99dcb918220"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/earth-science-snow-3layer-compaction-b2/trial.json",
+      "bytes": 1164,
+      "sha256": "331a91b4ec048556cd569f33cb92f0e50da6f192535d9c9f40942b83f9cd2888"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/earth-science-snow-3layer-compaction-b3/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/earth-science-snow-3layer-compaction-b3/score_detail.json",
+      "bytes": 5015,
+      "sha256": "76aef3f8236804565db057353b26640b3ea65ec72be1e32140d3352f00db0a6f"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/earth-science-snow-3layer-compaction-b3/trial.json",
+      "bytes": 1164,
+      "sha256": "847d6b10355777faeb03d0e2d9bfca184b7c5b40b5213be2a8450025023344d6"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/earth-science-snow-3layer-compaction-b4/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/earth-science-snow-3layer-compaction-b4/score_detail.json",
+      "bytes": 5015,
+      "sha256": "b534f2bbcbe5bc2bb0d2fdea27098d990914f63b6d187a8f3f8c3255f8378f2e"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/earth-science-snow-3layer-compaction-b4/trial.json",
+      "bytes": 1164,
+      "sha256": "8c8dd74d13b2567bfa55a3c420fdb65a44cd5181792ef31b2caa024294caf3f0"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/electrical-engineering-cmos-opamp-design-b1/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/electrical-engineering-cmos-opamp-design-b1/score_detail.json",
+      "bytes": 44207,
+      "sha256": "1c1f4a91579ccf3615a9b757c0cdefa8ac3da67e3ebde1015be0b038918d9e69"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/electrical-engineering-cmos-opamp-design-b1/trial.json",
+      "bytes": 1172,
+      "sha256": "14018621fdb30d824085f9c54cc564ba910c467f36d76fe172a4d6ac6e04bfc4"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/electrical-engineering-cmos-opamp-design-b2/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/electrical-engineering-cmos-opamp-design-b2/score_detail.json",
+      "bytes": 44334,
+      "sha256": "34338c1e9293a7b42545a71e2af26c2e072c7b2a7a2779e51f2386a381e933b1"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/electrical-engineering-cmos-opamp-design-b2/trial.json",
+      "bytes": 1172,
+      "sha256": "bc6c26c6e11d954effd95ae1e4af63805c41886a6ae055c67ee70a396883afb1"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/electrical-engineering-cmos-opamp-design-b3/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/electrical-engineering-cmos-opamp-design-b3/score_detail.json",
+      "bytes": 44232,
+      "sha256": "abf70601a351d049bc68114b5992639e1bffa0704e5f321c603ef0ad2eb148b6"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/electrical-engineering-cmos-opamp-design-b3/trial.json",
+      "bytes": 1172,
+      "sha256": "46783234027e20a5c9d035cb28d39f296295444064023999d2a923f218e742fa"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/electrical-engineering-cmos-opamp-design-b4/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/electrical-engineering-cmos-opamp-design-b4/score_detail.json",
+      "bytes": 44275,
+      "sha256": "6b5cf6ebcc923c26f7ebfd468609c46302e60255bc4e02ab5ec5d5061adeef80"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/electrical-engineering-cmos-opamp-design-b4/trial.json",
+      "bytes": 1172,
+      "sha256": "efcec34ecaf9ac146167c85f9843c5c5149dbc91a1e0499e15201e3159aa9589"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/electrical-engineering-lossy-tline-skin-b1/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/electrical-engineering-lossy-tline-skin-b1/score_detail.json",
+      "bytes": 3830,
+      "sha256": "e4a45a7f15263225d9fce7a0fa0dabe372890ae17c4d187c1414e89391827f02"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/electrical-engineering-lossy-tline-skin-b1/trial.json",
+      "bytes": 1170,
+      "sha256": "cf46ca926b4c407d441fc5923e4a0282926bd1c16e36ca717158e9f7cfa058f2"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/electrical-engineering-lossy-tline-skin-b2/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/electrical-engineering-lossy-tline-skin-b2/score_detail.json",
+      "bytes": 3830,
+      "sha256": "166d44fb3a28f797cf55157a1ab9ff8d8aaa729c38f4184173c438a2234fadd3"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/electrical-engineering-lossy-tline-skin-b2/trial.json",
+      "bytes": 1170,
+      "sha256": "7fd29b28f54aeeb6316310bb6158bab16e7aeaf6b492ae358a34192fd37ca94c"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/electrical-engineering-lossy-tline-skin-b3/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/electrical-engineering-lossy-tline-skin-b3/score_detail.json",
+      "bytes": 3830,
+      "sha256": "100b96173143b8a2632133740cb02aa8d84f689abf6de7292d2a112c4e471910"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/electrical-engineering-lossy-tline-skin-b3/trial.json",
+      "bytes": 1170,
+      "sha256": "d9018caa354e47822b66c36609ff626b0daf9adafabf61fac08fb689dd0d4834"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/electrical-engineering-lossy-tline-skin-b4/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/electrical-engineering-lossy-tline-skin-b4/score_detail.json",
+      "bytes": 3830,
+      "sha256": "0f726d9e7d8b64cb3a5b26dd65939ccec1793dbcc15e64cc8abae59643299406"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/electrical-engineering-lossy-tline-skin-b4/trial.json",
+      "bytes": 1170,
+      "sha256": "5f81eaf5e05fc26c8f296eaae21309ab12727a5e136a86d9ac8e4b566731053e"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/materials-ising-domain-growth-b1/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/materials-ising-domain-growth-b1/score_detail.json",
+      "bytes": 10879,
+      "sha256": "3fcdcc3aae979a58c1a4819815edbe187865a53f1d802c58190e59e0b8e0ed10"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/materials-ising-domain-growth-b1/trial.json",
+      "bytes": 1150,
+      "sha256": "55e44dfd88c2784adf5d05c7621cc2a5779d604b3803537a29ec912d55b68131"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/materials-ising-domain-growth-b2/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/materials-ising-domain-growth-b2/score_detail.json",
+      "bytes": 10884,
+      "sha256": "b4c90b37348aea669073339415b5b66e1a4b8d03ff2b1f182801f0c665563aa3"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/materials-ising-domain-growth-b2/trial.json",
+      "bytes": 1150,
+      "sha256": "396a9a782473b4453f7ff9cbdf8565b9da7a497daa55a237fea549603434eeb2"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/materials-ising-domain-growth-b3/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/materials-ising-domain-growth-b3/score_detail.json",
+      "bytes": 10913,
+      "sha256": "75c279fd4614cee69a4b39311b81bb5cda70d3c2b043ae343fce9170863dc80e"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/materials-ising-domain-growth-b3/trial.json",
+      "bytes": 1150,
+      "sha256": "217b49f27185917f87f99c65cd38ef35d675cf43102fb5e0443f14a06d73bc26"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/materials-ising-domain-growth-b4/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/materials-ising-domain-growth-b4/score_detail.json",
+      "bytes": 10865,
+      "sha256": "3722492581f094507303dd563fdf074aa3275f28c0750f91178a415ab615649a"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/materials-ising-domain-growth-b4/trial.json",
+      "bytes": 1150,
+      "sha256": "f54ce0676d43161b6b8433707dc32381bf879ba98606ad15f3439850ace27f20"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/materials-relaxation-mode-recovery-b1/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/materials-relaxation-mode-recovery-b1/score_detail.json",
+      "bytes": 2306,
+      "sha256": "c6ccac62553b968ca6383192104443281638d02814d3ca8fa9c12ff16451b7de"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/materials-relaxation-mode-recovery-b1/trial.json",
+      "bytes": 1160,
+      "sha256": "87550430fcf4c1749c58dee40b6733d2ca6a7e59de6fb7d76d7de55edbf81886"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/materials-relaxation-mode-recovery-b2/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/materials-relaxation-mode-recovery-b2/score_detail.json",
+      "bytes": 2306,
+      "sha256": "7c6dcbada5a86fd0775ba4f5c3c974c517227f430e4d4ab8ac844de804ae32a9"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/materials-relaxation-mode-recovery-b2/trial.json",
+      "bytes": 1160,
+      "sha256": "a29232310ca2c828094aa6aabbb95d637b08b3542244b2492c727b6f6e050da4"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/materials-relaxation-mode-recovery-b3/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/materials-relaxation-mode-recovery-b3/score_detail.json",
+      "bytes": 2306,
+      "sha256": "9592f2932b6074db4bd46595dc81e315baf98b75ea65f110d24a58ab43a33d0f"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/materials-relaxation-mode-recovery-b3/trial.json",
+      "bytes": 1160,
+      "sha256": "d4a6d9aa5ef88cc41980f7cbeb3bd43cdc7b1a6b08c2e8b139c8a7233e28621e"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/materials-relaxation-mode-recovery-b4/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/materials-relaxation-mode-recovery-b4/score_detail.json",
+      "bytes": 2306,
+      "sha256": "ea0c9c08431af6da192366a41658f30f84317b521db45d48fec6b730d50b45b4"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/materials-relaxation-mode-recovery-b4/trial.json",
+      "bytes": 1160,
+      "sha256": "0155e52a50d5bd3ed40996342ced3cae82e013c14dcc1616f1f0046afc50b650"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-homotopy-poly-roots-b1/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-homotopy-poly-roots-b1/score_detail.json",
+      "bytes": 9075,
+      "sha256": "d2e9659737a624fef01e5549090bdc1fb7c3ccd67d5b1f0c8412b73c440ac6b7"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-homotopy-poly-roots-b1/trial.json",
+      "bytes": 1135,
+      "sha256": "5941b4e3e0df76427e04d98862cca3e55151f5c7e70b8cf522356e08b78821d1"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-homotopy-poly-roots-b2/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-homotopy-poly-roots-b2/score_detail.json",
+      "bytes": 9075,
+      "sha256": "a0c00fa9695e01d29fd3d6608475b6cf26543ff424e4804d329d27742bb6648b"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-homotopy-poly-roots-b2/trial.json",
+      "bytes": 1135,
+      "sha256": "34ce0e699bea9de306f7567a743c773546704df2aaa4515ababf3270ce8be8d0"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-homotopy-poly-roots-b3/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-homotopy-poly-roots-b3/score_detail.json",
+      "bytes": 9075,
+      "sha256": "ffe37f7f3cdc00aa27a23269dcbe95acda23def197e1f141c1ff896ef9e27fcc"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-homotopy-poly-roots-b3/trial.json",
+      "bytes": 1135,
+      "sha256": "2171b5d9bb6cb0d648f239ce4b0cbb29efa7f60365fbc6a8e65499186c39f9d5"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-homotopy-poly-roots-b4/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-homotopy-poly-roots-b4/score_detail.json",
+      "bytes": 9075,
+      "sha256": "d42bc96359a43234dfcd572b941bbc107e96202ec4d219c8ac0b18969b69ba87"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-homotopy-poly-roots-b4/trial.json",
+      "bytes": 1135,
+      "sha256": "c52c7497dbd6a1758484855aadaa617fb08a6feb8a361e99dce36a57e5f06a89"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-ill-posed-inverse-problem-b1/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-ill-posed-inverse-problem-b1/score_detail.json",
+      "bytes": 9226,
+      "sha256": "fba303662c507256dba4638286bbf90d26ae542d0b0d617df8dc8a5016c532f3"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-ill-posed-inverse-problem-b1/trial.json",
+      "bytes": 1152,
+      "sha256": "36a4c24bc9f7d1d75a20a513d602b854bee948e9c5323b508b2ecb82ac20e2fc"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-ill-posed-inverse-problem-b2/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-ill-posed-inverse-problem-b2/score_detail.json",
+      "bytes": 9226,
+      "sha256": "275e04fe32c633f4ecaae90b78c2b2b4a8692393a1023000f50d069f432a47bb"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-ill-posed-inverse-problem-b2/trial.json",
+      "bytes": 1152,
+      "sha256": "d7d5ec24b3084557fae46dda00bd0d4de63d21b4d69e9da365823af3402144f8"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-ill-posed-inverse-problem-b3/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-ill-posed-inverse-problem-b3/score_detail.json",
+      "bytes": 9226,
+      "sha256": "46c404542cedf4344ff8959ea84fc48cf6b3d7e0ef7b8f8ec0d2cff76de312b7"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-ill-posed-inverse-problem-b3/trial.json",
+      "bytes": 1152,
+      "sha256": "d005c1a6c91a6943524aace1330f1a90b7794e72419048367cfe8099eab5b1a0"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-ill-posed-inverse-problem-b4/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-ill-posed-inverse-problem-b4/score_detail.json",
+      "bytes": 9226,
+      "sha256": "7cb56e2f24450133df4fb0737a3a1ac083f51c55188d8d4618a66ca52e5f835b"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-ill-posed-inverse-problem-b4/trial.json",
+      "bytes": 1152,
+      "sha256": "07d87afc3819bbda5dfc1373696dd21b2a44c5b65e270263d8afab898e16c250"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-levin-context-grid-search-b1/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-levin-context-grid-search-b1/score_detail.json",
+      "bytes": 10709,
+      "sha256": "988bb40d20cd7b06057d3e81496150e80370f4cbb027120a0b1ae460df6bbb98"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-levin-context-grid-search-b1/trial.json",
+      "bytes": 1152,
+      "sha256": "13e988eb896d57794b481f8c87446ab75d3893ae29c305207edf099d9122b1dc"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-levin-context-grid-search-b2/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-levin-context-grid-search-b2/score_detail.json",
+      "bytes": 10710,
+      "sha256": "3b9302067d85c31cfb9f5d6a596bc0e47dd69575240d896d1b16d1d0596966fc"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-levin-context-grid-search-b2/trial.json",
+      "bytes": 1152,
+      "sha256": "50523b0d4789ce6b56a681c5ffa2d1fdfeaac574f869522cc1f667120653d739"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-levin-context-grid-search-b3/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-levin-context-grid-search-b3/score_detail.json",
+      "bytes": 10710,
+      "sha256": "d7c9488752aed779899f3fd8c3de161f8f63bb785109df0671a76411ae87e883"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-levin-context-grid-search-b3/trial.json",
+      "bytes": 1152,
+      "sha256": "c3151054d73744943eeba03678d549ca528076e003eeb53faf547ea8c8c6c686"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-levin-context-grid-search-b4/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-levin-context-grid-search-b4/score_detail.json",
+      "bytes": 10707,
+      "sha256": "ceb8b86611751196d456b043a28469813015a53e4ec0de28ae13214bc14bdea8"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-levin-context-grid-search-b4/trial.json",
+      "bytes": 1152,
+      "sha256": "f2e9ceba3da77fb69a8a0cea63ea73c84971935124e8945d8e463374788a5d5c"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-manifold-pde-meshfree-b1/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-manifold-pde-meshfree-b1/score_detail.json",
+      "bytes": 4095,
+      "sha256": "491b5d10db2f6bd70c3461e0cc06cdedeb49a0a8f567949d4ec824485adb03eb"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-manifold-pde-meshfree-b1/trial.json",
+      "bytes": 1141,
+      "sha256": "082c99cb10eb1324825fed6f601d7d1a7f0ea0a8a95c0760e65a38a971196792"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-manifold-pde-meshfree-b2/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-manifold-pde-meshfree-b2/score_detail.json",
+      "bytes": 4095,
+      "sha256": "21d1dea8861cc040b2a04061c6bc5b3ef65b6549fbcd1ce6805e12a35f9dff1c"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-manifold-pde-meshfree-b2/trial.json",
+      "bytes": 1141,
+      "sha256": "a7aa01256cddd4a8296a15018e755b1bbb61e9ab7e142f71c30ee824808a99ca"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-manifold-pde-meshfree-b3/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-manifold-pde-meshfree-b3/score_detail.json",
+      "bytes": 4095,
+      "sha256": "2a471a1f048a4a7627be269e112c5f3000b2170f9e1a7aeaa8eb28bd8464835a"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-manifold-pde-meshfree-b3/trial.json",
+      "bytes": 1141,
+      "sha256": "ba06d240e58b4b83b7d9228e642bbd17dab1f27356c4a4b1ded6c05719917ea4"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-manifold-pde-meshfree-b4/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-manifold-pde-meshfree-b4/score_detail.json",
+      "bytes": 4095,
+      "sha256": "9a067ddaa5bc25f9e84e3ede87d43ee82bccfc2274f9ff694facdc247c2ac80b"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-manifold-pde-meshfree-b4/trial.json",
+      "bytes": 1141,
+      "sha256": "07130e2b21ab036d007ab5c9849a3694aea13ffaae94589c9a2820069add3e20"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-mpsc-safety-filter-b1/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-mpsc-safety-filter-b1/score_detail.json",
+      "bytes": 12767,
+      "sha256": "f0483834aff6c745a17e36177a9356940382cf63c009bf770111bd7b1080f59b"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-mpsc-safety-filter-b1/trial.json",
+      "bytes": 1132,
+      "sha256": "a729ee5963465993f334cec696012c8730d7119a15965e87768f679571e4f3cd"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-mpsc-safety-filter-b2/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-mpsc-safety-filter-b2/score_detail.json",
+      "bytes": 12767,
+      "sha256": "9fa99ebe5785d76edb7ac7db670e66ba3376f72f5211b011645bea66ae5d5c34"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-mpsc-safety-filter-b2/trial.json",
+      "bytes": 1132,
+      "sha256": "3d390e9221b9898c660bdf58bfdbddc61b4b8404f7077b7878d1222c1aab8f62"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-mpsc-safety-filter-b3/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-mpsc-safety-filter-b3/score_detail.json",
+      "bytes": 12767,
+      "sha256": "3c304474bf07deabe9cdf46ee74e2ae99caed0da1bf934843b4a8a3a451d9d29"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-mpsc-safety-filter-b3/trial.json",
+      "bytes": 1132,
+      "sha256": "711cb576a55ab392ba431c049e59e3f600db65ecc8010bb336db54198ded0ec3"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-mpsc-safety-filter-b4/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-mpsc-safety-filter-b4/score_detail.json",
+      "bytes": 12767,
+      "sha256": "c3c2299e06881875efddc7e16bf18bb85d8dc41993106fd5a26f499172cec653"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-mpsc-safety-filter-b4/trial.json",
+      "bytes": 1132,
+      "sha256": "0f1ff5baff3e7f5a1d46b32559747ff9a0801fa5b4a83f87681c949d9f0f3552"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-multiply-connected-conformal-mapping-b1/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-multiply-connected-conformal-mapping-b1/score_detail.json",
+      "bytes": 6705,
+      "sha256": "44862dde7e5caf985620b1f8dd9c01763ac56eea7e1488f06f8c2983a5e44f40"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-multiply-connected-conformal-mapping-b1/trial.json",
+      "bytes": 1174,
+      "sha256": "c6cd052dc243b8c9838992ab28fdda85a5ab1e4cf0e5ff5ae20941c756d7ef57"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-multiply-connected-conformal-mapping-b2/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-multiply-connected-conformal-mapping-b2/score_detail.json",
+      "bytes": 6705,
+      "sha256": "938c2a98978184b0766b2ef150aad7eae23b39f914a7a2286cd866937dfa793e"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-multiply-connected-conformal-mapping-b2/trial.json",
+      "bytes": 1174,
+      "sha256": "c3dcfa82c09b6a6e7532cc55d1c273ba80c3a862189674a198f6c0d8e45f599b"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-multiply-connected-conformal-mapping-b3/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-multiply-connected-conformal-mapping-b3/score_detail.json",
+      "bytes": 6705,
+      "sha256": "35f7c671830844df6009722a7b67079e995e518a3424bb9f53cd30de4d8451d0"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-multiply-connected-conformal-mapping-b3/trial.json",
+      "bytes": 1174,
+      "sha256": "d5b077ad0f7f2fd940d3bc06ee089530cc28eaa09bde66b321d0c6dfc96aad00"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-multiply-connected-conformal-mapping-b4/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-multiply-connected-conformal-mapping-b4/score_detail.json",
+      "bytes": 6705,
+      "sha256": "255f9973eeecd0d83dbebe50320edc5050455ee849e6f0841a09c3d2aebeb4ac"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-multiply-connected-conformal-mapping-b4/trial.json",
+      "bytes": 1174,
+      "sha256": "85e6038d5a60c2d225f6952e2705e6b1f063af10dbec1de705388cdb320432f4"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-nnls-modulus-deblur-b1/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-nnls-modulus-deblur-b1/score_detail.json",
+      "bytes": 21332,
+      "sha256": "ceda06a8c3b28eb00ca7b31c56534f337738ba659b5e6f49d974464d7f8c558e"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-nnls-modulus-deblur-b1/trial.json",
+      "bytes": 1135,
+      "sha256": "9cdd2f10f6a4489bfc0a35ddce6a6191fd1a0586bd4dfc18907f31e9464ae2fb"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-nnls-modulus-deblur-b2/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-nnls-modulus-deblur-b2/score_detail.json",
+      "bytes": 21388,
+      "sha256": "6881828d1555dbff3cb61dea6cdcde978f91eee14c7395304635171ec72786b2"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-nnls-modulus-deblur-b2/trial.json",
+      "bytes": 1135,
+      "sha256": "33f41f3d1937230b152e590d14bff15f94e325f5a37441a6b857650f7303b5d8"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-nnls-modulus-deblur-b3/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-nnls-modulus-deblur-b3/score_detail.json",
+      "bytes": 21374,
+      "sha256": "6ade545e6257963c7d7f71059cedf649c6b371a8f6069330a32d7d74153b16ee"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-nnls-modulus-deblur-b3/trial.json",
+      "bytes": 1135,
+      "sha256": "1ad7bfdb4b192dcd3fb4a8e9331d79bcd433243196b59687dab6d075d694adb9"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-nnls-modulus-deblur-b4/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-nnls-modulus-deblur-b4/score_detail.json",
+      "bytes": 21449,
+      "sha256": "cf6fa8d43485d717bf56e946a2578f8ad5d923bf4f0fb96257f8ec3dbeb58207"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-nnls-modulus-deblur-b4/trial.json",
+      "bytes": 1135,
+      "sha256": "b6b2a7915c86839726d6a51040f33d52fe1664c4b355110f587e30893d6a9a5c"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-sigma-linear-diophantine-b1/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-sigma-linear-diophantine-b1/score_detail.json",
+      "bytes": 12115,
+      "sha256": "2783004e883c3eb07054780f0c44099f2578472331658685d9bc161e953e0010"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-sigma-linear-diophantine-b1/trial.json",
+      "bytes": 1150,
+      "sha256": "803f6f10f7f40742a1d8eb6c5ee84d892588f4dbc0e9777a967250d856c3a633"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-sigma-linear-diophantine-b2/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-sigma-linear-diophantine-b2/score_detail.json",
+      "bytes": 12131,
+      "sha256": "c742178f18693208704bbfd10c29714a5daa7eedc49ea3d692659aacaa324620"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-sigma-linear-diophantine-b2/trial.json",
+      "bytes": 1150,
+      "sha256": "4fe4b396e991cfa36de87a341737ac2d28e4a08079ddec270ff94ea2c71613af"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-sigma-linear-diophantine-b3/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-sigma-linear-diophantine-b3/score_detail.json",
+      "bytes": 12132,
+      "sha256": "25e42c8019201cde5cc8d2c46d18589948f2e5a1255eecf9010b4b6b13d15c88"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-sigma-linear-diophantine-b3/trial.json",
+      "bytes": 1150,
+      "sha256": "06691497c46b964cf8457ce91f6c41d237a70f3fd9918f8f906158e88f83b139"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-sigma-linear-diophantine-b4/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-sigma-linear-diophantine-b4/score_detail.json",
+      "bytes": 12130,
+      "sha256": "a455582357e425fe95a6d621cb34ffea256d5cef0cc84a8471f0c4e84dfd6240"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-sigma-linear-diophantine-b4/trial.json",
+      "bytes": 1150,
+      "sha256": "37fac9399283c9286c3f8bff17047f88fa4c3a683d0427e08287feeee0c715d6"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-sparse-hyperbolic-recovery-2d-b1/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-sparse-hyperbolic-recovery-2d-b1/score_detail.json",
+      "bytes": 13371,
+      "sha256": "f3caff62714a5eb229f6ed5de5805d598a72654f8ed09eb31686274ffc0d6301"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-sparse-hyperbolic-recovery-2d-b1/trial.json",
+      "bytes": 1159,
+      "sha256": "5eee68a56eab7da89f618b56f0e2d084bd9c02b6da3aa5a31cbb416f1bbea179"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-sparse-hyperbolic-recovery-2d-b2/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-sparse-hyperbolic-recovery-2d-b2/score_detail.json",
+      "bytes": 13371,
+      "sha256": "9a071b4e92a05f0453d19377cacc298a933f24595b678c8b12d40d3cb9214cbc"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-sparse-hyperbolic-recovery-2d-b2/trial.json",
+      "bytes": 1159,
+      "sha256": "09a1c86c6eb68849532ef93a2bc1ec322d502f72dd1c933854ee63a583b754df"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-sparse-hyperbolic-recovery-2d-b3/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-sparse-hyperbolic-recovery-2d-b3/score_detail.json",
+      "bytes": 13371,
+      "sha256": "46644527dd7c3e88feb1e4d79ef75ec01215a330a86a18c52a88024b5820b443"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-sparse-hyperbolic-recovery-2d-b3/trial.json",
+      "bytes": 1159,
+      "sha256": "bd76e86dbe24f76d3557065d3e3d5ec16b698f544c4c334b03fe7fc09ec05e27"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-sparse-hyperbolic-recovery-2d-b4/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-sparse-hyperbolic-recovery-2d-b4/score_detail.json",
+      "bytes": 13371,
+      "sha256": "05e0ee97e8e9c9657ce52c791f3d4243ea9bde41e7145e93d549f51ccfc8f400"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-sparse-hyperbolic-recovery-2d-b4/trial.json",
+      "bytes": 1159,
+      "sha256": "1fb3c331c88157359e8ea61bfdf4cb0604b990ec6df78939e08abe3eee609144"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-sparse-nonlinear-interaction-recovery-b1/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-sparse-nonlinear-interaction-recovery-b1/score_detail.json",
+      "bytes": 7345,
+      "sha256": "ffedb88547d96e2182a362446e39395f29e1cd21bf883aa181c5648f2aef81cb"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-sparse-nonlinear-interaction-recovery-b1/trial.json",
+      "bytes": 1176,
+      "sha256": "3e9ac31a3893843a12883eca9b9b8dad61ac3c9cfb348b0ad7a0dd70b4654beb"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-sparse-nonlinear-interaction-recovery-b2/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-sparse-nonlinear-interaction-recovery-b2/score_detail.json",
+      "bytes": 7345,
+      "sha256": "f317984b2ab69f689759d4fde81f4d336e2cc345160c9bfac186704137abcf60"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-sparse-nonlinear-interaction-recovery-b2/trial.json",
+      "bytes": 1176,
+      "sha256": "cbca1803509ac92dbec7fe6273332f16cf3f2709cd73e241ac502444e291ae01"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-sparse-nonlinear-interaction-recovery-b3/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-sparse-nonlinear-interaction-recovery-b3/score_detail.json",
+      "bytes": 7345,
+      "sha256": "7093808c2da389659c3f8206b2af253e96d6b4bf82778db4d7eb06b4582550c7"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-sparse-nonlinear-interaction-recovery-b3/trial.json",
+      "bytes": 1176,
+      "sha256": "f27924967c95c788be16dedf36aa0a53aff02ba26494f057e3f8afe732ec6829"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-sparse-nonlinear-interaction-recovery-b4/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-sparse-nonlinear-interaction-recovery-b4/score_detail.json",
+      "bytes": 7345,
+      "sha256": "a3343c651a8acc240b8982cb0ecf66c0e6f1dabc24c032396bb765446c6dca27"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-sparse-nonlinear-interaction-recovery-b4/trial.json",
+      "bytes": 1176,
+      "sha256": "22827da7ea1bcf26fcf42e3436399146e58b957738348a4a8feb7ddf55a1eab0"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-symplectic-integrators-b1/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-symplectic-integrators-b1/score_detail.json",
+      "bytes": 6183,
+      "sha256": "b28465fc6a33741462cd5024c4f26dca0055bff990466b94cbad108a7cef9174"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-symplectic-integrators-b1/trial.json",
+      "bytes": 1144,
+      "sha256": "5a0085b0be7959d97646794d20a14ce531b57fb8494b3ce2110b3b50cfa11f28"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-symplectic-integrators-b2/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-symplectic-integrators-b2/score_detail.json",
+      "bytes": 6183,
+      "sha256": "34e85d135a4e8f85561cc805b67bfa0a4e6deb94473bc3f44c2e2dffca17ff02"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-symplectic-integrators-b2/trial.json",
+      "bytes": 1144,
+      "sha256": "c7a8c7d92c77c73aae315b63ed1b9686134118d048672824ab2ee070c086cf7e"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-symplectic-integrators-b3/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-symplectic-integrators-b3/score_detail.json",
+      "bytes": 6183,
+      "sha256": "50ae79fe05d385f16427d669b1993b24441e98f24027ed228039dfece7e3c71a"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-symplectic-integrators-b3/trial.json",
+      "bytes": 1144,
+      "sha256": "0f3b03f4ccbcdc2732f160d892d640e0640090d2d680d7fb97189f60765d3aab"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-symplectic-integrators-b4/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-symplectic-integrators-b4/score_detail.json",
+      "bytes": 6183,
+      "sha256": "4c314e76147f0a49d7d20f4e8f61705823866e4e5d1911cf0c2b8a311a2fdea3"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-symplectic-integrators-b4/trial.json",
+      "bytes": 1144,
+      "sha256": "6d8d2790e58794b103b9154e2a71bf482c440077416a49339e0a5e4ead951232"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-ucb-q-learning-regret-b1/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-ucb-q-learning-regret-b1/score_detail.json",
+      "bytes": 19693,
+      "sha256": "f3c975cd3f94ed372c1ac031a01f1f0d98c2b5db1ee07ad873d7833fca9e70bf"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-ucb-q-learning-regret-b1/trial.json",
+      "bytes": 1141,
+      "sha256": "ab456799c02f99efcf98edafee8a22e25dd13f5a51645a4b481d430e79ea56ef"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-ucb-q-learning-regret-b2/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-ucb-q-learning-regret-b2/score_detail.json",
+      "bytes": 19693,
+      "sha256": "dc93d28f2d512fcd5f36a3705e8560440c1a38b6aaace2748c9d82104a829daa"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-ucb-q-learning-regret-b2/trial.json",
+      "bytes": 1141,
+      "sha256": "68bcc66af08fdb48a323b9b8df858f3ae3f99505b7e91d0d3a8584c840b5c127"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-ucb-q-learning-regret-b3/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-ucb-q-learning-regret-b3/score_detail.json",
+      "bytes": 19691,
+      "sha256": "957e92eadbe450b5c7215b23737bf4b458affdad5b26dff020423e73c8631ba3"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-ucb-q-learning-regret-b3/trial.json",
+      "bytes": 1141,
+      "sha256": "c9d6c81875294d431e9c759e8177c6704f2d986e1c094ff4c9d288eec3377c31"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-ucb-q-learning-regret-b4/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-ucb-q-learning-regret-b4/score_detail.json",
+      "bytes": 19693,
+      "sha256": "d4be714e1160508d384fcc34f7840db6a7e604c47c896d0c08d5dff5d4f0bb8b"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/math-ucb-q-learning-regret-b4/trial.json",
+      "bytes": 1141,
+      "sha256": "b5288c8a33a1f006b60b8c395107fefc2bc831309b670cec384fa618d3c305ab"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-ag-strip-dielectric-inference-b1/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-ag-strip-dielectric-inference-b1/score_detail.json",
+      "bytes": 9989,
+      "sha256": "31c94272f07664d2424c1c284a2614f67759ecf0650e7e7c974671aad31b186b"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-ag-strip-dielectric-inference-b1/trial.json",
+      "bytes": 1166,
+      "sha256": "0234f7b8f9265e05652ece040c201f062ab5e6b8137c0d6040306ebc30d2b19a"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-ag-strip-dielectric-inference-b2/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-ag-strip-dielectric-inference-b2/score_detail.json",
+      "bytes": 9964,
+      "sha256": "77353976e07b9e3553ce54a55ca4c057ebaac5a9700350df6eab0077473e4b8a"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-ag-strip-dielectric-inference-b2/trial.json",
+      "bytes": 1166,
+      "sha256": "5eff4a120c53f8225fb5985df0a26cd7ea8a15e2294e51e9adbb792ea65826f2"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-ag-strip-dielectric-inference-b3/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-ag-strip-dielectric-inference-b3/score_detail.json",
+      "bytes": 9982,
+      "sha256": "8a3c7511d918e778aebd94c7d6a83881e0a00a8a7f569717f767b1c07a364c07"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-ag-strip-dielectric-inference-b3/trial.json",
+      "bytes": 1166,
+      "sha256": "75dff56d05a48838687ebc3aa6ecc06a715eb0bb2b1faa3595639137d912d13b"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-ag-strip-dielectric-inference-b4/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-ag-strip-dielectric-inference-b4/score_detail.json",
+      "bytes": 9976,
+      "sha256": "410fb0d319a306bb62e3c675fbb8f4e0c2de666a80f112d54260723dc1d90689"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-ag-strip-dielectric-inference-b4/trial.json",
+      "bytes": 1166,
+      "sha256": "46416106f44b087df60a49394cfae6b6ecab7e5b5367ac87f8b8b64619704c03"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-dp-contact-process-b1/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-dp-contact-process-b1/score_detail.json",
+      "bytes": 4373,
+      "sha256": "172462ba447949a1b6eec2cc8e8a73e8e2e6fd91f2fa29051db6e370eacbeec5"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-dp-contact-process-b1/trial.json",
+      "bytes": 1141,
+      "sha256": "c1f04b5939e74b8d516ae9e629a72e8f6f8fac80d4e9f41a8d523ea7cafeb6bd"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-dp-contact-process-b2/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-dp-contact-process-b2/score_detail.json",
+      "bytes": 4373,
+      "sha256": "878761856c6e6890890629a87bff2095b78b7e645d77a4e23146ee81e101d3c8"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-dp-contact-process-b2/trial.json",
+      "bytes": 1141,
+      "sha256": "36d832aa159d46d73f07afc6c78590eb99ca229998cc5b6b20667b6cc925131d"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-dp-contact-process-b3/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-dp-contact-process-b3/score_detail.json",
+      "bytes": 4373,
+      "sha256": "0163b7a1737ac7c72b4c96df313016cdb02afe0ce908c8a9a17a5acba40a15ef"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-dp-contact-process-b3/trial.json",
+      "bytes": 1141,
+      "sha256": "c78f5aec9879c5c4f079bf08b287cbed487ea8825a7bfce71b32db1782043857"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-dp-contact-process-b4/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-dp-contact-process-b4/score_detail.json",
+      "bytes": 4373,
+      "sha256": "c74c43f715e59df2b932198db20c10274438a1a7cd37007d96182af535e240f6"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-dp-contact-process-b4/trial.json",
+      "bytes": 1141,
+      "sha256": "37df41502b884d8bd55b4f4ff49725a692e5d051c310907061307d7ed414dc15"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-ks-2d-anisotropic-b1/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-ks-2d-anisotropic-b1/score_detail.json",
+      "bytes": 9473,
+      "sha256": "eb03f94a9f5280ff8c78bac8c4abade9f8ccc3b9316aa2eb25ea22370f64cd72"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-ks-2d-anisotropic-b1/trial.json",
+      "bytes": 1138,
+      "sha256": "729d4284e183053ed86fb710f47c2127ac8be94fd1570b35ec1a2d0cb8bee9da"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-ks-2d-anisotropic-b2/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-ks-2d-anisotropic-b2/score_detail.json",
+      "bytes": 9502,
+      "sha256": "f24f5c3de9bdefb8f09e0441bd8e75a0da386a451e096034d7026b5f6fb71334"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-ks-2d-anisotropic-b2/trial.json",
+      "bytes": 1138,
+      "sha256": "23f92da95ffb73b304c5c95757a118c5112446ea82c489c733bea4a558fd0783"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-ks-2d-anisotropic-b3/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-ks-2d-anisotropic-b3/score_detail.json",
+      "bytes": 9455,
+      "sha256": "0baf0cdb3409ecc0140eb64efd46485c1cf8fa916d445011c86a55f93a1bd091"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-ks-2d-anisotropic-b3/trial.json",
+      "bytes": 1138,
+      "sha256": "13d87b9079fb2e7f559589fc197b3a4f3897e56a7a69a0f2de5b6f2affccbbd8"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-ks-2d-anisotropic-b4/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-ks-2d-anisotropic-b4/score_detail.json",
+      "bytes": 9499,
+      "sha256": "72ff40fc2cc16d4f73d22b3e27ff122dbadbc94e3f1b898358426122d43b7ab5"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-ks-2d-anisotropic-b4/trial.json",
+      "bytes": 1138,
+      "sha256": "c3da23ec6576ff8b9040ab93d99d891d35fd65bf27c05656193594e4ad7cdcff"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-kt-phase-transition-2d-xy-model-b1/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-kt-phase-transition-2d-xy-model-b1/score_detail.json",
+      "bytes": 34657,
+      "sha256": "76009a5fa83b5ae64b90c24d6d659b17f5be5267f82948f932491b1b759ee0f6"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-kt-phase-transition-2d-xy-model-b1/trial.json",
+      "bytes": 1170,
+      "sha256": "1351481b85bc9702ed7f5140216b55f38fcfc89b477b351c9c138e81e3254309"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-kt-phase-transition-2d-xy-model-b2/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-kt-phase-transition-2d-xy-model-b2/score_detail.json",
+      "bytes": 34657,
+      "sha256": "8849728deec533c376fc0152299ac0a0b371254e0cb4636a27bcfede7386b869"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-kt-phase-transition-2d-xy-model-b2/trial.json",
+      "bytes": 1170,
+      "sha256": "a0157026bf6312deb9c525b06b082460735c89ada1c3d55970097f133e109ea3"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-kt-phase-transition-2d-xy-model-b3/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-kt-phase-transition-2d-xy-model-b3/score_detail.json",
+      "bytes": 34657,
+      "sha256": "d4e1820a6cefb106e7e4b79f373bca1d708bb6e17a9cb069999d979f96e4151c"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-kt-phase-transition-2d-xy-model-b3/trial.json",
+      "bytes": 1170,
+      "sha256": "2c2d1dc1011b89a0ff887acd2427cfe829eda88d638037164069c085bae88a58"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-kt-phase-transition-2d-xy-model-b4/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-kt-phase-transition-2d-xy-model-b4/score_detail.json",
+      "bytes": 34657,
+      "sha256": "2a530ff763932a18ed6e3be733519366e6a7bf5bcf9c3a436207bdac05bbf1f3"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-kt-phase-transition-2d-xy-model-b4/trial.json",
+      "bytes": 1170,
+      "sha256": "df5bfa1a5e34e7fe5bb40ea748f49d784e2fb49d24aa258d1a06753cab400711"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-lbm-square-wake-b1/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-lbm-square-wake-b1/score_detail.json",
+      "bytes": 15606,
+      "sha256": "1bb63a671a3a8fe5885471c7297542061b3c7359c5137d64df4e7fe09a609bfb"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-lbm-square-wake-b1/trial.json",
+      "bytes": 1132,
+      "sha256": "29796419dc1e732b0a6ba0743cd973bce461ce86559f35f900e2f640e3366608"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-lbm-square-wake-b2/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-lbm-square-wake-b2/score_detail.json",
+      "bytes": 15606,
+      "sha256": "b04355d8fa39a15617b3673184e1802d10168f9a864b7b9c7cf34401ba52b15b"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-lbm-square-wake-b2/trial.json",
+      "bytes": 1132,
+      "sha256": "421f1b035930614df0404ef2ac5236e5348e6966e6e363b1b86cbc61ecc52082"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-lbm-square-wake-b3/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-lbm-square-wake-b3/score_detail.json",
+      "bytes": 15606,
+      "sha256": "46ab83c5af4230f54ee91b7750f00df56acca376cb495c07dc49202fc8972204"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-lbm-square-wake-b3/trial.json",
+      "bytes": 1132,
+      "sha256": "beeaa0e00d9426805ee65f77b7f11d570bf9bbc255cb68639f9df7e94b7ece4a"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-lbm-square-wake-b4/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-lbm-square-wake-b4/score_detail.json",
+      "bytes": 15606,
+      "sha256": "abdaf0521e3b88ae76da992d8d2b2cb6fb5b511f2b1e9be868591df919efdd17"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-lbm-square-wake-b4/trial.json",
+      "bytes": 1132,
+      "sha256": "80d16615e535b9458f517f19234467d2802ae556a40cfee0ea7cf14c6daabfb0"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-lid-driven-cavity-flow-b1/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-lid-driven-cavity-flow-b1/score_detail.json",
+      "bytes": 14791,
+      "sha256": "82645272835380c9c8d63f0143abf19c915387754d93e439bde54492748af270"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-lid-driven-cavity-flow-b1/trial.json",
+      "bytes": 1152,
+      "sha256": "7c82f246084a19f567ad1ac14b59e850c802f4e229d0574bfa0ce4a5dec07aa7"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-lid-driven-cavity-flow-b2/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-lid-driven-cavity-flow-b2/score_detail.json",
+      "bytes": 14791,
+      "sha256": "5ac36074fb1cb9f021ca9aab5f7cb66d69665e52024f009d06bc77c4a3a0c7a3"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-lid-driven-cavity-flow-b2/trial.json",
+      "bytes": 1152,
+      "sha256": "51146abd2b84f1bad779a6aef571742184895250ecb2e0b91df8c2113a59beb3"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-lid-driven-cavity-flow-b3/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-lid-driven-cavity-flow-b3/score_detail.json",
+      "bytes": 14791,
+      "sha256": "0bce82f43876b4857e8a09f69bf2c51afab46399b749cdd45f34271fbee2508d"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-lid-driven-cavity-flow-b3/trial.json",
+      "bytes": 1152,
+      "sha256": "a21a2c5198459445b3fb1a77961ecc3df5a778662a717db0d015f083f9b53f5d"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-lid-driven-cavity-flow-b4/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-lid-driven-cavity-flow-b4/score_detail.json",
+      "bytes": 14791,
+      "sha256": "ac7f8f7a19c572f6463ff6f582952bd1b1c4e1ec73286db360e5af6bdde89153"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-lid-driven-cavity-flow-b4/trial.json",
+      "bytes": 1152,
+      "sha256": "070acdf09061e3ec3a4ad62bb156454372d6dea7c5501d1913ff7766aaf75a0d"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-paired-nanorod-negative-index-retrieval-b1/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-paired-nanorod-negative-index-retrieval-b1/score_detail.json",
+      "bytes": 8146,
+      "sha256": "47ca2399cb3f7d2de8d6be3a8642bc9eaf21108004211ee24c42e9fbfad1d66d"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-paired-nanorod-negative-index-retrieval-b1/trial.json",
+      "bytes": 1185,
+      "sha256": "9875442cff87442137008a16ced882a5887f7c3a1f022f943d45cc713c06e6a4"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-paired-nanorod-negative-index-retrieval-b2/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-paired-nanorod-negative-index-retrieval-b2/score_detail.json",
+      "bytes": 8144,
+      "sha256": "b00614efd1760293eeb501ed2df75659d2547d1f3fdafdc9700b3801ba204724"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-paired-nanorod-negative-index-retrieval-b2/trial.json",
+      "bytes": 1185,
+      "sha256": "af3ee8cfe6d1d90ba47538f15e997dd529549b063266b17e926e98ab5fdaa206"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-paired-nanorod-negative-index-retrieval-b3/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-paired-nanorod-negative-index-retrieval-b3/score_detail.json",
+      "bytes": 8153,
+      "sha256": "2fbcd72352f4b38485801121ccda6b494a4ca67a41d094da3a5a9aec38a43758"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-paired-nanorod-negative-index-retrieval-b3/trial.json",
+      "bytes": 1185,
+      "sha256": "335dd43f88e5b5d811a2e17de8b245b3759453aa4908e0a95c8ec5ccd8212119"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-paired-nanorod-negative-index-retrieval-b4/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-paired-nanorod-negative-index-retrieval-b4/score_detail.json",
+      "bytes": 8141,
+      "sha256": "b06bf5d60b057cf220d8fba5126b416dc5bd7d8f5375243de1bc2175e4b83c54"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-paired-nanorod-negative-index-retrieval-b4/trial.json",
+      "bytes": 1185,
+      "sha256": "ef786bc780411cea6d242445338c994be913b0cda0c45b8fcb6d54212aebb95e"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-vpfm-leapfrog-b1/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-vpfm-leapfrog-b1/score_detail.json",
+      "bytes": 4222,
+      "sha256": "767f3ab5db253f0cf7c5fa36d1678735991ad371f93ef20133399b4a093eda19"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-vpfm-leapfrog-b1/trial.json",
+      "bytes": 1126,
+      "sha256": "248dcdf3043812b3159d95f879be84112f94bc63746b3bf771461bf673319afd"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-vpfm-leapfrog-b2/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-vpfm-leapfrog-b2/score_detail.json",
+      "bytes": 4222,
+      "sha256": "9b82d2840032fd2ffd5c7d617c7a18c9be0e0d75169ccc811b320ed95a0f2d85"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-vpfm-leapfrog-b2/trial.json",
+      "bytes": 1126,
+      "sha256": "57aee335a97a37efb4fbc8735d5027c30af8310eff818b915e1f0d78cc50e881"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-vpfm-leapfrog-b3/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-vpfm-leapfrog-b3/score_detail.json",
+      "bytes": 4222,
+      "sha256": "33d09d2c343a0b2fd50d5a190747554ec1d8dfeb015c6a15a7f3c8c117908596"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-vpfm-leapfrog-b3/trial.json",
+      "bytes": 1126,
+      "sha256": "f7e254c915db010a75095bef770c9f6de8995314c3304fc4ccb3e6ca173ea3e0"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-vpfm-leapfrog-b4/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-vpfm-leapfrog-b4/score_detail.json",
+      "bytes": 4222,
+      "sha256": "6dd453bcb58d18c670d7b22ca7cf8c8d406741a505e020a923b529d11e4745fa"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/physics-vpfm-leapfrog-b4/trial.json",
+      "bytes": 1126,
+      "sha256": "44f92f801e5520c6da4b663261323b7c1fafb7b0c710b128b265246ffdcf3855"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-lidar-imu-time-offset-yaw-calibration-b1/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-lidar-imu-time-offset-yaw-calibration-b1/score_detail.json",
+      "bytes": 5213,
+      "sha256": "d61bded49a46343786402d6a9dd5acd31dcec49756582de5c05639ed5de6c0f9"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-lidar-imu-time-offset-yaw-calibration-b1/trial.json",
+      "bytes": 1184,
+      "sha256": "f8c17e5c1c2df1a61e508f3b916f8d78863dcc034279d47a876967854ec2548a"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-lidar-imu-time-offset-yaw-calibration-b2/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-lidar-imu-time-offset-yaw-calibration-b2/score_detail.json",
+      "bytes": 5213,
+      "sha256": "8d1e416fbc2e120203f9718e6edf3fd81539da5568c63c9441c3f642aa31d05b"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-lidar-imu-time-offset-yaw-calibration-b2/trial.json",
+      "bytes": 1184,
+      "sha256": "9cdfa1b16cc35f121789e63f9f39da6a39ffee50acebf46c7c5c7aa8120197a6"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-lidar-imu-time-offset-yaw-calibration-b3/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-lidar-imu-time-offset-yaw-calibration-b3/score_detail.json",
+      "bytes": 5213,
+      "sha256": "a99a85ca8b30167fd8f0c90bbe19d2c9f77bfcfd8c29b9a65c488c425e140096"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-lidar-imu-time-offset-yaw-calibration-b3/trial.json",
+      "bytes": 1184,
+      "sha256": "1fa3182954d1679d25a815f2b402e3d2f2db8ba849a45eb1082baa6de85a80d9"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-lidar-imu-time-offset-yaw-calibration-b4/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-lidar-imu-time-offset-yaw-calibration-b4/score_detail.json",
+      "bytes": 5213,
+      "sha256": "922b7ec96c398e898292e11c68782e42f60a2ae2326ac2247514a9978f86e206"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-lidar-imu-time-offset-yaw-calibration-b4/trial.json",
+      "bytes": 1184,
+      "sha256": "beb989c222679ef96202fa9d8cfb4911edee0a05d1aafda41ab1c40823a8f3bf"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-multiregime-icp-degeneracy-b1/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-multiregime-icp-degeneracy-b1/score_detail.json",
+      "bytes": 3088,
+      "sha256": "79ee07a21db9a876557c029f868802ac5cafaebdc04ed68af7108fc7a13eadcd"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-multiregime-icp-degeneracy-b1/trial.json",
+      "bytes": 1162,
+      "sha256": "6336584dc3ccb844927846e39d432eec081e12621832533ba3cc370f36fc3ed8"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-multiregime-icp-degeneracy-b2/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-multiregime-icp-degeneracy-b2/score_detail.json",
+      "bytes": 3088,
+      "sha256": "b2035db14374489f074dbf1cc13983dd33ab773309d422bbf2cc1a49e66e31ca"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-multiregime-icp-degeneracy-b2/trial.json",
+      "bytes": 1162,
+      "sha256": "96f8d0e50e6b5fbc79cac6b4804063978869b7f006cdff20bce040da994ba56b"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-multiregime-icp-degeneracy-b3/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-multiregime-icp-degeneracy-b3/score_detail.json",
+      "bytes": 3088,
+      "sha256": "867b991a36350930998ad466a8022b8a0d4476bc1a230e2907a0c64037881e9a"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-multiregime-icp-degeneracy-b3/trial.json",
+      "bytes": 1162,
+      "sha256": "b40517733b7062456830bec70579a842fceda5ddcf377763b3a8807be315b33f"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-multiregime-icp-degeneracy-b4/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-multiregime-icp-degeneracy-b4/score_detail.json",
+      "bytes": 3088,
+      "sha256": "8b594497381483993272ba12f03d13588f46f88223fbc6e2d0dbb18ed31c2a1e"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-multiregime-icp-degeneracy-b4/trial.json",
+      "bytes": 1162,
+      "sha256": "92446ca94d95926cf210681408c95f502b91c7dff4c40cb7acd5378675f39603"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-occupancy-grid-mapping-correlated-clutter-b1/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-occupancy-grid-mapping-correlated-clutter-b1/score_detail.json",
+      "bytes": 4926,
+      "sha256": "3f849031955d297c3ebae8b22dfa79a535fbc81995d7f14b39c1429ef187ec89"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-occupancy-grid-mapping-correlated-clutter-b1/trial.json",
+      "bytes": 1191,
+      "sha256": "3ef96fba20c0efdfcebf54882e52fa026d1a9e4cce34856b8d1ab6ed3864d02f"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-occupancy-grid-mapping-correlated-clutter-b2/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-occupancy-grid-mapping-correlated-clutter-b2/score_detail.json",
+      "bytes": 4926,
+      "sha256": "8ba2404bab593cc0b1276a41e27b4c034cb3a6c4d43911195c5b32ce272fe28b"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-occupancy-grid-mapping-correlated-clutter-b2/trial.json",
+      "bytes": 1191,
+      "sha256": "549f125df7f94fef3ecad1c45a19beadcfe5a5b044dd20e457a331dffe75e0e4"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-occupancy-grid-mapping-correlated-clutter-b3/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-occupancy-grid-mapping-correlated-clutter-b3/score_detail.json",
+      "bytes": 4926,
+      "sha256": "77a1ec59d323673057de6d4cc0860e3fce89935ce82b98f85351571a1ea65cf2"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-occupancy-grid-mapping-correlated-clutter-b3/trial.json",
+      "bytes": 1191,
+      "sha256": "64f11aa97855432ce86d45ee0d265336dc937538ec39a9f1a31a5d2046d58726"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-occupancy-grid-mapping-correlated-clutter-b4/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-occupancy-grid-mapping-correlated-clutter-b4/score_detail.json",
+      "bytes": 4926,
+      "sha256": "a40293953e8cf57bd5205af6aa0535aaaea1475eddf72aa9c6a0979ff04836aa"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-occupancy-grid-mapping-correlated-clutter-b4/trial.json",
+      "bytes": 1191,
+      "sha256": "44419a77f5bc6e789c4534d0d21d6a9b642566f6abce163092c41c706855f887"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-particle-filter-b1/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-particle-filter-b1/score_detail.json",
+      "bytes": 5335,
+      "sha256": "33bce66109d2a56518471cc82a4b5a5b0fd84022b8ea632159171f0dfedf5783"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-particle-filter-b1/trial.json",
+      "bytes": 1135,
+      "sha256": "a409a1aa3663e5d7db99a7e652488d092c26619fe1b942d50cec122d419228d3"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-particle-filter-b2/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-particle-filter-b2/score_detail.json",
+      "bytes": 5335,
+      "sha256": "5881613ecf72093f729df377cfbe14928b22f38c56af0e692c8c59674adbd9a3"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-particle-filter-b2/trial.json",
+      "bytes": 1135,
+      "sha256": "a5530fce69ef1f312783f81ab82831c74da19af49347edb2746d4fdfa8716d72"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-particle-filter-b3/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-particle-filter-b3/score_detail.json",
+      "bytes": 5335,
+      "sha256": "858e11e7c7b79ce3d537ff1c4e8cae774793777f028e0c88a80eaef94253c245"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-particle-filter-b3/trial.json",
+      "bytes": 1135,
+      "sha256": "9a566a6a0dfbdd821a0c569f3552fa565f08d75a726e0d877d440be30a70c886"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-particle-filter-b4/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-particle-filter-b4/score_detail.json",
+      "bytes": 5335,
+      "sha256": "805056dddf695b9d9081dbbd0075d68bade6962c072fc49f204913031e47cf09"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-particle-filter-b4/trial.json",
+      "bytes": 1135,
+      "sha256": "c5288fa98a6936c680b3d8ca54dd7d829183c4c5cfaf61c0aa167712b25bcda8"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-rnea-inverse-dynamics-dh-b1/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-rnea-inverse-dynamics-dh-b1/score_detail.json",
+      "bytes": 2413,
+      "sha256": "d7f1bff426485b02abc6b619a717a2b67b58b9fc295133b0512299a514936cb1"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-rnea-inverse-dynamics-dh-b1/trial.json",
+      "bytes": 1158,
+      "sha256": "0951afb322ecc1e75f996e6226de9899647d99e83d023f0f8f922d5e06a05d71"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-rnea-inverse-dynamics-dh-b2/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-rnea-inverse-dynamics-dh-b2/score_detail.json",
+      "bytes": 2413,
+      "sha256": "8ec580a41220785b0ea6a847cf89df4f2f5942228a85224a8256951b45eca8d1"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-rnea-inverse-dynamics-dh-b2/trial.json",
+      "bytes": 1158,
+      "sha256": "c3d2c65582b02ef2b421197b4a4254828342a437040a8cfcbc3b762e77125499"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-rnea-inverse-dynamics-dh-b3/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-rnea-inverse-dynamics-dh-b3/score_detail.json",
+      "bytes": 2413,
+      "sha256": "3bf0528a334fa70aacf27af3d5faf69a74e69e5ce3d4cfa27b5ca345ca74f8a5"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-rnea-inverse-dynamics-dh-b3/trial.json",
+      "bytes": 1158,
+      "sha256": "beead612c534b294de7497f6d1d12c7f8cb006c2f210eed48788af9f8686d175"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-rnea-inverse-dynamics-dh-b4/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-rnea-inverse-dynamics-dh-b4/score_detail.json",
+      "bytes": 2413,
+      "sha256": "7949749bf80e75ec37db75aabe9fa54ba9bb01d5606c301ff2ce4faea8c864e5"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-rnea-inverse-dynamics-dh-b4/trial.json",
+      "bytes": 1158,
+      "sha256": "73d1760b8410a1ac1e956ed89a4744ef7408bf5961c3b2362f37530e34a87b53"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-robust-pose-graph-false-loops-b1/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-robust-pose-graph-false-loops-b1/score_detail.json",
+      "bytes": 3266,
+      "sha256": "6e19a94601214a07b2d71b5a39df4ffdcf8c1e96385b46ca85714f9071f84209"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-robust-pose-graph-false-loops-b1/trial.json",
+      "bytes": 1168,
+      "sha256": "c58dce0fa5f0ba2ca54b3c2acdfe0ce9bc55c5d4e9987de976cd8accbe956f0c"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-robust-pose-graph-false-loops-b2/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-robust-pose-graph-false-loops-b2/score_detail.json",
+      "bytes": 3266,
+      "sha256": "6f1b92f2dd862272d0f28c4d6491f43840399e9e5ba5532f7d70697960a63afd"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-robust-pose-graph-false-loops-b2/trial.json",
+      "bytes": 1168,
+      "sha256": "46f07462cfa3180e8f9b3a89e9c079bacf5b2589594d9e2dc93bcd4dc239ba54"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-robust-pose-graph-false-loops-b3/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-robust-pose-graph-false-loops-b3/score_detail.json",
+      "bytes": 3266,
+      "sha256": "1b28cc31144234c10831ca5de1a5d9ecd53cc576fe1ce5690b2bde033dbf522c"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-robust-pose-graph-false-loops-b3/trial.json",
+      "bytes": 1168,
+      "sha256": "03846fd26c42ae620a4e6e8109e76e5ef7b812fc3512f379601a9cc816415f55"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-robust-pose-graph-false-loops-b4/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-robust-pose-graph-false-loops-b4/score_detail.json",
+      "bytes": 3266,
+      "sha256": "03f52a757731b5b58f337ff378cd5bd3d8d3c953c64269fa6ab574c1eb1f241d"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-robust-pose-graph-false-loops-b4/trial.json",
+      "bytes": 1168,
+      "sha256": "70b52d93dc2620f8ba5f3188aca56839087b900db0a8afcb0861870f1d622563"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-ukf-bearing-only-tracking-b1/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-ukf-bearing-only-tracking-b1/score_detail.json",
+      "bytes": 6265,
+      "sha256": "24300ea98d0efd5b6cd314eb6d6be27498e758575b655cc6ff2f62b42aab6ac2"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-ukf-bearing-only-tracking-b1/trial.json",
+      "bytes": 1160,
+      "sha256": "afb9aeb96f0be7746b753c1e0e26b1deccc274cf4fa9f582a9e1965194b71b93"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-ukf-bearing-only-tracking-b2/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-ukf-bearing-only-tracking-b2/score_detail.json",
+      "bytes": 6265,
+      "sha256": "910cc29e0543ddd557c28ab74bcc2030a4033eaaad3d5523b2d7e01cb2a16e86"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-ukf-bearing-only-tracking-b2/trial.json",
+      "bytes": 1160,
+      "sha256": "f58c2de031edee337f21674816ed81c1650edbd67abca30db1660e267ba70429"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-ukf-bearing-only-tracking-b3/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-ukf-bearing-only-tracking-b3/score_detail.json",
+      "bytes": 6265,
+      "sha256": "297d94290013c60aee46071ba73cd829af46ff68cc73b00a3700789043dc2cb4"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-ukf-bearing-only-tracking-b3/trial.json",
+      "bytes": 1160,
+      "sha256": "528524d9605af688cb69b3724890e039c09ad04109e076d7b34adf2bd810cec6"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-ukf-bearing-only-tracking-b4/reward.json",
+      "bytes": 20,
+      "sha256": "34e636bdde02ca7e3fa38214565a1ce6774f656e0773eaa2a4776e6cfe9c0137"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-ukf-bearing-only-tracking-b4/score_detail.json",
+      "bytes": 6265,
+      "sha256": "c96a9f38abc7d4b3e5a8068f23016141d812eaab916d51c18f3ca1aed33c5a3a"
+    },
+    {
+      "path": "adapters/asibench/oracle/results/robotics-ukf-bearing-only-tracking-b4/trial.json",
+      "bytes": 1160,
+      "sha256": "4118ec9749bc7bce39ee91f0a394dae299d4cfe5af8d45234894a91b1b223dcb"
+    },
+    {
+      "path": "adapters/asibench/oracle/results.tar.gz",
+      "bytes": 223106,
+      "sha256": "90c09b57fe18247bded76d9cb9a1a8b8a0ee53522cb9082e5b11c67a05980988"
+    },
+    {
+      "path": "adapters/asibench/oracle/run-metadata.json",
+      "bytes": 61934,
+      "sha256": "bfbfec438a7dfd251a64f6a6381b06e3a818fde4b63a024bace8ea3b6483bd4c"
+    },
+    {
+      "path": "adapters/asibench/oracle/show_results.py",
+      "bytes": 2577,
+      "sha256": "60e0140bf5878786c313c0e0f099c942c11337ed99d5a2435e4cb1c0786f137a"
+    },
+    {
+      "path": "adapters/asibench/oracle/task-results.csv",
+      "bytes": 24531,
+      "sha256": "fa539999cc66426c2c2c413a412f494fbac732c2417b2be48f953a0974ea531a"
+    },
+    {
+      "path": "adapters/asibench/oracle/terminal-results.png",
+      "bytes": 64144,
+      "sha256": "0d60c74e8b6d03ff5a91d0a07c065f9533e0ad9e0a742ceaf5808aaeefc95ad8"
+    },
+    {
+      "path": "adapters/asibench/oracle/validation.json",
+      "bytes": 150660,
+      "sha256": "2fa361edcf93ab600b82a85c6d662ae53be342cf63c3d35546f93954bc424289"
+    },
+    {
+      "path": "adapters/asibench/original_parity/astronomy.nbody_close_encounters/outputs.tar.gz",
+      "bytes": 40902,
+      "sha256": "b457db191d17e6b578806197247682ea5e44abef8547779ef698014306f038bf"
+    },
+    {
+      "path": "adapters/asibench/original_parity/astronomy.nbody_close_encounters/score_detail.json",
+      "bytes": 2448,
+      "sha256": "9371c2ef2fdc6986aa0888f80ab45e1587e0e6e5acea2c79445e93ef131a5ce4"
+    },
+    {
+      "path": "adapters/asibench/original_parity/astronomy.nbody_close_encounters/trajectory.json",
+      "bytes": 14904,
+      "sha256": "43c795bb9529730a50c2f20d54191038ee6b63c802e0b2a2a781b565c221bc09"
+    },
+    {
+      "path": "adapters/asibench/original_parity/biology.gillespie_ssssa_michaelis_menten/outputs.tar.gz",
+      "bytes": 112806,
+      "sha256": "f39074600652d26a17f31b34341be3c60925f972272851585d7b843c0846f760"
+    },
+    {
+      "path": "adapters/asibench/original_parity/biology.gillespie_ssssa_michaelis_menten/score_detail.json",
+      "bytes": 19013,
+      "sha256": "a0472f152e6e1adf17a910fc3823a79b346bd42ca01aeedfe8572a1109652a73"
+    },
+    {
+      "path": "adapters/asibench/original_parity/biology.gillespie_ssssa_michaelis_menten/trajectory.json",
+      "bytes": 176984,
+      "sha256": "99bbf09cd4b121c7ec9d155a3ed98423e3766d8aeefcaea3af4c722992201789"
+    },
+    {
+      "path": "adapters/asibench/original_parity/chemistry.reaction_path_bifurcation_vri/outputs.tar.gz",
+      "bytes": 274200,
+      "sha256": "7dea89dfc045babb829a542e97d11ca6942032abadb83b6e1fffeeac1d44d942"
+    },
+    {
+      "path": "adapters/asibench/original_parity/chemistry.reaction_path_bifurcation_vri/score_detail.json",
+      "bytes": 10818,
+      "sha256": "6c97e88fbed9a3c0ea63e4990c0b90efbc9ac47dc4cdbe5e237eb1eeb5229acb"
+    },
+    {
+      "path": "adapters/asibench/original_parity/chemistry.reaction_path_bifurcation_vri/trajectory.json",
+      "bytes": 146010,
+      "sha256": "5e7194b798f3d36b7a0f8cb9aba63ee7714083062e158fe4d14fe44999eb3f1c"
+    },
+    {
+      "path": "adapters/asibench/original_parity/math.symplectic_integrators/outputs.tar.gz",
+      "bytes": 13138391,
+      "sha256": "fbe9dd719da378a35e8063167603816c2c0549983e21c8aee6294471c920029e"
+    },
+    {
+      "path": "adapters/asibench/original_parity/math.symplectic_integrators/score_detail.json",
+      "bytes": 5706,
+      "sha256": "fbfa5a415e196b0da58ae262b6db9627f1378be5898fa4dbd1d7142572308a84"
+    },
+    {
+      "path": "adapters/asibench/original_parity/math.symplectic_integrators/trajectory.json",
+      "bytes": 41700,
+      "sha256": "f14397ca8d7317c477e20b135a3f3539aafd63d487e5e8fd685d20732a3326ca"
+    },
+    {
+      "path": "adapters/asibench/original_parity/robotics.particle_filter/outputs.tar.gz",
+      "bytes": 252411,
+      "sha256": "6056f655f3fa2cbe6d20602881458133fc1ab462e6c01cac8dbcdce1029c45a8"
+    },
+    {
+      "path": "adapters/asibench/original_parity/robotics.particle_filter/score_detail.json",
+      "bytes": 4251,
+      "sha256": "bb7f15d112542852fa575097f5cf18ddaa65025dbed56d3ec544c18a701a1263"
+    },
+    {
+      "path": "adapters/asibench/original_parity/robotics.particle_filter/trajectory.json",
+      "bytes": 37350,
+      "sha256": "a00ad8df3f42ce9ca63319b9ebb3f358b622c86e3cbbbc867806b2273ae63951"
+    },
+    {
+      "path": "adapters/asibench/reproduction/README.md",
+      "bytes": 693,
+      "sha256": "eddded5bbeb85becbe83ee075f3a79e99d883a430eff9439bdc6ec03ba4e2304"
+    },
+    {
+      "path": "adapters/asibench/reproduction/cross_score.py",
+      "bytes": 2787,
+      "sha256": "2344282189736233738a245355685498d1bd75084fb42efc8e991fddec810d92"
+    },
+    {
+      "path": "adapters/asibench/reproduction/native_entry.py",
+      "bytes": 1175,
+      "sha256": "7d381ce1620bdc2b799902e1027ac9c84ac7fe50055aedc7184b0fb6be658472"
+    },
+    {
+      "path": "adapters/asibench/reproduction/prepare.py",
+      "bytes": 4477,
+      "sha256": "f8add23f663e72fe1ab3a3846aae7580591581afe7d2643278530dc803e246e3"
+    },
+    {
+      "path": "adapters/asibench/reproduction/run.py",
+      "bytes": 4961,
+      "sha256": "5ebae8bd2c5d09920ae17890700ec04a88e8def0db5f15c5abbb411187588cbf"
+    },
+    {
+      "path": "adapters/asibench/reproduction/score_native.py",
+      "bytes": 1661,
+      "sha256": "4060b6b07e7351e4d58df6db755415693db25914505da4a26b32a88e5e6c56b6"
+    },
+    {
+      "path": "adapters/asibench/results_collection/artifact-manifest.json",
+      "bytes": 35979,
+      "sha256": "be1c128b9cc11c96f620ecc117e1024d0f29116ca1b7b4ca13803a2df5710902"
+    },
+    {
+      "path": "adapters/asibench/results_collection/cross-scoring.json",
+      "bytes": 47635,
+      "sha256": "4ffc28e6063289ad8e05176c25b917b7cff9fdc58b69ef837968d6d968808f26"
+    },
+    {
+      "path": "adapters/asibench/results_collection/result_harbor_trial1.json",
+      "bytes": 661,
+      "sha256": "8723fa7af26ace35f11c1d27b1b7e05c6d8eefa192ae33c88f4810b5ca04b32b"
+    },
+    {
+      "path": "adapters/asibench/results_collection/result_original_trial1.json",
+      "bytes": 661,
+      "sha256": "5cc90c29372c804830a7b9b48d5252b3d55733116082f41e3f214eee852f97c6"
+    },
+    {
+      "path": "adapters/asibench/results_collection/results.json",
+      "bytes": 4399,
+      "sha256": "c340e415e02a16a8bbfaf618f9b1b3065a0271712e5ebbc1110eb28eeb3f6487"
+    }
+  ]
+}

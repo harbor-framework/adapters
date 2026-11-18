@@ -1,0 +1,2000 @@
+{
+  "cells": 240,
+  "full_reward_count": 235,
+  "non_full_trials": [
+    {
+      "task_name": "asi-bench/biology-contextual-dna-regime-mapping-b3",
+      "trial_name": "biology-contextual-dna-regime-ma__JPvEAWV",
+      "reward": 0.9975,
+      "exception_type": null,
+      "started_at": "2026-11-06T10:57:47.422261Z",
+      "finished_at": "2026-11-06T10:59:32.280480Z"
+    },
+    {
+      "task_name": "asi-bench/electrical-engineering-cmos-opamp-design-b2",
+      "trial_name": "electrical-engineering-cmos-opam__6jsvUv9",
+      "reward": null,
+      "exception_type": "RewardFileNotFoundError",
+      "started_at": "2026-11-06T11:31:03.890614Z",
+      "finished_at": "2026-11-06T11:35:58.856587Z",
+      "failure_context": {
+        "gpt_5_5_mentioned": true,
+        "model_unavailable": true
+      }
+    },
+    {
+      "task_name": "asi-bench/electrical-engineering-cmos-opamp-design-b3",
+      "trial_name": "electrical-engineering-cmos-opam__eHbXLTm",
+      "reward": null,
+      "exception_type": "RewardFileNotFoundError",
+      "started_at": "2026-11-06T11:31:04.391202Z",
+      "finished_at": "2026-11-06T11:35:58.476677Z",
+      "failure_context": {
+        "gpt_5_5_mentioned": true,
+        "model_unavailable": true
+      }
+    },
+    {
+      "task_name": "asi-bench/electrical-engineering-cmos-opamp-design-b4",
+      "trial_name": "electrical-engineering-cmos-opam__fRAtMEv",
+      "reward": null,
+      "exception_type": "RewardFileNotFoundError",
+      "started_at": "2026-11-06T11:31:05.049582Z",
+      "finished_at": "2026-11-06T11:35:56.710719Z",
+      "failure_context": {
+        "gpt_5_5_mentioned": true,
+        "model_unavailable": true
+      }
+    },
+    {
+      "task_name": "asi-bench/electrical-engineering-cmos-opamp-design-b1",
+      "trial_name": "electrical-engineering-cmos-opam__vUwBTRD",
+      "reward": null,
+      "exception_type": "RewardFileNotFoundError",
+      "started_at": "2026-11-06T11:31:03.327209Z",
+      "finished_at": "2026-11-06T11:35:56.722215Z",
+      "failure_context": {
+        "gpt_5_5_mentioned": true,
+        "model_unavailable": true
+      }
+    }
+  ],
+  "trials": [
+    {
+      "task_name": "asi-bench/astronomy-nbody-close-encounters-b4",
+      "trial_name": "astronomy-nbody-close-encounters__PsvBRgd",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T10:52:53.854913Z",
+      "finished_at": "2026-11-06T10:55:09.182096Z"
+    },
+    {
+      "task_name": "asi-bench/astronomy-nbody-close-encounters-b1",
+      "trial_name": "astronomy-nbody-close-encounters__UKB3kYp",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T10:52:53.243860Z",
+      "finished_at": "2026-11-06T10:55:10.840546Z"
+    },
+    {
+      "task_name": "asi-bench/astronomy-nbody-close-encounters-b2",
+      "trial_name": "astronomy-nbody-close-encounters__drmmMHu",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T10:52:53.472972Z",
+      "finished_at": "2026-11-06T10:55:11.209215Z"
+    },
+    {
+      "task_name": "asi-bench/astronomy-nbody-close-encounters-b3",
+      "trial_name": "astronomy-nbody-close-encounters__pzAseFj",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T10:52:53.662069Z",
+      "finished_at": "2026-11-06T10:55:11.207671Z"
+    },
+    {
+      "task_name": "asi-bench/astronomy-planet-activity-sep-b1",
+      "trial_name": "astronomy-planet-activity-sep-b1__xKsp75E",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T10:52:54.019898Z",
+      "finished_at": "2026-11-06T10:55:11.208972Z"
+    },
+    {
+      "task_name": "asi-bench/astronomy-planet-activity-sep-b2",
+      "trial_name": "astronomy-planet-activity-sep-b2__5EmJqWK",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T10:52:54.179877Z",
+      "finished_at": "2026-11-06T10:55:11.208163Z"
+    },
+    {
+      "task_name": "asi-bench/astronomy-planet-activity-sep-b3",
+      "trial_name": "astronomy-planet-activity-sep-b3__DBFay8W",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T10:52:54.339645Z",
+      "finished_at": "2026-11-06T10:55:08.616185Z"
+    },
+    {
+      "task_name": "asi-bench/astronomy-planet-activity-sep-b4",
+      "trial_name": "astronomy-planet-activity-sep-b4__ZwmKcDj",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T10:52:54.499346Z",
+      "finished_at": "2026-11-06T10:55:11.208640Z"
+    },
+    {
+      "task_name": "asi-bench/astronomy-white-dwarf-sparse-inference-b4",
+      "trial_name": "astronomy-white-dwarf-sparse-inf__4hLu5CS",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T10:55:11.482429Z",
+      "finished_at": "2026-11-06T10:57:47.185576Z"
+    },
+    {
+      "task_name": "asi-bench/astronomy-white-dwarf-sparse-inference-b1",
+      "trial_name": "astronomy-white-dwarf-sparse-inf__CfJYp7P",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T10:55:08.878499Z",
+      "finished_at": "2026-11-06T10:57:48.870732Z"
+    },
+    {
+      "task_name": "asi-bench/astronomy-white-dwarf-sparse-inference-b3",
+      "trial_name": "astronomy-white-dwarf-sparse-inf__TzSkpHK",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T10:55:11.078238Z",
+      "finished_at": "2026-11-06T10:57:48.869595Z"
+    },
+    {
+      "task_name": "asi-bench/astronomy-white-dwarf-sparse-inference-b2",
+      "trial_name": "astronomy-white-dwarf-sparse-inf__mRUGQMS",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T10:55:09.367252Z",
+      "finished_at": "2026-11-06T10:57:49.580724Z"
+    },
+    {
+      "task_name": "asi-bench/biology-calcium-ip3-dyk-oscillations-b1",
+      "trial_name": "biology-calcium-ip3-dyk-oscillat__7yAb5yK",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T10:55:11.741566Z",
+      "finished_at": "2026-11-06T10:58:34.834865Z"
+    },
+    {
+      "task_name": "asi-bench/biology-calcium-ip3-dyk-oscillations-b2",
+      "trial_name": "biology-calcium-ip3-dyk-oscillat__898cdHr",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T10:55:11.971672Z",
+      "finished_at": "2026-11-06T10:57:18.827187Z"
+    },
+    {
+      "task_name": "asi-bench/biology-calcium-ip3-dyk-oscillations-b3",
+      "trial_name": "biology-calcium-ip3-dyk-oscillat__HQztjVy",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T10:55:12.219233Z",
+      "finished_at": "2026-11-06T10:57:19.382680Z"
+    },
+    {
+      "task_name": "asi-bench/biology-calcium-ip3-dyk-oscillations-b4",
+      "trial_name": "biology-calcium-ip3-dyk-oscillat__fhUiPr9",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T10:55:12.460375Z",
+      "finished_at": "2026-11-06T10:58:33.763686Z"
+    },
+    {
+      "task_name": "asi-bench/biology-contextual-dna-regime-mapping-b4",
+      "trial_name": "biology-contextual-dna-regime-ma__BnovfJp",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T10:57:49.151065Z",
+      "finished_at": "2026-11-06T11:00:53.626034Z"
+    },
+    {
+      "task_name": "asi-bench/biology-contextual-dna-regime-mapping-b3",
+      "trial_name": "biology-contextual-dna-regime-ma__JPvEAWV",
+      "reward": 0.9975,
+      "exception_type": null,
+      "started_at": "2026-11-06T10:57:47.422261Z",
+      "finished_at": "2026-11-06T10:59:32.280480Z"
+    },
+    {
+      "task_name": "asi-bench/biology-contextual-dna-regime-mapping-b2",
+      "trial_name": "biology-contextual-dna-regime-ma__fdyokBL",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T10:57:19.596214Z",
+      "finished_at": "2026-11-06T11:00:54.666999Z"
+    },
+    {
+      "task_name": "asi-bench/biology-contextual-dna-regime-mapping-b1",
+      "trial_name": "biology-contextual-dna-regime-ma__pgXEVED",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T10:57:19.071092Z",
+      "finished_at": "2026-11-06T10:59:30.559949Z"
+    },
+    {
+      "task_name": "asi-bench/biology-gene-network-timeseries-b2",
+      "trial_name": "biology-gene-network-timeseries__K2WorVM",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T10:57:49.935946Z",
+      "finished_at": "2026-11-06T10:59:41.635336Z"
+    },
+    {
+      "task_name": "asi-bench/biology-gene-network-timeseries-b1",
+      "trial_name": "biology-gene-network-timeseries__YBQTyUP",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T10:57:49.476038Z",
+      "finished_at": "2026-11-06T10:59:42.541006Z"
+    },
+    {
+      "task_name": "asi-bench/biology-gene-network-timeseries-b3",
+      "trial_name": "biology-gene-network-timeseries__nFiLjJS",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T10:58:34.164633Z",
+      "finished_at": "2026-11-06T10:59:43.523858Z"
+    },
+    {
+      "task_name": "asi-bench/biology-gene-network-timeseries-b4",
+      "trial_name": "biology-gene-network-timeseries__p3Ht9CG",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T10:58:35.171962Z",
+      "finished_at": "2026-11-06T10:59:43.105079Z"
+    },
+    {
+      "task_name": "asi-bench/biology-gillespie-ssssa-michaelis-menten-b2",
+      "trial_name": "biology-gillespie-ssssa-michaeli__6wgK5mj",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T10:59:32.708025Z",
+      "finished_at": "2026-11-06T11:01:39.043604Z"
+    },
+    {
+      "task_name": "asi-bench/biology-gillespie-ssssa-michaelis-menten-b1",
+      "trial_name": "biology-gillespie-ssssa-michaeli__Pw7KT7o",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T10:59:31.038241Z",
+      "finished_at": "2026-11-06T11:01:37.440244Z"
+    },
+    {
+      "task_name": "asi-bench/biology-gillespie-ssssa-michaelis-menten-b3",
+      "trial_name": "biology-gillespie-ssssa-michaeli__fepYuzh",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T10:59:42.056920Z",
+      "finished_at": "2026-11-06T11:01:39.406646Z"
+    },
+    {
+      "task_name": "asi-bench/biology-gillespie-ssssa-michaelis-menten-b4",
+      "trial_name": "biology-gillespie-ssssa-michaeli__phEWCCV",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T10:59:42.946850Z",
+      "finished_at": "2026-11-06T11:01:38.036638Z"
+    },
+    {
+      "task_name": "asi-bench/biology-protein-folding-go-model-b1",
+      "trial_name": "biology-protein-folding-go-model__6P5Cbvi",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T10:59:43.406043Z",
+      "finished_at": "2026-11-06T11:02:07.806675Z"
+    },
+    {
+      "task_name": "asi-bench/biology-protein-folding-go-model-b3",
+      "trial_name": "biology-protein-folding-go-model__HyGsy5x",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:00:54.050829Z",
+      "finished_at": "2026-11-06T11:02:06.860283Z"
+    },
+    {
+      "task_name": "asi-bench/biology-protein-folding-go-model-b2",
+      "trial_name": "biology-protein-folding-go-model__aU5nokp",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T10:59:43.828922Z",
+      "finished_at": "2026-11-06T11:02:33.081887Z"
+    },
+    {
+      "task_name": "asi-bench/biology-protein-folding-go-model-b4",
+      "trial_name": "biology-protein-folding-go-model__tVbkGhQ",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:00:54.957005Z",
+      "finished_at": "2026-11-06T11:03:07.812146Z"
+    },
+    {
+      "task_name": "asi-bench/biology-scrna-seq-analysis-b1",
+      "trial_name": "biology-scrna-seq-analysis-b1__98hLA2m",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:01:37.695816Z",
+      "finished_at": "2026-11-06T11:03:50.267589Z"
+    },
+    {
+      "task_name": "asi-bench/biology-scrna-seq-analysis-b2",
+      "trial_name": "biology-scrna-seq-analysis-b2__THVGvxQ",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:01:38.259643Z",
+      "finished_at": "2026-11-06T11:03:50.813045Z"
+    },
+    {
+      "task_name": "asi-bench/biology-scrna-seq-analysis-b3",
+      "trial_name": "biology-scrna-seq-analysis-b3__VCczTG2",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:01:39.289617Z",
+      "finished_at": "2026-11-06T11:03:49.318402Z"
+    },
+    {
+      "task_name": "asi-bench/biology-scrna-seq-analysis-b4",
+      "trial_name": "biology-scrna-seq-analysis-b4__VHcH9mX",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:01:39.677267Z",
+      "finished_at": "2026-11-06T11:03:50.783913Z"
+    },
+    {
+      "task_name": "asi-bench/biostat-perturbation-convergence-testing-b3",
+      "trial_name": "biostat-perturbation-convergence__JyoqFkr",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:02:33.803486Z",
+      "finished_at": "2026-11-06T11:04:14.214108Z"
+    },
+    {
+      "task_name": "asi-bench/biostat-perturbation-convergence-testing-b2",
+      "trial_name": "biostat-perturbation-convergence__VnMRwPY",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:02:08.545608Z",
+      "finished_at": "2026-11-06T11:04:13.605973Z"
+    },
+    {
+      "task_name": "asi-bench/biostat-perturbation-convergence-testing-b4",
+      "trial_name": "biostat-perturbation-convergence__ZAoqkN7",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:03:08.825759Z",
+      "finished_at": "2026-11-06T11:04:15.852971Z"
+    },
+    {
+      "task_name": "asi-bench/biostat-perturbation-convergence-testing-b1",
+      "trial_name": "biostat-perturbation-convergence__erCK7Et",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:02:07.559928Z",
+      "finished_at": "2026-11-06T11:04:14.746506Z"
+    },
+    {
+      "task_name": "asi-bench/chemistry-implicit-solvent-pb-gb-b1",
+      "trial_name": "chemistry-implicit-solvent-pb-gb__J5ecLPj",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:03:49.639752Z",
+      "finished_at": "2026-11-06T11:06:26.364662Z"
+    },
+    {
+      "task_name": "asi-bench/chemistry-implicit-solvent-pb-gb-b3",
+      "trial_name": "chemistry-implicit-solvent-pb-gb__KNwUXcz",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:03:51.271999Z",
+      "finished_at": "2026-11-06T11:06:23.657247Z"
+    },
+    {
+      "task_name": "asi-bench/chemistry-implicit-solvent-pb-gb-b4",
+      "trial_name": "chemistry-implicit-solvent-pb-gb__gBG7Znt",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:03:51.757752Z",
+      "finished_at": "2026-11-06T11:06:27.254960Z"
+    },
+    {
+      "task_name": "asi-bench/chemistry-implicit-solvent-pb-gb-b2",
+      "trial_name": "chemistry-implicit-solvent-pb-gb__qsoMaZh",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:03:50.606013Z",
+      "finished_at": "2026-11-06T11:06:26.366385Z"
+    },
+    {
+      "task_name": "asi-bench/chemistry-marcus-et-reorganization-energy-b4",
+      "trial_name": "chemistry-marcus-et-reorganizati__D997NjJ",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:04:16.269404Z",
+      "finished_at": "2026-11-06T11:06:27.254285Z"
+    },
+    {
+      "task_name": "asi-bench/chemistry-marcus-et-reorganization-energy-b1",
+      "trial_name": "chemistry-marcus-et-reorganizati__N6V8pr9",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:04:13.995488Z",
+      "finished_at": "2026-11-06T11:06:27.154074Z"
+    },
+    {
+      "task_name": "asi-bench/chemistry-marcus-et-reorganization-energy-b2",
+      "trial_name": "chemistry-marcus-et-reorganizati__QE264g5",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:04:14.562719Z",
+      "finished_at": "2026-11-06T11:06:27.254695Z"
+    },
+    {
+      "task_name": "asi-bench/chemistry-marcus-et-reorganization-energy-b3",
+      "trial_name": "chemistry-marcus-et-reorganizati__fDy9JF4",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:04:15.045049Z",
+      "finished_at": "2026-11-06T11:06:24.696709Z"
+    },
+    {
+      "task_name": "asi-bench/chemistry-metadynamics-for-dipeptide-in-vacuum-b2",
+      "trial_name": "chemistry-metadynamics-for-dipep__Y2oBeL9",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:06:24.981821Z",
+      "finished_at": "2026-11-06T11:09:14.191983Z"
+    },
+    {
+      "task_name": "asi-bench/chemistry-metadynamics-for-dipeptide-in-vacuum-b4",
+      "trial_name": "chemistry-metadynamics-for-dipep__stmyBYx",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:06:27.030878Z",
+      "finished_at": "2026-11-06T11:09:18.445727Z"
+    },
+    {
+      "task_name": "asi-bench/chemistry-metadynamics-for-dipeptide-in-vacuum-b3",
+      "trial_name": "chemistry-metadynamics-for-dipep__xS5U3AP",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:06:26.689810Z",
+      "finished_at": "2026-11-06T11:09:14.184352Z"
+    },
+    {
+      "task_name": "asi-bench/chemistry-metadynamics-for-dipeptide-in-vacuum-b1",
+      "trial_name": "chemistry-metadynamics-for-dipep__zpZFyPf",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:06:23.966108Z",
+      "finished_at": "2026-11-06T11:09:16.775128Z"
+    },
+    {
+      "task_name": "asi-bench/chemistry-reaction-path-bifurcation-vri-b4",
+      "trial_name": "chemistry-reaction-path-bifurcat__PLXsW6Y",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:06:29.365713Z",
+      "finished_at": "2026-11-06T11:08:55.134830Z"
+    },
+    {
+      "task_name": "asi-bench/chemistry-reaction-path-bifurcation-vri-b3",
+      "trial_name": "chemistry-reaction-path-bifurcat__XXDrfqR",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:06:28.845604Z",
+      "finished_at": "2026-11-06T11:08:57.278041Z"
+    },
+    {
+      "task_name": "asi-bench/chemistry-reaction-path-bifurcation-vri-b2",
+      "trial_name": "chemistry-reaction-path-bifurcat__pM4tKjt",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:06:28.284938Z",
+      "finished_at": "2026-11-06T11:08:56.810714Z"
+    },
+    {
+      "task_name": "asi-bench/chemistry-reaction-path-bifurcation-vri-b1",
+      "trial_name": "chemistry-reaction-path-bifurcat__xTgQKnu",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:06:27.749558Z",
+      "finished_at": "2026-11-06T11:08:55.734824Z"
+    },
+    {
+      "task_name": "asi-bench/chemistry-sapt-water-dimer-b1",
+      "trial_name": "chemistry-sapt-water-dimer-b1__k7sZ8Qv",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:08:55.389445Z",
+      "finished_at": "2026-11-06T11:11:46.588456Z"
+    },
+    {
+      "task_name": "asi-bench/chemistry-sapt-water-dimer-b2",
+      "trial_name": "chemistry-sapt-water-dimer-b2__kHSpW9D",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:08:55.943749Z",
+      "finished_at": "2026-11-06T11:11:48.347939Z"
+    },
+    {
+      "task_name": "asi-bench/chemistry-sapt-water-dimer-b3",
+      "trial_name": "chemistry-sapt-water-dimer-b3__ceYhWQS",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:08:57.053219Z",
+      "finished_at": "2026-11-06T11:11:49.931348Z"
+    },
+    {
+      "task_name": "asi-bench/chemistry-sapt-water-dimer-b4",
+      "trial_name": "chemistry-sapt-water-dimer-b4__GoFXFts",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:08:57.514115Z",
+      "finished_at": "2026-11-06T11:11:46.959647Z"
+    },
+    {
+      "task_name": "asi-bench/chemistry-vtst-tunneling-corrections-b2",
+      "trial_name": "chemistry-vtst-tunneling-correct__2qhfWjq",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:09:14.926059Z",
+      "finished_at": "2026-11-06T11:11:46.583087Z"
+    },
+    {
+      "task_name": "asi-bench/chemistry-vtst-tunneling-corrections-b3",
+      "trial_name": "chemistry-vtst-tunneling-correct__3FJve3u",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:09:17.134102Z",
+      "finished_at": "2026-11-06T11:11:44.773240Z"
+    },
+    {
+      "task_name": "asi-bench/chemistry-vtst-tunneling-corrections-b1",
+      "trial_name": "chemistry-vtst-tunneling-correct__J7Jo9Qb",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:09:14.538640Z",
+      "finished_at": "2026-11-06T11:12:11.750183Z"
+    },
+    {
+      "task_name": "asi-bench/chemistry-vtst-tunneling-corrections-b4",
+      "trial_name": "chemistry-vtst-tunneling-correct__f7YVXuW",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:09:18.768842Z",
+      "finished_at": "2026-11-06T11:11:45.976416Z"
+    },
+    {
+      "task_name": "asi-bench/computer-science-affinity-subset-bound-audit-b4",
+      "trial_name": "computer-science-affinity-subset__AxSr99R",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:11:47.286424Z",
+      "finished_at": "2026-11-06T11:16:04.541499Z"
+    },
+    {
+      "task_name": "asi-bench/computer-science-affinity-subset-bound-audit-b2",
+      "trial_name": "computer-science-affinity-subset__j7PRPJU",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:11:46.326874Z",
+      "finished_at": "2026-11-06T11:16:09.881627Z"
+    },
+    {
+      "task_name": "asi-bench/computer-science-affinity-subset-bound-audit-b1",
+      "trial_name": "computer-science-affinity-subset__oMiY3EQ",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:11:45.101938Z",
+      "finished_at": "2026-11-06T11:16:05.147404Z"
+    },
+    {
+      "task_name": "asi-bench/computer-science-affinity-subset-bound-audit-b3",
+      "trial_name": "computer-science-affinity-subset__tBdjSxn",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:11:46.877736Z",
+      "finished_at": "2026-11-06T11:16:10.666642Z"
+    },
+    {
+      "task_name": "asi-bench/computer-science-bci-forensics-b1",
+      "trial_name": "computer-science-bci-forensics-b__5XAbzvH",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:11:48.043952Z",
+      "finished_at": "2026-11-06T11:14:22.813519Z"
+    },
+    {
+      "task_name": "asi-bench/computer-science-bci-forensics-b4",
+      "trial_name": "computer-science-bci-forensics-b__A89qfDU",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:12:12.194491Z",
+      "finished_at": "2026-11-06T11:14:22.812452Z"
+    },
+    {
+      "task_name": "asi-bench/computer-science-bci-forensics-b2",
+      "trial_name": "computer-science-bci-forensics-b__H2DHbqQ",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:11:49.074526Z",
+      "finished_at": "2026-11-06T11:14:20.087830Z"
+    },
+    {
+      "task_name": "asi-bench/computer-science-bci-forensics-b3",
+      "trial_name": "computer-science-bci-forensics-b__XXT536S",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:11:50.609333Z",
+      "finished_at": "2026-11-06T11:14:22.813033Z"
+    },
+    {
+      "task_name": "asi-bench/computer-science-causal-attention-b3",
+      "trial_name": "computer-science-causal-attentio__3th6HDn",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:14:27.870072Z",
+      "finished_at": "2026-11-06T11:23:50.706198Z"
+    },
+    {
+      "task_name": "asi-bench/computer-science-causal-attention-b2",
+      "trial_name": "computer-science-causal-attentio__X6KMRRR",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:14:25.128750Z",
+      "finished_at": "2026-11-06T11:23:51.301444Z"
+    },
+    {
+      "task_name": "asi-bench/computer-science-causal-attention-b1",
+      "trial_name": "computer-science-causal-attentio__auy4WaS",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:14:22.333484Z",
+      "finished_at": "2026-11-06T11:23:48.698584Z"
+    },
+    {
+      "task_name": "asi-bench/computer-science-causal-attention-b4",
+      "trial_name": "computer-science-causal-attentio__kQXHhu8",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:14:30.878408Z",
+      "finished_at": "2026-11-06T11:23:48.116937Z"
+    },
+    {
+      "task_name": "asi-bench/computer-science-deployment-prediction-sets-b4",
+      "trial_name": "computer-science-deployment-pred__QQUQHSb",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:16:11.208359Z",
+      "finished_at": "2026-11-06T11:18:53.234919Z"
+    },
+    {
+      "task_name": "asi-bench/computer-science-deployment-prediction-sets-b2",
+      "trial_name": "computer-science-deployment-pred__YWLRRPJ",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:16:05.818656Z",
+      "finished_at": "2026-11-06T11:18:51.686349Z"
+    },
+    {
+      "task_name": "asi-bench/computer-science-deployment-prediction-sets-b3",
+      "trial_name": "computer-science-deployment-pred__eYy2BFB",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:16:10.455605Z",
+      "finished_at": "2026-11-06T11:18:52.779198Z"
+    },
+    {
+      "task_name": "asi-bench/computer-science-deployment-prediction-sets-b1",
+      "trial_name": "computer-science-deployment-pred__x9MfejS",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:16:04.980997Z",
+      "finished_at": "2026-11-06T11:18:50.956034Z"
+    },
+    {
+      "task_name": "asi-bench/computer-science-dp-accountant-forensics-b2",
+      "trial_name": "computer-science-dp-accountant-f__3EDygVt",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:18:51.952504Z",
+      "finished_at": "2026-11-06T11:20:33.186792Z"
+    },
+    {
+      "task_name": "asi-bench/computer-science-dp-accountant-forensics-b4",
+      "trial_name": "computer-science-dp-accountant-f__DieQGdi",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:18:53.559995Z",
+      "finished_at": "2026-11-06T11:20:32.212283Z"
+    },
+    {
+      "task_name": "asi-bench/computer-science-dp-accountant-forensics-b1",
+      "trial_name": "computer-science-dp-accountant-f__YMZV2h9",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:18:51.279401Z",
+      "finished_at": "2026-11-06T11:20:31.670515Z"
+    },
+    {
+      "task_name": "asi-bench/computer-science-dp-accountant-forensics-b3",
+      "trial_name": "computer-science-dp-accountant-f__gLAYe3A",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:18:53.105166Z",
+      "finished_at": "2026-11-06T11:20:33.188450Z"
+    },
+    {
+      "task_name": "asi-bench/computer-science-euclidean-tsp-tour-optimization-b1",
+      "trial_name": "computer-science-euclidean-tsp-t__DmPvWB8",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:20:31.865123Z",
+      "finished_at": "2026-11-06T11:24:01.066618Z"
+    },
+    {
+      "task_name": "asi-bench/computer-science-euclidean-tsp-tour-optimization-b3",
+      "trial_name": "computer-science-euclidean-tsp-t__dGosDBe",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:20:33.376297Z",
+      "finished_at": "2026-11-06T11:24:01.670009Z"
+    },
+    {
+      "task_name": "asi-bench/computer-science-euclidean-tsp-tour-optimization-b4",
+      "trial_name": "computer-science-euclidean-tsp-t__nnHZwEz",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:20:33.614188Z",
+      "finished_at": "2026-11-06T11:24:01.664705Z"
+    },
+    {
+      "task_name": "asi-bench/computer-science-euclidean-tsp-tour-optimization-b2",
+      "trial_name": "computer-science-euclidean-tsp-t__ur2cJQa",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:20:32.376324Z",
+      "finished_at": "2026-11-06T11:24:02.880112Z"
+    },
+    {
+      "task_name": "asi-bench/computer-science-hmc-neal-funnel-b4",
+      "trial_name": "computer-science-hmc-neal-funnel__h6DXYQd",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:23:51.738023Z",
+      "finished_at": "2026-11-06T11:25:40.804423Z"
+    },
+    {
+      "task_name": "asi-bench/computer-science-hmc-neal-funnel-b3",
+      "trial_name": "computer-science-hmc-neal-funnel__rSag5w4",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:23:51.131815Z",
+      "finished_at": "2026-11-06T11:25:42.286141Z"
+    },
+    {
+      "task_name": "asi-bench/computer-science-hmc-neal-funnel-b2",
+      "trial_name": "computer-science-hmc-neal-funnel__rfgVDUj",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:23:49.097341Z",
+      "finished_at": "2026-11-06T11:25:41.341074Z"
+    },
+    {
+      "task_name": "asi-bench/computer-science-hmc-neal-funnel-b1",
+      "trial_name": "computer-science-hmc-neal-funnel__sUs7C2Y",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:23:48.547185Z",
+      "finished_at": "2026-11-06T11:25:42.288083Z"
+    },
+    {
+      "task_name": "asi-bench/computer-science-max3sat-assignment-optimization-b2",
+      "trial_name": "computer-science-max3sat-assignm__9HC3nhP",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:24:01.893290Z",
+      "finished_at": "2026-11-06T11:26:03.248161Z"
+    },
+    {
+      "task_name": "asi-bench/computer-science-max3sat-assignment-optimization-b3",
+      "trial_name": "computer-science-max3sat-assignm__SEWcw9X",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:24:02.198050Z",
+      "finished_at": "2026-11-06T11:26:03.444010Z"
+    },
+    {
+      "task_name": "asi-bench/computer-science-max3sat-assignment-optimization-b4",
+      "trial_name": "computer-science-max3sat-assignm__gpEme42",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:24:03.089591Z",
+      "finished_at": "2026-11-06T11:26:03.244786Z"
+    },
+    {
+      "task_name": "asi-bench/computer-science-max3sat-assignment-optimization-b1",
+      "trial_name": "computer-science-max3sat-assignm__xhWWYf9",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:24:01.315145Z",
+      "finished_at": "2026-11-06T11:26:03.443715Z"
+    },
+    {
+      "task_name": "asi-bench/computer-science-stable-latent-state-fitting-b1",
+      "trial_name": "computer-science-stable-latent-s__ZvUaBZV",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:25:41.095121Z",
+      "finished_at": "2026-11-06T11:28:26.412220Z"
+    },
+    {
+      "task_name": "asi-bench/computer-science-stable-latent-state-fitting-b2",
+      "trial_name": "computer-science-stable-latent-s__mf5ZZBk",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:25:41.641656Z",
+      "finished_at": "2026-11-06T11:28:28.336088Z"
+    },
+    {
+      "task_name": "asi-bench/computer-science-stable-latent-state-fitting-b3",
+      "trial_name": "computer-science-stable-latent-s__upKX9JL",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:25:42.593524Z",
+      "finished_at": "2026-11-06T11:28:28.338505Z"
+    },
+    {
+      "task_name": "asi-bench/computer-science-stable-latent-state-fitting-b4",
+      "trial_name": "computer-science-stable-latent-s__zjNX7vb",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:25:42.983867Z",
+      "finished_at": "2026-11-06T11:28:27.735119Z"
+    },
+    {
+      "task_name": "asi-bench/earth-science-2-e-soil-carbon-nitrogen-cycling-b1",
+      "trial_name": "earth-science-2-e-soil-carbon-ni__4chU4Lt",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:26:03.408701Z",
+      "finished_at": "2026-11-06T11:28:28.338944Z"
+    },
+    {
+      "task_name": "asi-bench/earth-science-2-e-soil-carbon-nitrogen-cycling-b4",
+      "trial_name": "earth-science-2-e-soil-carbon-ni__9GcUCb7",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:26:04.066175Z",
+      "finished_at": "2026-11-06T11:28:29.939424Z"
+    },
+    {
+      "task_name": "asi-bench/earth-science-2-e-soil-carbon-nitrogen-cycling-b3",
+      "trial_name": "earth-science-2-e-soil-carbon-ni__RcnLiEt",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:26:03.863462Z",
+      "finished_at": "2026-11-06T11:28:25.707923Z"
+    },
+    {
+      "task_name": "asi-bench/earth-science-2-e-soil-carbon-nitrogen-cycling-b2",
+      "trial_name": "earth-science-2-e-soil-carbon-ni__ShPGDfi",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:26:03.605692Z",
+      "finished_at": "2026-11-06T11:28:28.560403Z"
+    },
+    {
+      "task_name": "asi-bench/earth-science-farquhar-ballberry-photosynthesis-b1",
+      "trial_name": "earth-science-farquhar-ballberry__8wCC7yQ",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:28:25.960154Z",
+      "finished_at": "2026-11-06T11:31:02.590015Z"
+    },
+    {
+      "task_name": "asi-bench/earth-science-farquhar-ballberry-photosynthesis-b3",
+      "trial_name": "earth-science-farquhar-ballberry__9RVsLoj",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:28:27.926966Z",
+      "finished_at": "2026-11-06T11:31:00.157325Z"
+    },
+    {
+      "task_name": "asi-bench/earth-science-farquhar-ballberry-photosynthesis-b4",
+      "trial_name": "earth-science-farquhar-ballberry__Mb59wmJ",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:28:28.523345Z",
+      "finished_at": "2026-11-06T11:31:02.589298Z"
+    },
+    {
+      "task_name": "asi-bench/earth-science-farquhar-ballberry-photosynthesis-b2",
+      "trial_name": "earth-science-farquhar-ballberry__gzdX39F",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:28:26.622492Z",
+      "finished_at": "2026-11-06T11:31:02.591818Z"
+    },
+    {
+      "task_name": "asi-bench/earth-science-richards-topmodel-hydrology-b4",
+      "trial_name": "earth-science-richards-topmodel__2VKLeKL",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:28:30.180399Z",
+      "finished_at": "2026-11-06T11:31:02.592114Z"
+    },
+    {
+      "task_name": "asi-bench/earth-science-richards-topmodel-hydrology-b1",
+      "trial_name": "earth-science-richards-topmodel__caHt8ff",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:28:28.756327Z",
+      "finished_at": "2026-11-06T11:31:01.263819Z"
+    },
+    {
+      "task_name": "asi-bench/earth-science-richards-topmodel-hydrology-b3",
+      "trial_name": "earth-science-richards-topmodel__u2pcfTT",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:28:29.435917Z",
+      "finished_at": "2026-11-06T11:30:59.498940Z"
+    },
+    {
+      "task_name": "asi-bench/earth-science-richards-topmodel-hydrology-b2",
+      "trial_name": "earth-science-richards-topmodel__wpUGbP4",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:28:29.092003Z",
+      "finished_at": "2026-11-06T11:31:03.429599Z"
+    },
+    {
+      "task_name": "asi-bench/earth-science-snow-3layer-compaction-b4",
+      "trial_name": "earth-science-snow-3layer-compac__9JPCiaX",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:31:02.800085Z",
+      "finished_at": "2026-11-06T11:33:18.899152Z"
+    },
+    {
+      "task_name": "asi-bench/earth-science-snow-3layer-compaction-b3",
+      "trial_name": "earth-science-snow-3layer-compac__MQuZxrK",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:31:01.557492Z",
+      "finished_at": "2026-11-06T11:33:15.841519Z"
+    },
+    {
+      "task_name": "asi-bench/earth-science-snow-3layer-compaction-b2",
+      "trial_name": "earth-science-snow-3layer-compac__YnVYUCG",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:31:00.325593Z",
+      "finished_at": "2026-11-06T11:33:18.532763Z"
+    },
+    {
+      "task_name": "asi-bench/earth-science-snow-3layer-compaction-b1",
+      "trial_name": "earth-science-snow-3layer-compac__qJSRKvi",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:30:59.703163Z",
+      "finished_at": "2026-11-06T11:33:17.522129Z"
+    },
+    {
+      "task_name": "asi-bench/electrical-engineering-cmos-opamp-design-b2",
+      "trial_name": "electrical-engineering-cmos-opam__6jsvUv9",
+      "reward": null,
+      "exception_type": "RewardFileNotFoundError",
+      "started_at": "2026-11-06T11:31:03.890614Z",
+      "finished_at": "2026-11-06T11:35:58.856587Z",
+      "failure_context": {
+        "gpt_5_5_mentioned": true,
+        "model_unavailable": true
+      }
+    },
+    {
+      "task_name": "asi-bench/electrical-engineering-cmos-opamp-design-b3",
+      "trial_name": "electrical-engineering-cmos-opam__eHbXLTm",
+      "reward": null,
+      "exception_type": "RewardFileNotFoundError",
+      "started_at": "2026-11-06T11:31:04.391202Z",
+      "finished_at": "2026-11-06T11:35:58.476677Z",
+      "failure_context": {
+        "gpt_5_5_mentioned": true,
+        "model_unavailable": true
+      }
+    },
+    {
+      "task_name": "asi-bench/electrical-engineering-cmos-opamp-design-b4",
+      "trial_name": "electrical-engineering-cmos-opam__fRAtMEv",
+      "reward": null,
+      "exception_type": "RewardFileNotFoundError",
+      "started_at": "2026-11-06T11:31:05.049582Z",
+      "finished_at": "2026-11-06T11:35:56.710719Z",
+      "failure_context": {
+        "gpt_5_5_mentioned": true,
+        "model_unavailable": true
+      }
+    },
+    {
+      "task_name": "asi-bench/electrical-engineering-cmos-opamp-design-b1",
+      "trial_name": "electrical-engineering-cmos-opam__vUwBTRD",
+      "reward": null,
+      "exception_type": "RewardFileNotFoundError",
+      "started_at": "2026-11-06T11:31:03.327209Z",
+      "finished_at": "2026-11-06T11:35:56.722215Z",
+      "failure_context": {
+        "gpt_5_5_mentioned": true,
+        "model_unavailable": true
+      }
+    },
+    {
+      "task_name": "asi-bench/electrical-engineering-lossy-tline-skin-b2",
+      "trial_name": "electrical-engineering-lossy-tli__4Yv2jjA",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:33:17.724545Z",
+      "finished_at": "2026-11-06T11:35:12.762104Z"
+    },
+    {
+      "task_name": "asi-bench/electrical-engineering-lossy-tline-skin-b4",
+      "trial_name": "electrical-engineering-lossy-tli__ERMx5vd",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:33:19.129231Z",
+      "finished_at": "2026-11-06T11:35:13.457398Z"
+    },
+    {
+      "task_name": "asi-bench/electrical-engineering-lossy-tline-skin-b3",
+      "trial_name": "electrical-engineering-lossy-tli__QuMMX6R",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:33:18.781329Z",
+      "finished_at": "2026-11-06T11:35:14.909086Z"
+    },
+    {
+      "task_name": "asi-bench/electrical-engineering-lossy-tline-skin-b1",
+      "trial_name": "electrical-engineering-lossy-tli__dkouzR9",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:33:16.084860Z",
+      "finished_at": "2026-11-06T11:35:14.559327Z"
+    },
+    {
+      "task_name": "asi-bench/materials-ising-domain-growth-b1",
+      "trial_name": "materials-ising-domain-growth-b1__dEvaJ4r",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:35:13.014462Z",
+      "finished_at": "2026-11-06T11:38:30.602032Z"
+    },
+    {
+      "task_name": "asi-bench/materials-ising-domain-growth-b2",
+      "trial_name": "materials-ising-domain-growth-b2__kZHfKj9",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:35:13.659332Z",
+      "finished_at": "2026-11-06T11:38:03.018501Z"
+    },
+    {
+      "task_name": "asi-bench/materials-ising-domain-growth-b3",
+      "trial_name": "materials-ising-domain-growth-b3__pDsJ7fc",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:35:14.794513Z",
+      "finished_at": "2026-11-06T11:38:17.123023Z"
+    },
+    {
+      "task_name": "asi-bench/materials-ising-domain-growth-b4",
+      "trial_name": "materials-ising-domain-growth-b4__F4fTXbi",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:35:15.149218Z",
+      "finished_at": "2026-11-06T11:37:34.526600Z"
+    },
+    {
+      "task_name": "asi-bench/materials-relaxation-mode-recovery-b2",
+      "trial_name": "materials-relaxation-mode-recove__DGMnsoG",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:35:57.241441Z",
+      "finished_at": "2026-11-06T11:38:00.456256Z"
+    },
+    {
+      "task_name": "asi-bench/materials-relaxation-mode-recovery-b3",
+      "trial_name": "materials-relaxation-mode-recove__LGJY3xb",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:35:58.726702Z",
+      "finished_at": "2026-11-06T11:38:00.971549Z"
+    },
+    {
+      "task_name": "asi-bench/materials-relaxation-mode-recovery-b4",
+      "trial_name": "materials-relaxation-mode-recove__sDjKvi2",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:35:59.156983Z",
+      "finished_at": "2026-11-06T11:37:58.927162Z"
+    },
+    {
+      "task_name": "asi-bench/materials-relaxation-mode-recovery-b1",
+      "trial_name": "materials-relaxation-mode-recove__uoRqHo6",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:35:56.943580Z",
+      "finished_at": "2026-11-06T11:38:00.972210Z"
+    },
+    {
+      "task_name": "asi-bench/math-homotopy-poly-roots-b1",
+      "trial_name": "math-homotopy-poly-roots-b1__CCrqJff",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:37:34.890973Z",
+      "finished_at": "2026-11-06T11:39:51.523008Z"
+    },
+    {
+      "task_name": "asi-bench/math-homotopy-poly-roots-b2",
+      "trial_name": "math-homotopy-poly-roots-b2__sF4pwRx",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:37:59.292242Z",
+      "finished_at": "2026-11-06T11:39:51.944900Z"
+    },
+    {
+      "task_name": "asi-bench/math-homotopy-poly-roots-b3",
+      "trial_name": "math-homotopy-poly-roots-b3__AVhWWX6",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:38:00.816213Z",
+      "finished_at": "2026-11-06T11:39:51.943206Z"
+    },
+    {
+      "task_name": "asi-bench/math-homotopy-poly-roots-b4",
+      "trial_name": "math-homotopy-poly-roots-b4__nXyz9ub",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:38:01.397685Z",
+      "finished_at": "2026-11-06T11:39:50.250070Z"
+    },
+    {
+      "task_name": "asi-bench/math-ill-posed-inverse-problem-b3",
+      "trial_name": "math-ill-posed-inverse-problem-b__2tXQVsr",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:38:17.911270Z",
+      "finished_at": "2026-11-06T11:40:17.767432Z"
+    },
+    {
+      "task_name": "asi-bench/math-ill-posed-inverse-problem-b2",
+      "trial_name": "math-ill-posed-inverse-problem-b__64JfAHV",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:38:03.836640Z",
+      "finished_at": "2026-11-06T11:40:16.086879Z"
+    },
+    {
+      "task_name": "asi-bench/math-ill-posed-inverse-problem-b4",
+      "trial_name": "math-ill-posed-inverse-problem-b__FmBJYXq",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:38:31.358020Z",
+      "finished_at": "2026-11-06T11:40:16.192066Z"
+    },
+    {
+      "task_name": "asi-bench/math-ill-posed-inverse-problem-b1",
+      "trial_name": "math-ill-posed-inverse-problem-b__mAD7YsS",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:38:02.460214Z",
+      "finished_at": "2026-11-06T11:40:15.091678Z"
+    },
+    {
+      "task_name": "asi-bench/math-levin-context-grid-search-b4",
+      "trial_name": "math-levin-context-grid-search-b__3S2uoTi",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:39:52.343240Z",
+      "finished_at": "2026-11-06T11:41:55.198816Z"
+    },
+    {
+      "task_name": "asi-bench/math-levin-context-grid-search-b2",
+      "trial_name": "math-levin-context-grid-search-b__73f42Vc",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:39:51.761027Z",
+      "finished_at": "2026-11-06T11:41:52.338805Z"
+    },
+    {
+      "task_name": "asi-bench/math-levin-context-grid-search-b3",
+      "trial_name": "math-levin-context-grid-search-b__UQNDw3G",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:39:52.133787Z",
+      "finished_at": "2026-11-06T11:41:54.757793Z"
+    },
+    {
+      "task_name": "asi-bench/math-levin-context-grid-search-b1",
+      "trial_name": "math-levin-context-grid-search-b__k6pXFS8",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:39:50.439021Z",
+      "finished_at": "2026-11-06T11:41:53.096271Z"
+    },
+    {
+      "task_name": "asi-bench/math-manifold-pde-meshfree-b1",
+      "trial_name": "math-manifold-pde-meshfree-b1__6i2GxnC",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:40:15.789480Z",
+      "finished_at": "2026-11-06T11:42:17.033086Z"
+    },
+    {
+      "task_name": "asi-bench/math-manifold-pde-meshfree-b2",
+      "trial_name": "math-manifold-pde-meshfree-b2__Kwj3NRu",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:40:16.768036Z",
+      "finished_at": "2026-11-06T11:42:17.732528Z"
+    },
+    {
+      "task_name": "asi-bench/math-manifold-pde-meshfree-b3",
+      "trial_name": "math-manifold-pde-meshfree-b3__NSvYEid",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:40:17.504744Z",
+      "finished_at": "2026-11-06T11:42:18.660600Z"
+    },
+    {
+      "task_name": "asi-bench/math-manifold-pde-meshfree-b4",
+      "trial_name": "math-manifold-pde-meshfree-b4__qNdaWWF",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:40:18.392674Z",
+      "finished_at": "2026-11-06T11:42:19.254510Z"
+    },
+    {
+      "task_name": "asi-bench/math-mpsc-safety-filter-b1",
+      "trial_name": "math-mpsc-safety-filter-b1__jF5ve6X",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:41:52.545503Z",
+      "finished_at": "2026-11-06T11:45:00.032510Z"
+    },
+    {
+      "task_name": "asi-bench/math-mpsc-safety-filter-b2",
+      "trial_name": "math-mpsc-safety-filter-b2__4gRnauu",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:41:53.312829Z",
+      "finished_at": "2026-11-06T11:44:57.865281Z"
+    },
+    {
+      "task_name": "asi-bench/math-mpsc-safety-filter-b3",
+      "trial_name": "math-mpsc-safety-filter-b3__EDvqQRw",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:41:55.022715Z",
+      "finished_at": "2026-11-06T11:44:56.470976Z"
+    },
+    {
+      "task_name": "asi-bench/math-mpsc-safety-filter-b4",
+      "trial_name": "math-mpsc-safety-filter-b4__uyuawy5",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:41:55.496472Z",
+      "finished_at": "2026-11-06T11:45:00.341052Z"
+    },
+    {
+      "task_name": "asi-bench/math-multiply-connected-conformal-mapping-b2",
+      "trial_name": "math-multiply-connected-conforma__4QfdCjy",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:42:18.177174Z",
+      "finished_at": "2026-11-06T11:44:39.026932Z"
+    },
+    {
+      "task_name": "asi-bench/math-multiply-connected-conformal-mapping-b4",
+      "trial_name": "math-multiply-connected-conforma__9QZhjVE",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:42:19.796412Z",
+      "finished_at": "2026-11-06T11:44:37.440098Z"
+    },
+    {
+      "task_name": "asi-bench/math-multiply-connected-conformal-mapping-b3",
+      "trial_name": "math-multiply-connected-conforma__M85ju7Q",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:42:19.104688Z",
+      "finished_at": "2026-11-06T11:44:36.647742Z"
+    },
+    {
+      "task_name": "asi-bench/math-multiply-connected-conformal-mapping-b1",
+      "trial_name": "math-multiply-connected-conforma__cUcTEXb",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:42:17.590028Z",
+      "finished_at": "2026-11-06T11:44:38.631161Z"
+    },
+    {
+      "task_name": "asi-bench/math-nnls-modulus-deblur-b1",
+      "trial_name": "math-nnls-modulus-deblur-b1__d5EoEt7",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:44:36.923650Z",
+      "finished_at": "2026-11-06T11:46:44.278905Z"
+    },
+    {
+      "task_name": "asi-bench/math-nnls-modulus-deblur-b2",
+      "trial_name": "math-nnls-modulus-deblur-b2__x9TzSfY",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:44:37.641863Z",
+      "finished_at": "2026-11-06T11:46:46.628736Z"
+    },
+    {
+      "task_name": "asi-bench/math-nnls-modulus-deblur-b3",
+      "trial_name": "math-nnls-modulus-deblur-b3__cCYbrm2",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:44:38.879601Z",
+      "finished_at": "2026-11-06T11:47:03.479725Z"
+    },
+    {
+      "task_name": "asi-bench/math-nnls-modulus-deblur-b4",
+      "trial_name": "math-nnls-modulus-deblur-b4__rBXdkVQ",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:44:39.303124Z",
+      "finished_at": "2026-11-06T11:46:43.610978Z"
+    },
+    {
+      "task_name": "asi-bench/math-sigma-linear-diophantine-b1",
+      "trial_name": "math-sigma-linear-diophantine-b1__i97pVcE",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:44:56.774513Z",
+      "finished_at": "2026-11-06T11:47:02.072042Z"
+    },
+    {
+      "task_name": "asi-bench/math-sigma-linear-diophantine-b2",
+      "trial_name": "math-sigma-linear-diophantine-b2__ypt5HhE",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:44:58.055645Z",
+      "finished_at": "2026-11-06T11:47:02.070354Z"
+    },
+    {
+      "task_name": "asi-bench/math-sigma-linear-diophantine-b3",
+      "trial_name": "math-sigma-linear-diophantine-b3__RsbqdHq",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:45:00.245328Z",
+      "finished_at": "2026-11-06T11:47:00.397334Z"
+    },
+    {
+      "task_name": "asi-bench/math-sigma-linear-diophantine-b4",
+      "trial_name": "math-sigma-linear-diophantine-b4__j6Z5S2k",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:45:00.556398Z",
+      "finished_at": "2026-11-06T11:47:01.187896Z"
+    },
+    {
+      "task_name": "asi-bench/math-sparse-hyperbolic-recovery-2d-b4",
+      "trial_name": "math-sparse-hyperbolic-recovery__CAYzn4s",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:47:00.842284Z",
+      "finished_at": "2026-11-06T11:48:55.647204Z"
+    },
+    {
+      "task_name": "asi-bench/math-sparse-hyperbolic-recovery-2d-b1",
+      "trial_name": "math-sparse-hyperbolic-recovery__FUMtmvv",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:46:44.097456Z",
+      "finished_at": "2026-11-06T11:48:56.088378Z"
+    },
+    {
+      "task_name": "asi-bench/math-sparse-hyperbolic-recovery-2d-b2",
+      "trial_name": "math-sparse-hyperbolic-recovery__WLwXM9k",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:46:44.712874Z",
+      "finished_at": "2026-11-06T11:48:56.086685Z"
+    },
+    {
+      "task_name": "asi-bench/math-sparse-hyperbolic-recovery-2d-b3",
+      "trial_name": "math-sparse-hyperbolic-recovery__qSNPuiw",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:46:47.029429Z",
+      "finished_at": "2026-11-06T11:48:56.087841Z"
+    },
+    {
+      "task_name": "asi-bench/math-sparse-nonlinear-interaction-recovery-b4",
+      "trial_name": "math-sparse-nonlinear-interactio__BaZPV7R",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:47:04.099642Z",
+      "finished_at": "2026-11-06T11:48:56.087285Z"
+    },
+    {
+      "task_name": "asi-bench/math-sparse-nonlinear-interaction-recovery-b2",
+      "trial_name": "math-sparse-nonlinear-interactio__JVMtmw2",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:47:02.552887Z",
+      "finished_at": "2026-11-06T11:48:53.826338Z"
+    },
+    {
+      "task_name": "asi-bench/math-sparse-nonlinear-interaction-recovery-b1",
+      "trial_name": "math-sparse-nonlinear-interactio__MN8fJA4",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:47:01.721343Z",
+      "finished_at": "2026-11-06T11:48:56.088120Z"
+    },
+    {
+      "task_name": "asi-bench/math-sparse-nonlinear-interaction-recovery-b3",
+      "trial_name": "math-sparse-nonlinear-interactio__hag22DP",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:47:03.178282Z",
+      "finished_at": "2026-11-06T11:48:52.488330Z"
+    },
+    {
+      "task_name": "asi-bench/math-symplectic-integrators-b1",
+      "trial_name": "math-symplectic-integrators-b1__SLGTJTW",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:48:52.799455Z",
+      "finished_at": "2026-11-06T11:51:16.456918Z"
+    },
+    {
+      "task_name": "asi-bench/math-symplectic-integrators-b2",
+      "trial_name": "math-symplectic-integrators-b2__nWUmAcV",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:48:54.042627Z",
+      "finished_at": "2026-11-06T11:51:15.930198Z"
+    },
+    {
+      "task_name": "asi-bench/math-symplectic-integrators-b3",
+      "trial_name": "math-symplectic-integrators-b3__K3iVdec",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:48:55.948950Z",
+      "finished_at": "2026-11-06T11:51:13.574800Z"
+    },
+    {
+      "task_name": "asi-bench/math-symplectic-integrators-b4",
+      "trial_name": "math-symplectic-integrators-b4__XFT6uLD",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:48:56.410931Z",
+      "finished_at": "2026-11-06T11:51:14.368128Z"
+    },
+    {
+      "task_name": "asi-bench/math-ucb-q-learning-regret-b1",
+      "trial_name": "math-ucb-q-learning-regret-b1__LtnidrT",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:48:56.656980Z",
+      "finished_at": "2026-11-06T11:54:17.235335Z"
+    },
+    {
+      "task_name": "asi-bench/math-ucb-q-learning-regret-b2",
+      "trial_name": "math-ucb-q-learning-regret-b2__V5Y2hud",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:48:56.870163Z",
+      "finished_at": "2026-11-06T11:54:18.610565Z"
+    },
+    {
+      "task_name": "asi-bench/math-ucb-q-learning-regret-b3",
+      "trial_name": "math-ucb-q-learning-regret-b3__ShkyWca",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:48:57.098407Z",
+      "finished_at": "2026-11-06T11:54:17.961530Z"
+    },
+    {
+      "task_name": "asi-bench/math-ucb-q-learning-regret-b4",
+      "trial_name": "math-ucb-q-learning-regret-b4__kCPoEFf",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:48:57.343045Z",
+      "finished_at": "2026-11-06T11:54:19.588196Z"
+    },
+    {
+      "task_name": "asi-bench/physics-ag-strip-dielectric-inference-b3",
+      "trial_name": "physics-ag-strip-dielectric-infe__998Y8YW",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:51:16.297644Z",
+      "finished_at": "2026-11-06T11:56:00.353188Z"
+    },
+    {
+      "task_name": "asi-bench/physics-ag-strip-dielectric-inference-b4",
+      "trial_name": "physics-ag-strip-dielectric-infe__C8L2QhE",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:51:16.829138Z",
+      "finished_at": "2026-11-06T11:53:43.968398Z"
+    },
+    {
+      "task_name": "asi-bench/physics-ag-strip-dielectric-inference-b2",
+      "trial_name": "physics-ag-strip-dielectric-infe__DJvWY9Y",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:51:14.696513Z",
+      "finished_at": "2026-11-06T11:53:40.917770Z"
+    },
+    {
+      "task_name": "asi-bench/physics-ag-strip-dielectric-inference-b1",
+      "trial_name": "physics-ag-strip-dielectric-infe__jx6h2Xb",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:51:13.945372Z",
+      "finished_at": "2026-11-06T11:53:44.735119Z"
+    },
+    {
+      "task_name": "asi-bench/physics-dp-contact-process-b1",
+      "trial_name": "physics-dp-contact-process-b1__KAmn5NG",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:53:41.264971Z",
+      "finished_at": "2026-11-06T11:55:20.203735Z"
+    },
+    {
+      "task_name": "asi-bench/physics-dp-contact-process-b2",
+      "trial_name": "physics-dp-contact-process-b2__RMmWSi5",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:53:44.271727Z",
+      "finished_at": "2026-11-06T11:55:19.611682Z"
+    },
+    {
+      "task_name": "asi-bench/physics-dp-contact-process-b3",
+      "trial_name": "physics-dp-contact-process-b3__AonD6om",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:53:45.031740Z",
+      "finished_at": "2026-11-06T11:55:20.797000Z"
+    },
+    {
+      "task_name": "asi-bench/physics-dp-contact-process-b4",
+      "trial_name": "physics-dp-contact-process-b4__fk98GTP",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:54:17.524717Z",
+      "finished_at": "2026-11-06T11:55:36.639433Z"
+    },
+    {
+      "task_name": "asi-bench/physics-ks-2d-anisotropic-b1",
+      "trial_name": "physics-ks-2d-anisotropic-b1__Tgk2N2C",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:54:18.215173Z",
+      "finished_at": "2026-11-06T11:57:19.325110Z"
+    },
+    {
+      "task_name": "asi-bench/physics-ks-2d-anisotropic-b2",
+      "trial_name": "physics-ks-2d-anisotropic-b2__dMRD5Fg",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:54:18.867163Z",
+      "finished_at": "2026-11-06T11:57:19.941239Z"
+    },
+    {
+      "task_name": "asi-bench/physics-ks-2d-anisotropic-b3",
+      "trial_name": "physics-ks-2d-anisotropic-b3__nY9XF4S",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:54:19.871504Z",
+      "finished_at": "2026-11-06T11:57:21.119186Z"
+    },
+    {
+      "task_name": "asi-bench/physics-ks-2d-anisotropic-b4",
+      "trial_name": "physics-ks-2d-anisotropic-b4__8yQtzh5",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:55:19.866779Z",
+      "finished_at": "2026-11-06T11:57:59.892119Z"
+    },
+    {
+      "task_name": "asi-bench/physics-kt-phase-transition-2d-xy-model-b1",
+      "trial_name": "physics-kt-phase-transition-2d-x__L3rUzEG",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:55:20.464358Z",
+      "finished_at": "2026-11-06T11:57:25.262128Z"
+    },
+    {
+      "task_name": "asi-bench/physics-kt-phase-transition-2d-xy-model-b4",
+      "trial_name": "physics-kt-phase-transition-2d-x__QCXTTLd",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:56:00.787797Z",
+      "finished_at": "2026-11-06T11:57:26.779895Z"
+    },
+    {
+      "task_name": "asi-bench/physics-kt-phase-transition-2d-xy-model-b2",
+      "trial_name": "physics-kt-phase-transition-2d-x__RfP5arf",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:55:21.052433Z",
+      "finished_at": "2026-11-06T11:57:26.370092Z"
+    },
+    {
+      "task_name": "asi-bench/physics-kt-phase-transition-2d-xy-model-b3",
+      "trial_name": "physics-kt-phase-transition-2d-x__cXSUaeW",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:55:37.014390Z",
+      "finished_at": "2026-11-06T11:57:26.910933Z"
+    },
+    {
+      "task_name": "asi-bench/physics-lbm-square-wake-b1",
+      "trial_name": "physics-lbm-square-wake-b1__92QisPD",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:57:19.624374Z",
+      "finished_at": "2026-11-06T12:00:02.537483Z"
+    },
+    {
+      "task_name": "asi-bench/physics-lbm-square-wake-b2",
+      "trial_name": "physics-lbm-square-wake-b2__ZYxjcyJ",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:57:20.195496Z",
+      "finished_at": "2026-11-06T12:00:00.202256Z"
+    },
+    {
+      "task_name": "asi-bench/physics-lbm-square-wake-b3",
+      "trial_name": "physics-lbm-square-wake-b3__ez3ScYA",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:57:21.452507Z",
+      "finished_at": "2026-11-06T12:00:02.535792Z"
+    },
+    {
+      "task_name": "asi-bench/physics-lbm-square-wake-b4",
+      "trial_name": "physics-lbm-square-wake-b4__gPy8u6e",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:57:25.606456Z",
+      "finished_at": "2026-11-06T12:00:02.070665Z"
+    },
+    {
+      "task_name": "asi-bench/physics-lid-driven-cavity-flow-b3",
+      "trial_name": "physics-lid-driven-cavity-flow-b__ATaroCo",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:57:27.567025Z",
+      "finished_at": "2026-11-06T11:59:59.605161Z"
+    },
+    {
+      "task_name": "asi-bench/physics-lid-driven-cavity-flow-b4",
+      "trial_name": "physics-lid-driven-cavity-flow-b__GzL8aSF",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:58:00.221559Z",
+      "finished_at": "2026-11-06T11:59:58.607735Z"
+    },
+    {
+      "task_name": "asi-bench/physics-lid-driven-cavity-flow-b1",
+      "trial_name": "physics-lid-driven-cavity-flow-b__cVU2cah",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:57:26.649417Z",
+      "finished_at": "2026-11-06T12:00:02.536517Z"
+    },
+    {
+      "task_name": "asi-bench/physics-lid-driven-cavity-flow-b2",
+      "trial_name": "physics-lid-driven-cavity-flow-b__pAfWgDe",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:57:27.211829Z",
+      "finished_at": "2026-11-06T12:00:02.537107Z"
+    },
+    {
+      "task_name": "asi-bench/physics-paired-nanorod-negative-index-retrieval-b3",
+      "trial_name": "physics-paired-nanorod-negative__B5cUKgn",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T12:00:00.425589Z",
+      "finished_at": "2026-11-06T12:02:40.860589Z"
+    },
+    {
+      "task_name": "asi-bench/physics-paired-nanorod-negative-index-retrieval-b4",
+      "trial_name": "physics-paired-nanorod-negative__FtEmwvD",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T12:00:02.385627Z",
+      "finished_at": "2026-11-06T12:02:41.407959Z"
+    },
+    {
+      "task_name": "asi-bench/physics-paired-nanorod-negative-index-retrieval-b1",
+      "trial_name": "physics-paired-nanorod-negative__ShF5Usk",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:59:58.959097Z",
+      "finished_at": "2026-11-06T12:02:41.756712Z"
+    },
+    {
+      "task_name": "asi-bench/physics-paired-nanorod-negative-index-retrieval-b2",
+      "trial_name": "physics-paired-nanorod-negative__fpjDjEK",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T11:59:59.845125Z",
+      "finished_at": "2026-11-06T12:03:24.855083Z"
+    },
+    {
+      "task_name": "asi-bench/physics-vpfm-leapfrog-b1",
+      "trial_name": "physics-vpfm-leapfrog-b1__nPTq5cP",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T12:00:02.722203Z",
+      "finished_at": "2026-11-06T12:02:58.253806Z"
+    },
+    {
+      "task_name": "asi-bench/physics-vpfm-leapfrog-b2",
+      "trial_name": "physics-vpfm-leapfrog-b2__2o765b9",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T12:00:02.908966Z",
+      "finished_at": "2026-11-06T12:02:57.260249Z"
+    },
+    {
+      "task_name": "asi-bench/physics-vpfm-leapfrog-b3",
+      "trial_name": "physics-vpfm-leapfrog-b3__39WTiZH",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T12:00:03.112430Z",
+      "finished_at": "2026-11-06T12:03:03.689058Z"
+    },
+    {
+      "task_name": "asi-bench/physics-vpfm-leapfrog-b4",
+      "trial_name": "physics-vpfm-leapfrog-b4__EuHcYiN",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T12:00:03.316898Z",
+      "finished_at": "2026-11-06T12:02:58.251541Z"
+    },
+    {
+      "task_name": "asi-bench/robotics-lidar-imu-time-offset-yaw-calibration-b4",
+      "trial_name": "robotics-lidar-imu-time-offset-y__7tHnjxM",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T12:02:57.469545Z",
+      "finished_at": "2026-11-06T12:04:55.368686Z"
+    },
+    {
+      "task_name": "asi-bench/robotics-lidar-imu-time-offset-yaw-calibration-b2",
+      "trial_name": "robotics-lidar-imu-time-offset-y__PrKMLgv",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T12:02:41.632022Z",
+      "finished_at": "2026-11-06T12:04:56.557688Z"
+    },
+    {
+      "task_name": "asi-bench/robotics-lidar-imu-time-offset-yaw-calibration-b1",
+      "trial_name": "robotics-lidar-imu-time-offset-y__wfgSp2X",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T12:02:41.095654Z",
+      "finished_at": "2026-11-06T12:04:57.578840Z"
+    },
+    {
+      "task_name": "asi-bench/robotics-lidar-imu-time-offset-yaw-calibration-b3",
+      "trial_name": "robotics-lidar-imu-time-offset-y__wkRAKr5",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T12:02:41.964102Z",
+      "finished_at": "2026-11-06T12:04:58.262150Z"
+    },
+    {
+      "task_name": "asi-bench/robotics-multiregime-icp-degeneracy-b1",
+      "trial_name": "robotics-multiregime-icp-degener__2Bq9UaL",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T12:03:00.492483Z",
+      "finished_at": "2026-11-06T12:04:54.309841Z"
+    },
+    {
+      "task_name": "asi-bench/robotics-multiregime-icp-degeneracy-b2",
+      "trial_name": "robotics-multiregime-icp-degener__6JwDZM6",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T12:03:03.142691Z",
+      "finished_at": "2026-11-06T12:04:57.581440Z"
+    },
+    {
+      "task_name": "asi-bench/robotics-multiregime-icp-degeneracy-b4",
+      "trial_name": "robotics-multiregime-icp-degener__PgZHAUp",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T12:03:27.961001Z",
+      "finished_at": "2026-11-06T12:04:58.187952Z"
+    },
+    {
+      "task_name": "asi-bench/robotics-multiregime-icp-degeneracy-b3",
+      "trial_name": "robotics-multiregime-icp-degener__YV8WCGe",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T12:03:06.259910Z",
+      "finished_at": "2026-11-06T12:04:58.263483Z"
+    },
+    {
+      "task_name": "asi-bench/robotics-occupancy-grid-mapping-correlated-clutter-b1",
+      "trial_name": "robotics-occupancy-grid-mapping__GQxqCAk",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T12:04:54.602618Z",
+      "finished_at": "2026-11-06T12:06:45.942588Z"
+    },
+    {
+      "task_name": "asi-bench/robotics-occupancy-grid-mapping-correlated-clutter-b2",
+      "trial_name": "robotics-occupancy-grid-mapping__JpvmvaE",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T12:04:55.618058Z",
+      "finished_at": "2026-11-06T12:06:48.355700Z"
+    },
+    {
+      "task_name": "asi-bench/robotics-occupancy-grid-mapping-correlated-clutter-b4",
+      "trial_name": "robotics-occupancy-grid-mapping__QP3Voju",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T12:04:57.873965Z",
+      "finished_at": "2026-11-06T12:06:47.891178Z"
+    },
+    {
+      "task_name": "asi-bench/robotics-occupancy-grid-mapping-correlated-clutter-b3",
+      "trial_name": "robotics-occupancy-grid-mapping__iAfRXAn",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T12:04:56.820010Z",
+      "finished_at": "2026-11-06T12:06:46.625005Z"
+    },
+    {
+      "task_name": "asi-bench/robotics-particle-filter-b1",
+      "trial_name": "robotics-particle-filter-b1__CYNzHBn",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T12:04:58.141494Z",
+      "finished_at": "2026-11-06T12:07:15.801700Z"
+    },
+    {
+      "task_name": "asi-bench/robotics-particle-filter-b2",
+      "trial_name": "robotics-particle-filter-b2__JorjSWQ",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T12:04:58.590907Z",
+      "finished_at": "2026-11-06T12:07:15.426727Z"
+    },
+    {
+      "task_name": "asi-bench/robotics-particle-filter-b3",
+      "trial_name": "robotics-particle-filter-b3__5qAYrMV",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T12:04:58.853914Z",
+      "finished_at": "2026-11-06T12:07:15.802677Z"
+    },
+    {
+      "task_name": "asi-bench/robotics-particle-filter-b4",
+      "trial_name": "robotics-particle-filter-b4__CwE7tk5",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T12:04:59.141479Z",
+      "finished_at": "2026-11-06T12:07:13.557057Z"
+    },
+    {
+      "task_name": "asi-bench/robotics-rnea-inverse-dynamics-dh-b2",
+      "trial_name": "robotics-rnea-inverse-dynamics-d__MpWTdGv",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T12:06:46.785035Z",
+      "finished_at": "2026-11-06T12:08:19.915791Z"
+    },
+    {
+      "task_name": "asi-bench/robotics-rnea-inverse-dynamics-dh-b4",
+      "trial_name": "robotics-rnea-inverse-dynamics-d__ZQuV6mn",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T12:06:48.518132Z",
+      "finished_at": "2026-11-06T12:08:20.966950Z"
+    },
+    {
+      "task_name": "asi-bench/robotics-rnea-inverse-dynamics-dh-b3",
+      "trial_name": "robotics-rnea-inverse-dynamics-d__jwYTrTm",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T12:06:48.085814Z",
+      "finished_at": "2026-11-06T12:08:21.384702Z"
+    },
+    {
+      "task_name": "asi-bench/robotics-rnea-inverse-dynamics-dh-b1",
+      "trial_name": "robotics-rnea-inverse-dynamics-d__xrYmpk6",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T12:06:46.164908Z",
+      "finished_at": "2026-11-06T12:08:19.238972Z"
+    },
+    {
+      "task_name": "asi-bench/robotics-robust-pose-graph-false-loops-b2",
+      "trial_name": "robotics-robust-pose-graph-false__9jErFop",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T12:07:15.681552Z",
+      "finished_at": "2026-11-06T12:09:24.021054Z"
+    },
+    {
+      "task_name": "asi-bench/robotics-robust-pose-graph-false-loops-b4",
+      "trial_name": "robotics-robust-pose-graph-false__HRw7W9a",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T12:07:16.403425Z",
+      "finished_at": "2026-11-06T12:09:26.286756Z"
+    },
+    {
+      "task_name": "asi-bench/robotics-robust-pose-graph-false-loops-b3",
+      "trial_name": "robotics-robust-pose-graph-false__Pw6gv5E",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T12:07:16.068685Z",
+      "finished_at": "2026-11-06T12:09:25.878782Z"
+    },
+    {
+      "task_name": "asi-bench/robotics-robust-pose-graph-false-loops-b1",
+      "trial_name": "robotics-robust-pose-graph-false__c9gsh48",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T12:07:13.818018Z",
+      "finished_at": "2026-11-06T12:09:24.645054Z"
+    },
+    {
+      "task_name": "asi-bench/robotics-ukf-bearing-only-tracking-b3",
+      "trial_name": "robotics-ukf-bearing-only-tracki__8LHTMUq",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T12:08:21.240560Z",
+      "finished_at": "2026-11-06T12:10:10.517347Z"
+    },
+    {
+      "task_name": "asi-bench/robotics-ukf-bearing-only-tracking-b2",
+      "trial_name": "robotics-ukf-bearing-only-tracki__JBJLWbi",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T12:08:20.145196Z",
+      "finished_at": "2026-11-06T12:10:11.138573Z"
+    },
+    {
+      "task_name": "asi-bench/robotics-ukf-bearing-only-tracking-b1",
+      "trial_name": "robotics-ukf-bearing-only-tracki__b9eRLZW",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T12:08:19.516565Z",
+      "finished_at": "2026-11-06T12:10:11.933593Z"
+    },
+    {
+      "task_name": "asi-bench/robotics-ukf-bearing-only-tracking-b4",
+      "trial_name": "robotics-ukf-bearing-only-tracki__qHRAE3n",
+      "reward": 1.0,
+      "exception_type": null,
+      "started_at": "2026-11-06T12:08:21.612475Z",
+      "finished_at": "2026-11-06T12:10:12.255698Z"
+    }
+  ]
+}
