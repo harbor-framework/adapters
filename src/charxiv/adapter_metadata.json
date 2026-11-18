@@ -1,0 +1,50 @@
+[
+  {
+    "adapter_name": "charxiv",
+    "adapter_builders": [
+      "Junnan Li (junnanl@cs.wisc.edu)"
+    ],
+    "original_benchmark": [
+      {
+        "split": "val",
+        "size": 5000,
+        "harness": "llm",
+        "supported_agents": [
+          "None"
+        ],
+        "adaptable": true,
+        "notes": "1000 charts x (4 descriptive + 1 reasoning) questions with public answers. Upstream queries MLLMs directly (src/generate_lib) and grades with a GPT-4o (gpt-4o-2024-05-13) judge. That model is retired; the adapter defaults to gpt-4o-2024-08-06 on both sides."
+      },
+      {
+        "split": "test",
+        "size": 6615,
+        "harness": "llm",
+        "supported_agents": [
+          "None"
+        ],
+        "adaptable": false,
+        "notes": "1323 charts x 5 questions; ground-truth answers are intentionally withheld (null) upstream, so the split cannot be graded locally."
+      }
+    ],
+    "harbor_adapter": [
+      {
+        "split": "val",
+        "adapted_benchmark_size": 5000,
+        "parity_benchmark_size": 500,
+        "parity_sampling_rate": 0.1,
+        "registry_benchmark_size": 5000,
+        "added_agents": [
+          "charxiv-direct@1.0.0"
+        ],
+        "parity_matching_agents": [
+          "charxiv-direct@1.0.0+gpt-4o-mini-2024-07-18"
+        ],
+        "parity_unmatching_agents": [
+          "None"
+        ],
+        "parity_costs": "$21",
+        "notes": "Parity subset: 100 charts x 5 questions = 500 tasks (10%), sampled with seed 42 (--split parity). Parity uses the charxiv-direct agent (matched single-call generation, see README); parity_costs is an estimate from token counts of the logged requests at list prices: about $15 for parity (gpt-4o-mini generation about $5 and gpt-4o judge about $2.4 per side for 3 runs, both sides) plus about $6 for the Codex run. The verifier runs in a separate container (environment_mode = separate)."
+      }
+    ]
+  }
+]
