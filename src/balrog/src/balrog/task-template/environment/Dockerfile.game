@@ -1,0 +1,18 @@
+FROM python:3.10-slim-bookworm@sha256:5be5aaecb962a41567bc8041f1e9e3432cb085b037fe057f9a562630b2e4b370
+ENV PYTHONUNBUFFERED=1 PYTHONPATH=/opt/balrog SDL_VIDEODRIVER=dummy PYGAME_HIDE_SUPPORT_PROMPT=1
+COPY requirements-agent.lock /opt/requirements-agent.lock
+RUN python -m pip install --no-cache-dir -r /opt/requirements-agent.lock
+COPY vendor/balrog.tar.gz vendor/minigrid.tar.gz /tmp/vendor/
+RUN mkdir -p /opt/balrog /opt/minigrid \
+    && tar -xzf /tmp/vendor/balrog.tar.gz -C /opt/balrog \
+    && tar -xzf /tmp/vendor/minigrid.tar.gz -C /opt/minigrid \
+    && python -m pip install --no-cache-dir \
+       'numpy==1.26.4' 'gym==0.23.1' 'gymnasium==0.29.1' \
+       'pygame==2.6.1' 'pillow==12.3.0' 'omegaconf==2.4.0' /opt/minigrid \
+    && python -m pip freeze > /opt/runtime-requirements.txt \
+    && rm -rf /tmp/vendor \
+    && useradd --create-home --uid 1000 game
+WORKDIR /app
+COPY game_server.py episode.json /app/
+USER game
+CMD ["python", "game_server.py", "--episode", "/app/episode.json"]

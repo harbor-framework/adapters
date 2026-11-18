@@ -1,0 +1,6 @@
+# Shared upstream model-agent dependencies for native and Harbor execution.
+openai
+anthropic
+google-genai
+omegaconf==2.4.0
+tqdm

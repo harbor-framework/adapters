@@ -1,0 +1,1580 @@
+{
+  "schema_version": 1,
+  "env_name": "nle",
+  "scope": "BALROG native configured nle tasks, fixed seeds 0..4",
+  "selection": "Predetermined seeds 0..4 for every configured task; no filtering based on success",
+  "seed_protocol": "Match upstream Evaluator: construct environment, then seed Python/NumPy immediately before env.reset(seed=seed)",
+  "source_report_sha256": "a169df4c02a5a0b8a2ef9a9654295b35f46a971f6676c7b9412fd697251e2bfa",
+  "source_commits": {
+    "balrog": "b7afe79e3e4265811cfa985ed7c95c4d1a11e3f5",
+    "minihack": "3ecb6da4eadcac7a4dbc5f8e801ccf636e34d7ec",
+    "boxoban_levels": "78011d8c86ad423bfb2e1005012393b4c3c24409"
+  },
+  "dependencies": {
+    "balrog-nle": "0.9.0",
+    "gym": "0.23.0",
+    "numpy": "1.26.4"
+  },
+  "source_archives_sha256": {
+    "minihack_source.tar.gz": "9f32872c28aac77de4afc02becde98d8cc7cbff84112d8ece0add9a5b106dd5f",
+    "minihack_boxoban.tar.gz": "aa83b1134089068dbc3d5abca9d63c4aa66b412ec190c381a53756be52b7a623"
+  },
+  "nle_wheel": {
+    "filename": "balrog_nle-0.9.0-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+    "sha256": "b5a6ba1e6a7c406e7918e56f525937919bad6c8ec68df9ca2acbb6714e55dcd2"
+  },
+  "runtime": {
+    "python": "3.10",
+    "image": "harbor-balrog-nle-probe:20261116",
+    "text_only": true,
+    "network_during_probes": "disabled"
+  },
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "task_types": [
+    "NetHackChallenge-v0"
+  ],
+  "splits": {
+    "full": [
+      "nle-nethackchallenge-v0-seed-0",
+      "nle-nethackchallenge-v0-seed-1",
+      "nle-nethackchallenge-v0-seed-2",
+      "nle-nethackchallenge-v0-seed-3",
+      "nle-nethackchallenge-v0-seed-4"
+    ],
+    "parity": [
+      "nle-nethackchallenge-v0-seed-0",
+      "nle-nethackchallenge-v0-seed-1",
+      "nle-nethackchallenge-v0-seed-2",
+      "nle-nethackchallenge-v0-seed-3",
+      "nle-nethackchallenge-v0-seed-4"
+    ],
+    "sanity": [
+      "nle-nethackchallenge-v0-seed-0"
+    ]
+  },
+  "cases": [
+    {
+      "episode": {
+        "env_name": "nle",
+        "task": "NetHackChallenge-v0",
+        "seed": 0,
+        "task_id": "nle-nethackchallenge-v0-seed-0",
+        "nle_kwargs": {
+          "character": "@",
+          "max_episode_steps": 100000,
+          "no_progress_timeout": 150,
+          "savedir": null,
+          "save_ttyrec_every": 0,
+          "skip_more": true
+        },
+        "expected_max_steps": 100000,
+        "expected_initial_observation_sha256": "185f634bb71029d9a28c46118366fe89dded67daa546c9fd4e2cf350790380ab"
+      },
+      "oracle": null,
+      "oracle_status": "missing; no full-progression reference trajectory is claimed",
+      "native_probe": {
+        "initial_replay_equal": true,
+        "transitions_replay_equal": true,
+        "actions": [
+          "north",
+          "south",
+          "east",
+          "west",
+          "north",
+          "south",
+          "east",
+          "west"
+        ],
+        "final_progression": 0.0
+      },
+      "reference": {
+        "kind": "diagnostic_not_full_oracle",
+        "actions": [
+          "north",
+          "south",
+          "east",
+          "west",
+          "north",
+          "south",
+          "east",
+          "west"
+        ],
+        "expected_initial_observation_sha256": "185f634bb71029d9a28c46118366fe89dded67daa546c9fd4e2cf350790380ab",
+        "expected_progression": 0.0,
+        "expected_transitions": [
+          {
+            "observation": "0c0d5655fb5aaa8cf7f5625b65c17c07017277d73b93b3c517ea0a0efc2ad8c9",
+            "executed_action": "north",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "b8561d02db85b532ed530acd0a6c399462eec7ec3d5f1b5f96be0388979ce7e5",
+            "executed_action": "south",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "851e3c67882373f7aa32a81911f8b74d0216486a7285a86e59905ae4a504cda8",
+            "executed_action": "east",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "ab5376a1da6aebd37463b5aef7df9830d32cd952f8367f704f132e13e50ed2e2",
+            "executed_action": "west",
+            "reward": 4.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "a46e90f4d7e27ec418d357ca25345bdba10f5e31eb122ed9c148905fe14c3dad",
+            "executed_action": "north",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "44f13e9b55bbd9cff3b192f14464c8154b7128b50808f615023165524aec954e",
+            "executed_action": "south",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "9a45a754fac238ba834d6471955dcd63f9e4f9b53f3dcc9292fba7c5706cca9b",
+            "executed_action": "east",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "a0e022354c742626b98d935156c816e41a2a1b598446bb0470a19241f0f3a70f",
+            "executed_action": "west",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          }
+        ]
+      }
+    },
+    {
+      "episode": {
+        "env_name": "nle",
+        "task": "NetHackChallenge-v0",
+        "seed": 1,
+        "task_id": "nle-nethackchallenge-v0-seed-1",
+        "nle_kwargs": {
+          "character": "@",
+          "max_episode_steps": 100000,
+          "no_progress_timeout": 150,
+          "savedir": null,
+          "save_ttyrec_every": 0,
+          "skip_more": true
+        },
+        "expected_max_steps": 100000,
+        "expected_initial_observation_sha256": "914dc5957ef66068ffc2c9016a52c8b6e9e3998165c00dd1408408e9d6386777"
+      },
+      "oracle": null,
+      "oracle_status": "missing; no full-progression reference trajectory is claimed",
+      "native_probe": {
+        "initial_replay_equal": true,
+        "transitions_replay_equal": true,
+        "actions": [
+          "north",
+          "south",
+          "east",
+          "west",
+          "north",
+          "south",
+          "east",
+          "west"
+        ],
+        "final_progression": 0.0
+      },
+      "reference": {
+        "kind": "diagnostic_not_full_oracle",
+        "actions": [
+          "northeast",
+          "east",
+          "east",
+          "north",
+          "east",
+          "southeast",
+          "west",
+          "northeast",
+          "southeast",
+          "northeast",
+          "northeast",
+          "south",
+          "south",
+          "open",
+          "east",
+          "west",
+          "northwest",
+          "north",
+          "east",
+          "west",
+          "northwest",
+          "north",
+          "north",
+          "northwest",
+          "west",
+          "northeast",
+          "east",
+          "northeast",
+          "north",
+          "northeast",
+          "north",
+          "north",
+          "north",
+          "east",
+          "southwest",
+          "southeast",
+          "northeast",
+          "northwest",
+          "west",
+          "south",
+          "west",
+          "northwest",
+          "southeast",
+          "southwest",
+          "east",
+          "south",
+          "southeast",
+          "northwest",
+          "south",
+          "northwest",
+          "northeast",
+          "east",
+          "southwest",
+          "northwest",
+          "southwest",
+          "east",
+          "west",
+          "west",
+          "southwest",
+          "north",
+          "west",
+          "south",
+          "northeast",
+          "west",
+          "southeast",
+          "east",
+          "west",
+          "southeast",
+          "northeast",
+          "south",
+          "southeast",
+          "north",
+          "northwest",
+          "west",
+          "southwest",
+          "north",
+          "east",
+          "east",
+          "east",
+          "east",
+          "south",
+          "southeast",
+          "east",
+          "northwest",
+          "southwest",
+          "east",
+          "northeast",
+          "east",
+          "northeast",
+          "northwest",
+          "east",
+          "east",
+          "east",
+          "east",
+          "east",
+          "southwest",
+          "north",
+          "northwest",
+          "east",
+          "northeast",
+          "southeast",
+          "north",
+          "northeast",
+          "west",
+          "southwest",
+          "southeast",
+          "south",
+          "east",
+          "south",
+          "southwest",
+          "east",
+          "southwest",
+          "south",
+          "northeast",
+          "southeast",
+          "northeast",
+          "east",
+          "northwest",
+          "north",
+          "northeast",
+          "southeast",
+          "east",
+          "southeast",
+          "northeast",
+          "northeast",
+          "east",
+          "southeast",
+          "east",
+          "southeast",
+          "down"
+        ],
+        "expected_initial_observation_sha256": "914dc5957ef66068ffc2c9016a52c8b6e9e3998165c00dd1408408e9d6386777",
+        "expected_progression": 0.015392269075361172,
+        "expected_transitions": [
+          {
+            "observation": "6babfad40f0b845d825831e4144d74a783871babe8e1c8a4ea3492a1bb8f593b",
+            "executed_action": "northeast",
+            "reward": 24.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "af70c47048d06117871be1e8f8a4271b4eed550b0d2c4164857b360fb960500d",
+            "executed_action": "east",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "830a828654231ae667c27811d945cfa4035d79fa60c96c9f0f36204dacddd090",
+            "executed_action": "east",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "6f12a86f1405e97b908111c90ca5558570969e6e34904dc7081c41580211d2ab",
+            "executed_action": "north",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "d0d877e1379132ab584cf38cfb0041fc34c3ca98019dffb06d2664102c0ffbfe",
+            "executed_action": "east",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "1e8115b4f42f8fcc95c45c80c6e82c1f009b5cfa4f707d9c2f69bcddac61b763",
+            "executed_action": "southeast",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "d113a1f1e95e63f61ee22f6d73ca9bad6aac07134a48eea99f56cad11929f2bd",
+            "executed_action": "west",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "7128c1b8ace6f0534fa9fed9bc4b3630a816c8784ce6150c049753655c749b97",
+            "executed_action": "northeast",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "6e0d45e5cd0cd4512edcfa4c6ff9eccf9540f6e4d1b1f98679e65289b7843805",
+            "executed_action": "southeast",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "92da4b8bff3205a93b193e5d71539e110303b587f5be93a9eef502470c2f8c09",
+            "executed_action": "northeast",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "bd3d1f7ec35fddd4bbe8b6b2a238765269545f516147cfcbe307f6c21ba52937",
+            "executed_action": "northeast",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "4679f7ed5ee0a8dbe59487cde4960e750d515a270854288ce97a49ca34e6c656",
+            "executed_action": "south",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "5dbef963cb6d9c2799b4dbb7441f02d55d059009425fdb0d751365c35078240b",
+            "executed_action": "south",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "a1c3612b347251c140c0582370696d2b24131c52d88c191cd0776063e729a5de",
+            "executed_action": "open",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "65ff62c7fd9d03a11bceb7b18db427bf6882070a4c46fed384e8b23b5681ebf0",
+            "executed_action": "east",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "746b55c76fc99c568c9a92f566aad12834f4dfe8f709fd55a5f7f1cbd735d6c7",
+            "executed_action": "west",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "04cb488670f6ed030deafdca86e7a3b1b425e2676b76ac3c834a881c56043e2f",
+            "executed_action": "northwest",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "be13ef4de8603dcaafb773d358ca97b0caed9d226ecf773a268adbbee4020bfb",
+            "executed_action": "north",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "bc0bd173d90dfc17471f58fa41837706be0e70016e88e153b0bfcee9a006d53d",
+            "executed_action": "east",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "bd6a21653017a51232588c8f99fd8221c7168bf04ab3cd4b0ee426628f4ffad9",
+            "executed_action": "west",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "5fbcbe8e4abb2f7c52dec3e851b10b626b9e381138387b926d3dbbfd96d204d9",
+            "executed_action": "northwest",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "fa8011a4eecce30096614b5e1e080e3bfcc00712d49742e241c09f0f9374513b",
+            "executed_action": "north",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "34cce0b63f3f24d2ca2bf6d68e88fa5ba3ace70c4b142d83a66a10725d3c5510",
+            "executed_action": "north",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "34cce0b63f3f24d2ca2bf6d68e88fa5ba3ace70c4b142d83a66a10725d3c5510",
+            "executed_action": "northwest",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "34cce0b63f3f24d2ca2bf6d68e88fa5ba3ace70c4b142d83a66a10725d3c5510",
+            "executed_action": "west",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "1c4417f8cb0811f83bb95b7e02fc99b339135eeb83c9883f06be031d5e2d4d26",
+            "executed_action": "northeast",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "25181ab100c7b573a25d316bc45193df41ebefc3599fa867d80f8734f032ce87",
+            "executed_action": "east",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "25181ab100c7b573a25d316bc45193df41ebefc3599fa867d80f8734f032ce87",
+            "executed_action": "northeast",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "ddeb40057a780aff40432dbefbf17b4236fd3e42bac6f17a48dabbcf0f78c589",
+            "executed_action": "north",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "2d98e273004190c4b111aefc43b5d33b64f9ac83ac319c1facb011ed240efdea",
+            "executed_action": "northeast",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "f30115cb257fc671f92f31af8f10996cdd90a378adfbed3848a834c62a147ef8",
+            "executed_action": "north",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "dd6b49b70ce32b352b2a77da8f897c603f24cc4e253616a4ef42dd9457f5ce3c",
+            "executed_action": "north",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "dbac013bd50e7e07cd9e2d24304c1a1e462bbbf61ab2127d9e6b8de046b12e57",
+            "executed_action": "north",
+            "reward": 24.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "6da498650520e85a8af20e923a2d2d45cf8b7facb17b519cc94f8b31dea0487c",
+            "executed_action": "east",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "6da498650520e85a8af20e923a2d2d45cf8b7facb17b519cc94f8b31dea0487c",
+            "executed_action": "southwest",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "6da498650520e85a8af20e923a2d2d45cf8b7facb17b519cc94f8b31dea0487c",
+            "executed_action": "southeast",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "6da498650520e85a8af20e923a2d2d45cf8b7facb17b519cc94f8b31dea0487c",
+            "executed_action": "northeast",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "6da498650520e85a8af20e923a2d2d45cf8b7facb17b519cc94f8b31dea0487c",
+            "executed_action": "northwest",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "6da498650520e85a8af20e923a2d2d45cf8b7facb17b519cc94f8b31dea0487c",
+            "executed_action": "west",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "b85713e8fed971f34463c0b6112fece5082ae7052b686ede85ef21dac3e078f6",
+            "executed_action": "south",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "6c3672300c889ade5ae3b193e0596d9e2641b0dcb13039513a4f5ec0dfd6b685",
+            "executed_action": "west",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "6c3672300c889ade5ae3b193e0596d9e2641b0dcb13039513a4f5ec0dfd6b685",
+            "executed_action": "northwest",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "6c3672300c889ade5ae3b193e0596d9e2641b0dcb13039513a4f5ec0dfd6b685",
+            "executed_action": "southeast",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "6c3672300c889ade5ae3b193e0596d9e2641b0dcb13039513a4f5ec0dfd6b685",
+            "executed_action": "southwest",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "6c3672300c889ade5ae3b193e0596d9e2641b0dcb13039513a4f5ec0dfd6b685",
+            "executed_action": "east",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "e3e4a9dc2231349fbf964f7520a5515dc76948a503073c056bf62cf9097cc834",
+            "executed_action": "south",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "8753360268b5c28ad57d830fc92a65ff0ee189c4b063ca636a192e92bf26bb7c",
+            "executed_action": "southeast",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "8753360268b5c28ad57d830fc92a65ff0ee189c4b063ca636a192e92bf26bb7c",
+            "executed_action": "northwest",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "79de0b2e3706c92a6b7db801d29438891db2a92bc683e616c837afde342529e2",
+            "executed_action": "south",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "d98f00c538b4ca2d698faad187bd6932b525d43246caf6195dceac76d97f09e9",
+            "executed_action": "northwest",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "d98f00c538b4ca2d698faad187bd6932b525d43246caf6195dceac76d97f09e9",
+            "executed_action": "northeast",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "d98f00c538b4ca2d698faad187bd6932b525d43246caf6195dceac76d97f09e9",
+            "executed_action": "east",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "271959d197a5a195a27f7b48209ed19a5fa64ef77e0827173b61b7e64638110e",
+            "executed_action": "southwest",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "73b6dd22109e7573428c654f1229712946f15ac0fe76b1a8250d79da016cdd1b",
+            "executed_action": "northwest",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "cf44ceb577b6e62ab8d1073fa2834eee85b7e128ef87481169bab1b8075ba72a",
+            "executed_action": "southwest",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "e37172ea4b6e48924a274837742a370d4d0c79caa0e389c6478a3d2543f94c95",
+            "executed_action": "east",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "5ffaebce99ab14776c6b51a3a7d6f61dc5431b33e24262e9f10af0930e10048a",
+            "executed_action": "west",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "0492e62e0e0397248d2e532aca7eac65ec693850672014f57ec677aabbae55d1",
+            "executed_action": "west",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "6c73e2b51813aef801ac65e77cc75a71f1f32847288a2417ecf15422d41480e9",
+            "executed_action": "southwest",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "87753d7d9c27d156690294dbaecd110da2fc82576ce9eb5170a4c0f600cc96be",
+            "executed_action": "north",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "f64fccaa485be34b5b17cc62461f74754065fb07016251c54632cc0ad2a26b46",
+            "executed_action": "west",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "7883cbde86245ffe355364adae13259e43ff7d4393fbbdf5473fbf3d44281bce",
+            "executed_action": "south",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "d60e5906d3fcb4b2dd50bec4cfcb15e7eaf9806c46b467292a1a0a9f30c929cb",
+            "executed_action": "northeast",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "6bfff144469e1b75be599dd4c624aab92dfd03b0541ed5c9ac282a067c4ff7d6",
+            "executed_action": "west",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "35efd3eee980900a98916783f3299ad322d16fbf1705d5bdf6f87d9d54381faf",
+            "executed_action": "southeast",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "b2522afe53a0e11ab4b9f415d0c2176dc703c3425acb78e737ef0f84cb47359b",
+            "executed_action": "east",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "06837b1525216b02199e63c308da2926a72a61ab9bab5b476be420e7e93c0bf9",
+            "executed_action": "west",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "67ba800d0d4fc842089c630a76fe700d82bc016f5beace098568c705167db049",
+            "executed_action": "southeast",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "9b8dfd22055c5d1b431895c0c2d8c4cfe69ad03ccb0b8414b863d0292a3c93ca",
+            "executed_action": "northeast",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "f4220cd770a552ac62e4ca24a474b8b0dd3d576f72fa4c05245c894054e3cd1b",
+            "executed_action": "south",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "2bae7125cb3a5951095d379903c8a4cc07c1b9a39669e525767bcf1f88c1b5ba",
+            "executed_action": "southeast",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "a7421063951a85978951d18b6d41d5f862cce8875b034bfe83156632ef940856",
+            "executed_action": "north",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "368c740755ad293e58f21311d025260576de9df80ebc0e53067ac633d2e5da3c",
+            "executed_action": "northwest",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "8180d983aa46896e0809ac31677f1d5b2e6bb19c213598930bd3b283a42db03b",
+            "executed_action": "west",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "a9f47a69a0c57f8563cd8ca681bb3064f36cdd2315d1b6c3e0cee10a922c9ed9",
+            "executed_action": "southwest",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "d6cdfa101f0d7e78aa1dd9d82118637947fe0b2767b6d2cfe36dbf4c8ea6fd04",
+            "executed_action": "north",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "2ff7f8d71646cc3deee5bdd9b3a5ffa57306c4b01f0bc58af74a1d9d556c5282",
+            "executed_action": "east",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "1857589911eec158238ffaf60f11383b446af54c738b309b04d9aa7cfe6bbad5",
+            "executed_action": "east",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "fc0ebd3a7437d0764f48160a275ddaf51026410ea77a5f646c4823ae6e810882",
+            "executed_action": "east",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "8b3ce2ff4e6e90569e123d25501025cefe18822eb8aca03e4b8932d26ba1f862",
+            "executed_action": "east",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "7edba0a2cad54f644b98694b80662d923347f5bdb0b8845eb9d2af739342b525",
+            "executed_action": "south",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "3cc6b80a004d12e35ffe84b216aef6badfd5ea789e689a788f8a5be3ce8bb2a4",
+            "executed_action": "southeast",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "e6dc06929daf448f1bf1dd34e0a9c19fcdcadb70dfaedf4ca92cb55a65afe52b",
+            "executed_action": "east",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "5bf68da7dff147d4fbed28d7b608df1b73a168aa0329b36162977a1ef603590c",
+            "executed_action": "northwest",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "8f3ad41c8654d892317a2043d610f3bdb7477523d1a1480b171faeecf0795ea9",
+            "executed_action": "southwest",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "8fc9c02579969bc735a0939a10b77f22f6aea40f71672ce3bbc49b1aa692caa8",
+            "executed_action": "east",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "6be1e50a776e9f43e2b3ea4a3549e5254f95c347bbbd35343d6246a0dc4c148e",
+            "executed_action": "northeast",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "5c3d7a5e6dd4201607b59e41564a1589ca0d1a6e3e067b8dd1bca2208f10d68a",
+            "executed_action": "east",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "576cf67ac684c4c50a4b31f09d79e9d2e879cecc2d11ef109a937958606575c1",
+            "executed_action": "northeast",
+            "reward": 4.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "760159eba1ccdbd48db77c4d91330a748c465cdf578a2e2795da264b0320ad63",
+            "executed_action": "northwest",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "df7962a574fcad451fcd323ebe02be9fd1e7d7752b0ae881382cf53578eb4fb0",
+            "executed_action": "east",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "ff02ae748920501220947f3e5769872ba12d0222556bfffa585d61466ba60cc2",
+            "executed_action": "east",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "04d8e56dc91f65966fb2d7f8a14da6547e755a77de8de45e2577637561279f8e",
+            "executed_action": "east",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "462eafc13ac1ab58859e9ff7d5b43ddfe93eaa39721fb5580bb509835a97f0a8",
+            "executed_action": "east",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "c8d40324c2a4be1959abeac73a81b08fb630b7f93ddf578d41356d672c1675f0",
+            "executed_action": "east",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "6e8e790f180cfbf76a2257ccf12e0022dd1fac7883adf4c99126dbc7ea676fd5",
+            "executed_action": "southwest",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "5da3cf425dbf4f092c0b5259db6ac990dc769f4b7a2df85c80ca2fdb4b6818bb",
+            "executed_action": "north",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "679d439ed58cf32f7012ccb5116d12c5f6a0771e316e0edc8b07153418889c72",
+            "executed_action": "northwest",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "7d75f8e14abb49bd1f649a7109a6a6288a603ee245f41502c570472278c64bfd",
+            "executed_action": "east",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "65e733c8d794182f98b6bd33fb646c4de18b96132bb8a1f58f2299c72a841d0e",
+            "executed_action": "northeast",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "b757b4c019058b6865012cf5a077bd26c46c86b6d576fcb88e8e6e4b9b2ff997",
+            "executed_action": "southeast",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "f15fb996d981b5f2f34931683cd4518ddc9a2555243dbafba91fae3070202059",
+            "executed_action": "north",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "3855ea4b94ec7addc40ac4fcc3b0df266b1af79ddd791536aa6061a54c93a2f4",
+            "executed_action": "northeast",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "784d84ef2c29db97eec43306f035fe75a5e5f6a97090317ef3b6e070a05cb7e3",
+            "executed_action": "west",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "91d650b92ad7e33e117f14640835f960b7410e66a86e69530ec04ce7273f0101",
+            "executed_action": "southwest",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "ca25561d6ddcce3623b9fef4b2ea60cba7f41a3538d8b7ae28e76e4f2e52dda5",
+            "executed_action": "southeast",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "aebbfc2b59dd622f34f90a6127d790afc4c917ecabde1c5ef449728bca0b8e47",
+            "executed_action": "south",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "bf4e2f6e036fc96b33756922e56ef0c2411a8ef762e8d23b2ea60d4d8fb5e0bb",
+            "executed_action": "east",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "4a700f86351d9f3a5e9f172c33be45179e7be8d40a3160c3c24cf38c2640e7d6",
+            "executed_action": "south",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "4a700f86351d9f3a5e9f172c33be45179e7be8d40a3160c3c24cf38c2640e7d6",
+            "executed_action": "southwest",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "eb01c83ddf39d23d55ab6f5de23e23d8ef186dbf09d4e13113e32f2b68cd2acf",
+            "executed_action": "east",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "1bda539105ae8ae4862e23f9339c5f635fb376fa8a77bd0dbe77c0fc754e1d2f",
+            "executed_action": "southwest",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "1bda539105ae8ae4862e23f9339c5f635fb376fa8a77bd0dbe77c0fc754e1d2f",
+            "executed_action": "south",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "4a215904b6007a9d1673736818c5389687fb8ed87980ffba1a5e01caa511f3da",
+            "executed_action": "northeast",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "1be2bad7b420d8f90938bcd378999d81ca941d6e8c28850779a4d66b097685ab",
+            "executed_action": "southeast",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "1be2bad7b420d8f90938bcd378999d81ca941d6e8c28850779a4d66b097685ab",
+            "executed_action": "northeast",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "1be2bad7b420d8f90938bcd378999d81ca941d6e8c28850779a4d66b097685ab",
+            "executed_action": "east",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "6795fb6c0c15afe0a11cbe2dfc08b3d97d0273335c758d24abd7351888ccf38f",
+            "executed_action": "northwest",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "012ef8ad3061ddc995bad37bc424ab21f57e3fde0fb1498dfb5f22f08067147c",
+            "executed_action": "north",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "f8a2661538d8aa80319be28947e0189b2f5fbea5f5069736c0a13930f26f7335",
+            "executed_action": "northeast",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "b06f76fc09a5db8611b2ea006ab95cac8abcdf51c61b2ebf5f8c48c190598f30",
+            "executed_action": "southeast",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "ffaf52d5e40985e89a1b571e6ed07d84b8003e07f21818a8514a4d7c5bbb0e32",
+            "executed_action": "east",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "a9a6a59d51b45c970f9fcbe5476dee34ca3ffe96129fb0c90b6f819a5ccb9ce5",
+            "executed_action": "southeast",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "58d9f014385c6c588ea1a8b8d68d5a303b23154d5c5aacb9458d34750abe5744",
+            "executed_action": "northeast",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "bb14ae9037d765d923b3b28f0a635eb8c099b85b9a3b759234814cd075ff0543",
+            "executed_action": "northeast",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "a1ccf61b639f8a69fe7d9704079fdb747feb0dae552018f0af13e29f7315e6ea",
+            "executed_action": "east",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "d9c9e218c962ac41b95f22a733067acee0354a59b99253011f83f59ca603cfdd",
+            "executed_action": "southeast",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "626f4384cb970ec5e6501a7636830be8322b786b2a01d1d0aae3f672ecb89f85",
+            "executed_action": "east",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "917f7bcfe876840ef663909de1a4b2dfe1404b4df8344897effa0db94a3cd6d2",
+            "executed_action": "southeast",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "4b44ff46c953e809844cd40d1fbe7cdad0416ecd6df86f468a984636316441fd",
+            "executed_action": "down",
+            "reward": 50.0,
+            "terminated": false,
+            "truncated": false
+          }
+        ]
+      },
+      "reference_source_report_sha256": "4a6a59de250a92445f65bcd89e8c99213eee0f54ee04fbb6ab1b88d0a453d010"
+    },
+    {
+      "episode": {
+        "env_name": "nle",
+        "task": "NetHackChallenge-v0",
+        "seed": 2,
+        "task_id": "nle-nethackchallenge-v0-seed-2",
+        "nle_kwargs": {
+          "character": "@",
+          "max_episode_steps": 100000,
+          "no_progress_timeout": 150,
+          "savedir": null,
+          "save_ttyrec_every": 0,
+          "skip_more": true
+        },
+        "expected_max_steps": 100000,
+        "expected_initial_observation_sha256": "bfa9c9b461d6a484704e6f5eda193fa855ba4ebba274d939b29dc10e876cf4df"
+      },
+      "oracle": null,
+      "oracle_status": "missing; no full-progression reference trajectory is claimed",
+      "native_probe": {
+        "initial_replay_equal": true,
+        "transitions_replay_equal": true,
+        "actions": [
+          "north",
+          "south",
+          "east",
+          "west",
+          "north",
+          "south",
+          "east",
+          "west"
+        ],
+        "final_progression": 0.0
+      },
+      "reference": {
+        "kind": "diagnostic_not_full_oracle",
+        "actions": [
+          "north",
+          "south",
+          "east",
+          "west",
+          "north",
+          "south",
+          "east",
+          "west"
+        ],
+        "expected_initial_observation_sha256": "bfa9c9b461d6a484704e6f5eda193fa855ba4ebba274d939b29dc10e876cf4df",
+        "expected_progression": 0.0,
+        "expected_transitions": [
+          {
+            "observation": "ebfebaad55fb05cf3fed4ef50749aa43a086f8266c90433f298d64f699e021a1",
+            "executed_action": "north",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "44e6d3457ab64853948e5d9e24a9b362c1c127afc97e18ecffb47bba4f0c55e0",
+            "executed_action": "south",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "e8818bfaaa026d04893ecafb5c57023c7b92beecadeb21430a42a1fce00467a4",
+            "executed_action": "east",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "0f29ed104dd5a4a02425ef0d3d9d9b206669a09f1f7522c078b38171a199a362",
+            "executed_action": "west",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "7cca7111cf06d5a0916e0b48b4c11aaed8dea18366bc8a967353f6bf0dd59207",
+            "executed_action": "north",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "45b755c28eaedb537b52ee1b67816f7b6c43285c321117babc57e4d78b92e6d0",
+            "executed_action": "south",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "08a3333bfd8cc85d6d6763efd87bb4624df99bceb1b0e1289b11758e791bd5a1",
+            "executed_action": "east",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "9f219a3b7855365f3388459c7319b3eb0215115d6a4ec336801dd226e6620357",
+            "executed_action": "west",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          }
+        ]
+      }
+    },
+    {
+      "episode": {
+        "env_name": "nle",
+        "task": "NetHackChallenge-v0",
+        "seed": 3,
+        "task_id": "nle-nethackchallenge-v0-seed-3",
+        "nle_kwargs": {
+          "character": "@",
+          "max_episode_steps": 100000,
+          "no_progress_timeout": 150,
+          "savedir": null,
+          "save_ttyrec_every": 0,
+          "skip_more": true
+        },
+        "expected_max_steps": 100000,
+        "expected_initial_observation_sha256": "677b5739ae2731b53018d0945e803fbf6ef20ac5e3e58864af88f08e72b3e027"
+      },
+      "oracle": null,
+      "oracle_status": "missing; no full-progression reference trajectory is claimed",
+      "native_probe": {
+        "initial_replay_equal": true,
+        "transitions_replay_equal": true,
+        "actions": [
+          "north",
+          "south",
+          "east",
+          "west",
+          "north",
+          "south",
+          "east",
+          "west"
+        ],
+        "final_progression": 0.0
+      },
+      "reference": {
+        "kind": "diagnostic_not_full_oracle",
+        "actions": [
+          "north",
+          "south",
+          "east",
+          "west",
+          "north",
+          "south",
+          "east",
+          "west"
+        ],
+        "expected_initial_observation_sha256": "677b5739ae2731b53018d0945e803fbf6ef20ac5e3e58864af88f08e72b3e027",
+        "expected_progression": 0.0,
+        "expected_transitions": [
+          {
+            "observation": "dd784d50463b5039427c6115a743d064cc598cb37d9d68fb88b7cd79f3b86d47",
+            "executed_action": "north",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "e87fdc67227fef704b03b3ef8f420495ba87834b1bf1eb7357192d545a10f318",
+            "executed_action": "south",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "658788a591604909d539e899cb15e79a48a8ca189817108af9037e76c56581d5",
+            "executed_action": "east",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "bfc504f3154410dc305087f3cf9e792a6dd0b140156fe131821b43b92d143e16",
+            "executed_action": "west",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "eed283155b5086686bdcd6c11995a71ea8cc864735b1b207b36e5af5d970d039",
+            "executed_action": "north",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "ae3891f27ca343ec93560fadb661acdaf1d179e79d23e0ce54eed52e096ca1f7",
+            "executed_action": "south",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "4f8f94a60fb97838fb416817004a2fc42e4a3ce1cb729c5e3b6644b3f0c5f7fb",
+            "executed_action": "east",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "5a802e92265f97a2e27584dd51d51f7c6c73e657ccc5f7436bc4c1386b7f63f7",
+            "executed_action": "west",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          }
+        ]
+      }
+    },
+    {
+      "episode": {
+        "env_name": "nle",
+        "task": "NetHackChallenge-v0",
+        "seed": 4,
+        "task_id": "nle-nethackchallenge-v0-seed-4",
+        "nle_kwargs": {
+          "character": "@",
+          "max_episode_steps": 100000,
+          "no_progress_timeout": 150,
+          "savedir": null,
+          "save_ttyrec_every": 0,
+          "skip_more": true
+        },
+        "expected_max_steps": 100000,
+        "expected_initial_observation_sha256": "a4b50c209e1790736b0ba547f8ad189d554faef3681f7081e641adc623b7adb8"
+      },
+      "oracle": null,
+      "oracle_status": "missing; no full-progression reference trajectory is claimed",
+      "native_probe": {
+        "initial_replay_equal": true,
+        "transitions_replay_equal": true,
+        "actions": [
+          "north",
+          "south",
+          "east",
+          "west",
+          "north",
+          "south",
+          "east",
+          "west"
+        ],
+        "final_progression": 0.0
+      },
+      "reference": {
+        "kind": "diagnostic_not_full_oracle",
+        "actions": [
+          "north",
+          "south",
+          "east",
+          "west",
+          "north",
+          "south",
+          "east",
+          "west"
+        ],
+        "expected_initial_observation_sha256": "a4b50c209e1790736b0ba547f8ad189d554faef3681f7081e641adc623b7adb8",
+        "expected_progression": 0.0,
+        "expected_transitions": [
+          {
+            "observation": "1bdb4dbeedbf77cf968030e81183866b4b2729cc9dbfa38abd48b86859e76e09",
+            "executed_action": "north",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "1a346bcb10b376dc25a6002d1fb6d201a8feafbea93f11fbf303f2c85458b889",
+            "executed_action": "south",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "2e7dc7888472d54f0ecde2360d2f6e194964373d8977cf8595c06816f38502f3",
+            "executed_action": "east",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "bc00ecbacae91ba1e17e65e2cbdb1a8cb6ba22dfe1c33ce3a3c13139c8ba791b",
+            "executed_action": "west",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "fe1f15774cd26068cc209cb90fa0f78657e748c5a35f85cd7afffdeb84e9bc2b",
+            "executed_action": "north",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "36654cd60009566fa0a0e1c01c00792a98fa1c1fde3933e4853420f80f7617de",
+            "executed_action": "south",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "50a9c19088ca7915fdf0a145a4b7201fb3bb1cadac96f761ab38f9ec376fc91c",
+            "executed_action": "east",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "eafeea6bfd8fce4916f94d9312d22ef56d0059b25496635b74caf36faf4bcf3b",
+            "executed_action": "west",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          }
+        ]
+      }
+    }
+  ]
+}

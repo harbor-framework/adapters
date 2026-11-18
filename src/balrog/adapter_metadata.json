@@ -1,0 +1,180 @@
+[
+  {
+    "adapter_name": "balrog",
+    "adapter_builders": [
+      "QYechang (qiyechang@gmail.com)"
+    ],
+    "original_benchmark": [
+      {
+        "split": "babyai-fixed-seeds-0-9",
+        "size": 50,
+        "harness": "llm",
+        "supported_agents": [
+          "naive@b7afe79e3e4265811cfa985ed7c95c4d1a11e3f5"
+        ],
+        "adaptable": true,
+        "notes": "BabyAI: All five configured task families, seeds 0-9, original num_dists=0 and 64/128-action budgets. Predetermined seeds are a reproducible adaptation of upstream sampling, not an official fixed upstream test set. The six splits total 255 text-only episodes; VLM mode and other seeds are excluded."
+      },
+      {
+        "split": "babaisai-fixed-seeds-0-2",
+        "size": 120,
+        "harness": "llm",
+        "supported_agents": [
+          "naive@b7afe79e3e4265811cfa985ed7c95c4d1a11e3f5"
+        ],
+        "adaptable": true,
+        "notes": "Baba Is AI: All 40 configured task families, seeds 0-2, original 100-action budget. Predetermined seeds are a reproducible adaptation of upstream sampling, not an official fixed upstream test set. The six splits total 255 text-only episodes; VLM mode and other seeds are excluded."
+      },
+      {
+        "split": "textworld-fixed-seeds-0-9",
+        "size": 30,
+        "harness": "llm",
+        "supported_agents": [
+          "naive@b7afe79e3e4265811cfa985ed7c95c4d1a11e3f5"
+        ],
+        "adaptable": true,
+        "notes": "TextWorld: All three configured task families, seeds 0-9, original compiled games and 80-action budget. Predetermined seeds are a reproducible adaptation of upstream sampling, not an official fixed upstream test set. The six splits total 255 text-only episodes; VLM mode and other seeds are excluded."
+      },
+      {
+        "split": "crafter-fixed-seeds-0-9",
+        "size": 10,
+        "harness": "llm",
+        "supported_agents": [
+          "naive@b7afe79e3e4265811cfa985ed7c95c4d1a11e3f5"
+        ],
+        "adaptable": true,
+        "notes": "Crafter: The configured default task, seeds 0-9, identical constructor seeds/kwargs and original 2000-action budget. Predetermined seeds are a reproducible adaptation of upstream sampling, not an official fixed upstream test set. The six splits total 255 text-only episodes; VLM mode and other seeds are excluded."
+      },
+      {
+        "split": "nle-fixed-seeds-0-4",
+        "size": 5,
+        "harness": "llm",
+        "supported_agents": [
+          "naive@b7afe79e3e4265811cfa985ed7c95c4d1a11e3f5"
+        ],
+        "adaptable": true,
+        "notes": "NetHack / NLE: The configured NetHackChallenge-v0 task, seeds 0-4, original 100000-action budget and no-progress timeout 150. Predetermined seeds are a reproducible adaptation of upstream sampling, not an official fixed upstream test set. The six splits total 255 text-only episodes; VLM mode and other seeds are excluded."
+      },
+      {
+        "split": "minihack-fixed-seeds-0-4",
+        "size": 40,
+        "harness": "llm",
+        "supported_agents": [
+          "naive@b7afe79e3e4265811cfa985ed7c95c4d1a11e3f5"
+        ],
+        "adaptable": true,
+        "notes": "MiniHack: All eight configured task families, seeds 0-4, original Boxoban assets and 100-action budget. Predetermined seeds are a reproducible adaptation of upstream sampling, not an official fixed upstream test set. The six splits total 255 text-only episodes; VLM mode and other seeds are excluded."
+      }
+    ],
+    "harbor_adapter": [
+      {
+        "split": "babyai-fixed-seeds-0-9",
+        "adapted_benchmark_size": 50,
+        "parity_benchmark_size": 0,
+        "parity_sampling_rate": 0,
+        "registry_benchmark_size": 0,
+        "added_agents": [
+          "balrog-native@b7afe79e3e4265811cfa985ed7c95c4d1a11e3f5"
+        ],
+        "parity_matching_agents": [
+          "None"
+        ],
+        "parity_unmatching_agents": [
+          "None"
+        ],
+        "parity_costs": "$0",
+        "notes": "Native expert and Harbor full-oracle validation passed 50/50, reward 1, zero exceptions; all 411 native transitions matched. Across all six complete environment reference jobs, 255/255 tasks completed with zero infrastructure errors: 239 full-score oracles and 16 diagnostic references. All five new environments have passing zero-action Harbor controls; the MiniHack initial-stat error was fixed and verified in a fresh retry, with the original failed attempt retained. Model parity has not run, provider credentials have not been provisioned for these experiments, and nothing is published to the registry. The full six-environment parity proposal is not approved or executed. This is work in progress, not Ready for Review."
+      },
+      {
+        "split": "babaisai-fixed-seeds-0-2",
+        "adapted_benchmark_size": 120,
+        "parity_benchmark_size": 0,
+        "parity_sampling_rate": 0,
+        "registry_benchmark_size": 0,
+        "added_agents": [
+          "balrog-native@b7afe79e3e4265811cfa985ed7c95c4d1a11e3f5"
+        ],
+        "parity_matching_agents": [
+          "None"
+        ],
+        "parity_unmatching_agents": [
+          "None"
+        ],
+        "parity_costs": "$0",
+        "notes": "All 120 native search oracles passed two fresh Linux replays per case. The complete 120-case Harbor run passed at reward 1 with zero exceptions; strict full-scope checks validated all 1522 transitions. Model parity has not run, provider credentials have not been provisioned for these experiments, and nothing is published to the registry. The full six-environment parity proposal is not approved or executed. This is work in progress, not Ready for Review."
+      },
+      {
+        "split": "textworld-fixed-seeds-0-9",
+        "adapted_benchmark_size": 30,
+        "parity_benchmark_size": 0,
+        "parity_sampling_rate": 0,
+        "registry_benchmark_size": 0,
+        "added_agents": [
+          "balrog-native@b7afe79e3e4265811cfa985ed7c95c4d1a11e3f5"
+        ],
+        "parity_matching_agents": [
+          "None"
+        ],
+        "parity_unmatching_agents": [
+          "None"
+        ],
+        "parity_costs": "$0",
+        "notes": "All 30 native walkthroughs and 30/30 Harbor reference trials passed at reward 1 with zero exceptions and strict complete-scope checks. All 996 transitions also matched the independent original-reset-order audit. Model parity has not run, provider credentials have not been provisioned for these experiments, and nothing is published to the registry. The full six-environment parity proposal is not approved or executed. This is work in progress, not Ready for Review."
+      },
+      {
+        "split": "crafter-fixed-seeds-0-9",
+        "adapted_benchmark_size": 10,
+        "parity_benchmark_size": 0,
+        "parity_sampling_rate": 0,
+        "registry_benchmark_size": 0,
+        "added_agents": [
+          "balrog-native@b7afe79e3e4265811cfa985ed7c95c4d1a11e3f5"
+        ],
+        "parity_matching_agents": [
+          "None"
+        ],
+        "parity_unmatching_agents": [
+          "None"
+        ],
+        "parity_costs": "$0",
+        "notes": "All ten Harbor short reference trials completed at native partial progression 2/22; they are diagnostics, not full-score oracles. Their 204 reference transitions passed the original-reset-order audit. The separate long Harbor diagnostic completed 180 actions with zero errors and progression 2/22, explicitly reporting replay_verified=false, scoring_mode=authoritative_native_state and first divergence at step 152. Longer unmodified native replays can diverge through object-identity set order. This disclosed scoring exception needs maintainer acceptance. Model parity has not run, provider credentials have not been provisioned for these experiments, and nothing is published to the registry. The full six-environment parity proposal is not approved or executed. This is work in progress, not Ready for Review."
+      },
+      {
+        "split": "nle-fixed-seeds-0-4",
+        "adapted_benchmark_size": 5,
+        "parity_benchmark_size": 0,
+        "parity_sampling_rate": 0,
+        "registry_benchmark_size": 0,
+        "added_agents": [
+          "balrog-native@b7afe79e3e4265811cfa985ed7c95c4d1a11e3f5"
+        ],
+        "parity_matching_agents": [
+          "None"
+        ],
+        "parity_unmatching_agents": [
+          "None"
+        ],
+        "parity_costs": "$0",
+        "notes": "All five predetermined Harbor diagnostic cases completed with zero errors and verified replay. Seed 1 scored 0.015392269075361172; the other four scored 0. No full-score oracle is available. The pinned original scorer never checks the ascension entry and cannot reach progression 1.0 through its Xp/Dlvl lookups. Scoring is preserved without rescaling; maintainer handling of the oracle requirement remains pending. Model parity has not run, provider credentials have not been provisioned for these experiments, and nothing is published to the registry. The full six-environment parity proposal is not approved or executed. This is work in progress, not Ready for Review."
+      },
+      {
+        "split": "minihack-fixed-seeds-0-4",
+        "adapted_benchmark_size": 40,
+        "parity_benchmark_size": 0,
+        "parity_sampling_rate": 0,
+        "registry_benchmark_size": 0,
+        "added_agents": [
+          "balrog-native@b7afe79e3e4265811cfa985ed7c95c4d1a11e3f5"
+        ],
+        "parity_matching_agents": [
+          "None"
+        ],
+        "parity_unmatching_agents": [
+          "None"
+        ],
+        "parity_costs": "$0",
+        "notes": "All 40 corrected Harbor tasks completed with zero errors and verified replay: 39 full-score oracles and one zero-score diagnostic, mean progression 0.975. Matching the original make_env-then-seed-then-reset order changed all ten Boxoban instances and supersedes their earlier results. For Hard Boxoban seed 0, exhaustive static Sokoban search has a 104-move minimum while the unchanged native 100-action budget truncates its first 100 actions at progression 0. All 40 cases remain selected; no replacement seed or budget extension is introduced. Maintainer handling is required for this oracle gap. Model parity has not run, provider credentials have not been provisioned for these experiments, and nothing is published to the registry. The full six-environment parity proposal is not approved or executed. This is work in progress, not Ready for Review."
+      }
+    ]
+  }
+]

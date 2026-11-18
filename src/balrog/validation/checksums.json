@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "sha256": {
+    "baseline.json": "1de09481d89166b26ce60e88e868e259b0b92fd4db4ff8ca7c8cb7c64a4908d4",
+    "diagnostics/crafter_private_seed6.json": "c7c8c84d4ddfcb1fbf0a40bc712b4b95f6b248963675e11a5cd2502ba56fc94a",
+    "diagnostics/crafter_tactics.json": "e483d93c02d978f6fa09aa18021526bc5f5268a55689b24619d23c27ee5ea01f",
+    "diagnostics/nle_ceiling.json": "d16230d1cbaec2a17c4336dec01df3c64dc70340cec93388df59ae55e66149b8",
+    "proposals/minihack_200.json": "d325019faa8e3d94fe9fe0d1a1aee5232a441213f557fa8ab3e9a62ce14077fc",
+    "provenance.json": "43485aba99a7878af9da4788250ea961606317f9fc25f04f1545ce734ea47d1c",
+    "README.md": "c667a37fb43d2cf2a56e37e9f25fcd182726f851412f232a4e7a8c92a5bf3ac9",
+    "submission_checks.json": "3ab83c02f9db6c6ca98175c4cb02820e3f88a2216437730884d791983bcaed1f",
+    "validator_reports.json": "f3e14ebd3ac99e6293c022a689016a5ed08b71930c52f03f3b4438a342ee3173"
+  },
+  "meaning": "Integrity cross-check only, not an external signature or gameplay reproduction."
+}

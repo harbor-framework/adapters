@@ -1,0 +1,5 @@
+Hi Xiangning! I've claimed BALROG, which includes six environments. I've completed the initial BabyAI adapter, with all 50 tasks passing oracle validation, and will continue working on the remaining five.
+
+Could I get the 2077ai and Daytona API keys to prepare for parity testing? I'll confirm the experiment plan with you before running it.
+
+Thanks!

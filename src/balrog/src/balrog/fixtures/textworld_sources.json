@@ -1,0 +1,2697 @@
+{
+  "balrog": {
+    "url": "https://github.com/balrog-ai/BALROG.git",
+    "commit": "b7afe79e3e4265811cfa985ed7c95c4d1a11e3f5",
+    "git_config": {
+      "core.autocrlf": false
+    },
+    "archive_sha256": "aba0c9310d0752439f82d7151aeebb07bdb4375a21c27734e1d864d18267fc56",
+    "archive_bytes": 327616,
+    "included_git_paths": [
+      "balrog",
+      "LICENSE",
+      "README.md"
+    ],
+    "excluded_path_components_case_insensitive": [
+      "secrets",
+      ".git",
+      "__pycache__",
+      "tests"
+    ],
+    "asset_suffix_allowlist": null,
+    "archive_path_transform": "unchanged",
+    "files": [
+      {
+        "path": "LICENSE",
+        "sha256": "4e2bcd21929f977a0b6faae5f5461e6100f0328f959165336e5462348a22a118",
+        "bytes": 1073
+      },
+      {
+        "path": "README.md",
+        "sha256": "b1a4f15060399c2158fdd802a5679bde6441f259d0d982725e4fae02bdd29ac9",
+        "bytes": 3867
+      },
+      {
+        "path": "balrog/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "balrog/agents/__init__.py",
+        "sha256": "36dd0de55e279a8d3ba6a23e2a1caf84411368483cb35a2089e81c17cd41f8c7",
+        "bytes": 2587
+      },
+      {
+        "path": "balrog/agents/base.py",
+        "sha256": "23a4641ac846b6aaa34e5ed145f8abe7e134ccbcc0be60468a79ac4aa8f27443",
+        "bytes": 734
+      },
+      {
+        "path": "balrog/agents/chain_of_thought.py",
+        "sha256": "026729ec36a33d1fa6abf928d4a9aca4d3f663200889b352ec8c1f0ad037657d",
+        "bytes": 2711
+      },
+      {
+        "path": "balrog/agents/custom.py",
+        "sha256": "dda9a814713e66c7d526776b5b2ec03fdaa75bca99209377e1f2698a656f4436",
+        "bytes": 2836
+      },
+      {
+        "path": "balrog/agents/dummy.py",
+        "sha256": "95ef06f538ca7cb2ad8096f01aa0001dd68a7ee1cd0b5339f937e464956e1670",
+        "bytes": 985
+      },
+      {
+        "path": "balrog/agents/few_shot.py",
+        "sha256": "79f4e8598087a4a1f5e8f46b90c3404f55c56302a0e4de66e53419cc11c7803a",
+        "bytes": 5282
+      },
+      {
+        "path": "balrog/agents/naive.py",
+        "sha256": "2c654418ddda445f1fde810523b37024d05d1a3a22b0b5830db92ee8fd8355ef",
+        "bytes": 1976
+      },
+      {
+        "path": "balrog/agents/robust_cot.py",
+        "sha256": "da86466b340e2971fd9ae9269d88eee5b3e638b2d085d2d00af8388e7f6462f6",
+        "bytes": 3407
+      },
+      {
+        "path": "balrog/agents/robust_naive.py",
+        "sha256": "e71196670d6616fec09ed9b6d36b76fde66cb2ea79d9d4fbeed3fbff296c3a6a",
+        "bytes": 2493
+      },
+      {
+        "path": "balrog/client.py",
+        "sha256": "3a5157a92b93d03581d415356815219a004dfa46a07b85310c62105c38c52796",
+        "bytes": 29847
+      },
+      {
+        "path": "balrog/config/config.yaml",
+        "sha256": "f6af7a94e782a3d9ef88cec2f5b5f2b6ff8ca9e3e1ca5701161f43611a11705d",
+        "bytes": 7142
+      },
+      {
+        "path": "balrog/dataset.py",
+        "sha256": "dd2e8d8b5e97aec0ef3f7538236f01b801b0ea176a063cb29412f76ced7a5c65",
+        "bytes": 3854
+      },
+      {
+        "path": "balrog/environments/__init__.py",
+        "sha256": "42a6cfcf4eef11d1cb5711cb4fbddf9b4f1e484799242c94f30088c191ab56fc",
+        "bytes": 2657
+      },
+      {
+        "path": "balrog/environments/babaisai/README.md",
+        "sha256": "d02ebc11224037885649cb361197d33086ac2838fef19d7a33b13aaa2d065fca",
+        "bytes": 792
+      },
+      {
+        "path": "balrog/environments/babaisai/__init__.py",
+        "sha256": "efbfcbc35e37c220d116a1d935c4e73aab51a23f3e57a4ec036c967aa4b81714",
+        "bytes": 1521
+      },
+      {
+        "path": "balrog/environments/babaisai/babaisai_env.py",
+        "sha256": "813713073064a1b86386e21807b5372299f84a8663c0498a458da7be2ad04509",
+        "bytes": 446
+      },
+      {
+        "path": "balrog/environments/babaisai/base.py",
+        "sha256": "2aa14bd7bb1f8eb8b7b9449ddf4960eccc22e90a82660f267130b094fca263e2",
+        "bytes": 6533
+      },
+      {
+        "path": "balrog/environments/babyai_text/README.md",
+        "sha256": "1e0f3b654038e9d96e9640f2e430fafdbbe102598df45ba883896601d35da446",
+        "bytes": 260
+      },
+      {
+        "path": "balrog/environments/babyai_text/__init__.py",
+        "sha256": "f969414fff56063f8badd06fa395c3cfab94744aabd25f9da3a8dc7ca5a4b5bd",
+        "bytes": 1094
+      },
+      {
+        "path": "balrog/environments/babyai_text/babyai_env.py",
+        "sha256": "dbc0d534a20922acbb74711d7033eb3c3fbfa5a7f158e6dad5eea075cc24071a",
+        "bytes": 1402
+      },
+      {
+        "path": "balrog/environments/babyai_text/clean_lang_wrapper.py",
+        "sha256": "d2ab26a6e1f03c25f09d61624066f9b0db166e345a9e0e1bc47c366a6c95bca8",
+        "bytes": 2240
+      },
+      {
+        "path": "balrog/environments/crafter/__init__.py",
+        "sha256": "82b545b80394a8564b4d0455886157c9f3d48d37067ee9d4a402ba6336a171eb",
+        "bytes": 2159
+      },
+      {
+        "path": "balrog/environments/crafter/crafter_env.py",
+        "sha256": "2d125c5ecc45a7327feb3e7f08626d4dea1ad9d9fc4c3c889d3ad69053b36e38",
+        "bytes": 1151
+      },
+      {
+        "path": "balrog/environments/crafter/env.py",
+        "sha256": "99d9da1b4858322ca5a821c14964c4290acff55c9b046e4901f9f266575e5d9e",
+        "bytes": 10476
+      },
+      {
+        "path": "balrog/environments/env_wrapper.py",
+        "sha256": "a2bb22fc891f4908a5f2a5336cb57b7e1c300e0b9ca06b0c75728c419bf269af",
+        "bytes": 3385
+      },
+      {
+        "path": "balrog/environments/minihack/__init__.py",
+        "sha256": "7336788939e8f1ca45888c7149643b0b1884dba45062b98241ff5767bc00e81d",
+        "bytes": 2951
+      },
+      {
+        "path": "balrog/environments/minihack/minihack_env.py",
+        "sha256": "61f9e89a9ef0c982f0c78fdd889ec3411d07c55b38e3e00d8f797a23f7ac7b8b",
+        "bytes": 1134
+      },
+      {
+        "path": "balrog/environments/nle/Hack-Regular.ttf",
+        "sha256": "9f67c8a8cd28498525639437d6fac588c452e8572945c790db7641cc7907a69b",
+        "bytes": 305316
+      },
+      {
+        "path": "balrog/environments/nle/Tiles16x16.png",
+        "sha256": "ec81b03354d6b5c468fd873ab9933e1aa3e52636ac1d01c24067ae7045ff5eed",
+        "bytes": 68157
+      },
+      {
+        "path": "balrog/environments/nle/__init__.py",
+        "sha256": "af92aae435043129439904c387359c7eba10f9f27e8b43f1225595aad4bbf42a",
+        "bytes": 5308
+      },
+      {
+        "path": "balrog/environments/nle/achievements.json",
+        "sha256": "a582cff2ffcaa34117e7c94a5406faf70fe41369263f9e49a46dff19169d3101",
+        "bytes": 2959
+      },
+      {
+        "path": "balrog/environments/nle/auto_more.py",
+        "sha256": "a2bfc7ba43d34e0ffec7473081041deb4f452ca78b9e6b398cb5aef359eac432",
+        "bytes": 1049
+      },
+      {
+        "path": "balrog/environments/nle/base.py",
+        "sha256": "14b98151ee05695f4e7fe3f021bb95a9a487f52931a80ca9cb36696c1832e82b",
+        "bytes": 7545
+      },
+      {
+        "path": "balrog/environments/nle/nle_env.py",
+        "sha256": "707b00850bb370152cd10424ab955b46bf4c6c69030ea7d7a616ef581336385b",
+        "bytes": 853
+      },
+      {
+        "path": "balrog/environments/nle/progress.py",
+        "sha256": "7c267bd24c9a78a15176b53738849cb9ce480849c031c6a77021869e0f5aa8f2",
+        "bytes": 5158
+      },
+      {
+        "path": "balrog/environments/nle/render.py",
+        "sha256": "ca951cbd6c963b903be6a4536681263645c9b86d6ed89f079f5112f5c42468e2",
+        "bytes": 6057
+      },
+      {
+        "path": "balrog/environments/nle/render_rgb.py",
+        "sha256": "e57f629b4b7c509a66a6b28418138e0ad96b1d4b944284579767b28e89dca510",
+        "bytes": 79356
+      },
+      {
+        "path": "balrog/environments/nle/tiles.pkl",
+        "sha256": "0c46a00805d2f3426c5fe22cb25fd155508f9d520ca9a1e87db47013b5feba63",
+        "bytes": 874240
+      },
+      {
+        "path": "balrog/environments/textworld/README.md",
+        "sha256": "c8ed3851eeb59d6ad9733da64a6db207c31fe8ceac959a044b0243b3b59b3efa",
+        "bytes": 2085
+      },
+      {
+        "path": "balrog/environments/textworld/__init__.py",
+        "sha256": "5175ca9a00c04fe3e82ab18d80842573c5a34116c0e8941c869cac00ddb2096f",
+        "bytes": 5820
+      },
+      {
+        "path": "balrog/environments/textworld/base.py",
+        "sha256": "b75cd958ea4f123c415edbb4bd5027f5454fef57b95f32e51c45a9d75998a6f1",
+        "bytes": 4451
+      },
+      {
+        "path": "balrog/environments/textworld/textworld_env.py",
+        "sha256": "debbb8cfbfb887d0a7d3c9c34235e8a38c54e137ede76d1a0f0bd6b4e4743bad",
+        "bytes": 503
+      },
+      {
+        "path": "balrog/environments/wrappers/__init__.py",
+        "sha256": "70961d9c4cf9f651fe37bd9f9f0c10f68d2727b3f4c67612ce5e4ced05b303bc",
+        "bytes": 198
+      },
+      {
+        "path": "balrog/environments/wrappers/gym_compatibility.py",
+        "sha256": "957ac20cae50180d4d23bbdd58a5c1c92ba8715eb06f82ee3a16f3be88a38e49",
+        "bytes": 7243
+      },
+      {
+        "path": "balrog/environments/wrappers/nle_timelimit.py",
+        "sha256": "2c34e3ab0d99659253ac9a3f614b77b7cc5051b0bd27ae648a442156bad802d5",
+        "bytes": 369
+      },
+      {
+        "path": "balrog/evaluator.py",
+        "sha256": "5abe638a10e9dfa73076430fef2fd288de1f401d978bc60ebd149ad8ed6005d2",
+        "bytes": 15293
+      },
+      {
+        "path": "balrog/prompt_builder/__init__.py",
+        "sha256": "6bee5892a22f02dc86ecd2ca6153f4f99a6b40165ab6a6f976935d41ff8588ab",
+        "bytes": 1494
+      },
+      {
+        "path": "balrog/prompt_builder/history.py",
+        "sha256": "ff5fde15d16d351abee51dfcde92bce9ff309021d2144de6f9050eaeba78fb00",
+        "bytes": 5895
+      },
+      {
+        "path": "balrog/scripts/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "balrog/scripts/post_install.py",
+        "sha256": "788bcc60bf0186a5ea83169d207735e7ade0b564da1d4b8e252da50208aa1535",
+        "bytes": 1092
+      },
+      {
+        "path": "balrog/utils.py",
+        "sha256": "982e9ef10e56c56fc22d3462c38bf0253e09ab0c4a36d9ec19208c8ca5da8155",
+        "bytes": 8401
+      }
+    ]
+  },
+  "textworld": {
+    "url": "https://github.com/balrog-ai/TextWorld.git",
+    "commit": "1d56f4765e7b28f04a68eff0bce5a6fe6ecd1a9f",
+    "git_config": {
+      "core.autocrlf": false
+    },
+    "archive_sha256": "3b53c1446b53fdc7ff59f8215d994bc156ea8577b2e578dcfddde08ae289f681",
+    "archive_bytes": 681975,
+    "included_git_paths": [
+      "textworld",
+      "src",
+      "glk_build.py",
+      "setup.py",
+      "setup.sh",
+      "pyproject.toml",
+      "MANIFEST.in",
+      "requirements.txt",
+      "LICENSE.txt",
+      "README.md"
+    ],
+    "excluded_path_components_case_insensitive": [
+      "secrets",
+      ".git",
+      "__pycache__",
+      "tests"
+    ],
+    "asset_suffix_allowlist": null,
+    "archive_path_transform": "unchanged",
+    "files": [
+      {
+        "path": "LICENSE.txt",
+        "sha256": "1cd8760aca172397e4689d12ad0d846ee8015f617a5fcdb6b00623167859e9b6",
+        "bytes": 1107
+      },
+      {
+        "path": "MANIFEST.in",
+        "sha256": "c6329935eefad716c0c97165ff1845e9995773199b3b93f10f4809ebd51563d0",
+        "bytes": 1060
+      },
+      {
+        "path": "README.md",
+        "sha256": "e99c8445da25c796aa9ab12545a5693030a289d61686be700e02823743f29139",
+        "bytes": 8194
+      },
+      {
+        "path": "glk_build.py",
+        "sha256": "77fc0838604e77e8f6c1e963fe52319f0867fc68b37206d77565c01fe9690ae4",
+        "bytes": 719
+      },
+      {
+        "path": "pyproject.toml",
+        "sha256": "bf0c6eae71391dc95476248f79c8ff5f16e01c146e5f09134bc633ffe50a70bb",
+        "bytes": 245
+      },
+      {
+        "path": "requirements.txt",
+        "sha256": "401a56267e2f1e0ed249d33ae8d0fbde3498d0cff09827146736a4616f3946f6",
+        "bytes": 193
+      },
+      {
+        "path": "setup.py",
+        "sha256": "6fed57558444d4f8ce31542884145c25cc28155cf6ae5b6b4f951d49f874552e",
+        "bytes": 2768
+      },
+      {
+        "path": "setup.sh",
+        "sha256": "94ed2fe8b1aa0328f8912b18302020facc3d038bffe6f9273f17d4eb79aea507",
+        "bytes": 2748
+      },
+      {
+        "path": "src/glk_comm.c",
+        "sha256": "39adc1f4346320a48c684be2731cce480832b9e51067c635d8e4b30a6def09fc",
+        "bytes": 6142
+      },
+      {
+        "path": "textworld/__init__.py",
+        "sha256": "651106cbb89b93caa81275d75a0f292c66b95f774947a61e573e28b3981e69ba",
+        "bytes": 573
+      },
+      {
+        "path": "textworld/agents/__init__.py",
+        "sha256": "a7b45192f36454a2b863005d41076d0bba04c50ae45492184b246086d6ded4fa",
+        "bytes": 319
+      },
+      {
+        "path": "textworld/agents/human.py",
+        "sha256": "0767369af594a90a1133869953143798ca4ec1b87eee4ffa0fef86a7411a95b8",
+        "bytes": 2420
+      },
+      {
+        "path": "textworld/agents/random.py",
+        "sha256": "9550c4ade071bc07417b8fb418adc7376f898b66369099f5726819511df48cf5",
+        "bytes": 1514
+      },
+      {
+        "path": "textworld/agents/simple.py",
+        "sha256": "4e90fdfa878bf7f0e722f2f0e848f5e16125a5be14c2f51d08b22f07d7aac102",
+        "bytes": 965
+      },
+      {
+        "path": "textworld/agents/walkthrough.py",
+        "sha256": "12aceb395362a19fccb247a99c05b3cbc25c0ba447af62d0f5a8416b293511be",
+        "bytes": 1183
+      },
+      {
+        "path": "textworld/challenges/__init__.py",
+        "sha256": "d9b59c2bb423c7caea3032f22259d6f638f4313c5e9b4b976f13388ce068185a",
+        "bytes": 398
+      },
+      {
+        "path": "textworld/challenges/registration.py",
+        "sha256": "2d4a5aa9373136df5c9f7d86886be438ba0dfbebea2fcc25db17031bbb778062",
+        "bytes": 1380
+      },
+      {
+        "path": "textworld/challenges/tw_coin_collector/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "textworld/challenges/tw_coin_collector/coin_collector.py",
+        "sha256": "2cc3b294c5260dd157269cb054f4c5d411d6e19d742337de35ad9fa4b2e3a142",
+        "bytes": 6704
+      },
+      {
+        "path": "textworld/challenges/tw_coin_collector/textworld_data/logic/inventory.twl",
+        "sha256": "aca5dceea9ae3d87370f893f57a3ea2f1325802dac3ccc95afb7760ba6af354a",
+        "bytes": 787
+      },
+      {
+        "path": "textworld/challenges/tw_coin_collector/textworld_data/logic/object.twl",
+        "sha256": "5699cc0f56a36ba5654a637a4abb21ef276bb2770a6d0583a572722c08be2d41",
+        "bytes": 278
+      },
+      {
+        "path": "textworld/challenges/tw_coin_collector/textworld_data/logic/player.twl",
+        "sha256": "fe9e68553542d465dc52cf8eab25b67cd7592b84d055a1968f1ae6e4000d618a",
+        "bytes": 236
+      },
+      {
+        "path": "textworld/challenges/tw_coin_collector/textworld_data/logic/room.twl",
+        "sha256": "477710443e5fc6afa9e56fe105e7181122263aa4952d2d7d13438cabba0d6b6b",
+        "bytes": 2288
+      },
+      {
+        "path": "textworld/challenges/tw_coin_collector/textworld_data/logic/thing.twl",
+        "sha256": "fc9afe2fd62b504377e7125bbf8ae85626e6f585533572e13781653053e273bf",
+        "bytes": 319
+      },
+      {
+        "path": "textworld/challenges/tw_coin_collector/textworld_data/text_grammars/house_instruction.twg",
+        "sha256": "34b4bf4d3232b4d2ee287eaeae1e57a978ad558520b7de9cb85e8c9ef8fd0683",
+        "bytes": 13249
+      },
+      {
+        "path": "textworld/challenges/tw_coin_collector/textworld_data/text_grammars/house_obj.twg",
+        "sha256": "41f98402cc0123442c69706e4fb249e86d9a00e08dedd7692ed148783fc48c19",
+        "bytes": 16075
+      },
+      {
+        "path": "textworld/challenges/tw_coin_collector/textworld_data/text_grammars/house_room.twg",
+        "sha256": "8194fc851f45b3e87736da64ceadf4439b0841a9f731a4554884e91a024a81f4",
+        "bytes": 34339
+      },
+      {
+        "path": "textworld/challenges/tw_cooking/README.md",
+        "sha256": "bbe3ddd4268dd0646daf6ed40157a628d3364487e78ff3e2edc0f219f4fc7e8a",
+        "bytes": 433
+      },
+      {
+        "path": "textworld/challenges/tw_cooking/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "textworld/challenges/tw_cooking/cooking.py",
+        "sha256": "35b0f8a1b1e833699e4982cda2a89c28716021ba1e82b9c1f622aaf55407ec1e",
+        "bytes": 49645
+      },
+      {
+        "path": "textworld/challenges/tw_cooking/textworld_data/logic/container.twl",
+        "sha256": "fcd59c4c14438828f78882c88e1c33c7743607590c3ba184fa25b16993342c2f",
+        "bytes": 1424
+      },
+      {
+        "path": "textworld/challenges/tw_cooking/textworld_data/logic/door.twl",
+        "sha256": "debb6fddce5867aed5c5505c88200da009fc28018b3385762b42c50763b9c8d1",
+        "bytes": 2158
+      },
+      {
+        "path": "textworld/challenges/tw_cooking/textworld_data/logic/food.twl",
+        "sha256": "8845204a76f33cae3a5a9aace895b84fa31159addcc6680a697f0d3fe7faf2f7",
+        "bytes": 9734
+      },
+      {
+        "path": "textworld/challenges/tw_cooking/textworld_data/logic/inventory.twl",
+        "sha256": "64f1d3f9724225c9d8792af156492a29ad0fd527c56f21617e945c5c8b900d36",
+        "bytes": 1627
+      },
+      {
+        "path": "textworld/challenges/tw_cooking/textworld_data/logic/key.twl",
+        "sha256": "c3c01caf2ececce3866937bf240a6cdc313ae66566fa26ec27a8cb7d299cd799",
+        "bytes": 562
+      },
+      {
+        "path": "textworld/challenges/tw_cooking/textworld_data/logic/meal.twl",
+        "sha256": "92d3aaf5cb805c1429528d1d4b1ca04c9a608366e7784c251c92a449d8ef28e8",
+        "bytes": 6333
+      },
+      {
+        "path": "textworld/challenges/tw_cooking/textworld_data/logic/object.twl",
+        "sha256": "b47cd121e139b94bf20794359bdfad215fbb53c9b2653440a2681ec60a0a70d3",
+        "bytes": 609
+      },
+      {
+        "path": "textworld/challenges/tw_cooking/textworld_data/logic/oven.twl",
+        "sha256": "f5a09bda5cb11eca394f8567c4cd26b437a0f38d23de7a095c9d39cc758eec69",
+        "bytes": 1882
+      },
+      {
+        "path": "textworld/challenges/tw_cooking/textworld_data/logic/player.twl",
+        "sha256": "fe9e68553542d465dc52cf8eab25b67cd7592b84d055a1968f1ae6e4000d618a",
+        "bytes": 236
+      },
+      {
+        "path": "textworld/challenges/tw_cooking/textworld_data/logic/pot.twl",
+        "sha256": "e69dac8ef50a62065ee5af5289c726f6eed6872c8ed445cb10d4a745f89a4133",
+        "bytes": 176
+      },
+      {
+        "path": "textworld/challenges/tw_cooking/textworld_data/logic/room.twl",
+        "sha256": "395c348d707481866209dd6e3a5cf04c1ee3d3db20be9f6193b4d0cf51229d8d",
+        "bytes": 2932
+      },
+      {
+        "path": "textworld/challenges/tw_cooking/textworld_data/logic/stove.twl",
+        "sha256": "beb4dc8c8e87ae1cbc0d7e7d4df4aacf36fdf0e6b1e97a82850db1edd7856a0d",
+        "bytes": 932
+      },
+      {
+        "path": "textworld/challenges/tw_cooking/textworld_data/logic/supporter.twl",
+        "sha256": "928a301dc0a8313a52c05c015bc887ce966dfe694e7fc71b9776f11a3bf33f4c",
+        "bytes": 288
+      },
+      {
+        "path": "textworld/challenges/tw_cooking/textworld_data/logic/thing.twl",
+        "sha256": "4d95a67f69e35b24be716b1fb26e0f53d967e3c14d33d30fc6f4b5d4a2a0f58e",
+        "bytes": 1249
+      },
+      {
+        "path": "textworld/challenges/tw_cooking/textworld_data/logic_drop/container.twl",
+        "sha256": "fcd59c4c14438828f78882c88e1c33c7743607590c3ba184fa25b16993342c2f",
+        "bytes": 1424
+      },
+      {
+        "path": "textworld/challenges/tw_cooking/textworld_data/logic_drop/door.twl",
+        "sha256": "debb6fddce5867aed5c5505c88200da009fc28018b3385762b42c50763b9c8d1",
+        "bytes": 2158
+      },
+      {
+        "path": "textworld/challenges/tw_cooking/textworld_data/logic_drop/food.twl",
+        "sha256": "c0e8486d068425c56bf117612bed9372b513dc6bbb47ef3191c28be879eaa843",
+        "bytes": 9786
+      },
+      {
+        "path": "textworld/challenges/tw_cooking/textworld_data/logic_drop/inventory.twl",
+        "sha256": "e96b17da03f4bc08f26ccdd592b9592f8548c726b75b766238cda47979ae97ef",
+        "bytes": 2212
+      },
+      {
+        "path": "textworld/challenges/tw_cooking/textworld_data/logic_drop/key.twl",
+        "sha256": "c3c01caf2ececce3866937bf240a6cdc313ae66566fa26ec27a8cb7d299cd799",
+        "bytes": 562
+      },
+      {
+        "path": "textworld/challenges/tw_cooking/textworld_data/logic_drop/meal.twl",
+        "sha256": "4f8cb1e159a7053cadb8a0e558f3977695bf5bc9e2e244fb29f28023fdcb0aa9",
+        "bytes": 6688
+      },
+      {
+        "path": "textworld/challenges/tw_cooking/textworld_data/logic_drop/object.twl",
+        "sha256": "b47cd121e139b94bf20794359bdfad215fbb53c9b2653440a2681ec60a0a70d3",
+        "bytes": 609
+      },
+      {
+        "path": "textworld/challenges/tw_cooking/textworld_data/logic_drop/oven.twl",
+        "sha256": "f5a09bda5cb11eca394f8567c4cd26b437a0f38d23de7a095c9d39cc758eec69",
+        "bytes": 1882
+      },
+      {
+        "path": "textworld/challenges/tw_cooking/textworld_data/logic_drop/player.twl",
+        "sha256": "b7f92b187ed6130fbbe6d3ef97eb1540d2d8aa5c4813aabe82540c53893b2e14",
+        "bytes": 324
+      },
+      {
+        "path": "textworld/challenges/tw_cooking/textworld_data/logic_drop/pot.twl",
+        "sha256": "e69dac8ef50a62065ee5af5289c726f6eed6872c8ed445cb10d4a745f89a4133",
+        "bytes": 176
+      },
+      {
+        "path": "textworld/challenges/tw_cooking/textworld_data/logic_drop/room.twl",
+        "sha256": "395c348d707481866209dd6e3a5cf04c1ee3d3db20be9f6193b4d0cf51229d8d",
+        "bytes": 2932
+      },
+      {
+        "path": "textworld/challenges/tw_cooking/textworld_data/logic_drop/stove.twl",
+        "sha256": "beb4dc8c8e87ae1cbc0d7e7d4df4aacf36fdf0e6b1e97a82850db1edd7856a0d",
+        "bytes": 932
+      },
+      {
+        "path": "textworld/challenges/tw_cooking/textworld_data/logic_drop/supporter.twl",
+        "sha256": "928a301dc0a8313a52c05c015bc887ce966dfe694e7fc71b9776f11a3bf33f4c",
+        "bytes": 288
+      },
+      {
+        "path": "textworld/challenges/tw_cooking/textworld_data/logic_drop/thing.twl",
+        "sha256": "4d95a67f69e35b24be716b1fb26e0f53d967e3c14d33d30fc6f4b5d4a2a0f58e",
+        "bytes": 1249
+      },
+      {
+        "path": "textworld/challenges/tw_cooking/textworld_data/text_grammars/house_ext_cook.twg",
+        "sha256": "96f24304af64f7de7b0b577da5b810114091bb630a4e0a066d84373a56da176b",
+        "bytes": 1059
+      },
+      {
+        "path": "textworld/challenges/tw_cooking/textworld_data/text_grammars/house_instruction.twg",
+        "sha256": "15c8b2043425c8d81b6442ac4abdf57604e59af47f67cb1d77008caf9593ce28",
+        "bytes": 13548
+      },
+      {
+        "path": "textworld/challenges/tw_cooking/textworld_data/text_grammars/house_obj.twg",
+        "sha256": "9cd8a76c38634aa2788bee62da3e3ca68c210944f9e2a96c35e6572f6728f49e",
+        "bytes": 16270
+      },
+      {
+        "path": "textworld/challenges/tw_cooking/textworld_data/text_grammars/house_room.twg",
+        "sha256": "8d8ed9aa3c409c03d4ba76622aaffd3364b73296eb33a2d91bceefa44830a8a2",
+        "bytes": 34301
+      },
+      {
+        "path": "textworld/challenges/tw_simple/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "textworld/challenges/tw_simple/simple.py",
+        "sha256": "a541792bf09d4f7eae80ae28c3c62b316d550862b346321fdc842a7e4b4878a6",
+        "bytes": 12409
+      },
+      {
+        "path": "textworld/challenges/tw_simple/textworld_data/logic/container.twl",
+        "sha256": "fcd59c4c14438828f78882c88e1c33c7743607590c3ba184fa25b16993342c2f",
+        "bytes": 1424
+      },
+      {
+        "path": "textworld/challenges/tw_simple/textworld_data/logic/door.twl",
+        "sha256": "0605aeead6109058bd7d334f6ccc96aa73a41c7601a208702892752b274b8c5d",
+        "bytes": 2909
+      },
+      {
+        "path": "textworld/challenges/tw_simple/textworld_data/logic/food.twl",
+        "sha256": "8daca30d5ef6ccfca51ed5dfb898249969f4a1a83421b7ac97d1654c3941511d",
+        "bytes": 682
+      },
+      {
+        "path": "textworld/challenges/tw_simple/textworld_data/logic/inventory.twl",
+        "sha256": "617d620ec7f91705a544f9589e088f7513ea5564f8ccd45aeccb107603d9cf12",
+        "bytes": 1805
+      },
+      {
+        "path": "textworld/challenges/tw_simple/textworld_data/logic/key.twl",
+        "sha256": "c3c01caf2ececce3866937bf240a6cdc313ae66566fa26ec27a8cb7d299cd799",
+        "bytes": 562
+      },
+      {
+        "path": "textworld/challenges/tw_simple/textworld_data/logic/object.twl",
+        "sha256": "b47cd121e139b94bf20794359bdfad215fbb53c9b2653440a2681ec60a0a70d3",
+        "bytes": 609
+      },
+      {
+        "path": "textworld/challenges/tw_simple/textworld_data/logic/player.twl",
+        "sha256": "fe9e68553542d465dc52cf8eab25b67cd7592b84d055a1968f1ae6e4000d618a",
+        "bytes": 236
+      },
+      {
+        "path": "textworld/challenges/tw_simple/textworld_data/logic/room.twl",
+        "sha256": "3aac2b218f586c5f25633ad1184b9dc06df7b997936af603369b20504d39a525",
+        "bytes": 2902
+      },
+      {
+        "path": "textworld/challenges/tw_simple/textworld_data/logic/supporter.twl",
+        "sha256": "928a301dc0a8313a52c05c015bc887ce966dfe694e7fc71b9776f11a3bf33f4c",
+        "bytes": 288
+      },
+      {
+        "path": "textworld/challenges/tw_simple/textworld_data/logic/thing.twl",
+        "sha256": "fc9afe2fd62b504377e7125bbf8ae85626e6f585533572e13781653053e273bf",
+        "bytes": 319
+      },
+      {
+        "path": "textworld/challenges/tw_simple/textworld_data/text_grammars/house_instruction.twg",
+        "sha256": "34b4bf4d3232b4d2ee287eaeae1e57a978ad558520b7de9cb85e8c9ef8fd0683",
+        "bytes": 13249
+      },
+      {
+        "path": "textworld/challenges/tw_simple/textworld_data/text_grammars/house_obj.twg",
+        "sha256": "41f98402cc0123442c69706e4fb249e86d9a00e08dedd7692ed148783fc48c19",
+        "bytes": 16075
+      },
+      {
+        "path": "textworld/challenges/tw_simple/textworld_data/text_grammars/house_room.twg",
+        "sha256": "8194fc851f45b3e87736da64ceadf4439b0841a9f731a4554884e91a024a81f4",
+        "bytes": 34339
+      },
+      {
+        "path": "textworld/challenges/tw_treasure_hunter/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "textworld/challenges/tw_treasure_hunter/textworld_data/logic/container.twl",
+        "sha256": "fcd59c4c14438828f78882c88e1c33c7743607590c3ba184fa25b16993342c2f",
+        "bytes": 1424
+      },
+      {
+        "path": "textworld/challenges/tw_treasure_hunter/textworld_data/logic/door.twl",
+        "sha256": "0605aeead6109058bd7d334f6ccc96aa73a41c7601a208702892752b274b8c5d",
+        "bytes": 2909
+      },
+      {
+        "path": "textworld/challenges/tw_treasure_hunter/textworld_data/logic/food.twl",
+        "sha256": "8daca30d5ef6ccfca51ed5dfb898249969f4a1a83421b7ac97d1654c3941511d",
+        "bytes": 682
+      },
+      {
+        "path": "textworld/challenges/tw_treasure_hunter/textworld_data/logic/inventory.twl",
+        "sha256": "617d620ec7f91705a544f9589e088f7513ea5564f8ccd45aeccb107603d9cf12",
+        "bytes": 1805
+      },
+      {
+        "path": "textworld/challenges/tw_treasure_hunter/textworld_data/logic/key.twl",
+        "sha256": "c3c01caf2ececce3866937bf240a6cdc313ae66566fa26ec27a8cb7d299cd799",
+        "bytes": 562
+      },
+      {
+        "path": "textworld/challenges/tw_treasure_hunter/textworld_data/logic/object.twl",
+        "sha256": "b47cd121e139b94bf20794359bdfad215fbb53c9b2653440a2681ec60a0a70d3",
+        "bytes": 609
+      },
+      {
+        "path": "textworld/challenges/tw_treasure_hunter/textworld_data/logic/player.twl",
+        "sha256": "fe9e68553542d465dc52cf8eab25b67cd7592b84d055a1968f1ae6e4000d618a",
+        "bytes": 236
+      },
+      {
+        "path": "textworld/challenges/tw_treasure_hunter/textworld_data/logic/room.twl",
+        "sha256": "3aac2b218f586c5f25633ad1184b9dc06df7b997936af603369b20504d39a525",
+        "bytes": 2902
+      },
+      {
+        "path": "textworld/challenges/tw_treasure_hunter/textworld_data/logic/supporter.twl",
+        "sha256": "928a301dc0a8313a52c05c015bc887ce966dfe694e7fc71b9776f11a3bf33f4c",
+        "bytes": 288
+      },
+      {
+        "path": "textworld/challenges/tw_treasure_hunter/textworld_data/logic/thing.twl",
+        "sha256": "fc9afe2fd62b504377e7125bbf8ae85626e6f585533572e13781653053e273bf",
+        "bytes": 319
+      },
+      {
+        "path": "textworld/challenges/tw_treasure_hunter/textworld_data/text_grammars/house_instruction.twg",
+        "sha256": "34b4bf4d3232b4d2ee287eaeae1e57a978ad558520b7de9cb85e8c9ef8fd0683",
+        "bytes": 13249
+      },
+      {
+        "path": "textworld/challenges/tw_treasure_hunter/textworld_data/text_grammars/house_obj.twg",
+        "sha256": "41f98402cc0123442c69706e4fb249e86d9a00e08dedd7692ed148783fc48c19",
+        "bytes": 16075
+      },
+      {
+        "path": "textworld/challenges/tw_treasure_hunter/textworld_data/text_grammars/house_room.twg",
+        "sha256": "8194fc851f45b3e87736da64ceadf4439b0841a9f731a4554884e91a024a81f4",
+        "bytes": 34339
+      },
+      {
+        "path": "textworld/challenges/tw_treasure_hunter/treasure_hunter.py",
+        "sha256": "1aea497d194163c32be52e11906ef7ffd04170076cdf5ec297c883d2612e0ff6",
+        "bytes": 9383
+      },
+      {
+        "path": "textworld/challenges/utils.py",
+        "sha256": "ec6c8d6d2e83be4c15b532d5c5863dffb259bb93e3a3a6ff638a714878c0175b",
+        "bytes": 1636
+      },
+      {
+        "path": "textworld/core.py",
+        "sha256": "439bda7539816637c05f5bcd181101e8d96d4a5c8a76e2d9245c004e0647d176",
+        "bytes": 16665
+      },
+      {
+        "path": "textworld/envs/__init__.py",
+        "sha256": "c71f289583d30622968944a37339a332f941a8450e629819eddb71587a79ea2d",
+        "bytes": 749
+      },
+      {
+        "path": "textworld/envs/batch/__init__.py",
+        "sha256": "35a0574204ce6e444ec6e5aba468d2fc35f71bb439c1d13f588859cf3dca6b1c",
+        "bytes": 1647
+      },
+      {
+        "path": "textworld/envs/batch/batch_env.py",
+        "sha256": "4fffe8e2ceaec86d68d085d1cc30a8a3500e8e2b40d10f593e7b40f27bb192fc",
+        "bytes": 8798
+      },
+      {
+        "path": "textworld/envs/glulx/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "textworld/envs/glulx/git_glulx.py",
+        "sha256": "b245bfe5086ef31c0e5c33821aee10c7e3c45f3905ddae9461a4347c64a079b4",
+        "bytes": 4949
+      },
+      {
+        "path": "textworld/envs/pddl/__init__.py",
+        "sha256": "974c9719cc4647a42d3bbaad775465a4b07b69b620a00f1898dd64abf7532ca6",
+        "bytes": 45
+      },
+      {
+        "path": "textworld/envs/pddl/logic/__init__.py",
+        "sha256": "7c5ea3b0ddc21dc105c1e5c5979006a9d47365b556c10c048973bd62eb0ad35e",
+        "bytes": 9813
+      },
+      {
+        "path": "textworld/envs/pddl/logic/logic.ebnf",
+        "sha256": "17a7ddd25a3b5fe7ca0a285d3e6803d32778bc38a10de15d8b7277514cff7f70",
+        "bytes": 630
+      },
+      {
+        "path": "textworld/envs/pddl/logic/model.py",
+        "sha256": "8196bc736b8e862f2c98b13378ab61bd2b3cddc3b198f5d9c3c494ace312a28f",
+        "bytes": 1350
+      },
+      {
+        "path": "textworld/envs/pddl/logic/parser.py",
+        "sha256": "811c7a0a2907ba5b9346938b62bac5cdf3c0451020f7c5d167e7e10005d06de2",
+        "bytes": 6084
+      },
+      {
+        "path": "textworld/envs/pddl/pddl.py",
+        "sha256": "45a03b143d710f4b582257db1886f9a44089e4c908ffa5440a4939d8be376699",
+        "bytes": 6529
+      },
+      {
+        "path": "textworld/envs/pddl/textgen/__init__.py",
+        "sha256": "f947c1a0add69fe3b309c71e9904a4990af934ed479296fb10972effa8c43f5e",
+        "bytes": 8322
+      },
+      {
+        "path": "textworld/envs/pddl/textgen/model.py",
+        "sha256": "88b6ccc41bc8bc360146f87d0c57e0f707e51e04def8e8a931e87919179223e7",
+        "bytes": 1192
+      },
+      {
+        "path": "textworld/envs/pddl/textgen/parser.py",
+        "sha256": "8a78ff410de1af2b7e22e184d6df576a16a71a3e0f97cf946cf01bbc863d3728",
+        "bytes": 6389
+      },
+      {
+        "path": "textworld/envs/pddl/textgen/textgen.ebnf",
+        "sha256": "219f2fa37b92440941dff717e8da37484b6071a5f31af2408969bb7e1315ea03",
+        "bytes": 698
+      },
+      {
+        "path": "textworld/envs/tw.py",
+        "sha256": "c95fbbd7f2931083b11a9de4fce71871e47c4599515c7962b091a7e7a7aefad4",
+        "bytes": 7176
+      },
+      {
+        "path": "textworld/envs/wrappers/__init__.py",
+        "sha256": "d2a5324fdd5d6106abc175b79a904f1b9e552cb5dd4ecb5a76d3cd20b2690f72",
+        "bytes": 368
+      },
+      {
+        "path": "textworld/envs/wrappers/filter.py",
+        "sha256": "f08a608a6ed6da2cebd9c5dd90ffcb6056dd71ca4917dd7eb26c038f271391d4",
+        "bytes": 2149
+      },
+      {
+        "path": "textworld/envs/wrappers/generic.py",
+        "sha256": "a2b39fe9d6361416d0c9a47dab39fa35443c63f6186dd3118cf153f84a927263",
+        "bytes": 739
+      },
+      {
+        "path": "textworld/envs/wrappers/limit.py",
+        "sha256": "8e8b8a5b8bbc8ebebe5aef3a754cb10b226c3788b43bc3e16cce908add0ff8d8",
+        "bytes": 843
+      },
+      {
+        "path": "textworld/envs/wrappers/recorder.py",
+        "sha256": "5ad5098fe99422d7042ab9038c295197acf0faaf98cd602f5d06764c978a77f7",
+        "bytes": 821
+      },
+      {
+        "path": "textworld/envs/wrappers/tw_inform7.py",
+        "sha256": "5f41b08580f50c1902961ea289d26aa53079c8962c103c19dcc55136ea8d6f86",
+        "bytes": 15495
+      },
+      {
+        "path": "textworld/envs/wrappers/viewer.py",
+        "sha256": "f32acf2e17b411a875ef72afd5931704b0dc70c460c63ba21c0b072669d35817",
+        "bytes": 2977
+      },
+      {
+        "path": "textworld/envs/zmachine/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "textworld/envs/zmachine/jericho.py",
+        "sha256": "c4ceef9c4c962a4257b3c1ee4d5adc224cba3ab12b87f625ee3faa891e0d5b89",
+        "bytes": 4901
+      },
+      {
+        "path": "textworld/generator/__init__.py",
+        "sha256": "81283112774552c3bb53e83fafdc2272b3499142e030a3624a0b085545827672",
+        "bytes": 8349
+      },
+      {
+        "path": "textworld/generator/chaining.py",
+        "sha256": "fc257febfad00d751f5e3032610a73f2b143daa08aba604e4f12bccc0e89db51",
+        "bytes": 19691
+      },
+      {
+        "path": "textworld/generator/data/__init__.py",
+        "sha256": "549d78bfff1174e1acaaca705a1662461cdfd2267db55674cd9075079cadb43f",
+        "bytes": 6309
+      },
+      {
+        "path": "textworld/generator/data/logic/container.twl",
+        "sha256": "fcd59c4c14438828f78882c88e1c33c7743607590c3ba184fa25b16993342c2f",
+        "bytes": 1424
+      },
+      {
+        "path": "textworld/generator/data/logic/door.twl",
+        "sha256": "0605aeead6109058bd7d334f6ccc96aa73a41c7601a208702892752b274b8c5d",
+        "bytes": 2909
+      },
+      {
+        "path": "textworld/generator/data/logic/food.twl",
+        "sha256": "8daca30d5ef6ccfca51ed5dfb898249969f4a1a83421b7ac97d1654c3941511d",
+        "bytes": 682
+      },
+      {
+        "path": "textworld/generator/data/logic/inventory.twl",
+        "sha256": "617d620ec7f91705a544f9589e088f7513ea5564f8ccd45aeccb107603d9cf12",
+        "bytes": 1805
+      },
+      {
+        "path": "textworld/generator/data/logic/key.twl",
+        "sha256": "c3c01caf2ececce3866937bf240a6cdc313ae66566fa26ec27a8cb7d299cd799",
+        "bytes": 562
+      },
+      {
+        "path": "textworld/generator/data/logic/object.twl",
+        "sha256": "b47cd121e139b94bf20794359bdfad215fbb53c9b2653440a2681ec60a0a70d3",
+        "bytes": 609
+      },
+      {
+        "path": "textworld/generator/data/logic/player.twl",
+        "sha256": "fe9e68553542d465dc52cf8eab25b67cd7592b84d055a1968f1ae6e4000d618a",
+        "bytes": 236
+      },
+      {
+        "path": "textworld/generator/data/logic/room.twl",
+        "sha256": "3aac2b218f586c5f25633ad1184b9dc06df7b997936af603369b20504d39a525",
+        "bytes": 2902
+      },
+      {
+        "path": "textworld/generator/data/logic/supporter.twl",
+        "sha256": "928a301dc0a8313a52c05c015bc887ce966dfe694e7fc71b9776f11a3bf33f4c",
+        "bytes": 288
+      },
+      {
+        "path": "textworld/generator/data/logic/thing.twl",
+        "sha256": "fc9afe2fd62b504377e7125bbf8ae85626e6f585533572e13781653053e273bf",
+        "bytes": 319
+      },
+      {
+        "path": "textworld/generator/data/text_grammars/basic_instruction.twg",
+        "sha256": "9c64bcea0b60d9e1cd29478518ed5c1680782dea09c8c91f8de9a022d974e55f",
+        "bytes": 1421
+      },
+      {
+        "path": "textworld/generator/data/text_grammars/basic_obj.twg",
+        "sha256": "3ac20a14651c740a2f5142cecebff8facf96076618cfd6b2b198c7e868f16c75",
+        "bytes": 2266
+      },
+      {
+        "path": "textworld/generator/data/text_grammars/basic_room.twg",
+        "sha256": "93c988f105a05a91be95c85cd2829d97c662e04a1b5f3324fa077d01021f3eee",
+        "bytes": 1704
+      },
+      {
+        "path": "textworld/generator/data/text_grammars/house_instruction.twg",
+        "sha256": "34b4bf4d3232b4d2ee287eaeae1e57a978ad558520b7de9cb85e8c9ef8fd0683",
+        "bytes": 13249
+      },
+      {
+        "path": "textworld/generator/data/text_grammars/house_obj.twg",
+        "sha256": "41f98402cc0123442c69706e4fb249e86d9a00e08dedd7692ed148783fc48c19",
+        "bytes": 16075
+      },
+      {
+        "path": "textworld/generator/data/text_grammars/house_room.twg",
+        "sha256": "8194fc851f45b3e87736da64ceadf4439b0841a9f731a4554884e91a024a81f4",
+        "bytes": 34339
+      },
+      {
+        "path": "textworld/generator/dependency_tree.py",
+        "sha256": "c8bc9b1b433b587bae5670361a8727860f22d3fddf63bded442dc9d9d1b2477a",
+        "bytes": 6085
+      },
+      {
+        "path": "textworld/generator/game.py",
+        "sha256": "4d4e0d6399967862885edd8eb8a1ce16fc299cfd875df30514c5bcb572bc8172",
+        "bytes": 47006
+      },
+      {
+        "path": "textworld/generator/graph_networks.py",
+        "sha256": "4a1ded43106d07eaee2892ac7b446771955a5fcc4a13037e04a95368aed50200",
+        "bytes": 5622
+      },
+      {
+        "path": "textworld/generator/inform7/__init__.py",
+        "sha256": "1321c7bb536d790959bcd80e45bf17674d4329eaa08eddd0adf846341254d48c",
+        "bytes": 394
+      },
+      {
+        "path": "textworld/generator/inform7/world2inform7.py",
+        "sha256": "5fec1ec73a2f4fe21e5015a34f51b226aaefc2c61d671e209537f30cea447ed7",
+        "bytes": 48009
+      },
+      {
+        "path": "textworld/generator/logger.py",
+        "sha256": "dead4c443a00d4bdb6e829152df4d7ddf07b0d5a55d620f45bff278bcfa6d041",
+        "bytes": 7522
+      },
+      {
+        "path": "textworld/generator/maker.py",
+        "sha256": "f1d5cd730c2c9345d455f0b2f802a11b5661880a95e95d8d3de32ed5eb32f62b",
+        "bytes": 29883
+      },
+      {
+        "path": "textworld/generator/testing.py",
+        "sha256": "a6a2193b6ed377f952e57e9e073b0e30720b9bc9a04d120b1c2d00f6f4d8485d",
+        "bytes": 4688
+      },
+      {
+        "path": "textworld/generator/text_generation.py",
+        "sha256": "58a1147414f2bd6b4a7d8c7cca1b8e7449354ad8c02e50c4747f27ab9e13745e",
+        "bytes": 23051
+      },
+      {
+        "path": "textworld/generator/text_grammar.py",
+        "sha256": "304cba7267fa4b7e5a8d91aa84af4e16c67e55853e5430bf022a45d6ce07c6b8",
+        "bytes": 19456
+      },
+      {
+        "path": "textworld/generator/vtypes.py",
+        "sha256": "1856604c71f51b99af29e5ade9879296877bd01231ebd00a2fcd810258bc7718",
+        "bytes": 7916
+      },
+      {
+        "path": "textworld/generator/world.py",
+        "sha256": "84840ef2ba8e81b99dfd9f8e7c6339b3eab6885739aae717d80755ea50c7997b",
+        "bytes": 23755
+      },
+      {
+        "path": "textworld/gym/__init__.py",
+        "sha256": "d816323fa2c285604897c0652de0ae784d20ae9523f2502159a042a995148a51",
+        "bytes": 117
+      },
+      {
+        "path": "textworld/gym/core.py",
+        "sha256": "181141afb86bd18bd522877136a59b5d7fbe3865fa395263f673fd947bce9c7b",
+        "bytes": 1941
+      },
+      {
+        "path": "textworld/gym/envs/__init__.py",
+        "sha256": "ca4df8401975f619b7f6458087d783a934c92e6cd2c2470e33d1917af4a03ea3",
+        "bytes": 125
+      },
+      {
+        "path": "textworld/gym/envs/textworld.py",
+        "sha256": "8835b60de74f474385c582a22965b18e3a9e835099f440f3b8c38ef215fb9da5",
+        "bytes": 2514
+      },
+      {
+        "path": "textworld/gym/envs/textworld_batch.py",
+        "sha256": "2b9a8b1cf0f57aab8cb4141e3dc2ef2e731db5e2dceca6175234f0443a33fb63",
+        "bytes": 8215
+      },
+      {
+        "path": "textworld/gym/envs/utils.py",
+        "sha256": "3536d84a30b82655e1976b8b57eb9206aa1c6c63fadbc236b9be59a15be02da1",
+        "bytes": 835
+      },
+      {
+        "path": "textworld/gym/utils.py",
+        "sha256": "49ede0d41e8b705dc4721a78f431da8a2d1afff4df4f3f18981aca9bfdd5b608",
+        "bytes": 7752
+      },
+      {
+        "path": "textworld/helpers.py",
+        "sha256": "bd53ac8aac054f3ebc7f574e5fd7faba57634a57b594b9cffe1ba8313ef2b601",
+        "bytes": 3418
+      },
+      {
+        "path": "textworld/logic/__init__.py",
+        "sha256": "16ec9d635ee1a8599cb9a5d442661153fd5f5ff41cd956c7310b8f20ba96b54c",
+        "bytes": 62245
+      },
+      {
+        "path": "textworld/logic/logic.ebnf",
+        "sha256": "97bde409dd139f8837b8c6366488eff5e24c6520fa995716ae5015ea68656163",
+        "bytes": 2718
+      },
+      {
+        "path": "textworld/logic/model.py",
+        "sha256": "2368c30687288da2b2e29cb089f43b8b8f744629225d8f32a121f3d4d4a16bc0",
+        "bytes": 3154
+      },
+      {
+        "path": "textworld/logic/parser.py",
+        "sha256": "23155d445369384b3f1236e9f6c1b658e40d7ea670f03f90be48c5b68e2e7487",
+        "bytes": 18784
+      },
+      {
+        "path": "textworld/render/__init__.py",
+        "sha256": "10add0d1b20a08769284c6bf97943441b85bd3add2649a50d7bb0ee421d90bad",
+        "bytes": 337
+      },
+      {
+        "path": "textworld/render/graph.py",
+        "sha256": "b4ac4509cd867568d3390fa8aa94e56f17abb8d36562050a941d185825f6045c",
+        "bytes": 6604
+      },
+      {
+        "path": "textworld/render/render.py",
+        "sha256": "5aff4d29fc93c80b9ff1fc2a702490f4f9494649d57c84d84f8a4e06b0081e96",
+        "bytes": 16522
+      },
+      {
+        "path": "textworld/render/serve.py",
+        "sha256": "fe5db26d360ffe520660d9da43fd47b6f18d6a75a31861c71f553dcd2d904ec5",
+        "bytes": 10482
+      },
+      {
+        "path": "textworld/render/tmpl/slideshow.handlebars",
+        "sha256": "68b581208b63e2989baec4d707a7db8164a9775f20a073f789ed582f6e4b041c",
+        "bytes": 1175
+      },
+      {
+        "path": "textworld/render/tmpl/static/bootstrap.min.css",
+        "sha256": "2c0f3dcfe93d7e380c290fe4ab838ed8cadff1596d62697f5444be460d1f876d",
+        "bytes": 144877
+      },
+      {
+        "path": "textworld/render/tmpl/static/images/TextWorldIcons_Chevron.png",
+        "sha256": "45573c7812a599e0c137e38fc0a6d4ac203c9e64a7b66f5217d9b0ce11b4203c",
+        "bytes": 1745
+      },
+      {
+        "path": "textworld/render/tmpl/static/images/TextWorldIcons_Container.png",
+        "sha256": "75641706be7f383d8fe864af10904d37d64ebf3ca41f10a804258594e90e6ac5",
+        "bytes": 4156
+      },
+      {
+        "path": "textworld/render/tmpl/static/images/TextWorldIcons_ContainerOpen.png",
+        "sha256": "815d8a3bcf75f823981280e2140b706dca16389291cef8a094e137941922f802",
+        "bytes": 33814
+      },
+      {
+        "path": "textworld/render/tmpl/static/images/TextWorldIcons_Cooked.png",
+        "sha256": "51c4190763359d6812ed695aaef4508c9d68af967f90fdb690b9b1ee8faaca61",
+        "bytes": 3402
+      },
+      {
+        "path": "textworld/render/tmpl/static/images/TextWorldIcons_Door.png",
+        "sha256": "f9c8798be81c315529869b88077fb01f9119349582088d1edffb89db2ad9633c",
+        "bytes": 1696
+      },
+      {
+        "path": "textworld/render/tmpl/static/images/TextWorldIcons_DoorOpen.png",
+        "sha256": "e49fa739951d6dbc60e4754cde8d0f7ce466cc3cddf3781c32414b5b7f6dc8ee",
+        "bytes": 3028
+      },
+      {
+        "path": "textworld/render/tmpl/static/images/TextWorldIcons_Fixed.png",
+        "sha256": "092d800fc7e20831341db767480367cbacdc4ba404a57f54ae438bf33e922bb1",
+        "bytes": 5570
+      },
+      {
+        "path": "textworld/render/tmpl/static/images/TextWorldIcons_Food.png",
+        "sha256": "4c372bb4047a41de21b4c6686f69111468973a965edda252d69905463f13062e",
+        "bytes": 5748
+      },
+      {
+        "path": "textworld/render/tmpl/static/images/TextWorldIcons_Key.png",
+        "sha256": "58dde0de276c63b97eb54bd5edf4ba1ac83778dea573417a26c701ccae5e3cbb",
+        "bytes": 7467
+      },
+      {
+        "path": "textworld/render/tmpl/static/images/TextWorldIcons_LightOff.png",
+        "sha256": "4727810f1cc3deba1748e180407bd0bc3a18d36bef9f1154f8cc267a3ae72e9d",
+        "bytes": 4329
+      },
+      {
+        "path": "textworld/render/tmpl/static/images/TextWorldIcons_LightOn.png",
+        "sha256": "8389636bc102e8171a7d0c8549cad97bc84fc88fe9a90b8e6204234b6ddf73ec",
+        "bytes": 5679
+      },
+      {
+        "path": "textworld/render/tmpl/static/images/TextWorldIcons_Locked.png",
+        "sha256": "e6a94e86c7cbce4b05a5fe482f461e94c51d4a80ee1c61d06a86a2b05cc5240a",
+        "bytes": 3297
+      },
+      {
+        "path": "textworld/render/tmpl/static/images/TextWorldIcons_Object.png",
+        "sha256": "43cc63ca0f25efa21c2cd8f2db5eea768adfe0fbbba5f02f98d4a44cf5d66d2d",
+        "bytes": 4560
+      },
+      {
+        "path": "textworld/render/tmpl/static/images/TextWorldIcons_Player.png",
+        "sha256": "8a45c77680bd872db8f24e44ac1a4fd65a10bafdf27e1bbf5226997c24240abd",
+        "bytes": 5869
+      },
+      {
+        "path": "textworld/render/tmpl/static/images/TextWorldIcons_Portable.png",
+        "sha256": "d9e3a1e5b56e90d2d65e973433bb26c3ba567e4763a6edc250d9b06ae390d37d",
+        "bytes": 4792
+      },
+      {
+        "path": "textworld/render/tmpl/static/images/TextWorldIcons_Supporter.png",
+        "sha256": "1a1c0f124bb735d0218f44582a93458caf0ba9a37e20b02c0c54305efd16403e",
+        "bytes": 2527
+      },
+      {
+        "path": "textworld/render/tmpl/static/images/TextWorldIcons_Uncooked.png",
+        "sha256": "754a7b53e7a29ffbc2fa06915ced4953547468b56a132613238f2152d9b481ed",
+        "bytes": 4693
+      },
+      {
+        "path": "textworld/render/tmpl/static/images/TextWorldIcons_Unlocked.png",
+        "sha256": "fb0b2dff050ea759d682b5810c889ed9276c5fe6d965c5cc614849ce406248e4",
+        "bytes": 3273
+      },
+      {
+        "path": "textworld/render/tmpl/static/js/bootstrap.min.js",
+        "sha256": "e7ed36ceee5450b4243bbc35188afabdfb4280c7c57597001de0ed167299b01b",
+        "bytes": 48944
+      },
+      {
+        "path": "textworld/render/tmpl/static/js/d3.v5.min.js",
+        "sha256": "7a5ea8defc37a02649874feec66532d861134c405145e7890d18f8223cb5dec7",
+        "bytes": 236270
+      },
+      {
+        "path": "textworld/render/tmpl/static/js/jquery-3.5.0.min.js",
+        "sha256": "c4dccdd9ae25b64078e0c73f273de94f8894d5c99e4741645ece29aeefc9c5a4",
+        "bytes": 89493
+      },
+      {
+        "path": "textworld/render/tmpl/static/js/visualization.js",
+        "sha256": "2ecac32a009b3fc219c3245ac49ba0d263dadd01d5f5b1cf2d62bcc56995acc6",
+        "bytes": 21789
+      },
+      {
+        "path": "textworld/render/tmpl/static/style.css",
+        "sha256": "98149fe6bd4603911b41ddfd1eb4feaae1f3198a75dde458b08a3af66a4309df",
+        "bytes": 3771
+      },
+      {
+        "path": "textworld/testing.py",
+        "sha256": "88aed00ed3829cfb56f18bdc9ce2025a40d9669ed9e075ff573b2746d7088dc2",
+        "bytes": 2939
+      },
+      {
+        "path": "textworld/text_utils.py",
+        "sha256": "0bb54d26a69eb934ec4e2d3e7e71acba1d58e246392472b5f62b40389e59fa0e",
+        "bytes": 1954
+      },
+      {
+        "path": "textworld/textgen/__init__.py",
+        "sha256": "33df5cc78d831cbee2315551ab9e05b4490976278f9a96856b4cfa9225e95df6",
+        "bytes": 3134
+      },
+      {
+        "path": "textworld/textgen/model.py",
+        "sha256": "2f3b7f1ff8a01bb04a6cedc190b792caac734aee866506bc26b190a36fee3139",
+        "bytes": 1220
+      },
+      {
+        "path": "textworld/textgen/parser.py",
+        "sha256": "489d547a748bf74d51ecc556a89fc586db541fa84eb5e66f63a207f0607cab9d",
+        "bytes": 5991
+      },
+      {
+        "path": "textworld/textgen/textgen.ebnf",
+        "sha256": "3fb9c5987036ff580a6b2e6143bb694a94504f134af9a2617a53fe3df888207a",
+        "bytes": 629
+      },
+      {
+        "path": "textworld/thirdparty/glulx/Git-Glulx/.gitignore",
+        "sha256": "537a019c1f04777de981da01fc27c6eeb478bfc65fc62dbab128b7cf9690ae46",
+        "bytes": 10
+      },
+      {
+        "path": "textworld/thirdparty/glulx/Git-Glulx/Makefile",
+        "sha256": "57de3e58d1474f8773739b1a64f3ecf9fe727d186323e11eaa2f16cbc729b9ec",
+        "bytes": 2859
+      },
+      {
+        "path": "textworld/thirdparty/glulx/Git-Glulx/Makefile.win",
+        "sha256": "f0be18b34a1693c61e1859d98c4a4edd67abd1e83a9eff8b7e4d7f10dc2fcf03",
+        "bytes": 876
+      },
+      {
+        "path": "textworld/thirdparty/glulx/Git-Glulx/README.txt",
+        "sha256": "37a3345c6142fd3cc41ecf7d1c023ea19fcc249464892046d8048877672c72a4",
+        "bytes": 14938
+      },
+      {
+        "path": "textworld/thirdparty/glulx/Git-Glulx/accel.c",
+        "sha256": "3692f10b29ac54cd5239639e3ff117e0f1e8f12af4eb7dcdf27f27d43d8c71b8",
+        "bytes": 17006
+      },
+      {
+        "path": "textworld/thirdparty/glulx/Git-Glulx/compiler.c",
+        "sha256": "405372a0be281fab05290af6a3dd10a2fb0f19a5df18eb45e5918496f3addeb1",
+        "bytes": 16278
+      },
+      {
+        "path": "textworld/thirdparty/glulx/Git-Glulx/compiler.h",
+        "sha256": "d856b70b147fd4df2cfc5265c9f2b958a8a64651174fd12fddb4e04096bb9826",
+        "bytes": 3289
+      },
+      {
+        "path": "textworld/thirdparty/glulx/Git-Glulx/config.h",
+        "sha256": "1b12ab8e619c98ec2af3a94cecc1374b196b6d7ea694f3243d8150b395e70513",
+        "bytes": 2709
+      },
+      {
+        "path": "textworld/thirdparty/glulx/Git-Glulx/gestalt.c",
+        "sha256": "d62ca1a56a5ae9ae5b45a1726f6f8f330dbaf6153153387fb932f74afcf6d6c4",
+        "bytes": 1210
+      },
+      {
+        "path": "textworld/thirdparty/glulx/Git-Glulx/git.c",
+        "sha256": "91af232458ff7f4b366e5961f5b863a9bfad923f0c5a397d10df6d90512dcbfc",
+        "bytes": 5332
+      },
+      {
+        "path": "textworld/thirdparty/glulx/Git-Glulx/git.h",
+        "sha256": "60cc8d55840b202ee052fa746ab7a4a9ffa3a080b8b933cbfef2325a9d86703b",
+        "bytes": 4587
+      },
+      {
+        "path": "textworld/thirdparty/glulx/Git-Glulx/git_mac.c",
+        "sha256": "209e59f8a0386fbefb5949fa3516181308da643dc92a57b27a932ff6cc21d963",
+        "bytes": 2044
+      },
+      {
+        "path": "textworld/thirdparty/glulx/Git-Glulx/git_unix.c",
+        "sha256": "05c09ef848861893e92a9010f076e9d792e5cd89a69af0f2351fb50a6e061ea1",
+        "bytes": 2215
+      },
+      {
+        "path": "textworld/thirdparty/glulx/Git-Glulx/git_windows.c",
+        "sha256": "76995fdd978af26b5b58282d2c0aaa0629f86dfde77ad92d83bb2a4af3df40ff",
+        "bytes": 2721
+      },
+      {
+        "path": "textworld/thirdparty/glulx/Git-Glulx/glkop.c",
+        "sha256": "86b850f25bf725fd79659b3cf23d31b68aed0da2320a121e29e151a403e54e9f",
+        "bytes": 39624
+      },
+      {
+        "path": "textworld/thirdparty/glulx/Git-Glulx/heap.c",
+        "sha256": "62b7300c12fc43aa5534d54ec9af6e6c00520cca61056832d1887ce253ee1e21",
+        "bytes": 9266
+      },
+      {
+        "path": "textworld/thirdparty/glulx/Git-Glulx/help/Git.css",
+        "sha256": "212aea10b73f75c1279f3f5d70658ad31a262ea4acd6c6abe17e1d883040ad36",
+        "bytes": 174
+      },
+      {
+        "path": "textworld/thirdparty/glulx/Git-Glulx/help/Git.hhc",
+        "sha256": "3c04ffd6be749ad5d2597962f80c08675f4af752652e5e9382c861c650c46f6a",
+        "bytes": 2518
+      },
+      {
+        "path": "textworld/thirdparty/glulx/Git-Glulx/help/Git.hhp",
+        "sha256": "c03b5feb167fb39aa075bcb2371fd5e0ae5195f7a9324d58a5f5851be7f520e2",
+        "bytes": 382
+      },
+      {
+        "path": "textworld/thirdparty/glulx/Git-Glulx/help/about.png",
+        "sha256": "000d936817419064dd397317f886d6a8616f0b953bfa0d74337e53755786162e",
+        "bytes": 244
+      },
+      {
+        "path": "textworld/thirdparty/glulx/Git-Glulx/help/archive.htm",
+        "sha256": "69208a5e5fd62045be750b6ef9589ae6f8bcca98db85353e750a7cd38666f0db",
+        "bytes": 1499
+      },
+      {
+        "path": "textworld/thirdparty/glulx/Git-Glulx/help/autorun.htm",
+        "sha256": "6ed0ee73068f5b9745fc15b0ac2f80c31d21c1e48ae876ba44c2bb581169cedb",
+        "bytes": 872
+      },
+      {
+        "path": "textworld/thirdparty/glulx/Git-Glulx/help/blorb.htm",
+        "sha256": "6a1345d3867a5f4ea105625bddf3f55a2d1d1fe02638aed168402f27fd29f811",
+        "bytes": 1456
+      },
+      {
+        "path": "textworld/thirdparty/glulx/Git-Glulx/help/config.htm",
+        "sha256": "921bc2d5f7c216081652af35a999e603802c3cd65fe9e3d7202ab3b7b16e93fb",
+        "bytes": 2773
+      },
+      {
+        "path": "textworld/thirdparty/glulx/Git-Glulx/help/credits.htm",
+        "sha256": "773e079b17237ec7daabe59cf4c139765b4322cd4d2182adc9ba37c31e82b490",
+        "bytes": 3357
+      },
+      {
+        "path": "textworld/thirdparty/glulx/Git-Glulx/help/editing_keys.htm",
+        "sha256": "47523a83c9024f30c27d4dac6ec447714f3a0eb670a14af100cf737b62a82cb4",
+        "bytes": 2391
+      },
+      {
+        "path": "textworld/thirdparty/glulx/Git-Glulx/help/fixed.png",
+        "sha256": "9ad3ca8a426b21b7023179dad7041952b5e2a96b119c506532c696c022c05aa6",
+        "bytes": 290
+      },
+      {
+        "path": "textworld/thirdparty/glulx/Git-Glulx/help/getting_started.htm",
+        "sha256": "5db72f78b3a4e8df69c757c555d058924a3bf99849902b810de6ed1adb411419",
+        "bytes": 1791
+      },
+      {
+        "path": "textworld/thirdparty/glulx/Git-Glulx/help/gfx_sound.htm",
+        "sha256": "31d1d0ec3e6753b0a0810abeccd71ad36df709979a06a3c73aa14c4fc045cd7d",
+        "bytes": 1630
+      },
+      {
+        "path": "textworld/thirdparty/glulx/Git-Glulx/help/glk.htm",
+        "sha256": "f283dcee31f2bce19ccdf102b795d150370add43f949e56f33090eb8088c5358",
+        "bytes": 994
+      },
+      {
+        "path": "textworld/thirdparty/glulx/Git-Glulx/help/glulx.htm",
+        "sha256": "258da7cbc492eb7c8f84ed29558d7535ce8347d3502374d1b091e6beb339e8fd",
+        "bytes": 800
+      },
+      {
+        "path": "textworld/thirdparty/glulx/Git-Glulx/help/help.png",
+        "sha256": "6348cd6b2aed12b98422eabbdeea1100910e129b560a8338915130d8ebee5771",
+        "bytes": 302
+      },
+      {
+        "path": "textworld/thirdparty/glulx/Git-Glulx/help/license_ogg.htm",
+        "sha256": "2db31aed9cda92274b462b789cf941999ddababea621cc090b4cdab0ed550b2e",
+        "bytes": 1716
+      },
+      {
+        "path": "textworld/thirdparty/glulx/Git-Glulx/help/menus_toolbar.htm",
+        "sha256": "b8a129ea725018051ccd6d6a3ed3744ae1bb259e52eb92b8a363a2b11dfe3b98",
+        "bytes": 1222
+      },
+      {
+        "path": "textworld/thirdparty/glulx/Git-Glulx/help/options.htm",
+        "sha256": "7200f9dd11ed750847b94935e9d77aa13bab29ae59f06236bdad68ead76b63ae",
+        "bytes": 3791
+      },
+      {
+        "path": "textworld/thirdparty/glulx/Git-Glulx/help/options.png",
+        "sha256": "bf882804a4519943950d76019498189dd339bf9c482fa8e0137dd1459e039c77",
+        "bytes": 275
+      },
+      {
+        "path": "textworld/thirdparty/glulx/Git-Glulx/help/overview.htm",
+        "sha256": "e6b47bdca6eb8260fdfbcf588a1c5c4bba5721744cedb4dd1a1d5c8b9306c7a7",
+        "bytes": 1950
+      },
+      {
+        "path": "textworld/thirdparty/glulx/Git-Glulx/help/prop.png",
+        "sha256": "9d480e008473dfba4e1de169edd9e8e19b26a50a32cc9605c8527a1021664941",
+        "bytes": 288
+      },
+      {
+        "path": "textworld/thirdparty/glulx/Git-Glulx/help/revision.htm",
+        "sha256": "8ebb20413d2f4804d5e6d7e2e5f9487a97e5ce78c356003ed44e5659bf947010",
+        "bytes": 5726
+      },
+      {
+        "path": "textworld/thirdparty/glulx/Git-Glulx/help/scroll.png",
+        "sha256": "3d909814da92d8702e7ececb99b2985a1b882e3b8abdc8f4988a40cb9f3dbd1e",
+        "bytes": 241
+      },
+      {
+        "path": "textworld/thirdparty/glulx/Git-Glulx/labels.inc",
+        "sha256": "98cd01eb43c895cc637ea6745d1b50034edf0380066636864fbeea1172bcaf38",
+        "bytes": 4296
+      },
+      {
+        "path": "textworld/thirdparty/glulx/Git-Glulx/memory.c",
+        "sha256": "e56b34b885a0d762262a44e2ef3cef977e30f3de3af1089c1f5d6e72a63cff63",
+        "bytes": 4176
+      },
+      {
+        "path": "textworld/thirdparty/glulx/Git-Glulx/memory.h",
+        "sha256": "8e6ed675260e17e275f8b114c03c1639b5fb85885de7bbf5abe14c51a244d882",
+        "bytes": 5008
+      },
+      {
+        "path": "textworld/thirdparty/glulx/Git-Glulx/opcodes.c",
+        "sha256": "7a225ce231440ed9a7aee9cb2a719459558a7bff6eaf94f5d11b083172528f11",
+        "bytes": 17253
+      },
+      {
+        "path": "textworld/thirdparty/glulx/Git-Glulx/opcodes.h",
+        "sha256": "ef208eee968c8f9a408fa7a83ea3a6a19de442f1d3540c4da49f8bb615cf23ad",
+        "bytes": 3945
+      },
+      {
+        "path": "textworld/thirdparty/glulx/Git-Glulx/operands.c",
+        "sha256": "9fdddb72244e245b2dc5023fd2a6e37d409397daf49a0cb28cf387d2f00c1592",
+        "bytes": 12167
+      },
+      {
+        "path": "textworld/thirdparty/glulx/Git-Glulx/peephole.c",
+        "sha256": "14a3950ce9861afb87d95ce01a41e4560350b124c7b9ecd5167597229dfab899",
+        "bytes": 5983
+      },
+      {
+        "path": "textworld/thirdparty/glulx/Git-Glulx/savefile.c",
+        "sha256": "e253eb95ed8610fe2cf3d9ca16f21a1341cdffa451f279fd2e9b2884f09f33b0",
+        "bytes": 8408
+      },
+      {
+        "path": "textworld/thirdparty/glulx/Git-Glulx/saveundo.c",
+        "sha256": "1e2e47b0685d2abea863fac60a07b6e0a590482179ec8339eca75193ad767e69",
+        "bytes": 9316
+      },
+      {
+        "path": "textworld/thirdparty/glulx/Git-Glulx/search.c",
+        "sha256": "30dacd82e2028736447255126453efadb42ebe8fa9d80244309ddb70831761e3",
+        "bytes": 9082
+      },
+      {
+        "path": "textworld/thirdparty/glulx/Git-Glulx/terp.c",
+        "sha256": "3c08a2051addc24b1bee5c21c9a3ff1792de8f058cb65ef9bda08075585662ed",
+        "bytes": 44041
+      },
+      {
+        "path": "textworld/thirdparty/glulx/Git-Glulx/test.sh",
+        "sha256": "be43a7ecd1a23d93ce3ac17c3cf633ea854e39ddb9051ea64be024d5972e72d2",
+        "bytes": 139
+      },
+      {
+        "path": "textworld/thirdparty/glulx/Git-Glulx/user_agent.py",
+        "sha256": "5493ad8d782b33842e4f32bfc1502c7122ccf532dcecfaba323d0961c39ead9e",
+        "bytes": 45
+      },
+      {
+        "path": "textworld/thirdparty/glulx/Git-Glulx/version.h",
+        "sha256": "54409fb05ef706996c90a9fbb6e6c48b004a8aec955c6cc99cef85e4de56962b",
+        "bytes": 108
+      },
+      {
+        "path": "textworld/thirdparty/glulx/Git-Glulx/win/git.rc",
+        "sha256": "062636942460f8ae1da51e8826f68800f6494794c7913e42a8255c530a10abde",
+        "bytes": 281
+      },
+      {
+        "path": "textworld/thirdparty/glulx/Git-Glulx/win/res/Blorb.ico",
+        "sha256": "f48ff806710ab9b0e3d2b345cc83969effa91c3113d2c6c38d98f70fa70a5730",
+        "bytes": 25214
+      },
+      {
+        "path": "textworld/thirdparty/glulx/Git-Glulx/win/res/Git.manifest",
+        "sha256": "b5cc9b3a20c3275f40b218f572c8afbf0d51bb58c686b7144c99770c888b32ce",
+        "bytes": 857
+      },
+      {
+        "path": "textworld/thirdparty/glulx/Git-Glulx/win/res/Glulx.ico",
+        "sha256": "c7ac296d059d87d0d31005a24331365f64dc4badbce32b0146c87e3d52685ffb",
+        "bytes": 25214
+      },
+      {
+        "path": "textworld/thirdparty/glulx/Git-Glulx/win/res/Ulx.ico",
+        "sha256": "d2cde9577e505b9b0a94bf97687ba05bff8ece34573e3e762c4df1dbf75e8d98",
+        "bytes": 25214
+      },
+      {
+        "path": "textworld/thirdparty/glulx/cheapglk/.gitignore",
+        "sha256": "40a178ba11a0f6a2bc64c71b17101a433538be66ff0927c33250a4ca299c4f85",
+        "bytes": 42
+      },
+      {
+        "path": "textworld/thirdparty/glulx/cheapglk/LICENSE",
+        "sha256": "8474fb1eb1f8fc3d68f975226e791f3babba77c8c794ac769fd8d8b4bd2b5814",
+        "bytes": 1081
+      },
+      {
+        "path": "textworld/thirdparty/glulx/cheapglk/Makefile",
+        "sha256": "887fcbe1f0aa299538f7da5208c9c8dfefb4c59a917e34a9ace8548252c82061",
+        "bytes": 1307
+      },
+      {
+        "path": "textworld/thirdparty/glulx/cheapglk/README.txt",
+        "sha256": "069da6a97413d9f6a745e305afea9a6963b87b794c087331dd3955e574420187",
+        "bytes": 11194
+      },
+      {
+        "path": "textworld/thirdparty/glulx/cheapglk/agent.c",
+        "sha256": "3b2e5036b994c34b07f9fd5302f204ef65bc4ac72aaaf388fd6c99ae16c3458b",
+        "bytes": 5070
+      },
+      {
+        "path": "textworld/thirdparty/glulx/cheapglk/agent.h",
+        "sha256": "3aef8c960781a068d5213883bd2f55bf083272bdd06aceb302a4f361e88655b1",
+        "bytes": 786
+      },
+      {
+        "path": "textworld/thirdparty/glulx/cheapglk/casemap.py",
+        "sha256": "5b9074c7564475b840621f5d7411289ea28471b98eee3d16c6fc79657e02d1cc",
+        "bytes": 23329
+      },
+      {
+        "path": "textworld/thirdparty/glulx/cheapglk/cgblorb.c",
+        "sha256": "f3e107392ce2775664d75e2f8800f4e758b482b2a4589188eea1a2be5291c834",
+        "bytes": 574
+      },
+      {
+        "path": "textworld/thirdparty/glulx/cheapglk/cgdate.c",
+        "sha256": "3517ef00f62184256c26554d4d1fbb9bc26f8b635978d15210e88c2b0e716404",
+        "bytes": 9499
+      },
+      {
+        "path": "textworld/thirdparty/glulx/cheapglk/cgfref.c",
+        "sha256": "229e6d87ff33d83402a027c6e3cc0bb5965cc166cdabd8f25e2030abe05f5a23",
+        "bytes": 8323
+      },
+      {
+        "path": "textworld/thirdparty/glulx/cheapglk/cggestal.c",
+        "sha256": "79ab4794f89ed775cfcba9976c4cfcf8ded153007551492298c69f007bb18cc4",
+        "bytes": 3405
+      },
+      {
+        "path": "textworld/thirdparty/glulx/cheapglk/cgmisc.c",
+        "sha256": "9f8f34ab471fe8fe6f4546cfea287f0f5d3d227f9536b3aa1e449bda1a43d563",
+        "bytes": 10757
+      },
+      {
+        "path": "textworld/thirdparty/glulx/cheapglk/cgschan.c",
+        "sha256": "697792f2b70c85fc95e4d7e0535babbbc8d7e2cfdc51aa4cf68f5384941aa756",
+        "bytes": 1953
+      },
+      {
+        "path": "textworld/thirdparty/glulx/cheapglk/cgstream.c",
+        "sha256": "d2bb597cc98dda8820f027dfd53d1b374f0b94205d7e8442ffd3c063caa5dd75",
+        "bytes": 50195
+      },
+      {
+        "path": "textworld/thirdparty/glulx/cheapglk/cgstyle.c",
+        "sha256": "6ad1f712fa68835f73cdc13d5b85f98d78753ecb398af380f8bbabdd1ad7b31c",
+        "bytes": 623
+      },
+      {
+        "path": "textworld/thirdparty/glulx/cheapglk/cgunicod.c",
+        "sha256": "4ce4abc68bdd8e7fa3e1326f727f95af153368db17f3b007dd8675212c6a772a",
+        "bytes": 15997
+      },
+      {
+        "path": "textworld/thirdparty/glulx/cheapglk/cgunigen.c",
+        "sha256": "68d7a9d4ca1510daab3c2c86f588905b0a7f6ba9914076a47390395a7b52827b",
+        "bytes": 304820
+      },
+      {
+        "path": "textworld/thirdparty/glulx/cheapglk/cgwindow.c",
+        "sha256": "67265ff345e9fb070aa41f1dbc4241aa192e22b7f8795a58bf768a85ea834d28",
+        "bytes": 13655
+      },
+      {
+        "path": "textworld/thirdparty/glulx/cheapglk/cheapglk.h",
+        "sha256": "8ef1828d88cb2830a89ddaab4fcee75bc946fa89b36d1286b9c4d948065e1cb0",
+        "bytes": 7686
+      },
+      {
+        "path": "textworld/thirdparty/glulx/cheapglk/gi_blorb.c",
+        "sha256": "20a683b3872b0bdb4c776f9eff356279b0e86d020a6fc017413560bdc6e1af8d",
+        "bytes": 21573
+      },
+      {
+        "path": "textworld/thirdparty/glulx/cheapglk/gi_blorb.h",
+        "sha256": "dc1aaa09d538da3f709710fc235f51380376aa826c5002ffb0fdf93e65ff07c7",
+        "bytes": 3718
+      },
+      {
+        "path": "textworld/thirdparty/glulx/cheapglk/gi_debug.c",
+        "sha256": "8419ee250ce73e77d44d8c51e4b63d60289ff133b0f2df7147c9043609553e01",
+        "bytes": 1146
+      },
+      {
+        "path": "textworld/thirdparty/glulx/cheapglk/gi_debug.h",
+        "sha256": "faedde82ae5adbc887d87152a9021a87326c29773ad97da4bc16858c3a50bf2b",
+        "bytes": 8233
+      },
+      {
+        "path": "textworld/thirdparty/glulx/cheapglk/gi_dispa.c",
+        "sha256": "9282a7e90a70b65d5034a818ba4971464d56cd5daa627ff23f2595f51f9621f0",
+        "bytes": 60442
+      },
+      {
+        "path": "textworld/thirdparty/glulx/cheapglk/gi_dispa.h",
+        "sha256": "50cc1cabe15b53fa50cae8460729b8e132fb002c77e18979c85d83ecd9621466",
+        "bytes": 4276
+      },
+      {
+        "path": "textworld/thirdparty/glulx/cheapglk/glk.h",
+        "sha256": "681e9f84abe942fc3d0f558e5e9da107db2b2fa7864ed8f53f9f442a6a5761e7",
+        "bytes": 16272
+      },
+      {
+        "path": "textworld/thirdparty/glulx/cheapglk/glkstart.c",
+        "sha256": "0059fda1c4f574cd78fbd6f4e6282dacf89d651449a305bb791d943a2a7157e4",
+        "bytes": 694
+      },
+      {
+        "path": "textworld/thirdparty/glulx/cheapglk/glkstart.h",
+        "sha256": "116b6344c836f6e558a259f7050e28eddad29ca87fc5c4541949d61bb8809a47",
+        "bytes": 1636
+      },
+      {
+        "path": "textworld/thirdparty/glulx/cheapglk/main.c",
+        "sha256": "d3acaeb39c1d5b30b9c39aec823cfd60bb784daf871ce6fdf5a8242077b4d876",
+        "bytes": 9047
+      },
+      {
+        "path": "textworld/thirdparty/inform7/share/inform7/Internal/I6T/Actions.i6t",
+        "sha256": "ff2b1dd9b00b8f5b048c02327b6fe33051f1e80d7d21e0d7f1886d7c7d086178",
+        "bytes": 27940
+      },
+      {
+        "path": "textworld/utils.py",
+        "sha256": "3c6298d2250e6548368aacde4f906bb471318ffb06a3cd143b881020801b69cd",
+        "bytes": 6220
+      },
+      {
+        "path": "textworld/version.py",
+        "sha256": "49b47aede3e6898894c1293821a9b5cb0d9e4a221a70e99c792c61b259329a66",
+        "bytes": 25
+      }
+    ]
+  },
+  "assets": {
+    "url": "https://github.com/conglu1997/intelligent-go-explore.git",
+    "commit": "bcb4052e6de36a4389e666acd374832cfab1a042",
+    "git_config": {
+      "core.autocrlf": false
+    },
+    "archive_sha256": "8be1269838fad9d5d05a6c5f69fa2ecee6451b562e902d12b1f1d326f21c991f",
+    "archive_bytes": 14101400,
+    "included_git_paths": [
+      "textworld/tw_games"
+    ],
+    "excluded_path_components_case_insensitive": [
+      "secrets",
+      ".git",
+      "__pycache__",
+      "tests"
+    ],
+    "asset_suffix_allowlist": [
+      ".ulx",
+      ".z8",
+      ".json"
+    ],
+    "archive_path_transform": "strip textworld/ prefix",
+    "files": [
+      {
+        "path": "tw_games/coin_collector/level_220_seed_100.json",
+        "sha256": "f3e342341945700fea49197217c86e29bf43240a445cf4c04f6c22961d91e440",
+        "bytes": 71044,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/coin_collector/level_220_seed_100.ulx",
+        "sha256": "2bde4f7c2f8c5c37108b25d079b44226a71d9c592d54f4bf24e43538e70e3d75",
+        "bytes": 664320,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/coin_collector/level_220_seed_1171.json",
+        "sha256": "317e6d143795c545a8fabf8e536ca4ef68b9fa02fd8242f440f29cfdd4b4396e",
+        "bytes": 71332,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/coin_collector/level_220_seed_1171.ulx",
+        "sha256": "626eeb32572aa4294f6bbf32d10f1f286c4f3fdb4b0d63a0fc22bf3683ed4191",
+        "bytes": 664576,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/coin_collector/level_220_seed_12089.json",
+        "sha256": "f3dd427f664789daf20951c35968895614db8b03025e7820ae6d593f5076849e",
+        "bytes": 70850,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/coin_collector/level_220_seed_12089.ulx",
+        "sha256": "861eddc446e58cbc8f3e27e625a0b1f7061ff48c4ccb0954c5674ba6dac9d25f",
+        "bytes": 664320,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/coin_collector/level_220_seed_15858.json",
+        "sha256": "8464fe8b315f992466369810e1d50acaf71ef8782afa834cb7de152cc22fe06c",
+        "bytes": 71238,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/coin_collector/level_220_seed_15858.ulx",
+        "sha256": "9ac983a15b22cb313fef55e59259150da88412a576f5e78e83b9daca860b80f9",
+        "bytes": 664576,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/coin_collector/level_220_seed_16706.json",
+        "sha256": "40410073e6b9ecba88e5c4ba4032e2dd064cd7d81c24705333212d5bbf8e8122",
+        "bytes": 71105,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/coin_collector/level_220_seed_16706.ulx",
+        "sha256": "450245f779b2d5adf84507ee5e9f7695de70c2fb4df4cc2fc4b034fefd691409",
+        "bytes": 664320,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/coin_collector/level_220_seed_20174.json",
+        "sha256": "bd553172b480b7c6ec78169d8eac06f2e03c3d049de6bc6c5979c1ce2db3a595",
+        "bytes": 70767,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/coin_collector/level_220_seed_20174.ulx",
+        "sha256": "8cc2cdd84e4f2b4ff5aeceea6989965d7e873db52206c49ad0971c2955539203",
+        "bytes": 664320,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/coin_collector/level_220_seed_23258.json",
+        "sha256": "83132dd2bf7571c227db64dcb03a275c547673d59da41a32f2115c3b390fd981",
+        "bytes": 70535,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/coin_collector/level_220_seed_23258.ulx",
+        "sha256": "a17061d4b50fc7a357e1782c5d313d07ff6c2765f979d5e5521cad3452eef4b2",
+        "bytes": 664064,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/coin_collector/level_220_seed_24972.json",
+        "sha256": "a3eef3a258303950b52869a33054983fd7bb30bc86fdb65d6e85c161719df79c",
+        "bytes": 70825,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/coin_collector/level_220_seed_24972.ulx",
+        "sha256": "82fc99e93020139e24e5fd862ccb3dcced983e26a5c6847ae9c524da74c061e7",
+        "bytes": 664320,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/coin_collector/level_220_seed_34290.json",
+        "sha256": "9832a7d60c6ccb7f4ebaf25f76ca37e5edbee50c9b91da00ca527f03b949e736",
+        "bytes": 71132,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/coin_collector/level_220_seed_34290.ulx",
+        "sha256": "c233a37715757871a41b765642cd182b542d2d14ab814bc6b79c2673a6fb8a45",
+        "bytes": 664576,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/coin_collector/level_220_seed_38603.json",
+        "sha256": "3e2b23f754a62d6937b572764415f8062aad60c6fba29700fa5cf2f83315e662",
+        "bytes": 70721,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/coin_collector/level_220_seed_38603.ulx",
+        "sha256": "47514faa3bdfeca99c2e354eed8d0f24742245ec1683ecef88183906b08a4cb8",
+        "bytes": 664320,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/coin_collector/level_220_seed_39118.json",
+        "sha256": "f6d185218b7151d6c60ce4a3f1087425f8a24eb347846ddd60775a988b024d8c",
+        "bytes": 70817,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/coin_collector/level_220_seed_39118.ulx",
+        "sha256": "813a35d238640908a97ca295e2ad70061ec4942a3e8d4874ed85ee66d7268968",
+        "bytes": 664320,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/coin_collector/level_220_seed_39317.json",
+        "sha256": "be880886968b7c496462cc7cd6e30366bb308f2a2cb859f452ce1104411e1f8f",
+        "bytes": 71861,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/coin_collector/level_220_seed_39317.ulx",
+        "sha256": "42b162c152d7a3bab6dbeff265d6ee10e81dc379052811d4367a455a5a88612f",
+        "bytes": 664832,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/coin_collector/level_220_seed_41628.json",
+        "sha256": "f2d6bda49dbb51cfffb59b2c53f81ff2722f874ee2f13986ec1494dc616d5041",
+        "bytes": 71631,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/coin_collector/level_220_seed_41628.ulx",
+        "sha256": "8f7546fa4d841537e0b22dea83a29c15a3726db52f0df07d3f0701c359a70be2",
+        "bytes": 664832,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/coin_collector/level_220_seed_42962.json",
+        "sha256": "ee2768761284c624b19c8cd690738456188c293a554d165f6779a1ecd7eba1f4",
+        "bytes": 71453,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/coin_collector/level_220_seed_42962.ulx",
+        "sha256": "c61443f3fbb16e2e7779802ea29cdb1b56917658e86ffee6c07a3bf5667f5b7c",
+        "bytes": 664832,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/coin_collector/level_220_seed_43450.json",
+        "sha256": "f52ef03b47d30fd4d2ee6b199b4976fc0d1a9c624311342c89f152a5b9ec828e",
+        "bytes": 71441,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/coin_collector/level_220_seed_43450.ulx",
+        "sha256": "38eccab367f7222121e032ff79819684fb6170dcf1b8d99bcce8b63778f2d117",
+        "bytes": 664576,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/coin_collector/level_220_seed_45669.json",
+        "sha256": "820c4a00c0aba7d3556a485585b9537dc8ac97db4e10ed773939239e7f0594c1",
+        "bytes": 71202,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/coin_collector/level_220_seed_45669.ulx",
+        "sha256": "4a7f4d2a13c8d04f32b557c095bf31f54c12ebfd78b514651a3ff6f0d1fc6a64",
+        "bytes": 664576,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/coin_collector/level_220_seed_46023.json",
+        "sha256": "a752d7402e48c40802435fbd6447bc97bb4cb93f808262fee8aca308008fdbb2",
+        "bytes": 71314,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/coin_collector/level_220_seed_46023.ulx",
+        "sha256": "8d32f120f5f6a2aaef8d8adee897fff7dbb0037059095ce375fdf0f1e0c6e3b9",
+        "bytes": 664576,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/coin_collector/level_220_seed_50027.json",
+        "sha256": "1e584e2bfa139ba44c19cd39c15e6cc70987324400fc275c35dd6e3019837382",
+        "bytes": 71352,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/coin_collector/level_220_seed_50027.ulx",
+        "sha256": "f6995b83fd65642f6cacab76d692acac5c806279a8c65d293449026f1d26046c",
+        "bytes": 664320,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/coin_collector/level_220_seed_51189.json",
+        "sha256": "35fd6c50bb4b560bd63bfe7255075a412348ea40b009fdc691a014ab0d198737",
+        "bytes": 70577,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/coin_collector/level_220_seed_51189.ulx",
+        "sha256": "32a2d9c133091a2ebab86ae1fb4889c1501c72fef6c90e94709661252ab0ecf1",
+        "bytes": 664064,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/coin_collector/level_220_seed_52044.json",
+        "sha256": "c5d20877cb7547ea5a770e7b33044f0e01ad87b81918db1bccc1729095197ea5",
+        "bytes": 71281,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/coin_collector/level_220_seed_52044.ulx",
+        "sha256": "70c4953f1fcdefa24b51c1dededd27a9228c12d733cdbe39b1e6a778c104be53",
+        "bytes": 664576,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/coin_collector/level_220_seed_53694.json",
+        "sha256": "d74dacbbd747d97b1aa2ba3363b55c3348b933c53f5d44f97f8e06f71e78b85d",
+        "bytes": 71191,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/coin_collector/level_220_seed_53694.ulx",
+        "sha256": "be916b5d119cf1eae606ead2b502141a3078158e73a6afcc50241f6491eea167",
+        "bytes": 664320,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/coin_collector/level_220_seed_55609.json",
+        "sha256": "d4fce2d8af782856f641b106aaa7a315a1069107cf3eb3d2dfe23274f2da76fd",
+        "bytes": 71555,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/coin_collector/level_220_seed_55609.ulx",
+        "sha256": "b1c35154b37df264ea04e7a32264665a807b2d81b2f3ff88a94d0c813307e37d",
+        "bytes": 664576,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/coin_collector/level_220_seed_57866.json",
+        "sha256": "30fa780641d97f13051a50eb746f49fc0e66bda80f46d45f02aefb297abf0484",
+        "bytes": 71331,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/coin_collector/level_220_seed_57866.ulx",
+        "sha256": "c0600dd8c5b24f450d8a1eb8ad27459ffde44c0170e4e7c6f3d3b4bec34199fb",
+        "bytes": 664576,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/coin_collector/level_220_seed_60838.json",
+        "sha256": "bd04344dd534e9f41ee92102373e12bc5e30c7cf9ff69263d94f0e236a48957d",
+        "bytes": 70992,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/coin_collector/level_220_seed_60838.ulx",
+        "sha256": "7d49a5be8272528e3641b233353a3b00e0f5a5df1a296f53f69aeea4a484078a",
+        "bytes": 664320,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/coin_collector/level_220_seed_8250.json",
+        "sha256": "0c052a3ba9117c3550962c006f41b3f5d986b214370b639b1f35616e782a7b37",
+        "bytes": 71502,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/coin_collector/level_220_seed_8250.ulx",
+        "sha256": "710448beaa2b8390ec0bf8f6cdb9b4a8fc85ab6b8a1d9b3f9f2cecd3ee609bb7",
+        "bytes": 664832,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/the_cooking_game/cooking_item5_seed_10980.json",
+        "sha256": "ae34575e43b4e9db155c8fb483e1598ecf06c3d9c067a029cdd75b09542e6b07",
+        "bytes": 680876,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/the_cooking_game/cooking_item5_seed_10980.z8",
+        "sha256": "3f4769f23691cd2261a3ae4f2acb5ad99bf96e739fac31ba8cb5e44e8e1c49b6",
+        "bytes": 441344,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/the_cooking_game/cooking_item5_seed_11996.json",
+        "sha256": "04f8856f8d1c47b620315dd37023df83f0e1abeff64f94a28faf656d4664d8e5",
+        "bytes": 1045736,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/the_cooking_game/cooking_item5_seed_11996.z8",
+        "sha256": "f18faefba23fae134f0da82a3f63a762fef22f68296203e23a22d5cc24e0ca16",
+        "bytes": 438784,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/the_cooking_game/cooking_item5_seed_12274.json",
+        "sha256": "cfcdde4511175b856981d98f69340a3236b715c68235eea0e346147c413a3c9e",
+        "bytes": 813766,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/the_cooking_game/cooking_item5_seed_12274.z8",
+        "sha256": "91d9bdcb9170cb452ba1ea80f2f61e18c65a5973e6aea40347ad3b9eefeb566b",
+        "bytes": 438784,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/the_cooking_game/cooking_item5_seed_12896.json",
+        "sha256": "d63c25870b48592d0ac3e2f12facd9d0b6797a4e42986bf9df93bcf3d9ef9de5",
+        "bytes": 577984,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/the_cooking_game/cooking_item5_seed_12896.z8",
+        "sha256": "369a9c61ed65a311944f22a9f57096a754c82fb3dab3108a6bf9ed095a99b111",
+        "bytes": 439296,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/the_cooking_game/cooking_item5_seed_13009.json",
+        "sha256": "661d7008a1048694fa44e81d59fd4f04ae5310db7ea65d1af5a8965587126cd6",
+        "bytes": 646136,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/the_cooking_game/cooking_item5_seed_13009.z8",
+        "sha256": "f468d290126843973fe17aefe050bf9e200eeb918e8a7668cd9d040d3d90a5c3",
+        "bytes": 438272,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/the_cooking_game/cooking_item5_seed_15394.json",
+        "sha256": "7975c0ff88d2f22bed01d4b5e766fb89ee561e207ce31dc620c9b7d8adc31d98",
+        "bytes": 545546,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/the_cooking_game/cooking_item5_seed_15394.z8",
+        "sha256": "23d742596974322c3984087e78f5eb30c3c99fc077c3ccc511cf34c2a536373e",
+        "bytes": 441856,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/the_cooking_game/cooking_item5_seed_16632.json",
+        "sha256": "d0c7f7e2b88487b7c813c3b5cb966d253d2020b559b612e9204d7c125e96a76f",
+        "bytes": 579675,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/the_cooking_game/cooking_item5_seed_16632.z8",
+        "sha256": "eaf37b77060d40e0173ef928b1fb5cf54add7117512fc768a165fb0a922c4b01",
+        "bytes": 441344,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/the_cooking_game/cooking_item5_seed_16877.json",
+        "sha256": "a7667bcac22fbe1c7a7eec07b455b7f05deb91894308009318c1992b16954bdd",
+        "bytes": 763194,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/the_cooking_game/cooking_item5_seed_16877.z8",
+        "sha256": "a3a91c1cc4b1f189315a5a7395c40389dacc37b5cbf726323ad7d38d88df9b94",
+        "bytes": 440320,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/the_cooking_game/cooking_item5_seed_17067.json",
+        "sha256": "ef303738944e87cda1f7f2bf866ae7521df55d30c4cf33cbab30fb832e674546",
+        "bytes": 954082,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/the_cooking_game/cooking_item5_seed_17067.z8",
+        "sha256": "7074b09d1f6dd60b9af4757176d3b14d8c1cb24e5c1ea8bedc4c50238ebb5188",
+        "bytes": 441344,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/the_cooking_game/cooking_item5_seed_19196.json",
+        "sha256": "8e630bcb10a69ec10c9e3f4387b3fc51c3de921a01e75427461f9cb3362ead57",
+        "bytes": 494163,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/the_cooking_game/cooking_item5_seed_19196.z8",
+        "sha256": "6fd9cebbf61ec923b4a183b2c002b300424d01e4315ef8b2900c56b69d19bf99",
+        "bytes": 441344,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/the_cooking_game/cooking_item5_seed_19296.json",
+        "sha256": "c5d046d5eb07e66b3f515ed71ad4708191fd46358614dab47d59dd547fd1a35b",
+        "bytes": 445907,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/the_cooking_game/cooking_item5_seed_19296.z8",
+        "sha256": "869c8901040dff250d2f1a82c844225e93525f409d866c7f48dc23d736712f6d",
+        "bytes": 441856,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/the_cooking_game/cooking_item5_seed_19414.json",
+        "sha256": "69704ed75cb47fd600910a4b91ae6872f18e0cf5d825b81302130cde57a56824",
+        "bytes": 757235,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/the_cooking_game/cooking_item5_seed_19414.z8",
+        "sha256": "b3b8fa66370275e0e416f16655a73bbd9dee3b04e4c40a74ff77883d41c02c1d",
+        "bytes": 440320,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/the_cooking_game/cooking_item5_seed_20939.json",
+        "sha256": "d63dc0951d3d2c21303cba7e2bfbc8413c1656d6db35437db09c2e1d28e53437",
+        "bytes": 906059,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/the_cooking_game/cooking_item5_seed_20939.z8",
+        "sha256": "b2e974fb3f6f68c21fdd2fdff666faf588761cc9b5adbcffbf62dabcd604243e",
+        "bytes": 436736,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/the_cooking_game/cooking_item5_seed_21151.json",
+        "sha256": "4debaf956f3f16944fda1e0c8e9eacebabefb9f864598db9e69cfd16c6d2654a",
+        "bytes": 499486,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/the_cooking_game/cooking_item5_seed_21151.z8",
+        "sha256": "30f47b8be83c65cf7080c1586140202e1f620912bc012ef615e061cd404211b6",
+        "bytes": 441344,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/the_cooking_game/cooking_item5_seed_21622.json",
+        "sha256": "c561e20c9e6bd49194babd134c468afd38fe0dfaf62ee78eb4a1370ebd559bb3",
+        "bytes": 557546,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/the_cooking_game/cooking_item5_seed_21622.z8",
+        "sha256": "b1078d247700d7f089de77541c2e91d62668d53418f88b2a8604a6f99777a6bc",
+        "bytes": 443392,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/the_cooking_game/cooking_item5_seed_23109.json",
+        "sha256": "2beea9d58b012267efd63c48f7b291a33e320743313471775cb5b37b076d5046",
+        "bytes": 619287,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/the_cooking_game/cooking_item5_seed_23109.z8",
+        "sha256": "cc03bd45bbd42a3921fe5d7de2c66278ff06c12ab40451d2348b6e40dc83e572",
+        "bytes": 437760,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/the_cooking_game/cooking_item5_seed_23895.json",
+        "sha256": "7c0e80cd92b4dbe155aac4a6e486a866178892094bdc84a804966496c2cc9cf3",
+        "bytes": 808932,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/the_cooking_game/cooking_item5_seed_23895.z8",
+        "sha256": "083eda8526ed553e886a9c5ae7ed47b5b920e4d9cbde365ca89688c4de26ce68",
+        "bytes": 440320,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/the_cooking_game/cooking_item5_seed_3265.json",
+        "sha256": "9592e29100265ac33928f10555edfd2a58918d4cf919193d963c0ba45ff04ed6",
+        "bytes": 764502,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/the_cooking_game/cooking_item5_seed_3265.z8",
+        "sha256": "06ebc59974d12ab7c751d16e9d773eadea40d00650e4304e1a2d94d226ac1130",
+        "bytes": 440832,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/the_cooking_game/cooking_item5_seed_3569.json",
+        "sha256": "d4848aca6cc60607333af84ef8f677e66d577beab7d46b183ce926782f3de2b5",
+        "bytes": 480187,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/the_cooking_game/cooking_item5_seed_3569.z8",
+        "sha256": "65b9f51dba3296bce2119d561172829a76a2e3646de979e6bdf5fdb8fa538fa3",
+        "bytes": 441856,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/the_cooking_game/cooking_item5_seed_3653.json",
+        "sha256": "19ccf1c4a0b74e2cb9edc5d7fec84b63ad17abf95e405e84d913f69233708e64",
+        "bytes": 897033,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/the_cooking_game/cooking_item5_seed_3653.z8",
+        "sha256": "f4913d4e06d6b39696dd078a99bbdbd54ed377412dfa045bcbaefcfff5c6aff8",
+        "bytes": 442368,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/the_cooking_game/cooking_item5_seed_4227.json",
+        "sha256": "228f704937233ba398c3d89196e98b86ca09540a26aac5d9ad3dfa0498a17e94",
+        "bytes": 628249,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/the_cooking_game/cooking_item5_seed_4227.z8",
+        "sha256": "8388b191320612e7d8bbbdbec3760cae161b1e176d5be1bfd236b922892a923f",
+        "bytes": 441856,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/the_cooking_game/cooking_item5_seed_5869.json",
+        "sha256": "7d8bc5fb50e08748616b769e65df489289329f9288f5ad9caddd64f239a135a7",
+        "bytes": 550389,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/the_cooking_game/cooking_item5_seed_5869.z8",
+        "sha256": "44be9c70e8fff5e1b3a7405d4458aab01b765d41b277dcf0c93cdb14331f3fc1",
+        "bytes": 441856,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/the_cooking_game/cooking_item5_seed_5972.json",
+        "sha256": "17776b94f43ed5458633023db1a93b01d4560eb3e612334000d53d52dcdd21eb",
+        "bytes": 984522,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/the_cooking_game/cooking_item5_seed_5972.z8",
+        "sha256": "78553e5cfde2ad31ae0720c67be71d9a5ff14964fd5505b15f72497c3f516634",
+        "bytes": 441856,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/the_cooking_game/cooking_item5_seed_9729.json",
+        "sha256": "6f5fc135d40ef06664029b2b4ee91094bbad859388e499b218bb8b4f857c78ae",
+        "bytes": 633975,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/the_cooking_game/cooking_item5_seed_9729.z8",
+        "sha256": "165ea0b0d2d226fed6c7a1d45e02b9b120e77ac641b2b04100ccf7c26a901c5e",
+        "bytes": 442368,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/the_cooking_game/cooking_item5_seed_9887.json",
+        "sha256": "9b43ff7d58b2406fc194fa4218b777f354cc1d2b65caf48972cb08763948690f",
+        "bytes": 583797,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/the_cooking_game/cooking_item5_seed_9887.z8",
+        "sha256": "a10b46b13085824ae7849152012defbb873ec5914a768e031e8b2d032c22d004",
+        "bytes": 440320,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/treasure_hunter/seed_10033.json",
+        "sha256": "6a6fd26d74fd4cf83ad704023a6ff5661a6625b4ea47e1327046c60d4277e421",
+        "bytes": 70283,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/treasure_hunter/seed_10033.ulx",
+        "sha256": "7bf6e5a370d78bfe937d325ac42171729ffc9033e54f476ad3641b56d9dd63bd",
+        "bytes": 658432,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/treasure_hunter/seed_10915.json",
+        "sha256": "78d9bcf4a2695edb595fc1bfcd189539778c505273dd61cf57fb798ad17fb1a6",
+        "bytes": 72914,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/treasure_hunter/seed_10915.ulx",
+        "sha256": "06cca47a009a9aca2f6cb8ce175799b5b73d12a7c110f50c8306bfd5b6098401",
+        "bytes": 663552,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/treasure_hunter/seed_14115.json",
+        "sha256": "3427cf37b032d4439f206bef1730c1fc35b676d21222449196ee21b5b0b3637b",
+        "bytes": 67914,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/treasure_hunter/seed_14115.ulx",
+        "sha256": "7f67a319629f1f4d4a412a5c2139e563097013b053fd32b01d65e955f8ee952e",
+        "bytes": 654592,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/treasure_hunter/seed_16404.json",
+        "sha256": "9f8891ce19d5586103c86a631b3e2298e05759204eb75b02ee0ee12cc5977882",
+        "bytes": 69168,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/treasure_hunter/seed_16404.ulx",
+        "sha256": "7df8b231e2955fbaedef27343171da55f7c12ffee2e077740cd1cc08d7d3b329",
+        "bytes": 654848,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/treasure_hunter/seed_18762.json",
+        "sha256": "9eb5daeb44d43c123c0845f7e4095f4a03488625b0dd08bd0f959a2b9bfc887d",
+        "bytes": 71077,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/treasure_hunter/seed_18762.ulx",
+        "sha256": "7aca83737a85315c6607088543f14df36c944a50d2e7a3de30e781a42f952665",
+        "bytes": 657664,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/treasure_hunter/seed_20085.json",
+        "sha256": "ac7b92375a6896ea814278a4468a061d0f8676093a851c930d5ee5ab07a181c8",
+        "bytes": 70888,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/treasure_hunter/seed_20085.ulx",
+        "sha256": "9c21472832aab2dd2d241dac757a1a53561f48496d19641d295ccfb88676a1a6",
+        "bytes": 657664,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/treasure_hunter/seed_21726.json",
+        "sha256": "127d6361e6ae6623c0606e5065d8018520042cd6dea95d73274b21aa9c5f1d6f",
+        "bytes": 70362,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/treasure_hunter/seed_21726.ulx",
+        "sha256": "001994d900b38660bc0bb2e2e4bc868e98125780a22ac66e2e8659e0c07460e5",
+        "bytes": 655616,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/treasure_hunter/seed_24649.json",
+        "sha256": "daf73d040c8221b843150608c9d2a7182142cc2622014935253a09c15a908fa2",
+        "bytes": 69732,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/treasure_hunter/seed_24649.ulx",
+        "sha256": "eb98b28df72fb7cb64c0cf6b3136307511aad6bbf8d7803a9c36c38693a86dd5",
+        "bytes": 656128,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/treasure_hunter/seed_27903.json",
+        "sha256": "2093182be4c05deddf5b6c097f4ad9d98d9ddd3c0f6e9103cba1b77555709920",
+        "bytes": 68945,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/treasure_hunter/seed_27903.ulx",
+        "sha256": "e4bd2110fb1e20e12323978199aef03a3b6aeaeb452eb516c457c8649215e420",
+        "bytes": 655616,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/treasure_hunter/seed_30233.json",
+        "sha256": "ef21da49d2540106ded3565d86133ece2dac346a449ecfecf27ac7bb92660dd3",
+        "bytes": 70831,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/treasure_hunter/seed_30233.ulx",
+        "sha256": "d652824a12bc842550e667656a126d2b7c72d6c18f2cd1fbc702b362d3af6b0b",
+        "bytes": 656384,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/treasure_hunter/seed_34432.json",
+        "sha256": "5da857d6338b7ba4c9ce30546ccb65c9a0d0e81670cd88b7adb460ecbb7c5216",
+        "bytes": 70465,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/treasure_hunter/seed_34432.ulx",
+        "sha256": "cb50887c3670f05bf1d0acba0c73b73da629a840f63a606d558009a96abb005b",
+        "bytes": 654336,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/treasure_hunter/seed_34884.json",
+        "sha256": "d15a0e9db2bc6dbe0050b3f76ac43dab6af57ba5f2e5263a1205940c82cf83b4",
+        "bytes": 68336,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/treasure_hunter/seed_34884.ulx",
+        "sha256": "b7c38ce53fb8334dd4e19b709943dfc77508c4a02853683eaf728a4c79ba21fa",
+        "bytes": 653568,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/treasure_hunter/seed_37212.json",
+        "sha256": "b764804e9576be783d0bf14422160daf723c3d7104013a62abfd8365dd2783e4",
+        "bytes": 73422,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/treasure_hunter/seed_37212.ulx",
+        "sha256": "81962aa90ffce73e0bf749f6ba8311b96e2b2ecf66185217d5c3cd97139a2beb",
+        "bytes": 662528,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/treasure_hunter/seed_40784.json",
+        "sha256": "10b95000d9b8d72544bee4ef4b6b86a56543d727bd8f49ddd92597225d2be36c",
+        "bytes": 67701,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/treasure_hunter/seed_40784.ulx",
+        "sha256": "ca263b51700b2e0c07afc8a3474183c10a0dd2edfb3da9f95a68a6ae21d0bdec",
+        "bytes": 652800,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/treasure_hunter/seed_47496.json",
+        "sha256": "2c1e1ab16bc651c1cb34e9172ff4dd40c2ae991fbc52ad407d6ee653da08d31b",
+        "bytes": 71070,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/treasure_hunter/seed_47496.ulx",
+        "sha256": "ee12507d00286b871d56779f315fedc9fdd6aec078d58dafcde177aa4cd65c07",
+        "bytes": 659200,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/treasure_hunter/seed_50479.json",
+        "sha256": "d9b8752e2aeb748dc5c106e2625e7d7b0b3fdf855905d18239084cdd851cf50d",
+        "bytes": 73096,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/treasure_hunter/seed_50479.ulx",
+        "sha256": "caf2661e7ffbb8f15c5fac027c5112bba2b2704be96657f77f3fe98dc7f1bbca",
+        "bytes": 664832,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/treasure_hunter/seed_51016.json",
+        "sha256": "db8178521fe32dbc47cbe6a161b9866d2f5f8bb6867cd7892d281fd683cb0d5e",
+        "bytes": 73393,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/treasure_hunter/seed_51016.ulx",
+        "sha256": "e5cacf2933d60c463aa8dbb93db80a256ba6737f9ba1d100b677cf1dfb94b776",
+        "bytes": 666112,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/treasure_hunter/seed_51709.json",
+        "sha256": "752fdd1c3be929b5ba12d4da6e97ec86d3bb14d4abd8e6d32c8ec1856d107180",
+        "bytes": 70688,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/treasure_hunter/seed_51709.ulx",
+        "sha256": "f79774ac1951daa81ec9268312c02624e5d69fdc46bacc64db3890ceabab5b35",
+        "bytes": 658432,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/treasure_hunter/seed_51781.json",
+        "sha256": "b2411ec7db756ec5ae6ff98cd5a83825d8edaf77d08496ee8dfceb5a1789d7cb",
+        "bytes": 70585,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/treasure_hunter/seed_51781.ulx",
+        "sha256": "8436c1e3469d093678e3e12f6074a1943a825f01d559cfdf4b1af2f27184ec64",
+        "bytes": 656896,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/treasure_hunter/seed_53195.json",
+        "sha256": "7164266868925bb3e26c393b2f79b945e4915f5964c21d02a43274edf4421b6d",
+        "bytes": 69282,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/treasure_hunter/seed_53195.ulx",
+        "sha256": "09562d39b60abb96b7841565dc520d1de1bbc8d82c76b7f26d51877c8c17bdbe",
+        "bytes": 655616,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/treasure_hunter/seed_54472.json",
+        "sha256": "af1970199a2350096143bac0dd83a66f46fad3adea0519379646a2a8d9b17e65",
+        "bytes": 68001,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/treasure_hunter/seed_54472.ulx",
+        "sha256": "a20cbbd8c37f8c3d65d2ccfa5edce9ba288c2ac0e657086dc3445e2753350554",
+        "bytes": 653824,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/treasure_hunter/seed_58109.json",
+        "sha256": "494953b3223fbf4ee3fa46ff453f42ca7b8129dcd55e78f6ad1cb9d21662826c",
+        "bytes": 69855,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/treasure_hunter/seed_58109.ulx",
+        "sha256": "600ce7155c07ef1ce2f450b47ad3e4c45b77dd5e9d3254ac6e3a978e2c8a0104",
+        "bytes": 655104,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/treasure_hunter/seed_61644.json",
+        "sha256": "e7910a8d6c84b7b365d278aa4d8c15af48c4a767a45161f722799f8a15e9e97a",
+        "bytes": 71790,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/treasure_hunter/seed_61644.ulx",
+        "sha256": "f330ce78f7f838f85b259ad251310a4c721e8e9879dd0c65904410a8a8f078a5",
+        "bytes": 662016,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/treasure_hunter/seed_61922.json",
+        "sha256": "55b6f927cbfca3b7c3af8ba4a582955d1a3d506624a8addca462ede07ee3a80d",
+        "bytes": 68118,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/treasure_hunter/seed_61922.ulx",
+        "sha256": "53370d19b4ec66c42ca1403884c267fbd72e2142009903f09e8bcbf8ae19c367",
+        "bytes": 652032,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/treasure_hunter/seed_898.json",
+        "sha256": "96c36c1aa943f8e6539bf73c9b7d780fc783aa861aebe6bdc89a5dc7993c8564",
+        "bytes": 71975,
+        "matches_balrog_download": true
+      },
+      {
+        "path": "tw_games/treasure_hunter/seed_898.ulx",
+        "sha256": "f957a4fedd2caf25e6b5b1c4a6884455eb3d797deef480a276a152a6e6c7b618",
+        "bytes": 659456,
+        "matches_balrog_download": true
+      }
+    ]
+  },
+  "original_asset_archive": {
+    "url": "https://drive.google.com/uc?export=download&id=1aeT-45-OBxiHzD9Xn99E5OvC86XmqhzA",
+    "sha256": "c0e8841649b8dde9607bc5326e89a265a975e7859ddb432d53c1c17ddafdcbb9"
+  }
+}

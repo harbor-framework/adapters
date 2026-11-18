@@ -1,0 +1,40 @@
+{
+  "crafter": [],
+  "nle": [],
+  "babaisai": [
+    {
+      "path": "babaisai_source.tar.gz",
+      "archive": "babaisai.tar.gz",
+      "commit": "40ae1b29dbc67f2ecea06cc161ed5ca51719e5e3",
+      "sha256": "774c78a46e843f8b9ed31cdaea519d3b4b83f28972b00576860a93d398db0c0d"
+    }
+  ],
+  "minihack": [
+    {
+      "path": "minihack_source.tar.gz",
+      "archive": "minihack.tar.gz",
+      "commit": "3ecb6da4eadcac7a4dbc5f8e801ccf636e34d7ec",
+      "sha256": "9f32872c28aac77de4afc02becde98d8cc7cbff84112d8ece0add9a5b106dd5f"
+    },
+    {
+      "path": "minihack_boxoban.tar.gz",
+      "archive": "boxoban.tar.gz",
+      "commit": "78011d8c86ad423bfb2e1005012393b4c3c24409",
+      "sha256": "aa83b1134089068dbc3d5abca9d63c4aa66b412ec190c381a53756be52b7a623"
+    }
+  ],
+  "textworld": [
+    {
+      "path": "textworld_docker/vendor/textworld.tar.gz",
+      "archive": "textworld.tar.gz",
+      "commit": "1d56f4765e7b28f04a68eff0bce5a6fe6ecd1a9f",
+      "sha256": "3b53c1446b53fdc7ff59f8215d994bc156ea8577b2e578dcfddde08ae289f681"
+    },
+    {
+      "path": "textworld_docker/vendor/assets.tar.gz",
+      "archive": "assets.tar.gz",
+      "commit": "bcb4052e6de36a4389e666acd374832cfab1a042",
+      "sha256": "8be1269838fad9d5d05a6c5f69fa2ecee6451b562e902d12b1f1d326f21c991f"
+    }
+  ]
+}
