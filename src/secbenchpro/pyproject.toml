@@ -9,10 +9,10 @@ description = "Harbor adapter for the SEC-bench Pro software security benchmark 
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "MIT" }
-dependencies = ["Jinja2", "PyYAML"]
+dependencies = ["Jinja2"]
 
 [project.optional-dependencies]
-dev = ["pytest", "PyYAML"]
+dev = ["pytest"]
 
 [project.scripts]
 secbenchpro = "secbenchpro.main:main"

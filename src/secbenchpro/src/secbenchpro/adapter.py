@@ -1,9 +1,10 @@
 """Generate Harbor tasks for the SEC-bench Pro benchmark.
 
-Each task is self-contained: docker-compose.yaml with the prebuilt vulnerable
-image and a separate shell verifier. Grading executes the submitted PoC against
-the vulnerable, fixed and latest images and classifies it with an LLM judge.
-Oracle solutions remain separate.
+Tasks and oracle solutions are read from a SEC-bench Pro checkout pinned at
+``UPSTREAM_COMMIT``. Each task is self-contained: docker-compose.yaml with the
+prebuilt vulnerable image and a separate shell verifier. Grading executes the
+submitted PoC against the vulnerable, fixed and latest images and classifies it
+with an LLM judge.
 
 Linux tasks declare their secb MCP server; the runner installs the pinned MCP
 implementation. Verification uses the task-owned shell scripts and standalone
@@ -15,9 +16,9 @@ from __future__ import annotations
 import json
 import re
 import shutil
+import subprocess
 from pathlib import Path
 
-import yaml
 from jinja2 import Environment, FileSystemLoader
 
 from .error_types import guidance_for, resolve_error_type
@@ -61,9 +62,13 @@ DIGEST_IMAGE_RE = re.compile(
     r"^[a-z0-9.-]+(?::[0-9]+)?/[a-z0-9._/-]+@sha256:[0-9a-f]{64}$"
 )
 
+# Published SEC-bench Pro snapshot backing the generated tasks.
+UPSTREAM_COMMIT = "a6cedddd3ffee87d1e47b8f03744aab4872efe0e"
+PROJECT_ORDER = ("v8", "sm", "linux")
+
 
 class SecbenchProAdapter:
-    """Convert the bundled SEC-bench Pro registry into Harbor task dirs."""
+    """Convert the pinned SEC-bench Pro checkout into Harbor task dirs."""
 
     NAME = "secbenchpro"
     ORG = "secbenchpro"
@@ -84,14 +89,9 @@ class SecbenchProAdapter:
         task_ids: list[str] | None = None,
         projects: list[str] | None = None,
         projects_dir: Path | str | None = None,
-        image_registry: str | None = None,
         image_mapping: Path | str | None = None,
         **kwargs,
     ):
-        if image_registry and image_mapping:
-            raise ValueError(
-                "--image-registry and --image-mapping are mutually exclusive"
-            )
         if limit is not None and limit < 1:
             raise ValueError("--limit must be >= 1")
         self.output_dir = Path(output_dir)
@@ -100,7 +100,6 @@ class SecbenchProAdapter:
         self.task_ids = set(task_ids) if task_ids else None
         self.projects = set(projects) if projects else None
         self.projects_dir = Path(projects_dir) if projects_dir else None
-        self.image_registry = image_registry
         self.image_mapping_path = Path(image_mapping) if image_mapping else None
         self.pkg_dir = Path(__file__).resolve().parent
         self.template_dir = self.pkg_dir / "task-template"
@@ -109,17 +108,122 @@ class SecbenchProAdapter:
 
     # ------------------------------------------------------------------ data
     def _load_instances(self) -> list[dict]:
-        data = yaml.safe_load(
-            (self.pkg_dir / "task-manifest" / "instances.yaml").read_text(
-                encoding="utf-8"
+        if self.projects_dir is None:
+            raise ValueError(
+                "--projects-dir is required: point it at the SEC-bench-Pro "
+                f"checkout at commit {UPSTREAM_COMMIT}"
             )
-        )
-        if not isinstance(data, dict):
-            raise ValueError("bundled registry is not a YAML mapping")
-        instances = data.get("instances") or []
+        projects_root = self.projects_dir / "projects"
+        if not projects_root.is_dir():
+            raise ValueError(
+                f"--projects-dir does not contain projects/: {self.projects_dir}"
+            )
+        self._verify_upstream_commit()
+        instances: list[dict] = []
+        for project in PROJECT_ORDER:
+            project_dir = projects_root / project
+            if not project_dir.is_dir():
+                raise ValueError(
+                    f"upstream project directory is missing: {project_dir}"
+                )
+            for instance_dir in sorted(project_dir.iterdir()):
+                meta_path = instance_dir / "meta.json"
+                if not meta_path.is_file():
+                    continue
+                try:
+                    meta = json.loads(meta_path.read_text(encoding="utf-8"))
+                except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+                    raise ValueError(
+                        f"cannot read upstream metadata: {meta_path}"
+                    ) from exc
+                instances.append(
+                    self._normalize_instance(project, instance_dir.name, meta)
+                )
         if not instances:
-            raise ValueError("no instances found in bundled registry")
+            raise ValueError("no upstream instances found")
+        keys = [(inst["project"], inst["id"]) for inst in instances]
+        if len(keys) != len(set(keys)):
+            raise ValueError("duplicate upstream instance ids")
         return instances
+
+    def _verify_upstream_commit(self) -> None:
+        try:
+            result = subprocess.run(
+                ["git", "-C", str(self.projects_dir), "rev-parse", "HEAD"],
+                capture_output=True,
+                text=True,
+                timeout=30,
+                check=False,
+            )
+        except (OSError, subprocess.SubprocessError) as exc:
+            raise ValueError("cannot verify the SEC-bench-Pro checkout commit") from exc
+        head = result.stdout.strip()
+        if result.returncode != 0 or not head:
+            raise ValueError(
+                f"{self.projects_dir} is not a git checkout; "
+                f"check out SEC-bench Pro at {UPSTREAM_COMMIT}"
+            )
+        if head != UPSTREAM_COMMIT:
+            raise ValueError(
+                f"SEC-bench-Pro checkout is at {head}, expected "
+                f"{UPSTREAM_COMMIT}; check out the pinned commit"
+            )
+
+    @staticmethod
+    def _required_meta_str(meta: dict, key: str, label: str) -> str:
+        value = meta.get(key)
+        if not isinstance(value, str) or not value.strip():
+            raise ValueError(f"{label}: meta.json field {key} is missing or empty")
+        return value
+
+    def _normalize_instance(self, project: str, dir_name: str, meta: dict) -> dict:
+        if not isinstance(meta, dict):
+            raise ValueError(f"{project}/{dir_name}: meta.json must be an object")
+        label = f"{project}/{dir_name}"
+        source_files = meta.get("target_source_files")
+        if isinstance(source_files, list):
+            target_path = ", ".join(str(item) for item in source_files)
+        elif isinstance(source_files, str):
+            target_path = source_files
+        else:
+            raise ValueError(f"{label}: target_source_files is missing")
+        target_subdir = meta.get("target_subdir") or []
+        if not isinstance(target_subdir, list):
+            raise ValueError(f"{label}: target_subdir must be a list")
+        instance = {
+            "id": str(meta.get("cve_id") or dir_name),
+            "project": project,
+            "image": self._required_meta_str(meta, "image_name", label),
+            "work_dir": self._required_meta_str(meta, "work_dir", label),
+            "verification_binary": self._required_meta_str(
+                meta, "verification_binary", label
+            ),
+            "command_options": meta.get("command_options") or "",
+            "error_type": self._required_meta_str(meta, "error_type", label),
+            "vuln_type": self._required_meta_str(
+                meta, "target_vulnerability_type", label
+            ),
+            "target_path": target_path,
+            "target_subdir": [str(item) for item in target_subdir],
+            "target_function": meta.get("target_function") or "",
+            "description": meta.get("description") or "",
+            "privilege": meta.get("privilege") or "user",
+        }
+        qemu = meta.get("qemu") or {}
+        if not isinstance(qemu, dict):
+            raise ValueError(f"{label}: qemu must be an object")
+        instance["qemu_requires_kvm"] = bool(qemu.get("requires_kvm", False))
+        if project == "linux":
+            for meta_key, field in (
+                ("timeout_repro_sec", "qemu_timeout_repro_sec"),
+                ("memory_mb", "qemu_memory_mb"),
+                ("smp", "qemu_smp"),
+                ("timeout_boot_sec", "qemu_timeout_boot_sec"),
+            ):
+                value = qemu.get(meta_key)
+                if value is not None:
+                    instance[field] = value
+        return instance
 
     def _load_image_mapping(self) -> dict[str, dict[str, str]] | None:
         if self.image_mapping_path is None:
@@ -192,14 +296,7 @@ class SecbenchProAdapter:
 
     # ------------------------------------------------------------- rendering
     def _image_tag(self, repo: str, instance_id: str) -> str:
-        tag = f"{repo}:{instance_id}"
-        if self.image_registry:
-            parts = tag.split("/", 1)
-            if len(parts) == 2:
-                tag = f"{self.image_registry}/{parts[1]}"
-            else:
-                tag = f"{self.image_registry}/{tag}"
-        return tag
+        return f"{repo}:{instance_id}"
 
     def _resolve_images(self, inst: dict) -> dict[str, str]:
         project = inst["project"]
@@ -217,16 +314,7 @@ class SecbenchProAdapter:
             if project == "linux":
                 latest_image = self._image_tag(repos["latest_repo"], instance_id)
             else:
-                latest = repos["latest_image"]
-                if self.image_registry:
-                    parts = latest.split("/", 1)
-                    latest_image = (
-                        f"{self.image_registry}/{parts[1]}"
-                        if len(parts) == 2
-                        else latest
-                    )
-                else:
-                    latest_image = latest
+                latest_image = repos["latest_image"]
         return {
             "vuln_image": vuln_image,
             "fixed_image": fixed_image,

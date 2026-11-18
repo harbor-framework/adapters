@@ -37,7 +37,7 @@ agents:
     override_timeout_sec: 900
   # Sandbox-equivalent Claude Code agent (official Bash sandbox policy).
   # Requires the adapter package to be importable in the Harbor environment:
-  #   uv pip install -e src/secbenchpro
+  #   uv pip install -e adapters/secbenchpro
   # - import_path: secbenchpro.agent:SecbenchProClaudeCode
   #   model_name: us.anthropic.claude-opus-4-6-v1
 

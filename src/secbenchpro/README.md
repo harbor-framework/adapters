@@ -11,7 +11,7 @@ This adapter converts [SEC-bench Pro](https://github.com/SEC-bench/SEC-bench-Pro
 | Linux kernel | 137 | Kernel CVEs (KASAN reports, QEMU-booted VMs) |
 | **Total** | **344** | |
 
-The adapter renders every task from the bundled snapshot of the upstream `meta.json` files (commit `a6cedddd`); the 344 count is the complete upstream snapshot and no task is excluded. Licensing is MIT, matching upstream. The main adaptation is the scoring path: instead of the upstream Python grading harness, each task carries a self-contained shell verifier that runs the PoC against the three images and invokes an LLM judge. The judge prompt and verdict schema follow the pinned upstream `judge.py` and Jinja prompts; retries and response parsing live in a shared client.
+The adapter renders every task from a SEC-bench Pro checkout pinned at commit `a6cedddd`; the 344 count is the complete upstream snapshot and no task is excluded. Licensing is MIT, matching upstream. The main adaptation is the scoring path: instead of the upstream Python grading harness, each task carries a self-contained shell verifier that runs the PoC against the three images and invokes an LLM judge. The judge prompt and verdict schema follow the pinned upstream `judge.py` and Jinja prompts; retries and response parsing live in a shared client.
 
 ## What is SEC-bench Pro?
 
@@ -24,11 +24,11 @@ SEC-bench Pro ([UIUC](https://github.com/SEC-bench/SEC-bench-Pro)) evaluates AI 
 
 ## Adapter Features
 
-- Renders all 344 canonical tasks from a bundled snapshot of the upstream `meta.json` files
+- Renders all 344 canonical tasks from the pinned upstream `meta.json` files
 - Generates per-task `task.toml`, `instruction.md`, `environment/docker-compose.yaml`, `environment/Dockerfile`, `tests/test.sh`, and shared judge infrastructure
 - Three-image verification: the vulnerable image must crash; the fixed and latest images are supporting evidence for target attribution (a crash there does not by itself disqualify a target-aligned PoC)
 - LLM-as-a-judge with a 6-attempt retry policy, JSON extraction, and refusal handling
-- Oracle solutions copied from upstream when `--projects-dir` is provided
+- Oracle solutions copied from the same pinned checkout
 - V8 native intrinsic allowlist validation
 - A `SecbenchProClaudeCode` agent that applies the benchmark's Claude Code Bash sandbox policy (see [Agents](#agents))
 
@@ -48,7 +48,7 @@ datasets/secbenchpro/v8-324596281/
 │   ├── js_candidates.py        # PoC discovery (version-pinned)
 │   ├── js_execution.py         # Docker execution helper
 │   └── native_guard.py         # V8 intrinsic allowlist
-└── solution/                   # only with --projects-dir
+└── solution/                   # copied from the pinned checkout
     ├── solve.sh                # copies reference PoC to audit dir
     └── poc.js                  # official reference PoC
 ```
@@ -82,8 +82,6 @@ src/secbenchpro/
     │   └── tests/
     │       ├── test.sh         # V8 + SpiderMonkey verifier template
     │       └── test_linux.sh   # Linux verifier template
-    └── task-manifest/
-        └── instances.yaml      # 344 upstream task definitions
 ```
 
 Every generated file comes from `task-template/`. `task.toml`,
@@ -162,25 +160,21 @@ Trial outputs are saved in the `trials/` directory by default (configurable via 
 cd src/secbenchpro
 uv sync
 
-# With oracle solutions (requires upstream checkout)
+# All tasks; --projects-dir is required
 uv run python -m secbenchpro.main \
   --output-dir ../../datasets/secbenchpro \
   --projects-dir /path/to/SEC-bench-Pro
-
-# Without oracle solutions (agent evaluation only)
-uv run python -m secbenchpro.main \
-  --output-dir ../../datasets/secbenchpro
 ```
 
 Available flags:
 
 - `--output-dir` — directory to write generated tasks (default `datasets/secbenchpro`)
-- `--projects-dir` — pinned SEC-bench-Pro checkout; required for `solution/`
+- `--projects-dir` — **required** SEC-bench-Pro checkout at commit `a6cedddd`; tasks and oracle files are read from it
 - `--projects` — only `v8`, `sm`, `linux`
 - `--task-ids` — only these instance ids (e.g. `324596281 CVE-2022-0185`)
 - `--limit` — generate only the first N tasks after filtering
 - `--overwrite` — regenerate existing task directories (deletes and rewrites them)
-- `--image-registry` / `--image-mapping` — optional image overrides (see below)
+- `--image-mapping` — optional exact digest overrides (see below)
 
 ### Task images
 
@@ -191,18 +185,13 @@ repository, and the latest image is the shared `hwiwonlee/<project>.x86_64:lates
 tag for V8/SpiderMonkey or the per-CVE `hwiwonlee/linux.x86_64.latest:<id>`
 repository for Linux. No private registry or mirror is required.
 
-Two optional flags exist for users who cannot reach Docker Hub directly (they
-are mutually exclusive):
+Users who need immutable image references can pin exact digests, one entry
+per task id:
 
 ```bash
-# Rewrite image repos to a registry mirror
-uv run python -m secbenchpro.main --output-dir datasets/secbenchpro \
-  --image-registry mirror.example.com/secbenchpro
-
-# Or pin exact immutable digests, one entry per task id:
-#   {"324596281": {"vulnerable_image": "…@sha256:…",
-#                  "fixed_image": "…@sha256:…",
-#                  "latest_image": "…@sha256:…"}}
+# {"324596281": {"vulnerable_image": "…@sha256:…",
+#                "fixed_image": "…@sha256:…",
+#                "latest_image": "…@sha256:…"}}
 uv run python -m secbenchpro.main --output-dir datasets/secbenchpro \
   --image-mapping image_mapping.json
 ```
@@ -296,7 +285,7 @@ The published reference is snapshot **260617** (V8 103 + SpiderMonkey 104 + Linu
   uv sync
   ```
 - Judge credentials for `JUDGE_API_KEY`, `JUDGE_API_BASE`, `JUDGE_MODEL`
-- `--projects-dir` pointing at a checkout of `SEC-bench/SEC-bench-Pro` at commit `a6cedddd` when oracle solutions are wanted
+- `--projects-dir` pointing at a checkout of `SEC-bench/SEC-bench-Pro` at commit `a6cedddd` (required)
 - For the sandbox-equivalent agent: make the adapter package importable (`uv pip install -e src/secbenchpro`); its setup installs `bubblewrap` and `socat` when missing, which needs apt access in the image
 - For Linux tasks: a Docker host with `/dev/kvm` and permission to run privileged containers
 
@@ -304,9 +293,11 @@ The published reference is snapshot **260617** (V8 103 + SpiderMonkey 104 + Linu
 
 - **Linux tasks fail at boot** — check that `/dev/kvm` exists and is accessible; QEMU falls back to unusable emulation otherwise.
 - **`error: JUDGE_API_BASE / JUDGE_API_KEY / JUDGE_MODEL not set`** — the judge fails closed. Set all three and make sure they are exported where Harbor is launched, since they reach the verifier through `verifier.env`.
-- **Image pull failures** — verify Docker Hub access, or use `--image-registry` / `--image-mapping`.
+- **Image pull failures** — verify Docker Hub access, or use `--image-mapping`.
 - **Verifier fails with `docker: command not found` / cannot reach a daemon** — the verifier environment does not expose nested Docker. Use a DinD-capable provider or Docker host; the verifier deliberately exits non-zero instead of scoring 0.
-- **Tasks without `solution/`** — generation only copies oracle files when `--projects-dir` is given.
+- **`--projects-dir` is required** — generation reads `projects/<project>/*/meta.json` from the checkout; without it the adapter exits with a clear error.
+- **`SEC-bench-Pro checkout is at …, expected …`** — the checkout is not the pinned commit. Check out `a6cedddd`.
+- **Task has no `solution/`** — the upstream instance is missing its reference PoC (`poc.js` or `poc/`).
 - **Flaky oracle results** — expected for some targets; see Notes & Caveats.
 
 ## Citation
