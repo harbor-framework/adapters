@@ -76,6 +76,12 @@ def main() -> None:
         default=None,
         help="Only generate these task IDs",
     )
+    ap.add_argument(
+        "--include-known-failing",
+        action="store_true",
+        help="Include known Oracle-failing tasks when generating all instances "
+        "(excluded by default). Explicit --instance-id/--task-ids are unaffected.",
+    )
 
     args = ap.parse_args()
 
@@ -92,6 +98,7 @@ def main() -> None:
         all_tasks=args.all,
         max_timeout_sec=args.timeout,
         template_dir=args.template_dir,
+        include_known_failing=args.include_known_failing,
     )
 
     conv.run()
