@@ -6,7 +6,9 @@ question text, retried by ``generate_lib/utils.py:generate_response_remote_wrapp
 and stores the reply as the response that ``src/evaluate.py`` grades. This agent
 reproduces that call inside Harbor, so the parity experiment runs the same
 generation on both sides and only the harness (task packaging and the verifier)
-differs. Upstream runs unmodified on the original side.
+differs. The original side runs upstream with three changes forced by hard-coded
+values (judge model, ``nq_per_query=1`` for descriptive grading, OpenAI base URL);
+see the README.
 
 Matched behaviour (upstream file in parentheses):
 
