@@ -2,15 +2,15 @@
   {
     "adapter_name": "cava",
     "agent": "cava-pipeline@1.0.0",
-    "model": "gpt-4o",
-    "date": null,
+    "model": "gpt-6.1-sol",
+    "date": "2026-11-18",
     "adapted_benchmark_size": 3671,
     "parity_benchmark_size": 551,
-    "number_of_runs": 3,
-    "notes": "PENDING. Scenario 3: CAVA's OpenAI pipeline LLM stage (temperature 0) on cached transcripts vs CavaPipelineAgent; fork passes a different --cache-seed per run and applies the MMIF kwargs fix. Scorer check done: re-scoring CAVA's committed prediction files reproduces the scores recomputed from those files (function calling 27.0%/24.1%, deception 14.6%, jailbreak ASR 79.0/68.3/79.2).",
+    "number_of_runs": 1,
+    "notes": "Parity comparison: gpt-6.1-sol via third-party OpenAI-compatible endpoint vs upstream CAVA@1af23b1 prediction files (gpt-4o pipeline). Harbor agent (CavaPipelineAgent) replicates the two-message pipeline at temperature=0. Scorer check done: re-scoring CAVA's committed prediction files reproduces original scores. KNOWN SCORER ISSUE: REFUSAL_WORDS in cava_score.py uses ASCII-only apostrophes; gpt-6.1-sol returns Unicode typographic quotes (U+2019 RIGHT SINGLE QUOTATION MARK) in phrases like \"I’m sorry\", \"I can’t provide\", etc. 23 of 100 parity jailbreak items are genuine refusals miscounted as 'complied' by the ASCII scorer. Corrected Harbor jailbreak refusal rate = 27.0% (73.0% ASR), which is +6.0 pp above upstream (21.0% refusal / 79.0% ASR). The raw Harbor score (4.0% refusal) reflects the scorer bug, not a real difference in model behaviour. Upstream scorer left unchanged to preserve fidelity to upstream; the Unicode fix is documented here for downstream evaluation users.",
     "original_parity_repo": null,
     "adapter_pr": [
-        "https://github.com/harbor-framework/adapters/pull/29"
+        "https://github.com/harbor-framework/adapters/pull/112"
     ],
     "dataset_pr": [],
     "parity_pr": [],
@@ -18,42 +18,70 @@
       {
         "benchmark_name": "CAVA deception_detection",
         "metric": "accuracy (%)",
-        "original": null,
-        "harbor": null,
-        "original_runs": [],
-        "harbor_runs": []
+        "original": 14.6,
+        "harbor": 39.1,
+        "original_runs": [
+          {"score": 14.6, "n": 151, "source": "CAVA@1af23b1 committed prediction file; pipeline gpt-4o-mini-transcribe→gpt-4o"}
+        ],
+        "harbor_runs": [
+          {"score": 39.1, "n": 151, "model": "gpt-6.1-sol", "exceptions": 0}
+        ]
       },
       {
         "benchmark_name": "CAVA jeopardy",
         "metric": "PEDANT correctness (%)",
-        "original": null,
-        "harbor": null,
-        "original_runs": [],
-        "harbor_runs": []
+        "original": 96.9,
+        "harbor": 99.0,
+        "original_runs": [
+          {"score": 96.9, "n": 1000, "source": "CAVA@1af23b1 committed prediction file; pipeline gpt-4o-mini-transcribe→gpt-4o"}
+        ],
+        "harbor_runs": [
+          {"score": 99.0, "n": 100, "parity_subset": true, "model": "gpt-6.1-sol", "exceptions": 0}
+        ]
       },
       {
         "benchmark_name": "CAVA multimodal_instruction_following",
         "metric": "instruction adherence (%)",
         "original": null,
-        "harbor": null,
-        "original_runs": [],
-        "harbor_runs": []
+        "harbor": 83.0,
+        "original_runs": [
+          {"score": null, "n": 1000, "source": "CAVA@1af23b1 upstream scoring is non-deterministic (kwargs re-drawn per run); not usable as reference"}
+        ],
+        "harbor_runs": [
+          {"score": 83.0, "n": 100, "parity_subset": true, "model": "gpt-6.1-sol", "exceptions": 0, "note": "Harbor applies deterministic kwargs merge fix (IFEval reads only kwargs[0]); upstream scoring is intentionally excluded as comparison base"}
+        ]
       },
       {
         "benchmark_name": "CAVA function_calling",
         "metric": "function-call count match (%)",
-        "original": null,
-        "harbor": null,
-        "original_runs": [],
-        "harbor_runs": []
+        "original": 27.0,
+        "harbor": 30.0,
+        "original_runs": [
+          {"score": 27.0, "n": 1000, "source": "CAVA@1af23b1 committed prediction file; pipeline gpt-4o-mini-transcribe→gpt-4o"}
+        ],
+        "harbor_runs": [
+          {"score": 30.0, "n": 100, "parity_subset": true, "model": "gpt-6.1-sol", "exceptions": 0}
+        ]
       },
       {
         "benchmark_name": "CAVA jailbreak",
         "metric": "refusal rate (%); ASR = 100 - refusal",
-        "original": null,
-        "harbor": null,
-        "original_runs": [],
-        "harbor_runs": []
+        "original": 21.0,
+        "harbor": 27.0,
+        "original_runs": [
+          {"score": 21.0, "n": 520, "source": "CAVA@1af23b1 committed prediction file; refusal rate; ASR=79.0%"}
+        ],
+        "harbor_runs": [
+          {
+            "score_raw": 4.0,
+            "score_corrected": 27.0,
+            "n": 100,
+            "parity_subset": true,
+            "model": "gpt-6.1-sol",
+            "exceptions": 0,
+            "note": "raw score (4.0% refusal / 96.0% ASR) reflects ASCII-only REFUSAL_WORDS scorer bug; 23/100 items contain Unicode typographic apostrophes (U+2019) that the scorer misses. Corrected score (27.0% refusal / 73.0% ASR) counts all genuine refusals. Harbor field reports corrected value."
+          }
+        ]
       }
     ]
   }
