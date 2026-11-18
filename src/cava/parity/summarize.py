@@ -6,9 +6,9 @@ separately (jailbreak as ASR = 100 - refusal rate). This groups trials by subtas
 checks the denominators against the expected task ids, and prints each job's score and,
 over several jobs (runs), mean +- SEM.
 
-A trial without a reward is an infrastructure failure, not a benchmark score. By
-default such trials stop the summary (fill the slot, e.g. with `harbor job resume`);
-with --allow-missing they are left out of that run's denominator and reported.
+A trial with a recorded exception or without a reward is incomplete. By default
+such trials stop the summary. With --allow-missing the script reports partial
+per-run coverage and omits the aggregate for any affected subtask.
 
 Usage: python parity/summarize.py [--split full|parity] [--subtasks a,b] [--allow-missing]
        JOB_DIR [JOB_DIR ...]
@@ -53,7 +53,12 @@ def load_job(job_dir: Path) -> dict[str, dict[str, float | None]]:
         reward = rewards.get("reward")
         if task_id in out[subtask]:
             raise ValueError(f"{job_dir}: {task_id} appears twice")
-        out[subtask][task_id] = None if reward is None else float(reward)
+        if data.get("exception_info") is not None or reward is None:
+            out[subtask][task_id] = None
+            continue
+        if type(reward) not in (int, float) or not 0 <= reward <= 1:
+            raise ValueError(f"{result}: expected a numeric reward in [0, 1]")
+        out[subtask][task_id] = float(reward)
     return out
 
 
@@ -69,7 +74,7 @@ def main() -> None:
     ap.add_argument("--subtasks", default=",".join(SUBTASKS),
                     help="comma-separated subtasks every job must contain (default: all five)")
     ap.add_argument("--allow-missing", action="store_true",
-                    help="exclude trials without a reward instead of stopping")
+                    help="show incomplete coverage for diagnostics instead of stopping")
     ap.add_argument("jobs", nargs="+", type=Path)
     args = ap.parse_args()
 
@@ -82,29 +87,34 @@ def main() -> None:
         if not job_dir.is_dir():
             raise ValueError(f"{job_dir}: not a directory")
     jobs = [load_job(j) for j in args.jobs]
-    for job_dir, job in zip(args.jobs, jobs):
-        absent = [name for name in ap_subtasks if not job[name]]
-        if absent:
-            raise ValueError(f"{job_dir}: no trials for {absent} (use --subtasks to select)")
     for name in ap_subtasks:
         expected_n = len(parity_ids[name]) if args.split == "parity" else FULL_COUNTS[name]
         expected_ids = ({task_id_for(name, i) for i in parity_ids[name]}
                         if args.split == "parity" else None)
         per_run = []
+        incomplete = False
         for job_dir, rewards in zip(args.jobs, (job[name] for job in jobs)):
-            if len(rewards) != expected_n or (expected_ids and set(rewards) != expected_ids):
-                raise ValueError(f"{job_dir}: {name} has {len(rewards)} trials, "
-                                 f"expected {expected_n} ({args.split} split)")
-            missing = sorted(t for t, r in rewards.items() if r is None)
-            if missing and not args.allow_missing:
-                raise ValueError(f"{job_dir}: {len(missing)} {name} trials have no reward "
-                                 f"(e.g. {missing[:3]}); resume the job or pass --allow-missing")
-            if len(missing) == len(rewards):
-                raise ValueError(f"{job_dir}: no {name} trial has a reward")
+            if len(rewards) > expected_n or (
+                expected_ids is not None and set(rewards) - expected_ids
+            ):
+                raise ValueError(f"{job_dir}: unexpected {name} trials for {args.split} split")
+            scored_n = sum(reward is not None for reward in rewards.values())
+            if scored_n != expected_n:
+                coverage = f"{scored_n}/{expected_n} scored"
+                if not args.allow_missing:
+                    raise ValueError(
+                        f"{job_dir}: {name} is incomplete ({coverage}); "
+                        "resume the job or pass --allow-missing"
+                    )
+                incomplete = True
+                print(f"{name:34s} {job_dir.name}: incomplete ({coverage})")
+                continue
             per_run.append(score(name, rewards))
             print(f"{name:34s} {job_dir.name}: {per_run[-1]:6.2f}%  "
-                  f"(scored {len(rewards) - len(missing)}/{len(rewards)}, "
-                  f"infrastructure failures: {len(missing)})")
+                  f"(scored {len(rewards)}/{len(rewards)})")
+        if incomplete:
+            print(f"{name:34s} aggregate omitted: at least one run is incomplete\n")
+            continue
         label = "ASR" if name == "jailbreak" else SUBTASKS[name].metric
         m = sum(per_run) / len(per_run)
         sem = (math.sqrt(sum((x - m) ** 2 for x in per_run) / (len(per_run) - 1) / len(per_run))

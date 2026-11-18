@@ -46,9 +46,11 @@ class CavaPipelineAgent(BaseAgent):
 
     async def _write(self, environment: BaseEnvironment, path: str, text: str) -> None:
         encoded = base64.b64encode(text.encode("utf-8")).decode("ascii")
-        await environment.exec(
+        result = await environment.exec(
             command=f"printf %s {shlex.quote(encoded)} | base64 -d > {path}"
         )
+        if result.return_code != 0:
+            raise RuntimeError(f"cannot write {path}: {result.stderr}")
 
     async def run(self, instruction: str, environment: BaseEnvironment,
                   context: AgentContext) -> None:
@@ -113,14 +115,14 @@ class CavaPipelineAgent(BaseAgent):
                     llm_response = final_response
                 break
             except Exception as exc:
-                # upstream restarts from the initial request after a backoff and, after
-                # the last attempt, returns labels[0] or "" (no shipped subtask has labels)
+                # Preserve the upstream retry schedule, but do not submit an answer
+                # after an exhausted API request.
+                if attempt == MAX_RETRIES - 1:
+                    raise RuntimeError("CAVA pipeline exhausted its LLM attempts") from exc
                 self.logger.warning("pipeline LLM call failed (%s/%s): %s",
                                     attempt + 1, MAX_RETRIES, exc)
-                llm_response, all_function_calls = "", []
-                if attempt < MAX_RETRIES - 1:
-                    await asyncio.sleep(sleep_time)
-                    sleep_time *= 2
+                await asyncio.sleep(sleep_time)
+                sleep_time *= 2
 
         # inference.py process_sample: >= 10 calls blanks the text response
         if tools and len(all_function_calls) >= 10:
