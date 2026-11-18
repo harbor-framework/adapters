@@ -68,7 +68,9 @@ def score_record(subtask: str, record: dict[str, Any], response: str | None,
         correct = 0
         if predicted:
             expected_values = expected if isinstance(expected, list) else [expected]
-            expected_values = [v.lower() for v in expected_values]
+            # Upstream guards against None entries in the expected list; filter them
+            # before lowercasing so a None werewolf value does not raise AttributeError.
+            expected_values = [v.lower() for v in expected_values if v is not None]
             if predicted.strip(".").lower() in expected_values:
                 correct = 1
             if predicted.strip(".").lower() == "none" and expected == []:
