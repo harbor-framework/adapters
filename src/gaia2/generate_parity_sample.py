@@ -15,10 +15,18 @@ from pathlib import Path
 
 from datasets import load_dataset
 
-if __package__ in (None, ""):
-    from adapter import Gaia2Adapter
-else:
-    from .adapter import Gaia2Adapter
+try:
+    from gaia2.adapter import Gaia2Adapter
+except ModuleNotFoundError as _e:
+    # Only fall back when the gaia2 package itself isn't on sys.path (i.e.
+    # caller skipped `uv sync`).  Re-raise for other missing modules such as
+    # `datasets` so users see the real problem.
+    if _e.name not in {"gaia2", "gaia2.adapter"}:
+        raise
+    import sys as _sys
+
+    _sys.path.insert(0, str(Path(__file__).resolve().parent / "src"))
+    from gaia2.adapter import Gaia2Adapter
 
 
 SCRIPT_DIR = Path(__file__).resolve().parent
