@@ -157,7 +157,7 @@ All 500 trials finished without exceptions, and in every trial Codex opened the 
 The full validation split was run with the oracle agent on Harbor 0.23.0 (Docker, local orchestrator, separate verifier): **5,000 / 5,000 tasks scored 1.0**, with no errors. The oracle answer is the ground truth, so it is graded by the exact-match short-circuit and does not call the LLM judge. The judge path was checked separately in Harbor with `CHARXIV_EXACT_MATCH_SHORTCUT=0` and the default judge: oracle answers for three tasks (two reasoning, one descriptive) were scored 1 by the judge, and a deliberately wrong answer was scored 0.
 
 
-Links: original benchmark https://github.com/princeton-nlp/CharXiv · parity fork https://github.com/lijrjyan/CharXiv/tree/93e54a2583dedc74fc51687b979c55072343c669 · adapter PR https://github.com/harbor-framework/adapters/pull/85 · dataset PR https://github.com/harbor-framework/harbor-datasets/pull/284 · parity upload https://huggingface.co/datasets/harborframework/parity-experiments/discussions/286.
+Links: original benchmark https://github.com/princeton-nlp/CharXiv · parity fork https://github.com/lijrjyan/CharXiv/tree/93e54a2583dedc74fc51687b979c55072343c669 · adapter PR https://github.com/harbor-framework/adapters/pull/85 · dataset PR https://github.com/harbor-framework/harbor-datasets/pull/284 · parity upload https://huggingface.co/datasets/harborframework/parity-experiments/discussions/286. The shared parity repository is over the Hub file limit and refuses uploads for now, so the raw results are pinned at https://huggingface.co/datasets/jrjyan/charxiv-parity-experiments/tree/ada4d8eb995fff518f2be2ed7763cbe5f78ba1d6/adapters/charxiv until they can be pushed to discussion #286.
 
 ## Notes & Caveats
 
