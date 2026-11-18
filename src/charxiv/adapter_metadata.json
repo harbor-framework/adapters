@@ -42,8 +42,8 @@
         "parity_unmatching_agents": [
           "None"
         ],
-        "parity_costs": "$15",
-        "notes": "Parity subset: 100 charts x 5 questions = 500 tasks (10%), sampled with seed 42 (--split parity). Parity uses the charxiv-direct agent (matched single-call generation, see README); parity_costs is an estimate from token counts of the logged requests at list prices (gpt-4o-mini generation about $5 and gpt-4o judge about $2.4 per side for 3 runs, both sides). The verifier runs in a separate container (environment_mode = separate)."
+        "parity_costs": "$21",
+        "notes": "Parity subset: 100 charts x 5 questions = 500 tasks (10%), sampled with seed 42 (--split parity). Parity uses the charxiv-direct agent (matched single-call generation, see README); parity_costs is an estimate from token counts of the logged requests at list prices: about $15 for parity (gpt-4o-mini generation about $5 and gpt-4o judge about $2.4 per side for 3 runs, both sides) plus about $6 for the Codex run. The verifier runs in a separate container (environment_mode = separate)."
       }
     ]
   }

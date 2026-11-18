@@ -21,6 +21,13 @@ agents:
 #   - name: claude-code
 #     model_name: anthropic/claude-haiku-4-5-20251001
 #
+# CLI-agent run reported in the README (500-task parity subset):
+# agents:
+#   - name: codex
+#     model_name: openai/gpt-4o-mini-2024-07-18
+#     kwargs:
+#       version: "0.169.1"
+#
 # Optional: closer to upstream's no-tools, no-internet setting (see README,
 # "Web lookup"). Allow only the model API host during the agent phase and turn
 # off hosted web tools (Claude Code's WebSearch runs on Anthropic's side):
