@@ -100,6 +100,11 @@ GT fixtures contain expected-answer excerpts with scoring
 directions removed; `--gt-answers /private/answers.json` accepts a reviewed mapping
 of all 90 source IDs to plain answers. GT acceptance tests verifier plumbing,
 not independent biological analysis. Keep these answer-bearing outputs private.
+The preparation evidence directory is created with owner-only access. On
+`--resume`, preparation rejects an existing evidence directory accessible to
+other users. It replaces evidence files atomically so a stale symlink or hard
+link at an output path cannot redirect an answer-key write. The shared input
+directory and generated output directories must be disjoint.
 
 The image recipe follows the author's published tool inventory with Python 3.11,
 R 4.3 and conda. Its packages have not been resolved or built. Before collecting

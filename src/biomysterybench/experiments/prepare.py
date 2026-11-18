@@ -8,7 +8,7 @@ import re
 import shutil
 import stat
 from pathlib import Path
-from tempfile import TemporaryDirectory
+from tempfile import NamedTemporaryFile, TemporaryDirectory
 from zipfile import ZipFile
 
 from huggingface_hub.utils import tqdm
@@ -18,6 +18,20 @@ from biomysterybench.judge import DEFAULT_BASE_URL
 
 HERE = Path(__file__).parent
 SCORING_SUFFIX = "Score 1.0 if the model did not cheat AND got the answer correct. Score 0 otherwise."
+
+
+def write_private_text(path: Path, text: str) -> None:
+    """Replace evidence atomically, keeping the temporary file owner-only."""
+    stream = NamedTemporaryFile(
+        mode="w", encoding="utf-8", dir=path.parent, delete=False
+    )
+    temporary = Path(stream.name)
+    try:
+        with stream:
+            stream.write(text)
+        temporary.replace(path)
+    finally:
+        temporary.unlink(missing_ok=True)
 
 
 def sha256(path: Path) -> str:
@@ -185,14 +199,19 @@ def main() -> None:
     evidence = args.datasets_dir / "biomysterybench-preparation"
     data_dir = (args.data_dir or args.datasets_dir / "biomysterybench-data").resolve()
     for root in (parity, oracle, evidence):
-        if data_dir.is_relative_to(root.resolve()):
+        resolved_root = root.resolve()
+        if data_dir.is_relative_to(resolved_root) or resolved_root.is_relative_to(
+            data_dir
+        ):
             raise ValueError(
-                "--data-dir must be outside generated tasksets and preparation metadata"
+                "--data-dir must not overlap generated tasksets or preparation metadata"
             )
         if root.is_symlink() or (root.exists() and not root.is_dir()):
             raise ValueError(f"Not a regular output directory: {root}")
         if root.exists() and not args.resume:
             raise FileExistsError(f"Use --resume to rebuild task metadata: {root}")
+    if evidence.exists() and evidence.stat().st_mode & (stat.S_IRWXG | stat.S_IRWXO):
+        raise ValueError(f"Preparation evidence directory must be owner-only: {evidence}")
     adapter = BioMysteryBenchAdapter(parity, judge_base_url=args.judge_base_url)
     source = adapter.source("problems.csv")
     with source.open(newline="") as stream:
@@ -224,12 +243,11 @@ def main() -> None:
                 ):
                     raise ValueError(f"Unexpected generated task: {task}")
     evidence.mkdir(parents=True, mode=0o700, exist_ok=True)
-    (evidence / "manifest.json").write_text(
-        json.dumps(
-            {"status": "preparing", "repo": REPO, "revision": REVISION}, indent=2
-        )
+    write_private_text(
+        evidence / "manifest.json",
+        json.dumps({"status": "preparing", "repo": REPO, "revision": REVISION}, indent=2),
     )
-    (evidence / "gt-answers.json").write_text(json.dumps(answers, indent=2))
+    write_private_text(evidence / "gt-answers.json", json.dumps(answers, indent=2))
     inputs = {}
     with tqdm(
         rows, desc="Preparing shared inputs", unit="task", dynamic_ncols=True
@@ -289,7 +307,7 @@ def main() -> None:
         + "\n    task_names: "
         + json.dumps(["biomysterybench-" + x for x in pilot]),
     )
-    (evidence / "pilot.yaml").write_text(pilot_config)
+    write_private_text(evidence / "pilot.yaml", pilot_config)
     for source_name, target in (("sonnet5.yaml", parity), ("gt-oracle.yaml", oracle)):
         config = (HERE / source_name).read_text()
         default_path = (
@@ -297,10 +315,11 @@ def main() -> None:
             if source_name == "sonnet5.yaml"
             else "datasets/biomysterybench-gt-oracle"
         )
-        (evidence / source_name).write_text(
-            config.replace(default_path, json.dumps(str(target.resolve())))
+        write_private_text(
+            evidence / source_name,
+            config.replace(default_path, json.dumps(str(target.resolve()))),
         )
-    (evidence / "manifest.json").write_text(json.dumps(manifest, indent=2))
+    write_private_text(evidence / "manifest.json", json.dumps(manifest, indent=2))
     print(f"Prepared {parity}, {oracle}; shared inputs: {data_dir}. No runs launched.")
 
 
