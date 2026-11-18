@@ -13,10 +13,10 @@
       "https://github.com/harbor-framework/adapters/pull/85"
     ],
     "dataset_pr": [
-      "https://github.com/laude-institute/harbor-datasets/pulls"
+      "https://github.com/harbor-framework/harbor-datasets/pull/284"
     ],
     "parity_pr": [
-      "https://huggingface.co/datasets/harborframework/parity-experiments/discussions"
+      "https://huggingface.co/datasets/harborframework/parity-experiments/discussions/286"
     ],
     "metrics": [
       {
