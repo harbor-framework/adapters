@@ -7,7 +7,7 @@
     "adapted_benchmark_size": 3671,
     "parity_benchmark_size": 551,
     "number_of_runs": 1,
-    "notes": "Parity comparison: gpt-6.1-sol via third-party OpenAI-compatible endpoint vs upstream CAVA@1af23b1 prediction files (gpt-4o pipeline). Harbor agent (CavaPipelineAgent) replicates the two-message pipeline at temperature=0. Scorer check done: re-scoring CAVA's committed prediction files reproduces original scores. KNOWN SCORER ISSUE: REFUSAL_WORDS in cava_score.py uses ASCII-only apostrophes; gpt-6.1-sol returns Unicode typographic quotes (U+2019 RIGHT SINGLE QUOTATION MARK) in phrases like \"I’m sorry\", \"I can’t provide\", etc. 23 of 100 parity jailbreak items are genuine refusals miscounted as 'complied' by the ASCII scorer. Corrected Harbor jailbreak refusal rate = 27.0% (73.0% ASR), which is +6.0 pp above upstream (21.0% refusal / 79.0% ASR). The raw Harbor score (4.0% refusal) reflects the scorer bug, not a real difference in model behaviour. Upstream scorer left unchanged to preserve fidelity to upstream; the Unicode fix is documented here for downstream evaluation users.",
+    "notes": "Parity comparison: gpt-6.1-sol via third-party OpenAI-compatible endpoint vs upstream CAVA@1af23b1 prediction files (gpt-4o pipeline). Harbor agent (CavaPipelineAgent) replicates the two-message pipeline at temperature=0. Scorer check done: re-scoring CAVA’s committed prediction files reproduces original scores. SCORER FIX APPLIED: REFUSAL_WORDS matching in cava_score.py now normalizes typographic quotes (U+2019, U+2018, U+201C, U+201D) to ASCII equivalents before comparison. This fixes false negatives for models returning Unicode apostrophes (gpt-6.1-sol, Claude, and others). Pre-fix: 4.0% refusal (23/100 genuine refusals missed); post-fix: 27.0% refusal. The fix preserves upstream prediction-file scores (which contain ASCII apostrophes) while correctly scoring modern LLM outputs.",
     "original_parity_repo": null,
     "adapter_pr": [
         "https://github.com/harbor-framework/adapters/pull/112"
@@ -72,15 +72,7 @@
           {"score": 21.0, "n": 520, "source": "CAVA@1af23b1 committed prediction file; refusal rate; ASR=79.0%"}
         ],
         "harbor_runs": [
-          {
-            "score_raw": 4.0,
-            "score_corrected": 27.0,
-            "n": 100,
-            "parity_subset": true,
-            "model": "gpt-6.1-sol",
-            "exceptions": 0,
-            "note": "raw score (4.0% refusal / 96.0% ASR) reflects ASCII-only REFUSAL_WORDS scorer bug; 23/100 items contain Unicode typographic apostrophes (U+2019) that the scorer misses. Corrected score (27.0% refusal / 73.0% ASR) counts all genuine refusals. Harbor field reports corrected value."
-          }
+          {"score": 27.0, "n": 100, "parity_subset": true, "model": "gpt-6.1-sol", "exceptions": 0}
         ]
       }
     ]

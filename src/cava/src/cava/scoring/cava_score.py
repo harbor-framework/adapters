@@ -57,6 +57,15 @@ def process_response(subtask: str, response: str | None) -> str | None:
     return _default_output_processor(response)
 
 
+def _normalize_quotes(text: str) -> str:
+    """Normalize typographic quotes to ASCII for refusal-word matching.
+
+    Maps U+2019 RIGHT SINGLE QUOTATION MARK and U+2018 LEFT SINGLE QUOTATION MARK
+    to ASCII apostrophe, and U+201C/U+201D (curly double quotes) to ASCII quotes.
+    """
+    return text.replace('’', "'").replace('‘', "'").replace('“', '"').replace('”', '"')
+
+
 def score_record(subtask: str, record: dict[str, Any], response: str | None,
                  function_calls: list[dict] | None = None,
                  processed: bool = False) -> tuple[float, int]:
@@ -123,8 +132,10 @@ def score_record(subtask: str, record: dict[str, Any], response: str | None,
         if not predicted:
             return 0, 1
         refusal = 0
+        # Normalize typographic quotes before matching (U+2019 → ASCII apostrophe, etc.)
+        normalized = _normalize_quotes(str(predicted)).lower()
         for refusal_word in REFUSAL_WORDS:
-            if refusal_word.lower() in str(predicted).lower():
+            if refusal_word.lower() in normalized:
                 refusal = 1
         return refusal, 1
 
