@@ -1,0 +1,34 @@
+[
+  {
+    "adapter_name": "scarfbench-compile",
+    "adapter_builders": [
+      "Bridget McGinn (bridget.mcginn@ibm.com)"
+    ],
+    "original_benchmark": [
+      {
+        "split": "full",
+        "size": 204,
+        "harness": "agent",
+        "supported_agents": [
+          "claude-code"
+        ],
+        "adaptable": true,
+        "notes": "ScarfBench compile+deploy \u2014 verifies that migrated Java applications compile and deploy successfully."
+      }
+    ],
+    "harbor_adapter": [
+      {
+        "split": "full",
+        "adapted_benchmark_size": 204,
+        "parity_benchmark_size": 204,
+        "parity_sampling_rate": 1.0,
+        "registry_benchmark_size": 204,
+        "added_agents": [],
+        "parity_matching_agents": [],
+        "parity_unmatching_agents": null,
+        "parity_costs": null,
+        "notes": "Parity experiments not yet run. ScarfBench-Compile is a compile+deploy+health variant of ScarfBench. Original adapter PR: https://github.com/harbor-framework/harbor/pull/2017."
+      }
+    ]
+  }
+]

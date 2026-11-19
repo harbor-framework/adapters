@@ -1,0 +1,9 @@
+# Presence of this file makes compose-capable cloud providers (e.g. Daytona)
+# select their Docker-in-Docker strategy, so a real Docker daemon runs in the
+# sandbox VM. Without this file, Daytona uses a single-container strategy
+# that may lack the toolchain the verifier needs at runtime.
+#
+# The `main` service is auto-configured by Harbor (build context from this
+# environment/ dir, image, command, volumes, resource limits).
+services:
+  main: {}
