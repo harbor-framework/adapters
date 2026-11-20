@@ -269,7 +269,8 @@ $834.24.
   <https://github.com/EuniAI/ContextBench/tree/1436c28a8eb95496da4ea69ad458b9f8a8eb7d61>
 - Parity artifacts:
   <https://huggingface.co/datasets/harborframework/parity-experiments/discussions/269>
-- Adapter PR: <https://github.com/harbor-framework/harbor/pull/3129>
+- Adapter PRs: <https://github.com/harbor-framework/adapters/pull/124>, migrated
+  from <https://github.com/harbor-framework/harbor/pull/3129>
 - Dataset PR: none yet (see Known limitations).
 
 The experiment covers less than the adapter does. To hold the agent's inputs
