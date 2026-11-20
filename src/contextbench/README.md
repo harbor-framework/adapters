@@ -374,7 +374,8 @@ credited by other calls.
 [`scripts/output/upstream-defects.json`](scripts/output/upstream-defects.json)
 lists every affected row, and
 [`src/contextbench/corrections.json`](src/contextbench/corrections.json) holds
-each corrected value with its source and revision.
+each corrected value with its source and revision. These defects are reported upstream
+in [EuniAI/ContextBench#9](https://github.com/EuniAI/ContextBench/issues/9).
 
 | Defect | `verified` | `full` | Handling |
 | --- | ---: | ---: | --- |
