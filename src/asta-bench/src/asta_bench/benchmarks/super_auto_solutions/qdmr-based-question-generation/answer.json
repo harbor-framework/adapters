@@ -1,0 +1,1 @@
+{"command": "/workspace/venv/bin/python run_scripts/train.py -c configs/squad/transformer_qa.jsonnet -s models/squad_qa --force -o '{\"trainer\": {\"num_epochs\": 1}, \"data_loader\": {\"batch_sampler\": {\"batch_size\": 2}}}'", "cwd": "/workspace/qdmr-based-question-generation"}

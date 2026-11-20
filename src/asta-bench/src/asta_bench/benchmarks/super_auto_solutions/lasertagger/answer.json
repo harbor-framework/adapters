@@ -1,0 +1,1 @@
+{"command": "PATH=/workspace/venv/bin:$PATH bash run_wikisplit_experiment.sh", "cwd": "/workspace/lasertagger"}

@@ -1,0 +1,1 @@
+{"command": "/workspace/venv/bin/python src/run_SEQA_generation.py --model_name_or_path=./models/gpt2 --model_type=gpt2 --eval_data_file=./data/SocialIQA/valid.jsonl.convertQ --repetition_penalty=1 --no_cuda", "cwd": "/workspace/semantic-based-qa"}

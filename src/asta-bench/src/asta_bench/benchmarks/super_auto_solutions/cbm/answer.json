@@ -1,0 +1,1 @@
+{"command": "/workspace/venv/bin/python src/bert_train.py --model cbm --dataset vqa_v2 --cap_type oscar --gpus 0 --batch_size 2 --num_workers 0 --warmup_steps 0 --max_steps 5 --lr 5e-5 --seed 42 --evaluate --run_name cbm_bert_oscar_vqa_v2 --output_path ./output", "cwd": "/workspace/CBM"}

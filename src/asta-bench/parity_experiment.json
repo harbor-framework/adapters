@@ -1,0 +1,41 @@
+[
+  {
+    "adapter_name": "asta-bench",
+    "agent": "inspect-solver@0.1.0",
+    "model": "claude-haiku-4-5",
+    "date": "2026-11-16",
+    "adapted_benchmark_size": 2403,
+    "parity_benchmark_size": 150,
+    "number_of_runs": 3,
+    "notes": "150-task subset (114 test + 36 validation, all 11 families; src/asta_bench/parity_task_ids.txt). Agent: AstaBench's `astabench/react` Inspect solver on both sides (inspect_ai 0.3.203, anthropic SDK 0.97.0, fork smiky2011/asta-bench@04293fb eval code); on Harbor it runs inside the task container through the InspectSolver bridge (inspect-solver@0.1.0, `inspect eval --no-score`) and the Harbor verifier scores; on the original side `scripts/harbor_parity_original_side.py` (fork d1d51e1) runs one `inspect eval` per sample with the fork's own Inspect scorers. Model: solver and every LLM judge use `claude-haiku-4-5`. Same flags on both sides (`--max-tool-output 65536`), same per-task time limit (Harbor [agent] timeout_sec, passed to Inspect as --time-limit on the original side). Metric: each task's reward is its family's upstream headline metric in [0,1]; a run's score is the mean over the tasks that received a score, x100. One original-side sample (run 1, sqa-test-5) is unscored because the upstream SQA scorer raises on its answer (Harbor treats the same case as a verifier error, no reward); counting it as 0 gives 26.89 for that run. Harbor side: Harbor 0.26.0 on Daytona, 20 concurrent trials, override_memory_mb=8192 and override_storage_mb=10240 (Daytona's per-sandbox cap is 8 GB). Original side: Windows laptop, WSL2 Ubuntu 22.04, i9-13900H, 15.4 GB RAM visible to WSL, Docker Engine 27.1.2, 4 concurrent samples. Re-run attempts (superseded attempts are kept in the uploaded artifacts): original run 1 paper-finder-test-semantic-1 (Asta tool server HTTP 502 during solving) and run 2 super-expert-test-g-transformer (sandbox connection lost); Harbor arxivdigestables-clean-test-cce90f19 and core-bench-hard-test-capsule-6049678 in all three runs (Daytona image build stalled, EnvironmentStartTimeoutError) and run 2 paper-finder-test-semantic-5 twice (verifier timeout, then a proxy HTTP 502 that the judge retry did not cover; fixed afterwards). Per-family means are in the README.",
+    "original_parity_repo": "https://github.com/smiky2011/asta-bench/tree/claude-haiku-judges",
+    "adapter_pr": [
+      "https://github.com/harbor-framework/harbor/pull/1654",
+      "https://github.com/harbor-framework/adapters/pull/43"
+    ],
+    "dataset_pr": [
+      "https://github.com/harbor-framework/harbor-datasets/pull/230"
+    ],
+    "parity_pr": [
+      "https://huggingface.co/datasets/hqefheq/asta-bench-parity/tree/1d8e4b91a34dec0da7af6c742a6990574a32c79e/adapters/asta-bench"
+    ],
+    "metrics": [
+      {
+        "benchmark_name": "AstaBench",
+        "metric": "Mean reward (%)",
+        "original": "23.87 ± 1.69",
+        "harbor": "24.66 ± 0.88",
+        "original_runs": [
+          27.07,
+          21.32,
+          23.22
+        ],
+        "harbor_runs": [
+          23.72,
+          26.43,
+          23.84
+        ]
+      }
+    ]
+  }
+]

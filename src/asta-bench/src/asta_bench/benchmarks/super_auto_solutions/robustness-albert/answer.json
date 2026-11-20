@@ -1,0 +1,1 @@
+{"command": "env WANDB_MODE=disabled N_ROWS=100 OMP_NUM_THREADS=3 PYTHONPATH=. /workspace/venv/bin/python robustness_albert/train.py -c config_sst2.json", "cwd": "/workspace/robustness-albert"}

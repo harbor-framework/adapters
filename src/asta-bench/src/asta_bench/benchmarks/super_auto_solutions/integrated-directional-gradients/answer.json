@@ -1,0 +1,1 @@
+{"command": "/workspace/venv/bin/python main.py -n bert -mp /workspace/bert_base_uncased_idg.pt -i /workspace/sst_first10.txt -cls 0 -o /workspace/idg_out/sst", "cwd": "/workspace/repo"}

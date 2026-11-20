@@ -1,0 +1,1 @@
+{"command": "rm -rf finetuning_experiments/cnndm/t5-small-pretrained && PATH=/workspace/venv/bin:/usr/local/bin:/usr/bin:/bin bash pipeline_t5.sh finetuning_experiments/cnndm/t5-small-pretrained", "cwd": "/workspace/pretraining-with-nonsense"}

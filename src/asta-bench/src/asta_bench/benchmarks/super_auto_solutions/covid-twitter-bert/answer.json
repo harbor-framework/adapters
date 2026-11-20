@@ -1,0 +1,1 @@
+{"command": "/workspace/venv/bin/python run_finetune.py --finetune_data sst-2 --bucket_name /workspace/bucket --model_class bert_base_uncased --do_not_use_tpu --num_gpus 0 --num_epochs 1 --train_batch_size 1 --eval_batch_size 1 --run_prefix sst2", "cwd": "/workspace/covid-twitter-bert"}

@@ -1,0 +1,1 @@
+{"command": "/workspace/venv/bin/python /workspace/HYPEVENTS/create_counterfactual_data.py /workspace/timetravel/train_supervised_small.json train", "cwd": "/workspace/hypevents_out"}

@@ -1,0 +1,40 @@
+[
+  {
+    "adapter_name": "asta-bench",
+    "adapter_builders": [
+      "Quan Shi (qshi@iskrakow.org)"
+    ],
+    "original_benchmark": [
+      {
+        "split": "full",
+        "size": 2404,
+        "harness": "agent",
+        "supported_agents": [
+          "None"
+        ],
+        "adaptable": true,
+        "notes": "AstaBench (allenai/asta-bench, built on Inspect AI) evaluates 11 families on a test and a validation split. Sizes as upstream evaluates them: litqa2 75+10, paper_finder_litqa2 75+10, arxivdigestables 100+70, paper_finder 267+66, sqa 100+100, discoverybench 239+25, super 45 (Expert/test) + 50 (Auto/validation, capped by upstream sample_limit), ds1000 900+100, core_bench 37+35 (after upstream's filter_out_gpu=True drops 8 test and 10 validation capsules from 45+45), e2e_discovery 40+10, e2e_discovery_hard 40+10; total 1,918 test + 486 validation = 2,404. Upstream ships no Harbor-compatible agent: the asta-bench package provides Inspect solvers only, and the leaderboard agents live in the separate allenai/agent-baselines repository, so supported_agents is None. Parity uses the fork smiky2011/asta-bench@claude-haiku-judges, which adds the `astabench/react` solver, points every LLM judge at claude-haiku-4-5, and scores SUPER Auto by re-running the submitted entrypoint command (see README Notes & Caveats)."
+      }
+    ],
+    "harbor_adapter": [
+      {
+        "split": "full",
+        "adapted_benchmark_size": 2403,
+        "parity_benchmark_size": 150,
+        "parity_sampling_rate": 0.0624,
+        "registry_benchmark_size": 2403,
+        "added_agents": [
+          "inspect-solver@0.1.0"
+        ],
+        "parity_matching_agents": [
+          "inspect-solver@0.1.0+claude-haiku-4-5"
+        ],
+        "parity_unmatching_agents": [
+          "None"
+        ],
+        "parity_costs": "$270.47",
+        "notes": "1,918 test + 485 validation = 2,403 tasks. Per-family test/validation: litqa2-fulltext 75/10, litqa2-fulltext-search 75/10, arxivdigestables-clean 100/70, paper-finder 267/66, sqa 100/100, discoverybench 239/25, super-expert 45/49, ds1000 900/100, core-bench-hard 37/35, e2e-bench 40/10, e2e-bench-hard 40/10. super-expert validation is upstream's SUPER 'Auto' split: 49 of its 50 samples (checkdst excluded, see super_auto_excluded.json), scored by the verifier re-running the submitted entrypoint command instead of trusting an agent-writable execution history. core-bench-hard keeps upstream's GPU filter (8 test and 10 validation capsules dropped). Two packagings of the same tasks are generated: the Inspect-AI bridge dataset (default) and a standard CLI-agent dataset (--cli). The parity subset (150 tasks: 114 test + 36 validation, all 11 families) is fixed in src/asta_bench/parity_task_ids.txt. Parity (2026-11-16, 3 runs per side): original 23.87 ± 1.69, Harbor 24.66 ± 0.88 (mean reward %, mean ± sample SEM); run ranges overlap. The custom agent inspect-solver@0.1.0 (asta_bench.inspect_solver:InspectSolver) runs AstaBench's `astabench/react` Inspect solver inside the task container with --no-score; rewards always come from the Harbor verifier."
+      }
+    ]
+  }
+]

@@ -1,0 +1,1 @@
+{"command": "/workspace/venv/bin/python train_T5.py --config t5_base.yml --config-override lm_type /workspace/t5-small max_epoch 1 batch_size 4 gradient_accumulation_steps 1 --serialization-dir dataset/commonGen_t5_small_mf --train", "cwd": "/workspace/acl2021mf"}

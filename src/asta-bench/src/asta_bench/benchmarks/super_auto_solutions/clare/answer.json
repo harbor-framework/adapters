@@ -1,0 +1,1 @@
+{"command": "/workspace/venv/bin/python bert_attack_classification.py --dataset qnli --sample_file qnli --attack_second --data_size 10", "cwd": "/workspace/CLARE"}

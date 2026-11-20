@@ -1,0 +1,49 @@
+# AstaBench -- Harbor `claude-code` agent on the CLI dataset (all 11 families)
+#
+# Solver and judges use claude-haiku-4-5 (judges via each task's
+# [verifier.env] JUDGE_MODEL). The agent uses each task's own timeout. The
+# Asta-tool families (paper-finder, sqa, litqa2-fulltext, litqa2-fulltext-search) get
+# ASTA_TOOL_KEY from the task's [environment.env]; Claude Code's stdio Asta
+# MCP proxy inherits it.
+#
+# From the repository root:
+#   uv run --project src/asta-bench --with harbor==0.26.0 harbor run \
+#     -c src/asta-bench/run_asta-bench_cli.yaml
+#
+# Required env vars:
+#   ANTHROPIC_API_KEY     solver (claude-code) AND judges
+#   ANTHROPIC_BASE_URL    optional; defaults to https://api.anthropic.com
+#   ASTA_TOOL_KEY         Asta MCP literature search for paper-finder/sqa/litqa2-fulltext/litqa2-fulltext-search
+#   ASTA_MCP_UPSTREAM     optional; defaults to https://asta-tools.allen.ai/mcp/v1
+
+job_name: asta-bench-cli-claude-code-haiku45
+jobs_dir: jobs
+n_attempts: 1
+timeout_multiplier: 1.0
+
+orchestrator:
+  type: local
+  n_concurrent_trials: 4
+  quiet: false
+
+environment:
+  type: docker
+  force_build: true
+  delete: true
+  # HF_TOKEN is deliberately NOT forwarded: it is needed only to generate the
+  # dataset, and inside the task container it would let an agent download
+  # gated benchmark data.
+  env:
+    ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY}
+    ANTHROPIC_BASE_URL: ${ANTHROPIC_BASE_URL:-}
+    # ASTA_TOOL_KEY / ASTA_MCP_UPSTREAM come from each task's [environment.env]:
+    # Harbor passes job-level env templates unresolved, overriding the task's.
+
+agents:
+  - name: claude-code
+    # Bare id: claude-code passes model_name to the API verbatim, so no
+    # "anthropic/" prefix.
+    model_name: claude-haiku-4-5
+
+datasets:
+  - path: datasets/asta-bench/asta-bench-cli
