@@ -647,6 +647,30 @@ def test_toolchain_bin_dirs_skips_missing_paths(
     assert evaluator.toolchain_bin_dirs() == [str(present)]
 
 
+def test_toolchain_bin_dirs_tolerates_unreadable_parents(
+    tmp_path: Path, monkeypatch: Any
+) -> None:
+    if os.geteuid() == 0:
+        pytest.skip("simulating an unreadable parent requires a non-root user")
+    evaluator = load_evaluator()
+    present = tmp_path / "go"
+    present.mkdir()
+    locked_parent = tmp_path / "locked"
+    guarded = locked_parent / "bin"
+    guarded.mkdir(parents=True)
+    locked_parent.chmod(0)
+    try:
+        monkeypatch.setattr(
+            evaluator,
+            "_TOOLCHAIN_BIN_DIR_CANDIDATES",
+            (str(guarded), str(present)),
+        )
+
+        assert evaluator.toolchain_bin_dirs() == [str(present)]
+    finally:
+        locked_parent.chmod(0o700)
+
+
 def test_bootstrap_toolchain_path_prepends_existing_dirs(
     tmp_path: Path, monkeypatch: Any
 ) -> None:
