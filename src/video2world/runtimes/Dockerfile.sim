@@ -1,0 +1,9 @@
+# Build with this runtimes directory as the build context.
+FROM python:3.12-slim-bookworm
+RUN apt-get update && apt-get install -y --no-install-recommends git ffmpeg libgl1 libegl1 libglib2.0-0 libvulkan1 vulkan-tools libxext6 && rm -rf /var/lib/apt/lists/*
+COPY requirements-sim.txt /tmp/requirements.txt
+RUN python -m pip install --no-cache-dir -r /tmp/requirements.txt
+
+RUN python -m mani_skill.utils.download_asset xarm6 --non-interactive
+RUN python -m mani_skill.utils.download_asset widowx250s --non-interactive
+RUN python -m mani_skill.utils.download_asset bridge_v2_real2sim --non-interactive

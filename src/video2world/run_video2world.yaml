@@ -1,0 +1,21 @@
+jobs_dir: jobs
+n_attempts: 1
+orchestrator:
+  type: local
+  n_concurrent_trials: 1
+environment:
+  type: docker
+  delete: true
+# No general reconstruction oracle is shipped. This default intentionally errors
+# with an explanation; see README for upstream HAR record re-scoring.
+agents:
+  - name: oracle
+# After parity approval, select and pin the same coding agent/model on both sides:
+# agents:
+#   - name: codex
+#     model_name: openai/gpt-6.1-sol
+#     kwargs:
+#       version: "0.164.0"
+#       reasoning_effort: low
+datasets:
+  - path: datasets/video2world

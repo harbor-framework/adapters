@@ -1,0 +1,11 @@
+{
+  "sim": {
+    "image": "video2world-sim:df0e00b",
+    "python": "/usr/local/bin/python3"
+  },
+  "twin": {
+    "image": "video2world-twin:df0e00b",
+    "python": "/usr/local/bin/python3",
+    "twin_python": "/usr/local/bin/python3"
+  }
+}
