@@ -1,4 +1,7 @@
 schema_version = "1.0"
+# The verifier runs in its own container (built from tests/Dockerfile), so the agent's
+# answer is handed over as an artifact and restored at the same path there.
+artifacts = ["/workspace/answer.md"]
 
 [task]
 name = "openai/frontierscience-research__{task_id}"
@@ -17,6 +20,9 @@ source_row_index = {row_index}
 [verifier]
 # One judge call with extended thinking; the SDK retries transient API errors.
 timeout_sec = 900.0
+# Grade in a separate container built from tests/Dockerfile, which bundles the grader
+# and the rubric; the agent's container never holds either.
+environment_mode = "separate"
 
 [verifier.env]
 ANTHROPIC_API_KEY = "${ANTHROPIC_API_KEY}"

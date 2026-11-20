@@ -37,6 +37,7 @@ DEFAULT_ORACLE_DIR = ADAPTER_ROOT / "oracle_solutions"
 STATIC_FILES = (
     "environment/Dockerfile",
     "solution/solve.sh",
+    "tests/Dockerfile",  # verifier image (separate verifier); bundles tests/ at /tests
     "tests/test.sh",
     "tests/grader.py",
 )
@@ -178,8 +179,8 @@ class FrontierScienceResearchAdapter:
             instruction.replace("{problem}", task.problem)
         )
 
-        # The rubric only ever lives under tests/, which Harbor uploads at verification
-        # time, so the agent cannot read it.
+        # The rubric only ever lives under tests/, which is baked into the separate
+        # verifier image (tests/Dockerfile), so the agent's container never holds it.
         (task_dir / "tests" / "task.json").write_text(
             json.dumps(
                 {

@@ -87,6 +87,7 @@ def test_generated_task_layout_and_rubric_isolation(tmp_path, monkeypatch):
         "environment/Dockerfile",
         "solution/solve.sh",
         "solution/answer.md",
+        "tests/Dockerfile",
         "tests/test.sh",
         "tests/grader.py",
         "tests/task.json",
@@ -96,6 +97,12 @@ def test_generated_task_layout_and_rubric_isolation(tmp_path, monkeypatch):
     toml = (task_dir / "task.toml").read_text()
     assert 'name = "openai/frontierscience-research__physics-aaaaaaaa"' in toml
     assert "{" + "task_id}" not in toml and "{subject}" not in toml
+    # Separate verifier: grading runs in an image built from tests/Dockerfile, and the
+    # answer is handed over as an artifact.
+    assert 'environment_mode = "separate"' in toml
+    assert 'artifacts = ["/workspace/answer.md"]' in toml
+    assert "COPY . /tests/" in (task_dir / "tests" / "Dockerfile").read_text()
+    assert "anthropic" not in (task_dir / "environment" / "Dockerfile").read_text()
 
     instruction = (task_dir / "instruction.md").read_text()
     assert instruction.startswith("P1 {braces} $x$")

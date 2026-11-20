@@ -1,6 +1,6 @@
 # FrontierScience-Research → Harbor Adapter
 
-**Status.** The oracle passes on all 60 tasks in Harbor 0.25.0. Parity has not been run yet; see [Comparison with Original Benchmark](#comparison-with-original-benchmark-parity).
+**Status.** The oracle passes on all 60 tasks in Harbor 0.26.0 with a separate verifier. Parity has not been run yet; see [Comparison with Original Benchmark](#comparison-with-original-benchmark-parity).
 
 ## Overview
 
@@ -20,7 +20,7 @@ This adapter turns the Research split of OpenAI's FrontierScience benchmark into
 
 - **Pinned, verified data.** The adapter downloads `research/test.jsonl` at the pinned revision, or reads a local copy given with `--data-file`, and refuses to build on a SHA-256 mismatch.
 - **Stable task names.** Tasks are named `openai/frontierscience-research__<subject>-<first 8 characters of task_group_id>`, for example `physics-222e24bf`. The second copy of the duplicate is `physics-af50243e-2`.
-- **Rubric isolation.** The rubric is written only to `tests/task.json`, which Harbor uploads at verification time. A unit test generates tasks from a sentinel rubric and checks that it never appears in a file the agent can see.
+- **Separate verifier.** Grading runs in its own container, built from `tests/Dockerfile`, which bundles the grader, the Anthropic SDK and the rubric (`[verifier] environment_mode = "separate"`). The agent's container never holds the rubric or the grader. The answer is handed over as an artifact (`artifacts = ["/workspace/answer.md"]`) and restored at the same path in the verifier, after Harbor's artifact sanitization (no setuid bits, no symlinks out of the artifact). Saved trials can therefore be regraded without rerunning the agent. A unit test generates tasks from a sentinel rubric and checks that the rubric appears only under `tests/`.
 - **Grading as in inspect_evals.** `tests/grader.py` uses the inspect_evals research judge prompt verbatim, which is the paper's Appendix B prompt. It takes the first `VERDICT:` number in the reply, clamps it to [0, 10], and scores an empty or missing answer as 0 without calling the judge.
 - **Two rewards.** `reward.json` holds `reward`, which is 1 when the answer earns at least 7 points, and `score`, which is points / 10. The headline metric is the mean of `reward`, the success rate the paper reports. The mean of `score` is inspect_evals' built-in metric and is kept as a secondary number.
 - **Judge failures are not zeros.** If the judge refuses (`stop_reason == "refusal"`) on all three attempts, or the API call fails after the SDK's retries, the verifier exits non-zero without writing a reward, and Harbor reports a verifier error. `grading.json` keeps the judge's reply, the model that answered, token usage and any refusal details.
@@ -32,14 +32,15 @@ This adapter turns the Research split of OpenAI's FrontierScience benchmark into
 ```
 datasets/frontierscience-research/
 └── <subject>-<tgid8>/            # e.g. physics-222e24bf
-    ├── task.toml                 # name, metadata, judge environment, timeouts
+    ├── task.toml                 # name, metadata, separate verifier, answer artifact, judge env
     ├── instruction.md            # the problem, a no-internet rule, where to write the answer
     ├── environment/
-    │   └── Dockerfile            # python:3.12-slim with anthropic 2.8.0 for the grader
+    │   └── Dockerfile            # agent image: python:3.12-slim
     ├── solution/
     │   ├── solve.sh              # copies answer.md to /workspace/answer.md
     │   └── answer.md             # oracle answer
-    └── tests/
+    └── tests/                    # baked into the verifier image at /tests
+        ├── Dockerfile            # verifier image: python:3.12-slim + anthropic 2.8.0
         ├── test.sh               # runs grader.py
         ├── grader.py             # LLM judge
         └── task.json             # problem, rubric, ids
@@ -65,6 +66,7 @@ src/frontierscience-research/
 │       ├── environment/Dockerfile
 │       ├── solution/solve.sh
 │       └── tests/
+│           ├── Dockerfile
 │           ├── test.sh
 │           └── grader.py
 └── tests/test_adapter.py
@@ -160,7 +162,15 @@ inspect eval inspect_evals/frontierscience -T format=research -T grader_model=<j
 | TBD | TBD | Success rate, points ≥ 7 (headline) | TBD | 60 | pending | pending |
 | TBD | TBD | Mean score (points / 10) | TBD | 60 | pending | pending |
 
-**Oracle check (not parity).** Harbor 0.25.0, Docker 28.3.2 on macOS arm64, 8 concurrent trials, judge `claude-sonnet-5-5` with effort `high`: 60 trials, 0 exceptions, `reward` 1.000 and `score` 0.999. 58 tasks scored 10/10 and two scored 9.75 (see Notes & Caveats). The judge refused none of the 60 tasks, including the 20 biology tasks.
+**Oracle check (not parity).** Harbor 0.26.0, separate verifier, Docker 28.3.2 on macOS arm64, 8 concurrent trials, judge `claude-sonnet-5-5` with effort `high`: 60 trials, 0 exceptions, `reward` 1.000 and mean `score` 0.9996. 59 tasks scored 10/10 and one scored 9.75 (see Notes & Caveats). The judge refused none of the 60 tasks, including the 20 biology tasks. An earlier run on Harbor 0.25.0, with grading in the agent's container, gave the same `reward` of 1.000 and a mean `score` of 0.999.
+
+To check that the separate verifier can also fail a submission, one task (`biology-824508b0`) was graded three ways:
+
+| Submission | Judge points | `reward` | `score` |
+|---|---|---|---|
+| Oracle answer | 10 | 1 | 1.0 |
+| Wrong answer: the oracle answer of another biology problem (`biology-44a8a9e1`) | 0 | 0 | 0.0 |
+| No answer (`nop` agent, so no artifact) | no judge call | 0 | 0.0 |
 
 ## Notes & Caveats
 
@@ -168,7 +178,7 @@ inspect eval inspect_evals/frontierscience -T format=research -T grader_model=<j
 
 **Instruction.** The problem text is passed verbatim. It already ends with the paper's request to show all intermediate derivations, formulas, important steps and justifications. After a horizontal rule, the adapter adds two short paragraphs. The first tells the agent to solve the problem from its own knowledge and not to use the internet. The second tells it to write the complete answer to `/workspace/answer.md`, the only file that is graded. inspect_evals sends the bare problem, so for parity the original side has to add the same two paragraphs.
 
-**Tools and network.** The paper evaluated models without browsing, and inspect_evals calls the model with no tools. In Harbor the container keeps public network access for two reasons: installed agents call their model API from inside it, and the verifier calls the judge API. The problems and rubrics are public on Hugging Face, so an agent with web access could look up a rubric. As in `programbench`, the adapter forbids internet use in the instruction instead of blocking it. Harbor 0.25 can also set separate `[agent]` and `[verifier]` network policies, but this is not used, for three reasons:
+**Tools and network.** The paper evaluated models without browsing, and inspect_evals calls the model with no tools. In Harbor the agent's container keeps public network access, because installed agents call their model API from inside it. The separate verifier container also needs network access, to call the judge API. The problems and rubrics are public on Hugging Face, so an agent with web access could look up a rubric. As in `programbench`, the adapter forbids internet use in the instruction instead of blocking it. Harbor 0.25 can also set separate `[agent]` and `[verifier]` network policies, but this is not used, for three reasons:
 
 - it needs an environment with egress control;
 - an allowlist that keeps the agent's model API reachable still lets server-side search tools through (Claude Code's WebSearch runs on Anthropic's API);
@@ -180,10 +190,10 @@ The rule is enforced only by the prompt, so trajectories should be checked for w
 
 **Judge refusals.** A refusal is retried twice. If all three attempts are refused, the trial ends in a verifier error and is not scored 0, so refusals stay visible. For the same reason the API's server-side refusal fallback, which would silently switch to another model, is not enabled.
 
-**Oracle answers.** The release has no reference solutions. The 59 answers in `oracle_solutions/` were written for this adapter with AI assistance against each task's rubric. Each answer was then reviewed item by item against its rubric and revised where needed. Where a rubric item asks for a specific expression or value, the answer states it as the rubric does, even where the rubric looks wrong (see below), because the judge prompt treats the rubric as the gold standard. The answers are therefore an answer key for the rubrics, not a vetted set of scientific solutions. In the oracle run, two tasks scored 9.75 instead of 10:
+**Oracle answers.** The release has no reference solutions. The 59 answers in `oracle_solutions/` were written for this adapter with AI assistance against each task's rubric. Each answer was then reviewed item by item against its rubric and revised where needed. Where a rubric item asks for a specific expression or value, the answer states it as the rubric does, even where the rubric looks wrong (see below), because the judge prompt treats the rubric as the gold standard. The answers are therefore an answer key for the rubrics, not a vetted set of scientific solutions. Across the oracle runs, two tasks have scored below 10:
 
-- `chemistry-845a3693`: the rubric's carbon numbering is ambiguous. The same answer scored 10 in an earlier run, so the difference is judge variance.
-- `physics-bc82c611`: the answer gives a physically consistent τ(Ψ), while the rubric's expression omits the 1/Γ term.
+- `chemistry-845a3693`: the rubric's carbon numbering is ambiguous. The same answer has scored both 10 and 9.75, so the difference is judge variance.
+- `physics-bc82c611` (9.75 in every full run): the answer gives a physically consistent τ(Ψ), while the rubric's expression omits the 1/Γ term.
 
 **Rubric defects.** Rubrics are used exactly as released. They are not patched for two reasons: the judge prompt treats the rubric as the gold standard, and a patched rubric would no longer match the original benchmark or the parity side. While the oracle answers were being written, the issues below were flagged in 33 problems or rubrics. They have not been confirmed with the authors and have not been reported upstream yet.
 
@@ -232,7 +242,7 @@ The rule is enforced only by the prompt, so trajectories should be checked for w
 
 ## Installation / Prerequisites
 
-- Docker, and Harbor 0.25.0 or later (tested with 0.25.0).
+- Docker, and Harbor 0.25.0 or later for separate verification and artifact transfer (tested with 0.26.0).
 - [uv](https://docs.astral.sh/uv/) for the adapter package: `cd src/frontierscience-research && uv sync`. The adapter itself uses only the standard library.
 - Network access to Hugging Face when generating tasks, to PyPI when building the task image, and to the judge API at verification time.
 - An Anthropic API key with access to the judge model in `ANTHROPIC_API_KEY`. `ANTHROPIC_BASE_URL`, `JUDGE_MODEL` and `JUDGE_EFFORT` are optional.
@@ -242,6 +252,7 @@ The rule is enforced only by the prompt, so trajectories should be checked for w
 - **`research/test.jsonl SHA-256 mismatch`:** the downloaded file is not the pinned revision. Pass a correct copy with `--data-file`.
 - **Verifier error, `grading.json` status `judge_error`:** the judge API call failed after retries. Check `ANTHROPIC_API_KEY`, `ANTHROPIC_BASE_URL` and `JUDGE_MODEL`.
 - **Verifier error before any `grading.json` is written:** usually `ANTHROPIC_API_KEY` was not set in the shell or `--env-file` that ran Harbor.
+- **Reward 0 with status `no_answer`:** the agent did not write `/workspace/answer.md`, so there was no artifact to hand to the verifier.
 - **Verifier error, status `judge_refused`:** the judge refused all three attempts. `grading.json` records the refusal category and request ids. Rerun the trial or use another `JUDGE_MODEL`.
 - **Reward 0 with status `unparsed_verdict`:** the judge's reply had no `VERDICT:` line. inspect_evals also scores this as 0.
 - **Oracle `solve.sh` exits 1 ("No oracle answer was generated"):** the task was generated with an `--oracle-dir` that has no file for it. The generator prints a warning listing such tasks.
