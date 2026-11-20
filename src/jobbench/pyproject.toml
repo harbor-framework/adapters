@@ -1,0 +1,22 @@
+[project]
+name = "harbor-jobbench-adapter"
+version = "0.1.0"
+description = "Harbor adapter for the JobBench benchmark."
+readme = "README.md"
+authors = [
+    { name = "Yogya Mehrotra", email = "ymehrotra@ucsd.edu" }
+]
+requires-python = ">=3.11"
+dependencies = [
+    "huggingface-hub>=0.34",
+]
+
+[project.scripts]
+jobbench = "jobbench.main:main"
+
+[build-system]
+requires = ["uv_build>=0.10.7,<0.11.0"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "jobbench"
