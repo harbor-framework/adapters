@@ -32,6 +32,11 @@ BASE_IMAGE = (
     "ubuntu:latest@sha256:"
     "065aa8626841f16057b78b027b464cd59c4fac36c204c72dcbf48d66f5fa8a96"
 )
+# Separate-verifier image (verify.py is stdlib-only), digest-pinned.
+VERIFIER_IMAGE = (
+    "python:3.12-slim@sha256:"
+    "5e2bdb1b0d542d5039cffb8181c65930093949194a65c365dfb1b0fe13a4fa5b"
+)
 
 TEMPLATE_DIR = Path(__file__).parent / "task-template"
 UPSTREAM_PKG = Path("src/inspect_evals/gdm_stealth")
@@ -238,6 +243,12 @@ class GDMStealthAdapter:
             encoding="utf-8",
         )
         shutil.copy2(TEMPLATE_DIR / "tests/verify.py", tests_dir / "verify.py")
+        (tests_dir / "Dockerfile").write_text(
+            (TEMPLATE_DIR / "tests/Dockerfile")
+            .read_text(encoding="utf-8")
+            .replace("{verifier_image}", VERIFIER_IMAGE),
+            encoding="utf-8",
+        )
         shutil.copy2(
             TEMPLATE_DIR / "solution/solve.sh", solution_dir / "solve.sh"
         )

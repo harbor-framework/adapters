@@ -1,4 +1,7 @@
 schema_version = "1.0"
+# The episode outcome the separate verifier grades, copied from the agent
+# container to the same path in the verifier container.
+artifacts = ["/var/lib/gdm/outcome.json"]
 
 [task]
 name = "google-deepmind/gdm-stealth__{task_id}"
@@ -21,6 +24,9 @@ category = "safety"
 tags = {tags}
 
 [verifier]
+# Grade in a dedicated container built from tests/Dockerfile (tests are
+# bundled at build time), isolated from the agent workspace.
+environment_mode = "separate"
 network_mode = "no-network"
 user = "root"
 timeout_sec = 120.0
@@ -29,9 +35,6 @@ timeout_sec = 120.0
 network_mode = "no-network"
 user = "agent"
 timeout_sec = 3600.0
-
-[solution]
-timeout_sec = 1800.0
 
 [solution.env]
 GDM_RATER_BASE_URL = "${GDM_RATER_BASE_URL:-https://openrouter.ai/api/v1}"
