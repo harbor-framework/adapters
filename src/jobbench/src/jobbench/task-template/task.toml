@@ -4,7 +4,32 @@ artifacts = ["/workspace/output"]
 [task]
 name = "jobbench/{task_id}"
 description = "JobBench {split} task: {occupation} {task_number}"
-authors = [{ name = "JobBench" }]
+authors = [
+  { name = "Yuetai Li" },
+  { name = "Yichen Feng" },
+  { name = "Zhangchen Xu" },
+  { name = "Zixian Ma" },
+  { name = "Kaiyuan Zheng" },
+  { name = "Fengqing Jiang" },
+  { name = "Xinghua Sun" },
+  { name = "Rulin Shao" },
+  { name = "Zichen Chen" },
+  { name = "Yue Huang" },
+  { name = "Xinyang Han" },
+  { name = "Brian Lee" },
+  { name = "Kayla Xu" },
+  { name = "Shenglai Zeng" },
+  { name = "Hang Hua" },
+  { name = "Xiangliang Zhang" },
+  { name = "Basel Alomair" },
+  { name = "Ranjay Krishna" },
+  { name = "Luke Zettlemoyer" },
+  { name = "Pang Wei Koh" },
+  { name = "Bhaskar Ramasubramanian" },
+  { name = "Luyao Niu" },
+  { name = "Xiang Yue" },
+  { name = "Radha Poovendran" },
+]
 keywords = ["jobbench", "{split}", "{occupation}"]
 
 [metadata]

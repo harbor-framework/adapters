@@ -10,7 +10,8 @@
 - **This adapter:** generates all 128 tasks. Nothing is excluded. Task IDs are `<split>--<occupation>--task<N>`, for example `main--lawyers--task1`.
 - **Sources:** tasks come from the Hugging Face dataset [`JobBench/job-bench`](https://huggingface.co/datasets/JobBench/job-bench) (MIT), pinned to revision `d43a66575635da0d3f6cb9a20976dc1a60f3ffc9`. The instruction text, Docker images and judge come from [`Job-Bench/job-bench-eval`](https://github.com/Job-Bench/job-bench-eval) (Apache-2.0), pinned to commit `660b33a86ed032559df0b2fdc1ad38cf7ceb83f3`.
 - **Grading:** an LLM judge scores the agent's deliverables against a weighted rubric. There are no unit tests and no reference solutions upstream.
-- **Modifications:** none to the prompt, environment or judge. The only additions are `solution/solve.sh` (upstream has no oracle) and a comment in `tests/test.sh`.
+- **Modifications:** none to the prompt, environment or judge. The only additions are `solution/solve.sh` (upstream has no oracle), a comment in `tests/test.sh`, and the paper's author list in `task.toml`.
+- **Task count:** the paper reports 130 tasks. The pinned dataset revision contains 128 (65 main, 63 easy), and all 128 are adapted.
 
 ## What is JobBench?
 
@@ -18,12 +19,12 @@ JobBench asks what workers actually want automated, not only what can be automat
 
 After the agent finishes, an LLM judge checks the deliverables against the task's `RUBRICS.json`. A rubric block earns its full weight only if all of its criteria pass, otherwise it earns zero. The task score is `round(earned weight / total weight, 4)`, and the benchmark score is the mean of the task scores. The upstream default judge is xAI `grok-4.3`.
 
-Links: [website and leaderboard](https://job-bench.github.io/), [evaluation code](https://github.com/Job-Bench/job-bench-eval), [dataset](https://huggingface.co/datasets/JobBench/job-bench).
+Links: [paper](https://arxiv.org/abs/2605.26329), [website and leaderboard](https://job-bench.github.io/), [evaluation code](https://github.com/Job-Bench/job-bench-eval), [dataset](https://huggingface.co/datasets/JobBench/job-bench).
 
 ## Adapter Features
 
 - **Pinned sources.** The dataset is downloaded from Hugging Face at a fixed revision. Only `task_folder/` and `RUBRICS.json` are fetched for each task; the upstream task card is never given to the agent.
-- **Unmodified upstream harness.** The instruction text, the agent image, the verifier image and the rubric judge are copied from the upstream evaluation repository without changes. JobBench ships its own Harbor converter, and for all 128 tasks the files this adapter shares with that converter's output are byte-identical, except for an added comment in `tests/test.sh`.
+- **Unmodified upstream harness.** The instruction text, the agent image, the verifier image and the rubric judge are copied from the upstream evaluation repository without changes. JobBench ships its own Harbor converter, and for all 128 tasks the files this adapter shares with that converter's output are byte-identical, except for an added comment in `tests/test.sh` and the `authors` field in `task.toml`, which lists the paper's authors.
 - **Separate verifier image.** Tasks use `environment_mode = "separate"`, so the judge runs in its own container and the judge API key is never visible to the agent. The agent's `/workspace/output` is passed to the verifier as an artifact.
 - **Same reward as upstream.** The verifier writes the weighted rubric score (0 to 1) to `/logs/verifier/reward.json`. If the output folder is empty the reward is 0 and the judge is not called. If the judge itself fails, no reward is written, so an infrastructure error is not scored as a zero.
 - **Configurable judge.** `JUDGE_MODEL`, `JUDGE_API_BASE` and `JUDGE_API_KEY` are read from the host environment and default to xAI `grok-4.3`.
@@ -165,6 +166,7 @@ Scores on both sides are the mean of the per-task weighted rubric scores, as des
 
 - **No upstream oracle.** JobBench ships rubrics, not reference solutions. `solution/solve.sh` submits a reference deliverable when one exists for the task and exits non-zero otherwise, so that a missing oracle is never mistaken for an empty answer. No reference deliverables are included yet, so the oracle agent currently fails on every task. The plan is to build them from the strongest agent outputs and confirm they score the same under the original judge and under Harbor.
 - **LLM judge.** Scores depend on the judge model and are not fully deterministic. Use the same judge on both sides of any comparison. A full judging pass over all tasks costs roughly $20 with the default judge, per the upstream documentation.
+- **Rubrics are public.** Every task's `RUBRICS.json` is published in the public Hugging Face dataset, and tasks run with internet access, so an agent could in principle look up the rubric it will be graded on. The original benchmark has the same exposure. The rubric is never placed in the agent's container.
 - **Network access.** Tasks run with public network access, as upstream, because some require online research. Results can vary with what the agent's search tools return.
 - **Timeouts.** The agent timeout is 7200 seconds and the verifier timeout is 3600 seconds, matching the upstream Harbor converter. The upstream Claude Code and Codex CLI runners default to 3600 seconds per task (`TIMEOUT_PER_TASK`), so that value has to be raised to 7200 on the original side for a like-for-like comparison.
 - **Environment difference on the original side.** The upstream CLI runners run the agent on the host machine, while Harbor runs it in the upstream Docker image. This is a known difference between the two sides that parity will need to account for.
@@ -193,14 +195,13 @@ Scores on both sides are the mean of the per-task weighted rubric scores, as des
 
 ## Citation
 
-No paper citation has been found for JobBench yet. Until one is confirmed, cite the project website:
-
 ```bibtex
-@misc{jobbench,
-  title={JobBench},
-  author={{JobBench Team}},
-  howpublished={\url{https://job-bench.github.io/}},
-  note={Evaluation code: https://github.com/Job-Bench/job-bench-eval}
+@article{li2026jobbench,
+  title={JobBench: Aligning Agent Work With Human Will},
+  author={Li, Yuetai and Feng, Yichen and Xu, Zhangchen and Ma, Zixian and Zheng, Kaiyuan and Jiang, Fengqing and Sun, Xinghua and Shao, Rulin and Chen, Zichen and Huang, Yue and Han, Xinyang and Lee, Brian and Xu, Kayla and Zeng, Shenglai and Hua, Hang and Zhang, Xiangliang and Alomair, Basel and Krishna, Ranjay and Zettlemoyer, Luke and Koh, Pang Wei and Ramasubramanian, Bhaskar and Niu, Luyao and Yue, Xiang and Poovendran, Radha},
+  journal={arXiv preprint arXiv:2605.26329},
+  year={2026},
+  url={https://arxiv.org/abs/2605.26329}
 }
 ```
 
