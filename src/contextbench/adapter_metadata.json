@@ -1,0 +1,62 @@
+[
+  {
+    "adapter_name": "contextbench",
+    "adapter_builders": [
+      "Jonathan Buck (jonathan.j.buck@gmail.com)"
+    ],
+    "original_benchmark": [
+      {
+        "split": "verified",
+        "size": 500,
+        "harness": "agent",
+        "supported_agents": [
+          "openhands@1.2.1",
+          "MopenHands@0.25.0",
+          "mini-swe-agent@1.17.3",
+          "swe-agent@1.1.0",
+          "swe-agent@0.6.0",
+          "agentless@1436c28",
+          "prometheus@1436c28"
+        ],
+        "adaptable": true,
+        "notes": "500 rows: 174 SWE-bench Verified, 156 Multi-SWE-bench, 116 SWE-PolyBench and 54 SWE-bench Pro, in 8 languages. It is the union of verified-train (450) and verified-test (50). ContextBench runs each framework from its own copy in agent-frameworks/ at commit 1436c28a8eb95496da4ea69ad458b9f8a8eb7d61. openhands@1.2.1 and swe-agent@1.1.0 run the SWE-bench Verified, SWE-PolyBench and SWE-bench Pro rows; MopenHands@0.25.0 (the Multi-SWE-bench fork of OpenHands) and swe-agent@0.6.0 run the Multi-SWE-bench rows; mini-swe-agent@1.17.3 runs all four. Agentless and Prometheus have no release version, so their entries name the ContextBench commit."
+      },
+      {
+        "split": "full",
+        "size": 1136,
+        "harness": "agent",
+        "supported_agents": [
+          "openhands@1.2.1",
+          "MopenHands@0.25.0",
+          "mini-swe-agent@1.17.3",
+          "swe-agent@1.1.0",
+          "swe-agent@0.6.0",
+          "agentless@1436c28",
+          "prometheus@1436c28"
+        ],
+        "adaptable": true,
+        "notes": "1,133 of the 1,136 rows can be adapted. Three Multi-SWE-bench rows have empty gold context in every published ContextBench revision and cannot be restored (scripts/output/upstream-defects.json). ContextBench runs each framework from its own copy in agent-frameworks/ at commit 1436c28a8eb95496da4ea69ad458b9f8a8eb7d61. openhands@1.2.1 and swe-agent@1.1.0 run the SWE-bench Verified, SWE-PolyBench and SWE-bench Pro rows; MopenHands@0.25.0 (the Multi-SWE-bench fork of OpenHands) and swe-agent@0.6.0 run the Multi-SWE-bench rows; mini-swe-agent@1.17.3 runs all four. Agentless and Prometheus have no release version, so their entries name the ContextBench commit."
+      }
+    ],
+    "harbor_adapter": [
+      {
+        "split": "verified",
+        "adapted_benchmark_size": 500,
+        "parity_benchmark_size": 10,
+        "parity_sampling_rate": 0.02,
+        "registry_benchmark_size": 500,
+        "added_agents": [
+          "None"
+        ],
+        "parity_matching_agents": [
+          "openhands@1.2.1+bedrock/us.anthropic.claude-sonnet-4-5-20250929-v1:0"
+        ],
+        "parity_unmatching_agents": [
+          "None"
+        ],
+        "parity_costs": "$834.24",
+        "notes": "The default dataset and the one to register; it is not registered yet, so registry_benchmark_size is the planned size. No custom agent was added; the verifier scores any agent's ATIF trajectory under the attribution rule in ATTRIBUTION.md (attribution_version 6). Parity ran on the ten SWE-bench Verified tasks of --split parity, three runs per side ($834.24 for the three run pairs). Claude Code 2.1.328 and mini-swe-agent 2.4.6 with us.anthropic.claude-sonnet-5-5 also ran on 8 verified-test tasks as a compatibility check, not as parity. The adapter also generates the full parquet (--dataset full --skip-invalid-source-rows): 1,133 of its 1,136 rows; that dataset is not planned for registration."
+      }
+    ]
+  }
+]

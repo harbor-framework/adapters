@@ -1,0 +1,39 @@
+[
+  {
+    "adapter_name": "contextbench",
+    "agent": "openhands@1.2.1",
+    "model": "bedrock/us.anthropic.claude-sonnet-4-5-20250929-v1:0",
+    "date": "2026-08-31",
+    "adapted_benchmark_size": 500,
+    "parity_benchmark_size": 10,
+    "number_of_runs": 3,
+    "notes": "Historical entry. OpenHands 1.2.1 ran three times through ContextBench's own harness and three times through Harbor on the first ten SWE-bench Verified rows of verified-test (--split parity; the same rows are in verified). Both sides shared the prompt, SWE-bench image, workspace path, OpenHands configuration and serial execution pinned in parity/harness_experiment.json. The trials ran on 2026-08-30 and 2026-08-31 from a Harbor checkout based on harbor-framework/harbor commit 74cc6312 (Harbor 0.22.0), with an earlier revision of the adapter whose verifier used attribution_version 2. Each side completed three runs; ContextBench's second run failed to start six times on infrastructure errors before any agent step and completed at the seventh start; no completed run was repeated or discarded. The metric pools the ten tasks, dividing the gold files found by their 23 gold files. The original side is scored by ContextBench's OpenHands extractor and evaluator. The Harbor runs are the verifier's rewards from the time, and the current verifier (attribution_version 6, Harbor 0.26.0) reproduces them exactly from the published trajectories (parity/run_harness_parity.sh rescore). The run ranges [0.782609, 0.869565] and [0.739130, 0.826087] overlap. File coverage is the same under ContextBench's extractor and the attribution rule on both sides. Of the seven other final metrics, file precision and symbol precision have disjoint ranges; only file coverage gates parity. An offline rescore published in September 2026 had reported Harbor runs of 0.869565, 0.826087 and 0.826087 because it credited blank diff lines, a defect since fixed. Preparation replaced each task's instruction, image, working directory and collect command, so the experiment does not test the default task image or instruction, and it covers only the SWE-bench Verified runner. dataset_pr is null because registration waits for the Harbor team's decision on parity coverage.",
+    "original_parity_repo": "https://github.com/EuniAI/ContextBench/tree/1436c28a8eb95496da4ea69ad458b9f8a8eb7d61",
+    "adapter_pr": [
+      "https://github.com/harbor-framework/adapters/pull/124",
+      "https://github.com/harbor-framework/harbor/pull/3129"
+    ],
+    "dataset_pr": null,
+    "parity_pr": [
+      "https://huggingface.co/datasets/harborframework/parity-experiments/discussions/269"
+    ],
+    "metrics": [
+      {
+        "benchmark_name": "ContextBench",
+        "metric": "micro-averaged final file coverage",
+        "original": "0.811594 ± 0.028986",
+        "harbor": "0.768116 ± 0.028986",
+        "original_runs": [
+          0.782608695652174,
+          0.782608695652174,
+          0.8695652173913043
+        ],
+        "harbor_runs": [
+          0.8260869565217391,
+          0.7391304347826086,
+          0.7391304347826086
+        ]
+      }
+    ]
+  }
+]

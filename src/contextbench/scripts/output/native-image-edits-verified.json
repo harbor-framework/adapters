@@ -1,0 +1,1274 @@
+{
+  "contextbench_commit": "1436c28a8eb95496da4ea69ad458b9f8a8eb7d61",
+  "dataset": "verified",
+  "dataset_sha256": "e9dcfd504cbfb849ac815a79040c793d0d92f94eecc9b5a4ee3e1445a2f8a791",
+  "description": "Native images whose repository, as the image leaves it, differs from the base commit in files tracked there: edited content or deleted files, with file modes ignored.",
+  "adapter_handling": "The agent image keeps these edits in the working tree, with HEAD and the index at the base commit, and records the tree it leaves as the model patch's baseline, so the patch holds only the agent's changes. Git ignores file modes in the agent image, so mode-only changes (`with_mode_changes`) do not show as edits.",
+  "counts_by_source": {
+    "Multi": {
+      "edited": 15,
+      "tasks": 156,
+      "unchanged": 141,
+      "with_mode_changes": 0
+    },
+    "Poly": {
+      "edited": 70,
+      "tasks": 116,
+      "unchanged": 46,
+      "with_mode_changes": 0
+    },
+    "Pro": {
+      "edited": 1,
+      "tasks": 54,
+      "unchanged": 53,
+      "with_mode_changes": 0
+    },
+    "Verified": {
+      "edited": 18,
+      "tasks": 174,
+      "unchanged": 156,
+      "with_mode_changes": 33
+    }
+  },
+  "edited": [
+    {
+      "instance_id": "Multi-SWE-Bench__java__maintenance__bugfix__07d7817b",
+      "source": "Multi",
+      "native_image": "docker.io/mswebench/fasterxml_m_jackson-databind:pr-4469",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 1,
+      "changes": [
+        "M\tpom.xml"
+      ]
+    },
+    {
+      "instance_id": "Multi-SWE-Bench__java__maintenance__bugfix__2bd87230",
+      "source": "Multi",
+      "native_image": "docker.io/mswebench/fasterxml_m_jackson-databind:pr-3701",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 1,
+      "changes": [
+        "M\tpom.xml"
+      ]
+    },
+    {
+      "instance_id": "Multi-SWE-Bench__java__maintenance__bugfix__36a08326",
+      "source": "Multi",
+      "native_image": "docker.io/mswebench/fasterxml_m_jackson-databind:pr-4641",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 1,
+      "changes": [
+        "M\tpom.xml"
+      ]
+    },
+    {
+      "instance_id": "Multi-SWE-Bench__java__maintenance__bugfix__5eea2978",
+      "source": "Multi",
+      "native_image": "docker.io/mswebench/fasterxml_m_jackson-core:pr-1016",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 1,
+      "changes": [
+        "M\tpom.xml"
+      ]
+    },
+    {
+      "instance_id": "Multi-SWE-Bench__java__maintenance__bugfix__6ba3d94b",
+      "source": "Multi",
+      "native_image": "docker.io/mswebench/fasterxml_m_jackson-core:pr-964",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 1,
+      "changes": [
+        "M\tpom.xml"
+      ]
+    },
+    {
+      "instance_id": "Multi-SWE-Bench__java__maintenance__bugfix__9a3d9d3f",
+      "source": "Multi",
+      "native_image": "docker.io/mswebench/fasterxml_m_jackson-databind:pr-4015",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 1,
+      "changes": [
+        "M\tpom.xml"
+      ]
+    },
+    {
+      "instance_id": "Multi-SWE-Bench__java__maintenance__bugfix__be0b5fff",
+      "source": "Multi",
+      "native_image": "docker.io/mswebench/fasterxml_m_jackson-databind:pr-4050",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 1,
+      "changes": [
+        "M\tpom.xml"
+      ]
+    },
+    {
+      "instance_id": "Multi-SWE-Bench__java__maintenance__bugfix__ec4f6157",
+      "source": "Multi",
+      "native_image": "docker.io/mswebench/fasterxml_m_jackson-dataformat-xml:pr-638",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 1,
+      "changes": [
+        "M\tpom.xml"
+      ]
+    },
+    {
+      "instance_id": "Multi-SWE-Bench__javascript__maintenance__bugfix__2d9d9f71",
+      "source": "Multi",
+      "native_image": "docker.io/mswebench/iamkun_m_dayjs:pr-1414",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 1,
+      "changes": [
+        "M\tpackage.json"
+      ]
+    },
+    {
+      "instance_id": "Multi-SWE-Bench__javascript__maintenance__bugfix__3d84a3a4",
+      "source": "Multi",
+      "native_image": "docker.io/mswebench/iamkun_m_dayjs:pr-882",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 1,
+      "changes": [
+        "M\tpackage.json"
+      ]
+    },
+    {
+      "instance_id": "Multi-SWE-Bench__javascript__maintenance__bugfix__5b47b0dd",
+      "source": "Multi",
+      "native_image": "docker.io/mswebench/iamkun_m_dayjs:pr-1319",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 1,
+      "changes": [
+        "M\tpackage.json"
+      ]
+    },
+    {
+      "instance_id": "Multi-SWE-Bench__javascript__maintenance__bugfix__72488b59",
+      "source": "Multi",
+      "native_image": "docker.io/mswebench/iamkun_m_dayjs:pr-734",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 1,
+      "changes": [
+        "M\tpackage.json"
+      ]
+    },
+    {
+      "instance_id": "Multi-SWE-Bench__javascript__maintenance__bugfix__87d9772c",
+      "source": "Multi",
+      "native_image": "docker.io/mswebench/iamkun_m_dayjs:pr-938",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 1,
+      "changes": [
+        "M\tpackage.json"
+      ]
+    },
+    {
+      "instance_id": "Multi-SWE-Bench__javascript__maintenance__bugfix__b31d2f53",
+      "source": "Multi",
+      "native_image": "docker.io/mswebench/iamkun_m_dayjs:pr-1725",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 1,
+      "changes": [
+        "M\tpackage.json"
+      ]
+    },
+    {
+      "instance_id": "Multi-SWE-Bench__javascript__maintenance__bugfix__eea782b2",
+      "source": "Multi",
+      "native_image": "docker.io/mswebench/iamkun_m_dayjs:pr-1611",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 1,
+      "changes": [
+        "M\tpackage.json"
+      ]
+    },
+    {
+      "instance_id": "SWE-Bench-Pro__go__maintenance__bugfix__6efcf999",
+      "source": "Pro",
+      "native_image": "docker.io/jefzda/sweap-images:flipt-io.flipt-flipt-io__flipt-3d5a345f94c2adc8a0eaa102c189c08ad4c0f8e8",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 1,
+      "changes": [
+        "M\tgo.work.sum"
+      ]
+    },
+    {
+      "instance_id": "SWE-Bench-Verified__python__maintenance__bugfix__0f3c174a",
+      "source": "Verified",
+      "native_image": "docker.io/swebench/sweb.eval.x86_64.sphinx-doc_1776_sphinx-8638:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 2,
+      "changes": [
+        "M\tsetup.py",
+        "M\ttox.ini"
+      ]
+    },
+    {
+      "instance_id": "SWE-Bench-Verified__python__maintenance__bugfix__1ce4c38e",
+      "source": "Verified",
+      "native_image": "docker.io/swebench/sweb.eval.x86_64.astropy_1776_astropy-14995:latest",
+      "status": "edited",
+      "mode_changes": 1762,
+      "files": 1,
+      "changes": [
+        "M\tpyproject.toml"
+      ]
+    },
+    {
+      "instance_id": "SWE-Bench-Verified__python__maintenance__bugfix__1d90db61",
+      "source": "Verified",
+      "native_image": "docker.io/swebench/sweb.eval.x86_64.astropy_1776_astropy-14096:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 1,
+      "changes": [
+        "M\tpyproject.toml"
+      ]
+    },
+    {
+      "instance_id": "SWE-Bench-Verified__python__maintenance__bugfix__28ed0b77",
+      "source": "Verified",
+      "native_image": "docker.io/swebench/sweb.eval.x86_64.sphinx-doc_1776_sphinx-10614:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 1,
+      "changes": [
+        "M\ttox.ini"
+      ]
+    },
+    {
+      "instance_id": "SWE-Bench-Verified__python__maintenance__bugfix__30065f19",
+      "source": "Verified",
+      "native_image": "docker.io/swebench/sweb.eval.x86_64.sphinx-doc_1776_sphinx-9461:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 2,
+      "changes": [
+        "M\tsetup.py",
+        "M\ttox.ini"
+      ]
+    },
+    {
+      "instance_id": "SWE-Bench-Verified__python__maintenance__bugfix__3185b834",
+      "source": "Verified",
+      "native_image": "docker.io/swebench/sweb.eval.x86_64.astropy_1776_astropy-14598:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 1,
+      "changes": [
+        "M\tpyproject.toml"
+      ]
+    },
+    {
+      "instance_id": "SWE-Bench-Verified__python__maintenance__bugfix__59acbd9a",
+      "source": "Verified",
+      "native_image": "docker.io/swebench/sweb.eval.x86_64.sphinx-doc_1776_sphinx-7910:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 2,
+      "changes": [
+        "M\tsetup.py",
+        "M\ttox.ini"
+      ]
+    },
+    {
+      "instance_id": "SWE-Bench-Verified__python__maintenance__bugfix__71f348da",
+      "source": "Verified",
+      "native_image": "docker.io/swebench/sweb.eval.x86_64.astropy_1776_astropy-13579:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 1,
+      "changes": [
+        "M\tpyproject.toml"
+      ]
+    },
+    {
+      "instance_id": "SWE-Bench-Verified__python__maintenance__bugfix__765e5e14",
+      "source": "Verified",
+      "native_image": "docker.io/swebench/sweb.eval.x86_64.sphinx-doc_1776_sphinx-10449:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 1,
+      "changes": [
+        "M\ttox.ini"
+      ]
+    },
+    {
+      "instance_id": "SWE-Bench-Verified__python__maintenance__bugfix__7afb30f5",
+      "source": "Verified",
+      "native_image": "docker.io/swebench/sweb.eval.x86_64.sphinx-doc_1776_sphinx-11445:latest",
+      "status": "edited",
+      "mode_changes": 1632,
+      "files": 1,
+      "changes": [
+        "M\ttox.ini"
+      ]
+    },
+    {
+      "instance_id": "SWE-Bench-Verified__python__maintenance__bugfix__7db465d6",
+      "source": "Verified",
+      "native_image": "docker.io/swebench/sweb.eval.x86_64.sphinx-doc_1776_sphinx-9698:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 2,
+      "changes": [
+        "M\tsetup.py",
+        "M\ttox.ini"
+      ]
+    },
+    {
+      "instance_id": "SWE-Bench-Verified__python__maintenance__bugfix__83fd3b37",
+      "source": "Verified",
+      "native_image": "docker.io/swebench/sweb.eval.x86_64.sphinx-doc_1776_sphinx-8265:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 2,
+      "changes": [
+        "M\tsetup.py",
+        "M\ttox.ini"
+      ]
+    },
+    {
+      "instance_id": "SWE-Bench-Verified__python__maintenance__bugfix__8c647f3a",
+      "source": "Verified",
+      "native_image": "docker.io/swebench/sweb.eval.x86_64.sphinx-doc_1776_sphinx-9602:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 2,
+      "changes": [
+        "M\tsetup.py",
+        "M\ttox.ini"
+      ]
+    },
+    {
+      "instance_id": "SWE-Bench-Verified__python__maintenance__bugfix__9dcac3ec",
+      "source": "Verified",
+      "native_image": "docker.io/swebench/sweb.eval.x86_64.sphinx-doc_1776_sphinx-9367:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 2,
+      "changes": [
+        "M\tsetup.py",
+        "M\ttox.ini"
+      ]
+    },
+    {
+      "instance_id": "SWE-Bench-Verified__python__maintenance__bugfix__b5cec962",
+      "source": "Verified",
+      "native_image": "docker.io/swebench/sweb.eval.x86_64.sphinx-doc_1776_sphinx-7462:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 2,
+      "changes": [
+        "M\tsetup.py",
+        "M\ttox.ini"
+      ]
+    },
+    {
+      "instance_id": "SWE-Bench-Verified__python__maintenance__bugfix__d0723f55",
+      "source": "Verified",
+      "native_image": "docker.io/swebench/sweb.eval.x86_64.sphinx-doc_1776_sphinx-8120:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 2,
+      "changes": [
+        "M\tsetup.py",
+        "M\ttox.ini"
+      ]
+    },
+    {
+      "instance_id": "SWE-Bench-Verified__python__maintenance__bugfix__deb49033",
+      "source": "Verified",
+      "native_image": "docker.io/swebench/sweb.eval.x86_64.astropy_1776_astropy-13398:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 1,
+      "changes": [
+        "M\tpyproject.toml"
+      ]
+    },
+    {
+      "instance_id": "SWE-Bench-Verified__python__maintenance__bugfix__e5a3bf2a",
+      "source": "Verified",
+      "native_image": "docker.io/swebench/sweb.eval.x86_64.astropy_1776_astropy-14539:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 1,
+      "changes": [
+        "M\tpyproject.toml"
+      ]
+    },
+    {
+      "instance_id": "SWE-PolyBench__javascript__maintenance__bugfix__0f1fd789",
+      "source": "Poly",
+      "native_image": "ghcr.io/timesler/swe-polybench.eval.x86_64.serverless__serverless-5775:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 2,
+      "changes": [
+        "M\tDockerfile",
+        "M\tpackage-lock.json"
+      ]
+    },
+    {
+      "instance_id": "SWE-PolyBench__javascript__maintenance__bugfix__108b2d38",
+      "source": "Poly",
+      "native_image": "ghcr.io/timesler/swe-polybench.eval.x86_64.prettier__prettier-14400:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 1,
+      "changes": [
+        "M\tpackage.json"
+      ]
+    },
+    {
+      "instance_id": "SWE-PolyBench__javascript__maintenance__bugfix__10ab7842",
+      "source": "Poly",
+      "native_image": "ghcr.io/timesler/swe-polybench.eval.x86_64.prettier__prettier-361:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 1,
+      "changes": [
+        "M\tpackage.json"
+      ]
+    },
+    {
+      "instance_id": "SWE-PolyBench__javascript__maintenance__bugfix__11e78a8d",
+      "source": "Poly",
+      "native_image": "ghcr.io/timesler/swe-polybench.eval.x86_64.sveltejs__svelte-3314:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 2,
+      "changes": [
+        "M\tpackage-lock.json",
+        "M\tpackage.json"
+      ]
+    },
+    {
+      "instance_id": "SWE-PolyBench__javascript__maintenance__bugfix__1ad00901",
+      "source": "Poly",
+      "native_image": "ghcr.io/timesler/swe-polybench.eval.x86_64.sveltejs__svelte-510:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 1,
+      "changes": [
+        "M\tpackage.json"
+      ]
+    },
+    {
+      "instance_id": "SWE-PolyBench__javascript__maintenance__bugfix__1e29a469",
+      "source": "Poly",
+      "native_image": "ghcr.io/timesler/swe-polybench.eval.x86_64.sveltejs__svelte-6458:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 2,
+      "changes": [
+        "M\tpackage-lock.json",
+        "M\tpackage.json"
+      ]
+    },
+    {
+      "instance_id": "SWE-PolyBench__javascript__maintenance__bugfix__21086305",
+      "source": "Poly",
+      "native_image": "ghcr.io/timesler/swe-polybench.eval.x86_64.prettier__prettier-11000:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 1,
+      "changes": [
+        "M\tpackage.json"
+      ]
+    },
+    {
+      "instance_id": "SWE-PolyBench__javascript__maintenance__bugfix__27e1903f",
+      "source": "Poly",
+      "native_image": "ghcr.io/timesler/swe-polybench.eval.x86_64.sveltejs__svelte-5875:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 2,
+      "changes": [
+        "M\tpackage-lock.json",
+        "M\tpackage.json"
+      ]
+    },
+    {
+      "instance_id": "SWE-PolyBench__javascript__maintenance__bugfix__2d7a3934",
+      "source": "Poly",
+      "native_image": "ghcr.io/timesler/swe-polybench.eval.x86_64.prettier__prettier-3515:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 1,
+      "changes": [
+        "M\tpackage.json"
+      ]
+    },
+    {
+      "instance_id": "SWE-PolyBench__javascript__maintenance__bugfix__3b6e6f3a",
+      "source": "Poly",
+      "native_image": "ghcr.io/timesler/swe-polybench.eval.x86_64.prettier__prettier-8046:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 1,
+      "changes": [
+        "M\tpackage.json"
+      ]
+    },
+    {
+      "instance_id": "SWE-PolyBench__javascript__maintenance__bugfix__463d4713",
+      "source": "Poly",
+      "native_image": "ghcr.io/timesler/swe-polybench.eval.x86_64.prettier__prettier-3723:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 1,
+      "changes": [
+        "M\tpackage.json"
+      ]
+    },
+    {
+      "instance_id": "SWE-PolyBench__javascript__maintenance__bugfix__4d090fc6",
+      "source": "Poly",
+      "native_image": "ghcr.io/timesler/swe-polybench.eval.x86_64.serverless__serverless-2576:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 1,
+      "changes": [
+        "M\tnpm-shrinkwrap.json"
+      ]
+    },
+    {
+      "instance_id": "SWE-PolyBench__javascript__maintenance__bugfix__59dd675b",
+      "source": "Poly",
+      "native_image": "ghcr.io/timesler/swe-polybench.eval.x86_64.serverless__serverless-7374:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 1,
+      "changes": [
+        "M\tDockerfile"
+      ]
+    },
+    {
+      "instance_id": "SWE-PolyBench__javascript__maintenance__bugfix__63513ada",
+      "source": "Poly",
+      "native_image": "ghcr.io/timesler/swe-polybench.eval.x86_64.sveltejs__svelte-3749:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 2,
+      "changes": [
+        "M\tpackage-lock.json",
+        "M\tpackage.json"
+      ]
+    },
+    {
+      "instance_id": "SWE-PolyBench__javascript__maintenance__bugfix__78039f77",
+      "source": "Poly",
+      "native_image": "ghcr.io/timesler/swe-polybench.eval.x86_64.sveltejs__svelte-1310:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 2,
+      "changes": [
+        "M\tpackage.json",
+        "M\tyarn.lock"
+      ]
+    },
+    {
+      "instance_id": "SWE-PolyBench__javascript__maintenance__bugfix__7e3e2bb9",
+      "source": "Poly",
+      "native_image": "ghcr.io/timesler/swe-polybench.eval.x86_64.sveltejs__svelte-3702:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 2,
+      "changes": [
+        "M\tpackage-lock.json",
+        "M\tpackage.json"
+      ]
+    },
+    {
+      "instance_id": "SWE-PolyBench__javascript__maintenance__bugfix__8cc426dd",
+      "source": "Poly",
+      "native_image": "ghcr.io/timesler/swe-polybench.eval.x86_64.sveltejs__svelte-3451:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 2,
+      "changes": [
+        "M\tpackage-lock.json",
+        "M\tpackage.json"
+      ]
+    },
+    {
+      "instance_id": "SWE-PolyBench__javascript__maintenance__bugfix__9b08d665",
+      "source": "Poly",
+      "native_image": "ghcr.io/timesler/swe-polybench.eval.x86_64.prettier__prettier-12930:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 1,
+      "changes": [
+        "M\tpackage.json"
+      ]
+    },
+    {
+      "instance_id": "SWE-PolyBench__javascript__maintenance__bugfix__9c9b931e",
+      "source": "Poly",
+      "native_image": "ghcr.io/timesler/swe-polybench.eval.x86_64.serverless__serverless-2945:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 1,
+      "changes": [
+        "M\tnpm-shrinkwrap.json"
+      ]
+    },
+    {
+      "instance_id": "SWE-PolyBench__javascript__maintenance__bugfix__9ca0e415",
+      "source": "Poly",
+      "native_image": "ghcr.io/timesler/swe-polybench.eval.x86_64.sveltejs__svelte-3403:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 2,
+      "changes": [
+        "M\tpackage-lock.json",
+        "M\tpackage.json"
+      ]
+    },
+    {
+      "instance_id": "SWE-PolyBench__javascript__maintenance__bugfix__9d623e73",
+      "source": "Poly",
+      "native_image": "ghcr.io/timesler/swe-polybench.eval.x86_64.sveltejs__svelte-728:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 2,
+      "changes": [
+        "M\tpackage.json",
+        "M\tyarn.lock"
+      ]
+    },
+    {
+      "instance_id": "SWE-PolyBench__javascript__maintenance__bugfix__a65e43ee",
+      "source": "Poly",
+      "native_image": "ghcr.io/timesler/swe-polybench.eval.x86_64.serverless__serverless-5571:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 2,
+      "changes": [
+        "M\tDockerfile",
+        "M\tpackage-lock.json"
+      ]
+    },
+    {
+      "instance_id": "SWE-PolyBench__javascript__maintenance__bugfix__b9ce6a70",
+      "source": "Poly",
+      "native_image": "ghcr.io/timesler/swe-polybench.eval.x86_64.sveltejs__svelte-3151:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 2,
+      "changes": [
+        "M\tpackage-lock.json",
+        "M\tpackage.json"
+      ]
+    },
+    {
+      "instance_id": "SWE-PolyBench__javascript__maintenance__bugfix__c017c9ba",
+      "source": "Poly",
+      "native_image": "ghcr.io/timesler/swe-polybench.eval.x86_64.prettier__prettier-6604:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 1,
+      "changes": [
+        "M\tpackage.json"
+      ]
+    },
+    {
+      "instance_id": "SWE-PolyBench__javascript__maintenance__bugfix__c26fd1ab",
+      "source": "Poly",
+      "native_image": "ghcr.io/timesler/swe-polybench.eval.x86_64.sveltejs__svelte-3949:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 2,
+      "changes": [
+        "M\tpackage-lock.json",
+        "M\tpackage.json"
+      ]
+    },
+    {
+      "instance_id": "SWE-PolyBench__javascript__maintenance__bugfix__c6d3e230",
+      "source": "Poly",
+      "native_image": "ghcr.io/timesler/swe-polybench.eval.x86_64.sveltejs__svelte-3305:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 2,
+      "changes": [
+        "M\tpackage-lock.json",
+        "M\tpackage.json"
+      ]
+    },
+    {
+      "instance_id": "SWE-PolyBench__javascript__maintenance__bugfix__d1cb6b19",
+      "source": "Poly",
+      "native_image": "ghcr.io/timesler/swe-polybench.eval.x86_64.sveltejs__svelte-1923:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 2,
+      "changes": [
+        "M\tpackage-lock.json",
+        "M\tpackage.json"
+      ]
+    },
+    {
+      "instance_id": "SWE-PolyBench__javascript__maintenance__bugfix__d3babcfe",
+      "source": "Poly",
+      "native_image": "ghcr.io/timesler/swe-polybench.eval.x86_64.sveltejs__svelte-1227:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 2,
+      "changes": [
+        "M\tpackage.json",
+        "M\tyarn.lock"
+      ]
+    },
+    {
+      "instance_id": "SWE-PolyBench__javascript__maintenance__bugfix__d6eb75d7",
+      "source": "Poly",
+      "native_image": "ghcr.io/timesler/swe-polybench.eval.x86_64.prettier__prettier-459:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 1,
+      "changes": [
+        "M\tpackage.json"
+      ]
+    },
+    {
+      "instance_id": "SWE-PolyBench__javascript__maintenance__bugfix__e21304a6",
+      "source": "Poly",
+      "native_image": "ghcr.io/timesler/swe-polybench.eval.x86_64.sveltejs__svelte-907:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 2,
+      "changes": [
+        "M\tpackage.json",
+        "M\tyarn.lock"
+      ]
+    },
+    {
+      "instance_id": "SWE-PolyBench__javascript__maintenance__bugfix__e647c8ce",
+      "source": "Poly",
+      "native_image": "ghcr.io/timesler/swe-polybench.eval.x86_64.sveltejs__svelte-4288:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 2,
+      "changes": [
+        "M\tpackage-lock.json",
+        "M\tpackage.json"
+      ]
+    },
+    {
+      "instance_id": "SWE-PolyBench__javascript__maintenance__bugfix__eb1411ba",
+      "source": "Poly",
+      "native_image": "ghcr.io/timesler/swe-polybench.eval.x86_64.sveltejs__svelte-2185:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 2,
+      "changes": [
+        "M\tpackage-lock.json",
+        "M\tpackage.json"
+      ]
+    },
+    {
+      "instance_id": "SWE-PolyBench__javascript__maintenance__bugfix__f4541fb1",
+      "source": "Poly",
+      "native_image": "ghcr.io/timesler/swe-polybench.eval.x86_64.serverless__serverless-3457:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 2,
+      "changes": [
+        "M\tDockerfile",
+        "M\tnpm-shrinkwrap.json"
+      ]
+    },
+    {
+      "instance_id": "SWE-PolyBench__python__evolution__feature__674464fb",
+      "source": "Poly",
+      "native_image": "ghcr.io/timesler/swe-polybench.eval.x86_64.huggingface__transformers-28517:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 1,
+      "changes": [
+        "M\tsetup.py"
+      ]
+    },
+    {
+      "instance_id": "SWE-PolyBench__python__evolution__feature__7fe6d907",
+      "source": "Poly",
+      "native_image": "ghcr.io/timesler/swe-polybench.eval.x86_64.huggingface__transformers-27463:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 1,
+      "changes": [
+        "M\tsetup.py"
+      ]
+    },
+    {
+      "instance_id": "SWE-PolyBench__python__evolution__feature__8bb50331",
+      "source": "Poly",
+      "native_image": "ghcr.io/timesler/swe-polybench.eval.x86_64.huggingface__transformers-13989:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 1,
+      "changes": [
+        "M\ttests/test_tokenization_auto.py"
+      ]
+    },
+    {
+      "instance_id": "SWE-PolyBench__python__maintenance__bugfix__023915d6",
+      "source": "Poly",
+      "native_image": "ghcr.io/timesler/swe-polybench.eval.x86_64.huggingface__transformers-27663:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 1,
+      "changes": [
+        "M\tsetup.py"
+      ]
+    },
+    {
+      "instance_id": "SWE-PolyBench__python__maintenance__bugfix__158909b8",
+      "source": "Poly",
+      "native_image": "ghcr.io/timesler/swe-polybench.eval.x86_64.huggingface__transformers-28071:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 1,
+      "changes": [
+        "M\tsetup.py"
+      ]
+    },
+    {
+      "instance_id": "SWE-PolyBench__python__maintenance__bugfix__40f09c26",
+      "source": "Poly",
+      "native_image": "ghcr.io/timesler/swe-polybench.eval.x86_64.huggingface__transformers-28535:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 1,
+      "changes": [
+        "M\tsetup.py"
+      ]
+    },
+    {
+      "instance_id": "SWE-PolyBench__python__maintenance__bugfix__52a91dd8",
+      "source": "Poly",
+      "native_image": "ghcr.io/timesler/swe-polybench.eval.x86_64.langchain-ai__langchain-5609:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 2,
+      "changes": [
+        "D\t.dockerignore",
+        "M\tDockerfile"
+      ]
+    },
+    {
+      "instance_id": "SWE-PolyBench__python__maintenance__bugfix__9ff56151",
+      "source": "Poly",
+      "native_image": "ghcr.io/timesler/swe-polybench.eval.x86_64.huggingface__transformers-17082:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 1,
+      "changes": [
+        "M\tsrc/transformers/utils/hub.py"
+      ]
+    },
+    {
+      "instance_id": "SWE-PolyBench__python__maintenance__bugfix__aaf309d2",
+      "source": "Poly",
+      "native_image": "ghcr.io/timesler/swe-polybench.eval.x86_64.langchain-ai__langchain-4009:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 2,
+      "changes": [
+        "D\t.dockerignore",
+        "M\tDockerfile"
+      ]
+    },
+    {
+      "instance_id": "SWE-PolyBench__python__maintenance__bugfix__b52bbc24",
+      "source": "Poly",
+      "native_image": "ghcr.io/timesler/swe-polybench.eval.x86_64.langchain-ai__langchain-5584:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 2,
+      "changes": [
+        "D\t.dockerignore",
+        "M\tDockerfile"
+      ]
+    },
+    {
+      "instance_id": "SWE-PolyBench__python__maintenance__bugfix__ed58622a",
+      "source": "Poly",
+      "native_image": "ghcr.io/timesler/swe-polybench.eval.x86_64.significant-gravitas__autogpt-4652:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 4,
+      "changes": [
+        "D\t.dockerignore",
+        "M\tDockerfile",
+        "M\tREADME.md",
+        "M\tpyproject.toml"
+      ]
+    },
+    {
+      "instance_id": "SWE-PolyBench__typescript__evolution__feature__07098661",
+      "source": "Poly",
+      "native_image": "ghcr.io/timesler/swe-polybench.eval.x86_64.mui__material-ui-12236:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 2,
+      "changes": [
+        "M\tpackage.json",
+        "M\tyarn.lock"
+      ]
+    },
+    {
+      "instance_id": "SWE-PolyBench__typescript__evolution__feature__34826a6a",
+      "source": "Poly",
+      "native_image": "ghcr.io/timesler/swe-polybench.eval.x86_64.mui__material-ui-26807:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 2,
+      "changes": [
+        "M\tpackage.json",
+        "M\tyarn.lock"
+      ]
+    },
+    {
+      "instance_id": "SWE-PolyBench__typescript__evolution__feature__41cd3842",
+      "source": "Poly",
+      "native_image": "ghcr.io/timesler/swe-polybench.eval.x86_64.coder__code-server-4923:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 1,
+      "changes": [
+        "D\t.dockerignore"
+      ]
+    },
+    {
+      "instance_id": "SWE-PolyBench__typescript__evolution__feature__684a3415",
+      "source": "Poly",
+      "native_image": "ghcr.io/timesler/swe-polybench.eval.x86_64.mui__material-ui-11987:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 2,
+      "changes": [
+        "M\tpackage.json",
+        "M\tyarn.lock"
+      ]
+    },
+    {
+      "instance_id": "SWE-PolyBench__typescript__evolution__feature__c2e9e5ff",
+      "source": "Poly",
+      "native_image": "ghcr.io/timesler/swe-polybench.eval.x86_64.mui__material-ui-13534:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 2,
+      "changes": [
+        "M\tpackage.json",
+        "M\tyarn.lock"
+      ]
+    },
+    {
+      "instance_id": "SWE-PolyBench__typescript__evolution__feature__d520ba22",
+      "source": "Poly",
+      "native_image": "ghcr.io/timesler/swe-polybench.eval.x86_64.mui__material-ui-28813:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 2,
+      "changes": [
+        "M\tpackage.json",
+        "M\tyarn.lock"
+      ]
+    },
+    {
+      "instance_id": "SWE-PolyBench__typescript__maintenance__bugfix__0307e40c",
+      "source": "Poly",
+      "native_image": "ghcr.io/timesler/swe-polybench.eval.x86_64.mui__material-ui-15526:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 2,
+      "changes": [
+        "M\tpackage.json",
+        "M\tyarn.lock"
+      ]
+    },
+    {
+      "instance_id": "SWE-PolyBench__typescript__maintenance__bugfix__15589352",
+      "source": "Poly",
+      "native_image": "ghcr.io/timesler/swe-polybench.eval.x86_64.mui__material-ui-34610:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 2,
+      "changes": [
+        "M\tpackage.json",
+        "M\tyarn.lock"
+      ]
+    },
+    {
+      "instance_id": "SWE-PolyBench__typescript__maintenance__bugfix__18d389e5",
+      "source": "Poly",
+      "native_image": "ghcr.io/timesler/swe-polybench.eval.x86_64.mui__material-ui-15359:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 2,
+      "changes": [
+        "M\tpackage.json",
+        "M\tyarn.lock"
+      ]
+    },
+    {
+      "instance_id": "SWE-PolyBench__typescript__maintenance__bugfix__1de1bd3c",
+      "source": "Poly",
+      "native_image": "ghcr.io/timesler/swe-polybench.eval.x86_64.mui__material-ui-18683:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 2,
+      "changes": [
+        "M\tpackage.json",
+        "M\tyarn.lock"
+      ]
+    },
+    {
+      "instance_id": "SWE-PolyBench__typescript__maintenance__bugfix__27393dd8",
+      "source": "Poly",
+      "native_image": "ghcr.io/timesler/swe-polybench.eval.x86_64.mui__material-ui-19121:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 2,
+      "changes": [
+        "M\tpackage.json",
+        "M\tyarn.lock"
+      ]
+    },
+    {
+      "instance_id": "SWE-PolyBench__typescript__maintenance__bugfix__2bb4ea7a",
+      "source": "Poly",
+      "native_image": "ghcr.io/timesler/swe-polybench.eval.x86_64.mui__material-ui-11451:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 2,
+      "changes": [
+        "M\tpackage.json",
+        "M\tyarn.lock"
+      ]
+    },
+    {
+      "instance_id": "SWE-PolyBench__typescript__maintenance__bugfix__2bfb742a",
+      "source": "Poly",
+      "native_image": "ghcr.io/timesler/swe-polybench.eval.x86_64.mui__material-ui-20252:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 2,
+      "changes": [
+        "M\tpackage.json",
+        "M\tyarn.lock"
+      ]
+    },
+    {
+      "instance_id": "SWE-PolyBench__typescript__maintenance__bugfix__2d1b4a72",
+      "source": "Poly",
+      "native_image": "ghcr.io/timesler/swe-polybench.eval.x86_64.mui__material-ui-18141:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 2,
+      "changes": [
+        "M\tpackage.json",
+        "M\tyarn.lock"
+      ]
+    },
+    {
+      "instance_id": "SWE-PolyBench__typescript__maintenance__bugfix__3864c137",
+      "source": "Poly",
+      "native_image": "ghcr.io/timesler/swe-polybench.eval.x86_64.mui__material-ui-29023:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 2,
+      "changes": [
+        "M\tpackage.json",
+        "M\tyarn.lock"
+      ]
+    },
+    {
+      "instance_id": "SWE-PolyBench__typescript__maintenance__bugfix__42165c4e",
+      "source": "Poly",
+      "native_image": "ghcr.io/timesler/swe-polybench.eval.x86_64.coder__code-server-6278:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 1,
+      "changes": [
+        "D\t.dockerignore"
+      ]
+    },
+    {
+      "instance_id": "SWE-PolyBench__typescript__maintenance__bugfix__48e5846a",
+      "source": "Poly",
+      "native_image": "ghcr.io/timesler/swe-polybench.eval.x86_64.mui__material-ui-23229:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 2,
+      "changes": [
+        "M\tpackage.json",
+        "M\tyarn.lock"
+      ]
+    },
+    {
+      "instance_id": "SWE-PolyBench__typescript__maintenance__bugfix__52180d42",
+      "source": "Poly",
+      "native_image": "ghcr.io/timesler/swe-polybench.eval.x86_64.mui__material-ui-18257:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 2,
+      "changes": [
+        "M\tpackage.json",
+        "M\tyarn.lock"
+      ]
+    },
+    {
+      "instance_id": "SWE-PolyBench__typescript__maintenance__bugfix__6659fd5a",
+      "source": "Poly",
+      "native_image": "ghcr.io/timesler/swe-polybench.eval.x86_64.mui__material-ui-19072:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 2,
+      "changes": [
+        "M\tpackage.json",
+        "M\tyarn.lock"
+      ]
+    },
+    {
+      "instance_id": "SWE-PolyBench__typescript__maintenance__bugfix__6688f2d9",
+      "source": "Poly",
+      "native_image": "ghcr.io/timesler/swe-polybench.eval.x86_64.mui__material-ui-42412:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 2,
+      "changes": [
+        "M\tpackage.json",
+        "M\tpnpm-lock.yaml"
+      ]
+    },
+    {
+      "instance_id": "SWE-PolyBench__typescript__maintenance__bugfix__678fa217",
+      "source": "Poly",
+      "native_image": "ghcr.io/timesler/swe-polybench.eval.x86_64.mui__material-ui-28186:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 2,
+      "changes": [
+        "M\tpackage.json",
+        "M\tyarn.lock"
+      ]
+    },
+    {
+      "instance_id": "SWE-PolyBench__typescript__maintenance__bugfix__6da325be",
+      "source": "Poly",
+      "native_image": "ghcr.io/timesler/swe-polybench.eval.x86_64.mui__material-ui-13778:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 2,
+      "changes": [
+        "M\tpackage.json",
+        "M\tyarn.lock"
+      ]
+    },
+    {
+      "instance_id": "SWE-PolyBench__typescript__maintenance__bugfix__708894b2",
+      "source": "Poly",
+      "native_image": "ghcr.io/timesler/swe-polybench.eval.x86_64.microsoft__vscode-110094:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 2,
+      "changes": [
+        "M\tpackage.json",
+        "M\tyarn.lock"
+      ]
+    },
+    {
+      "instance_id": "SWE-PolyBench__typescript__maintenance__bugfix__7827bc22",
+      "source": "Poly",
+      "native_image": "ghcr.io/timesler/swe-polybench.eval.x86_64.mui__material-ui-26061:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 2,
+      "changes": [
+        "M\tpackage.json",
+        "M\tyarn.lock"
+      ]
+    },
+    {
+      "instance_id": "SWE-PolyBench__typescript__maintenance__bugfix__7d106697",
+      "source": "Poly",
+      "native_image": "ghcr.io/timesler/swe-polybench.eval.x86_64.microsoft__vscode-109750:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 2,
+      "changes": [
+        "M\tpackage.json",
+        "M\tyarn.lock"
+      ]
+    },
+    {
+      "instance_id": "SWE-PolyBench__typescript__maintenance__bugfix__7dfdbbd1",
+      "source": "Poly",
+      "native_image": "ghcr.io/timesler/swe-polybench.eval.x86_64.mui__material-ui-19849:latest",
+      "status": "edited",
+      "mode_changes": 0,
+      "files": 2,
+      "changes": [
+        "M\tpackage.json",
+        "M\tyarn.lock"
+      ]
+    }
+  ],
+  "with_mode_changes": [
+    "SWE-Bench-Verified__python__maintenance__bugfix__074f37ac",
+    "SWE-Bench-Verified__python__maintenance__bugfix__09457b9b",
+    "SWE-Bench-Verified__python__maintenance__bugfix__0eecae1e",
+    "SWE-Bench-Verified__python__maintenance__bugfix__1a760e52",
+    "SWE-Bench-Verified__python__maintenance__bugfix__1ce4c38e",
+    "SWE-Bench-Verified__python__maintenance__bugfix__1eaeabf4",
+    "SWE-Bench-Verified__python__maintenance__bugfix__2ab7d0fc",
+    "SWE-Bench-Verified__python__maintenance__bugfix__2e3d6eae",
+    "SWE-Bench-Verified__python__maintenance__bugfix__3e44d93a",
+    "SWE-Bench-Verified__python__maintenance__bugfix__4b691a35",
+    "SWE-Bench-Verified__python__maintenance__bugfix__4d207ce8",
+    "SWE-Bench-Verified__python__maintenance__bugfix__4d321c4a",
+    "SWE-Bench-Verified__python__maintenance__bugfix__51e329de",
+    "SWE-Bench-Verified__python__maintenance__bugfix__51f3cc91",
+    "SWE-Bench-Verified__python__maintenance__bugfix__58d0e27a",
+    "SWE-Bench-Verified__python__maintenance__bugfix__5c1509d5",
+    "SWE-Bench-Verified__python__maintenance__bugfix__67699b64",
+    "SWE-Bench-Verified__python__maintenance__bugfix__6cf8c11d",
+    "SWE-Bench-Verified__python__maintenance__bugfix__768d44e5",
+    "SWE-Bench-Verified__python__maintenance__bugfix__7afb30f5",
+    "SWE-Bench-Verified__python__maintenance__bugfix__7ccc36b7",
+    "SWE-Bench-Verified__python__maintenance__bugfix__84effcbc",
+    "SWE-Bench-Verified__python__maintenance__bugfix__8971eeba",
+    "SWE-Bench-Verified__python__maintenance__bugfix__8d1c297a",
+    "SWE-Bench-Verified__python__maintenance__bugfix__91e36e16",
+    "SWE-Bench-Verified__python__maintenance__bugfix__9a05fe0c",
+    "SWE-Bench-Verified__python__maintenance__bugfix__a5ec0eec",
+    "SWE-Bench-Verified__python__maintenance__bugfix__a8414dbd",
+    "SWE-Bench-Verified__python__maintenance__bugfix__bdde6d9c",
+    "SWE-Bench-Verified__python__maintenance__bugfix__bdec299d",
+    "SWE-Bench-Verified__python__maintenance__bugfix__c20c3c4f",
+    "SWE-Bench-Verified__python__maintenance__bugfix__c4c8d376",
+    "SWE-Bench-Verified__python__maintenance__bugfix__ec6fdd6e"
+  ],
+  "not_probed": []
+}

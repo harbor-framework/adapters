@@ -1,0 +1,284 @@
+{
+  "attribution_version": 6,
+  "corpus": {
+    "name": "2026-08-21-bedrock-sonnet-4-5",
+    "trajectories": 10
+  },
+  "totals": {
+    "gold_file_count": 23,
+    "oracle": {
+      "file_count": 55,
+      "gold_file_hits": 20,
+      "line_count": 4965,
+      "span_count": 73
+    },
+    "oracle_only_file_total": 3,
+    "rule": {
+      "file_count": 53,
+      "gold_file_hits": 19,
+      "line_count": 4942,
+      "span_count": 186
+    },
+    "rule_only_file_total": 1,
+    "trajectories_with_identical_files": 8
+  },
+  "trajectories": [
+    {
+      "gold_file_count": 1,
+      "instance_id": "SWE-Bench-Verified__python__maintenance__bugfix__0b74a2c7",
+      "label": "SWE-Bench-Verified__python__maintenance__bugfix__0b74a2c7",
+      "oracle": {
+        "file_count": 2,
+        "gold_file_hits": 1,
+        "line_count": 234,
+        "projection_sha256": "6bb3be7ebcaa826839c40f3fe4c329a9e8452bfe66015f7e7973733fe1ea7e13",
+        "span_count": 3,
+        "step_count": 12,
+        "symbol_count": 0
+      },
+      "oracle_only_files": [],
+      "rule": {
+        "file_count": 2,
+        "gold_file_hits": 1,
+        "line_count": 250,
+        "projection_sha256": "d48baeef5002fc5560b3c1db498234fb52769a830a15002475443e828ff7a9ab",
+        "span_count": 28,
+        "step_count": 11,
+        "symbol_count": 0
+      },
+      "rule_only_files": []
+    },
+    {
+      "gold_file_count": 1,
+      "instance_id": "SWE-Bench-Verified__python__maintenance__bugfix__16c72e4c",
+      "label": "SWE-Bench-Verified__python__maintenance__bugfix__16c72e4c",
+      "oracle": {
+        "file_count": 7,
+        "gold_file_hits": 1,
+        "line_count": 359,
+        "projection_sha256": "edc737f53ed20167a22b7b4f36b269026393c59fe72bf03120e83d6c966de434",
+        "span_count": 7,
+        "step_count": 18,
+        "symbol_count": 0
+      },
+      "oracle_only_files": [],
+      "rule": {
+        "file_count": 7,
+        "gold_file_hits": 1,
+        "line_count": 331,
+        "projection_sha256": "d7e4f9f2c4029a32c95ba2b0bd6dcecbf6341b3246ff14b46a6bc36a5638c7ca",
+        "span_count": 8,
+        "step_count": 26,
+        "symbol_count": 0
+      },
+      "rule_only_files": []
+    },
+    {
+      "gold_file_count": 3,
+      "instance_id": "SWE-Bench-Verified__python__maintenance__bugfix__220feee3",
+      "label": "SWE-Bench-Verified__python__maintenance__bugfix__220feee3",
+      "oracle": {
+        "file_count": 8,
+        "gold_file_hits": 3,
+        "line_count": 621,
+        "projection_sha256": "d25b9c04de59c5b06b7635e0aaef9520173a9fa4f96ad2e294bf6980cf7d4805",
+        "span_count": 14,
+        "step_count": 36,
+        "symbol_count": 0
+      },
+      "oracle_only_files": [],
+      "rule": {
+        "file_count": 8,
+        "gold_file_hits": 3,
+        "line_count": 656,
+        "projection_sha256": "6774feb8c023deae836e6ac02b3fbe73d9e3faf3badb1a9f21ec1164ae24053d",
+        "span_count": 38,
+        "step_count": 32,
+        "symbol_count": 0
+      },
+      "rule_only_files": []
+    },
+    {
+      "gold_file_count": 2,
+      "instance_id": "SWE-Bench-Verified__python__maintenance__bugfix__27320d49",
+      "label": "SWE-Bench-Verified__python__maintenance__bugfix__27320d49",
+      "oracle": {
+        "file_count": 3,
+        "gold_file_hits": 2,
+        "line_count": 702,
+        "projection_sha256": "da11b1a5c5ea5748eb3737339617fc583e39c9e44d658b6ee0d3b7b5feb1166d",
+        "span_count": 4,
+        "step_count": 13,
+        "symbol_count": 0
+      },
+      "oracle_only_files": [],
+      "rule": {
+        "file_count": 3,
+        "gold_file_hits": 2,
+        "line_count": 717,
+        "projection_sha256": "425263fd8cf5a9b7143939fc494c94c90a84dba0ab75cb475d64050dc812d9cb",
+        "span_count": 19,
+        "step_count": 13,
+        "symbol_count": 0
+      },
+      "rule_only_files": []
+    },
+    {
+      "gold_file_count": 1,
+      "instance_id": "SWE-Bench-Verified__python__maintenance__bugfix__607f6b9e",
+      "label": "SWE-Bench-Verified__python__maintenance__bugfix__607f6b9e",
+      "oracle": {
+        "file_count": 5,
+        "gold_file_hits": 1,
+        "line_count": 277,
+        "projection_sha256": "39d49a3cfdb4c21e716fa51e94733db77d14836c96ee2c133a7c6957498ed4fe",
+        "span_count": 5,
+        "step_count": 12,
+        "symbol_count": 0
+      },
+      "oracle_only_files": [],
+      "rule": {
+        "file_count": 5,
+        "gold_file_hits": 1,
+        "line_count": 338,
+        "projection_sha256": "6970fa1b7ef11ddc30ffee019fe2090338325618f899d9024d35e2d9e7e634f9",
+        "span_count": 5,
+        "step_count": 14,
+        "symbol_count": 0
+      },
+      "rule_only_files": []
+    },
+    {
+      "gold_file_count": 6,
+      "instance_id": "SWE-Bench-Verified__python__maintenance__bugfix__61a7a81e",
+      "label": "SWE-Bench-Verified__python__maintenance__bugfix__61a7a81e",
+      "oracle": {
+        "file_count": 11,
+        "gold_file_hits": 3,
+        "line_count": 919,
+        "projection_sha256": "0ca01a669e010bb8beacd46ffc0c32825fad4589cf1b38a358a58d885b94612a",
+        "span_count": 11,
+        "step_count": 50,
+        "symbol_count": 0
+      },
+      "oracle_only_files": [
+        "django/db/models/base.py",
+        "django/db/models/sql/query.py"
+      ],
+      "rule": {
+        "file_count": 10,
+        "gold_file_hits": 2,
+        "line_count": 951,
+        "projection_sha256": "4530863664ab2e1362aec9135b506d6ecde6e9ce5e51e77d5ce53245796f4367",
+        "span_count": 28,
+        "step_count": 43,
+        "symbol_count": 0
+      },
+      "rule_only_files": [
+        "django/db/models/sql/where.py"
+      ]
+    },
+    {
+      "gold_file_count": 4,
+      "instance_id": "SWE-Bench-Verified__python__maintenance__bugfix__67699b64",
+      "label": "SWE-Bench-Verified__python__maintenance__bugfix__67699b64",
+      "oracle": {
+        "file_count": 5,
+        "gold_file_hits": 4,
+        "line_count": 435,
+        "projection_sha256": "a9c013495272e6aa61d8d40dd6305996b42ce65fecdf953875a20846f23f4458",
+        "span_count": 8,
+        "step_count": 25,
+        "symbol_count": 0
+      },
+      "oracle_only_files": [],
+      "rule": {
+        "file_count": 5,
+        "gold_file_hits": 4,
+        "line_count": 442,
+        "projection_sha256": "32a2a2bbe1bdc073db790633026f18b5f39400351f53869c65c58f8a34c975c7",
+        "span_count": 15,
+        "step_count": 26,
+        "symbol_count": 0
+      },
+      "rule_only_files": []
+    },
+    {
+      "gold_file_count": 1,
+      "instance_id": "SWE-Bench-Verified__python__maintenance__bugfix__765e5e14",
+      "label": "SWE-Bench-Verified__python__maintenance__bugfix__765e5e14",
+      "oracle": {
+        "file_count": 4,
+        "gold_file_hits": 1,
+        "line_count": 575,
+        "projection_sha256": "83c28bb60c36f90b43456dcc189e6cff85c3e524c2a56f8109675edd7443a760",
+        "span_count": 12,
+        "step_count": 36,
+        "symbol_count": 0
+      },
+      "oracle_only_files": [],
+      "rule": {
+        "file_count": 4,
+        "gold_file_hits": 1,
+        "line_count": 454,
+        "projection_sha256": "923de889aa79ee6556f9799b019bee0a77c38d3c2980f36edc38ad38100ed56d",
+        "span_count": 29,
+        "step_count": 31,
+        "symbol_count": 0
+      },
+      "rule_only_files": []
+    },
+    {
+      "gold_file_count": 2,
+      "instance_id": "SWE-Bench-Verified__python__maintenance__bugfix__90532e38",
+      "label": "SWE-Bench-Verified__python__maintenance__bugfix__90532e38",
+      "oracle": {
+        "file_count": 6,
+        "gold_file_hits": 2,
+        "line_count": 113,
+        "projection_sha256": "feb62b77f7f157b15e9d057e6e70676d924e987275f1ee1e645f4c6bc7c38f06",
+        "span_count": 2,
+        "step_count": 14,
+        "symbol_count": 0
+      },
+      "oracle_only_files": [
+        "xarray/core/dataset.py"
+      ],
+      "rule": {
+        "file_count": 5,
+        "gold_file_hits": 2,
+        "line_count": 106,
+        "projection_sha256": "963ec5ac87bdea393457d2e59033e5eefed6098b1fb9fbef5490c39a7c3c924e",
+        "span_count": 4,
+        "step_count": 11,
+        "symbol_count": 0
+      },
+      "rule_only_files": []
+    },
+    {
+      "gold_file_count": 2,
+      "instance_id": "SWE-Bench-Verified__python__maintenance__bugfix__bdde6d9c",
+      "label": "SWE-Bench-Verified__python__maintenance__bugfix__bdde6d9c",
+      "oracle": {
+        "file_count": 4,
+        "gold_file_hits": 2,
+        "line_count": 730,
+        "projection_sha256": "4bca280f5d7aaf1da096edb17562d3f6774727e21992a713ef28a9e38827b5f6",
+        "span_count": 7,
+        "step_count": 24,
+        "symbol_count": 0
+      },
+      "oracle_only_files": [],
+      "rule": {
+        "file_count": 4,
+        "gold_file_hits": 2,
+        "line_count": 697,
+        "projection_sha256": "cc76edd93d847b0724201cf9d9cd73b2514192d3dfde67871e37e5427c039418",
+        "span_count": 12,
+        "step_count": 26,
+        "symbol_count": 0
+      },
+      "rule_only_files": []
+    }
+  ]
+}
