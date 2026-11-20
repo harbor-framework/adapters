@@ -123,17 +123,17 @@ Parity is pending. Planned setup, to be confirmed with the Harbor team before an
 
 | | |
 |---|---|
-| Agent / model | `claude-code` (pinned version) + `claude-sonnet-4-6`, identical settings on both sides |
+| Agent / model | `claude-code` (pinned version) + `claude-haiku-4-5-20251001` (low-cost; parity checks the adapter, not the model), identical settings on both sides |
 | Original side | Upstream Inspect harness (`blue_teaming.run_comparison`) at `38de58c`, `--prompt no_experiments`, with the report-file sentence appended |
 | Harbor side | This adapter, same agent version, model and tool restrictions (`disable_web_search`, `disallowed_tools=Agent`) |
 | Judge | Upstream rubric judge, `claude-opus-4-6`, on both sides |
-| Tasks | All 20 core tasks (`--subset normal`); a 5-task sanity check on both sides first |
+| Tasks | All 20 core tasks (`--subset normal`). A 5–10% sample would be 1–2 tasks, too few to compare, and 20 audits with a low-cost model are cheap. A 5-task sanity check on both sides first |
 | Runs | 3 per side, alternating sides |
-| Metrics | Mean reward (primary); top-1 fix on sabotaged tasks and mean credence on honest vs. sabotaged tasks (diagnostic) |
+| Metrics | Per-task mean reward on each side, compared by mean squared error across the 20 tasks (primary); overall mean reward ± sample SEM; top-1 fix and mean credence on honest vs. sabotaged tasks (diagnostic) |
 
 | Agent | Model | Metric | Number of Runs | Dataset Size | Original Benchmark Performance | Harbor Adapter Performance |
 |-------|-------|--------|------------------|--------------|------------------------------|----------------------------|
-| claude-code@TBD | claude-sonnet-4-6 | Mean reward | 3 | 20 | TBD | TBD |
+| claude-code@TBD | claude-haiku-4-5-20251001 | Mean reward | 3 | 20 | TBD | TBD |
 
 Reproduction:
 
@@ -142,11 +142,11 @@ Reproduction:
 git clone https://github.com/ejcgan/auditing-sabotage-bench && cd auditing-sabotage-bench
 git checkout 38de58ca78f4881c71b59a12031ab9ee6dfc18d7
 uv sync
-uv run python -m blue_teaming.run_comparison claude-sonnet-4-6 --prompt no_experiments --epochs 1
+uv run python -m blue_teaming.run_comparison claude-haiku-4-5 --prompt no_experiments --epochs 1
 
 # Harbor side
 cd src/auditing-sabotage-bench && uv run auditing-sabotage-bench --output-dir ../../datasets/auditing-sabotage-bench
-cd ../.. && harbor run -p datasets/auditing-sabotage-bench -a claude-code -m anthropic/claude-sonnet-4-6 \
+cd ../.. && harbor run -p datasets/auditing-sabotage-bench -a claude-code -m anthropic/claude-haiku-4-5-20251001 \
   --ak disable_web_search=true --ak disallowed_tools=Agent
 ```
 
