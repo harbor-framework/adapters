@@ -119,13 +119,36 @@ The upstream repository is about 4.4 GB; generated tasks total about 2.1 GB (lar
 
 ## Comparison with Original Benchmark (Parity)
 
-Parity is pending; the plan will be agreed with the Harbor team before any runs. Planned setup: the same agent, model and judge on both sides, all 20 core tasks, 3 runs per side, reported as mean ± sample SEM.
+Parity is pending. Planned setup, to be confirmed with the Harbor team before any runs:
+
+| | |
+|---|---|
+| Agent / model | `claude-code` (pinned version) + `claude-sonnet-4-6`, identical settings on both sides |
+| Original side | Upstream Inspect harness (`blue_teaming.run_comparison`) at `38de58c`, `--prompt no_experiments`, with the report-file sentence appended |
+| Harbor side | This adapter, same agent version, model and tool restrictions (`disable_web_search`, `disallowed_tools=Agent`) |
+| Judge | Upstream rubric judge, `claude-opus-4-6`, on both sides |
+| Tasks | All 20 core tasks (`--subset normal`); a 5-task sanity check on both sides first |
+| Runs | 3 per side, alternating sides |
+| Metrics | Mean reward (primary); top-1 fix on sabotaged tasks and mean credence on honest vs. sabotaged tasks (diagnostic) |
 
 | Agent | Model | Metric | Number of Runs | Dataset Size | Original Benchmark Performance | Harbor Adapter Performance |
 |-------|-------|--------|------------------|--------------|------------------------------|----------------------------|
-| claude-code@TBD | TBD | Mean reward | 3 | 20 | TBD | TBD |
+| claude-code@TBD | claude-sonnet-4-6 | Mean reward | 3 | 20 | TBD | TBD |
 
-Reproduction (original side): upstream `blue_teaming.run_comparison <model> --prompt no_experiments --epochs 1` at commit `38de58c`, with the report-file sentence appended to the user message and a recreated `compose.yaml` sandbox (upstream gitignores it). Harbor side: `harbor run -c src/auditing-sabotage-bench/run_auditing-sabotage-bench.yaml -a claude-code -m <model>`.
+Reproduction:
+
+```bash
+# Original side (upstream harness, recreated compose.yaml sandbox)
+git clone https://github.com/ejcgan/auditing-sabotage-bench && cd auditing-sabotage-bench
+git checkout 38de58ca78f4881c71b59a12031ab9ee6dfc18d7
+uv sync
+uv run python -m blue_teaming.run_comparison claude-sonnet-4-6 --prompt no_experiments --epochs 1
+
+# Harbor side
+cd src/auditing-sabotage-bench && uv run auditing-sabotage-bench --output-dir ../../datasets/auditing-sabotage-bench
+cd ../.. && harbor run -p datasets/auditing-sabotage-bench -a claude-code -m anthropic/claude-sonnet-4-6 \
+  --ak disable_web_search=true --ak disallowed_tools=Agent
+```
 
 ## Notes & Caveats
 
