@@ -1,4 +1,4 @@
-"""SUPER "Auto" split (AstaBench `super_validation`): verifier-run scoring.
+"""SUPER "Auto" split (AstaBench `super_validation`): replay-based scoring.
 
 Upstream (`astabench/evals/super/task.py`) scores an Auto sample with
 `evaluate_entrypoints`: some executed command must (a) mention the entrypoint
@@ -7,11 +7,12 @@ file (or run it as `python -m <module>`), (b) show no `Traceback` and no
 seconds.  Upstream reads that evidence from an agent-writable execution
 history, so it can be satisfied without running anything.
 
-Here the agent submits `{command, cwd}` and the verifier runs the command
-itself for a short window, applying (a)-(c) to what it observes.  The command
-runs as an unprivileged user with no way back to root, so it cannot write the
-reward directory or the grader files, or signal the verifier; every process it
-leaves behind is killed before the reward is written.
+Here the agent submits `{command, cwd}`.  After the agent has finished, Harbor
+runs REPLAY_PY in the agent's container (a `[[verifier.collect]]` hook): it
+runs the command for a short window, as an unprivileged user, and records how
+long it ran and what it printed.  The verifier runs in a separate container,
+receives that record as an artifact and applies (a)-(c) to it.  The submitted
+command therefore never shares a container with the reward or the grader.
 
 Reference solutions (`super_auto_solutions/<task_id>/`) are real: `solve.sh`
 sets up the repository (with any patches it needs to run on CPU) and
@@ -21,10 +22,10 @@ are listed, with the reason, in `super_auto_excluded.json`.
 
 from __future__ import annotations
 
+import base64
+import gzip
 import json
 from pathlib import Path
-
-from .base import make_verifier_test_sh
 
 _HERE = Path(__file__).resolve().parent
 SOLUTIONS_DIR = _HERE / "super_auto_solutions"
@@ -102,49 +103,20 @@ def render_solve_sh(solve_sh: str, answer: dict[str, str]) -> str:
     )
 
 
-# Ownership is not enforced on every bind mount (Docker Desktop lets any uid
-# write a mounted /tests), and bash reads a script as it runs it, so a replayed
-# command could rewrite the rest of test.sh.  The verifier therefore continues
-# from a root-only copy of /tests on the container's own filesystem.
-_PRIVATE_TESTS_PRE = """\
-case "$0" in
-  /var/lib/super-auto-verifier.*/test.sh)
-    TESTS_DIR=$(dirname "$0")
-    ;;
-  *)
-    mkdir -p /var/lib || exit 1
-    private=$(mktemp -d /var/lib/super-auto-verifier.XXXXXX) || exit 1
-    chmod 700 "$private" || exit 1
-    cp -R /tests/. "$private"/ || exit 1
-    exec bash "$private/test.sh"
-    ;;
-esac
-"""
+REPLAY_PY = r'''"""SUPER-Auto replay: run the submitted command and record what happened.
 
-TEST_SH = make_verifier_test_sh(
-    scorer_cmd='python3 "$TESTS_DIR/run_scorer.py"', pre=_PRIVATE_TESTS_PRE
-)
-
-
-RUN_SCORER_PY = r'''"""SUPER-Auto verifier: re-run the submitted entrypoint command.
-
-Applies upstream's `evaluate_entrypoints` rule (astabench/evals/super/task.py)
-to an execution the verifier performs itself, instead of to an agent-supplied
-history:
-
-  * the command mentions the entrypoint file name, or uses `python -m` with
-    its module name                                   (upstream, verbatim);
-  * the command is still running, or has finished, after MIN_SECONDS with no
-    `Traceback` and no `<entrypoint file>: error` in its output so far.
-
-The command is stopped at WINDOW_SECONDS; whatever would happen later is not
-part of the rule ("ran for more than 10 seconds ... without error").
+Harbor runs this in the agent's container after the agent has finished (a
+`[[verifier.collect]]` hook in task.toml; the script is carried in the hook's
+command, not stored in the container).  It runs the submitted command for a
+short window and writes what it observed -- how long the command ran and what
+it printed -- to EVIDENCE_DIR, which Harbor then hands to the verifier.  The
+verifier runs in a separate container and applies upstream's rule to that
+record; nothing here computes a reward.
 
 The submitted command is untrusted code, so it runs as SANDBOX_UID with
 no_new_privs (setuid/file-capability binaries cannot raise it back to root):
-  * /, /logs, /logs/verifier and /tests are made root-owned and not group/other
-    writable first, so it cannot write the reward or the grader files, or swap
-    the reward directory;
+  * EVIDENCE_DIR and the directories above it are root-owned and not
+    group/other writable, so it cannot write or swap the record;
   * it gets ownership of the trees it may legitimately write (every
     non-system top-level directory, the entries of /tmp and /opt, the
     directories in root's home; never system paths, never a file with other
@@ -153,15 +125,11 @@ no_new_privs (setuid/file-capability binaries cannot raise it back to root):
     directories or files directly in root's home;
   * directories on root's PATH / LD_LIBRARY_PATH (e.g. /root/.local/bin), their
     contents and their ancestors are never handed over, so it cannot plant a
-    program that root runs later (test.sh's `rm`, Harbor's `tar` of the reward
-    directory on non-mounted environments);
-  * a different uid cannot signal or ptrace the verifier;
-  * test.sh runs this file from a root-only copy of /tests, and nothing is
-    read from /tests or the reward directory after the command starts, so a
-    mount that does not enforce ownership gives it nothing to tamper with;
+    program that root runs later (Harbor's `tar` of the artifacts);
+  * a different uid cannot signal or ptrace this process;
   * afterwards every process of SANDBOX_UID is SIGKILLed (it cannot change
     uid, so that is every process it started, including detached ones), and
-    only then is the reward written, after removing any reward file.
+    only then is the record written.
 """
 
 from __future__ import annotations
@@ -180,21 +148,17 @@ import time
 from pathlib import Path
 
 ANSWER_FILE = Path("/app/answer.txt")
-PRIVATE_DIR = Path(__file__).resolve().parent  # root-only copy of /tests
-CONFIG_FILE = PRIVATE_DIR / "config.json"
-REWARD_DIR = Path("/logs/verifier")
-REWARD_FILE = REWARD_DIR / "reward.txt"
-REWARD_JSON = REWARD_DIR / "reward.json"
-LOG_FILE = REWARD_DIR / "entrypoint_run.log"
+EVIDENCE_DIR = Path("/var/lib/super-auto")
+EVIDENCE_FILE = EVIDENCE_DIR / "evidence.json"
+OUTPUT_FILE = EVIDENCE_DIR / "output.log"
 
-MIN_SECONDS = 10.0  # upstream: `step_execution_time.total_seconds() < 10` fails
-WINDOW_SECONDS = 15.0  # stop here; MIN_SECONDS plus a margin for start-up jitter
+WINDOW_SECONDS = 15.0  # upstream requires 10 s; the margin covers start-up jitter
 
 SANDBOX_UID = SANDBOX_GID = 54321
 SANDBOX_NAME = "super-auto-run"
 # Kept root-owned and not writable by the command.
-GRADER_DIRS = ("/logs/verifier", "/tests")
-LOCKED_ANCESTORS = ("/", "/logs")
+GRADER_DIRS = (str(EVIDENCE_DIR),)
+LOCKED_ANCESTORS = ("/", "/var", "/var/lib")
 # Never given to the command, even when its cwd is inside them.  Every other
 # top-level directory is (the agent worked as root and may have used any of
 # them: /workspace, /app, /mnt, /content, ...).  /root is handled via HOME,
@@ -211,17 +175,12 @@ _LIBC = ctypes.CDLL(None, use_errno=True)
 _PR_SET_NO_NEW_PRIVS = 38
 
 
-def _write_reward(value: float) -> None:
-    REWARD_FILE.parent.mkdir(parents=True, exist_ok=True)
-    REWARD_FILE.write_text(f"{value:.6f}\n")
-
-
 def _under(path: str, prefixes) -> bool:
     return any(path == p or path.startswith(p.rstrip("/") + "/") for p in prefixes)
 
 
 def _lock_down_grader() -> None:
-    """Root-own the reward and test trees and every directory above them."""
+    """Root-own the evidence directory and every directory above it."""
     for d in LOCKED_ANCESTORS:
         os.chown(d, 0, 0)
         os.chmod(d, stat.S_IMODE(os.lstat(d).st_mode) & ~0o022)
@@ -307,7 +266,7 @@ def _prepare_sandbox_user(cwd: str) -> str:
     reused and new dot-directories (~/.allennlp, ...) can still be created,
     while root's own home and shell start-up files stay root's."""
     if os.geteuid() != 0:
-        raise RuntimeError("the SUPER-Auto verifier must run as root")
+        raise RuntimeError("the SUPER-Auto replay must run as root")
     try:
         pwd.getpwuid(SANDBOX_UID)
     except KeyError:
@@ -444,44 +403,13 @@ def extract_json_from_response(response: str):
             return None
 
 
-def mentions_entrypoint(entrypoint: str, command: str) -> bool:
-    """Verbatim logic of upstream evaluate_entrypoints' command match."""
-    entrypoint_filename = os.path.basename(entrypoint)
-    ran_entrypoint = entrypoint_filename in command
-    if not ran_entrypoint:
-        ran_entrypoint = (
-            entrypoint_filename.replace(".py", "").replace("/", ".") in command
-            and "python -m" in command
-        )
-    return ran_entrypoint
-
-
-def output_is_clean(entrypoint: str, observation: str) -> bool:
-    """Verbatim logic of upstream evaluate_entrypoints' output checks."""
-    entrypoint_filename = os.path.basename(entrypoint)
-    if "Traceback" in observation:
-        return False
-    if f"{entrypoint_filename}: error" in observation:
-        return False
-    return True
-
-
-def _remove(path: Path) -> None:
-    if path.is_dir() and not path.is_symlink():
-        shutil.rmtree(path)
-    else:
-        path.unlink(missing_ok=True)
-
-
-def run_for_window(command: str, cwd: str) -> tuple[float, bool, str]:
-    """Run `command` in `cwd` as SANDBOX_UID; return (seconds, still running, output)."""
+def run_for_window(command: str, cwd: str) -> tuple[float, bool]:
+    """Run `command` in `cwd` as SANDBOX_UID; return (seconds, still running)."""
     home = _prepare_sandbox_user(cwd)
     _kill_sandbox_processes()  # nothing of that uid may predate the run
     env = dict(os.environ)
     env.update(HOME=home, USER=SANDBOX_NAME, LOGNAME=SANDBOX_NAME)
-    # The command's output goes to a file in the private directory; a copy is
-    # written to the reward directory afterwards for the trial record.
-    with tempfile.NamedTemporaryFile(dir=str(PRIVATE_DIR)) as log:
+    with OUTPUT_FILE.open("wb") as log:
         start = time.monotonic()
         proc = subprocess.Popen(
             ["bash", "-lc", command],
@@ -512,9 +440,137 @@ def run_for_window(command: str, cwd: str) -> tuple[float, bool, str]:
         # Then everything the command started, detached or not.
         _kill_sandbox_processes()
         proc.wait()
-        with open(log.name, "rb") as fh:
-            output = fh.read().decode("utf-8", errors="replace")
-    return elapsed, still_running, output
+    return elapsed, still_running
+
+
+def _write_evidence(record: dict) -> None:
+    tmp = EVIDENCE_FILE.with_suffix(".tmp")
+    tmp.write_text(json.dumps(record), encoding="utf-8")
+    os.replace(tmp, EVIDENCE_FILE)
+
+
+def main() -> int:
+    # Start from an empty, root-only evidence directory: nothing the agent
+    # left there may reach the verifier.
+    if EVIDENCE_DIR.is_symlink() or EVIDENCE_DIR.is_file():
+        EVIDENCE_DIR.unlink()
+    elif EVIDENCE_DIR.exists():
+        shutil.rmtree(EVIDENCE_DIR)
+    EVIDENCE_DIR.mkdir(parents=True, mode=0o755)
+
+    raw = _read_answer()
+    if raw is None:
+        _write_evidence({"status": "invalid", "reason": "answer.txt missing or unreadable"})
+        return 0
+    answer = extract_json_from_response(raw)
+    command = answer.get("command") if isinstance(answer, dict) else None
+    cwd = answer.get("cwd") if isinstance(answer, dict) else None
+    if not isinstance(command, str) or not command.strip():
+        _write_evidence({"status": "invalid", "reason": "answer has no `command` string"})
+        return 0
+    if not isinstance(cwd, str) or not os.path.isabs(cwd) or not os.path.isdir(cwd):
+        _write_evidence({
+            "status": "invalid",
+            "reason": f"answer `cwd` is not an existing absolute directory: {cwd!r}",
+        })
+        return 0
+
+    elapsed, still_running = run_for_window(command, cwd)
+    print(f"ran {elapsed:.1f}s (still running at window end: {still_running})",
+          file=sys.stderr)
+    _write_evidence({
+        "status": "ran",
+        "command": command,
+        "cwd": cwd,
+        "elapsed_seconds": elapsed,
+        "still_running_at_window_end": still_running,
+    })
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
+'''
+
+EVIDENCE_DIR = "/var/lib/super-auto"
+# The replay window is 15 s; the rest is for handing the work trees to the
+# replay user (a walk over everything the agent installed) and for clean-up.
+COLLECT_TIMEOUT_SEC = 600
+
+
+def collect_command() -> str:
+    """Shell command of the `[[verifier.collect]]` hook that runs REPLAY_PY.
+
+    The script travels inside the command (task.toml is not in the agent's
+    container), so the agent cannot edit it beforehand.  A record left by the
+    agent is removed first, even if the script then fails to start."""
+    blob = base64.b64encode(gzip.compress(REPLAY_PY.encode("utf-8"), mtime=0)).decode("ascii")
+    return (
+        f"rm -rf {EVIDENCE_DIR}; "
+        f"echo {blob} | base64 -d | gunzip | python3 -"
+    )
+
+
+RUN_SCORER_PY = r'''"""SUPER-Auto verifier: apply upstream's rule to the replay record.
+
+Upstream's `evaluate_entrypoints` (astabench/evals/super/task.py) passes a
+sample when some executed command
+  * mentions the entrypoint file name, or uses `python -m` with its module
+    name,
+  * shows no `Traceback` and no `<entrypoint file>: error` in its output, and
+  * ran for at least 10 seconds.
+Upstream reads that from an execution history the agent can write.  Here the
+record comes from a replay that Harbor runs in the agent's container after the
+agent has finished (see the `[[verifier.collect]]` hook in task.toml): the
+submitted command, how long it ran and what it printed.  This verifier runs in
+a separate container and only reads that record.
+
+No record means the replay itself did not run (an infrastructure failure):
+the verifier fails and no reward is recorded.
+"""
+
+from __future__ import annotations
+
+import json
+import os
+import sys
+from pathlib import Path
+
+CONFIG_FILE = Path("/tests/config.json")
+EVIDENCE_FILE = Path("/var/lib/super-auto/evidence.json")
+OUTPUT_FILE = Path("/var/lib/super-auto/output.log")
+REWARD_DIR = Path("/logs/verifier")
+REWARD_FILE = REWARD_DIR / "reward.txt"
+LOG_FILE = REWARD_DIR / "entrypoint_run.log"
+
+MIN_SECONDS = 10.0  # upstream: `step_execution_time.total_seconds() < 10` fails
+
+
+def _write_reward(value: float) -> None:
+    REWARD_FILE.parent.mkdir(parents=True, exist_ok=True)
+    REWARD_FILE.write_text(f"{value:.6f}\n")
+
+
+def mentions_entrypoint(entrypoint: str, command: str) -> bool:
+    """Verbatim logic of upstream evaluate_entrypoints' command match."""
+    entrypoint_filename = os.path.basename(entrypoint)
+    ran_entrypoint = entrypoint_filename in command
+    if not ran_entrypoint:
+        ran_entrypoint = (
+            entrypoint_filename.replace(".py", "").replace("/", ".") in command
+            and "python -m" in command
+        )
+    return ran_entrypoint
+
+
+def output_is_clean(entrypoint: str, observation: str) -> bool:
+    """Verbatim logic of upstream evaluate_entrypoints' output checks."""
+    entrypoint_filename = os.path.basename(entrypoint)
+    if "Traceback" in observation:
+        return False
+    if f"{entrypoint_filename}: error" in observation:
+        return False
+    return True
 
 
 def main() -> int:
@@ -523,43 +579,38 @@ def main() -> int:
     if not isinstance(entrypoint, str) or not entrypoint.strip():
         raise RuntimeError("config has no entrypoint")
 
-    raw = _read_answer()
-    if raw is None:
-        print("answer.txt missing or unreadable", file=sys.stderr)
+    if not EVIDENCE_FILE.is_file():
+        raise RuntimeError(
+            f"{EVIDENCE_FILE} is missing: the replay did not run in the agent's "
+            "environment, so there is nothing to score"
+        )
+    record = json.loads(EVIDENCE_FILE.read_text(encoding="utf-8"))
+    status = record.get("status")
+    if status == "invalid":
+        print(f"invalid answer: {record.get('reason')}", file=sys.stderr)
         _write_reward(0.0)
         return 0
+    if status != "ran":
+        raise RuntimeError(f"unexpected replay record: {record!r}")
 
-    answer = extract_json_from_response(raw)
-    command = answer.get("command") if isinstance(answer, dict) else None
-    cwd = answer.get("cwd") if isinstance(answer, dict) else None
-    if not isinstance(command, str) or not command.strip():
-        print("answer has no `command` string", file=sys.stderr)
-        _write_reward(0.0)
-        return 0
-    if not isinstance(cwd, str) or not os.path.isabs(cwd) or not os.path.isdir(cwd):
-        print(f"answer `cwd` is not an existing absolute directory: {cwd!r}",
-              file=sys.stderr)
-        _write_reward(0.0)
-        return 0
+    command = record["command"]
+    elapsed = float(record["elapsed_seconds"])
+    output = OUTPUT_FILE.read_bytes().decode("utf-8", errors="replace")
+    LOG_FILE.parent.mkdir(parents=True, exist_ok=True)
+    LOG_FILE.write_text(output, encoding="utf-8")
+
     if not mentions_entrypoint(entrypoint, command):
         print(f"command does not run the entrypoint {entrypoint!r}", file=sys.stderr)
         _write_reward(0.0)
         return 0
-
-    elapsed, still_running, output = run_for_window(command, cwd)
     clean = output_is_clean(entrypoint, output)
     passed = elapsed >= MIN_SECONDS and clean
     print(
-        f"entrypoint={entrypoint!r} ran {elapsed:.1f}s "
-        f"(still running at window end: {still_running}) clean_output={clean} "
+        f"entrypoint={entrypoint!r} ran {elapsed:.1f}s (still running at window "
+        f"end: {record.get('still_running_at_window_end')}) clean_output={clean} "
         f"-> {'PASS' if passed else 'FAIL'}",
         file=sys.stderr,
     )
-    # Its processes are gone; only this verifier's own files may be collected,
-    # whatever the command managed to leave in the reward directory.
-    for stale in (REWARD_JSON, REWARD_FILE, LOG_FILE):
-        _remove(stale)
-    LOG_FILE.write_text(output, encoding="utf-8")
     _write_reward(1.0 if passed else 0.0)
     return 0
 

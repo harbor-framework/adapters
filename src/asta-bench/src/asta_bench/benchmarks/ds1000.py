@@ -28,11 +28,13 @@ from collections.abc import Iterable
 from pathlib import Path
 
 from .base import (
+    ANSWER_ARTIFACT,
     INSPECT_DEFAULT_EVAL_ARGS,
     BenchmarkBuilder,
     SampleRecord,
     make_inspect_config,
     make_verifier_test_sh,
+    with_separate_verifier,
 )
 
 _SPLIT_TO_INSPECT_TASK = {
@@ -180,6 +182,10 @@ storage_mb = 10240
 # agent image or instruction.
 allow_internet = true
 """
+    # The agent's answer, and the file the oracle writes the reference to.
+    rewritten = with_separate_verifier(
+        rewritten, [ANSWER_ARTIFACT, "/solution/solution.py"]
+    )
     toml_path.write_text(rewritten, encoding="utf-8")
 
 

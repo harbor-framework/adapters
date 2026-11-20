@@ -26,6 +26,7 @@ from pathlib import Path
 
 from . import super_auto
 from .base import (
+    ANSWER_ARTIFACT,
     INSPECT_DEFAULT_EVAL_ARGS,
     VERIFIER_TEST_SH,
     BenchmarkBuilder,
@@ -62,8 +63,8 @@ source_sample_id = "{source_id}"
 timeout_sec = 7200
 
 [verifier]
-timeout_sec = {verifier_timeout_sec}
-
+timeout_sec = 60
+{verifier_extra}
 [environment]
 build_timeout_sec = 1800.0
 cpus = 4
@@ -74,6 +75,16 @@ storage_mb = 10240
 # agent off from its model API.
 allow_internet = true
 """
+
+
+# SUPER Auto: Harbor replays the submitted command in the agent's container
+# once the agent has finished, and the separate verifier scores the record.
+# json.dumps yields a valid TOML basic string for this ASCII command.
+_AUTO_VERIFIER_TOML = (
+    "\n[[verifier.collect]]\n"
+    f"command = {json.dumps(super_auto.collect_command())}\n"
+    f"timeout_sec = {super_auto.COLLECT_TIMEOUT_SEC}\n"
+)
 
 
 # Verbatim from upstream astabench/util/sandbox/*_requirements.txt
@@ -551,8 +562,7 @@ class SuperExpertBuilder(BenchmarkBuilder):
             split=record.split,
             source_id=record.sample_id,
             super_split_keyword="auto" if is_auto else "expert",
-            # Auto: the verifier runs the entrypoint for a 15 s window.
-            verifier_timeout_sec=180 if is_auto else 60,
+            verifier_extra=_AUTO_VERIFIER_TOML if is_auto else "",
         )
         if is_auto:
             instruction = (
@@ -609,10 +619,11 @@ class SuperExpertBuilder(BenchmarkBuilder):
             instruction_md=instruction,
             dockerfile=DOCKERFILE,
             solve_sh=solve_sh,
-            test_sh=super_auto.TEST_SH if is_auto else TEST_SH,
+            test_sh=TEST_SH,
             tests_config=tests_config,
             extra_tests={"run_scorer.py": scorer},
             workspace_files=ws_files,
+            artifacts=[super_auto.EVIDENCE_DIR] if is_auto else [ANSWER_ARTIFACT],
         )
         # Build-context files, copied to /opt/sandbox_requirements (not /app).
         req_dir = task_dir / "environment" / _REQUIREMENTS_DIR

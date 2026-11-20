@@ -261,6 +261,33 @@ def make_inspect_config(
     return cfg
 
 
+# Final answer written by the agent (or the Inspect bridge).
+ANSWER_ARTIFACT = "/app/answer.txt"
+
+
+def with_separate_verifier(task_toml: str, artifacts: Iterable[str]) -> str:
+    """Make a task.toml run its verifier in a separate container.
+
+    Harbor then grades in a fresh container started from the task image (which
+    already carries the scorer's dependencies), uploads ``tests/`` there, and
+    copies ``artifacts`` over from the agent's container at the same paths.
+    Nothing else the agent did to its container reaches the verifier.
+    """
+    head = 'schema_version = "1.0"\n'
+    verifier = "[verifier]\n"
+    if not task_toml.startswith(head) or task_toml.count(verifier) != 1:
+        raise ValueError("unexpected task.toml layout")
+    if "environment_mode" in task_toml or "\nartifacts = " in task_toml:
+        raise ValueError("task.toml already configures the verifier environment")
+    task_toml = (
+        head
+        + "# What the separate verifier receives from the agent's container.\n"
+        + f"artifacts = {json.dumps(list(artifacts))}\n"
+        + task_toml[len(head):]
+    )
+    return task_toml.replace(verifier, verifier + 'environment_mode = "separate"\n')
+
+
 def write_task_files(
     task_dir: Path,
     *,
@@ -272,8 +299,11 @@ def write_task_files(
     tests_config: dict[str, Any] | None = None,
     extra_tests: dict[str, str] | None = None,
     workspace_files: dict[str, str | bytes] | None = None,
+    artifacts: Iterable[str] = (ANSWER_ARTIFACT,),
 ) -> None:
-    (task_dir / "task.toml").write_text(task_toml, encoding="utf-8")
+    (task_dir / "task.toml").write_text(
+        with_separate_verifier(task_toml, artifacts), encoding="utf-8"
+    )
     (task_dir / "instruction.md").write_text(instruction_md, encoding="utf-8")
 
     env_dir = task_dir / "environment"

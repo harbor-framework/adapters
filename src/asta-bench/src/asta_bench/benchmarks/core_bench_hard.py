@@ -749,4 +749,5 @@ class CoreBenchHardBuilder(BenchmarkBuilder):
             workspace_files={
                 "inspect_config.json": json.dumps(bridge_config, indent=2),
             },
+            artifacts=[REPORT_PATH],
         )
