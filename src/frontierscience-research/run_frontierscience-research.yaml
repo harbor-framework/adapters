@@ -1,0 +1,22 @@
+# Reference config for FrontierScience-Research.
+# The verifier calls an LLM judge (default claude-sonnet-5-5), so ANTHROPIC_API_KEY
+# must be set in the shell that runs `harbor run` (see README).
+jobs_dir: jobs
+n_attempts: 1
+timeout_multiplier: 1.0
+orchestrator:
+  type: local
+  n_concurrent_trials: 8
+  quiet: false
+environment:
+  type: docker
+  # type: daytona
+  delete: true
+agents:
+  - name: oracle
+  # - name: claude-code
+  #   model_name: anthropic/claude-haiku-5-5
+  # - name: codex
+  #   model_name: openai/gpt-5-mini
+datasets:
+  - path: datasets/frontierscience-research
