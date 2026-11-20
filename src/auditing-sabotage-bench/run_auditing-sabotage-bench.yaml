@@ -1,0 +1,26 @@
+jobs_dir: jobs
+n_attempts: 1
+timeout_multiplier: 1.0
+orchestrator:
+  type: local
+  n_concurrent_trials: 4
+  quiet: false
+environment:
+  type: docker
+  # type: daytona
+  force_build: false
+  delete: true
+  # env:
+  #   DAYTONA_API_KEY: ${DAYTONA_API_KEY}
+# The verifier reads JUDGE_API_KEY / JUDGE_BASE_URL from the host environment
+# (see [verifier.env] in each task.toml). Honest tasks make no judge call.
+agents:
+  - name: oracle
+  # Upstream no-experiments setting: no web search, no sub-agents.
+  # - name: claude-code
+  #   model_name: anthropic/claude-sonnet-4-6
+  #   kwargs:
+  #     disable_web_search: true
+  #     disallowed_tools: Agent
+datasets:
+  - path: datasets/auditing-sabotage-bench
