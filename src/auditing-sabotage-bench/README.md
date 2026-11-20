@@ -90,7 +90,13 @@ harbor run -p datasets/auditing-sabotage-bench -a <agent_name> -m "<model_name>"
 harbor job resume -p /path/to/jobs/directory
 ```
 
-The verifier needs a judge endpoint for sabotaged tasks: export `JUDGE_API_KEY` and `JUDGE_BASE_URL` (any OpenAI-compatible endpoint serving `claude-opus-4-6`), or just `ANTHROPIC_API_KEY` to use Anthropic's OpenAI-compatible endpoint. Honest tasks make no judge call.
+The verifier needs a judge endpoint for sabotaged tasks: export `JUDGE_API_KEY` and `JUDGE_BASE_URL` (any OpenAI-compatible endpoint serving Claude Opus 4.6), plus `JUDGE_MODEL` if the endpoint names the model differently from `claude-opus-4-6`. Or export just `ANTHROPIC_API_KEY` to use Anthropic's OpenAI-compatible endpoint. Honest tasks make no judge call. For OpenRouter:
+
+```bash
+export JUDGE_BASE_URL=https://openrouter.ai/api/v1
+export JUDGE_API_KEY=<openrouter key>
+export JUDGE_MODEL=anthropic/claude-opus-4.6
+```
 
 ### Running Individual Trial
 
