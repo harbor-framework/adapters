@@ -85,21 +85,32 @@ def ensure_source(source_dir: Path | None, cache_dir: Path) -> Path:
     if source_dir is not None:
         source_dir = source_dir.resolve()
         if not (source_dir / "codebases" / "_rubrics").is_dir():
-            raise FileNotFoundError(f"{source_dir} is not an auditing-sabotage-bench checkout")
+            raise FileNotFoundError(
+                f"{source_dir} is not an auditing-sabotage-bench checkout"
+            )
         return source_dir
 
     checkout = cache_dir / UPSTREAM_COMMIT
     if (checkout / "codebases" / "_rubrics").is_dir():
         return checkout
-    checkout.mkdir(parents=True, exist_ok=True)
+    if checkout.exists():
+        shutil.rmtree(checkout)  # an interrupted earlier clone
+    checkout.mkdir(parents=True)
 
     def git(*args: str) -> None:
         subprocess.run(["git", *args], cwd=checkout, check=True)
 
-    git("init", "-q")
-    git("remote", "add", "origin", UPSTREAM_URL)
-    git("fetch", "-q", "--depth", "1", "origin", UPSTREAM_COMMIT)
-    git("checkout", "-q", "FETCH_HEAD")
+    try:
+        git("init", "-q")
+        git("remote", "add", "origin", UPSTREAM_URL)
+        git("fetch", "-q", "--depth", "1", "origin", UPSTREAM_COMMIT)
+        git("checkout", "-q", "FETCH_HEAD")
+    except (OSError, subprocess.CalledProcessError) as exc:
+        shutil.rmtree(checkout, ignore_errors=True)
+        raise RuntimeError(
+            f"Could not fetch {UPSTREAM_URL} at {UPSTREAM_COMMIT} (about 4.4 GB); "
+            "check network access or pass --source-dir with an existing checkout"
+        ) from exc
     return checkout
 
 
@@ -113,7 +124,9 @@ def load_samples(source: Path, subset: str = "normal") -> list[Sample]:
 
     rubrics_dir = source / "codebases" / "_rubrics"
     rt_rubrics_dir = source / "red_teaming" / "codebases" / "_rubrics"
-    finished = set(yaml.safe_load((rubrics_dir / "_finished.yaml").read_text())["finished"])
+    finished = set(
+        yaml.safe_load((rubrics_dir / "_finished.yaml").read_text())["finished"]
+    )
 
     paths = sorted(rubrics_dir.glob("*.yaml"))
     if rt_rubrics_dir.is_dir():
@@ -123,7 +136,10 @@ def load_samples(source: Path, subset: str = "normal") -> list[Sample]:
     for path in paths:
         if path.name.startswith("_"):
             continue
-        rubric_file = yaml.safe_load(path.read_text())
+        try:
+            rubric_file = yaml.safe_load(path.read_text())
+        except (OSError, yaml.YAMLError) as exc:
+            raise RuntimeError(f"Could not read rubric file {path}") from exc
         if not isinstance(rubric_file, dict) or (
             "sabotaged" not in rubric_file and "honest" not in rubric_file
         ):
@@ -139,7 +155,9 @@ def load_samples(source: Path, subset: str = "normal") -> list[Sample]:
             if tags.get("has_persuasion"):
                 base = by_id.get(sab["id"].removesuffix("_persuasion"))
                 if base is None:
-                    raise ValueError(f"No base sabotage found for persuasion variant {sab['id']}")
+                    raise ValueError(
+                        f"No base sabotage found for persuasion variant {sab['id']}"
+                    )
                 overlay_on = source / base["workspace"]
             samples.append(
                 Sample(
@@ -169,7 +187,9 @@ def load_samples(source: Path, subset: str = "normal") -> list[Sample]:
     # Some red-team rubrics point at workspaces that are not in the public release.
     missing = [s for s in samples if not s.workspace.is_dir()]
     for s in missing:
-        print(f"Warning: skipping {s.id}: workspace {s.workspace} is not in the release")
+        print(
+            f"Warning: skipping {s.id}: workspace {s.workspace} is not in the release"
+        )
     samples = [s for s in samples if s.workspace.is_dir()]
 
     def keep(s: Sample) -> bool:
@@ -179,7 +199,9 @@ def load_samples(source: Path, subset: str = "normal") -> list[Sample]:
         is_fixed = s.id.endswith("_fixed")
         is_core = not (is_rt or is_wt or is_persuasion or is_fixed)
         if is_wt:
-            return False  # human work-test samples are not part of the released benchmark
+            return (
+                False  # human work-test samples are not part of the released benchmark
+            )
         if subset == "all":
             return True
         return {
@@ -252,7 +274,9 @@ class AuditingSabotageBenchAdapter:
         self.task_ids = task_ids
         self.source_dir = source_dir
         self.subset = subset
-        self.cache_dir = cache_dir or Path.home() / ".cache" / "harbor-adapters" / BENCHMARK
+        self.cache_dir = (
+            cache_dir or Path.home() / ".cache" / "harbor-adapters" / BENCHMARK
+        )
 
     def run(self) -> None:
         source = ensure_source(self.source_dir, self.cache_dir)
@@ -298,7 +322,10 @@ class AuditingSabotageBenchAdapter:
         if sample.overlay_on is not None:
             shutil.copytree(sample.overlay_on, workspace, ignore=_ignore_forbidden)
             shutil.copytree(
-                sample.workspace, workspace, ignore=_ignore_forbidden, dirs_exist_ok=True
+                sample.workspace,
+                workspace,
+                ignore=_ignore_forbidden,
+                dirs_exist_ok=True,
             )
         else:
             shutil.copytree(sample.workspace, workspace, ignore=_ignore_forbidden)

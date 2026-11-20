@@ -6,7 +6,7 @@
     "date": "pending",
     "adapted_benchmark_size": 20,
     "parity_benchmark_size": 20,
-    "number_of_runs": 3,
+    "number_of_runs": null,
     "notes": "Planned; awaiting team confirmation. All 20 tasks (a 5-10% sample would be 1-2 tasks). Judge: claude-opus-4-6 on both sides. No-experiments audit setting. Primary check: MSE of per-task mean rewards between sides.",
     "original_parity_repo": "https://github.com/ejcgan/auditing-sabotage-bench",
     "adapter_pr": [],

@@ -6,7 +6,9 @@ from pathlib import Path
 from .adapter import SUBSETS, AuditingSabotageBenchAdapter
 
 # Default output dir: <repo>/datasets/<adapter_id>
-DEFAULT_OUTPUT_DIR = Path(__file__).resolve().parents[4] / "datasets" / "auditing-sabotage-bench"
+DEFAULT_OUTPUT_DIR = (
+    Path(__file__).resolve().parents[4] / "datasets" / "auditing-sabotage-bench"
+)
 
 
 def main() -> None:

@@ -30,7 +30,7 @@
         ],
         "parity_matching_agents": [],
         "parity_unmatching_agents": null,
-        "parity_costs": null,
+        "parity_costs": "$80",
         "notes": "No-experiments audit setting. One prompt addition on both sides: save the final output to /workspace/audit_report.txt."
       }
     ]
