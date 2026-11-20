@@ -1,0 +1,98 @@
+{
+    "id": "b19471c5-0b05-455c-b704-189596071ece",
+    "started_at": "2026-11-15T21:28:14.721081",
+    "updated_at": "2026-11-15T22:00:15.544925",
+    "finished_at": "2026-11-15T22:00:15.544925",
+    "n_total_trials": 60,
+    "stats": {
+        "n_completed_trials": 60,
+        "n_errored_trials": 0,
+        "n_running_trials": 0,
+        "n_pending_trials": 0,
+        "n_cancelled_trials": 0,
+        "n_retries": 0,
+        "evals": {
+            "oracle__gitgoodbench": {
+                "n_trials": 60,
+                "n_errors": 0,
+                "metrics": [
+                    {
+                        "mean": 1.0
+                    }
+                ],
+                "pass_at_k": {},
+                "reward_stats": {
+                    "reward": {
+                        "1.0": [
+                            "eosphoros-ai-db-gpt-hub-merge-00__cPRAUcP",
+                            "micrometer-metrics-micrometer-me__vhG2FEo",
+                            "stripe-stripe-android-merge-0000__aoufKz3",
+                            "wikimedia-apps-android-wikipedia__5ZHTw9t",
+                            "raamcosta-compose-destinations-m__hYdrv3h",
+                            "synthetichealth-synthea-merge-00__hFH9HjB",
+                            "python-discord-bot-merge-0000__AjFNyzH",
+                            "stripe-stripe-android-merge-0036__JVX6AN9",
+                            "facebookresearch-habitat-lab-mer__bfREHka",
+                            "cloudfoundry-uaa-merge-0003__ZQfjKGm",
+                            "nvidia-ai-iot-torch2trt-merge-00__Bu72GZF",
+                            "getredash-redash-merge-0001__iDfubTD",
+                            "liquibase-liquibase-merge-0036__g4Yk4eA",
+                            "tlaplus-tlaplus-merge-0000__YBnKDkx",
+                            "stripe-stripe-android-merge-0018__XJhhkYR",
+                            "komoot-photon-merge-0000__e28sB67",
+                            "jetbrains-exposed-merge-0004__VcczgZp",
+                            "alanjds-drf-nested-routers-merge__TNa6E7H",
+                            "piccolo-orm-piccolo-merge-0003__XXxHATG",
+                            "graphhopper-graphhopper-merge-00__LuGrQGs",
+                            "liquibase-liquibase-merge-0001__tEv6UTc",
+                            "farama-foundation-gymnasium-merg__q5aYsRV",
+                            "fasterxml-jackson-module-kotlin__DWwSUPS",
+                            "android-compose-samples-merge-00__U2f2qz6",
+                            "h2oai-h2ogpt-merge-0082__mCwtYFe",
+                            "rjaros-kvision-merge-0000__dLYD5M7",
+                            "dlr-rm-stable-baselines3-merge-0__LvPyXar",
+                            "cashapp-redwood-merge-0002__sr5wBxr",
+                            "apache-cloudstack-merge-0043__LKCVTow",
+                            "spring-projects-spring-security__24bLscd",
+                            "opendilab-di-engine-merge-0001__8BhyJ7g",
+                            "kotlin-dokka-merge-0003__Xd7pU5U",
+                            "mockito-mockito-merge-0002__78AkUzX",
+                            "dask-dask-merge-0000__9Sh5bcU",
+                            "spring-projects-spring-data-elas__9iuYdN5",
+                            "vespa-engine-vespa-merge-0000__s4jRySb",
+                            "duckduckgo-android-merge-0003__7KAqHPx",
+                            "explosion-spacy-merge-0018__cV7xpQU",
+                            "zenml-io-zenml-merge-0019__kFUhxkw",
+                            "argilla-io-argilla-merge-0019__X7ZsBvw",
+                            "jetbrains-intellij-platform-grad__D8DrnUw",
+                            "element-hq-element-android-merge__vPEVwfG",
+                            "vitorpamplona-amethyst-merge-000__idJ6GYR",
+                            "element-hq-element-android-merge__UoYLM42",
+                            "android-nowinandroid-merge-0000__3vAPH5j",
+                            "huggingface-optimum-merge-0000__8agEzj3",
+                            "octodns-octodns-merge-0001__jsMTRVq",
+                            "vocodedev-vocode-python-merge-00__PVmvQTr",
+                            "android-wear-os-samples-merge-00__hzjAtZV",
+                            "cgeo-cgeo-merge-0003__Vhqdv68",
+                            "chat2db-chat2db-merge-0001__EfY9xBT",
+                            "gnembon-fabric-carpet-merge-0005__h72JVTu",
+                            "fasterxml-jackson-core-merge-000__zsaxTf8",
+                            "dusty-nv-jetson-containers-merge__KhQc25V",
+                            "wikimedia-apps-android-wikipedia__gc6nc4K",
+                            "kotlin-kotlinx-coroutines-merge__aCH8afS",
+                            "spulec-freezegun-merge-0000__5Cvghbx",
+                            "magefree-mage-merge-0003__P7j49VL",
+                            "spongepowered-spongeapi-merge-00__9sGSMnG",
+                            "apache-ignite-merge-0001__cTEaP9G"
+                        ]
+                    }
+                },
+                "exception_stats": {}
+            }
+        },
+        "n_input_tokens": null,
+        "n_cache_tokens": null,
+        "n_output_tokens": null,
+        "cost_usd": null
+    }
+}
