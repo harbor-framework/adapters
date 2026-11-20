@@ -6,13 +6,7 @@ from typing import Any
 
 import pytest
 
-from contextbench.attribution.rules import (
-    DEFAULT_REGISTRY,
-    HEURISTICS,
-    ResultStatus,
-    ToolFamily,
-    tool_family,
-)
+from contextbench.attribution.rules import ResultStatus, ToolFamily, tool_family
 from contextbench.attribution.trajectory import load_trajectory_chain, project_atif
 from contextbench.attribution.types import (
     BACKGROUND_OUTPUT_TOOLS,
@@ -26,14 +20,17 @@ from contextbench.attribution.types import (
     SEARCH_TOOLS,
     SHELL_TOOLS,
     SUBAGENT_TOOLS,
-    TOOL_ALIASES,
     UNATTRIBUTED_CONTENT_TOOLS,
     Classification,
-    canonical_tool_name,
 )
-from contextbench.vendor.contextbench_source.contextbench.agents.openhands.extract import (
-    extract_trajectory as extract_openhands_trajectory,
+from parity.calibration import (
+    PARITY_RUNS_SUMMARY_PATH,
+    SUMMARY_PATH,
+    oracle_prediction,
+    parity_run_corpus,
+    retained_corpus,
 )
+from parity.files import json_sha256
 
 
 def _step(
@@ -85,19 +82,6 @@ def repository(tmp_path: Path) -> Path:
     return root
 
 
-def test_no_rule_is_gated_by_agent_identity() -> None:
-    """One rule for every agent: no registry rule may key on the producer."""
-    assert all(not hasattr(rule, "profiles") for rule in HEURISTICS)
-
-
-def test_registry_has_stable_unique_metadata() -> None:
-    identifiers = [rule.rule_id for rule in HEURISTICS]
-
-    assert len(identifiers) == len(set(identifiers))
-    assert DEFAULT_REGISTRY.rules == HEURISTICS
-    assert all(rule.evidence_basis for rule in HEURISTICS)
-
-
 def test_declared_tool_contracts_form_a_partition() -> None:
     families = (
         SHELL_TOOLS,
@@ -136,7 +120,7 @@ def test_unknown_tool_is_nonfatal_and_diagnostic(repository: Path) -> None:
     prediction, evidence = project_atif(
         _trajectory([_step("mcp__unknown__source", {}, "generated output")]),
         repository,
-        strict=True,
+        roots=("/workspace",),
     )
 
     assert prediction["pred_files"] == []
@@ -151,13 +135,13 @@ def test_unknown_tool_can_use_conservative_observation_fallback(
     prediction, evidence = project_atif(
         _trajectory([_step("new_framework_view", {}, "line 4\nline 5\nline 6\n")]),
         repository,
+        roots=("/workspace",),
     )
 
     assert prediction["pred_spans"] == {
         "src/example.py": [{"type": "line", "start": 4, "end": 6}]
     }
-    assert evidence[0]["heuristic"] == "common.observation.v1"
-    assert evidence[0]["evidence_basis"] == "observation_exact_checkout_match"
+    assert evidence[0]["heuristic"] == "common.observation"
 
 
 @pytest.mark.parametrize("content", ["line 4", "", "    ", ")\n)\n"])
@@ -168,6 +152,7 @@ def test_observation_fallback_rejects_weak_evidence(
     prediction, evidence = project_atif(
         _trajectory([_step("new_framework_view", {}, content)]),
         repository,
+        roots=("/workspace",),
     )
 
     assert prediction["pred_files"] == []
@@ -178,24 +163,10 @@ def test_observation_fallback_rejects_weak_evidence(
     ("arguments", "expected"),
     [
         ({"file_path": "src/example.py", "view_range": [2, 3]}, (2, 3)),
-        ({"filePath": "src/example.py", "viewRange": [3, 4]}, (3, 4)),
         ({"path": "src/example.py", "offset": 4, "limit": 2}, (4, 5)),
-        ({"path": "src/example.py", "lineOffset": 5, "limit": 2}, (5, 6)),
         (
             {"filename": "src/example.py", "start_line": 6, "end_line": 7},
             (6, 7),
-        ),
-        (
-            {"path": "src/example.py", "line_start": 7, "line_end": 8},
-            (7, 8),
-        ),
-        ({"path": "src/example.py", "startLine": 8, "endLine": 9}, (8, 9)),
-        (
-            {
-                "path": "src/example.py",
-                "line_range": {"start": 9, "end": 10},
-            },
-            (9, 10),
         ),
     ],
 )
@@ -207,34 +178,55 @@ def test_structured_read_range_dialects(
     prediction, evidence = project_atif(
         _trajectory([_step("Read", arguments, "observation is not consulted")]),
         repository,
+        roots=("/workspace",),
     )
 
     assert prediction["pred_spans"] == {
         "src/example.py": [{"type": "line", "start": expected[0], "end": expected[1]}]
     }
-    assert evidence[0]["heuristic"] == "common.read.v1"
+    assert evidence[0]["heuristic"] == "common.read"
 
 
-def test_structured_read_supports_multiple_ranges(repository: Path) -> None:
-    prediction, _ = project_atif(
+@pytest.mark.parametrize(
+    "ranges",
+    [
+        {"viewRange": [3, 4]},
+        {"line_ranges": [[3, 4]]},
+        {"lineRanges": [[3, 4]]},
+        {"ranges": [[3, 4], {"start": 6, "end": 7}]},
+        {"line_range": {"start": 3, "end": 4}},
+        {"lineRange": {"start": 3, "end": 4}},
+        {"lineOffset": 3},
+        {"line_start": 3, "line_end": 4},
+        {"startLine": 3, "endLine": 4},
+        # OpenHands' FileReadAction arguments, which no ATIF converter emits.
+        {"start": 3, "end": 4},
+        {"start": 0, "end": 4},
+        {"start": 0, "end": -1},
+    ],
+)
+def test_range_spellings_without_a_tool_schema_credit_the_file_only(
+    repository: Path,
+    ranges: dict[str, Any],
+) -> None:
+    """Only the range arguments of an inspected read schema declare lines."""
+    prediction, evidence = project_atif(
         _trajectory(
             [
                 _step(
-                    "read_file",
-                    {
-                        "path": "src/example.py",
-                        "ranges": [[1, 2], {"start": 6, "end": 7}],
-                    },
+                    "Read",
+                    {"path": "src/example.py", **ranges},
+                    "observation is not consulted",
                 )
             ]
         ),
         repository,
+        roots=("/workspace",),
     )
 
-    assert prediction["pred_spans"]["src/example.py"] == [
-        {"type": "line", "start": 1, "end": 2},
-        {"type": "line", "start": 6, "end": 7},
-    ]
+    assert prediction["pred_files"] == ["src/example.py"]
+    assert prediction["pred_spans"] == {}
+    assert evidence[0]["heuristic"] == "common.read"
 
 
 def test_unknown_or_malformed_range_keeps_file_credit(repository: Path) -> None:
@@ -248,6 +240,7 @@ def test_unknown_or_malformed_range_keeps_file_credit(repository: Path) -> None:
             ]
         ),
         repository,
+        roots=("/workspace",),
     )
 
     assert prediction["pred_files"] == ["src/example.py"]
@@ -259,10 +252,10 @@ def test_whole_file_read_needs_no_observation(repository: Path) -> None:
     step = _step("read_file", {"path": "src/example.py"})
     step.pop("observation")
 
-    prediction, _ = project_atif(_trajectory([step]), repository)
+    prediction, _ = project_atif(_trajectory([step]), repository, roots=("/workspace",))
 
     assert prediction == {
-        "pred_steps": [{"files": ["src/example.py"], "spans": {}}],
+        "pred_steps": [{"files": ["src/example.py"], "spans": {}, "symbols": {}}],
         "pred_files": ["src/example.py"],
         "pred_spans": {},
     }
@@ -272,6 +265,7 @@ def test_directory_read_is_discovery_only(repository: Path) -> None:
     prediction, evidence = project_atif(
         _trajectory([_step("view", {"path": "src"})]),
         repository,
+        roots=("/workspace",),
     )
 
     assert prediction["pred_files"] == []
@@ -289,6 +283,7 @@ def test_editor_mutation_does_not_receive_read_credit(repository: Path) -> None:
             ]
         ),
         repository,
+        roots=("/workspace",),
     )
 
     assert prediction["pred_files"] == []
@@ -311,6 +306,7 @@ def test_multi_read_emits_one_step_with_all_files(repository: Path) -> None:
             ]
         ),
         repository,
+        roots=("/workspace",),
     )
 
     assert prediction["pred_files"] == ["src/example.py", "src/other.py"]
@@ -318,7 +314,7 @@ def test_multi_read_emits_one_step_with_all_files(repository: Path) -> None:
         "src/example.py": [{"type": "line", "start": 2, "end": 3}]
     }
     assert len(prediction["pred_steps"]) == 1
-    assert evidence[0]["heuristic"] == "common.multi_read.v1"
+    assert evidence[0]["heuristic"] == "common.multi_read"
 
 
 def test_structured_search_without_source_receipts_is_discovery(
@@ -330,11 +326,12 @@ def test_structured_search_without_source_receipts_is_discovery(
             [_step("rg", {"query": "missing", "path": "src/example.py"}, "no matches")]
         ),
         repository,
+        roots=("/workspace",),
     )
 
     assert prediction["pred_files"] == []
     assert evidence[0]["classification"] == Classification.DISCOVERY_ONLY
-    assert evidence[0]["heuristic"] == "common.observation.v1"
+    assert evidence[0]["heuristic"] == "common.observation"
 
 
 def test_search_count_output_mode_is_discovery_not_retrieval(
@@ -355,6 +352,7 @@ def test_search_count_output_mode_is_discovery_not_retrieval(
             ]
         ),
         repository,
+        roots=("/workspace",),
     )
 
     assert prediction["pred_files"] == []
@@ -373,12 +371,13 @@ def test_directory_search_uses_path_line_observation(repository: Path) -> None:
             ]
         ),
         repository,
+        roots=("/workspace",),
     )
 
     assert prediction["pred_spans"] == {
         "src/example.py": [{"type": "line", "start": 3, "end": 3}]
     }
-    assert evidence[0]["heuristic"] == "common.observation.v1"
+    assert evidence[0]["heuristic"] == "common.observation"
 
 
 @pytest.mark.parametrize(
@@ -409,15 +408,31 @@ def test_shell_command_without_recorded_output_earns_no_credit(
     """Attribution v2 removed every shell command vocabulary.
 
     A command whose output was not recorded put no context in front of the
-    agent, whatever it names; credit requires receipts.
+    agent, whatever it names; credit requires receipts. The call is a known
+    tool, so it is not unmapped either.
     """
     prediction, evidence = project_atif(
         _trajectory([_step("bash", {"command": command})]),
         repository,
+        roots=("/workspace",),
     )
 
     assert prediction["pred_files"] == []
-    assert evidence[0]["classification"] == Classification.UNMAPPED
+    assert evidence[0]["classification"] == Classification.NON_BASE_CONTEXT
+    assert evidence[0]["reason"] == "call returned no output"
+
+
+def test_known_tool_without_an_observation_is_not_unmapped(repository: Path) -> None:
+    step = _step("bash", {"command": "rm build.log"})
+    step.pop("observation")
+
+    prediction, evidence = project_atif(
+        _trajectory([step]), repository, roots=("/workspace",)
+    )
+
+    assert prediction["pred_files"] == []
+    assert evidence[0]["classification"] == Classification.NON_BASE_CONTEXT
+    assert evidence[0]["reason"] == "call has no recorded observation"
 
 
 def test_shell_receipts_attribute_displayed_source(repository: Path) -> None:
@@ -432,12 +447,13 @@ def test_shell_receipts_attribute_displayed_source(repository: Path) -> None:
             ]
         ),
         repository,
+        roots=("/workspace",),
     )
 
     assert prediction["pred_spans"] == {
         "src/example.py": [{"type": "line", "start": 2, "end": 3}]
     }
-    assert evidence[0]["heuristic"] == "common.observation.v1"
+    assert evidence[0]["heuristic"] == "common.observation"
 
 
 def test_malformed_glob_tokens_never_abort_attribution(repository: Path) -> None:
@@ -454,15 +470,16 @@ def test_malformed_glob_tokens_never_abort_attribution(repository: Path) -> None
                 _step(
                     "shell",
                     {"command": "python -c 'run(**cmd_options)' src/**init*.py"},
-                    "line 2\nline 3\n",
+                    "line 2\nline 3\nline 4\n",
                 )
             ]
         ),
         repository,
+        roots=("/workspace",),
     )
 
     assert prediction["pred_spans"] == {
-        "src/example.py": [{"type": "line", "start": 2, "end": 3}]
+        "src/example.py": [{"type": "line", "start": 2, "end": 4}]
     }
     assert evidence[0]["classification"] == Classification.PROJECTED
 
@@ -475,10 +492,11 @@ def test_producer_dialects_share_one_rule(repository: Path) -> None:
             agent="terminus-2",
         ),
         repository,
+        roots=("/workspace",),
     )
 
     assert prediction["pred_files"] == []
-    assert evidence[0]["classification"] == Classification.UNMAPPED
+    assert evidence[0]["classification"] == Classification.NON_BASE_CONTEXT
 
     prediction, evidence = project_atif(
         _trajectory(
@@ -492,10 +510,11 @@ def test_producer_dialects_share_one_rule(repository: Path) -> None:
             agent="terminus-2",
         ),
         repository,
+        roots=("/workspace",),
     )
 
     assert prediction["pred_files"] == ["src/other.py"]
-    assert evidence[0]["heuristic"] == "common.observation.v1"
+    assert evidence[0]["heuristic"] == "common.observation"
 
 
 def test_unsupported_shell_can_fall_back_to_observed_source(repository: Path) -> None:
@@ -505,17 +524,18 @@ def test_unsupported_shell_can_fall_back_to_observed_source(repository: Path) ->
                 _step(
                     "terminal",
                     {"command": "python inspect.py"},
-                    "line 7\nline 8\n",
+                    "line 7\nline 8\nline 9\n",
                 )
             ]
         ),
         repository,
+        roots=("/workspace",),
     )
 
     assert prediction["pred_spans"] == {
-        "src/example.py": [{"type": "line", "start": 7, "end": 8}]
+        "src/example.py": [{"type": "line", "start": 7, "end": 9}]
     }
-    assert evidence[0]["heuristic"] == "common.observation.v1"
+    assert evidence[0]["heuristic"] == "common.observation"
 
 
 def test_shell_without_source_is_decided_not_unmapped(repository: Path) -> None:
@@ -527,18 +547,21 @@ def test_shell_without_source_is_decided_not_unmapped(repository: Path) -> None:
     prediction, evidence = project_atif(
         _trajectory([_step("terminal", {"command": "python inspect.py"}, "generated")]),
         repository,
+        roots=("/workspace",),
     )
 
     assert prediction["pred_files"] == []
     assert evidence[0]["classification"] == Classification.NON_BASE_CONTEXT
-    assert evidence[0]["heuristic"] == "common.observation.v1"
+    assert evidence[0]["heuristic"] == "common.observation"
 
 
 def test_tool_failure_is_diagnostic_not_fatal(repository: Path) -> None:
     step = _step("terminal", {"command": "python inspect.py"}, "")
     step["observation"]["results"][0]["extra"] = {"error": "failed"}
 
-    prediction, evidence = project_atif(_trajectory([step]), repository)
+    prediction, evidence = project_atif(
+        _trajectory([step]), repository, roots=("/workspace",)
+    )
 
     assert prediction["pred_files"] == []
     assert evidence[0]["classification"] == Classification.TOOL_ERROR
@@ -548,11 +571,13 @@ def test_failed_structured_read_receives_no_credit(repository: Path) -> None:
     step = _step("Read", {"path": "src/example.py"}, "")
     step["observation"]["results"][0]["extra"] = {"error": "file is unavailable"}
 
-    prediction, evidence = project_atif(_trajectory([step]), repository)
+    prediction, evidence = project_atif(
+        _trajectory([step]), repository, roots=("/workspace",)
+    )
 
     assert prediction["pred_files"] == []
     assert evidence[0]["classification"] == Classification.TOOL_ERROR
-    assert evidence[0]["heuristic"] == "common.tool_error.v1"
+    assert evidence[0]["heuristic"] == "common.tool_error"
 
 
 def test_claude_code_failed_read_receives_no_credit(repository: Path) -> None:
@@ -560,21 +585,25 @@ def test_claude_code_failed_read_receives_no_credit(repository: Path) -> None:
     step = _step("Read", {"path": "src/example.py"}, "File does not exist.")
     step["observation"]["results"][0]["extra"] = {"tool_result_is_error": True}
 
-    prediction, evidence = project_atif(_trajectory([step]), repository)
+    prediction, evidence = project_atif(
+        _trajectory([step]), repository, roots=("/workspace",)
+    )
 
     assert prediction["pred_files"] == []
     assert evidence[0]["classification"] == Classification.TOOL_ERROR
-    assert evidence[0]["heuristic"] == "common.tool_error.v1"
+    assert evidence[0]["heuristic"] == "common.tool_error"
 
 
-def test_failed_call_with_partial_source_earns_no_credit(
+def test_failure_flags_decide_structured_reads_and_receipts_decide_the_rest(
     repository: Path,
 ) -> None:
-    """Producer failure flags are trusted over displayed content.
+    """Failure precedence covers only the families credited from arguments.
 
-    A failed read that still returned partial source must not be credited by
-    the argument rule or the receipts rule; deferring on content-bearing
-    failures would inflate retrieval scores from unsuccessful reads.
+    A failed structured read earns nothing even when it returned partial
+    source: its credit would come from the arguments, and the failure flag
+    says the read did not happen. A failed shell call is credited for the
+    source its output validates, because validated receipts prove themselves.
+    A failed shell call whose output validates nothing stays a tool error.
     """
     read = _step(
         "Read",
@@ -584,17 +613,31 @@ def test_failed_call_with_partial_source_earns_no_credit(
     read["observation"]["results"][0]["extra"] = {"error": "read timed out"}
     shell = _step(
         "shell",
-        {"command": "sed -n '2,3p' src/example.py"},
+        {"command": "sed -n '2,3p' src/example.py && false"},
         "line 2\nline 3\n",
         call_id="call-2",
     )
     shell["observation"]["results"][0]["extra"] = {"is_error": True}
+    failed = _step(
+        "shell",
+        {"command": "pytest -q"},
+        "1 failed in 0.1s\n",
+        call_id="call-3",
+    )
+    failed["observation"]["results"][0]["extra"] = {"is_error": True}
 
-    prediction, evidence = project_atif(_trajectory([read, shell]), repository)
+    prediction, evidence = project_atif(
+        _trajectory([read, shell, failed]), repository, roots=("/workspace",)
+    )
 
-    assert prediction["pred_files"] == []
-    assert {item["classification"] for item in evidence} == {Classification.TOOL_ERROR}
-    assert {item["heuristic"] for item in evidence} == {"common.tool_error.v1"}
+    assert prediction["pred_spans"] == {
+        "src/example.py": [{"type": "line", "start": 2, "end": 3}]
+    }
+    assert [(item["classification"], item["heuristic"]) for item in evidence] == [
+        (Classification.TOOL_ERROR, "common.tool_error"),
+        (Classification.PROJECTED, "common.observation"),
+        (Classification.TOOL_ERROR, "common.observation"),
+    ]
 
 
 def test_copilot_failed_read_receives_no_credit(repository: Path) -> None:
@@ -605,11 +648,13 @@ def test_copilot_failed_read_receives_no_credit(repository: Path) -> None:
         "toolTelemetry": {"durationMs": 3},
     }
 
-    prediction, evidence = project_atif(_trajectory([step]), repository)
+    prediction, evidence = project_atif(
+        _trajectory([step]), repository, roots=("/workspace",)
+    )
 
     assert prediction["pred_files"] == []
     assert evidence[0]["classification"] == Classification.TOOL_ERROR
-    assert evidence[0]["heuristic"] == "common.tool_error.v1"
+    assert evidence[0]["heuristic"] == "common.tool_error"
 
 
 def test_successful_result_metadata_flags_do_not_mark_error(
@@ -622,7 +667,9 @@ def test_successful_result_metadata_flags_do_not_mark_error(
         "tool_result_is_error": False,
     }
 
-    prediction, evidence = project_atif(_trajectory([step]), repository)
+    prediction, evidence = project_atif(
+        _trajectory([step]), repository, roots=("/workspace",)
+    )
 
     assert prediction["pred_files"] == ["src/example.py"]
     assert evidence[0]["classification"] == Classification.PROJECTED
@@ -644,6 +691,7 @@ def test_shell_non_source_output_earns_no_credit(
     prediction, _ = project_atif(
         _trajectory([_step("bash", {"command": command}, "generated output")]),
         repository,
+        roots=("/workspace",),
     )
 
     assert prediction["pred_files"] == []
@@ -673,12 +721,12 @@ def test_openhands_is_scored_by_the_same_rule(repository: Path) -> None:
         agent="openhands",
     )
 
-    prediction, evidence = project_atif(trajectory, repository)
+    prediction, evidence = project_atif(trajectory, repository, roots=("/workspace",))
 
     # Structured read credits from arguments; the shell call credits from
     # its displayed receipts.
-    assert evidence[0]["heuristic"] == "common.read.v1"
-    assert evidence[1]["heuristic"] == "common.observation.v1"
+    assert evidence[0]["heuristic"] == "common.read"
+    assert evidence[1]["heuristic"] == "common.observation"
     assert prediction["pred_spans"]["src/example.py"] == [
         {"type": "line", "start": 2, "end": 4},
         {"type": "line", "start": 9, "end": 10},
@@ -686,25 +734,27 @@ def test_openhands_is_scored_by_the_same_rule(repository: Path) -> None:
 
 
 def test_retained_corpus_oracle_is_reproducible(
+    calibration_dir: Path,
     retained_result_dir: Path,
 ) -> None:
-    """The vendored oracle still extracts the retained native corpus.
+    """The vendored oracle reproduces its pinned projection of every trial.
 
-    The full rule-versus-oracle divergence is pinned by the calibration
-    summary test; this check only proves the oracle side stays runnable and
-    non-degenerate on the retained ten-task corpus.
+    The calibration summaries pin a digest of the oracle's projection of each
+    retained raw OpenHands log, so the oracle itself cannot drift.
     """
-    scorer = retained_result_dir / "harbor-scorer"
-    task_dirs = sorted(path for path in scorer.iterdir() if path.is_dir())
-    assert len(task_dirs) == 10
+    for corpus, summary_path in (
+        (retained_corpus(retained_result_dir), SUMMARY_PATH),
+        (parity_run_corpus(calibration_dir / "bundle"), PARITY_RUNS_SUMMARY_PATH),
+    ):
+        pinned = {
+            record["label"]: record["oracle"]["projection_sha256"]
+            for record in json.loads(summary_path.read_text())["trajectories"]
+        }
 
-    total_files = 0
-    for task_dir in task_dirs:
-        native = json.loads((task_dir / "openhands-trajectory.json").read_text())
-        prediction = extract_openhands_trajectory({"history": native})
-        assert set(prediction) >= {"pred_steps", "pred_files", "pred_spans"}
-        total_files += len(prediction["pred_files"])
-    assert total_files > 0
+        assert {
+            trajectory.label: json_sha256(oracle_prediction(trajectory.native))
+            for trajectory in corpus.trajectories
+        } == pinned
 
 
 def test_each_credited_call_is_one_contextbench_step(repository: Path) -> None:
@@ -735,6 +785,7 @@ def test_each_credited_call_is_one_contextbench_step(repository: Path) -> None:
             ]
         ),
         repository,
+        roots=("/workspace",),
     )
 
     assert len(prediction["pred_steps"]) == 2
@@ -758,6 +809,7 @@ def test_aggregate_steps_merge_adjacent_ranges(repository: Path) -> None:
             ]
         ),
         repository,
+        roots=("/workspace",),
     )
 
     assert prediction["pred_spans"]["src/example.py"] == [
@@ -785,11 +837,12 @@ def test_background_poll_does_not_duplicate_launch_credit(repository: Path) -> N
             ]
         ),
         repository,
+        roots=("/workspace",),
     )
 
     assert len(prediction["pred_steps"]) == 1
-    assert evidence[0]["heuristic"] == "common.observation.v1"
-    assert evidence[-1]["heuristic"] == "common.background.deduplicate.v1"
+    assert evidence[0]["heuristic"] == "common.observation"
+    assert evidence[-1]["heuristic"] == "common.background.deduplicate"
 
 
 def test_background_poll_credits_receipts_when_launch_had_none(
@@ -813,13 +866,14 @@ def test_background_poll_credits_receipts_when_launch_had_none(
             ]
         ),
         repository,
+        roots=("/workspace",),
     )
 
     assert len(prediction["pred_steps"]) == 1
     assert prediction["pred_spans"] == {
         "src/example.py": [{"type": "line", "start": 2, "end": 3}]
     }
-    assert evidence[-1]["heuristic"] == "common.observation.v1"
+    assert evidence[-1]["heuristic"] == "common.observation"
 
 
 def test_codex_background_session_id_survives_envelope_stripping(
@@ -852,11 +906,12 @@ def test_codex_background_session_id_survives_envelope_stripping(
             agent="codex",
         ),
         repository,
+        roots=("/workspace",),
     )
 
     assert len(prediction["pred_steps"]) == 1
-    assert evidence[0]["heuristic"] == "common.observation.v1"
-    assert evidence[-1]["heuristic"] == "common.background.deduplicate.v1"
+    assert evidence[0]["heuristic"] == "common.observation"
+    assert evidence[-1]["heuristic"] == "common.background.deduplicate"
 
 
 def test_background_poll_recovers_unsupported_origin_output(
@@ -880,12 +935,13 @@ def test_background_poll_recovers_unsupported_origin_output(
             ]
         ),
         repository,
+        roots=("/workspace",),
     )
 
     assert prediction["pred_spans"] == {
         "src/example.py": [{"type": "line", "start": 2, "end": 3}]
     }
-    assert evidence[-1]["heuristic"] == "common.observation.v1"
+    assert evidence[-1]["heuristic"] == "common.observation"
 
 
 def test_offloaded_content_does_not_duplicate_credited_source(
@@ -909,10 +965,11 @@ def test_offloaded_content_does_not_duplicate_credited_source(
             ]
         ),
         repository,
+        roots=("/workspace",),
     )
 
     assert len(prediction["pred_steps"]) == 1
-    assert evidence[-1]["heuristic"] == "common.offloaded.deduplicate.v1"
+    assert evidence[-1]["heuristic"] == "common.offloaded.deduplicate"
 
 
 def test_terminus_shared_observation_is_split_by_prompt(repository: Path) -> None:
@@ -949,12 +1006,12 @@ def test_terminus_shared_observation_is_split_by_prompt(repository: Path) -> Non
         agent="terminus-2",
     )
 
-    prediction, evidence = project_atif(trajectory, repository)
+    prediction, evidence = project_atif(trajectory, repository, roots=("/workspace",))
 
     assert prediction["pred_spans"] == {
         "src/example.py": [{"type": "line", "start": 4, "end": 5}]
     }
-    assert evidence[-1]["heuristic"] == "common.observation.v1"
+    assert evidence[-1]["heuristic"] == "common.observation"
 
 
 def test_codex_result_envelope_is_decoded(repository: Path) -> None:
@@ -977,6 +1034,7 @@ def test_codex_result_envelope_is_decoded(repository: Path) -> None:
             agent="codex",
         ),
         repository,
+        roots=("/workspace",),
     )
 
     assert prediction["pred_spans"] == {
@@ -1005,10 +1063,49 @@ def test_embedded_subagent_is_traversed_once(repository: Path) -> None:
         "subagent_trajectories": [subagent],
     }
 
-    prediction, evidence = project_atif(trajectory, repository)
+    prediction, evidence = project_atif(trajectory, repository, roots=("/workspace",))
 
     assert len(prediction["pred_steps"]) == 1
     assert any(item["trajectory"] == "root/subagent:child" for item in evidence)
+
+
+def test_embedded_subagent_continues_in_its_continuation_file(
+    repository: Path, tmp_path: Path
+) -> None:
+    continuation = _step(
+        "Read", {"path": "src/example.py", "view_range": [5, 6]}, call_id="read-2"
+    )
+    (tmp_path / "child-2.json").write_text(json.dumps({"steps": [continuation]}))
+    subagent = {
+        "trajectory_id": "child",
+        "steps": [
+            _step(
+                "Read",
+                {"path": "src/example.py", "view_range": [2, 3]},
+                call_id="read-1",
+            )
+        ],
+        "continued_trajectory_ref": "child-2.json",
+    }
+    parent_step = _step("task", {"prompt": "inspect"}, "", call_id="task")
+    parent_step["observation"]["results"][0]["subagent_trajectory_ref"] = [
+        {"trajectory_id": "child"}
+    ]
+    trajectory = {**_trajectory([parent_step]), "subagent_trajectories": [subagent]}
+
+    prediction, evidence = project_atif(
+        trajectory, repository, trajectory_dir=tmp_path, roots=("/workspace",)
+    )
+
+    assert prediction["pred_spans"]["src/example.py"] == [
+        {"type": "line", "start": 2, "end": 3},
+        {"type": "line", "start": 5, "end": 6},
+    ]
+    assert [
+        item["tool_call_id"]
+        for item in evidence
+        if item["trajectory"] == "root/subagent:child"
+    ] == ["read-1", "read-2"]
 
 
 def test_copied_context_is_not_reprojected(repository: Path) -> None:
@@ -1018,10 +1115,12 @@ def test_copied_context_is_not_reprojected(repository: Path) -> None:
     )
     step["is_copied_context"] = True
 
-    prediction, evidence = project_atif(_trajectory([step]), repository)
+    prediction, evidence = project_atif(
+        _trajectory([step]), repository, roots=("/workspace",)
+    )
 
     assert prediction["pred_files"] == []
-    assert evidence[0]["heuristic"] == "atif.copied_context.v1"
+    assert evidence[0]["heuristic"] == "atif.copied_context"
 
 
 def test_external_subagent_trajectory_is_contained(
@@ -1050,6 +1149,7 @@ def test_external_subagent_trajectory_is_contained(
         _trajectory([parent_step]),
         repository,
         trajectory_dir=tmp_path,
+        roots=("/workspace",),
     )
 
     assert prediction["pred_spans"]["src/example.py"] == [
@@ -1079,6 +1179,7 @@ def test_invalid_subagent_reference_is_a_structural_error(
             _trajectory([step]),
             repository,
             trajectory_dir=tmp_path,
+            roots=("/workspace",),
         )
 
 
@@ -1095,10 +1196,10 @@ def test_loads_continuation_chain_in_order(tmp_path: Path) -> None:
     )
     second.write_text(json.dumps({"steps": [{"step_id": 2}]}))
 
-    assert load_trajectory_chain(first)["steps"] == [
-        {"step_id": 1},
-        {"step_id": 2},
-    ]
+    loaded = load_trajectory_chain(first)
+
+    assert loaded["steps"] == [{"step_id": 1}, {"step_id": 2}]
+    assert loaded["continued_trajectory_ref"] is None
 
 
 def test_continuation_cycle_is_a_structural_error(tmp_path: Path) -> None:
@@ -1156,7 +1257,116 @@ def test_malformed_atif_is_a_hard_error(
     trajectory: dict[str, Any],
 ) -> None:
     with pytest.raises((TypeError, ValueError)):
-        project_atif(trajectory, repository)
+        project_atif(trajectory, repository, roots=("/workspace",))
+
+
+def _unlinked_step(commands: list[str], outputs: list[str]) -> dict[str, Any]:
+    return {
+        "tool_calls": [
+            {
+                "tool_call_id": f"call-{index}",
+                "function_name": "bash",
+                "arguments": {"command": command},
+            }
+            for index, command in enumerate(commands)
+        ],
+        "observation": {"results": [{"content": output} for output in outputs]},
+    }
+
+
+def test_results_without_call_ids_pair_with_calls_in_order(repository: Path) -> None:
+    """Harbor's mini-swe-agent converter drops `source_call_id`."""
+    step = _unlinked_step(
+        ["sed -n '2,3p' src/example.py", "sed -n '6,7p' src/example.py"],
+        ["line 2\nline 3\n", "line 6\nline 7\n"],
+    )
+
+    prediction, evidence = project_atif(
+        _trajectory([step]), repository, roots=("/workspace",)
+    )
+
+    assert [item["step"]["spans"] for item in evidence] == [
+        {"src/example.py": [{"type": "line", "start": 2, "end": 3}]},
+        {"src/example.py": [{"type": "line", "start": 6, "end": 7}]},
+    ]
+    assert len(prediction["pred_steps"]) == 2
+
+
+def test_more_results_than_calls_leaves_the_step_malformed(repository: Path) -> None:
+    """The step is diagnosed and the rest of the trajectory is still scored."""
+    ambiguous = _unlinked_step(
+        ["sed -n '2,3p' src/example.py", "sed -n '6,7p' src/example.py"],
+        ["line 2\nline 3\n", "line 6\nline 7\n", "No tool calls found."],
+    )
+    later = _step("Read", {"file_path": "src/other.py"}, call_id="later")
+
+    prediction, evidence = project_atif(
+        _trajectory([ambiguous, later]), repository, roots=("/workspace",)
+    )
+
+    assert prediction["pred_files"] == ["src/other.py"]
+    assert [item["classification"] for item in evidence] == [
+        Classification.MALFORMED,
+        Classification.MALFORMED,
+        Classification.PROJECTED,
+    ]
+    assert evidence[0]["heuristic"] == "atif.unpaired_results"
+    assert (
+        "3 observation result(s) without a call ID for 2 call(s)"
+        in (evidence[0]["reason"])
+    )
+
+
+def test_mini_swe_agent_shell_envelopes_are_decoded(repository: Path) -> None:
+    """mini-swe-agent elides long output to a head and a tail, and reports
+    commands that did not run in `exception_info`."""
+    elided = json.dumps(
+        {
+            "returncode": 0,
+            "output_head": "line 2\nline 3\nli",
+            "output_tail": "ne 8\nline 9\nline 10\n",
+            "elided_chars": 14,
+            "warning": "Output too long.",
+        }
+    )
+    not_run = json.dumps(
+        {"returncode": -1, "output": "", "exception_info": "action was not executed"}
+    )
+
+    prediction, evidence = project_atif(
+        _trajectory(
+            [
+                _step("bash", {"command": "tail -n +2 src/example.py"}, elided),
+                _step("bash", {"command": "rm build.log"}, not_run, call_id="rm"),
+            ]
+        ),
+        repository,
+        roots=("/workspace",),
+    )
+
+    assert prediction["pred_spans"] == {
+        "src/example.py": [
+            {"type": "line", "start": 2, "end": 3},
+            {"type": "line", "start": 9, "end": 10},
+        ]
+    }
+    assert evidence[1]["classification"] == Classification.TOOL_ERROR
+    assert "action was not executed" in evidence[1]["reason"]
+
+
+@pytest.mark.parametrize(
+    "tool", ["Monitor", "Workflow", "ListAgents", "ReportFindings"]
+)
+def test_tools_outside_the_rule_set_stay_unmapped(repository: Path, tool: str) -> None:
+    """Claude Code tools the rule set does not model are a mapping gap."""
+    prediction, evidence = project_atif(
+        _trajectory([_step(tool, {"description": "watch"}, "Started.")]),
+        repository,
+        roots=("/workspace",),
+    )
+
+    assert prediction["pred_files"] == []
+    assert evidence[0]["classification"] == Classification.UNMAPPED
 
 
 def test_idless_builtin_calls_are_decoded_not_fatal(repository: Path) -> None:
@@ -1196,6 +1406,7 @@ def test_idless_builtin_calls_are_decoded_not_fatal(repository: Path) -> None:
             agent="codex",
         ),
         repository,
+        roots=("/workspace",),
     )
 
     assert prediction["pred_files"] == ["src/example.py"]
@@ -1227,37 +1438,11 @@ def test_unanticipated_call_failure_is_contained_with_traceback(
             ]
         ),
         repository,
+        roots=("/workspace",),
     )
 
     assert evidence[0]["classification"] == Classification.MALFORMED
-    assert evidence[0]["heuristic"] == "registry.contained_failure.v1"
+    assert evidence[0]["heuristic"] == "registry.contained_failure"
     assert "Traceback" in evidence[0]["failure_traceback"]
     assert evidence[1]["classification"] == Classification.PROJECTED
     assert prediction["pred_files"] == ["src/example.py"]
-
-
-@pytest.mark.parametrize(
-    ("alias", "canonical"),
-    sorted(TOOL_ALIASES.items()),
-)
-def test_tool_aliases_resolve(alias: str, canonical: str) -> None:
-    assert canonical_tool_name(alias) == canonical
-
-
-def test_private_vendor_functions_are_imported_only_by_vendor_api() -> None:
-    package = Path(__file__).parents[1] / "src/contextbench"
-    needles = (
-        "_extract_from_read_action",
-        "_extract_from_run_command",
-        "_aggregate_steps",
-        "_normalize_path",
-    )
-    offenders: list[str] = []
-    for path in package.glob("*.py"):
-        if path.name == "vendor_api.py":
-            continue
-        source = path.read_text(encoding="utf-8")
-        if any(needle in source for needle in needles):
-            offenders.append(path.name)
-
-    assert offenders == []

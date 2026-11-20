@@ -5,26 +5,29 @@ from __future__ import annotations
 import json
 import re
 import traceback
-from dataclasses import dataclass, field, replace
+from collections.abc import Iterable
+from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, cast
 
 from ..vendor_api import ContextStep, aggregate_steps
-from .receipts import SourceRepository
+from .receipts import TERMINAL_PROMPT, SourceRepository
 from .rules import (
-    DEFAULT_REGISTRY,
-    CallContext,
-    ExtractionResult,
-    ResultStatus,
+    COPIED_CONTEXT,
+    BackgroundShell,
+    RuleOutcome,
     ToolFamily,
+    attribute,
+    contained_failure,
     context_for_call,
+    mutated_file,
+    path_key,
     tool_family,
-    with_arguments,
+    unpaired_results,
 )
 from .types import (
     BACKGROUND_ID_KEYS,
     NON_CONTEXT_TOOLS,
-    Classification,
     Observation,
     canonical_tool_name,
 )
@@ -33,13 +36,31 @@ _SHELL_IDENTIFIERS = (
     re.compile(r"\bRunning in background with ID\s+([A-Za-z0-9_-]+)\b"),
     re.compile(r"\bProcess running with session ID\s+([A-Za-z0-9_-]+)\b"),
 )
-_TERMINAL_PROMPT = re.compile(r"^.*?[@:].*?[#$]\s+(.*)$")
 _CODEX_CHUNK_ID = re.compile(r"Chunk ID: [^\r\n]+")
 _CODEX_WALL_TIME = re.compile(r"Wall time: [^\r\n]+")
 _CODEX_PROCESS = re.compile(
     r"Process (?:exited with code -?\d+|running with session ID [A-Za-z0-9_-]+)"
 )
 _CODEX_TOKEN_COUNT = re.compile(r"Original token count: \d+")
+# An offloaded-content reference, naming the call whose output was offloaded.
+_OFFLOADED_REFERENCE = re.compile(r"mem_\d+_(tooluse_[A-Za-z0-9]+)_\d+")
+_SHELL_ENVELOPE_KEYS = frozenset(
+    {
+        "returncode",
+        "output",
+        "exception_info",
+        "output_head",
+        "output_tail",
+        "elided_chars",
+        "warning",
+    }
+)
+# Producer read schemas whose `offset` counts lines from 0 although the rule
+# reads their tool name and path key as 1-based, as (ATIF `agent.name`, tool,
+# path key): Mistral Vibe's `read_file` and Cortex Code's `read`.
+_ZERO_BASED_PRODUCER_READS = frozenset(
+    {("vibe", "read_file", "path"), ("cortex-code", "read", "file_path")}
+)
 
 
 @dataclass(frozen=True)
@@ -57,17 +78,12 @@ class _ResolvedReference:
     origin: Path | None
 
 
-@dataclass(frozen=True)
-class _BackgroundShell:
-    arguments: dict[str, Any]
-    credited: bool
-
-
 @dataclass
 class _ProjectionState:
-    agent_name: str
-    projected_calls: dict[str, ContextStep] = field(default_factory=dict)
-    background_shells: dict[str, _BackgroundShell] = field(default_factory=dict)
+    # The IDs of the calls whose credit entered the prediction.
+    credited_calls: set[str] = field(default_factory=set)
+    background_shells: dict[str, BackgroundShell] = field(default_factory=dict)
+    mutated_files: set[str] = field(default_factory=set)
 
 
 @dataclass
@@ -82,6 +98,8 @@ class _TrajectoryContext:
     origin_dir: Path | None
     embedded: dict[str, dict[str, Any]]
     state: _ProjectionState
+    # The ATIF `agent.name` of the agent that produced the trajectory.
+    producer: str | None
 
 
 class _ObservationDecoder:
@@ -95,17 +113,9 @@ class _ObservationDecoder:
         *,
         decode_cursor_result: bool,
     ) -> Observation | None:
-        observation = step.get("observation")
-        if observation is None:
-            return None
-        if not isinstance(observation, dict):
-            raise TypeError("ATIF tool observation must be an object")
-        results = observation.get("results")
+        results = cls._results(step)
         if results is None:
             return None
-        if not isinstance(results, list):
-            raise TypeError("ATIF tool observation results must be an array")
-
         matched = next(
             (
                 result
@@ -113,17 +123,7 @@ class _ObservationDecoder:
                 if isinstance(result, dict) and result.get("source_call_id") == call_id
             ),
             None,
-        )
-        calls = step.get("tool_calls")
-        if (
-            matched is None
-            and isinstance(calls, list)
-            and len(calls) == 1
-            and len(results) == 1
-            and isinstance(results[0], dict)
-            and results[0].get("source_call_id") in {None, ""}
-        ):
-            matched = results[0]
+        ) or cls._paired_by_order(step, results, call_id)
         if matched is not None:
             return cls.result(
                 matched,
@@ -132,6 +132,67 @@ class _ObservationDecoder:
         batch = cls._terminus_batch(step)
         return batch.get(call_id)
 
+    @staticmethod
+    def _results(step: dict[str, Any]) -> list[Any] | None:
+        observation = step.get("observation")
+        return None if observation is None else observation.get("results")
+
+    @staticmethod
+    def _paired_by_order(
+        step: dict[str, Any],
+        results: list[Any],
+        call_id: str,
+    ) -> dict[str, Any] | None:
+        """Pair results that name no call with the step's calls, in order.
+
+        Harbor's mini-swe-agent converter records results without a
+        `source_call_id`. When every result is unlinked and there is one per
+        call, the n-th result belongs to the n-th call.
+        """
+        calls = step.get("tool_calls")
+        if (
+            not isinstance(calls, list)
+            or len(calls) != len(results)
+            or any(
+                not isinstance(result, dict)
+                or result.get("source_call_id") not in {None, ""}
+                for result in results
+            )
+        ):
+            return None
+        return next(
+            (
+                result
+                for call, result in zip(calls, results, strict=True)
+                if isinstance(call, dict) and call.get("tool_call_id") == call_id
+            ),
+            None,
+        )
+
+    @classmethod
+    def unpaired_results(cls, step: dict[str, Any]) -> str | None:
+        """Explain why a step's unlinked results cannot be matched to its calls."""
+        results = cls._results(step) or []
+        calls = step.get("tool_calls")
+        unlinked = [
+            result
+            for result in results
+            if isinstance(result, dict)
+            and result.get("source_call_id") in {None, ""}
+            and result.get("content") not in {None, ""}
+        ]
+        if (
+            not unlinked
+            or not isinstance(calls, list)
+            or not calls
+            or cls._terminus_batch(step)
+        ):
+            return None
+        return (
+            f"step has {len(unlinked)} observation result(s) without a call ID for "
+            f"{len(calls)} call(s); results cannot be matched to calls"
+        )
+
     @classmethod
     def result(
         cls,
@@ -139,8 +200,7 @@ class _ObservationDecoder:
         *,
         decode_cursor_result: bool = False,
     ) -> Observation:
-        content = cls._content(result.get("content"))
-        error = None
+        content, error = cls._shell_envelope(cls._content(result.get("content")))
         extra = result.get("extra")
         if isinstance(extra, dict):
             raw_error = extra.get("error")
@@ -154,6 +214,40 @@ class _ObservationDecoder:
         if decode_cursor_result:
             content, error = cls._cursor(content, error)
         return Observation(content, error)
+
+    @staticmethod
+    def _shell_envelope(content: str) -> tuple[str, str | None]:
+        """Unwrap mini-swe-agent's JSON shell observation.
+
+        mini-swe-agent renders `{"returncode", "output"}`, adds
+        `exception_info` when the command did not run, and replaces `output`
+        with `output_head` and `output_tail` when it elides a long output.
+        """
+        if not content.startswith("{"):
+            return content, None
+        try:
+            value = json.loads(content)
+        except json.JSONDecodeError:
+            return content, None
+        if (
+            not isinstance(value, dict)
+            or not isinstance(value.get("returncode"), int)
+            or not set(value) <= _SHELL_ENVELOPE_KEYS
+        ):
+            return content, None
+        output, head, tail = (
+            value.get(key) for key in ("output", "output_head", "output_tail")
+        )
+        if isinstance(output, str):
+            text = output
+        elif isinstance(head, str) and isinstance(tail, str):
+            # The marker line keeps the head and tail from joining into a run.
+            elided = value.get("elided_chars", "some")
+            text = f"{head}\n[{elided} characters elided]\n{tail}"
+        else:
+            return content, None
+        exception = value.get("exception_info")
+        return text, str(exception) if exception else None
 
     @staticmethod
     def _extra_reports_error(extra: dict[str, Any]) -> bool:
@@ -266,7 +360,7 @@ class _ObservationDecoder:
         prompts = [
             (index, match.group(1).strip())
             for index, line in enumerate(lines[1:], start=1)
-            if (match := _TERMINAL_PROMPT.fullmatch(line)) is not None
+            if (match := TERMINAL_PROMPT.fullmatch(line)) is not None
         ]
         expected = [command for _, command in calls if command]
         if [command for _, command in prompts if command] != expected:
@@ -340,28 +434,33 @@ class _TrajectoryLoader:
         self.root = root.resolve()
 
     def load(self, path: Path) -> dict[str, Any]:
+        """Load a continuation chain from the file of its first document."""
         current = path.resolve()
-        seen: set[Path] = set()
+        if not current.is_relative_to(self.root):
+            raise ValueError("ATIF continuation escapes the trajectory directory")
+        return self._merged(self._read(current), current.parent, {current})
+
+    def continued(self, trajectory: dict[str, Any], origin_dir: Path) -> dict[str, Any]:
+        """Merge an embedded trajectory with the chain its continuation names."""
+        if not trajectory.get("continued_trajectory_ref"):
+            return trajectory
+        return self._merged(trajectory, origin_dir, set())
+
+    def _merged(
+        self, first: dict[str, Any], base: Path, seen: set[Path]
+    ) -> dict[str, Any]:
+        """Join the documents of a chain; `base` resolves the first's reference."""
         steps: list[Any] = []
         embedded: list[Any] = []
-        first: dict[str, Any] | None = None
-        while True:
-            if current in seen:
-                raise ValueError(f"ATIF continuation cycle at {current.name}")
-            if not current.is_relative_to(self.root):
-                raise ValueError("ATIF continuation escapes the trajectory directory")
-            seen.add(current)
-            document = self._read(current)
-            if first is None:
-                first = document
-            continuation = self._append_document(document, steps, embedded)
-            if not continuation:
-                break
+        document = first
+        while continuation := self._append_document(document, steps, embedded):
             if not isinstance(continuation, str):
                 raise TypeError("ATIF continued_trajectory_ref must be a string")
-            current = self.path(current.parent, continuation)
-        if first is None:
-            raise ValueError("ATIF trajectory chain produced no document")
+            current = self.path(base, continuation, "continued_trajectory_ref")
+            if current in seen:
+                raise ValueError(f"ATIF continuation cycle at {current.name}")
+            seen.add(current)
+            document, base = self._read(current), current.parent
         merged = {**first, "steps": steps, "continued_trajectory_ref": None}
         if embedded:
             merged["subagent_trajectories"] = embedded
@@ -386,10 +485,11 @@ class _TrajectoryLoader:
             embedded.extend(document_embedded)
         return document.get("continued_trajectory_ref")
 
-    def path(self, base: Path, raw_path: str) -> Path:
+    def path(self, base: Path, raw_path: str, reference: str) -> Path:
+        """Resolve a `reference` (a continuation or subagent trajectory) in the root."""
         if re.match(r"^[A-Za-z][A-Za-z0-9+.-]*://", raw_path):
             raise ValueError(
-                "remote trajectory references are not available to the verifier"
+                f"remote ATIF {reference} is not available to the verifier"
             )
         candidate = Path(raw_path)
         resolved = (
@@ -398,48 +498,8 @@ class _TrajectoryLoader:
             else (base / candidate).resolve()
         )
         if not resolved.is_relative_to(self.root):
-            raise ValueError(
-                "subagent trajectory reference escapes the trajectory directory"
-            )
+            raise ValueError(f"ATIF {reference} escapes the trajectory directory")
         return resolved
-
-    def embedded_continuation(
-        self,
-        trajectory: dict[str, Any],
-        origin_dir: Path | None,
-    ) -> dict[str, Any]:
-        continuation = trajectory.get("continued_trajectory_ref")
-        if not continuation:
-            return trajectory
-        if not isinstance(continuation, str):
-            raise TypeError("ATIF continued_trajectory_ref must be a string")
-        if origin_dir is None:
-            raise ValueError(
-                "embedded subagent continuation cannot be resolved without a "
-                "trajectory directory"
-            )
-        remainder = self.load(self.path(origin_dir, continuation))
-        first_steps = trajectory.get("steps")
-        if not isinstance(first_steps, list):
-            raise TypeError("ATIF trajectory steps must be an array")
-        merged = {
-            **trajectory,
-            "steps": [*first_steps, *remainder["steps"]],
-            "continued_trajectory_ref": None,
-        }
-        first_embedded = trajectory.get("subagent_trajectories") or []
-        remaining_embedded = remainder.get("subagent_trajectories") or []
-        if first_embedded or remaining_embedded:
-            if not isinstance(first_embedded, list) or not isinstance(
-                remaining_embedded,
-                list,
-            ):
-                raise TypeError("ATIF subagent_trajectories must be an array")
-            merged["subagent_trajectories"] = [
-                *first_embedded,
-                *remaining_embedded,
-            ]
-        return merged
 
     @staticmethod
     def _read(path: Path) -> dict[str, Any]:
@@ -459,7 +519,7 @@ class _AtifProjector:
 
     def __init__(
         self,
-        repository: SourceRepository | None,
+        repository: SourceRepository,
         trajectory_root: Path | None,
     ) -> None:
         self.repository = repository
@@ -473,7 +533,7 @@ class _AtifProjector:
         self,
         trajectory: dict[str, Any],
     ) -> tuple[dict[str, Any], list[dict[str, Any]]]:
-        self._trajectory(trajectory, "root", self.trajectory_root, "")
+        self._trajectory(trajectory, "root", self.trajectory_root)
         final_files, final_spans = aggregate_steps(self.output.prediction_steps)
         prediction = {
             "pred_steps": self.output.prediction_steps,
@@ -487,51 +547,34 @@ class _AtifProjector:
         trajectory: dict[str, Any],
         label: str,
         origin_dir: Path | None,
-        inherited_agent: str,
     ) -> None:
-        if not isinstance(trajectory, dict):
-            raise TypeError("ATIF trajectory must be a JSON object")
-        raw_steps = trajectory.get("steps")
-        if not isinstance(raw_steps, list):
-            raise TypeError("ATIF trajectory steps must be a JSON array")
-        call_ids: set[str] = set()
-        for index, raw_step in enumerate(raw_steps):
-            step_calls = self._validate_step_calls(raw_step, index, call_ids)
-            if step_calls is not None:
-                self._validate_step_results(raw_step, index, step_calls)
-        agent_name = self._agent_name(trajectory) or inherited_agent
+        steps = _validated_steps(trajectory)
+        agent = trajectory.get("agent")
+        producer = agent.get("name") if isinstance(agent, dict) else None
         context = _TrajectoryContext(
             label,
             origin_dir,
             self._embedded(trajectory),
-            self._projection_state(agent_name),
+            _ProjectionState(),
+            producer if isinstance(producer, str) else None,
         )
-        for index, raw_step in enumerate(raw_steps):
-            self._step(raw_step, index, context)
+        for index, step in enumerate(steps):
+            self._step(step, index, context)
 
     def _step(
         self,
-        raw_step: Any,
+        step: dict[str, Any],
         index: int,
         context: _TrajectoryContext,
     ) -> None:
-        if not isinstance(raw_step, dict):
-            raise TypeError(f"ATIF trajectory step {index} must be an object")
-        step = cast(dict[str, Any], raw_step)
-        calls = step.get("tool_calls")
-        if calls is None:
-            calls = []
-        if not isinstance(calls, list):
-            raise TypeError(f"ATIF trajectory step {index} tool_calls must be an array")
+        calls = step.get("tool_calls") or []
         for raw_call in calls:
             self._call(raw_call, step, index, context)
         if step.get("is_copied_context") is True:
             return
         observation = step.get("observation")
-        results = observation.get("results") if isinstance(observation, dict) else None
-        if not isinstance(results, list):
-            return
-        for result_index, raw_result in enumerate(results):
+        results = observation.get("results") if observation is not None else None
+        for result_index, raw_result in enumerate(results or []):
             self._result_references(
                 raw_result,
                 result_index,
@@ -542,15 +585,11 @@ class _AtifProjector:
 
     def _call(
         self,
-        raw_call: Any,
+        raw_call: dict[str, Any],
         step: dict[str, Any],
         step_index: int,
         context: _TrajectoryContext,
     ) -> None:
-        if not isinstance(raw_call, dict):
-            raise TypeError(
-                f"ATIF trajectory step {step_index} contains a non-object call"
-            )
         call = _ToolCall(
             str(raw_call["tool_call_id"]),
             str(raw_call["function_name"]),
@@ -566,14 +605,7 @@ class _AtifProjector:
             # trial. Structural trajectory errors are validated before this
             # point and remain fatal.
             failure = traceback.format_exc(limit=8)
-            result = ExtractionResult(
-                ResultStatus.MALFORMED,
-                Classification.MALFORMED,
-                "attribution failed for this call and was contained: "
-                f"{type(error).__name__}: {error}",
-                "registry.contained_failure.v1",
-                "exception_containment",
-            )
+            result = contained_failure(error)
         self._record_result(result, call, step_index, context, failure=failure)
 
     def _attribute_call(
@@ -581,29 +613,36 @@ class _AtifProjector:
         call: _ToolCall,
         step: dict[str, Any],
         context: _TrajectoryContext,
-    ) -> ExtractionResult:
+    ) -> RuleOutcome:
         if step.get("is_copied_context") is True:
-            return ExtractionResult(
-                ResultStatus.NO_CREDIT,
-                Classification.INTENTIONAL_NON_CONTEXT,
-                "copied continuation context is not counted twice",
-                "atif.copied_context.v1",
-                "atif_step_metadata",
-            )
+            return COPIED_CONTEXT
         observation, raw_observation = self._observation(step, call)
+        if observation is None and (
+            reason := _ObservationDecoder.unpaired_results(step)
+        ):
+            return unpaired_results(reason)
+        state = context.state
+        arguments = self._arguments(call, context.producer)
+        family = tool_family(call.tool)
         call_context = context_for_call(
-            agent_name=context.state.agent_name,
             raw_tool=call.tool,
-            arguments=call.arguments,
+            arguments=arguments,
             observation=observation,
             repository=self.repository,
+            mutated_files=frozenset(state.mutated_files),
+            background_origin=(
+                state.background_shells.get(_background_session(arguments))
+                if family is ToolFamily.BACKGROUND
+                else None
+            ),
+            offloaded_source_credited=(
+                family is ToolFamily.OFFLOADED
+                and _offloaded_source(arguments) in state.credited_calls
+            ),
         )
-        if call_context.family is ToolFamily.BACKGROUND:
-            result = self._background(call_context, context.state)
-        elif call_context.family is ToolFamily.OFFLOADED:
-            result = self._offloaded(call_context, context.state)
-        else:
-            result = DEFAULT_REGISTRY.extract(call_context)
+        result = attribute(call_context)
+        if (changed := mutated_file(call_context)) is not None:
+            state.mutated_files.add(changed)
         if call_context.family is ToolFamily.SHELL:
             # Session identifiers are scanned in the raw result too:
             # Codex reports them in the envelope that ``codex_content``
@@ -612,9 +651,23 @@ class _AtifProjector:
                 call.arguments,
                 (observation, raw_observation),
                 result.credited,
-                context.state,
+                state,
             )
         return result
+
+    @staticmethod
+    def _arguments(call: _ToolCall, producer: str | None) -> dict[str, Any]:
+        """Restate a producer's 0-based read `offset` as the rule's 1-based one."""
+        arguments = call.arguments
+        offset = arguments.get("offset")
+        if (
+            not isinstance(offset, int)
+            or isinstance(offset, bool)
+            or (producer, canonical_tool_name(call.tool), path_key(arguments))
+            not in _ZERO_BASED_PRODUCER_READS
+        ):
+            return arguments
+        return {**arguments, "offset": offset + 1}
 
     def _observation(
         self,
@@ -638,57 +691,6 @@ class _AtifProjector:
             return Observation(content or "", error or observation.error), observation
         return observation, observation
 
-    def _background(
-        self,
-        call_context: CallContext,
-        state: _ProjectionState,
-    ) -> ExtractionResult:
-        identifier = next(
-            (
-                str(call_context.arguments[key])
-                for key in BACKGROUND_ID_KEYS
-                if call_context.arguments.get(key)
-            ),
-            "",
-        )
-        origin = state.background_shells.get(identifier)
-        if origin is not None and origin.credited:
-            return ExtractionResult(
-                ResultStatus.NO_CREDIT,
-                Classification.INTENTIONAL_NON_CONTEXT,
-                "background command retrieval was already credited when launched",
-                "common.background.deduplicate.v1",
-                "background_command_link",
-            )
-        if origin is not None:
-            result = DEFAULT_REGISTRY.extract(
-                with_arguments(call_context, origin.arguments)
-            )
-            if result.status is not ResultStatus.NO_MATCH:
-                return result
-        # Exact source evidence can still recover output when an agent omitted
-        # the background identifier, without guessing shell semantics.
-        return DEFAULT_REGISTRY.extract(
-            replace(call_context, family=ToolFamily.UNKNOWN)
-        )
-
-    def _offloaded(
-        self,
-        call_context: CallContext,
-        state: _ProjectionState,
-    ) -> ExtractionResult:
-        reference = str(call_context.arguments.get("reference") or "")
-        match = re.fullmatch(r"mem_\d+_(tooluse_[A-Za-z0-9]+)_\d+", reference)
-        if match is not None and match.group(1) in state.projected_calls:
-            return ExtractionResult(
-                ResultStatus.NO_CREDIT,
-                Classification.INTENTIONAL_NON_CONTEXT,
-                "offloaded content is already represented by its source call",
-                "common.offloaded.deduplicate.v1",
-                "offloaded_source_link",
-            )
-        return DEFAULT_REGISTRY.extract(call_context)
-
     @staticmethod
     def _record_background(
         arguments: dict[str, Any],
@@ -706,14 +708,11 @@ class _AtifProjector:
             if (match := pattern.search(content)) is not None
         }
         for identifier in identifiers:
-            state.background_shells[identifier] = _BackgroundShell(
-                arguments,
-                credited,
-            )
+            state.background_shells[identifier] = BackgroundShell(arguments, credited)
 
     def _record_result(
         self,
-        result: ExtractionResult,
+        result: RuleOutcome,
         call: _ToolCall,
         step_index: int,
         context: _TrajectoryContext,
@@ -721,7 +720,6 @@ class _AtifProjector:
     ) -> None:
         family = tool_family(call.tool)
         record: dict[str, Any] = {
-            "record_type": "tool_call",
             "trajectory": context.label,
             "step_index": step_index,
             "tool_call_id": call.call_id,
@@ -731,7 +729,6 @@ class _AtifProjector:
             "result": result.status.value,
             "classification": result.classification.value,
             "heuristic": result.rule_id,
-            "evidence_basis": result.evidence_basis,
             "reason": result.reason,
         }
         if result.step is not None:
@@ -743,21 +740,16 @@ class _AtifProjector:
         self.output.evidence.append(record)
         if result.credited and result.step and result.step.get("files"):
             self.output.prediction_steps.append(result.step)
-            context.state.projected_calls[call.call_id] = result.step
+            context.state.credited_calls.add(call.call_id)
 
     def _result_references(
         self,
-        raw_result: Any,
+        raw_result: dict[str, Any],
         result_index: int,
         step_index: int,
         calls: list[Any],
         context: _TrajectoryContext,
     ) -> None:
-        if not isinstance(raw_result, dict):
-            raise TypeError(
-                f"ATIF trajectory step {step_index} observation result "
-                f"{result_index} must be an object"
-            )
         references = raw_result.get("subagent_trajectory_ref")
         call_id = str(raw_result.get("source_call_id") or "")
         if not calls and not call_id and not references:
@@ -781,8 +773,6 @@ class _AtifProjector:
         if not isinstance(raw_reference, dict):
             raise TypeError("ATIF subagent trajectory reference must be an object")
         resolved = self._resolve_reference(raw_reference, context)
-        if isinstance(resolved, str):
-            raise ValueError(resolved)  # noqa: TRY004 - may be a value or type defect.
         if resolved.key in self.active_subagents:
             raise ValueError(
                 f"ATIF subagent trajectory reference cycle at {resolved.label}"
@@ -795,7 +785,6 @@ class _AtifProjector:
                 resolved.trajectory,
                 resolved.label,
                 resolved.origin,
-                context.state.agent_name,
             )
         finally:
             self.active_subagents.remove(resolved.key)
@@ -805,20 +794,24 @@ class _AtifProjector:
         self,
         reference: dict[str, Any],
         context: _TrajectoryContext,
-    ) -> _ResolvedReference | str:
+    ) -> _ResolvedReference:
         raw_id = reference.get("trajectory_id")
         raw_path = reference.get("trajectory_path")
         if raw_id is not None and (not isinstance(raw_id, str) or not raw_id):
-            return "ATIF subagent trajectory_id must be a nonempty string"
+            raise ValueError("ATIF subagent trajectory_id must be a nonempty string")
         if raw_path is not None and (not isinstance(raw_path, str) or not raw_path):
-            return "ATIF subagent trajectory_path must be a nonempty string"
+            raise ValueError("ATIF subagent trajectory_path must be a nonempty string")
         if raw_id is not None and raw_id in context.embedded:
             return self._resolve_embedded(raw_id, context)
         if raw_path is not None:
             return self._resolve_external(raw_path, context)
         if raw_id is not None:
-            return f"ATIF embedded subagent trajectory {raw_id!r} does not exist"
-        return "ATIF subagent reference has neither trajectory_id nor trajectory_path"
+            raise ValueError(
+                f"ATIF embedded subagent trajectory {raw_id!r} does not exist"
+            )
+        raise ValueError(
+            "ATIF subagent reference has neither trajectory_id nor trajectory_path"
+        )
 
     def _resolve_embedded(
         self,
@@ -826,11 +819,8 @@ class _AtifProjector:
         context: _TrajectoryContext,
     ) -> _ResolvedReference:
         trajectory = context.embedded[trajectory_id]
-        if self.loader is not None:
-            trajectory = self.loader.embedded_continuation(
-                trajectory,
-                context.origin_dir,
-            )
+        if self.loader is not None and context.origin_dir is not None:
+            trajectory = self.loader.continued(trajectory, context.origin_dir)
         return _ResolvedReference(
             trajectory,
             f"{context.label}/embedded:{trajectory_id}",
@@ -842,13 +832,15 @@ class _AtifProjector:
         self,
         raw_path: str,
         context: _TrajectoryContext,
-    ) -> _ResolvedReference | str:
+    ) -> _ResolvedReference:
         if self.loader is None or context.origin_dir is None:
-            return (
+            raise ValueError(
                 "external subagent trajectory cannot be resolved without "
                 "the root trajectory directory"
             )
-        path = self.loader.path(context.origin_dir, raw_path)
+        path = self.loader.path(
+            context.origin_dir, raw_path, "subagent trajectory reference"
+        )
         trajectory = self.loader.load(path)
         return _ResolvedReference(
             trajectory,
@@ -867,13 +859,12 @@ class _AtifProjector:
         if not observation.content.strip():
             return
         call_context = context_for_call(
-            agent_name=context.state.agent_name,
             raw_tool="unlinked_observation",
             arguments={},
             observation=observation,
             repository=self.repository,
         )
-        result = DEFAULT_REGISTRY.extract(call_context)
+        result = attribute(call_context)
         call = _ToolCall("", "unlinked_observation", {})
         self._record_result(result, call, step_index, context)
 
@@ -903,130 +894,114 @@ class _AtifProjector:
             embedded[trajectory_id] = candidate
         return embedded
 
-    @staticmethod
-    def _projection_state(agent_name: str) -> _ProjectionState:
-        return _ProjectionState(agent_name)
 
-    @staticmethod
-    def _validate_step_calls(
-        raw_step: Any,
-        step_index: int,
-        call_ids: set[str],
-    ) -> set[str] | None:
-        if not isinstance(raw_step, dict):
-            return None
-        calls = raw_step.get("tool_calls")
-        if calls is None:
-            calls = []
-        elif not isinstance(calls, list):
-            return None
+def _background_session(arguments: dict[str, Any]) -> str:
+    """The session a background poll reads, as its shell call reported it."""
+    return next(
+        (str(arguments[key]) for key in BACKGROUND_ID_KEYS if arguments.get(key)), ""
+    )
+
+
+def _offloaded_source(arguments: dict[str, Any]) -> str | None:
+    """The ID of the call whose output an offloaded-content read retrieves."""
+    match = _OFFLOADED_REFERENCE.fullmatch(str(arguments.get("reference") or ""))
+    return str(match.group(1)) if match is not None else None
+
+
+def _validated_steps(trajectory: Any) -> list[dict[str, Any]]:
+    """Return a trajectory's steps after checking their structure.
+
+    Structural defects raise. A call ID may be empty: Codex records its
+    built-in web_search_call actions without IDs. Such a call never links to a
+    result but is still classified, so only non-empty IDs must be unique.
+    Results without a call ID are paired with calls in order, or their calls
+    are classified malformed.
+    """
+    if not isinstance(trajectory, dict):
+        raise TypeError("ATIF trajectory must be a JSON object")
+    steps = trajectory.get("steps")
+    if not isinstance(steps, list):
+        raise TypeError("ATIF trajectory steps must be a JSON array")
+    call_ids: set[str] = set()
+    for index, step in enumerate(steps):
+        if not isinstance(step, dict):
+            raise TypeError(f"ATIF trajectory step {index} must be an object")
+        calls = step.get("tool_calls")
+        if calls is not None and not isinstance(calls, list):
+            raise TypeError(f"ATIF trajectory step {index} tool_calls must be an array")
         step_call_ids: set[str] = set()
-        for raw_call in calls:
-            call_id = _AtifProjector._validated_call_id(raw_call, step_index, call_ids)
-            # An empty ID is a real producer shape, not corruption: Codex
-            # records its built-in web_search_call actions without IDs. Such
-            # a call can never be linked to an observation result, but it is
-            # still classified by its tool family, so it must not abort the
-            # trial. Only non-empty IDs participate in duplicate detection.
-            if call_id:
+        for call in calls or []:
+            if call_id := _validated_call_id(call, index, call_ids):
                 call_ids.add(call_id)
                 step_call_ids.add(call_id)
-        return step_call_ids
+        _validate_results(step, index, step_call_ids)
+    return steps
 
-    @staticmethod
-    def _validated_call_id(
-        raw_call: Any,
-        step_index: int,
-        call_ids: set[str],
-    ) -> str:
-        if not isinstance(raw_call, dict):
+
+def _validated_call_id(raw_call: Any, step_index: int, call_ids: set[str]) -> str:
+    if not isinstance(raw_call, dict):
+        raise TypeError(f"ATIF trajectory step {step_index} contains a non-object call")
+    call_id = raw_call.get("tool_call_id")
+    if not isinstance(call_id, str):
+        raise TypeError(
+            f"ATIF trajectory step {step_index} has a non-string tool_call_id"
+        )
+    if call_id and call_id in call_ids:
+        raise ValueError(f"ATIF trajectory has duplicate tool_call_id {call_id!r}")
+    function_name = raw_call.get("function_name")
+    if not isinstance(function_name, str) or not function_name:
+        raise ValueError(
+            f"ATIF trajectory step {step_index} has an empty or "
+            "non-string function_name"
+        )
+    if not isinstance(raw_call.get("arguments"), dict):
+        raise TypeError(
+            f"ATIF trajectory step {step_index} tool call arguments must be an object"
+        )
+    return call_id
+
+
+def _validate_results(
+    step: dict[str, Any], step_index: int, step_call_ids: set[str]
+) -> None:
+    observation = step.get("observation")
+    if observation is not None and not isinstance(observation, dict):
+        raise TypeError(
+            f"ATIF trajectory step {step_index} observation must be an object"
+        )
+    results = observation.get("results") if isinstance(observation, dict) else None
+    if results is None:
+        return
+    if not isinstance(results, list):
+        raise TypeError(
+            f"ATIF trajectory step {step_index} observation results must be an array"
+        )
+    linked: set[str] = set()
+    for result in results:
+        if not isinstance(result, dict):
             raise TypeError(
-                f"ATIF trajectory step {step_index} contains a non-object call"
+                f"ATIF trajectory step {step_index} contains a non-object "
+                "observation result"
             )
-        call_id = raw_call.get("tool_call_id")
+        call_id = result.get("source_call_id")
+        if call_id in {None, ""}:
+            continue
         if not isinstance(call_id, str):
             raise TypeError(
-                f"ATIF trajectory step {step_index} has a non-string tool_call_id"
+                f"ATIF trajectory step {step_index} has a non-string "
+                "observation source_call_id"
             )
-        if call_id and call_id in call_ids:
-            raise ValueError(f"ATIF trajectory has duplicate tool_call_id {call_id!r}")
-        function_name = raw_call.get("function_name")
-        if not isinstance(function_name, str) or not function_name:
+        if call_id in linked:
             raise ValueError(
-                f"ATIF trajectory step {step_index} has an empty or "
-                "non-string function_name"
+                f"ATIF trajectory step {step_index} has duplicate observation "
+                f"source_call_id {call_id!r}"
             )
-        if not isinstance(raw_call.get("arguments"), dict):
-            raise TypeError(
-                f"ATIF trajectory step {step_index} tool call arguments "
-                "must be an object"
-            )
-        return call_id
-
-    @staticmethod
-    def _validate_step_results(  # noqa: C901 - distinct validation diagnostics.
-        raw_step: dict[str, Any],
-        step_index: int,
-        step_call_ids: set[str],
-    ) -> None:
-        observation = raw_step.get("observation")
-        if observation is not None and not isinstance(observation, dict):
-            raise TypeError(
-                f"ATIF trajectory step {step_index} observation must be an object"
-            )
-        results = observation.get("results") if isinstance(observation, dict) else None
-        if results is None:
-            return
-        if not isinstance(results, list):
-            raise TypeError(
-                f"ATIF trajectory step {step_index} observation results "
-                "must be an array"
-            )
-        linked: set[str] = set()
-        unlinked = 0
-        for result in results:
-            if not isinstance(result, dict):
-                raise TypeError(
-                    f"ATIF trajectory step {step_index} contains a non-object "
-                    "observation result"
-                )
-            call_id = result.get("source_call_id")
-            if call_id in {None, ""}:
-                # A result with no link and no content is vacuous — Codex
-                # records empty result objects for its ID-less built-in
-                # calls. Only unlinked results that carry content are
-                # ambiguous evidence.
-                if result.get("content") not in {None, ""}:
-                    unlinked += 1
-                continue
-            if not isinstance(call_id, str):
-                raise TypeError(
-                    f"ATIF trajectory step {step_index} has a non-string "
-                    "observation source_call_id"
-                )
-            if call_id in linked:
-                raise ValueError(
-                    f"ATIF trajectory step {step_index} has duplicate observation "
-                    f"source_call_id {call_id!r}"
-                )
-            linked.add(call_id)
-            if call_id not in step_call_ids:
-                raise ValueError(
-                    f"ATIF trajectory step {step_index} observation references "
-                    f"unknown tool_call_id {call_id!r}"
-                )
-        if unlinked and (unlinked != 1 or len(results) != 1):
+        linked.add(call_id)
+        if call_id not in step_call_ids:
             raise ValueError(
-                f"ATIF trajectory step {step_index} has ambiguous unlinked "
-                "observation results"
+                f"ATIF trajectory step {step_index} observation references "
+                f"unknown tool_call_id {call_id!r}"
             )
-
-    @staticmethod
-    def _agent_name(trajectory: dict[str, Any]) -> str:
-        raw_agent = trajectory.get("agent")
-        if not isinstance(raw_agent, dict):
-            return ""
-        return str(raw_agent.get("name") or "").casefold()
 
 
 def load_trajectory_chain(
@@ -1040,30 +1015,23 @@ def load_trajectory_chain(
 
 def project_atif(
     trajectory: dict[str, Any],
-    repo_dir: Path | str | None = None,
+    repo_dir: Path | str,
     *,
+    roots: Iterable[str],
     trajectory_dir: Path | str | None = None,
-    strict: bool = False,
 ) -> tuple[dict[str, Any], list[dict[str, Any]]]:
     """Produce ContextBench custom-agent data and non-fatal call diagnostics.
 
-    ``strict`` remains as a source-compatible no-op. Unsupported valid calls
-    always receive no credit plus diagnostics; structural ATIF errors still raise.
+    `repo_dir` is the scoring checkout. `roots` are the absolute paths at which
+    the agent's environment mounted the repository; a path under one of them
+    names a checkout file exactly. Unsupported valid calls receive no credit
+    plus diagnostics; structural ATIF errors raise.
     """
-    del strict
-    if not isinstance(trajectory, dict):
-        raise TypeError("ATIF trajectory must be a JSON object")
-    if repo_dir is None:
-        raise ValueError("attribution requires a scoring repository")
-    repository = SourceRepository(repo_dir)
+    repository = SourceRepository(repo_dir, roots=roots)
     root = Path(trajectory_dir).resolve() if trajectory_dir is not None else None
     if root is not None and not root.is_dir():
         raise ValueError(f"trajectory directory does not exist: {root}")
     return _AtifProjector(repository, root).project(trajectory)
 
 
-__all__ = [
-    "Classification",
-    "load_trajectory_chain",
-    "project_atif",
-]
+__all__ = ["load_trajectory_chain", "project_atif"]

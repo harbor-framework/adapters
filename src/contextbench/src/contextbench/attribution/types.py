@@ -192,25 +192,6 @@ class Classification(StrEnum):
     TOOL_ERROR = "tool_error"
     UNMAPPED = "unmapped"
     MALFORMED = "malformed"
-    UNREPRESENTABLE = "unrepresentable"
-
-
-class ClaimKind(StrEnum):
-    """What an operation can contribute before its output is validated."""
-
-    RETRIEVAL = "retrieval"
-    DISCOVERY = "discovery"
-    INTENTIONAL_NON_CONTEXT = "intentional_non_context"
-    TOOL_ERROR = "tool_error"
-    UNSUPPORTED = "unsupported"
-
-
-class ValidationStatus(StrEnum):
-    """Relationship between observed output and the pinned checkout."""
-
-    VERIFIED = "verified"
-    NO_BASE_CONTEXT = "no_base_context"
-    UNATTRIBUTABLE = "unattributable"
 
 
 @dataclass(frozen=True)
@@ -220,138 +201,32 @@ class Observation:
 
 
 @dataclass(frozen=True)
-class Validation:
-    status: ValidationStatus
+class Claim:
+    """What validating one call's evidence decided, with any credited ranges.
+
+    A projected claim credits at least one file; a file with no ranges is
+    credited without spans. No other claim carries ranges.
+    """
+
+    classification: Classification
     reason: str
     ranges: LineRanges | None = None
 
     def __post_init__(self) -> None:
-        if self.status is ValidationStatus.VERIFIED and not self.ranges:
-            raise ValueError("verified source evidence requires at least one file")
-        if self.status is not ValidationStatus.VERIFIED and self.ranges is not None:
-            raise ValueError("unverified source evidence cannot carry ranges")
-
-
-@dataclass(frozen=True)
-class Claim:
-    kind: ClaimKind
-    reason: str
-    validation: Validation | None = None
-
-    def __post_init__(self) -> None:
-        if self.kind is ClaimKind.RETRIEVAL and self.validation is None:
-            raise ValueError("retrieval claims require checkout validation")
-        if self.kind is not ClaimKind.RETRIEVAL and self.validation is not None:
-            raise ValueError("only retrieval claims may carry checkout validation")
+        if (self.classification is Classification.PROJECTED) != bool(self.ranges):
+            raise ValueError("only a projected claim credits files, at least one")
 
     @classmethod
     def verified(cls, ranges: LineRanges, reason: str) -> Claim:
-        return cls(
-            ClaimKind.RETRIEVAL,
-            reason,
-            Validation(ValidationStatus.VERIFIED, reason, ranges),
-        )
+        return cls(Classification.PROJECTED, reason, ranges)
 
     @classmethod
     def no_base_context(cls, reason: str) -> Claim:
-        return cls(
-            ClaimKind.RETRIEVAL,
-            reason,
-            Validation(ValidationStatus.NO_BASE_CONTEXT, reason),
-        )
-
-    @classmethod
-    def unattributable(cls, reason: str) -> Claim:
-        return cls(
-            ClaimKind.RETRIEVAL,
-            reason,
-            Validation(ValidationStatus.UNATTRIBUTABLE, reason),
-        )
+        return cls(Classification.NON_BASE_CONTEXT, reason)
 
     @classmethod
     def discovery(cls, reason: str) -> Claim:
-        return cls(ClaimKind.DISCOVERY, reason)
-
-    @classmethod
-    def non_context(cls, reason: str) -> Claim:
-        return cls(ClaimKind.INTENTIONAL_NON_CONTEXT, reason)
-
-    @classmethod
-    def tool_error(cls, reason: str) -> Claim:
-        return cls(ClaimKind.TOOL_ERROR, reason)
-
-    @classmethod
-    def unsupported(cls, reason: str) -> Claim:
-        return cls(ClaimKind.UNSUPPORTED, reason)
-
-    @classmethod
-    def from_ranges(cls, ranges: LineRanges | None, reason: str) -> Claim:
-        if ranges:
-            return cls.verified(ranges, reason)
-        if ranges == {}:
-            return cls.no_base_context(reason)
-        return cls.unattributable(reason)
-
-    def decide(self) -> Decision:
-        """Apply the projection policy to this claim."""
-        claim_classifications = {
-            ClaimKind.DISCOVERY: Classification.DISCOVERY_ONLY,
-            ClaimKind.INTENTIONAL_NON_CONTEXT: Classification.INTENTIONAL_NON_CONTEXT,
-            ClaimKind.TOOL_ERROR: Classification.TOOL_ERROR,
-            ClaimKind.UNSUPPORTED: Classification.UNREPRESENTABLE,
-        }
-        if classification := claim_classifications.get(self.kind):
-            return Decision(None, self.reason, classification)
-        validation = self.validation
-        if validation is None:
-            return Decision(None, self.reason, Classification.UNREPRESENTABLE)
-        validation_classifications = {
-            ValidationStatus.VERIFIED: Classification.PROJECTED,
-            ValidationStatus.NO_BASE_CONTEXT: Classification.NON_BASE_CONTEXT,
-            ValidationStatus.UNATTRIBUTABLE: Classification.UNREPRESENTABLE,
-        }
-        classification = validation_classifications[validation.status]
-        ranges = (
-            validation.ranges
-            if validation.status is ValidationStatus.VERIFIED
-            else None
-        )
-        return Decision(ranges, validation.reason, classification)
-
-
-@dataclass(frozen=True)
-class EvidenceLocation:
-    """Identify where one projection decision originated in an ATIF graph."""
-
-    step_index: int
-    call_id: str
-    tool: str
-    trajectory: str = "root"
-    record_type: str = "tool_call"
-
-
-@dataclass(frozen=True)
-class Decision:
-    ranges: LineRanges | None
-    reason: str
-    classification: Classification
-
-    def record(self, location: EvidenceLocation) -> dict[str, Any]:
-        result: dict[str, Any] = {
-            "record_type": location.record_type,
-            "trajectory": location.trajectory,
-            "step_index": location.step_index,
-            "tool_call_id": location.call_id,
-            "tool": location.tool,
-            "classification": self.classification.value,
-            "reason": self.reason,
-        }
-        if self.ranges:
-            result["ranges"] = {
-                path: [[start, end] for start, end in intervals]
-                for path, intervals in sorted(self.ranges.items())
-            }
-        return result
+        return cls(Classification.DISCOVERY_ONLY, reason)
 
 
 class RangeSet(dict[str, list[tuple[int, int]]]):
@@ -397,14 +272,9 @@ class RangeSet(dict[str, list[tuple[int, int]]]):
 
 __all__ = [
     "Claim",
-    "ClaimKind",
     "Classification",
-    "Decision",
-    "EvidenceLocation",
     "LineRanges",
     "Observation",
     "RangeSet",
-    "Validation",
-    "ValidationStatus",
     "canonical_tool_name",
 ]

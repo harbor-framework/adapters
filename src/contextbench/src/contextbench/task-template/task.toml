@@ -7,7 +7,18 @@ artifacts = [
 name = "__TASK_NAME__"
 version = "1.0.0"
 description = "Retrieve the code context needed to resolve a repository issue."
-authors = [{ name = "ContextBench authors" }]
+authors = [
+    { name = "Han Li" },
+    { name = "Letian Zhu" },
+    { name = "Bohan Zhang" },
+    { name = "Rili Feng" },
+    { name = "Jiaming Wang" },
+    { name = "Yue Pan" },
+    { name = "Earl T. Barr" },
+    { name = "Federica Sarro" },
+    { name = "Zhaoyang Chu" },
+    { name = "He Ye" },
+]
 keywords = ["code-context", "repository-maintenance"]
 
 [metadata]
@@ -32,9 +43,13 @@ timeout_sec = 1800.0
 timeout_sec = 600.0
 environment_mode = "separate"
 
+# The collect step takes seconds. The timeout also covers Git re-reading every
+# tracked file, as after an agent changes every file's mtime: 38 s for
+# mui/material-ui's 42,000 files from a cold page cache, 41 s with four such
+# collects at once.
 [[verifier.collect]]
 command = __COLLECT_COMMAND__
-timeout_sec = 60.0
+timeout_sec = 300.0
 user = "root"
 
 [verifier.environment]

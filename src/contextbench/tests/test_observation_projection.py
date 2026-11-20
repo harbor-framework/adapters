@@ -1,13 +1,14 @@
 from __future__ import annotations
 
+import time
 from pathlib import Path
 
 import pytest
 
 from contextbench.attribution.receipts import (
     ObservationAttributor,
-    ShellProjector,
     SourceRepository,
+    shell_claim,
 )
 from contextbench.attribution.trajectory import project_atif
 from contextbench.attribution.types import Classification
@@ -44,16 +45,12 @@ def _project(
     paths: tuple[str, ...] = (),
     authored: frozenset[str] = frozenset(),
 ):
-    return (
-        ObservationAttributor(
-            repository,
-            cwd=repository.root,
-            path_hints=paths,
-            authored_text=authored,
-        )
-        .project(observation)
-        .decide()
-    )
+    return ObservationAttributor(
+        repository,
+        cwd=repository.root,
+        path_hints=paths,
+        authored_text=authored,
+    ).project(observation)
 
 
 def test_attributes_path_number_and_content(repository: SourceRepository) -> None:
@@ -122,13 +119,13 @@ def test_path_hint_alone_does_not_credit_one_exact_source_line(
 def test_path_hint_from_changed_working_directory_still_needs_coordinates(
     repository: SourceRepository,
 ) -> None:
-    claim = ShellProjector(
+    claim = shell_claim(
         repository,
         {"command": "cd src && grep 'return value' example.py"},
         "    return value\n",
-    ).project()
+    )
 
-    assert claim.decide().ranges is None
+    assert claim.ranges is None
 
 
 def test_attributes_checkout_unique_contiguous_source(
@@ -154,7 +151,7 @@ def test_attributes_unified_diff_base_lines(repository: SourceRepository) -> Non
         '+    value = Path("y")',
     )
 
-    assert decision.ranges == {"src/example.py": [(2, 2), (3, 3)]}
+    assert decision.ranges == {"src/example.py": [(2, 3)]}
 
 
 def test_attributes_normal_diff_base_lines(repository: SourceRepository) -> None:
@@ -198,10 +195,10 @@ def test_mixed_output_credits_only_exact_checkout_source(
 ) -> None:
     decision = _project(
         repository,
-        'def load():\n    value = Path("x")\nfabricated source line\n',
+        'def load():\n    value = Path("x")\n    return value\nfabricated source line\n',
     )
 
-    assert decision.ranges == {"src/example.py": [(2, 3)]}
+    assert decision.ranges == {"src/example.py": [(2, 4)]}
 
 
 @pytest.mark.parametrize(
@@ -254,13 +251,9 @@ def test_arbitrary_shell_text_is_total(
     command: str,
     observation: str,
 ) -> None:
-    claim = ShellProjector(
-        repository,
-        {"command": command},
-        observation,
-    ).project()
+    claim = shell_claim(repository, {"command": command}, observation)
 
-    assert claim.decide().classification in Classification
+    assert claim.classification in Classification
 
 
 @pytest.mark.parametrize(
@@ -300,6 +293,48 @@ def test_public_projection_is_total_for_arbitrary_shell_records(
             ]
         },
         repository.root,
+        roots=("/workspace",),
     )
 
     assert prediction["pred_files"] == []
+
+
+def test_large_log_against_a_large_checkout_projects_quickly(tmp_path: Path) -> None:
+    """A long colon- and dash-heavy log stays far inside the verifier timeout.
+
+    Path-prefixed receipts try every `:` and `-` offset of every line as a path,
+    so a hint whose last component names no checkout file must be rejected
+    without a scan of the checkout.
+    """
+    root = tmp_path / "repo"
+    for index in range(3_000):
+        module = root / f"pkg{index % 30}" / f"module_{index}.py"
+        module.parent.mkdir(parents=True, exist_ok=True)
+        module.write_text(f"VALUE_{index} = {index}\n", encoding="utf-8")
+    log = "".join(
+        f"2026-11-18 12:{i % 60:02d}:{i % 60:02d},123 - worker-{i % 7} - INFO - "
+        f"module.sub:{i}: key-{i}: value - done: {i % 13}\n"
+        for i in range(20_000)
+    )
+    trajectory = {
+        "steps": [
+            {
+                "tool_calls": [
+                    {
+                        "tool_call_id": "log",
+                        "function_name": "bash",
+                        "arguments": {"command": "pytest -vv"},
+                    }
+                ],
+                "observation": {"results": [{"source_call_id": "log", "content": log}]},
+            }
+        ]
+    }
+
+    started = time.process_time()
+    prediction, evidence = project_atif(trajectory, root, roots=("/workspace",))
+    elapsed = time.process_time() - started
+
+    assert prediction["pred_files"] == []
+    assert evidence[0]["classification"] == Classification.NON_BASE_CONTEXT
+    assert elapsed < 30, f"projection took {elapsed:.1f} s of CPU time"

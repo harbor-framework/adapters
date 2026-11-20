@@ -2,149 +2,166 @@
 
 from __future__ import annotations
 
+import posixpath
 import re
 import shlex
+from collections.abc import Callable, Iterable
 from dataclasses import dataclass, field
-from pathlib import Path
-from typing import Any, TypeGuard, cast
+from pathlib import Path, PurePosixPath
+from typing import Any
 
-from .types import Claim, LineRanges
+from .types import Claim, LineRanges, RangeSet
 
-_NUMBERED_EDITOR_LINE = re.compile(r"^\s*(\d+)(?: {2}|\t)(.*)$")
 _PATH_LINE = re.compile(r"^(.+?):(\d+):(.*)$")
 _PATH_CONTEXT_LINE = re.compile(r"^(.+?)-(\d+)-(.*)$")
-_LINE_ONLY = re.compile(r"^(\d+):(.*)$")
-_LINE_CONTEXT_ONLY = re.compile(r"^(\d+)-(.*)$")
-_READ_FRAME_LINE = re.compile(r"^\(\d+ more lines (?:above|below)\)$")
-_MULTI_READ_HEADER = re.compile(
-    r"^(?:=+|-{3,})\s+.+?\s+(?:=+|-{3,})$|^(?:File|Path):\s+.+$"
-)
-_CONTEXTBENCH_WORKSPACE = re.compile(
-    r"^[A-Za-z0-9_.-]+__[A-Za-z0-9_.-]+__[A-Za-z0-9_.-]+$"
-)
+
+# A run of unnumbered output lines credited to a file the call did not name
+# needs this many non-blank lines; a run in a named file needs RUN_MINIMUM.
+UNHINTED_RUN_MINIMUM = 3
+RUN_MINIMUM = 2
+
+# A checkout-unique run: observed first and last index, file, source start and end.
+Run = tuple[int, int, str, int, int]
+
+
+def split_lines(text: str) -> list[str]:
+    """Split text into lines the way ContextBench numbers them.
+
+    Lines end at `\\n` only, as in ContextBench's byte-offset line mapping, and
+    one trailing `\\r` belongs to the line ending. Characters that
+    `str.splitlines` also breaks on (form feed, U+2028, ...) stay in the line.
+    """
+    lines = text.split("\n")
+    if lines[-1] == "":
+        lines.pop()
+    return [line.removesuffix("\r") for line in lines]
+
+
+def _is_blank(text: str) -> bool:
+    return not text.strip()
+
+
+def _matches(displayed: str, source: str) -> bool:
+    """Whether non-blank displayed text is a source line, tabs expanded or not."""
+    return not _is_blank(displayed) and (
+        displayed == source or displayed == source.expandtabs(8)
+    )
+
+
+def _lines_agree(observed: str, source: str) -> bool:
+    """Whether an output line continues a run: it matches, or both are blank."""
+    return (_is_blank(observed) and _is_blank(source)) or _matches(observed, source)
+
+
+def _root(value: str) -> str:
+    normalized = posixpath.normpath(value)
+    if (
+        not normalized.startswith("/")
+        or normalized.startswith("//")
+        or normalized == "/"
+    ):
+        raise ValueError(f"repository root must be an absolute path below /: {value!r}")
+    return normalized
 
 
 class SourceRepository:
-    """Resolve checkout paths and validate observed source against that checkout."""
+    """Resolve checkout paths and validate observed source against that checkout.
 
-    def __init__(self, root: Path | str) -> None:
+    `roots` are the absolute paths at which the agent's environment mounts the
+    repository, such as `/workspace` and the task's native repository path. A
+    path under a root resolves exactly, relative to the longest such root; a
+    relative path resolves against the working directory. Any other absolute
+    path names nothing in the checkout, although it may still hint at the file
+    an output shows (`candidate_files`).
+    """
+
+    def __init__(self, root: Path | str, *, roots: Iterable[str] = ()) -> None:
         self.root = Path(root).resolve()
         if not self.root.is_dir():
             raise ValueError(f"repository does not exist: {self.root}")
+        self.roots = tuple(sorted({_root(value) for value in roots}, key=len)[::-1])
         self._source_cache: dict[str, list[str]] = {}
         self._text_paths: tuple[str, ...] | None = None
+        # Text paths by file name, and the name of every file in the checkout.
+        self._text_paths_by_name: dict[str, list[str]] = {}
+        self._file_names: frozenset[str] = frozenset()
         self._line_index: dict[str, list[tuple[str, int]]] | None = None
+        # The checkout does not change while it is scored, so the files a
+        # hint names are cached. Search output names the same paths on many
+        # lines, and each resolution costs several system calls. Only hints
+        # whose last component names a checkout file are cached, so the cache
+        # grows with the paths an output names, not with its length.
+        self._candidates: dict[tuple[str, Path | None], tuple[str, ...]] = {}
 
     @staticmethod
-    def displayed_line_matches(observed: str, source: str) -> bool:
-        return observed == source or observed == source.expandtabs(8)
+    def _clean_path(raw_path: str) -> str:
+        value = raw_path.strip().strip("'\"").replace("\\", "/")
+        while value.startswith("./"):
+            value = value[2:]
+        return value
 
-    @staticmethod
-    def reports_no_matches(observation: str) -> bool:
-        normalized = observation.strip().casefold()
-        return normalized in {
-            "no matches",
-            "no matches found",
-            "no results",
-            "no results found",
-        } or normalized.startswith(("no matches found for ", "0 matches"))
-
-    @staticmethod
-    def _mounted_candidates(value: str) -> list[str] | None:
-        for mount in ("/workspace", "/testbed", "/app"):
-            if value == mount:
-                return ["."]
-            prefix = f"{mount}/"
-            if not value.startswith(prefix):
-                continue
-            relative = value.removeprefix(prefix)
-            parts = [part for part in relative.split("/") if part]
-            if any(part in {".", ".."} for part in parts):
-                return []
-            if parts and _CONTEXTBENCH_WORKSPACE.fullmatch(parts[0]):
-                return ["/".join(parts[1:]) or "."]
-            return ["/".join(parts[index:]) for index in range(len(parts))]
+    def _under_root(self, value: str) -> str | None:
+        """Return the path of `value` relative to the longest root it is under."""
+        for root in self.roots:
+            if value == root:
+                return ""
+            if value.startswith(f"{root}/"):
+                return value[len(root) + 1 :]
         return None
 
-    def _resolved_candidates(
-        self,
-        base: Path,
-        candidates: list[str],
-    ) -> list[Path]:
-        matches: dict[Path, None] = {}
-        for value in candidates:
-            candidate = Path(value)
-            # Candidate text is agent-authored: resolution and stat calls on
-            # it can exceed OS path limits and must never raise.
-            try:
-                resolved = (
-                    candidate.resolve()
-                    if candidate.is_absolute()
-                    else (base / value).resolve()
-                )
-                if resolved.is_relative_to(self.root):
-                    matches[resolved] = None
-            except OSError:
-                continue
-        return list(matches)
-
-    def _path_candidates(
-        self,
-        raw_path: str,
-        cwd: Path | None,
-    ) -> tuple[list[Path], str]:
-        value = raw_path.strip().strip("'\"").replace("\\", "/")
+    def _resolve(self, raw_path: str, cwd: Path | None) -> tuple[Path | None, str]:
+        value = self._clean_path(raw_path)
         if (
             not value
             or "\0" in value
             or "\n" in value
             or any(len(part) > 255 for part in value.split("/"))
         ):
-            return [], value
-        while value.startswith("./"):
-            value = value[2:]
-        base = (cwd or self.root).resolve()
-        mounted = self._mounted_candidates(value)
-        if mounted is not None:
-            base = self.root
-        candidates = mounted if mounted is not None else [value]
-        return self._resolved_candidates(base, candidates), value
+            return None, value
+        relative = self._under_root(value)
+        if relative is not None:
+            parts = [part for part in relative.split("/") if part]
+            if any(part in {".", ".."} for part in parts):
+                return None, value
+            candidate = self.root.joinpath(*parts)
+        elif value.startswith("/"):
+            return None, value
+        else:
+            candidate = (cwd or self.root) / value
+        # Path text is agent-authored: resolution and stat calls on it can
+        # exceed OS path limits and must never raise.
+        try:
+            resolved = candidate.resolve()
+        except OSError:
+            return None, value
+        return (resolved if resolved.is_relative_to(self.root) else None), value
 
     def file(self, raw_path: str, *, cwd: Path | None = None) -> str | None:
-        """Resolve exactly one existing file within the checkout."""
-        matches, value = self._path_candidates(raw_path, cwd)
-        if value in {"", "-", "/dev/null"}:
+        """Resolve a path to an existing checkout file, exactly."""
+        resolved, value = self._resolve(raw_path, cwd)
+        if resolved is None or value == "-":
             return None
         try:
-            files = [path for path in matches if path.is_file()]
+            if not resolved.is_file():
+                return None
         except OSError:
             return None
-        if len(files) != 1:
-            return None
-        return files[0].relative_to(self.root).as_posix()
+        return resolved.relative_to(self.root).as_posix()
 
     def directory(self, raw_path: str, *, cwd: Path | None = None) -> Path | None:
-        """Resolve exactly one existing directory within the checkout."""
-        matches, _ = self._path_candidates(raw_path, cwd)
+        """Resolve a path to an existing checkout directory, exactly."""
+        resolved, _ = self._resolve(raw_path, cwd)
         try:
-            directories = [path for path in matches if path.is_dir()]
+            return resolved if resolved is not None and resolved.is_dir() else None
         except OSError:
             return None
-        return directories[0] if len(directories) == 1 else None
-
-    def location_absent(self, raw_path: str, *, cwd: Path | None = None) -> bool:
-        """Return whether a valid checkout-relative location is absent at base."""
-        candidates, value = self._path_candidates(raw_path, cwd)
-        if value in {"", "-", "/dev/null"}:
-            return False
-        return bool(candidates) and not any(path.exists() for path in candidates)
 
     def lines(self, relative_path: str) -> list[str]:
         if relative_path not in self._source_cache:
-            self._source_cache[relative_path] = (
+            self._source_cache[relative_path] = split_lines(
                 (self.root / relative_path)
-                .read_text(encoding="utf-8", errors="replace")
-                .splitlines()
+                .read_bytes()
+                .decode("utf-8", errors="replace")
             )
         return self._source_cache[relative_path]
 
@@ -155,12 +172,14 @@ class SourceRepository:
         """Return readable checkout files that can contribute source evidence."""
         if self._text_paths is None:
             paths: list[str] = []
+            names: set[str] = set()
             for path in self.root.rglob("*"):
-                if (
-                    not path.is_file()
-                    or ".git" in path.relative_to(self.root).parts
-                    or not path.resolve().is_relative_to(self.root)
-                ):
+                if not path.is_file():
+                    continue
+                names.add(path.name)
+                if ".git" in path.relative_to(self.root).parts:
+                    continue
+                if not path.resolve().is_relative_to(self.root):
                     continue
                 try:
                     with path.open("rb") as source_file:
@@ -170,18 +189,28 @@ class SourceRepository:
                     continue
                 paths.append(path.relative_to(self.root).as_posix())
             self._text_paths = tuple(sorted(paths))
+            for relative in self._text_paths:
+                self._text_paths_by_name.setdefault(
+                    PurePosixPath(relative).name, []
+                ).append(relative)
+            self._file_names = frozenset(names)
         return self._text_paths
 
-    def candidate_files(
-        self,
-        raw_path: str,
-        *,
-        cwd: Path | None = None,
-    ) -> tuple[str, ...]:
-        """Resolve an optional shell path hint without requiring shell semantics."""
+    def _names_a_file(self, value: str) -> bool:
+        """Return whether a path's last component is the name of a checkout file.
+
+        Every file a hint can resolve to has the name of the hint's last
+        component, so other hints are rejected without touching the file system.
+        """
+        self.text_paths()
+        return PurePosixPath(self._clean_path(value)).name in self._file_names
+
+    @staticmethod
+    def _hint_value(raw_path: str) -> str:
+        """Strip shell punctuation, `--flag=`, `:line` and `revision:` from a hint."""
         value = raw_path.strip().strip("'\"`")
         if "\0" in value or "\n" in value or len(value) > 1024:
-            return ()
+            return ""
         if "=" in value and value.startswith("-"):
             value = value.split("=", 1)[1]
         value = value.rstrip(",;)]}")
@@ -190,61 +219,93 @@ class SourceRepository:
             revision, candidate = value.split(":", 1)
             if revision and "/" in candidate:
                 value = candidate
-        if not value or value.startswith(("http://", "https://")):
-            return ()
+        if value.startswith(("http://", "https://")):
+            return ""
+        return value
 
+    def _glob_files(self, pattern: str, cwd: Path | None) -> tuple[str, ...]:
+        # The pattern is agent-authored text: pathlib rejects some shapes
+        # outright (for example `**` fused to a component), and no shell
+        # token may ever abort attribution.
+        try:
+            globbed = list((cwd or self.root).resolve().glob(pattern))
+        except (ValueError, OSError):
+            return ()
+        return tuple(
+            sorted(
+                {
+                    path.resolve().relative_to(self.root).as_posix()
+                    for path in globbed
+                    if path.is_file() and path.resolve().is_relative_to(self.root)
+                }
+            )
+        )
+
+    def _stripped(self, value: str) -> tuple[str, ...]:
+        """Strip leading components until the rest names a file, as ContextBench does."""
+        parts = [part for part in value.split("/") if part]
+        for index in range(len(parts)):
+            if resolved := self.file("/".join(parts[index:])):
+                return (resolved,)
+        return ()
+
+    def candidate_files(
+        self,
+        raw_path: str,
+        *,
+        cwd: Path | None = None,
+    ) -> tuple[str, ...]:
+        """Resolve a receipt hint: a path that may name the file an output shows.
+
+        A hint never earns credit; it only steers receipt validation, so it
+        resolves more loosely than a structured read. A path under a root
+        resolves exactly. Any other absolute path loses leading components
+        until it names a file, and a relative path may match a glob or one
+        checkout path by suffix.
+        """
+        value = self._hint_value(raw_path)
+        if not value:
+            return ()
+        is_pattern = not value.startswith("/") and any(
+            character in value for character in "*?["
+        )
+        if is_pattern:
+            return self._candidate_files(value, is_pattern, cwd)
+        if not self._names_a_file(value):
+            return ()
+        key = (value, cwd)
+        if key not in self._candidates:
+            self._candidates[key] = self._candidate_files(value, is_pattern, cwd)
+        return self._candidates[key]
+
+    def _candidate_files(
+        self, value: str, is_pattern: bool, cwd: Path | None
+    ) -> tuple[str, ...]:
         if resolved := self.file(value, cwd=cwd):
             return (resolved,)
-
-        base = (cwd or self.root).resolve()
-        if not Path(value).is_absolute() and any(
-            character in value for character in "*?["
-        ):
-            # The pattern is agent-authored text: pathlib rejects some shapes
-            # outright (for example `**` fused to a component), and no shell
-            # token may ever abort attribution.
-            globbed: list[Path] = []
-            try:
-                globbed = list(base.glob(value))
-            except (ValueError, OSError):
-                globbed = []
-            matches = {
-                path.resolve().relative_to(self.root).as_posix()
-                for path in globbed
-                if path.is_file() and path.resolve().is_relative_to(self.root)
-            }
-            if matches:
-                return tuple(sorted(matches))
-
-        normalized = value.replace("\\", "/").removeprefix("./")
+        cleaned = self._clean_path(value)
+        if cleaned.startswith("/"):
+            return (
+                () if self._under_root(cleaned) is not None else self._stripped(cleaned)
+            )
+        if is_pattern and (globbed := self._glob_files(value, cwd)):
+            return globbed
         suffix_matches = [
             path
-            for path in self.text_paths()
-            if path == normalized or path.endswith(f"/{normalized}")
+            for path in self._text_paths_by_name.get(PurePosixPath(cleaned).name, ())
+            if path == cleaned or path.endswith(f"/{cleaned}")
         ]
         return tuple(suffix_matches) if len(suffix_matches) == 1 else ()
 
-    def line_locations(
-        self,
-        content: str,
-        *,
-        paths: tuple[str, ...] | None = None,
-    ) -> list[tuple[str, int]]:
-        """Locate an exact displayed source line in selected or all checkout files."""
-        if not content:
+    def line_locations(self, content: str) -> list[tuple[str, int]]:
+        """Locate a non-blank displayed source line in every checkout file."""
+        if _is_blank(content):
             return []
-        if paths is not None:
-            return [
-                (path, number)
-                for path in paths
-                for number, source in enumerate(self.lines(path), start=1)
-                if self.displayed_line_matches(content, source)
-            ]
         if self._line_index is None:
             index: dict[str, list[tuple[str, int]]] = {}
             for path in self.text_paths():
                 for number, source in enumerate(self.lines(path), start=1):
-                    if not source:
+                    if _is_blank(source):
                         continue
                     index.setdefault(source, []).append((path, number))
                     expanded = source.expandtabs(8)
@@ -253,41 +314,45 @@ class SourceRepository:
             self._line_index = index
         return list(self._line_index.get(content, ()))
 
-    def unique_contiguous_matches(
+    def unique_runs(
         self,
         observed: list[str],
-        *,
-        paths: tuple[str, ...] | None = None,
-        minimum: int = 2,
-    ) -> list[tuple[int, int, str, int, int]]:
-        """Find checkout-unique exact source runs within an observation."""
-        candidates: list[tuple[int, int, str, int, int]] = []
+        minimum: Callable[[str], int],
+    ) -> list[Run]:
+        """Find checkout-unique runs of exact source lines in unnumbered output.
+
+        A run starts and ends at a non-blank line, and a blank line inside it
+        matches a blank source line. It needs `minimum(file)` non-blank lines,
+        and its longest extension must be at exactly one checkout location.
+        The selected runs do not overlap.
+        """
+        candidates: list[Run] = []
         for observed_start, first in enumerate(observed):
-            origins = self.line_locations(first, paths=paths)
-            if not origins:
-                continue
             extended: list[tuple[str, int, int]] = []
-            for path, source_start in origins:
+            for path, source_start in self.line_locations(first):
                 source = self.lines(path)
-                length = 0
+                length = trimmed = nonblank = 0
                 while (
                     observed_start + length < len(observed)
                     and source_start - 1 + length < len(source)
-                    and self.displayed_line_matches(
+                    and _lines_agree(
                         observed[observed_start + length],
                         source[source_start - 1 + length],
                     )
                 ):
                     length += 1
-                if length >= minimum:
-                    extended.append((path, source_start, length))
+                    if not _is_blank(observed[observed_start + length - 1]):
+                        nonblank += 1
+                        trimmed = length
+                if nonblank >= minimum(path):
+                    extended.append((path, source_start, trimmed))
             if not extended:
                 continue
             longest = max(length for _, _, length in extended)
             locations = {
                 (path, source_start)
                 for path, source_start, length in extended
-                if length >= longest
+                if length == longest
             }
             if len(locations) != 1:
                 continue
@@ -302,7 +367,7 @@ class SourceRepository:
                 )
             )
 
-        selected: list[tuple[int, int, str, int, int]] = []
+        selected: list[Run] = []
         occupied: set[int] = set()
         for match in sorted(
             candidates,
@@ -314,757 +379,274 @@ class SourceRepository:
                 occupied.update(positions)
         return sorted(selected)
 
-    def numbered_ranges(
-        self,
-        observation: str,
-        relative_path: str,
-        *,
-        requested: tuple[int, int] | None = None,
-    ) -> tuple[LineRanges | None, str]:
-        """Validate numbered output and retain only lines matching the checkout."""
-        read = _NumberedRead(self, relative_path, requested)
-        for line in observation.splitlines():
-            if error := read.consume(line):
-                return None, error
-        return read.result()
-
-    def _contiguous_range(
-        self,
-        observation: str,
-        relative_path: str,
-        requested: tuple[int, int] | None,
-    ) -> tuple[LineRanges | None, str]:
-        observed = [
-            line
-            for line in observation.splitlines()
-            if _READ_FRAME_LINE.fullmatch(line) is None
-        ]
-        if not observed:
-            return None, "observation contains no source lines"
-        source = self.lines(relative_path)
-        matches = [
-            start
-            for start in range(len(source) - len(observed) + 1)
-            if observed == source[start : start + len(observed)]
-        ]
-        if requested is not None:
-            matches = [
-                start
-                for start in matches
-                if requested[0] <= start + 1 and start + len(observed) <= requested[1]
-            ]
-        if len(matches) != 1:
-            return (
-                None,
-                f"read observation is not a unique contiguous range of {relative_path}",
-            )
-        start = matches[0] + 1
-        return {
-            relative_path: [(start, start + len(observed) - 1)]
-        }, "validated contiguous file read"
-
-    @staticmethod
-    def _is_integer(value: object) -> TypeGuard[int]:
-        return isinstance(value, int) and not isinstance(value, bool)
-
-    @classmethod
-    def _requested_range(
-        cls,
-        arguments: dict[str, Any],
-        total: int,
-    ) -> tuple[int, int] | None:
-        result: tuple[int, int] | None = None
-        view = arguments.get("view_range", arguments.get("viewRange"))
-        if isinstance(view, list) and len(view) >= 2:
-            if not all(cls._is_integer(value) for value in view[:2]):
-                result = (0, -1)
-            else:
-                start, end = int(view[0]), int(view[1])
-                result = max(start, 1), min(total if end == -1 else end, total)
-        else:
-            offset = arguments.get("offset", arguments.get("lineOffset"))
-            limit = arguments.get("limit")
-            if isinstance(offset, bool) or isinstance(limit, bool):
-                result = (0, -1)
-            elif cls._is_integer(offset) or cls._is_integer(limit):
-                start = max(int(offset) if cls._is_integer(offset) else 1, 1)
-                end = (
-                    total
-                    if not cls._is_integer(limit)
-                    else min(start + int(limit) - 1, total)
-                )
-                result = start, end
-            else:
-                start = arguments.get(
-                    "start_line",
-                    arguments.get("line_start", arguments.get("startLine")),
-                )
-                end = arguments.get(
-                    "end_line",
-                    arguments.get("line_end", arguments.get("endLine")),
-                )
-                if isinstance(start, bool) or isinstance(end, bool):
-                    result = (0, -1)
-                elif cls._is_integer(start) or cls._is_integer(end):
-                    result = (
-                        max(int(start) if cls._is_integer(start) else 1, 1),
-                        min(
-                            int(end) if cls._is_integer(end) and end != -1 else total,
-                            total,
-                        ),
-                    )
-        return result
-
-    def _validate_read(
-        self,
-        observation: str,
-        relative_path: str,
-        total: int,
-        requested: tuple[int, int],
-    ) -> tuple[LineRanges | None, str]:
-        start, end = requested
-        if total == 0 or start > total:
-            return {}, "read range contains no repository source"
-        if start < 1 or end < start:
-            return None, "read call has an invalid line range"
-        if not observation.strip():
-            return {}, "read returned no observable source content"
-        expected = self.lines(relative_path)[start - 1 : end]
-        if observation.splitlines() == expected:
-            return {relative_path: [(start, end)]}, "validated file read"
-        return self._fallback_read(observation, relative_path, requested)
-
-    def _fallback_read(
-        self,
-        observation: str,
-        relative_path: str,
-        requested: tuple[int, int],
-    ) -> tuple[LineRanges | None, str]:
-        start, end = requested
-        numbered, numbered_reason = self.numbered_ranges(
-            observation,
-            relative_path,
-            requested=requested,
-        )
-        if numbered:
-            return numbered, numbered_reason
-        contiguous, contiguous_reason = self._contiguous_range(
-            observation,
-            relative_path,
-            requested,
-        )
-        if contiguous:
-            return contiguous, contiguous_reason
-        if numbered is not None:
-            return numbered, numbered_reason
-        return (
-            None,
-            (
-                f"read observation does not match {relative_path}:{start}-{end}; "
-                f"{numbered_reason}; {contiguous_reason}"
-            ),
-        )
-
-    def _read_paths(
-        self,
-        arguments: dict[str, Any],
-    ) -> tuple[list[str] | None, str]:
-        raw_paths = next(
-            (
-                arguments[key]
-                for key in ("paths", "files", "file_paths", "filePaths")
-                if isinstance(arguments.get(key), list)
-            ),
-            None,
-        )
-        if raw_paths is None:
-            return None, "multi-file read does not identify a list of files"
-        requested: list[str] = []
-        for raw_path in raw_paths:
-            if not isinstance(raw_path, str):
-                return None, "multi-file read contains a non-string path"
-            path = self.file(raw_path)
-            if path is not None and path not in requested:
-                requested.append(path)
-        if not requested:
-            return None, "multi-file read paths do not resolve to repository files"
-        return requested, ""
-
-    def read(
-        self,
-        arguments: dict[str, Any],
-        observation: str,
-    ) -> tuple[LineRanges | None, str]:
-        """Project one structured file-read call against the checkout."""
-        command = str(arguments.get("command") or "").lower()
-        if command and command not in {"read", "view"}:
-            return None, "file-editor call is not a read or view"
-        raw_path = next(
-            (
-                str(arguments[key])
-                for key in ("file_path", "filePath", "path", "filename")
-                if arguments.get(key)
-            ),
-            "",
-        )
-        relative_path = self.file(raw_path)
-        if relative_path is None:
-            if self.location_absent(raw_path):
-                return {}, "read path is absent from the base-revision checkout"
-            return None, "read path does not resolve to a repository file"
-
-        total = self.line_count(relative_path)
-        requested = self._requested_range(arguments, total) or (1, total)
-        return self._validate_read(
-            observation,
-            relative_path,
-            total,
-            requested,
-        )
-
-    def read_many(
-        self,
-        arguments: dict[str, Any],
-        observation: str,
-    ) -> tuple[LineRanges | None, str]:
-        """Attribute concatenated multi-file output to complete validated files."""
-        requested, error = self._read_paths(arguments)
-        if requested is None:
-            return None, error
-        if not observation.strip():
-            return {}, "multi-file read returned no observable source content"
-
-        observed = observation.splitlines()
-        ranges: LineRanges = {}
-        consumed: set[int] = set()
-        for path in requested:
-            source = self.lines(path)
-            occurrences = [
-                start
-                for start in range(len(observed) - len(source) + 1)
-                if source and source == observed[start : start + len(source)]
-            ]
-            if len(occurrences) == 1:
-                start = occurrences[0]
-                ranges[path] = [(1, len(source))]
-                consumed.update(range(start, start + len(source)))
-        if not ranges:
-            return (
-                None,
-                "multi-file observation contains no uniquely attributable complete file",
-            )
-        has_unattributed_content = any(
-            index not in consumed
-            and line.strip()
-            and _MULTI_READ_HEADER.fullmatch(line) is None
-            for index, line in enumerate(observed)
-        )
-        if has_unattributed_content:
-            return (
-                None,
-                "multi-file observation contains content outside validated files",
-            )
-        omitted = len(requested) - len(ranges)
-        reason = "validated complete files in a multi-file read"
-        if omitted:
-            reason += f"; omitted {omitted} file(s) without exact source"
-        return ranges, reason
-
-    def search_output(
-        self,
-        observation: str,
-        *,
-        cwd: Path,
-        explicit_file: str | None,
-        has_line_numbers: bool,
-    ) -> tuple[LineRanges, str | None, int]:
-        """Parse search output and retain only checkout-validated evidence."""
-        if self.reports_no_matches(observation):
-            return {}, None, 0
-        output = _SearchOutput(
-            self,
-            observation,
-            cwd,
-            explicit_file,
-            has_line_numbers,
-        )
-        for raw_line in observation.splitlines():
-            if error := output.consume(raw_line):
-                return {}, error, output.non_base_lines
-        return output.finish()
-
-    def search(self, arguments: dict[str, Any], observation: str) -> Claim:
-        """Project one structured search call with checkout validation."""
-        output_mode = str(arguments.get("output_mode") or "").lower()
-        if output_mode in {"files_with_matches", "files", "count"}:
-            return Claim.discovery("search returned paths or counts only")
-        raw_path = str(
-            arguments.get("path")
-            or arguments.get("file_path")
-            or arguments.get("filePath")
-            or arguments.get("directory")
-            or arguments.get("dir_path")
-            or "."
-        )
-        explicit_file = self.file(raw_path)
-        directory = self.directory(raw_path)
-        if explicit_file is None and directory is None:
-            if self.location_absent(raw_path):
-                return Claim.no_base_context(
-                    "search location is absent from the base-revision checkout"
-                )
-            return Claim.unsupported(
-                "search location does not resolve unambiguously in the repository"
-            )
-        ranges, error, non_base_lines = self.search_output(
-            observation,
-            cwd=directory or self.root,
-            explicit_file=explicit_file,
-            has_line_numbers=True,
-        )
-        return self._search_claim(ranges, error, non_base_lines, observation)
-
-    def _search_claim(
-        self,
-        ranges: LineRanges,
-        error: str | None,
-        non_base_lines: int,
-        observation: str,
-    ) -> Claim:
-        if error is not None:
-            return Claim.unattributable(error)
-        if ranges:
-            return Claim.verified(ranges, "projected search matches")
-        if non_base_lines:
-            return Claim.no_base_context(
-                "search output contains no base-revision source content"
-            )
-        if not observation.strip() or self.reports_no_matches(observation):
-            return Claim.discovery("search returned no content matches")
-        return Claim.unattributable(
-            "nonempty search output has no attributable file and line"
-        )
-
 
 @dataclass
-class _NumberedRead:
+class _Evidence:
+    """The source lines one call's receipts showed, per checkout file."""
+
     repository: SourceRepository
-    path: str
-    requested: tuple[int, int] | None
-    observed: list[int] = field(default_factory=list)
-    matched: list[int] = field(default_factory=list)
-    mismatched: int = 0
+    # Validated non-blank lines.
+    lines: dict[str, set[int]] = field(default_factory=dict)
+    # Blank lines displayed at blank source lines: never evidence, but they
+    # join the validated lines around them into one span.
+    blanks: dict[str, set[int]] = field(default_factory=dict)
 
-    def consume(self, line: str) -> str | None:
-        match = _NUMBERED_EDITOR_LINE.match(line)
-        if match is None:
-            return None
-        number = int(match.group(1))
-        source = self.repository.lines(self.path)
-        if number < 1:
-            return "numbered file observation contains a non-positive line number"
-        if number > len(source):
-            if number != len(source) + 1 or match.group(2):
-                self.mismatched += 1
-            return None
-        if self.requested is not None and not (
-            self.requested[0] <= number <= self.requested[1]
-        ):
-            return "numbered file observation exceeds the requested range"
-        self.observed.append(number)
-        if self.repository.displayed_line_matches(
-            match.group(2),
-            source[number - 1],
-        ):
-            self.matched.append(number)
-        else:
-            self.mismatched += 1
-        return None
+    def observe(self, path: str, number: int, displayed: tuple[str, ...]) -> bool:
+        """Record text displayed as line `number` of `path`; return whether it fits.
 
-    def result(self) -> tuple[LineRanges | None, str]:
-        if not self.observed:
-            return None, "observation contains no numbered source lines"
-        expected = list(range(self.observed[0], self.observed[-1] + 1))
-        if self.observed != expected:
-            return None, "numbered file observation is not contiguous"
-        if not self.matched:
-            return {}, "numbered read contains no base-revision source content"
-        reason = "validated numbered file read"
-        if self.mismatched:
-            reason += f"; omitted {self.mismatched} non-base line(s)"
-        return {self.path: [(number, number) for number in self.matched]}, reason
-
-
-@dataclass
-class _SearchOutput:
-    repository: SourceRepository
-    observation: str
-    cwd: Path
-    explicit_file: str | None
-    has_line_numbers: bool
-    result: LineRanges = field(default_factory=dict)
-    current_heading: str | None = None
-    unnumbered_paths: set[str] = field(default_factory=set)
-    invalid_unnumbered_paths: set[str] = field(default_factory=set)
-    non_base_lines: int = 0
-    unattributed_lines: int = 0
-
-    def consume(self, raw_line: str) -> str | None:
-        line = raw_line.removeprefix("[stdout]")
-        if raw_line.startswith("[stdout]") and line.startswith(" "):
-            line = line[1:]
-        if not line.strip() or line.strip() == "--":
-            return None
-
-        numbered = self._numbered_source(line)
-        if numbered is not None:
-            path, line_number, content = numbered
-            if path is None:
-                self.non_base_lines += 1
-                return None
-            return self._validate_line(path, line_number, content)
-
-        heading = self.repository.file(line, cwd=self.cwd)
-        if heading is not None:
-            self.current_heading = heading
-        elif not self.has_line_numbers and self._consume_unnumbered(line):
-            pass
-        else:
-            self.unattributed_lines += 1
-        return None
-
-    def _numbered_source(self, line: str) -> tuple[str | None, int, str] | None:
-        match = _PATH_LINE.match(line) or _PATH_CONTEXT_LINE.match(line)
-        if match is not None:
-            raw_path = match.group(1)
-            path = self.repository.file(raw_path, cwd=self.cwd)
-            if path is not None:
-                return path, int(match.group(2)), cast(str, match.group(3))
-            if self.explicit_file is None and self.repository.location_absent(
-                raw_path,
-                cwd=self.cwd,
-            ):
-                return None, int(match.group(2)), cast(str, match.group(3))
-
-        match = _LINE_ONLY.match(line) or _LINE_CONTEXT_ONLY.match(line)
-        if match is not None and self.explicit_file is not None:
-            return self.explicit_file, int(match.group(1)), cast(str, match.group(2))
-        if match is not None and self.current_heading and self.has_line_numbers:
-            return self.current_heading, int(match.group(1)), cast(str, match.group(2))
-        return None
-
-    def _validate_line(self, path: str, number: int, content: str) -> str | None:
-        if number < 1:
-            return f"search returned an invalid line for {path}"
+        `displayed` holds the readings of one output line, such as with and
+        without a separator space.
+        """
         source = self.repository.lines(path)
-        if number > len(source):
-            self.non_base_lines += 1
-        elif self.repository.displayed_line_matches(content, source[number - 1]):
-            self.result.setdefault(path, []).append((number, number))
-        else:
-            self.non_base_lines += 1
-        return None
-
-    def _consume_unnumbered(self, line: str) -> bool:
-        prefix, separator, content = line.partition(":")
-        if separator:
-            path = self.repository.file(prefix, cwd=self.cwd)
-            if path is not None:
-                self._validate_unnumbered(path, content)
+        if not 1 <= number <= len(source):
+            return False
+        expected = source[number - 1]
+        if all(_is_blank(text) for text in displayed):
+            if _is_blank(expected):
+                self.blanks.setdefault(path, set()).add(number)
                 return True
-            if self.explicit_file is None and self.repository.location_absent(
-                prefix,
-                cwd=self.cwd,
-            ):
-                self.non_base_lines += 1
-                return True
-        context_matches = [
-            (path, line[index + 1 :])
-            for index, character in enumerate(line)
-            if character == "-"
-            and (path := self.repository.file(line[:index], cwd=self.cwd)) is not None
-        ]
-        if len(context_matches) == 1:
-            path, content = context_matches[0]
-            self._validate_unnumbered(path, content)
-            return True
-        if self.explicit_file is not None:
-            self._validate_unnumbered(self.explicit_file, line)
+            return False
+        if any(_matches(text, expected) for text in displayed):
+            self.lines.setdefault(path, set()).add(number)
             return True
         return False
 
-    def _validate_unnumbered(self, path: str, content: str) -> None:
-        self.unnumbered_paths.add(path)
-        if not any(
-            self.repository.displayed_line_matches(content, source_line)
-            for source_line in self.repository.lines(path)
-        ):
-            self.non_base_lines += 1
-            self.invalid_unnumbered_paths.add(path)
+    def run(self, path: str, start: int, end: int) -> None:
+        source = self.repository.lines(path)
+        for number in range(start, end + 1):
+            target = self.blanks if _is_blank(source[number - 1]) else self.lines
+            target.setdefault(path, set()).add(number)
 
-    def finish(self) -> tuple[LineRanges, str | None, int]:
-        if self.unnumbered_paths and not self.invalid_unnumbered_paths:
-            for path in self.unnumbered_paths:
-                self.result.setdefault(path, [])
-        if self.unattributed_lines:
-            return (
-                {},
-                (
-                    f"search output contains {self.unattributed_lines} "
-                    "unattributable line(s)"
-                ),
-                self.non_base_lines,
+    def _bridged(self, path: str) -> set[int]:
+        validated = self.lines[path]
+        covered = set(validated)
+        blanks = sorted(self.blanks.get(path, ()))
+        start = 0
+        while start < len(blanks):
+            end = start
+            while end + 1 < len(blanks) and blanks[end + 1] == blanks[end] + 1:
+                end += 1
+            if blanks[start] - 1 in validated and blanks[end] + 1 in validated:
+                covered.update(blanks[start : end + 1])
+            start = end + 1
+        return covered
+
+    def ranges(self) -> LineRanges:
+        """Return the credited ranges; a whole-file view is the file without spans.
+
+        A view is whole when the call showed every non-blank line of the file.
+        """
+        ranges: LineRanges = {}
+        for path in sorted(self.lines):
+            covered = self._bridged(path)
+            nonblank = {
+                number
+                for number, source in enumerate(self.repository.lines(path), start=1)
+                if not _is_blank(source)
+            }
+            ranges[path] = (
+                []
+                if nonblank <= covered
+                else RangeSet.merge_intervals([(number, number) for number in covered])
             )
-        if not self.result and self._explicit_observation_matches():
-            if self.explicit_file is None:
-                raise ValueError("matching explicit search output has no file")
-            self.result[self.explicit_file] = []
-        return self.result, None, self.non_base_lines
-
-    def _explicit_observation_matches(self) -> bool:
-        if self.explicit_file is None or not self.observation.strip():
-            return False
-        source = self.repository.lines(self.explicit_file)
-        return all(
-            any(
-                self.repository.displayed_line_matches(observed, source_line)
-                for source_line in source
-            )
-            for observed in self.observation.splitlines()
-        )
+        return ranges
 
 
-_UNIFIED_HUNK = re.compile(r"^@@ -(\d+)(?:,\d+)? \+(\d+)(?:,\d+)? @@(?: .*)?$")
+_UNIFIED_HUNK = re.compile(r"^@@ -(\d+)(?:,(\d+))? \+(\d+)(?:,(\d+))? @@(?: .*)?$")
 _NORMAL_CHANGE = re.compile(r"^(\d+)(?:,(\d+))?([acd])(\d+)(?:,(\d+))?$")
-
-
-class DiffProjector:
-    """Interpret unified or normal diffs against one repository and directory."""
-
-    def __init__(self, repository: SourceRepository, cwd: Path) -> None:
-        self.repository = repository
-        self.cwd = cwd
-
-    def observed(
-        self,
-        observation: str,
-        *,
-        paths: tuple[str, ...] = (),
-    ) -> Claim | None:
-        """Project a diff from its fixed output grammar, without command semantics."""
-        lines = observation.splitlines()
-        if any(
-            _UNIFIED_HUNK.fullmatch(line) or line.startswith(("diff --git ", "--- "))
-            for line in lines
-        ):
-            parser = _UnifiedDiff(
-                self.repository,
-                self.cwd,
-            )
-        elif any(_NORMAL_CHANGE.fullmatch(line) for line in lines):
-            parser = _NormalDiff(
-                self.repository,
-                paths[0] if paths else None,
-                paths[1] if len(paths) > 1 else None,
-            )
-        else:
-            return None
-        for line in lines:
-            if error := parser.consume(line):
-                return Claim.unattributable(error)
-        return parser.claim()
+_GIT_EXTENDED_HEADERS = (
+    "index ",
+    "old mode ",
+    "new mode ",
+    "deleted file mode ",
+    "new file mode ",
+    "similarity index ",
+    "dissimilarity index ",
+    "rename from ",
+    "rename to ",
+    "copy from ",
+    "copy to ",
+    "Binary files ",
+)
+_NO_NEWLINE = "\\ No newline at end of file"
 
 
 @dataclass
-class _UnifiedDiff:
-    """Track base-revision coordinates while consuming a unified diff."""
+class _NormalRecord:
+    """One normal-diff change (`3,4c3`) and the lines it still expects."""
+
+    operation: str
+    old_line: int
+    new_line: int
+    old_left: int
+    new_left: int
+    separated: bool = False
+
+
+@dataclass
+class _DiffReader:
+    """Consume the diff-shaped lines of an output and validate them.
+
+    A unified hunk is read by its header counts, so an empty line inside it is
+    a context line whose leading space was stripped. A normal-diff record is
+    read by its change ranges, against the command's first and second path
+    hint. A line that does not fit closes the hunk or record and is left for
+    the other receipts. Diff-shaped lines are consumed whether or not they
+    validate.
+    """
 
     repository: SourceRepository
     cwd: Path
+    paths: tuple[str, ...]
+    evidence: _Evidence
+    consumed: set[int] = field(default_factory=set)
+    saw_hunk: bool = False
     old_path: str | None = None
     new_path: str | None = None
-    old_line: int | None = None
-    new_line: int | None = None
-    ranges: LineRanges = field(default_factory=dict)
-    saw_diff: bool = False
-    saw_hunk_content: bool = False
-    non_base_lines: int = 0
+    old_line: int = 0
+    new_line: int = 0
+    old_left: int = 0
+    new_left: int = 0
+    in_git_header: bool = False
+    expects_new_header: bool = False
+    after_body: bool = False
+    record: _NormalRecord | None = None
 
-    def consume(self, line: str) -> str | None:
-        error: str | None = None
+    def read(self, lines: tuple[str, ...]) -> set[int]:
+        for index, line in enumerate(lines):
+            if self._hunk_line(line) or self._normal_line(line):
+                self.consumed.add(index)
+                self.after_body = True
+                continue
+            after_body, self.after_body = self.after_body, False
+            if self._structure_line(line, lines[index + 1 : index + 2], after_body):
+                self.consumed.add(index)
+        return self.consumed
+
+    def _observe(self, path: str | None, number: int, content: str) -> None:
+        if path is not None:
+            self.evidence.observe(path, number, (content,))
+
+    def _hunk_line(self, line: str) -> bool:
+        if self.old_left <= 0 and self.new_left <= 0:
+            return False
+        if line.startswith(_NO_NEWLINE):
+            return True
+        prefix, content = (line[0], line[1:]) if line else (" ", "")
+        if prefix == " " and self.old_left > 0 and self.new_left > 0:
+            self._observe(self.old_path, self.old_line, content)
+            if (self.new_path, self.new_line) != (self.old_path, self.old_line):
+                self._observe(self.new_path, self.new_line, content)
+            self.old_line, self.new_line = self.old_line + 1, self.new_line + 1
+            self.old_left, self.new_left = self.old_left - 1, self.new_left - 1
+        elif prefix == "-" and self.old_left > 0:
+            self._observe(self.old_path, self.old_line, content)
+            self.old_line, self.old_left = self.old_line + 1, self.old_left - 1
+        elif prefix == "+" and self.new_left > 0:
+            self._observe(self.new_path, self.new_line, content)
+            self.new_line, self.new_left = self.new_line + 1, self.new_left - 1
+        else:
+            self.old_left = self.new_left = 0
+            return False
+        self.saw_hunk = True
+        return True
+
+    def _normal_line(self, line: str) -> bool:
+        record = self.record
+        if record is None:
+            return False
+        if line.startswith(_NO_NEWLINE):
+            return True
+        if (line == "<" or line.startswith("< ")) and (
+            record.old_left > 0 and not record.separated
+        ):
+            self._observe(
+                self.paths[0] if self.paths else None, record.old_line, line[2:]
+            )
+            record.old_line, record.old_left = record.old_line + 1, record.old_left - 1
+        elif (
+            line == "---"
+            and record.operation == "c"
+            and record.old_left == 0
+            and not record.separated
+        ):
+            record.separated = True
+        elif (line == ">" or line.startswith("> ")) and (
+            record.new_left > 0 and (record.operation != "c" or record.separated)
+        ):
+            new_path = self.paths[1] if len(self.paths) > 1 else None
+            self._observe(new_path, record.new_line, line[2:])
+            record.new_line, record.new_left = record.new_line + 1, record.new_left - 1
+        else:
+            self.record = None
+            return False
+        self.saw_hunk = True
+        return True
+
+    def _structure_line(
+        self,
+        line: str,
+        following: tuple[str, ...],
+        after_body: bool,
+    ) -> bool:
+        """Consume a diff header or record start; return whether it was one."""
+        in_git_header, self.in_git_header = self.in_git_header, False
+        expects_new_header, self.expects_new_header = self.expects_new_header, False
         if line.startswith("diff --git "):
-            error = self._start_file(line)
-        elif line.startswith("--- "):
-            self.old_path = self._path(line[4:].split("\t", 1)[0])
-        elif line.startswith("+++ "):
-            self.new_path = self._path(line[4:].split("\t", 1)[0])
-        elif hunk := _UNIFIED_HUNK.match(line):
-            self.old_line = int(hunk.group(1))
-            self.new_line = int(hunk.group(2))
-        elif self.old_line is not None and self.new_line is not None:
-            error = self._consume_source(line)
-        return error
+            self.old_path, self.new_path = self._git_header_paths(line)
+            self.in_git_header = True
+        elif in_git_header and line.startswith(_GIT_EXTENDED_HEADERS):
+            self.in_git_header = True
+        elif line.startswith("--- ") and any(
+            next_line.startswith("+++ ") for next_line in following
+        ):
+            self.old_path = self._path(line[4:])
+            self.expects_new_header = True
+        elif line.startswith("+++ ") and expects_new_header:
+            self.new_path = self._path(line[4:])
+        elif hunk := _UNIFIED_HUNK.fullmatch(line):
+            self.old_line, self.new_line = int(hunk.group(1)), int(hunk.group(3))
+            self.old_left = int(hunk.group(2) or 1)
+            self.new_left = int(hunk.group(4) or 1)
+            self.saw_hunk = True
+        elif line.startswith(_NO_NEWLINE) and after_body:
+            pass
+        elif change := _NORMAL_CHANGE.fullmatch(line):
+            self.record = self._normal_record(change)
+        else:
+            return False
+        return True
 
-    def _consume_source(self, line: str) -> str | None:
-        old_line = self.old_line
-        new_line = self.new_line
-        if old_line is None or new_line is None:
-            raise ValueError("unified diff source has no active hunk coordinates")
-        if line.startswith("\\ No newline at end of file"):
-            return None
-
-        normalized = line or " "
-        prefix = normalized[0]
-        if prefix not in {" ", "+", "-"}:
-            return "git show hunk contains an unrecognized source line"
-        self.saw_hunk_content = True
-        coordinates = self._source_coordinates(prefix)
-        matches: set[tuple[str, int]] = set()
-        for path, number in coordinates:
-            source = self.repository.lines(path)
-            if 1 <= number <= len(source) and normalized[1:] == source[number - 1]:
-                matches.add((path, number))
-        for path, number in matches:
-            self.ranges.setdefault(path, []).append((number, number))
-        if coordinates and not matches:
-            self.non_base_lines += 1
-        if prefix in {" ", "-"}:
-            self.old_line = old_line + 1
-        if prefix in {" ", "+"}:
-            self.new_line = new_line + 1
-        return None
+    @staticmethod
+    def _normal_record(change: re.Match[str]) -> _NormalRecord:
+        old_start, new_start = int(change.group(1)), int(change.group(4))
+        old_end = int(change.group(2) or old_start)
+        new_end = int(change.group(5) or new_start)
+        operation = change.group(3)
+        return _NormalRecord(
+            operation,
+            old_start,
+            new_start,
+            0 if operation == "a" else max(old_end - old_start + 1, 0),
+            0 if operation == "d" else max(new_end - new_start + 1, 0),
+        )
 
     def _path(self, raw_path: str) -> str | None:
-        value = raw_path.strip()
+        value = raw_path.split("\t", 1)[0].strip()
         if value == "/dev/null":
             return None
         if value.startswith(("a/", "b/")):
             value = value[2:]
         return self.repository.file(value, cwd=self.cwd)
 
-    def _start_file(self, line: str) -> str | None:
+    def _git_header_paths(self, line: str) -> tuple[str | None, str | None]:
         try:
             header = shlex.split(line)
         except ValueError:
-            return "git show diff header cannot be parsed"
+            return None, None
         if len(header) != 4:
-            return "git show diff header does not identify two paths"
-        self.saw_diff = True
-        self.old_path = self._path(header[2])
-        self.new_path = self._path(header[3])
-        self.old_line = self.new_line = None
-        return None
-
-    def _source_coordinates(self, prefix: str) -> set[tuple[str, int]]:
-        old: set[tuple[str, int]] = set()
-        new: set[tuple[str, int]] = set()
-        if self.old_path is not None and self.old_line is not None:
-            old.add((self.old_path, self.old_line))
-        if self.new_path is not None and self.new_line is not None:
-            new.add((self.new_path, self.new_line))
-        if prefix == "-":
-            return old
-        if prefix == "+":
-            return new
-        return old | new
-
-    def claim(self) -> Claim:
-        if self.ranges:
-            reason = "validated base-revision lines in observed diff"
-            if self.non_base_lines:
-                reason += f"; omitted {self.non_base_lines} non-base line(s)"
-            return Claim.verified(self.ranges, reason)
-        if self.saw_diff or self.saw_hunk_content:
-            return Claim.no_base_context(
-                "observed diff contains no base-revision source at its hunk coordinates"
-            )
-        return Claim.no_base_context("diff returned no attributable content")
-
-
-@dataclass
-class _NormalDiff:
-    """Validate normal-diff records against their declared coordinates."""
-
-    repository: SourceRepository
-    old_path: str | None
-    new_path: str | None
-    ranges: LineRanges = field(default_factory=dict)
-    non_base_lines: int = 0
-    saw_source: bool = False
-    expected_old: tuple[int, int] | None = None
-    expected_new: tuple[int, int] | None = None
-    old_line: int = 0
-    new_line: int = 0
-
-    def consume(self, line: str) -> str | None:
-        if change := _NORMAL_CHANGE.fullmatch(line):
-            if self._range_incomplete():
-                return (
-                    "normal diff starts a new change before the prior range is complete"
-                )
-            old_start = int(change.group(1))
-            new_start = int(change.group(4))
-            operation = change.group(3)
-            self.expected_old = (
-                None
-                if operation == "a"
-                else (old_start, int(change.group(2) or old_start))
-            )
-            self.expected_new = (
-                None
-                if operation == "d"
-                else (new_start, int(change.group(5) or new_start))
-            )
-            self.old_line = old_start
-            self.new_line = new_start
-            return None
-        if line == "---" or line.startswith("\\ No newline at end of file"):
-            return None
-        if line == "<" or line.startswith("< "):
-            return self._consume_source(line, old=True)
-        if line == ">" or line.startswith("> "):
-            return self._consume_source(line, old=False)
-        return "normal diff output contains an unrecognized line"
-
-    def _range_incomplete(self) -> bool:
-        return bool(
-            self.expected_old is not None
-            and self.old_line <= self.expected_old[1]
-            or self.expected_new is not None
-            and self.new_line <= self.expected_new[1]
-        )
-
-    def _consume_source(self, line: str, *, old: bool) -> str | None:
-        path = self.old_path if old else self.new_path
-        number = self.old_line if old else self.new_line
-        expected = self.expected_old if old else self.expected_new
-        if old:
-            self.old_line += 1
-        else:
-            self.new_line += 1
-        self.saw_source = True
-        if expected is None or not expected[0] <= number <= expected[1]:
-            return "normal diff source line falls outside its declared range"
-        if path is not None:
-            source = self.repository.lines(path)
-            content = line[2:] if len(line) > 1 else ""
-            if number <= len(source) and content == source[number - 1]:
-                self.ranges.setdefault(path, []).append((number, number))
-            else:
-                self.non_base_lines += 1
-        return None
-
-    def claim(self) -> Claim:
-        if self.ranges:
-            reason = "validated base-revision lines in normal diff"
-            if self.non_base_lines:
-                reason += f"; omitted {self.non_base_lines} non-base line(s)"
-            return Claim.verified(self.ranges, reason)
-        if self.saw_source:
-            return Claim.no_base_context(
-                "normal diff contains no source matching the base revision"
-            )
-        return Claim.no_base_context("diff returned no source content")
+            return None, None
+        return self._path(header[2]), self._path(header[3])
 
 
 _ANSI = re.compile(r"\x1b\[[0-?]*[ -/]*[@-~]")
@@ -1074,8 +656,15 @@ _NUMBERED_LINES = (
     re.compile(r"^\s*(\d+) {2}(.*)$"),
     re.compile(r"^\s*(\d+)\|\s?(.*)$"),
 )
-_TRACEBACK_FRAME = re.compile(r'^\s*File "[^"]+", line \d+')
-_TERMINAL_PROMPT = re.compile(r"^.*?[@:].*?[#$]\s+(.*)$")
+_GREP_CONTEXT_LINE = re.compile(r"^\s*(\d+)-(.*)$")
+_NESTED_NUMBERED_LINE = re.compile(r"^\s*\d+[:-](\d+)[:-](.*)$")
+# A Python traceback frame; the line after it repeats source from that frame.
+_TRACEBACK_FRAME = re.compile(r'\s*File "[^"]+", line \d+')
+# pytest marks the failing source line with `>` and the error with `E`, each
+# in column 0 followed by three spaces.
+_PYTEST_MARKERS = (">   ", "E   ")
+# A shell prompt line (`user@host:/dir$ command`); group 1 is the command.
+TERMINAL_PROMPT = re.compile(r"^.*?[@:].*?[#$]\s+(.*)$")
 
 
 @dataclass(frozen=True)
@@ -1091,8 +680,20 @@ class _ObservedText:
         ]
 
 
+@dataclass(frozen=True)
+class _Numbered:
+    index: int
+    number: int
+    displayed: tuple[str, ...]
+    path: str | None
+
+    @property
+    def blank(self) -> bool:
+        return all(_is_blank(text) for text in self.displayed)
+
+
 class ObservationAttributor:
-    """Decode source-shaped terminal output and validate it against a checkout."""
+    """Decode source-shaped output and validate it against a checkout."""
 
     def __init__(
         self,
@@ -1100,6 +701,7 @@ class ObservationAttributor:
         *,
         cwd: Path,
         path_hints: tuple[str, ...] = (),
+        directory_hints: tuple[str, ...] = (),
         authored_text: frozenset[str] = frozenset(),
     ) -> None:
         self.repository = repository
@@ -1111,80 +713,87 @@ class ObservationAttributor:
                 if (resolved := repository.file(path)) is not None
             )
         )
+        self.directory_hints = tuple(
+            dict.fromkeys(path for path in directory_hints if path not in {"", "."})
+        )
         self.authored_text = frozenset(
             text.strip() for text in authored_text if text.strip()
         )
 
+    def _hinted(self, path: str) -> bool:
+        return path in self.path_hints or any(
+            path.startswith(f"{directory}/") for directory in self.directory_hints
+        )
+
+    def _run_minimum(self, path: str) -> int:
+        return RUN_MINIMUM if self._hinted(path) else UNHINTED_RUN_MINIMUM
+
     def project(self, observation: str) -> Claim:
         text = self._normalize(observation)
-        available = text.available(set())
-        if not available:
+        if not text.available(set()):
             return Claim.no_base_context(
-                "terminal observation contains no attributable checkout text"
+                "observation contains no attributable checkout text"
             )
-
-        normalized = "\n".join(text.lines)
-        diff = DiffProjector(self.repository, self.cwd).observed(
-            normalized,
-            paths=self.path_hints,
-        )
-        if diff is not None:
-            return diff
-
-        ranges: LineRanges = {}
-        consumed: set[int] = set()
-        handled: set[int] = set()
-        self._path_numbered(text, ranges, consumed, handled)
-        self._numbered(text, ranges, consumed, handled)
-        self._path_prefixed_runs(text, ranges, consumed, handled)
-
-        if not ranges and self._is_path_list(text, consumed):
+        evidence = _Evidence(self.repository)
+        diff = _DiffReader(self.repository, self.cwd, self.path_hints, evidence)
+        consumed = diff.read(text.lines)
+        self._path_numbered(text, evidence, consumed)
+        self._numbered(text, evidence, consumed)
+        self._path_prefixed_runs(text, evidence, consumed)
+        if (
+            not evidence.lines
+            and not diff.saw_hunk
+            and self._is_path_list(text, consumed)
+        ):
             return Claim.discovery(
-                "terminal observation lists checkout paths without source content"
+                "observation lists checkout paths without source content"
             )
+        self._contiguous_lines(text, evidence, consumed)
 
-        self._contiguous_lines(text, ranges, consumed)
+        ranges = evidence.ranges()
         if ranges:
-            unresolved = len(text.available(consumed))
-            reason = "validated source text observed in terminal output"
-            if unresolved:
-                reason += f"; ignored {unresolved} non-source line(s)"
+            reason = "validated base-checkout source in the observation"
+            if whole := [path for path, spans in ranges.items() if not spans]:
+                reason += (
+                    f"; whole-file view of {', '.join(whole)} credits the file only"
+                )
+            if unresolved := len(text.available(consumed)):
+                reason += f"; ignored {unresolved} unattributed line(s)"
             return Claim.verified(ranges, reason)
-        if handled or self.path_hints:
+        if diff.saw_hunk:
             return Claim.no_base_context(
-                "terminal output contains no source matching the base checkout"
+                "observed diff contains no base-revision source at its coordinates"
             )
         return Claim.no_base_context(
-            "terminal observation contains no exact base-checkout source or path list"
+            "observation contains no source matching the base checkout"
         )
 
     def _normalize(self, observation: str) -> _ObservedText:
         lines: list[str] = []
         ignored: set[int] = set()
         traceback_source = False
-        for raw_line in observation.replace("\r\n", "\n").splitlines():
+        for raw_line in split_lines(observation):
             line = _ANSI.sub("", raw_line)
             for prefix in ("[stdout]", "[stderr]"):
                 if line.startswith(prefix):
                     line = line[len(prefix) :]
                     line = line.removeprefix(" ")
-            prompt = _TERMINAL_PROMPT.fullmatch(line)
+            prompt = TERMINAL_PROMPT.fullmatch(line)
             authored = line.strip() in self.authored_text or (
                 prompt is not None and prompt.group(1).strip() in self.authored_text
             )
             index = len(lines)
             lines.append(line)
-            if authored or traceback_source or line.lstrip().startswith((">", "E   ")):
+            if authored or traceback_source or line.startswith(_PYTEST_MARKERS):
                 ignored.add(index)
-            traceback_source = _TRACEBACK_FRAME.fullmatch(line) is not None
+            traceback_source = _TRACEBACK_FRAME.match(line) is not None
         return _ObservedText(tuple(lines), frozenset(ignored))
 
     def _path_numbered(
         self,
         text: _ObservedText,
-        ranges: LineRanges,
+        evidence: _Evidence,
         consumed: set[int],
-        handled: set[int],
     ) -> None:
         for index, line in text.available(consumed):
             match = _PATH_LINE.fullmatch(line) or _PATH_CONTEXT_LINE.fullmatch(line)
@@ -1193,76 +802,152 @@ class ObservationAttributor:
             paths = self.repository.candidate_files(match.group(1), cwd=self.cwd)
             if len(paths) != 1:
                 continue
-            handled.add(index)
-            path = paths[0]
-            number = int(match.group(2))
-            source = self.repository.lines(path)
             content = match.group(3)
-            if 1 <= number <= len(source) and any(
-                self.repository.displayed_line_matches(candidate, source[number - 1])
-                for candidate in (content, content.removeprefix(" "))
+            if evidence.observe(
+                paths[0], int(match.group(2)), (content, content.removeprefix(" "))
             ):
-                ranges.setdefault(path, []).append((number, number))
                 consumed.add(index)
+
+    def _shows(self, path: str, number: int, displayed: tuple[str, ...]) -> bool:
+        source = self.repository.lines(path)
+        return 1 <= number <= len(source) and any(
+            _matches(text, source[number - 1]) for text in displayed
+        )
+
+    def _locate(self, number: int, displayed: tuple[str, ...]) -> str | None:
+        """Return the one file whose line `number` is the displayed text."""
+        if self.path_hints:
+            locations = {
+                path for path in self.path_hints if self._shows(path, number, displayed)
+            }
+        else:
+            locations = {
+                path
+                for text in displayed
+                for path, source_number in self.repository.line_locations(text)
+                if source_number == number
+            }
+        return locations.pop() if len(locations) == 1 else None
+
+    def _numbered_lines(
+        self,
+        text: _ObservedText,
+        consumed: set[int],
+    ) -> list[_Numbered]:
+        # `grep -n -C` marks context lines `N-`; with one file named they are
+        # read as numbered lines of that file.
+        patterns = (
+            (*_NUMBERED_LINES, _GREP_CONTEXT_LINE)
+            if len(self.path_hints) == 1
+            else _NUMBERED_LINES
+        )
+        numbered: list[_Numbered] = []
+        for index, line in text.available(consumed):
+            match = next(
+                (
+                    found
+                    for pattern in patterns
+                    if (found := pattern.fullmatch(line)) is not None
+                ),
+                None,
+            )
+            if match is None:
+                continue
+            number = int(match.group(1))
+            displayed = (match.group(2), match.group(2).removeprefix(" "))
+            path = self._locate(number, displayed)
+            nested = _NESTED_NUMBERED_LINE.fullmatch(line)
+            if path is None and self.path_hints and nested is not None:
+                # `grep -n ... FILE | grep -n ...` prefixes the first grep's
+                # output with its own line number; the inner number is the
+                # file's, and it counts when it validates in one named file.
+                inner = int(nested.group(1))
+                inner_displayed = (nested.group(2), nested.group(2).removeprefix(" "))
+                if (inner_path := self._locate(inner, inner_displayed)) is not None:
+                    number, displayed, path = inner, inner_displayed, inner_path
+            numbered.append(_Numbered(index, number, displayed, path))
+        return numbered
 
     def _numbered(
         self,
         text: _ObservedText,
-        ranges: LineRanges,
+        evidence: _Evidence,
         consumed: set[int],
-        handled: set[int],
     ) -> None:
-        for index, line in text.available(consumed):
-            match = None
-            for pattern in _NUMBERED_LINES:
-                match = pattern.fullmatch(line)
-                if match is not None:
-                    break
-            if match is None:
-                continue
-            handled.add(index)
-            number = int(match.group(1))
-            content = match.group(2)
-            paths = self.path_hints or None
-            locations = {
-                (path, source_number)
-                for candidate in (content, content.removeprefix(" "))
-                for path, source_number in self.repository.line_locations(
-                    candidate,
-                    paths=paths,
-                )
-                if source_number == number
-            }
-            if len(locations) == 1:
-                path, source_number = locations.pop()
-                ranges.setdefault(path, []).append((source_number, source_number))
-                consumed.add(index)
+        """Credit line-numbered output.
 
-    def _path_prefixed_runs(  # noqa: C901 - source-shape validation is sequential.
+        With a path hint, each numbered line counts on its own. Without one, a
+        line counts only among at least two consecutive output lines that
+        locate in the same file; numbered blank lines may sit between them.
+        """
+        numbered = self._numbered_lines(text, consumed)
+        if self.path_hints:
+            for line in numbered:
+                if line.blank:
+                    for path in self.path_hints:
+                        evidence.observe(path, line.number, line.displayed)
+                elif line.path is not None:
+                    evidence.observe(line.path, line.number, line.displayed)
+                    consumed.add(line.index)
+            return
+        group: list[_Numbered] = []
+        for line in [*numbered, None]:
+            group_path = next((item.path for item in group if not item.blank), None)
+            continues = (
+                line is not None
+                and group
+                and line.index == group[-1].index + 1
+                and (line.blank or line.path == group_path or group_path is None)
+            )
+            if not continues:
+                self._numbered_group(group, evidence, consumed)
+                group = []
+            if line is not None and (line.blank or line.path is not None):
+                group.append(line)
+
+    @staticmethod
+    def _numbered_group(
+        group: list[_Numbered],
+        evidence: _Evidence,
+        consumed: set[int],
+    ) -> None:
+        located = [line for line in group if not line.blank]
+        if len(located) < 2:
+            return
+        path = located[0].path
+        if path is None:
+            return
+        for line in group:
+            evidence.observe(path, line.number, line.displayed)
+            if not line.blank:
+                consumed.add(line.index)
+
+    def _prefixed_lines(
         self,
         text: _ObservedText,
-        ranges: LineRanges,
         consumed: set[int],
-        handled: set[int],
-    ) -> None:
+    ) -> list[tuple[int, str, str]]:
+        """Return the lines that name exactly one file before a `:` or `-`."""
         prefixed: list[tuple[int, str, str]] = []
         for index, line in text.available(consumed):
             candidates: set[tuple[str, str]] = set()
             for offset, character in enumerate(line):
                 if character not in {":", "-"}:
                     continue
-                paths = self.repository.candidate_files(
-                    line[:offset],
-                    cwd=self.cwd,
-                )
+                paths = self.repository.candidate_files(line[:offset], cwd=self.cwd)
                 if len(paths) == 1:
                     candidates.add((paths[0], line[offset + 1 :]))
-            if len(candidates) != 1:
-                continue
-            handled.add(index)
-            path, content = candidates.pop()
-            prefixed.append((index, path, content))
+            if len(candidates) == 1:
+                prefixed.append((index, *candidates.pop()))
+        return prefixed
 
+    def _path_prefixed_runs(
+        self,
+        text: _ObservedText,
+        evidence: _Evidence,
+        consumed: set[int],
+    ) -> None:
+        prefixed = self._prefixed_lines(text, consumed)
         start = 0
         while start < len(prefixed):
             end = start + 1
@@ -1273,23 +958,21 @@ class ObservationAttributor:
             ):
                 end += 1
             run = prefixed[start:end]
-            if len(run) >= 2:
-                raw_contents = [item[2] for item in run]
-                matches = []
-                for contents in (
-                    raw_contents,
-                    [content.removeprefix(" ") for content in raw_contents],
-                ):
-                    matches = self.repository.unique_contiguous_matches(
-                        contents,
-                        minimum=2,
-                    )
-                    if matches:
-                        break
-                if len(matches) == 1 and matches[0][2] == run[0][1]:
-                    first, last, path, source_start, source_end = matches[0]
-                    ranges.setdefault(path, []).append((source_start, source_end))
-                    consumed.update(item[0] for item in run[first : last + 1])
+            raw_contents = [item[2] for item in run]
+            matches: list[Run] = []
+            for contents in (
+                raw_contents,
+                [content.removeprefix(" ") for content in raw_contents],
+            ):
+                matches = self.repository.unique_runs(
+                    contents, lambda _path: RUN_MINIMUM
+                )
+                if matches:
+                    break
+            if len(matches) == 1 and matches[0][2] == run[0][1]:
+                first, last, path, source_start, source_end = matches[0]
+                evidence.run(path, source_start, source_end)
+                consumed.update(item[0] for item in run[first : last + 1])
             start = end
 
     def _is_path_list(self, text: _ObservedText, consumed: set[int]) -> bool:
@@ -1308,109 +991,103 @@ class ObservationAttributor:
     def _contiguous_lines(
         self,
         text: _ObservedText,
-        ranges: LineRanges,
+        evidence: _Evidence,
         consumed: set[int],
     ) -> None:
         observed = [
             "\0" if index in text.ignored or index in consumed else line
             for index, line in enumerate(text.lines)
         ]
-        for first, last, path, start, end in self.repository.unique_contiguous_matches(
-            observed,
-            minimum=2,
+        for first, last, path, start, end in self.repository.unique_runs(
+            observed, self._run_minimum
         ):
-            ranges.setdefault(path, []).append((start, end))
+            evidence.run(path, start, end)
             consumed.update(range(first, last + 1))
 
 
-@dataclass(frozen=True)
-class _ShellHints:
-    cwd: Path
-    paths: tuple[str, ...]
-    authored_text: frozenset[str]
-
-
-class ShellProjector:
-    """Use shell text only as optional attribution and echo-removal hints."""
-
-    def __init__(
-        self,
-        repository: SourceRepository,
-        arguments: dict[str, Any],
-        observation: str,
-    ) -> None:
-        self.repository = repository
-        self.arguments = arguments
-        self.observation = observation
-
-    def project(self) -> Claim:
-        hints = self._hints()
-        return ObservationAttributor(
-            self.repository,
-            cwd=hints.cwd,
-            path_hints=hints.paths,
-            authored_text=hints.authored_text,
-        ).project(self.observation)
-
-    def _hints(self) -> _ShellHints:
-        command = self._command_text()
-        tokens = self._tokens(command)
-        cwd = self._working_directory(tokens)
-        paths = tuple(
-            dict.fromkeys(
-                path
-                for token in tokens
-                for path in self.repository.candidate_files(token, cwd=cwd)
-            )
+def shell_claim(
+    repository: SourceRepository, arguments: dict[str, Any], observation: str
+) -> Claim:
+    """Validate shell output, using the command text only as hints."""
+    command = _command_text(arguments)
+    tokens = _tokens(command)
+    cwd = _working_directory(repository, arguments, tokens)
+    paths = tuple(
+        dict.fromkeys(
+            path
+            for token in tokens
+            for path in repository.candidate_files(token, cwd=cwd)
         )
-        authored = {line.strip() for line in command.splitlines() if line.strip()}
-        return _ShellHints(cwd, paths, frozenset(authored))
-
-    def _command_text(self) -> str:
-        command_list = self.arguments.get("commands")
-        listed = (
-            [item for item in command_list if isinstance(item, str) and item.strip()]
-            if isinstance(command_list, list)
-            else []
+    )
+    # The working directory, and a `cd` target, are not hints.
+    directories = tuple(
+        dict.fromkeys(
+            directory.relative_to(repository.root).as_posix()
+            for previous, token in zip(("", *tokens), tokens, strict=False)
+            if previous != "cd"
+            and (directory := repository.directory(token, cwd=cwd)) is not None
+            and directory not in {repository.root, cwd}
         )
-        value = next(
-            (
-                str(self.arguments[key])
-                for key in ("command", "cmd", "keystrokes", "raw_action", "input")
-                if self.arguments.get(key) is not None
-            ),
-            " ; ".join(listed),
-        )
-        return str(value).strip()
+    )
+    authored = frozenset(line.strip() for line in command.splitlines() if line.strip())
+    return ObservationAttributor(
+        repository,
+        cwd=cwd,
+        path_hints=paths,
+        directory_hints=directories,
+        authored_text=authored,
+    ).project(observation)
 
-    @staticmethod
-    def _tokens(command: str) -> tuple[str, ...]:
-        try:
-            return tuple(shlex.split(command, comments=False, posix=True))
-        except ValueError:
-            return tuple(command.split())
 
-    def _working_directory(self, tokens: tuple[str, ...]) -> Path:
-        raw_cwd = str(
-            self.arguments.get("workdir")
-            or self.arguments.get("cwd")
-            or self.arguments.get("dir_path")
-            or self.arguments.get("directory")
-            or "."
-        )
-        cwd = self.repository.directory(raw_cwd) or self.repository.root
-        for index, token in enumerate(tokens[:-1]):
-            if token != "cd":
-                continue
-            changed = self.repository.directory(tokens[index + 1], cwd=cwd)
-            if changed is not None:
-                cwd = changed
-        return cwd
+def _command_text(arguments: dict[str, Any]) -> str:
+    command_list = arguments.get("commands")
+    listed = (
+        [item for item in command_list if isinstance(item, str) and item.strip()]
+        if isinstance(command_list, list)
+        else []
+    )
+    value = next(
+        (
+            str(arguments[key])
+            for key in ("command", "cmd", "keystrokes", "raw_action", "input")
+            if arguments.get(key) is not None
+        ),
+        " ; ".join(listed),
+    )
+    return str(value).strip()
+
+
+def _tokens(command: str) -> tuple[str, ...]:
+    try:
+        return tuple(shlex.split(command, comments=False, posix=True))
+    except ValueError:
+        return tuple(command.split())
+
+
+def _working_directory(
+    repository: SourceRepository, arguments: dict[str, Any], tokens: tuple[str, ...]
+) -> Path:
+    raw_cwd = str(
+        arguments.get("workdir")
+        or arguments.get("cwd")
+        or arguments.get("dir_path")
+        or arguments.get("directory")
+        or "."
+    )
+    cwd = repository.directory(raw_cwd) or repository.root
+    for index, token in enumerate(tokens[:-1]):
+        if token != "cd":
+            continue
+        changed = repository.directory(tokens[index + 1], cwd=cwd)
+        if changed is not None:
+            cwd = changed
+    return cwd
 
 
 __all__ = [
-    "DiffProjector",
+    "TERMINAL_PROMPT",
     "ObservationAttributor",
-    "ShellProjector",
     "SourceRepository",
+    "shell_claim",
+    "split_lines",
 ]

@@ -5,11 +5,15 @@ description = "Harbor adapter for ContextBench"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-    "jinja2>=3.1.0",
     "pyarrow>=20.0.0",
-    "toml>=0.10.2",
     "tree-sitter-language-pack==1.14.3",
 ]
+
+[project.optional-dependencies]
+# Harbor runs the generated tasks and supplies the agent trajectory converters
+# that tests/test_harbor_agents.py and the parity runner use. Task generation
+# and scoring do not import it.
+harbor = ["harbor==0.26.0"]
 
 [project.scripts]
 contextbench = "contextbench.main:main"
@@ -22,17 +26,29 @@ build-backend = "hatchling.build"
 packages = ["src/contextbench"]
 
 [dependency-groups]
+# parity/prepare.py renders ContextBench's prompt template and writes the
+# prepared tasks' TOML. Task generation and scoring do not import them.
+parity = [
+    "jinja2>=3.1.0",
+    "toml>=0.10.2",
+]
 dev = [
+    { include-group = "parity" },
     "hypothesis>=6.155.0",
     "pytest>=8.0",
     "pytest-asyncio>=1.2.0",
     "pytest-cov>=7.1.0",
     "ruff>=0.15.0",
-    "ty>=0.0.1a20",
+    "ty==0.0.74",
 ]
 
 [tool.pytest.ini_options]
 pythonpath = ["."]
+# Run the Docker tests with `pytest -m docker`. Tests that score source files
+# load tree-sitter grammars, which the pack downloads into its user cache on
+# first use.
+addopts = "-m 'not docker'"
+markers = ["docker: builds and runs a verifier image; needs Docker"]
 
 [tool.ruff]
 extend-exclude = ["src/contextbench/vendor/contextbench_source"]
@@ -41,8 +57,8 @@ extend-exclude = ["src/contextbench/vendor/contextbench_source"]
 extend-select = ["C901", "PLR0911", "PLR0912", "PLR0913", "PLR0915"]
 
 [tool.ruff.lint.per-file-ignores]
-# Direct execution bootstraps this standalone project before importing it.
-"parity/audit_atif.py" = ["E402"]
+# The module skips before importing Harbor when the harbor extra is absent.
+"tests/test_harbor_agents.py" = ["E402"]
 
 [tool.ty.environment]
 python = ".venv"
@@ -57,10 +73,9 @@ exclude = [
     # vendor/MANIFEST.sha256, so it cannot be edited to satisfy a type checker.
     # It also targets pre-3.10 typing syntax.
     "src/contextbench/vendor/contextbench_source",
-    # These import `harbor` and `openhands`, which resolve only in the monorepo
-    # root environment and the OpenHands runtime image. Both are also checksum
-    # pinned by parity/harness_experiment.json, which prepare.py enforces before
-    # a parity run, so they cannot absorb suppression comments.
-    "parity/openhands_agent.py",
+    # The shim imports `openhands`, which exists only in the OpenHands runtime
+    # image. parity/harness_experiment.json also pins its checksum, which
+    # prepare.py enforces before a parity run, so it cannot absorb suppression
+    # comments.
     "parity/openhands_compat",
 ]

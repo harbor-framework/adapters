@@ -5,16 +5,13 @@ import json
 import logging
 import sys
 import types
+import uuid
 from pathlib import Path
 from typing import Any
 
 import pytest
 
-HARBOR_ROOT = Path(__file__).parents[3]
-ADAPTER_SRC = Path(__file__).parents[3] / "adapters/contextbench/src"
-sys.path.insert(0, str(ADAPTER_SRC))
-
-from contextbench.attribution.trajectory import Classification, project_atif
+harbor = pytest.importorskip("harbor", reason="install the adapter's harbor extra")
 
 from harbor.agents.factory import AgentFactory
 from harbor.agents.installed.acp import AcpAgent
@@ -33,23 +30,35 @@ from harbor.agents.installed.cortex_code import (
 )
 from harbor.agents.installed.cursor_cli import CursorCli
 from harbor.agents.installed.devin import Devin
+from harbor.agents.installed.fx import Fx, convert_fx_session
+from harbor.agents.installed.fx_dev import FxDev
 from harbor.agents.installed.gemini_cli import GeminiCli
 from harbor.agents.installed.goose import Goose
 from harbor.agents.installed.grok_build import GrokBuild
 from harbor.agents.installed.hermes import Hermes
 from harbor.agents.installed.junie import Junie
 from harbor.agents.installed.kimi_cli import KimiCli
+from harbor.agents.installed.kimi_code_trajectory import (
+    build_trajectory as build_kimi_code_trajectory,
+)
 from harbor.agents.installed.mimo import MiMo
 from harbor.agents.installed.mini_swe_agent import (
     convert_mini_swe_agent_to_atif,
 )
+from harbor.agents.installed.muse_code import MuseCode
 from harbor.agents.installed.openclaw import (
     openclaw_session_jsonl_to_atif_steps,
 )
 from harbor.agents.installed.opencode import OpenCode
+from harbor.agents.installed.opencode_v2 import OpenCodeV2
 from harbor.agents.installed.openhands import OpenHands
+from harbor.agents.installed.pi import Pi
 from harbor.agents.installed.qwen_code import QwenCode
 from harbor.agents.installed.rovodev_cli import RovodevCli
+from harbor.agents.installed.strands_trajectory import (
+    StrandsEvent,
+    convert_strands_to_atif,
+)
 from harbor.agents.installed.swe_agent import (
     convert_swe_agent_to_atif,
 )
@@ -59,7 +68,14 @@ from harbor.agents.terminus_2.terminus_2 import (
     Command,
     _terminal_observation_source_call_id,
 )
+from harbor.models.trajectories import Agent
 from harbor.models.trajectories.trajectory import Trajectory
+
+from contextbench.attribution.trajectory import project_atif
+from contextbench.attribution.types import Classification
+
+_SED = "sed -n '2,3p' src/example.py"
+_LINES_2_3 = "two\nthree\n"
 
 CONTEXTBENCH_CODING_ATIF_AGENT_TESTS = {
     "acp": "test_acp_converter_output_projects_source",
@@ -72,20 +88,27 @@ CONTEXTBENCH_CODING_ATIF_AGENT_TESTS = {
     "cortex-code": "test_cortex_code_converter_output_projects_source",
     "cursor-cli": "test_cursor_converter_output_projects_source",
     "devin": "test_devin_converter_output_projects_source",
+    "fx": "test_fx_converter_output_projects_source",
+    "fx-dev": "test_fx_dev_converter_output_projects_source",
     "gemini-cli": "test_gemini_cli_converter_output_projects_source",
     "goose": "test_goose_converter_output_projects_source",
     "grok-build": "test_grok_build_converter_output_projects_source",
     "hermes": "test_hermes_converter_output_projects_source",
     "junie": "test_junie_converter_output_projects_source",
     "kimi-cli": "test_kimi_cli_converter_output_projects_source",
+    "kimi-code": "test_kimi_code_converter_output_projects_source",
     "mimo": "test_mimo_converter_output_projects_source",
     "mini-swe-agent": "test_mini_swe_agent_converter_output_projects_source",
+    "muse-code": "test_muse_code_converter_output_projects_source",
     "openclaw": "test_openclaw_converter_output_projects_source",
     "opencode": "test_opencode_converter_output_projects_source",
+    "opencode-v2": "test_opencode_v2_converter_output_projects_source",
     "openhands": "test_openhands_converter_output_projects_source",
     "openhands-sdk": "test_openhands_sdk_converter_output_projects_source",
+    "pi": "test_pi_converter_output_projects_source",
     "qwen-coder": "test_qwen_code_converter_output_projects_source",
     "rovodev-cli": "test_rovodev_converter_output_projects_source",
+    "strands": "test_strands_converter_output_projects_source",
     "swe-agent": "test_swe_agent_converter_output_projects_source",
     "terminus-2": "test_terminus_shared_batch_output_projects_source",
     "trae-agent": "test_trae_agent_converter_output_projects_source",
@@ -114,7 +137,7 @@ def _project(
     payload = (
         trajectory.to_json_dict() if hasattr(trajectory, "to_json_dict") else trajectory
     )
-    return project_atif(payload, repository)
+    return project_atif(payload, repository, roots=("/workspace",))
 
 
 def _assert_projected_lines(trajectory: Any, repository: Path) -> None:
@@ -134,36 +157,35 @@ def _load_openhands_sdk_trajectory_builder(
     monkeypatch: pytest.MonkeyPatch,
 ) -> Any:
     """Load the runner's pure converter without installing the OpenHands SDK."""
-    module_names = (
-        "openhands",
-        "openhands.sdk",
-        "openhands.sdk.context",
-        "openhands.sdk.event",
-        "openhands.tools",
-        "openhands.tools.file_editor",
-        "openhands.tools.task_tracker",
-        "openhands.tools.terminal",
-    )
-    modules = {name: types.ModuleType(name) for name in module_names}
-    modules["openhands"].__path__ = []  # type: ignore[attr-defined]
-    modules["openhands.sdk"].__path__ = []  # type: ignore[attr-defined]
-    modules["openhands.tools"].__path__ = []  # type: ignore[attr-defined]
-
     placeholder = type("_OpenHandsPlaceholder", (), {})
-    sdk = modules["openhands.sdk"]
-    for name in ("LLM", "Agent", "AgentContext", "Conversation", "Tool"):
-        setattr(sdk, name, placeholder)
-    sdk.get_logger = logging.getLogger  # type: ignore[attr-defined]
-    modules["openhands.sdk.context"].Skill = placeholder  # type: ignore[attr-defined]
-    for name in ("ActionEvent", "MessageEvent", "ObservationEvent", "TokenEvent"):
-        setattr(modules["openhands.sdk.event"], name, placeholder)
-    modules["openhands.tools.file_editor"].FileEditorTool = placeholder  # type: ignore[attr-defined]
-    modules["openhands.tools.task_tracker"].TaskTrackerTool = placeholder  # type: ignore[attr-defined]
-    modules["openhands.tools.terminal"].TerminalTool = placeholder  # type: ignore[attr-defined]
+    attributes: dict[str, dict[str, Any]] = {
+        "openhands": {},
+        "openhands.sdk": {
+            **dict.fromkeys(
+                ("LLM", "Agent", "AgentContext", "Conversation", "Tool"), placeholder
+            ),
+            "get_logger": logging.getLogger,
+        },
+        "openhands.sdk.context": {"Skill": placeholder},
+        "openhands.sdk.event": dict.fromkeys(
+            ("ActionEvent", "MessageEvent", "ObservationEvent", "TokenEvent"),
+            placeholder,
+        ),
+        "openhands.tools": {},
+        "openhands.tools.file_editor": {"FileEditorTool": placeholder},
+        "openhands.tools.task_tracker": {"TaskTrackerTool": placeholder},
+        "openhands.tools.terminal": {"TerminalTool": placeholder},
+    }
+    modules = {name: types.ModuleType(name) for name in attributes}
+    for package in ("openhands", "openhands.sdk", "openhands.tools"):
+        modules[package].__path__ = []
+    for name, values in attributes.items():
+        for attribute, value in values.items():
+            setattr(modules[name], attribute, value)
     for name, module in modules.items():
         monkeypatch.setitem(sys.modules, name, module)
 
-    path = HARBOR_ROOT / "src/harbor/agents/installed/openhands_sdk_runner.py"
+    path = Path(harbor.__file__).parent / "agents/installed/openhands_sdk_runner.py"
     spec = importlib.util.spec_from_file_location(
         "_contextbench_openhands_sdk_runner", path
     )
@@ -611,51 +633,117 @@ def test_gemini_cli_converter_output_projects_source(
     _assert_projected_lines(trajectory, contextbench_repository)
 
 
-def test_mini_swe_agent_converter_output_projects_source(
-    contextbench_repository: Path,
-) -> None:
-    trajectory = convert_mini_swe_agent_to_atif(
+def _mini_swe_agent_trajectory(*turns: list[dict[str, Any]]) -> Any:
+    """Convert a mini-swe-agent 2.x native trajectory with Harbor's converter.
+
+    Each turn is the messages after one assistant message: its tool messages,
+    and any harness message such as a format error.
+    """
+    messages: list[dict[str, Any]] = [
+        {"role": "user", "content": "Inspect.", "extra": {}}
+    ]
+    for number, turn in enumerate(turns):
+        calls = [message for message in turn if message["role"] == "tool"]
+        messages.append(
+            {
+                "role": "assistant",
+                "content": "",
+                "tool_calls": [
+                    {
+                        "id": message["tool_call_id"],
+                        "type": "function",
+                        "function": {
+                            "name": "bash",
+                            "arguments": json.dumps({"command": message["command"]}),
+                        },
+                    }
+                    for message in calls
+                ],
+                "extra": {"turn": number},
+            }
+        )
+        messages.extend(
+            {key: value for key, value in message.items() if key != "command"}
+            for message in turn
+        )
+    return convert_mini_swe_agent_to_atif(
         {
             "trajectory_format": "mini-swe-agent-1.1",
             "info": {
-                "mini_version": "2.1.0",
+                "mini_version": "2.4.6",
                 "model_stats": {"instance_cost": 0},
-                "config": {
-                    "model": {"model_name": "test/model"},
-                    "agent": {},
-                },
+                "config": {"model": {"model_name": "test/model"}, "agent": {}},
             },
-            "messages": [
-                {"role": "user", "content": "Inspect.", "extra": {}},
-                {
-                    "role": "assistant",
-                    "content": "Reading.",
-                    "tool_calls": [
-                        {
-                            "id": "read-1",
-                            "type": "function",
-                            "function": {
-                                "name": "bash",
-                                "arguments": json.dumps(
-                                    {"command": ("sed -n '2,3p' src/example.py")}
-                                ),
-                            },
-                        }
-                    ],
-                    "extra": {},
-                },
-                {
-                    "role": "tool",
-                    "content": "two\nthree\n",
-                    "tool_call_id": "read-1",
-                    "extra": {},
-                },
-            ],
+            "messages": messages,
         },
         session_id="session",
     )
 
+
+def _mini_tool_message(call_id: str, command: str, output: str) -> dict[str, Any]:
+    # mini-swe-agent 2.x renders each observation as this JSON envelope.
+    return {
+        "role": "tool",
+        "tool_call_id": call_id,
+        "command": command,
+        "content": json.dumps({"returncode": 0, "output": output}, indent=2),
+        "extra": {},
+    }
+
+
+def test_mini_swe_agent_converter_output_projects_source(
+    contextbench_repository: Path,
+) -> None:
+    trajectory = _mini_swe_agent_trajectory(
+        [_mini_tool_message("read-1", _SED, _LINES_2_3)]
+    )
+
     _assert_projected_lines(trajectory, contextbench_repository)
+
+
+def test_mini_swe_agent_parallel_calls_pair_with_their_results(
+    contextbench_repository: Path,
+) -> None:
+    """Harbor's converter keeps no `source_call_id`; results pair in order."""
+    trajectory = _mini_swe_agent_trajectory(
+        [
+            _mini_tool_message("read-1", "ls src", "example.py\n"),
+            _mini_tool_message("read-2", _SED, _LINES_2_3),
+        ]
+    )
+
+    prediction, evidence = _project(trajectory, contextbench_repository)
+
+    assert prediction["pred_spans"] == {
+        "src/example.py": [{"type": "line", "start": 2, "end": 3}]
+    }
+    assert [item["classification"] for item in evidence] == [
+        Classification.DISCOVERY_ONLY,
+        Classification.PROJECTED,
+    ]
+
+
+def test_mini_swe_agent_format_error_leaves_its_step_malformed(
+    contextbench_repository: Path,
+) -> None:
+    """The converter appends the harness's format error to the previous step."""
+    format_error = {
+        "role": "user",
+        "content": "Tool call error:\n\n<error>\nNo tool calls found.\n</error>",
+        "extra": {"interrupt_type": "FormatError"},
+    }
+    trajectory = _mini_swe_agent_trajectory(
+        [_mini_tool_message("read-1", _SED, _LINES_2_3), format_error],
+        [_mini_tool_message("read-2", _SED, _LINES_2_3)],
+    )
+
+    prediction, evidence = _project(trajectory, contextbench_repository)
+
+    assert [item["classification"] for item in evidence] == [
+        Classification.MALFORMED,
+        Classification.PROJECTED,
+    ]
+    assert prediction["pred_files"] == ["src/example.py"]
 
 
 def test_opencode_converter_output_projects_source(
@@ -787,11 +875,7 @@ def test_copilot_cli_converter_output_projects_source(
                     {
                         "toolCallId": "read-1",
                         "name": "view",
-                        "arguments": {
-                            "path": "src/example.py",
-                            "start_line": 2,
-                            "end_line": 3,
-                        },
+                        "arguments": {"path": "src/example.py", "view_range": [2, 3]},
                     }
                 ],
             },
@@ -907,9 +991,7 @@ def test_terminus_shared_batch_output_projects_source(
     ]
 
 
-def test_cortex_code_converter_output_projects_source(
-    contextbench_repository: Path,
-) -> None:
+def _cortex_code_trajectory(name: str, arguments: dict[str, Any], output: str) -> Any:
     trajectory = _convert_conversation_to_trajectory(
         {
             "session_id": "session",
@@ -920,8 +1002,8 @@ def test_cortex_code_converter_output_projects_source(
                         {
                             "type": "tool_use",
                             "id": "read-1",
-                            "name": "bash",
-                            "input": {"command": "sed -n '2,3p' src/example.py"},
+                            "name": name,
+                            "input": arguments,
                         }
                     ],
                 },
@@ -931,7 +1013,7 @@ def test_cortex_code_converter_output_projects_source(
                         {
                             "type": "tool_result",
                             "tool_use_id": "read-1",
-                            "content": "two\nthree\n",
+                            "content": output,
                         }
                     ],
                 },
@@ -941,6 +1023,26 @@ def test_cortex_code_converter_output_projects_source(
         agent_version="test",
     )
     assert trajectory is not None
+    return trajectory
+
+
+def test_cortex_code_converter_output_projects_source(
+    contextbench_repository: Path,
+) -> None:
+    trajectory = _cortex_code_trajectory("bash", {"command": _SED}, _LINES_2_3)
+
+    _assert_projected_lines(trajectory, contextbench_repository)
+
+
+def test_cortex_code_structured_read_projects_lines(
+    contextbench_repository: Path,
+) -> None:
+    """Cortex Code's `read` counts `offset` from 0."""
+    trajectory = _cortex_code_trajectory(
+        "read",
+        {"file_path": "src/example.py", "offset": 1, "limit": 2},
+        "     2\ttwo\n     3\tthree\n",
+    )
 
     _assert_projected_lines(trajectory, contextbench_repository)
 
@@ -993,11 +1095,7 @@ def test_kimi_cli_converter_output_projects_source(
                 "function": {
                     "name": "ReadFile",
                     "arguments": json.dumps(
-                        {
-                            "path": "src/example.py",
-                            "start_line": 2,
-                            "end_line": 3,
-                        }
+                        {"path": "src/example.py", "line_offset": 2, "n_lines": 2}
                     ),
                 },
             },
@@ -1099,10 +1197,10 @@ def test_trae_agent_converter_output_projects_source(
     _assert_projected_lines(trajectory, contextbench_repository)
 
 
-def test_vibe_converter_output_projects_source(
-    contextbench_repository: Path, tmp_path: Path
-) -> None:
-    session_dir = tmp_path / "vibe-session"
+def _vibe_trajectory(
+    logs_dir: Path, name: str, arguments: dict[str, Any], output: str
+) -> Any:
+    session_dir = logs_dir / "vibe-session"
     session_dir.mkdir()
     messages = [
         {
@@ -1111,16 +1209,11 @@ def test_vibe_converter_output_projects_source(
             "tool_calls": [
                 {
                     "id": "read-1",
-                    "function": {
-                        "name": "bash",
-                        "arguments": json.dumps(
-                            {"cmd": "sed -n '2,3p' src/example.py"}
-                        ),
-                    },
+                    "function": {"name": name, "arguments": json.dumps(arguments)},
                 }
             ],
         },
-        {"role": "tool", "tool_call_id": "read-1", "content": "two\nthree\n"},
+        {"role": "tool", "tool_call_id": "read-1", "content": output},
     ]
     (session_dir / "messages.jsonl").write_text(
         "\n".join(json.dumps(message) for message in messages) + "\n",
@@ -1130,9 +1223,30 @@ def test_vibe_converter_output_projects_source(
         json.dumps({"session_id": "session"}),
         encoding="utf-8",
     )
-    agent = Vibe(logs_dir=tmp_path, model_name="mistral/mistral-medium")
+    agent = Vibe(logs_dir=logs_dir, model_name="mistral/mistral-medium")
     trajectory = agent._convert_sessions_to_trajectory([session_dir])
     assert trajectory is not None
+    return trajectory
+
+
+def test_vibe_converter_output_projects_source(
+    contextbench_repository: Path, tmp_path: Path
+) -> None:
+    trajectory = _vibe_trajectory(tmp_path, "bash", {"cmd": _SED}, _LINES_2_3)
+
+    _assert_projected_lines(trajectory, contextbench_repository)
+
+
+def test_vibe_structured_read_projects_lines(
+    contextbench_repository: Path, tmp_path: Path
+) -> None:
+    """Vibe's `read_file` counts `offset` from 0."""
+    trajectory = _vibe_trajectory(
+        tmp_path,
+        "read_file",
+        {"path": "src/example.py", "offset": 1, "limit": 2},
+        _LINES_2_3,
+    )
 
     _assert_projected_lines(trajectory, contextbench_repository)
 
@@ -1471,10 +1585,392 @@ def test_antigravity_sdk_converter_output_projects_source(
                 },
             },
         ],
-        total_prompt_tokens=0,
-        total_completion_tokens=0,
-        total_cached_tokens=0,
+        final_metrics={
+            "total_prompt_tokens": 0,
+            "total_completion_tokens": 0,
+            "total_cached_tokens": 0,
+        },
         agent_version="test",
+    )
+
+    _assert_projected_lines(trajectory, contextbench_repository)
+
+
+def _write_fx_session(logs_dir: Path, call: dict[str, Any], preview: str) -> None:
+    session = logs_dir / "sessions" / "v2" / "root-session"
+    session.mkdir(parents=True)
+    records = [
+        {"kind": "session_created", "id": "root-session", "role": "root", "ts": 1},
+        {"kind": "turn_started"},
+        {"kind": "item", "type": "user", "data": {"text": "Inspect."}},
+        {"kind": "item", "type": "assistant", "data": {"text": ""}},
+        {"kind": "item", "type": "tool_call", "data": call},
+        {
+            "kind": "item",
+            "type": "tool_result",
+            "data": {"call_id": call["call_id"], "preview": preview, "status": "ok"},
+        },
+        {"kind": "turn_committed"},
+    ]
+    (session / "log.jsonl").write_text(
+        "".join(json.dumps(record) + "\n" for record in records), encoding="utf-8"
+    )
+
+
+def test_fx_converter_output_projects_source(
+    contextbench_repository: Path, tmp_path: Path
+) -> None:
+    _write_fx_session(
+        tmp_path,
+        {
+            "call_id": "read-1",
+            "tool_name": "shell",
+            "arguments_json": json.dumps({"command": _SED}),
+        },
+        _LINES_2_3,
+    )
+    trajectory = Fx(
+        logs_dir=tmp_path, model_name="anthropic/claude-sonnet-4-5"
+    ).convert_trajectory(tmp_path)
+    assert trajectory is not None
+
+    _assert_projected_lines(trajectory, contextbench_repository)
+
+
+def test_fx_dev_converter_output_projects_source(
+    contextbench_repository: Path, tmp_path: Path
+) -> None:
+    _write_fx_session(
+        tmp_path,
+        {
+            "call_id": "read-1",
+            "tool_name": "shell",
+            "arguments_json": json.dumps({"command": _SED}),
+        },
+        _LINES_2_3,
+    )
+    trajectory = FxDev(
+        logs_dir=tmp_path, model_name="anthropic/claude-sonnet-4-5"
+    ).convert_trajectory(tmp_path)
+    assert trajectory is not None
+    assert trajectory.agent.name == "fx-dev"
+
+    _assert_projected_lines(trajectory, contextbench_repository)
+
+
+def test_fx_structured_read_projects_lines(
+    contextbench_repository: Path, tmp_path: Path
+) -> None:
+    _write_fx_session(
+        tmp_path,
+        {
+            "call_id": "read-1",
+            "tool_name": "read_file",
+            "arguments_json": json.dumps(
+                {"path": "src/example.py", "start_line": 2, "line_count": 2}
+            ),
+        },
+        "2: two\n3: three\n",
+    )
+    trajectory = convert_fx_session(
+        tmp_path / "sessions", model_name="anthropic/claude-sonnet-4-5", version="test"
+    )
+    assert trajectory is not None
+
+    _assert_projected_lines(trajectory, contextbench_repository)
+
+
+def _write_kimi_code_stream(
+    logs_dir: Path, name: str, arguments: dict[str, Any], output: str
+) -> None:
+    lines = [
+        {"role": "meta", "type": "system.version", "version": "2.6.3"},
+        {
+            "role": "assistant",
+            "content": "",
+            "tool_calls": [
+                {
+                    "id": "read-1",
+                    "function": {"name": name, "arguments": json.dumps(arguments)},
+                }
+            ],
+        },
+        {"role": "tool", "tool_call_id": "read-1", "content": output},
+    ]
+    (logs_dir / "kimi-code.txt").write_text(
+        "".join(json.dumps(line) + "\n" for line in lines), encoding="utf-8"
+    )
+
+
+def test_kimi_code_converter_output_projects_source(
+    contextbench_repository: Path, tmp_path: Path
+) -> None:
+    _write_kimi_code_stream(tmp_path, "Bash", {"command": _SED}, _LINES_2_3)
+    trajectory = build_kimi_code_trajectory(tmp_path, model_name="moonshot/kimi-k2")
+    assert trajectory is not None
+
+    _assert_projected_lines(trajectory, contextbench_repository)
+
+
+def test_kimi_code_structured_read_projects_lines(
+    contextbench_repository: Path, tmp_path: Path
+) -> None:
+    _write_kimi_code_stream(
+        tmp_path,
+        "Read",
+        {"path": "src/example.py", "line_offset": 2, "n_lines": 2},
+        "     2\ttwo\n     3\tthree\n",
+    )
+    trajectory = build_kimi_code_trajectory(tmp_path, model_name="moonshot/kimi-k2")
+    assert trajectory is not None
+
+    _assert_projected_lines(trajectory, contextbench_repository)
+
+
+def _muse_records(
+    name: str, arguments: dict[str, Any], output: str
+) -> list[tuple[int, dict[str, Any]]]:
+    session_id = str(uuid.UUID(int=1))
+    events = [
+        {"kind": "started", "prompt": "Inspect."},
+        {"kind": "model_response_created", "response_id": "response-1"},
+        {
+            "kind": "assistant_tool_calls_committed",
+            "response_id": "response-1",
+            "tool_calls": [
+                {"call_id": "read-1", "name": name, "args": json.dumps(arguments)}
+            ],
+        },
+        {
+            "kind": "tool_result_batch_committed",
+            "results": [{"tool_call_id": "read-1", "text": output}],
+        },
+        {"kind": "terminal", "terminal": "completed", "reason": None},
+    ]
+    return [
+        (
+            position,
+            {
+                "schema_version": 1,
+                "id": f"record-{position}",
+                "stream": {"kind": "session", "id": session_id},
+                "payload": {
+                    "kind": "run",
+                    "run_id": "run-1",
+                    "event": event,
+                    "source_run_record_id": f"source-{position}",
+                },
+            },
+        )
+        for position, event in enumerate(events, start=1)
+    ]
+
+
+def test_muse_code_converter_output_projects_source(
+    contextbench_repository: Path,
+) -> None:
+    trajectory = MuseCode._convert_session(
+        _muse_records("shell", {"command": _SED}, _LINES_2_3),
+        Agent(name="muse-code", version="test"),
+    )
+    assert trajectory is not None
+
+    _assert_projected_lines(trajectory, contextbench_repository)
+
+
+def test_muse_code_structured_read_projects_lines(
+    contextbench_repository: Path,
+) -> None:
+    trajectory = MuseCode._convert_session(
+        _muse_records(
+            "read_file",
+            {"path": "src/example.py", "offset": 2, "limit": 2},
+            "2\ttwo\n3\tthree\n",
+        ),
+        Agent(name="muse-code", version="test"),
+    )
+    assert trajectory is not None
+
+    _assert_projected_lines(trajectory, contextbench_repository)
+
+
+def test_opencode_v2_converter_output_projects_source(
+    contextbench_repository: Path, tmp_path: Path
+) -> None:
+    agent = OpenCodeV2(logs_dir=tmp_path, model_name="anthropic/claude-sonnet-4-5")
+    # V2 may stream a tool_use with no surrounding step_start/step_finish; the
+    # V2 converter synthesizes both.
+    trajectory = agent._convert_events_to_trajectory(
+        [
+            {
+                "type": "tool_use",
+                "timestamp": 1_700_000_000_001,
+                "sessionID": "session",
+                "part": {
+                    "id": "tool-1",
+                    "sessionID": "session",
+                    "messageID": "message-1",
+                    "type": "tool",
+                    "callID": "read-1",
+                    "tool": "bash",
+                    "state": {
+                        "status": "completed",
+                        "input": {"command": _SED},
+                        "output": _LINES_2_3,
+                    },
+                },
+            }
+        ]
+    )
+    assert trajectory is not None
+    assert trajectory.agent.name == "opencode-v2"
+
+    _assert_projected_lines(trajectory, contextbench_repository)
+
+
+def _pi_events(
+    name: str, arguments: dict[str, Any], output: str
+) -> list[tuple[int, dict[str, Any]]]:
+    return [
+        (1, {"type": "session", "id": "session"}),
+        (
+            2,
+            {
+                "type": "message",
+                "message": {
+                    "role": "user",
+                    "content": [{"type": "text", "text": "Inspect."}],
+                },
+            },
+        ),
+        (
+            3,
+            {
+                "type": "message",
+                "message": {
+                    "role": "assistant",
+                    "content": [
+                        {
+                            "type": "toolCall",
+                            "id": "read-1",
+                            "name": name,
+                            "arguments": arguments,
+                        }
+                    ],
+                },
+            },
+        ),
+        (
+            4,
+            {
+                "type": "message",
+                "message": {
+                    "role": "toolResult",
+                    "toolCallId": "read-1",
+                    "toolName": name,
+                    "content": [{"type": "text", "text": output}],
+                },
+            },
+        ),
+    ]
+
+
+def test_pi_converter_output_projects_source(
+    contextbench_repository: Path, tmp_path: Path
+) -> None:
+    agent = Pi(logs_dir=tmp_path, model_name="anthropic/claude-sonnet-4-5")
+    trajectory = agent._convert_session_events_to_trajectory(
+        _pi_events("bash", {"command": _SED}, _LINES_2_3)
+    )
+    assert trajectory is not None
+
+    _assert_projected_lines(trajectory, contextbench_repository)
+
+
+def test_pi_structured_read_projects_lines(
+    contextbench_repository: Path, tmp_path: Path
+) -> None:
+    agent = Pi(logs_dir=tmp_path, model_name="anthropic/claude-sonnet-4-5")
+    trajectory = agent._convert_session_events_to_trajectory(
+        _pi_events(
+            "read", {"path": "src/example.py", "offset": 2, "limit": 2}, "two\nthree"
+        )
+    )
+    assert trajectory is not None
+
+    _assert_projected_lines(trajectory, contextbench_repository)
+
+
+def _strands_events(
+    name: str, arguments: dict[str, Any], output: str
+) -> list[StrandsEvent]:
+    return [
+        {
+            "kind": "message",
+            "message": {"role": "user", "content": [{"text": "Inspect."}]},
+        },
+        {
+            "kind": "message",
+            "message": {
+                "role": "assistant",
+                "content": [
+                    {
+                        "toolUse": {
+                            "toolUseId": "read-1",
+                            "name": name,
+                            "input": arguments,
+                        }
+                    }
+                ],
+            },
+        },
+        {
+            "kind": "message",
+            "message": {
+                "role": "user",
+                "content": [
+                    {
+                        "toolResult": {
+                            "toolUseId": "read-1",
+                            "status": "success",
+                            "content": [{"text": output}],
+                        }
+                    }
+                ],
+            },
+        },
+    ]
+
+
+def test_strands_converter_output_projects_source(
+    contextbench_repository: Path,
+) -> None:
+    trajectory = convert_strands_to_atif(
+        instruction="Inspect.",
+        result={},
+        events=_strands_events("sandbox_shell", {"command": _SED}, _LINES_2_3),
+        agent_name="strands",
+        agent_version="test",
+        session_id="session",
+    )
+
+    _assert_projected_lines(trajectory, contextbench_repository)
+
+
+def test_strands_file_editor_view_projects_lines(
+    contextbench_repository: Path,
+) -> None:
+    trajectory = convert_strands_to_atif(
+        instruction="Inspect.",
+        result={},
+        events=_strands_events(
+            "sandbox_file_editor",
+            {"command": "view", "path": "src/example.py", "view_range": [2, 3]},
+            "     2\ttwo\n     3\tthree\n",
+        ),
+        agent_name="strands",
+        agent_version="test",
+        session_id="session",
     )
 
     _assert_projected_lines(trajectory, contextbench_repository)

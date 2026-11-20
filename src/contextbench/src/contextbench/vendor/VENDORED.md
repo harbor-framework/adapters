@@ -16,5 +16,6 @@ Only the OpenHands extractor is vendored because it is the published reference
 for Harbor's OpenHands parity claim. Harbor's ATIF integration implements
 ContextBench's custom-agent output contract directly; it does not masquerade as
 OpenHands or dispatch to unrelated upstream harness extractors. Private
-OpenHands helpers are accessed only through `src/contextbench/vendor_api.py`,
-which is the review boundary for a future vendor-pin update.
+helpers of the vendored code are accessed only through
+`src/contextbench/vendor_api.py`, which is the review boundary for a future
+vendor-pin update.

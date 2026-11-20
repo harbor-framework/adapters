@@ -13,15 +13,13 @@ from .adapter import (
     download_dataset,
 )
 
-HARBOR_ROOT = Path(__file__).resolve().parents[4]
+DEFAULT_OUTPUT_DIR = Path("datasets/contextbench")
 
 
-def _task_ids(value: str | None) -> list[str] | None:
-    if value is None:
-        return None
+def _task_ids(value: str) -> list[str]:
     result = [item.strip() for item in value.split(",") if item.strip()]
     if not result:
-        raise argparse.ArgumentTypeError("--task-ids must contain at least one ID")
+        raise argparse.ArgumentTypeError("must contain at least one ID")
     return result
 
 
@@ -41,7 +39,11 @@ def build_parser() -> argparse.ArgumentParser:
     source.add_argument(
         "--dataset-path",
         type=Path,
-        help="Local ContextBench parquet file instead of a pinned download.",
+        help=(
+            "Local ContextBench parquet file instead of a pinned download. A copy "
+            "of a pinned dataset keeps its name; other files are labeled "
+            "custom-<first 8 hex digits of their SHA-256>."
+        ),
     )
     parser.add_argument(
         "--split",
@@ -52,8 +54,8 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--output-dir",
         type=Path,
-        default=HARBOR_ROOT / "datasets" / "contextbench",
-        help="Task output directory (default: datasets/contextbench).",
+        default=DEFAULT_OUTPUT_DIR,
+        help=f"Task output directory (default: {DEFAULT_OUTPUT_DIR}).",
     )
     parser.add_argument("--limit", type=int, help="Generate at most N tasks.")
     parser.add_argument(
@@ -63,15 +65,22 @@ def build_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument(
         "--task-ids",
-        help="Comma-separated ContextBench instance IDs, kept in caller order.",
+        type=_task_ids,
+        help=(
+            "Comma-separated ContextBench instance_id values, kept in caller "
+            "order, for example "
+            "SWE-Bench-Verified__python__maintenance__bugfix__90532e38. Source "
+            "benchmark IDs (original_inst_id, such as django__django-13809) are "
+            "not accepted."
+        ),
     )
     parser.add_argument(
         "--skip-invalid-source-rows",
         action="store_true",
         help=(
-            "Generate valid rows and record malformed source rows in the "
-            "generation report. Without this flag, any malformed row aborts "
-            "generation before tasks are written."
+            "Generate the valid selected rows. Without this flag, any malformed "
+            "selected row aborts generation before tasks are written. The "
+            "generation report lists the dataset's malformed rows either way."
         ),
     )
     return parser
@@ -97,11 +106,7 @@ def main() -> None:
             else args.dataset or DEFAULT_DATASET_NAME
         )
         dataset_path = args.dataset_path or download_dataset(DATASETS[dataset_name])
-        task_ids = (
-            list(PARITY_TASK_IDS)
-            if args.split == "parity"
-            else _task_ids(args.task_ids)
-        )
+        task_ids = list(PARITY_TASK_IDS) if args.split == "parity" else args.task_ids
         generated = ContextBenchAdapter(
             dataset_path=dataset_path,
             output_dir=args.output_dir,

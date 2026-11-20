@@ -1,0 +1,3 @@
+# Generated tasks copy these files byte for byte, so Git must not convert
+# their line endings on checkout (core.autocrlf on Windows).
+* -text

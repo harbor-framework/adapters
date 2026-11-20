@@ -61,11 +61,15 @@ def aggregate_contextbench_metrics(
                 key = f"contextbench_trajectory_{statistic}_{granularity}"
                 metrics[key] = _sum(valid, key) / len(valid)
 
-    if any(reward.get("contextbench_editloc_present", 0.0) for reward in valid):
+    # A task without a collected model patch has no edit localization.
+    edited = [
+        reward for reward in valid if reward.get("contextbench_editloc_present", 0.0)
+    ]
+    if edited:
         editloc_recall, editloc_precision = _coverage_precision(
-            _sum(valid, "contextbench_editloc_pred_size"),
-            _sum(valid, "contextbench_editloc_gold_size"),
-            _sum(valid, "contextbench_editloc_intersection"),
+            _sum(edited, "contextbench_editloc_pred_size"),
+            _sum(edited, "contextbench_editloc_gold_size"),
+            _sum(edited, "contextbench_editloc_intersection"),
         )
         metrics["contextbench_editloc_recall"] = editloc_recall
         metrics["contextbench_editloc_precision"] = editloc_precision

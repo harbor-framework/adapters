@@ -5,8 +5,8 @@ from dataclasses import replace
 from pathlib import Path
 from typing import override
 
+from harbor.agents.agent_auth_resolution import ResolvedModelConnection
 from harbor.agents.installed.openhands import OpenHands
-from harbor.agents.model_connection import ResolvedModelConnection
 
 
 class ContextBenchOpenHands(OpenHands):
@@ -70,10 +70,14 @@ class ContextBenchOpenHands(OpenHands):
                 + ", ".join(missing)
             )
 
+        # LiteLLM reaches Bedrock through the AWS credentials alone, so drop any
+        # endpoint Harbor resolved for the client.
         return replace(
             connection,
-            base_url=None,
-            configured_base_url=None,
+            candidate_base_url=None,
+            user_supplied_base_url=None,
+            resolved_base_url=None,
+            base_url_destination_names=[],
             env=env,
         )
 

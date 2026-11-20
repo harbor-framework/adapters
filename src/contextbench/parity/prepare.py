@@ -10,14 +10,23 @@ import json
 import shutil
 import tomllib
 from dataclasses import dataclass
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 from typing import Any
 
 import toml
 from jinja2 import Environment, StrictUndefined
 from pyarrow import Table, parquet
 
-from contextbench.adapter import ContextBenchAdapter
+from contextbench.adapter import (
+    RECORD_BASELINE,
+    ContextBenchAdapter,
+    collect_command,
+    native_environment,
+    pinned_image,
+    sha256_file,
+    write_attribution_config,
+)
+from parity.files import json_sha256, load_json, write_json, write_text
 
 
 @dataclass(frozen=True)
@@ -35,27 +44,10 @@ class _TaskAlignment:
     compatibility_sha256: str
 
 
-def sha256(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as stream:
-        for chunk in iter(lambda: stream.read(1024 * 1024), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
-
-
-def json_sha256(value: object) -> str:
-    encoded = json.dumps(value, sort_keys=True, separators=(",", ":")).encode()
-    return hashlib.sha256(encoded).hexdigest()
-
-
-def write_json(path: Path, value: object) -> None:
-    path.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n")
-
-
 def _rows(path: Path, expected_sha256: str) -> list[dict[str, Any]]:
     if not path.is_file():
         raise ValueError(f"dataset not found: {path}")
-    actual = sha256(path)
+    actual = sha256_file(path)
     if actual != expected_sha256:
         raise ValueError(
             f"dataset checksum mismatch for {path}: expected {expected_sha256}, "
@@ -74,15 +66,27 @@ def _selected_rows(
     return [indexed[instance_id] for instance_id in ids]
 
 
+# Where SWE-bench images, and so the parity images, hold the repository.
+SWE_BENCH_REPOSITORY = "/testbed"
+
+
 def _workspace(row: dict[str, Any]) -> str:
     return f"{row['repo']}__{row['version']}".replace("/", "__")
 
 
+def repository_roots(workspace: str) -> tuple[str, str]:
+    """The paths at which a parity task's agent sees the repository.
+
+    Like a generated task's `/workspace` and native path: the OpenHands
+    workspace the agent works in, and the SWE-bench image's own checkout.
+    """
+    return workspace, SWE_BENCH_REPOSITORY
+
+
 def _image(row: dict[str, Any]) -> str:
-    repository, issue = str(row["instance_id"]).split("__", 1)
-    return (
-        f"docker.io/swebench/sweb.eval.x86_64.{repository}_1776_{issue}:latest"
-    ).lower()
+    return native_environment(
+        "Verified", str(row["instance_id"]), str(row["repo"])
+    ).image
 
 
 def _evaluation_rows(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
@@ -140,7 +144,7 @@ def _dockerfile(row: dict[str, Any]) -> str:
     workspace = _workspace(row)
     root = f"/workspace/{workspace}"
     commit = row["base_commit"]
-    return f"""FROM --platform=linux/amd64 {_image(row)}
+    return f"""FROM --platform=linux/amd64 {pinned_image(_image(row))}
 
 USER root
 
@@ -148,7 +152,7 @@ COPY sitecustomize.py /opt/contextbench-openhands-compat/sitecustomize.py
 
 RUN rm -rf /workspace/* \\
     && mkdir -p /workspace \\
-    && cp -r /testbed {root} \\
+    && cp -r {SWE_BENCH_REPOSITORY} {root} \\
     && git -C {root} reset --hard {commit} \\
     && for remote_name in $(git -C {root} remote); do \\
         git -C {root} remote remove "$remote_name"; \\
@@ -171,6 +175,15 @@ ENV CONDA_DEFAULT_ENV="testbed"
 ENV CONDA_PREFIX="/opt/miniconda3/envs/testbed"
 ENV PATH="/opt/miniconda3/envs/testbed/bin:/opt/miniconda3/condabin:${{PATH}}"
 ENV PYTHONPATH="/opt/contextbench-openhands-compat"
+
+# The adapter's collect command exports the agent's changes against this tree,
+# the base commit plus the files the image leaves untracked, through a copy of
+# this index. The tree is an unreferenced object, so garbage collection must
+# not prune it.
+RUN cd {root} \\
+    && git config gc.auto 0 \\
+    && git config gc.pruneExpire never \\
+{RECORD_BASELINE}
 
 WORKDIR {root}
 """
@@ -202,8 +215,9 @@ def _align_task(
             test_instructions="",
         )
     )
-    (task_dir / "instruction.md").write_text(instruction)
-    (task_dir / "environment/Dockerfile").write_text(_dockerfile(source_row))
+    write_text(task_dir / "instruction.md", instruction)
+    write_text(task_dir / "environment/Dockerfile", _dockerfile(source_row))
+    write_attribution_config(task_dir / "tests", repository_roots(root))
     shutil.copy2(
         alignment.compatibility_path,
         task_dir / "environment/sitecustomize.py",
@@ -225,19 +239,8 @@ def _align_task(
         }
     )
     commit = source_row["base_commit"]
-    task["verifier"]["collect"][0]["command"] = (
-        "mkdir -p /logs/artifacts; "
-        ": > /logs/artifacts/contextbench-collect-error.txt; "
-        f"cd {root}; "
-        f"if git cat-file -e {commit}^{{commit}} "
-        "&& git add -A "
-        f"&& git diff --cached --binary {commit} -- . "
-        "> /logs/artifacts/contextbench-model.patch; then :; "
-        "else : > /logs/artifacts/contextbench-model.patch; "
-        "printf '%s\\n' git_state_invalid "
-        "> /logs/artifacts/contextbench-collect-error.txt; fi"
-    )
-    task_path.write_text(toml.dumps(task))
+    task["verifier"]["collect"][0]["command"] = collect_command(commit, root)
+    write_text(task_path, toml.dumps(task))
 
     task_name = task["task"]["name"]
     return {
@@ -256,7 +259,7 @@ def _align_task(
 
 def _tree_sha256(root: Path) -> str:
     files = [
-        (path.relative_to(root).as_posix(), sha256(path))
+        (path.relative_to(root).as_posix(), sha256_file(path))
         for path in sorted(root.rglob("*"))
         if path.is_file()
     ]
@@ -273,7 +276,7 @@ def _reuse_or_replace_output(
         return None
     manifest_path = output_dir / "manifest.json"
     if not force and manifest_path.is_file():
-        manifest = json.loads(manifest_path.read_text())
+        manifest = load_json(manifest_path)
         unchanged = manifest.get("config_sha256") == config_sha256 and manifest.get(
             "task_tree_sha256"
         ) == _tree_sha256(output_dir / "harbor-tasks")
@@ -285,19 +288,25 @@ def _reuse_or_replace_output(
     return None
 
 
-def _compatibility_file(config: dict[str, Any]) -> tuple[Path, str]:
-    compatibility = config["agent"]["compatibility"]
-    raw_path = compatibility.get("path")
-    expected_sha256 = compatibility.get("sha256")
+COMPATIBILITY_DIR = Path(__file__).resolve().parent / "openhands_compat"
+
+
+def compatibility_file(recorded: dict[str, Any]) -> Path:
+    """Return the adapter's copy of a compatibility file the experiment records.
+
+    The experiment records each file by its path in the checkout that ran it
+    and by its SHA-256. The adapter keeps the files in `parity/openhands_compat`,
+    where the recorded file name selects the copy, whose checksum must match.
+    """
+    raw_path, expected_sha256 = recorded.get("path"), recorded.get("sha256")
     if not isinstance(raw_path, str) or not isinstance(expected_sha256, str):
         raise TypeError("OpenHands compatibility configuration is invalid")
-    repository_root = Path(__file__).resolve().parents[3]
-    path = (repository_root / raw_path).resolve()
-    if not path.is_relative_to(repository_root):
-        raise ValueError("OpenHands compatibility path is outside the Harbor checkout")
-    if sha256(path) != expected_sha256:
-        raise ValueError("OpenHands compatibility shim checksum mismatch")
-    return path, expected_sha256
+    path = COMPATIBILITY_DIR / PurePosixPath(raw_path).name
+    if not path.is_file():
+        raise ValueError(f"missing OpenHands compatibility file: {path}")
+    if sha256_file(path) != expected_sha256:
+        raise ValueError(f"OpenHands compatibility file checksum mismatch: {path}")
+    return path
 
 
 def prepare(
@@ -313,10 +322,12 @@ def prepare(
         return retained
 
     context_config = config["contextbench"]
-    compatibility_path, compatibility_sha256 = _compatibility_file(config)
+    compatibility = config["agent"]["compatibility"]
+    compatibility_path = compatibility_file(compatibility)
+    compatibility_sha256 = compatibility["sha256"]
 
     prompt_path = sources.contextbench_repo / context_config["prompt"]["path"]
-    if sha256(prompt_path) != context_config["prompt"]["sha256"]:
+    if sha256_file(prompt_path) != context_config["prompt"]["sha256"]:
         raise ValueError("ContextBench prompt checksum mismatch")
     prompt = prompt_path.read_text()
 
@@ -392,7 +403,7 @@ def prepare(
     write_json(output_dir / "task-map.json", task_map)
 
     openhands = toml.dumps(_openhands_config(config))
-    (output_dir / "openhands-config.toml").write_text(openhands)
+    write_text(output_dir / "openhands-config.toml", openhands)
     manifest = {
         "schema_version": 1,
         "config_sha256": config_sha,

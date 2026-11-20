@@ -164,7 +164,9 @@ def test_projection_never_raises_and_always_classifies(
     checkout: Path,
     calls: list[tuple[str, dict[str, Any], str]],
 ) -> None:
-    prediction, evidence = project_atif(_trajectory(calls), checkout)
+    prediction, evidence = project_atif(
+        _trajectory(calls), checkout, roots=("/workspace",)
+    )
 
     assert set(prediction) >= {"pred_steps", "pred_files", "pred_spans"}
     assert all(isinstance(path, str) for path in prediction["pred_files"])
@@ -179,7 +181,7 @@ def test_projection_never_raises_and_always_classifies(
         # Containment is a last resort for unknown defects; the fuzz corpus
         # must not be silently absorbed by it. Any contained failure here is
         # a real bug with its traceback attached.
-        assert record["heuristic"] != "registry.contained_failure.v1", record.get(
+        assert record["heuristic"] != "registry.contained_failure", record.get(
             "failure_traceback"
         )
 
@@ -200,4 +202,4 @@ def test_observation_attribution_never_raises(checkout: Path, content: str) -> N
         SourceRepository(checkout),
         cwd=checkout,
     ).project(content)
-    assert claim.decide().classification in Classification
+    assert claim.classification in Classification

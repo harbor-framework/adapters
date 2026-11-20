@@ -1,0 +1,4085 @@
+{
+  "contextbench_commit": "1436c28a8eb95496da4ea69ad458b9f8a8eb7d61",
+  "datasets": {
+    "full": {
+      "file": "full.parquet",
+      "sha256": "2f56535bdc73eb8a68bf4ebb49789d8e9cd4f219ea60df6290b85278aee61ca8",
+      "rows": 1136
+    },
+    "verified": {
+      "file": "contextbench_verified.parquet",
+      "sha256": "e9dcfd504cbfb849ac815a79040c793d0d92f94eecc9b5a4ee3e1445a2f8a791",
+      "rows": 500
+    },
+    "verified-test": {
+      "file": "contextbench_verified_test.parquet",
+      "sha256": "4b560777bc8ba4061c7afa5f98ca2b5c793d0a32f085f25c5c817db0708b3629",
+      "rows": 50
+    },
+    "verified-train": {
+      "file": "contextbench_verified_train.parquet",
+      "sha256": "cd1bc4ddefa69271d4f073f31d54bf33a1c5671800211d9db7e6a3c24435a75d",
+      "rows": 450
+    }
+  },
+  "defects": {
+    "malformed_rows": {
+      "description": "Rows without a problem statement or gold context.",
+      "adapter_handling": "corrections.json restores a missing problem statement from the source release the row copies, and the generation report lists the restoration. A row that cannot be restored aborts generation when it is selected; with --skip-invalid-source-rows it is skipped, and the generation report lists it either way.",
+      "counts": {
+        "full": 4,
+        "verified": 0,
+        "verified-test": 0,
+        "verified-train": 0
+      },
+      "restored": [
+        {
+          "instance_id": "SWE-Bench-Pro__python__maintenance__bugfix__788af515",
+          "field": "problem_statement",
+          "applied_in": [
+            "full"
+          ],
+          "source_instance_is_original_inst_id": true,
+          "value_matches_source": true
+        }
+      ],
+      "not_restorable": "Gold context is ContextBench's own annotation, and no source benchmark has it. These rows' gold context is empty in every published ContextBench revision: the pinned commit, which is still the latest on GitHub, and every revision of the Hugging Face dataset Contextbench/ContextBench.",
+      "instances": {
+        "full": [
+          {
+            "instance_id": "SWE-Bench-Pro__python__maintenance__bugfix__788af515",
+            "error": "problem_statement is empty",
+            "restored": true
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__cpp__maintenance__bugfix__0fd29e35",
+            "error": "gold_context must be a non-empty list",
+            "restored": false
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__javascript__maintenance__bugfix__3cd96c13",
+            "error": "gold_context must be a non-empty list",
+            "restored": false
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__rust__maintenance__bugfix__0e4e102e",
+            "error": "gold_context must be a non-empty list",
+            "restored": false
+          }
+        ],
+        "verified": [],
+        "verified-test": [],
+        "verified-train": []
+      }
+    },
+    "truncated_repo_column": {
+      "description": "Multi-SWE-bench rows whose `repo` column is cut at the first hyphen of the repository name, for example fasterxml/jackson for fasterxml/jackson-core.",
+      "adapter_handling": "The adapter ignores `repo`. It takes the repository from `repo_url`, else from `original_inst_id`, and rejects rows where the two disagree.",
+      "counts": {
+        "full": 88,
+        "verified": 34,
+        "verified-test": 0,
+        "verified-train": 0
+      },
+      "repositories": {
+        "anuraghazra/github": [
+          "anuraghazra/github-readme-stats"
+        ],
+        "fasterxml/jackson": [
+          "fasterxml/jackson-core",
+          "fasterxml/jackson-databind",
+          "fasterxml/jackson-dataformat-xml"
+        ],
+        "grpc/grpc": [
+          "grpc/grpc-go"
+        ],
+        "mui/material": [
+          "mui/material-ui"
+        ],
+        "zeromicro/go": [
+          "zeromicro/go-zero"
+        ]
+      },
+      "instances": {
+        "full": [
+          "Multi-SWE-Bench__go__maintenance__bugfix__2b484fcd",
+          "Multi-SWE-Bench__go__maintenance__bugfix__2f844c5a",
+          "Multi-SWE-Bench__go__maintenance__bugfix__74cafcca",
+          "Multi-SWE-Bench__go__maintenance__bugfix__90b3c707",
+          "Multi-SWE-Bench__go__maintenance__bugfix__b64d0325",
+          "Multi-SWE-Bench__go__maintenance__bugfix__b6be998e",
+          "Multi-SWE-Bench__go__maintenance__bugfix__ed8db47d",
+          "Multi-SWE-Bench__java__maintenance__bugfix__07d7817b",
+          "Multi-SWE-Bench__java__maintenance__bugfix__0b6512c8",
+          "Multi-SWE-Bench__java__maintenance__bugfix__167a45c5",
+          "Multi-SWE-Bench__java__maintenance__bugfix__1e49fe9b",
+          "Multi-SWE-Bench__java__maintenance__bugfix__1fceae89",
+          "Multi-SWE-Bench__java__maintenance__bugfix__23ed271f",
+          "Multi-SWE-Bench__java__maintenance__bugfix__2bd87230",
+          "Multi-SWE-Bench__java__maintenance__bugfix__2fc9583e",
+          "Multi-SWE-Bench__java__maintenance__bugfix__2ffa7c93",
+          "Multi-SWE-Bench__java__maintenance__bugfix__30e97967",
+          "Multi-SWE-Bench__java__maintenance__bugfix__36a08326",
+          "Multi-SWE-Bench__java__maintenance__bugfix__37e0db74",
+          "Multi-SWE-Bench__java__maintenance__bugfix__488338ae",
+          "Multi-SWE-Bench__java__maintenance__bugfix__4c9564d0",
+          "Multi-SWE-Bench__java__maintenance__bugfix__4d196265",
+          "Multi-SWE-Bench__java__maintenance__bugfix__5eea2978",
+          "Multi-SWE-Bench__java__maintenance__bugfix__65cd72b7",
+          "Multi-SWE-Bench__java__maintenance__bugfix__6ba3d94b",
+          "Multi-SWE-Bench__java__maintenance__bugfix__6bd8aca7",
+          "Multi-SWE-Bench__java__maintenance__bugfix__7c19351d",
+          "Multi-SWE-Bench__java__maintenance__bugfix__7d3a8f0c",
+          "Multi-SWE-Bench__java__maintenance__bugfix__9a3d9d3f",
+          "Multi-SWE-Bench__java__maintenance__bugfix__b60ac839",
+          "Multi-SWE-Bench__java__maintenance__bugfix__be0b5fff",
+          "Multi-SWE-Bench__java__maintenance__bugfix__be63553e",
+          "Multi-SWE-Bench__java__maintenance__bugfix__e1b10b60",
+          "Multi-SWE-Bench__java__maintenance__bugfix__ec4f6157",
+          "Multi-SWE-Bench__java__maintenance__bugfix__f0db9a27",
+          "Multi-SWE-Bench__java__maintenance__bugfix__f3dcac34",
+          "Multi-SWE-Bench__java__maintenance__bugfix__f72ebf63",
+          "Multi-SWE-Bench__java__maintenance__bugfix__fa49b08d",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__0ed136bf",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__3db06908",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__e1b1c62b",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__04b981d7",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__05c53458",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__05c9e61e",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__0a4f7929",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__0ae3b255",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__0b0f1e0e",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__0c53b6a1",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__0fed75c5",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__1ac0bb81",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__1e99f2c7",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__1ff281e5",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__2be123a6",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__2c753cff",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__2cdfd9a1",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__3a348b16",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__3cb539ec",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__3d366b5c",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__41a5a6f5",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__4b02a4db",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__4c3f5d3d",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__5aed9f96",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__5bbc1cb0",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__5f6606a5",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__6cb88b18",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__6f9b5ff2",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__73fc043b",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__77b5a0cc",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__7958c8a7",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__7c573a46",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__7ee2742e",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__7f347fd7",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__84424f7e",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__898aa1de",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__8ae98e43",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__8d0f55cd",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__8d36ca39",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__8fcb53e6",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__95ee98dd",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__9907b12d",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__9aef9350",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__9bdfae2c",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__a277aace",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__a7aba10f",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__b8bf59e7",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__c24eb7dc",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__c3284db4",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__dbff0193"
+        ],
+        "verified": [
+          "Multi-SWE-Bench__go__maintenance__bugfix__74cafcca",
+          "Multi-SWE-Bench__go__maintenance__bugfix__ed8db47d",
+          "Multi-SWE-Bench__java__maintenance__bugfix__07d7817b",
+          "Multi-SWE-Bench__java__maintenance__bugfix__2bd87230",
+          "Multi-SWE-Bench__java__maintenance__bugfix__36a08326",
+          "Multi-SWE-Bench__java__maintenance__bugfix__5eea2978",
+          "Multi-SWE-Bench__java__maintenance__bugfix__6ba3d94b",
+          "Multi-SWE-Bench__java__maintenance__bugfix__9a3d9d3f",
+          "Multi-SWE-Bench__java__maintenance__bugfix__be0b5fff",
+          "Multi-SWE-Bench__java__maintenance__bugfix__ec4f6157",
+          "Multi-SWE-Bench__java__maintenance__bugfix__f0db9a27",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__04b981d7",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__05c53458",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__05c9e61e",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__0b0f1e0e",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__1ac0bb81",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__1ff281e5",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__3cb539ec",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__41a5a6f5",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__4c3f5d3d",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__5aed9f96",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__6cb88b18",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__6f9b5ff2",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__73fc043b",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__7958c8a7",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__898aa1de",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__8d0f55cd",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__8d36ca39",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__8fcb53e6",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__9907b12d",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__9bdfae2c",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__a7aba10f",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__b8bf59e7",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__c3284db4"
+        ],
+        "verified-test": [],
+        "verified-train": []
+      }
+    },
+    "split_disagrees_with_verified": {
+      "description": "`verified` is the union of the two splits and a subset of `full`, but the rows for one instance are not always equal. Rows are compared with `verified` on their shared columns.",
+      "adapter_handling": "Each dataset keeps its own content, and every task name includes the dataset, so one task name never maps to two contents.",
+      "counts": {
+        "full": 0,
+        "verified-test": 16,
+        "verified-train": 140
+      },
+      "verified_is_the_union_of_the_splits": true,
+      "verified_is_a_subset_of_full": true,
+      "differences_by_column": {
+        "full": {},
+        "verified-test": {
+          "f2p": 16,
+          "gold_context": 11,
+          "p2p": 16,
+          "repo": 16
+        },
+        "verified-train": {
+          "f2p": 140,
+          "gold_context": 89,
+          "p2p": 140,
+          "repo": 140
+        }
+      },
+      "different_scored_gold": {
+        "full": [],
+        "verified-test": [
+          "Multi-SWE-Bench__c__maintenance__bugfix__49f4a0f4",
+          "Multi-SWE-Bench__c__maintenance__bugfix__6b844996",
+          "Multi-SWE-Bench__go__maintenance__bugfix__2fea5f6b",
+          "Multi-SWE-Bench__go__maintenance__bugfix__85c030cf",
+          "Multi-SWE-Bench__java__maintenance__bugfix__2bd87230",
+          "Multi-SWE-Bench__java__maintenance__bugfix__5eea2978",
+          "Multi-SWE-Bench__java__maintenance__bugfix__6ba3d94b",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__2f405b15",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__72488b59",
+          "Multi-SWE-Bench__rust__maintenance__bugfix__1b6e3d94",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__73fc043b"
+        ],
+        "verified-train": [
+          "Multi-SWE-Bench__c__maintenance__bugfix__0f94ce4d",
+          "Multi-SWE-Bench__c__maintenance__bugfix__1ac60ce9",
+          "Multi-SWE-Bench__c__maintenance__bugfix__1e195cd6",
+          "Multi-SWE-Bench__c__maintenance__bugfix__1e842312",
+          "Multi-SWE-Bench__c__maintenance__bugfix__45da4482",
+          "Multi-SWE-Bench__c__maintenance__bugfix__538e9f59",
+          "Multi-SWE-Bench__c__maintenance__bugfix__634fe9b8",
+          "Multi-SWE-Bench__c__maintenance__bugfix__8bffb1b1",
+          "Multi-SWE-Bench__c__maintenance__bugfix__9a7be8ba",
+          "Multi-SWE-Bench__c__maintenance__bugfix__a47dfbbf",
+          "Multi-SWE-Bench__c__maintenance__bugfix__b9b45262",
+          "Multi-SWE-Bench__c__maintenance__bugfix__d22bf206",
+          "Multi-SWE-Bench__c__maintenance__bugfix__f9bb5442",
+          "Multi-SWE-Bench__cpp__maintenance__bugfix__41b108ee",
+          "Multi-SWE-Bench__cpp__maintenance__bugfix__4a37a167",
+          "Multi-SWE-Bench__cpp__maintenance__bugfix__bca55dea",
+          "Multi-SWE-Bench__cpp__maintenance__bugfix__e43d9aa5",
+          "Multi-SWE-Bench__cpp__maintenance__bugfix__fe080aac",
+          "Multi-SWE-Bench__go__maintenance__bugfix__0498ad7f",
+          "Multi-SWE-Bench__go__maintenance__bugfix__0b78ed50",
+          "Multi-SWE-Bench__go__maintenance__bugfix__0e3febd0",
+          "Multi-SWE-Bench__go__maintenance__bugfix__0f79e39c",
+          "Multi-SWE-Bench__go__maintenance__bugfix__1b8cfbf9",
+          "Multi-SWE-Bench__go__maintenance__bugfix__250649eb",
+          "Multi-SWE-Bench__go__maintenance__bugfix__2a889a1d",
+          "Multi-SWE-Bench__go__maintenance__bugfix__3c9b757f",
+          "Multi-SWE-Bench__go__maintenance__bugfix__3d1b3145",
+          "Multi-SWE-Bench__go__maintenance__bugfix__3d85271b",
+          "Multi-SWE-Bench__go__maintenance__bugfix__3da242a2",
+          "Multi-SWE-Bench__go__maintenance__bugfix__3deeea9c",
+          "Multi-SWE-Bench__go__maintenance__bugfix__3e2d031f",
+          "Multi-SWE-Bench__go__maintenance__bugfix__3e92c76b",
+          "Multi-SWE-Bench__go__maintenance__bugfix__4606de0b",
+          "Multi-SWE-Bench__go__maintenance__bugfix__52c152ba",
+          "Multi-SWE-Bench__go__maintenance__bugfix__6e022940",
+          "Multi-SWE-Bench__go__maintenance__bugfix__74cafcca",
+          "Multi-SWE-Bench__go__maintenance__bugfix__8d23605c",
+          "Multi-SWE-Bench__go__maintenance__bugfix__9e8a151e",
+          "Multi-SWE-Bench__go__maintenance__bugfix__d129d52f",
+          "Multi-SWE-Bench__go__maintenance__bugfix__ed8db47d",
+          "Multi-SWE-Bench__go__maintenance__bugfix__ff0cfab5",
+          "Multi-SWE-Bench__java__maintenance__bugfix__1665de74",
+          "Multi-SWE-Bench__java__maintenance__bugfix__8b7cc5e0",
+          "Multi-SWE-Bench__java__maintenance__bugfix__92782c7b",
+          "Multi-SWE-Bench__java__maintenance__bugfix__be0b5fff",
+          "Multi-SWE-Bench__java__maintenance__bugfix__ef567ef1",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__01d1908e",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__1081c568",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__2f838a18",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__5b47b0dd",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__838d3d25",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__87d9772c",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__a98dbc6f",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__bb727b6d",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__d33de279",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__eea782b2",
+          "Multi-SWE-Bench__rust__maintenance__bugfix__03fdad45",
+          "Multi-SWE-Bench__rust__maintenance__bugfix__0e4346f7",
+          "Multi-SWE-Bench__rust__maintenance__bugfix__16860730",
+          "Multi-SWE-Bench__rust__maintenance__bugfix__2dc6f037",
+          "Multi-SWE-Bench__rust__maintenance__bugfix__37f525d2",
+          "Multi-SWE-Bench__rust__maintenance__bugfix__3a4062fe",
+          "Multi-SWE-Bench__rust__maintenance__bugfix__3be02163",
+          "Multi-SWE-Bench__rust__maintenance__bugfix__3c69099b",
+          "Multi-SWE-Bench__rust__maintenance__bugfix__627665a2",
+          "Multi-SWE-Bench__rust__maintenance__bugfix__aa16b8b2",
+          "Multi-SWE-Bench__rust__maintenance__bugfix__c363219b",
+          "Multi-SWE-Bench__rust__maintenance__bugfix__c9cd2b2c",
+          "Multi-SWE-Bench__rust__maintenance__bugfix__d3133dfb",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__04b981d7",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__05c53458",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__0b0f1e0e",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__18eac778",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__1ac0bb81",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__1ff281e5",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__2fb50735",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__41a5a6f5",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__4c3f5d3d",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__5aed9f96",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__6a53360d",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__6cb88b18",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__6f9b5ff2",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__7958c8a7",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__898aa1de",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__8d0f55cd",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__8d36ca39",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__8fcb53e6",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__b8bf59e7",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__c3284db4"
+        ]
+      },
+      "instances": {
+        "full": [],
+        "verified-test": [
+          "Multi-SWE-Bench__c__maintenance__bugfix__49f4a0f4",
+          "Multi-SWE-Bench__c__maintenance__bugfix__6b844996",
+          "Multi-SWE-Bench__go__maintenance__bugfix__2fea5f6b",
+          "Multi-SWE-Bench__go__maintenance__bugfix__4d9664f3",
+          "Multi-SWE-Bench__go__maintenance__bugfix__85c030cf",
+          "Multi-SWE-Bench__java__maintenance__bugfix__2bd87230",
+          "Multi-SWE-Bench__java__maintenance__bugfix__5eea2978",
+          "Multi-SWE-Bench__java__maintenance__bugfix__6ba3d94b",
+          "Multi-SWE-Bench__java__maintenance__bugfix__9a3d9d3f",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__2f405b15",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__72488b59",
+          "Multi-SWE-Bench__rust__maintenance__bugfix__1b6e3d94",
+          "Multi-SWE-Bench__rust__maintenance__bugfix__1cadcb7d",
+          "Multi-SWE-Bench__rust__maintenance__bugfix__bdc6ab14",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__54ebe590",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__73fc043b"
+        ],
+        "verified-train": [
+          "Multi-SWE-Bench__c__maintenance__bugfix__0f495035",
+          "Multi-SWE-Bench__c__maintenance__bugfix__0f94ce4d",
+          "Multi-SWE-Bench__c__maintenance__bugfix__1ac60ce9",
+          "Multi-SWE-Bench__c__maintenance__bugfix__1e195cd6",
+          "Multi-SWE-Bench__c__maintenance__bugfix__1e842312",
+          "Multi-SWE-Bench__c__maintenance__bugfix__39769692",
+          "Multi-SWE-Bench__c__maintenance__bugfix__45da4482",
+          "Multi-SWE-Bench__c__maintenance__bugfix__538e9f59",
+          "Multi-SWE-Bench__c__maintenance__bugfix__5dc9809e",
+          "Multi-SWE-Bench__c__maintenance__bugfix__5e659108",
+          "Multi-SWE-Bench__c__maintenance__bugfix__634fe9b8",
+          "Multi-SWE-Bench__c__maintenance__bugfix__7b474035",
+          "Multi-SWE-Bench__c__maintenance__bugfix__8bffb1b1",
+          "Multi-SWE-Bench__c__maintenance__bugfix__8f9042e3",
+          "Multi-SWE-Bench__c__maintenance__bugfix__9a7be8ba",
+          "Multi-SWE-Bench__c__maintenance__bugfix__a47dfbbf",
+          "Multi-SWE-Bench__c__maintenance__bugfix__b8c88ac8",
+          "Multi-SWE-Bench__c__maintenance__bugfix__b9b45262",
+          "Multi-SWE-Bench__c__maintenance__bugfix__cdbc5890",
+          "Multi-SWE-Bench__c__maintenance__bugfix__d22bf206",
+          "Multi-SWE-Bench__c__maintenance__bugfix__f9bb5442",
+          "Multi-SWE-Bench__cpp__maintenance__bugfix__1ec2c84a",
+          "Multi-SWE-Bench__cpp__maintenance__bugfix__3e497d27",
+          "Multi-SWE-Bench__cpp__maintenance__bugfix__41b108ee",
+          "Multi-SWE-Bench__cpp__maintenance__bugfix__4a37a167",
+          "Multi-SWE-Bench__cpp__maintenance__bugfix__6a4e21e9",
+          "Multi-SWE-Bench__cpp__maintenance__bugfix__7c9ef76c",
+          "Multi-SWE-Bench__cpp__maintenance__bugfix__8ebb764e",
+          "Multi-SWE-Bench__cpp__maintenance__bugfix__bca55dea",
+          "Multi-SWE-Bench__cpp__maintenance__bugfix__e43d9aa5",
+          "Multi-SWE-Bench__cpp__maintenance__bugfix__fe080aac",
+          "Multi-SWE-Bench__go__maintenance__bugfix__03f04397",
+          "Multi-SWE-Bench__go__maintenance__bugfix__0498ad7f",
+          "Multi-SWE-Bench__go__maintenance__bugfix__0b78ed50",
+          "Multi-SWE-Bench__go__maintenance__bugfix__0e3febd0",
+          "Multi-SWE-Bench__go__maintenance__bugfix__0f79e39c",
+          "Multi-SWE-Bench__go__maintenance__bugfix__1384380d",
+          "Multi-SWE-Bench__go__maintenance__bugfix__1b8cfbf9",
+          "Multi-SWE-Bench__go__maintenance__bugfix__1ba303a5",
+          "Multi-SWE-Bench__go__maintenance__bugfix__250649eb",
+          "Multi-SWE-Bench__go__maintenance__bugfix__2a889a1d",
+          "Multi-SWE-Bench__go__maintenance__bugfix__2c512ec3",
+          "Multi-SWE-Bench__go__maintenance__bugfix__3c9b757f",
+          "Multi-SWE-Bench__go__maintenance__bugfix__3d1b3145",
+          "Multi-SWE-Bench__go__maintenance__bugfix__3d85271b",
+          "Multi-SWE-Bench__go__maintenance__bugfix__3da242a2",
+          "Multi-SWE-Bench__go__maintenance__bugfix__3deeea9c",
+          "Multi-SWE-Bench__go__maintenance__bugfix__3e2d031f",
+          "Multi-SWE-Bench__go__maintenance__bugfix__3e92c76b",
+          "Multi-SWE-Bench__go__maintenance__bugfix__4606de0b",
+          "Multi-SWE-Bench__go__maintenance__bugfix__52c152ba",
+          "Multi-SWE-Bench__go__maintenance__bugfix__6d48775e",
+          "Multi-SWE-Bench__go__maintenance__bugfix__6e022940",
+          "Multi-SWE-Bench__go__maintenance__bugfix__73631dc4",
+          "Multi-SWE-Bench__go__maintenance__bugfix__74cafcca",
+          "Multi-SWE-Bench__go__maintenance__bugfix__8d23605c",
+          "Multi-SWE-Bench__go__maintenance__bugfix__9e8a151e",
+          "Multi-SWE-Bench__go__maintenance__bugfix__cedbb0cb",
+          "Multi-SWE-Bench__go__maintenance__bugfix__d129d52f",
+          "Multi-SWE-Bench__go__maintenance__bugfix__eb5704a5",
+          "Multi-SWE-Bench__go__maintenance__bugfix__ed8db47d",
+          "Multi-SWE-Bench__go__maintenance__bugfix__ff0cfab5",
+          "Multi-SWE-Bench__java__maintenance__bugfix__07d7817b",
+          "Multi-SWE-Bench__java__maintenance__bugfix__14da06bc",
+          "Multi-SWE-Bench__java__maintenance__bugfix__1665de74",
+          "Multi-SWE-Bench__java__maintenance__bugfix__36a08326",
+          "Multi-SWE-Bench__java__maintenance__bugfix__747c7f60",
+          "Multi-SWE-Bench__java__maintenance__bugfix__8b7cc5e0",
+          "Multi-SWE-Bench__java__maintenance__bugfix__92782c7b",
+          "Multi-SWE-Bench__java__maintenance__bugfix__be0b5fff",
+          "Multi-SWE-Bench__java__maintenance__bugfix__ec4f6157",
+          "Multi-SWE-Bench__java__maintenance__bugfix__ef567ef1",
+          "Multi-SWE-Bench__java__maintenance__bugfix__f0db9a27",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__01d1908e",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__1081c568",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__2d9d9f71",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__2f838a18",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__3d4cfa9c",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__3d84a3a4",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__5b47b0dd",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__838d3d25",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__87d9772c",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__98bbaed2",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__a98dbc6f",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__b31d2f53",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__bb727b6d",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__bd81816f",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__cbea412a",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__d33de279",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__eea782b2",
+          "Multi-SWE-Bench__rust__maintenance__bugfix__03fdad45",
+          "Multi-SWE-Bench__rust__maintenance__bugfix__0e4346f7",
+          "Multi-SWE-Bench__rust__maintenance__bugfix__16860730",
+          "Multi-SWE-Bench__rust__maintenance__bugfix__2dc6f037",
+          "Multi-SWE-Bench__rust__maintenance__bugfix__37f525d2",
+          "Multi-SWE-Bench__rust__maintenance__bugfix__3a4062fe",
+          "Multi-SWE-Bench__rust__maintenance__bugfix__3be02163",
+          "Multi-SWE-Bench__rust__maintenance__bugfix__3c69099b",
+          "Multi-SWE-Bench__rust__maintenance__bugfix__627665a2",
+          "Multi-SWE-Bench__rust__maintenance__bugfix__7acaca55",
+          "Multi-SWE-Bench__rust__maintenance__bugfix__908342f0",
+          "Multi-SWE-Bench__rust__maintenance__bugfix__92158fba",
+          "Multi-SWE-Bench__rust__maintenance__bugfix__aa16b8b2",
+          "Multi-SWE-Bench__rust__maintenance__bugfix__ae8b362a",
+          "Multi-SWE-Bench__rust__maintenance__bugfix__c363219b",
+          "Multi-SWE-Bench__rust__maintenance__bugfix__c9cd2b2c",
+          "Multi-SWE-Bench__rust__maintenance__bugfix__d3133dfb",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__04b981d7",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__04c51be7",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__05c53458",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__05c9e61e",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__0b0f1e0e",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__18eac778",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__1ac0bb81",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__1ff281e5",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__2aa6fa4c",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__2fb50735",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__3cb539ec",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__41a5a6f5",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__4c3f5d3d",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__5aed9f96",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__5eee261d",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__6a14056a",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__6a53360d",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__6cb88b18",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__6f9b5ff2",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__7958c8a7",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__7c41997b",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__898aa1de",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__8d0f55cd",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__8d2ac221",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__8d36ca39",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__8fcb53e6",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__9907b12d",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__9bdfae2c",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__a7aba10f",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__b8bf59e7",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__c3284db4",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__c8b82135",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__ff629f34"
+        ]
+      }
+    },
+    "unmatchable_gold_files": {
+      "description": "Gold files, as the verifier scores them, that no prediction can match, so they cap the oracle's file coverage at `oracle_maximum`. `gold_path_mangled_upstream`: the annotation names an existing dotfile by a repository-relative path, and ContextBench's gold parser strips the dot with `lstrip(\"./\")`, so `.github/x.yml` is scored as `github/x.yml`. `absent_at_base_commit`: the file does not exist at the base commit, such as a reproduction script the annotator wrote.",
+      "adapter_handling": "Kept, as in native scoring: gold.json keeps the raw paths, and the verifier normalizes them once with ContextBench's parser, so these tasks cannot reach a reward of 1.0.",
+      "counts": {
+        "full": 88,
+        "verified": 13,
+        "verified-test": 3,
+        "verified-train": 19
+      },
+      "files_by_reason": {
+        "full": {
+          "absent_at_base_commit": 97,
+          "gold_path_mangled_upstream": 13
+        },
+        "verified": {
+          "absent_at_base_commit": 8,
+          "gold_path_mangled_upstream": 10
+        },
+        "verified-test": {
+          "absent_at_base_commit": 2,
+          "gold_path_mangled_upstream": 1
+        },
+        "verified-train": {
+          "absent_at_base_commit": 22,
+          "gold_path_mangled_upstream": 7
+        }
+      },
+      "instances": {
+        "full": [
+          {
+            "instance_id": "Multi-SWE-Bench__c__maintenance__bugfix__3706785f",
+            "task_name": "contextbench/full-27e2e8ed44e4585f",
+            "oracle_maximum": 0.5,
+            "files": [
+              {
+                "file": "comprehensive_uri_test.sh",
+                "raw_files": [
+                  "/workspace/comprehensive_uri_test.sh"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__c__maintenance__bugfix__5adf8efc",
+            "task_name": "contextbench/full-b650c95087c460cb",
+            "oracle_maximum": 0.75,
+            "files": [
+              {
+                "file": "reproduce.sh",
+                "raw_files": [
+                  "/workspace/reproduce.sh"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__cpp__maintenance__bugfix__044dead0",
+            "task_name": "contextbench/full-7a8f1045080141c3",
+            "oracle_maximum": 0.666667,
+            "files": [
+              {
+                "file": "reproduce.cpp",
+                "raw_files": [
+                  "/workspace/reproduce.cpp"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__cpp__maintenance__bugfix__0ee2775d",
+            "task_name": "contextbench/full-7c2cd45e2ca0f86a",
+            "oracle_maximum": 0.666667,
+            "files": [
+              {
+                "file": "reproduce.cpp",
+                "raw_files": [
+                  "/workspace/reproduce.cpp"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__cpp__maintenance__bugfix__14448d2b",
+            "task_name": "contextbench/full-89715cf60b00f150",
+            "oracle_maximum": 0.666667,
+            "files": [
+              {
+                "file": "include/nlohmann/detail/ordered_map.hpp",
+                "raw_files": [
+                  "/workspace/nlohmann__json__0.1/include/nlohmann/detail/ordered_map.hpp"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__cpp__maintenance__bugfix__2d3f06e5",
+            "task_name": "contextbench/full-d5f34535a5d51f4a",
+            "oracle_maximum": 0.75,
+            "files": [
+              {
+                "file": "reproduce.cpp",
+                "raw_files": [
+                  "/workspace/reproduce.cpp"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__cpp__maintenance__bugfix__6a5b64d1",
+            "task_name": "contextbench/full-dbdbb3f8670125e5",
+            "oracle_maximum": 0.5,
+            "files": [
+              {
+                "file": "reproduce.cpp",
+                "raw_files": [
+                  "/workspace/reproduce.cpp"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__cpp__maintenance__bugfix__7ae95c21",
+            "task_name": "contextbench/full-de67af1f6a148e83",
+            "oracle_maximum": 0.857143,
+            "files": [
+              {
+                "file": "simdjson.h",
+                "raw_files": [
+                  "/workspace/simdjson.h"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__cpp__maintenance__bugfix__8d98e6e0",
+            "task_name": "contextbench/full-7f3b510fc6da28ac",
+            "oracle_maximum": 0.5,
+            "files": [
+              {
+                "file": "reproduce.cpp",
+                "raw_files": [
+                  "/workspace/reproduce.cpp"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__cpp__maintenance__bugfix__a46e5b53",
+            "task_name": "contextbench/full-9ae0b7f1973e7540",
+            "oracle_maximum": 0.857143,
+            "files": [
+              {
+                "file": "simdjson_modified.h",
+                "raw_files": [
+                  "/workspace/simdjson_modified.h"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__cpp__maintenance__bugfix__c69b0f66",
+            "task_name": "contextbench/full-831ebe75884df506",
+            "oracle_maximum": 0.833333,
+            "files": [
+              {
+                "file": "reproduce.cpp",
+                "raw_files": [
+                  "/workspace/reproduce.cpp"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__cpp__maintenance__bugfix__fe080aac",
+            "task_name": "contextbench/full-316e8ede90586c14",
+            "oracle_maximum": 0.75,
+            "files": [
+              {
+                "file": "github/workflows/macos.yml",
+                "raw_files": [
+                  ".github/workflows/macos.yml"
+                ],
+                "reason": "gold_path_mangled_upstream"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__go__maintenance__bugfix__00f7bf1b",
+            "task_name": "contextbench/full-16f9ea1325537cd8",
+            "oracle_maximum": 0.857143,
+            "files": [
+              {
+                "file": "reproduce_bug.sh",
+                "raw_files": [
+                  "/workspace/reproduce_bug.sh"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__go__maintenance__bugfix__1eafebd4",
+            "task_name": "contextbench/full-e04fd593527004f8",
+            "oracle_maximum": 0.923077,
+            "files": [
+              {
+                "file": "repro.go",
+                "raw_files": [
+                  "/workspace/cli__cli__0.1/repro.go"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__go__maintenance__bugfix__2b6c072d",
+            "task_name": "contextbench/full-68dc21f96de75b7e",
+            "oracle_maximum": 0.75,
+            "files": [
+              {
+                "file": "tmp/reproduce_test.sh",
+                "raw_files": [
+                  "/tmp/reproduce_test.sh"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__go__maintenance__bugfix__2eedb5b8",
+            "task_name": "contextbench/full-392776c777f9b1c5",
+            "oracle_maximum": 0.857143,
+            "files": [
+              {
+                "file": "pkg/cmd/label/list/repro_test.go",
+                "raw_files": [
+                  "/workspace/cli__cli__0.1/pkg/cmd/label/list/repro_test.go"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__go__maintenance__bugfix__2f844c5a",
+            "task_name": "contextbench/full-3fae546b2e2b1d0d",
+            "oracle_maximum": 0.888889,
+            "files": [
+              {
+                "file": "reproducer.go",
+                "raw_files": [
+                  "/workspace/reproducer.go"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__go__maintenance__bugfix__4ca6dbd6",
+            "task_name": "contextbench/full-8a9b9693bfea9daf",
+            "oracle_maximum": 0.8,
+            "files": [
+              {
+                "file": "pkg/cmd/repo/watch/watch.go",
+                "raw_files": [
+                  "/workspace/cli__cli__0.1/pkg/cmd/repo/watch/watch.go"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__go__maintenance__bugfix__67adc20c",
+            "task_name": "contextbench/full-d99087b0ade74dfe",
+            "oracle_maximum": 0.833333,
+            "files": [
+              {
+                "file": "cmd/repro_pending_exit_code/main.go",
+                "raw_files": [
+                  "/workspace/cli__cli__0.1/cmd/repro_pending_exit_code/main.go"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__go__maintenance__bugfix__90b3c707",
+            "task_name": "contextbench/full-7005f80cfb88caad",
+            "oracle_maximum": 0.8,
+            "files": [
+              {
+                "file": "repro_test_holder/repro.go",
+                "raw_files": [
+                  "/workspace/grpc__grpc-go__0.1/repro_test_holder/repro.go"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__go__maintenance__bugfix__a48e4f92",
+            "task_name": "contextbench/full-c6dd047d2d114f67",
+            "oracle_maximum": 0.8,
+            "files": [
+              {
+                "file": "command/config.go",
+                "raw_files": [
+                  "/workspace/cli__cli__0.1/command/config.go"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__go__maintenance__bugfix__b498eb22",
+            "task_name": "contextbench/full-b41e7bc38d1a327d",
+            "oracle_maximum": 0.5,
+            "files": [
+              {
+                "file": "reproduce_issue.sh",
+                "raw_files": [
+                  "/workspace/reproduce_issue.sh"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__go__maintenance__bugfix__b74904cc",
+            "task_name": "contextbench/full-58b7c6518df0f192",
+            "oracle_maximum": 0.75,
+            "files": [
+              {
+                "file": "reproduce_login.go",
+                "raw_files": [
+                  "/workspace/cli__cli__0.1/reproduce_login.go",
+                  "/workspace/reproduce_login.go"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__java__maintenance__bugfix__07d7817b",
+            "task_name": "contextbench/full-871f69a984656207",
+            "oracle_maximum": 0.857143,
+            "files": [
+              {
+                "file": "ReproduceIssue.java",
+                "raw_files": [
+                  "/workspace/ReproduceIssue.java"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__java__maintenance__bugfix__23ed271f",
+            "task_name": "contextbench/full-39c3fab3a1ddbe68",
+            "oracle_maximum": 0.833333,
+            "files": [
+              {
+                "file": "SOLUTION.md",
+                "raw_files": [
+                  "/workspace/SOLUTION.md"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__java__maintenance__bugfix__5b0ee9d4",
+            "task_name": "contextbench/full-df26cc1ce6b050fe",
+            "oracle_maximum": 0.666667,
+            "files": [
+              {
+                "file": "EncodingTest.java",
+                "raw_files": [
+                  "/workspace/EncodingTest.java"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__java__maintenance__bugfix__65cd72b7",
+            "task_name": "contextbench/full-e950a36adc66992e",
+            "oracle_maximum": 0.833333,
+            "files": [
+              {
+                "file": "DollarTest.java",
+                "raw_files": [
+                  "/workspace/DollarTest.java"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__java__maintenance__bugfix__ebf98685",
+            "task_name": "contextbench/full-3bd3b09f13b6c281",
+            "oracle_maximum": 0.8,
+            "files": [
+              {
+                "file": "DuplicateMessageFieldTest.java",
+                "raw_files": [
+                  "/workspace/DuplicateMessageFieldTest.java"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__java__maintenance__bugfix__f3dcac34",
+            "task_name": "contextbench/full-bcd7567cf56eaeae",
+            "oracle_maximum": 0.5,
+            "files": [
+              {
+                "file": "com/fasterxml/jackson/databind/deser/std/EnumDeserializer.java",
+                "raw_files": [
+                  "/workspace/temp/com/fasterxml/jackson/databind/deser/std/EnumDeserializer.java"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__javascript__maintenance__bugfix__02c5df7f",
+            "task_name": "contextbench/full-252a6749e9877f7e",
+            "oracle_maximum": 0.8,
+            "files": [
+              {
+                "file": "reproduce.js",
+                "raw_files": [
+                  "/workspace/reproduce.js"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__javascript__maintenance__bugfix__0a8059a1",
+            "task_name": "contextbench/full-6d8587e5e6d114fb",
+            "oracle_maximum": 0.8,
+            "files": [
+              {
+                "file": "reproduce.js",
+                "raw_files": [
+                  "/workspace/sveltejs__svelte__0.1/reproduce.js"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__javascript__maintenance__bugfix__0db9182c",
+            "task_name": "contextbench/full-8c477c2085c4bdef",
+            "oracle_maximum": 0.666667,
+            "files": [
+              {
+                "file": "App.js",
+                "raw_files": [
+                  "/workspace/output/App.js"
+                ],
+                "reason": "absent_at_base_commit"
+              },
+              {
+                "file": "EmptySvg.js",
+                "raw_files": [
+                  "/workspace/output/EmptySvg.js"
+                ],
+                "reason": "absent_at_base_commit"
+              },
+              {
+                "file": "Test.js",
+                "raw_files": [
+                  "/workspace/output/Test.js"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__javascript__maintenance__bugfix__0ed92fe3",
+            "task_name": "contextbench/full-031042199069426c",
+            "oracle_maximum": 0.625,
+            "files": [
+              {
+                "file": "ast_parsed.json",
+                "raw_files": [
+                  "/workspace/ast_parsed.json"
+                ],
+                "reason": "absent_at_base_commit"
+              },
+              {
+                "file": "compiled.js",
+                "raw_files": [
+                  "/workspace/compiled.js"
+                ],
+                "reason": "absent_at_base_commit"
+              },
+              {
+                "file": "reproduce.mjs",
+                "raw_files": [
+                  "/workspace/reproduce.mjs"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__javascript__maintenance__bugfix__17cc2eff",
+            "task_name": "contextbench/full-c0340f0368cc9310",
+            "oracle_maximum": 0.5,
+            "files": [
+              {
+                "file": "run_repro.js",
+                "raw_files": [
+                  "/workspace/run_repro.js"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__javascript__maintenance__bugfix__1be84ffc",
+            "task_name": "contextbench/full-e1dba170cb9f9951",
+            "oracle_maximum": 0.6,
+            "files": [
+              {
+                "file": "compiled_component.js",
+                "raw_files": [
+                  "/workspace/compiled_component.js"
+                ],
+                "reason": "absent_at_base_commit"
+              },
+              {
+                "file": "compiled_component_Initial_Check_y_0.js",
+                "raw_files": [
+                  "/workspace/compiled_component_Initial_Check_y_0.js"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__javascript__maintenance__bugfix__28a15959",
+            "task_name": "contextbench/full-2da3e397ee976edf",
+            "oracle_maximum": 0.8,
+            "files": [
+              {
+                "file": "sites/svelte-5-preview/src/routes/repro/+page.svelte",
+                "raw_files": [
+                  "/workspace/sveltejs__svelte__0.1/sites/svelte-5-preview/src/routes/repro/+page.svelte"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__javascript__maintenance__bugfix__2a93ee66",
+            "task_name": "contextbench/full-53e2bddf8f2c4003",
+            "oracle_maximum": 0.571429,
+            "files": [
+              {
+                "file": "Child.svelte",
+                "raw_files": [
+                  "/workspace/Child.svelte"
+                ],
+                "reason": "absent_at_base_commit"
+              },
+              {
+                "file": "Parent.svelte",
+                "raw_files": [
+                  "/workspace/Parent.svelte"
+                ],
+                "reason": "absent_at_base_commit"
+              },
+              {
+                "file": "compile_and_run.js",
+                "raw_files": [
+                  "/workspace/compile_and_run.js"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__javascript__maintenance__bugfix__3a3cd664",
+            "task_name": "contextbench/full-c744372a2dc1f4df",
+            "oracle_maximum": 0.666667,
+            "files": [
+              {
+                "file": "run_repro.mjs",
+                "raw_files": [
+                  "/workspace/run_repro.mjs",
+                  "/workspace/sveltejs__svelte__0.1/run_repro.mjs"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__javascript__maintenance__bugfix__3db06908",
+            "task_name": "contextbench/full-f50089afd5f9e882",
+            "oracle_maximum": 0.666667,
+            "files": [
+              {
+                "file": "src/themes.js",
+                "raw_files": [
+                  "/workspace/anuraghazra__github-readme-stats__0.1/src/themes.js"
+                ],
+                "reason": "absent_at_base_commit"
+              },
+              {
+                "file": "test-themes.js",
+                "raw_files": [
+                  "/workspace/test-themes.js"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__javascript__maintenance__bugfix__6fadd8e0",
+            "task_name": "contextbench/full-365663aa65acf05b",
+            "oracle_maximum": 0.75,
+            "files": [
+              {
+                "file": "reproduce.js",
+                "raw_files": [
+                  "/workspace/reproduce.js"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__javascript__maintenance__bugfix__88e86575",
+            "task_name": "contextbench/full-b8d405ee3fb06290",
+            "oracle_maximum": 0.6,
+            "files": [
+              {
+                "file": "reproduce_error.js",
+                "raw_files": [
+                  "/workspace/reproduce_error.js"
+                ],
+                "reason": "absent_at_base_commit"
+              },
+              {
+                "file": "src/plugin/isTodayTomorrowYesterday/index.js",
+                "raw_files": [
+                  "/workspace/iamkun__dayjs__0.1/src/plugin/isTodayTomorrowYesterday/index.js"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__javascript__maintenance__bugfix__8dae76c3",
+            "task_name": "contextbench/full-23daee6d3c3e7413",
+            "oracle_maximum": 0.5,
+            "files": [
+              {
+                "file": "reproduce.js",
+                "raw_files": [
+                  "/workspace/reproduce.js"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__javascript__maintenance__bugfix__98bbaed2",
+            "task_name": "contextbench/full-2acd9c66ca77a77b",
+            "oracle_maximum": 0.833333,
+            "files": [
+              {
+                "file": "repro.js",
+                "raw_files": [
+                  "/workspace/repro.js"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__javascript__maintenance__bugfix__a8655bb4",
+            "task_name": "contextbench/full-a526d129b8939e6e",
+            "oracle_maximum": 0.75,
+            "files": [
+              {
+                "file": "reproduce_error.js",
+                "raw_files": [
+                  "/workspace/reproduce_error.js"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__javascript__maintenance__bugfix__b31d2f53",
+            "task_name": "contextbench/full-ec4b7d7cb383013a",
+            "oracle_maximum": 0.8,
+            "files": [
+              {
+                "file": "reproduce_meridiem_bug.js",
+                "raw_files": [
+                  "/workspace/reproduce_meridiem_bug.js"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__javascript__maintenance__bugfix__c51ae361",
+            "task_name": "contextbench/full-5c307b8e9cdc42e1",
+            "oracle_maximum": 0.75,
+            "files": [
+              {
+                "file": "reproduce.js",
+                "raw_files": [
+                  "/workspace/reproduce.js"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__javascript__maintenance__bugfix__d2584708",
+            "task_name": "contextbench/full-95782ffb0b0bb6ef",
+            "oracle_maximum": 0.75,
+            "files": [
+              {
+                "file": "repro.js",
+                "raw_files": [
+                  "/workspace/sveltejs__svelte__0.1/repro.js"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__javascript__maintenance__bugfix__e1b1c62b",
+            "task_name": "contextbench/full-561ebded16b811a5",
+            "oracle_maximum": 0.75,
+            "files": [
+              {
+                "file": "test-worker.js",
+                "raw_files": [
+                  "/workspace/anuraghazra__github-readme-stats__0.1/test-worker.js"
+                ],
+                "reason": "absent_at_base_commit"
+              },
+              {
+                "file": "worker.js",
+                "raw_files": [
+                  "/workspace/anuraghazra__github-readme-stats__0.1/worker.js"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__javascript__maintenance__bugfix__efd49f96",
+            "task_name": "contextbench/full-973a43f371dc34a6",
+            "oracle_maximum": 0.666667,
+            "files": [
+              {
+                "file": "repro.mjs",
+                "raw_files": [
+                  "/workspace/repro.mjs"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__javascript__maintenance__bugfix__eff588d2",
+            "task_name": "contextbench/full-fa49c7cfc4cc1bc5",
+            "oracle_maximum": 0.333333,
+            "files": [
+              {
+                "file": "repro_test/Child.svelte",
+                "raw_files": [
+                  "/workspace/sveltejs__svelte__0.1/repro_test/Child.svelte"
+                ],
+                "reason": "absent_at_base_commit"
+              },
+              {
+                "file": "repro_test/repro.js",
+                "raw_files": [
+                  "/workspace/sveltejs__svelte__0.1/repro_test/repro.js"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__rust__maintenance__bugfix__25df8223",
+            "task_name": "contextbench/full-493fa114d8a0d2ef",
+            "oracle_maximum": 0.666667,
+            "files": [
+              {
+                "file": "src/main.rs",
+                "raw_files": [
+                  "/workspace/reproduce/src/main.rs"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__rust__maintenance__bugfix__4bbd4593",
+            "task_name": "contextbench/full-f5f6a4f146a26418",
+            "oracle_maximum": 0.8,
+            "files": [
+              {
+                "file": "src/main.rs",
+                "raw_files": [
+                  "/workspace/repro_test/src/main.rs"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__rust__maintenance__bugfix__b7828682",
+            "task_name": "contextbench/full-6a468ded762d2d0e",
+            "oracle_maximum": 0.75,
+            "files": [
+              {
+                "file": "reproduce.rs",
+                "raw_files": [
+                  "/workspace/reproduce.rs"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__rust__maintenance__bugfix__e2c42cbe",
+            "task_name": "contextbench/full-522a1b851b6dbac5",
+            "oracle_maximum": 0.75,
+            "files": [
+              {
+                "file": "src/main.rs",
+                "raw_files": [
+                  "/workspace/repro_project/src/main.rs"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__rust__maintenance__bugfix__e4bda903",
+            "task_name": "contextbench/full-514cc60b96e76194",
+            "oracle_maximum": 0.857143,
+            "files": [
+              {
+                "file": "examples/arg_group_get_many_fix.rs",
+                "raw_files": [
+                  "/workspace/clap-rs__clap__0.1/examples/arg_group_get_many_fix.rs"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__rust__maintenance__bugfix__ebeba2e0",
+            "task_name": "contextbench/full-877c909ba188ea30",
+            "oracle_maximum": 0.8,
+            "files": [
+              {
+                "file": "src/main.rs",
+                "raw_files": [
+                  "/workspace/reproduce_bug/src/main.rs"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__typescript__maintenance__bugfix__04c51be7",
+            "task_name": "contextbench/full-0ad753b71c94da07",
+            "oracle_maximum": 0.666667,
+            "files": [
+              {
+                "file": "repro.ts",
+                "raw_files": [
+                  "/workspace/vuejs__core__0.1/repro.ts"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__typescript__maintenance__bugfix__0a4f7929",
+            "task_name": "contextbench/full-737d49159b1c15b6",
+            "oracle_maximum": 0.666667,
+            "files": [
+              {
+                "file": "reproduce.ts",
+                "raw_files": [
+                  "/workspace/reproduce.ts"
+                ],
+                "reason": "absent_at_base_commit"
+              },
+              {
+                "file": "reproduce.tsx",
+                "raw_files": [
+                  "/workspace/reproduce.tsx"
+                ],
+                "reason": "absent_at_base_commit"
+              },
+              {
+                "file": "scripts/temp_repro/reproduce.tsx",
+                "raw_files": [
+                  "/workspace/mui__material-ui__0.1/scripts/temp_repro/reproduce.tsx"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__typescript__maintenance__bugfix__0ae3b255",
+            "task_name": "contextbench/full-a41781492e7ede70",
+            "oracle_maximum": 0.5,
+            "files": [
+              {
+                "file": "reproduce_fab_disabled_issue.tsx",
+                "raw_files": [
+                  "/workspace/mui__material-ui__0.1/reproduce_fab_disabled_issue.tsx"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__typescript__maintenance__bugfix__0ec53c73",
+            "task_name": "contextbench/full-9d41445337f140c8",
+            "oracle_maximum": 0.5,
+            "files": [
+              {
+                "file": "node_modules/.pnpm/entities@4.4.0/node_modules/entities/lib/esm/index.js",
+                "raw_files": [
+                  "/workspace/vuejs__core__0.1/node_modules/.pnpm/entities@4.4.0/node_modules/entities/lib/esm/index.js"
+                ],
+                "reason": "absent_at_base_commit"
+              },
+              {
+                "file": "node_modules/.pnpm/entities@4.4.0/node_modules/entities/package.json",
+                "raw_files": [
+                  "/workspace/vuejs__core__0.1/node_modules/.pnpm/entities@4.4.0/node_modules/entities/package.json"
+                ],
+                "reason": "absent_at_base_commit"
+              },
+              {
+                "file": "packages/compiler-core/src/parser.ts",
+                "raw_files": [
+                  "/workspace/vuejs__core__0.1/packages/compiler-core/src/parser.ts"
+                ],
+                "reason": "absent_at_base_commit"
+              },
+              {
+                "file": "packages/compiler-core/src/tokenizer.ts",
+                "raw_files": [
+                  "/workspace/vuejs__core__0.1/packages/compiler-core/src/tokenizer.ts"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__typescript__maintenance__bugfix__0fed75c5",
+            "task_name": "contextbench/full-a0f9dddb0b27d10f",
+            "oracle_maximum": 0.8,
+            "files": [
+              {
+                "file": "packages/mui-joy/src/ToggleButton/ToggleButton.tsx",
+                "raw_files": [
+                  "/workspace/mui__material-ui__0.1/packages/mui-joy/src/ToggleButton/ToggleButton.tsx"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__typescript__maintenance__bugfix__2be123a6",
+            "task_name": "contextbench/full-95bcb4b9ead08ac4",
+            "oracle_maximum": 0.916667,
+            "files": [
+              {
+                "file": "repro.tsx",
+                "raw_files": [
+                  "/workspace/repro.tsx"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__typescript__maintenance__bugfix__2cdfd9a1",
+            "task_name": "contextbench/full-af21a18be379ea0d",
+            "oracle_maximum": 0.857143,
+            "files": [
+              {
+                "file": "repro_script/reproduce.ts",
+                "raw_files": [
+                  "/workspace/mui__material-ui__0.1/repro_script/reproduce.ts"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__typescript__maintenance__bugfix__3a348b16",
+            "task_name": "contextbench/full-f469a64e28f9d2d0",
+            "oracle_maximum": 0.833333,
+            "files": [
+              {
+                "file": "reproduce-issue.tsx",
+                "raw_files": [
+                  "/workspace/mui__material-ui__0.1/reproduce-issue.tsx",
+                  "/workspace/reproduce-issue.tsx"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__typescript__maintenance__bugfix__3cb539ec",
+            "task_name": "contextbench/full-149c5996278a51d4",
+            "oracle_maximum": 0.857143,
+            "files": [
+              {
+                "file": "packages/mui-base/src/ButtonUnstyled/reproduce_error.test.tsx",
+                "raw_files": [
+                  "/workspace/mui__material-ui__0.1/packages/mui-base/src/ButtonUnstyled/reproduce_error.test.tsx"
+                ],
+                "reason": "absent_at_base_commit"
+              },
+              {
+                "file": "reproduce_error.tsx",
+                "raw_files": [
+                  "/workspace/reproduce_error.tsx"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__typescript__maintenance__bugfix__4085c2a5",
+            "task_name": "contextbench/full-1543fc418ad53165",
+            "oracle_maximum": 0.666667,
+            "files": [
+              {
+                "file": "packages/reactivity/__tests__/reproExtArray.spec.ts",
+                "raw_files": [
+                  "/workspace/vuejs__core__0.1/packages/reactivity/__tests__/reproExtArray.spec.ts"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__typescript__maintenance__bugfix__5bbc1cb0",
+            "task_name": "contextbench/full-327254491263af47",
+            "oracle_maximum": 0.75,
+            "files": [
+              {
+                "file": "scripts/temp_tests/reproducer_after_fix.ts",
+                "raw_files": [
+                  "/workspace/mui__material-ui__0.1/scripts/temp_tests/reproducer_after_fix.ts"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__typescript__maintenance__bugfix__6cb88b18",
+            "task_name": "contextbench/full-9710a027f5a684d4",
+            "oracle_maximum": 0.991379,
+            "files": [
+              {
+                "file": "eslintrc.js",
+                "raw_files": [
+                  ".eslintrc.js"
+                ],
+                "reason": "gold_path_mangled_upstream"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__typescript__maintenance__bugfix__7c573a46",
+            "task_name": "contextbench/full-34f48ca044985251",
+            "oracle_maximum": 0.8,
+            "files": [
+              {
+                "file": "reproduce_error.tsx",
+                "raw_files": [
+                  "/workspace/reproduce_error.tsx"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__typescript__maintenance__bugfix__7ee2742e",
+            "task_name": "contextbench/full-08fa6b55fffecff8",
+            "oracle_maximum": 0.833333,
+            "files": [
+              {
+                "file": "scripts/temp_repro/reproduce_issue_16442.tsx",
+                "raw_files": [
+                  "/workspace/mui__material-ui__0.1/scripts/temp_repro/reproduce_issue_16442.tsx"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__typescript__maintenance__bugfix__95ee98dd",
+            "task_name": "contextbench/full-dcac81abff81d797",
+            "oracle_maximum": 0.8,
+            "files": [
+              {
+                "file": "reproduce.tsx",
+                "raw_files": [
+                  "/workspace/reproduce.tsx"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__typescript__maintenance__bugfix__9aef9350",
+            "task_name": "contextbench/full-afddde27bfa10f8e",
+            "oracle_maximum": 0.75,
+            "files": [
+              {
+                "file": "tsconfig.reproduce.json",
+                "raw_files": [
+                  "/workspace/tsconfig.reproduce.json"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__typescript__maintenance__bugfix__a277aace",
+            "task_name": "contextbench/full-deee1c566f36a368",
+            "oracle_maximum": 0.833333,
+            "files": [
+              {
+                "file": "node_modules/@testing-library/dom/package.json",
+                "raw_files": [
+                  "/workspace/mui__material-ui__0.1/node_modules/@testing-library/dom/package.json"
+                ],
+                "reason": "absent_at_base_commit"
+              },
+              {
+                "file": "node_modules/@testing-library/react/package.json",
+                "raw_files": [
+                  "/workspace/mui__material-ui__0.1/node_modules/@testing-library/react/package.json"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "SWE-Bench-Pro__go__maintenance__bugfix__2cef67df",
+            "task_name": "contextbench/full-2e9a00a38fb9a711",
+            "oracle_maximum": 0.928571,
+            "files": [
+              {
+                "file": "goreleaser.yml",
+                "raw_files": [
+                  ".goreleaser.yml"
+                ],
+                "reason": "gold_path_mangled_upstream"
+              }
+            ]
+          },
+          {
+            "instance_id": "SWE-Bench-Pro__go__maintenance__bugfix__997c7afd",
+            "task_name": "contextbench/full-b0cc18fc0c376397",
+            "oracle_maximum": 0.692308,
+            "files": [
+              {
+                "file": "github/workflows/benchmark.yml",
+                "raw_files": [
+                  ".github/workflows/benchmark.yml"
+                ],
+                "reason": "gold_path_mangled_upstream"
+              },
+              {
+                "file": "github/workflows/codeql-analysis.yml",
+                "raw_files": [
+                  ".github/workflows/codeql-analysis.yml"
+                ],
+                "reason": "gold_path_mangled_upstream"
+              },
+              {
+                "file": "golangci.yml",
+                "raw_files": [
+                  ".golangci.yml"
+                ],
+                "reason": "gold_path_mangled_upstream"
+              },
+              {
+                "file": "goreleaser.yml",
+                "raw_files": [
+                  ".goreleaser.yml"
+                ],
+                "reason": "gold_path_mangled_upstream"
+              }
+            ]
+          },
+          {
+            "instance_id": "SWE-Bench-Pro__python__maintenance__bugfix__1cae51cc",
+            "task_name": "contextbench/full-e306498ec2fdec5b",
+            "oracle_maximum": 0.923077,
+            "files": [
+              {
+                "file": "azure-pipelines/azure-pipelines.yml",
+                "raw_files": [
+                  ".azure-pipelines/azure-pipelines.yml"
+                ],
+                "reason": "gold_path_mangled_upstream"
+              }
+            ]
+          },
+          {
+            "instance_id": "SWE-Bench-Pro__python__maintenance__bugfix__443aac32",
+            "task_name": "contextbench/full-a6319fbc54af887f",
+            "oracle_maximum": 0.833333,
+            "files": [
+              {
+                "file": "qutebrowser/tests/unit/utils/test_version.py",
+                "raw_files": [
+                  "qutebrowser/tests/unit/utils/test_version.py"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "SWE-Bench-Pro__python__maintenance__bugfix__83c269c9",
+            "task_name": "contextbench/full-84ed4d73b1bd18c0",
+            "oracle_maximum": 0.888889,
+            "files": [
+              {
+                "file": "github/BOTMETA.yml",
+                "raw_files": [
+                  ".github/BOTMETA.yml"
+                ],
+                "reason": "gold_path_mangled_upstream"
+              }
+            ]
+          },
+          {
+            "instance_id": "SWE-Bench-Pro__python__maintenance__bugfix__942d0b14",
+            "task_name": "contextbench/full-7707254dc99581ce",
+            "oracle_maximum": 0.833333,
+            "files": [
+              {
+                "file": "azure-pipelines/azure-pipelines.yml",
+                "raw_files": [
+                  ".azure-pipelines/azure-pipelines.yml"
+                ],
+                "reason": "gold_path_mangled_upstream"
+              },
+              {
+                "file": "lib/ansible/module_utils/six.py",
+                "raw_files": [
+                  "lib/ansible/module_utils/six.py"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "SWE-Bench-Verified__python__maintenance__bugfix__1409977d",
+            "task_name": "contextbench/full-db1739a8492af80b",
+            "oracle_maximum": 0.666667,
+            "files": [
+              {
+                "file": "pylint/tests/functional/u/unused/unused_typing_imports.py",
+                "raw_files": [
+                  "pylint/tests/functional/u/unused/unused_typing_imports.py"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "SWE-Bench-Verified__python__maintenance__bugfix__23963510",
+            "task_name": "contextbench/full-5e8e71f4873a2c50",
+            "oracle_maximum": 0.5,
+            "files": [
+              {
+                "file": "requests/tests/test_requests.py",
+                "raw_files": [
+                  "requests/tests/test_requests.py"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "SWE-Bench-Verified__python__maintenance__bugfix__36989b6d",
+            "task_name": "contextbench/full-2ce159439b025cda",
+            "oracle_maximum": 0.833333,
+            "files": [
+              {
+                "file": "seaborn/tests/test_distributions.py",
+                "raw_files": [
+                  "seaborn/tests/test_distributions.py"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "SWE-Bench-Verified__python__maintenance__bugfix__666e82c9",
+            "task_name": "contextbench/full-fd56d08508e19bf0",
+            "oracle_maximum": 0.75,
+            "files": [
+              {
+                "file": "django/docs/releases/1.7.txt",
+                "raw_files": [
+                  "django/docs/releases/1.7.txt"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "SWE-Bench-Verified__python__maintenance__bugfix__9db89f01",
+            "task_name": "contextbench/full-572fc2cd7315fc3d",
+            "oracle_maximum": 0.8,
+            "files": [
+              {
+                "file": "django/tests/template_tests/test_callables.py",
+                "raw_files": [
+                  "django/tests/template_tests/test_callables.py"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "SWE-PolyBench__javascript__maintenance__bugfix__2d7a3934",
+            "task_name": "contextbench/full-73f2ef9221bbc1b4",
+            "oracle_maximum": 0.888889,
+            "files": [
+              {
+                "file": "eslintrc.yml",
+                "raw_files": [
+                  ".eslintrc.yml"
+                ],
+                "reason": "gold_path_mangled_upstream"
+              }
+            ]
+          },
+          {
+            "instance_id": "SWE-PolyBench__python__maintenance__bugfix__2a404651",
+            "task_name": "contextbench/full-3e918829f757ed33",
+            "oracle_maximum": 0.666667,
+            "files": [
+              {
+                "file": "src/transformers/tests/test_modeling_common.py",
+                "raw_files": [
+                  "src/transformers/tests/test_modeling_common.py"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "SWE-PolyBench__typescript__evolution__feature__34b9deda",
+            "task_name": "contextbench/full-881f5fb831b07639",
+            "oracle_maximum": 0.75,
+            "files": [
+              {
+                "file": "size-limit.js",
+                "raw_files": [
+                  ".size-limit.js"
+                ],
+                "reason": "gold_path_mangled_upstream"
+              }
+            ]
+          },
+          {
+            "instance_id": "SWE-PolyBench__typescript__evolution__feature__684a3415",
+            "task_name": "contextbench/full-c1d3ffa87ef640f2",
+            "oracle_maximum": 0.8,
+            "files": [
+              {
+                "file": "size-limit.js",
+                "raw_files": [
+                  ".size-limit.js"
+                ],
+                "reason": "gold_path_mangled_upstream"
+              }
+            ]
+          }
+        ],
+        "verified": [
+          {
+            "instance_id": "Multi-SWE-Bench__cpp__maintenance__bugfix__fe080aac",
+            "task_name": "contextbench/verified-316e8ede90586c14",
+            "oracle_maximum": 0.75,
+            "files": [
+              {
+                "file": "github/workflows/macos.yml",
+                "raw_files": [
+                  ".github/workflows/macos.yml"
+                ],
+                "reason": "gold_path_mangled_upstream"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__java__maintenance__bugfix__07d7817b",
+            "task_name": "contextbench/verified-871f69a984656207",
+            "oracle_maximum": 0.857143,
+            "files": [
+              {
+                "file": "ReproduceIssue.java",
+                "raw_files": [
+                  "/workspace/ReproduceIssue.java"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__javascript__maintenance__bugfix__98bbaed2",
+            "task_name": "contextbench/verified-2acd9c66ca77a77b",
+            "oracle_maximum": 0.833333,
+            "files": [
+              {
+                "file": "repro.js",
+                "raw_files": [
+                  "/workspace/repro.js"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__javascript__maintenance__bugfix__b31d2f53",
+            "task_name": "contextbench/verified-ec4b7d7cb383013a",
+            "oracle_maximum": 0.8,
+            "files": [
+              {
+                "file": "reproduce_meridiem_bug.js",
+                "raw_files": [
+                  "/workspace/reproduce_meridiem_bug.js"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__typescript__maintenance__bugfix__04c51be7",
+            "task_name": "contextbench/verified-0ad753b71c94da07",
+            "oracle_maximum": 0.666667,
+            "files": [
+              {
+                "file": "repro.ts",
+                "raw_files": [
+                  "/workspace/vuejs__core__0.1/repro.ts"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__typescript__maintenance__bugfix__3cb539ec",
+            "task_name": "contextbench/verified-149c5996278a51d4",
+            "oracle_maximum": 0.857143,
+            "files": [
+              {
+                "file": "packages/mui-base/src/ButtonUnstyled/reproduce_error.test.tsx",
+                "raw_files": [
+                  "/workspace/mui__material-ui__0.1/packages/mui-base/src/ButtonUnstyled/reproduce_error.test.tsx"
+                ],
+                "reason": "absent_at_base_commit"
+              },
+              {
+                "file": "reproduce_error.tsx",
+                "raw_files": [
+                  "/workspace/reproduce_error.tsx"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__typescript__maintenance__bugfix__6cb88b18",
+            "task_name": "contextbench/verified-9710a027f5a684d4",
+            "oracle_maximum": 0.991379,
+            "files": [
+              {
+                "file": "eslintrc.js",
+                "raw_files": [
+                  ".eslintrc.js"
+                ],
+                "reason": "gold_path_mangled_upstream"
+              }
+            ]
+          },
+          {
+            "instance_id": "SWE-Bench-Pro__go__maintenance__bugfix__997c7afd",
+            "task_name": "contextbench/verified-b0cc18fc0c376397",
+            "oracle_maximum": 0.692308,
+            "files": [
+              {
+                "file": "github/workflows/benchmark.yml",
+                "raw_files": [
+                  ".github/workflows/benchmark.yml"
+                ],
+                "reason": "gold_path_mangled_upstream"
+              },
+              {
+                "file": "github/workflows/codeql-analysis.yml",
+                "raw_files": [
+                  ".github/workflows/codeql-analysis.yml"
+                ],
+                "reason": "gold_path_mangled_upstream"
+              },
+              {
+                "file": "golangci.yml",
+                "raw_files": [
+                  ".golangci.yml"
+                ],
+                "reason": "gold_path_mangled_upstream"
+              },
+              {
+                "file": "goreleaser.yml",
+                "raw_files": [
+                  ".goreleaser.yml"
+                ],
+                "reason": "gold_path_mangled_upstream"
+              }
+            ]
+          },
+          {
+            "instance_id": "SWE-Bench-Pro__python__maintenance__bugfix__1cae51cc",
+            "task_name": "contextbench/verified-e306498ec2fdec5b",
+            "oracle_maximum": 0.923077,
+            "files": [
+              {
+                "file": "azure-pipelines/azure-pipelines.yml",
+                "raw_files": [
+                  ".azure-pipelines/azure-pipelines.yml"
+                ],
+                "reason": "gold_path_mangled_upstream"
+              }
+            ]
+          },
+          {
+            "instance_id": "SWE-Bench-Pro__python__maintenance__bugfix__942d0b14",
+            "task_name": "contextbench/verified-7707254dc99581ce",
+            "oracle_maximum": 0.833333,
+            "files": [
+              {
+                "file": "azure-pipelines/azure-pipelines.yml",
+                "raw_files": [
+                  ".azure-pipelines/azure-pipelines.yml"
+                ],
+                "reason": "gold_path_mangled_upstream"
+              },
+              {
+                "file": "lib/ansible/module_utils/six.py",
+                "raw_files": [
+                  "lib/ansible/module_utils/six.py"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "SWE-Bench-Verified__python__maintenance__bugfix__1409977d",
+            "task_name": "contextbench/verified-db1739a8492af80b",
+            "oracle_maximum": 0.666667,
+            "files": [
+              {
+                "file": "pylint/tests/functional/u/unused/unused_typing_imports.py",
+                "raw_files": [
+                  "pylint/tests/functional/u/unused/unused_typing_imports.py"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "SWE-PolyBench__javascript__maintenance__bugfix__2d7a3934",
+            "task_name": "contextbench/verified-73f2ef9221bbc1b4",
+            "oracle_maximum": 0.888889,
+            "files": [
+              {
+                "file": "eslintrc.yml",
+                "raw_files": [
+                  ".eslintrc.yml"
+                ],
+                "reason": "gold_path_mangled_upstream"
+              }
+            ]
+          },
+          {
+            "instance_id": "SWE-PolyBench__typescript__evolution__feature__684a3415",
+            "task_name": "contextbench/verified-c1d3ffa87ef640f2",
+            "oracle_maximum": 0.8,
+            "files": [
+              {
+                "file": "size-limit.js",
+                "raw_files": [
+                  ".size-limit.js"
+                ],
+                "reason": "gold_path_mangled_upstream"
+              }
+            ]
+          }
+        ],
+        "verified-test": [
+          {
+            "instance_id": "Multi-SWE-Bench__java__maintenance__bugfix__2bd87230",
+            "task_name": "contextbench/verified-test-a592c63dbf6a7b93",
+            "oracle_maximum": 0.857143,
+            "files": [
+              {
+                "file": "CustomJsonNodeTest.java",
+                "raw_files": [
+                  "/workspace/CustomJsonNodeTest.java"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__javascript__maintenance__bugfix__2f405b15",
+            "task_name": "contextbench/verified-test-a56f88fb55a3d1d0",
+            "oracle_maximum": 0.857143,
+            "files": [
+              {
+                "file": "run_svelte_test.js",
+                "raw_files": [
+                  "/workspace/run_svelte_test.js"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "SWE-PolyBench__typescript__evolution__feature__684a3415",
+            "task_name": "contextbench/verified-test-c1d3ffa87ef640f2",
+            "oracle_maximum": 0.8,
+            "files": [
+              {
+                "file": "size-limit.js",
+                "raw_files": [
+                  ".size-limit.js"
+                ],
+                "reason": "gold_path_mangled_upstream"
+              }
+            ]
+          }
+        ],
+        "verified-train": [
+          {
+            "instance_id": "Multi-SWE-Bench__go__maintenance__bugfix__3d85271b",
+            "task_name": "contextbench/verified-train-cb263dbb9e513d15",
+            "oracle_maximum": 0.666667,
+            "files": [
+              {
+                "file": "repro.sh",
+                "raw_files": [
+                  "/workspace/repro.sh"
+                ],
+                "reason": "absent_at_base_commit"
+              },
+              {
+                "file": "test_sync_logic.go",
+                "raw_files": [
+                  "/workspace/cli__cli__0.1/test_sync_logic.go"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__go__maintenance__bugfix__74cafcca",
+            "task_name": "contextbench/verified-train-279a4ecf864c1b9c",
+            "oracle_maximum": 0.8,
+            "files": [
+              {
+                "file": "credentials/alts/reproduce_test.go",
+                "raw_files": [
+                  "/workspace/grpc__grpc-go__0.1/credentials/alts/reproduce_test.go"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__go__maintenance__bugfix__ed8db47d",
+            "task_name": "contextbench/verified-train-f6e33e616452343c",
+            "oracle_maximum": 0.8,
+            "files": [
+              {
+                "file": "reproducer.go",
+                "raw_files": [
+                  "/workspace/reproducer.go"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__java__maintenance__bugfix__07d7817b",
+            "task_name": "contextbench/verified-train-871f69a984656207",
+            "oracle_maximum": 0.857143,
+            "files": [
+              {
+                "file": "ReproduceIssue.java",
+                "raw_files": [
+                  "/workspace/ReproduceIssue.java"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__javascript__maintenance__bugfix__5b47b0dd",
+            "task_name": "contextbench/verified-train-9e728e3f158acc99",
+            "oracle_maximum": 0.75,
+            "files": [
+              {
+                "file": "repro.js",
+                "raw_files": [
+                  "/workspace/repro.js"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__javascript__maintenance__bugfix__838d3d25",
+            "task_name": "contextbench/verified-train-a46f9357ecf875ff",
+            "oracle_maximum": 0.857143,
+            "files": [
+              {
+                "file": "reproduce_inert_ssr.js",
+                "raw_files": [
+                  "/workspace/reproduce_inert_ssr.js"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__javascript__maintenance__bugfix__98bbaed2",
+            "task_name": "contextbench/verified-train-2acd9c66ca77a77b",
+            "oracle_maximum": 0.833333,
+            "files": [
+              {
+                "file": "repro.js",
+                "raw_files": [
+                  "/workspace/repro.js"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__javascript__maintenance__bugfix__b31d2f53",
+            "task_name": "contextbench/verified-train-ec4b7d7cb383013a",
+            "oracle_maximum": 0.8,
+            "files": [
+              {
+                "file": "reproduce_meridiem_bug.js",
+                "raw_files": [
+                  "/workspace/reproduce_meridiem_bug.js"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__rust__maintenance__bugfix__3a4062fe",
+            "task_name": "contextbench/verified-train-6ce1111717481841",
+            "oracle_maximum": 0.666667,
+            "files": [
+              {
+                "file": "select_64_repro.rs",
+                "raw_files": [
+                  "/workspace/select_64_repro.rs"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__rust__maintenance__bugfix__aa16b8b2",
+            "task_name": "contextbench/verified-train-03bfc3cb23b6160d",
+            "oracle_maximum": 0.8,
+            "files": [
+              {
+                "file": "repro_test/Cargo.toml",
+                "raw_files": [
+                  "/workspace/tokio-rs__tracing__0.1/repro_test/Cargo.toml"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__typescript__maintenance__bugfix__04c51be7",
+            "task_name": "contextbench/verified-train-0ad753b71c94da07",
+            "oracle_maximum": 0.666667,
+            "files": [
+              {
+                "file": "repro.ts",
+                "raw_files": [
+                  "/workspace/vuejs__core__0.1/repro.ts"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__typescript__maintenance__bugfix__3cb539ec",
+            "task_name": "contextbench/verified-train-149c5996278a51d4",
+            "oracle_maximum": 0.857143,
+            "files": [
+              {
+                "file": "packages/mui-base/src/ButtonUnstyled/reproduce_error.test.tsx",
+                "raw_files": [
+                  "/workspace/mui__material-ui__0.1/packages/mui-base/src/ButtonUnstyled/reproduce_error.test.tsx"
+                ],
+                "reason": "absent_at_base_commit"
+              },
+              {
+                "file": "reproduce_error.tsx",
+                "raw_files": [
+                  "/workspace/reproduce_error.tsx"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__typescript__maintenance__bugfix__5aed9f96",
+            "task_name": "contextbench/verified-train-3c578fdbc5decb5d",
+            "oracle_maximum": 0.818182,
+            "files": [
+              {
+                "file": "packages/material-ui/src/Stack/index.d.ts",
+                "raw_files": [
+                  "/workspace/mui__material-ui__0.1/packages/material-ui/src/Stack/index.d.ts"
+                ],
+                "reason": "absent_at_base_commit"
+              },
+              {
+                "file": "packages/material-ui/src/Stack/stackClasses.d.ts",
+                "raw_files": [
+                  "/workspace/mui__material-ui__0.1/packages/material-ui/src/Stack/stackClasses.d.ts"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__typescript__maintenance__bugfix__8fcb53e6",
+            "task_name": "contextbench/verified-train-5cc8f54386b07596",
+            "oracle_maximum": 0.636364,
+            "files": [
+              {
+                "file": "packages/mui-material-next/src/Badge/Badge.d.ts",
+                "raw_files": [
+                  "/workspace/mui__material-ui__0.1/packages/mui-material-next/src/Badge/Badge.d.ts"
+                ],
+                "reason": "absent_at_base_commit"
+              },
+              {
+                "file": "packages/mui-material-next/src/Badge/Badge.tsx",
+                "raw_files": [
+                  "/workspace/mui__material-ui__0.1/packages/mui-material-next/src/Badge/Badge.tsx"
+                ],
+                "reason": "absent_at_base_commit"
+              },
+              {
+                "file": "packages/mui-material-next/src/Badge/index.d.ts",
+                "raw_files": [
+                  "/workspace/mui__material-ui__0.1/packages/mui-material-next/src/Badge/index.d.ts"
+                ],
+                "reason": "absent_at_base_commit"
+              },
+              {
+                "file": "packages/mui-material-next/src/Badge/index.js",
+                "raw_files": [
+                  "/workspace/mui__material-ui__0.1/packages/mui-material-next/src/Badge/index.js"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "SWE-Bench-Pro__go__maintenance__bugfix__997c7afd",
+            "task_name": "contextbench/verified-train-b0cc18fc0c376397",
+            "oracle_maximum": 0.692308,
+            "files": [
+              {
+                "file": "github/workflows/benchmark.yml",
+                "raw_files": [
+                  ".github/workflows/benchmark.yml"
+                ],
+                "reason": "gold_path_mangled_upstream"
+              },
+              {
+                "file": "github/workflows/codeql-analysis.yml",
+                "raw_files": [
+                  ".github/workflows/codeql-analysis.yml"
+                ],
+                "reason": "gold_path_mangled_upstream"
+              },
+              {
+                "file": "golangci.yml",
+                "raw_files": [
+                  ".golangci.yml"
+                ],
+                "reason": "gold_path_mangled_upstream"
+              },
+              {
+                "file": "goreleaser.yml",
+                "raw_files": [
+                  ".goreleaser.yml"
+                ],
+                "reason": "gold_path_mangled_upstream"
+              }
+            ]
+          },
+          {
+            "instance_id": "SWE-Bench-Pro__python__maintenance__bugfix__1cae51cc",
+            "task_name": "contextbench/verified-train-e306498ec2fdec5b",
+            "oracle_maximum": 0.923077,
+            "files": [
+              {
+                "file": "azure-pipelines/azure-pipelines.yml",
+                "raw_files": [
+                  ".azure-pipelines/azure-pipelines.yml"
+                ],
+                "reason": "gold_path_mangled_upstream"
+              }
+            ]
+          },
+          {
+            "instance_id": "SWE-Bench-Pro__python__maintenance__bugfix__942d0b14",
+            "task_name": "contextbench/verified-train-7707254dc99581ce",
+            "oracle_maximum": 0.833333,
+            "files": [
+              {
+                "file": "azure-pipelines/azure-pipelines.yml",
+                "raw_files": [
+                  ".azure-pipelines/azure-pipelines.yml"
+                ],
+                "reason": "gold_path_mangled_upstream"
+              },
+              {
+                "file": "lib/ansible/module_utils/six.py",
+                "raw_files": [
+                  "lib/ansible/module_utils/six.py"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "SWE-Bench-Verified__python__maintenance__bugfix__1409977d",
+            "task_name": "contextbench/verified-train-db1739a8492af80b",
+            "oracle_maximum": 0.666667,
+            "files": [
+              {
+                "file": "pylint/tests/functional/u/unused/unused_typing_imports.py",
+                "raw_files": [
+                  "pylint/tests/functional/u/unused/unused_typing_imports.py"
+                ],
+                "reason": "absent_at_base_commit"
+              }
+            ]
+          },
+          {
+            "instance_id": "SWE-PolyBench__javascript__maintenance__bugfix__2d7a3934",
+            "task_name": "contextbench/verified-train-73f2ef9221bbc1b4",
+            "oracle_maximum": 0.888889,
+            "files": [
+              {
+                "file": "eslintrc.yml",
+                "raw_files": [
+                  ".eslintrc.yml"
+                ],
+                "reason": "gold_path_mangled_upstream"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "gold_ranges_past_eof": {
+      "description": "Gold ranges that end past the end of the file at the base commit, most by one line.",
+      "adapter_handling": "The verifier clamps a read's declared range to the base file and drops a range that starts past its end (ATTRIBUTION.md), so the oracle's reads of these files are credited.",
+      "counts": {
+        "full": 357,
+        "verified": 72,
+        "verified-test": 12,
+        "verified-train": 134
+      },
+      "ranges": {
+        "full": {
+          "ending_past_eof": 1004,
+          "ending_one_line_past_eof": 959
+        },
+        "verified": {
+          "ending_past_eof": 152,
+          "ending_one_line_past_eof": 149
+        },
+        "verified-test": {
+          "ending_past_eof": 27,
+          "ending_one_line_past_eof": 27
+        },
+        "verified-train": {
+          "ending_past_eof": 343,
+          "ending_one_line_past_eof": 335
+        }
+      },
+      "ranges_starting_past_eof": {
+        "full": [
+          {
+            "instance_id": "Multi-SWE-Bench__c__maintenance__bugfix__21118538",
+            "path": "src/libponyc/type/cap.c",
+            "start_line": 984,
+            "end_line": 1011,
+            "file_lines": 961
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__c__maintenance__bugfix__21118538",
+            "path": "src/libponyc/type/cap.c",
+            "start_line": 1010,
+            "end_line": 1025,
+            "file_lines": 961
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__go__maintenance__bugfix__1f155697",
+            "path": "pkg/cmd/label/shared.go",
+            "start_line": 31,
+            "end_line": 37,
+            "file_lines": 7
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__go__maintenance__bugfix__1f155697",
+            "path": "pkg/cmd/label/shared.go",
+            "start_line": 32,
+            "end_line": 33,
+            "file_lines": 7
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__go__maintenance__bugfix__1f155697",
+            "path": "pkg/cmd/label/shared.go",
+            "start_line": 32,
+            "end_line": 37,
+            "file_lines": 7
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__go__maintenance__bugfix__8e26ff1b",
+            "path": "internal/config/config_type.go",
+            "start_line": 483,
+            "end_line": 492,
+            "file_lines": 482
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__go__maintenance__bugfix__8e26ff1b",
+            "path": "internal/config/config_type.go",
+            "start_line": 485,
+            "end_line": 491,
+            "file_lines": 482
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__go__maintenance__bugfix__a48e4f92",
+            "path": "context/config_file.go",
+            "start_line": 68,
+            "end_line": 212,
+            "file_lines": 66
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__go__maintenance__bugfix__a48e4f92",
+            "path": "context/config_file.go",
+            "start_line": 90,
+            "end_line": 259,
+            "file_lines": 66
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__go__maintenance__bugfix__a48e4f92",
+            "path": "context/config_file.go",
+            "start_line": 205,
+            "end_line": 212,
+            "file_lines": 66
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__java__maintenance__bugfix__286bee60",
+            "path": "logstash-core/src/main/java/org/logstash/instrument/metrics/FlowMetric.java",
+            "start_line": 170,
+            "end_line": 186,
+            "file_lines": 157
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__java__maintenance__bugfix__286bee60",
+            "path": "logstash-core/src/main/java/org/logstash/instrument/metrics/FlowMetric.java",
+            "start_line": 180,
+            "end_line": 201,
+            "file_lines": 157
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__java__maintenance__bugfix__286bee60",
+            "path": "logstash-core/src/main/java/org/logstash/instrument/metrics/FlowMetric.java",
+            "start_line": 200,
+            "end_line": 231,
+            "file_lines": 157
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__java__maintenance__bugfix__286bee60",
+            "path": "logstash-core/src/main/java/org/logstash/instrument/metrics/FlowMetric.java",
+            "start_line": 230,
+            "end_line": 246,
+            "file_lines": 157
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__javascript__maintenance__bugfix__fcd8789b",
+            "path": "packages/svelte/src/compiler/warnings.js",
+            "start_line": 795,
+            "end_line": 801,
+            "file_lines": 794
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__javascript__maintenance__bugfix__fcd8789b",
+            "path": "packages/svelte/src/compiler/warnings.js",
+            "start_line": 797,
+            "end_line": 801,
+            "file_lines": 794
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__javascript__maintenance__bugfix__fcd8789b",
+            "path": "packages/svelte/src/compiler/warnings.js",
+            "start_line": 798,
+            "end_line": 802,
+            "file_lines": 794
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__javascript__maintenance__bugfix__fcd8789b",
+            "path": "packages/svelte/src/compiler/warnings.js",
+            "start_line": 800,
+            "end_line": 802,
+            "file_lines": 794
+          },
+          {
+            "instance_id": "Multi-SWE-Bench__typescript__maintenance__bugfix__7c573a46",
+            "path": "packages/mui-system/src/Unstable_Grid/createGrid.tsx",
+            "start_line": 240,
+            "end_line": 266,
+            "file_lines": 234
+          },
+          {
+            "instance_id": "SWE-Bench-Pro__go__maintenance__bugfix__997c7afd",
+            "path": "go.mod",
+            "start_line": 327,
+            "end_line": 343,
+            "file_lines": 48
+          }
+        ],
+        "verified": [
+          {
+            "instance_id": "SWE-Bench-Pro__go__maintenance__bugfix__997c7afd",
+            "path": "go.mod",
+            "start_line": 327,
+            "end_line": 343,
+            "file_lines": 48
+          }
+        ],
+        "verified-test": [],
+        "verified-train": [
+          {
+            "instance_id": "Multi-SWE-Bench__go__maintenance__bugfix__6e022940",
+            "path": "pkg/cmd/secret/set/set.go",
+            "start_line": 240,
+            "end_line": 277,
+            "file_lines": 239
+          },
+          {
+            "instance_id": "SWE-Bench-Pro__go__maintenance__bugfix__997c7afd",
+            "path": "go.mod",
+            "start_line": 327,
+            "end_line": 343,
+            "file_lines": 48
+          }
+        ]
+      },
+      "instances": {
+        "full": [
+          "Multi-SWE-Bench__c__maintenance__bugfix__00c0ba3f",
+          "Multi-SWE-Bench__c__maintenance__bugfix__021ff837",
+          "Multi-SWE-Bench__c__maintenance__bugfix__09f3279b",
+          "Multi-SWE-Bench__c__maintenance__bugfix__0c83f46c",
+          "Multi-SWE-Bench__c__maintenance__bugfix__0dde5323",
+          "Multi-SWE-Bench__c__maintenance__bugfix__0e6cafff",
+          "Multi-SWE-Bench__c__maintenance__bugfix__0f495035",
+          "Multi-SWE-Bench__c__maintenance__bugfix__0fd5b4e4",
+          "Multi-SWE-Bench__c__maintenance__bugfix__21118538",
+          "Multi-SWE-Bench__c__maintenance__bugfix__2fa17064",
+          "Multi-SWE-Bench__c__maintenance__bugfix__39769692",
+          "Multi-SWE-Bench__c__maintenance__bugfix__40aed09e",
+          "Multi-SWE-Bench__c__maintenance__bugfix__47a98a35",
+          "Multi-SWE-Bench__c__maintenance__bugfix__47c8af09",
+          "Multi-SWE-Bench__c__maintenance__bugfix__4c71dc12",
+          "Multi-SWE-Bench__c__maintenance__bugfix__4ca33241",
+          "Multi-SWE-Bench__c__maintenance__bugfix__4ebabe7c",
+          "Multi-SWE-Bench__c__maintenance__bugfix__5adf8efc",
+          "Multi-SWE-Bench__c__maintenance__bugfix__5dc9809e",
+          "Multi-SWE-Bench__c__maintenance__bugfix__5e58ab80",
+          "Multi-SWE-Bench__c__maintenance__bugfix__5e659108",
+          "Multi-SWE-Bench__c__maintenance__bugfix__616889c2",
+          "Multi-SWE-Bench__c__maintenance__bugfix__629ac0cf",
+          "Multi-SWE-Bench__c__maintenance__bugfix__671c9508",
+          "Multi-SWE-Bench__c__maintenance__bugfix__6cd6f1c7",
+          "Multi-SWE-Bench__c__maintenance__bugfix__6ef49a25",
+          "Multi-SWE-Bench__c__maintenance__bugfix__7a22ebc0",
+          "Multi-SWE-Bench__c__maintenance__bugfix__7b474035",
+          "Multi-SWE-Bench__c__maintenance__bugfix__7efc43e3",
+          "Multi-SWE-Bench__c__maintenance__bugfix__7f86410c",
+          "Multi-SWE-Bench__c__maintenance__bugfix__83a33032",
+          "Multi-SWE-Bench__c__maintenance__bugfix__8d7c78de",
+          "Multi-SWE-Bench__c__maintenance__bugfix__8f4a9d08",
+          "Multi-SWE-Bench__c__maintenance__bugfix__8f9042e3",
+          "Multi-SWE-Bench__c__maintenance__bugfix__9bd79689",
+          "Multi-SWE-Bench__c__maintenance__bugfix__a3fd01a5",
+          "Multi-SWE-Bench__c__maintenance__bugfix__b8c88ac8",
+          "Multi-SWE-Bench__c__maintenance__bugfix__c52773f5",
+          "Multi-SWE-Bench__c__maintenance__bugfix__da421a62",
+          "Multi-SWE-Bench__c__maintenance__bugfix__e4e2d33a",
+          "Multi-SWE-Bench__cpp__maintenance__bugfix__044dead0",
+          "Multi-SWE-Bench__cpp__maintenance__bugfix__0ebe9a19",
+          "Multi-SWE-Bench__cpp__maintenance__bugfix__0ee2775d",
+          "Multi-SWE-Bench__cpp__maintenance__bugfix__14448d2b",
+          "Multi-SWE-Bench__cpp__maintenance__bugfix__28e2c906",
+          "Multi-SWE-Bench__cpp__maintenance__bugfix__2c49ef99",
+          "Multi-SWE-Bench__cpp__maintenance__bugfix__2c96f617",
+          "Multi-SWE-Bench__cpp__maintenance__bugfix__38c03040",
+          "Multi-SWE-Bench__cpp__maintenance__bugfix__3e497d27",
+          "Multi-SWE-Bench__cpp__maintenance__bugfix__3eb5a2e7",
+          "Multi-SWE-Bench__cpp__maintenance__bugfix__6081c43f",
+          "Multi-SWE-Bench__cpp__maintenance__bugfix__64aeac91",
+          "Multi-SWE-Bench__cpp__maintenance__bugfix__69ca7457",
+          "Multi-SWE-Bench__cpp__maintenance__bugfix__6a4e21e9",
+          "Multi-SWE-Bench__cpp__maintenance__bugfix__7ab3f948",
+          "Multi-SWE-Bench__cpp__maintenance__bugfix__7ae95c21",
+          "Multi-SWE-Bench__cpp__maintenance__bugfix__7c9ef76c",
+          "Multi-SWE-Bench__cpp__maintenance__bugfix__8ca94c6a",
+          "Multi-SWE-Bench__cpp__maintenance__bugfix__a069c6e5",
+          "Multi-SWE-Bench__cpp__maintenance__bugfix__a46e5b53",
+          "Multi-SWE-Bench__cpp__maintenance__bugfix__aaea44c7",
+          "Multi-SWE-Bench__cpp__maintenance__bugfix__b34a7a0b",
+          "Multi-SWE-Bench__cpp__maintenance__bugfix__c5d5fa00",
+          "Multi-SWE-Bench__cpp__maintenance__bugfix__c66a3d37",
+          "Multi-SWE-Bench__cpp__maintenance__bugfix__c69b0f66",
+          "Multi-SWE-Bench__cpp__maintenance__bugfix__c6a81e91",
+          "Multi-SWE-Bench__cpp__maintenance__bugfix__cd54bb72",
+          "Multi-SWE-Bench__cpp__maintenance__bugfix__cf5b2b93",
+          "Multi-SWE-Bench__cpp__maintenance__bugfix__e7ea0c9a",
+          "Multi-SWE-Bench__cpp__maintenance__bugfix__f42e0c7e",
+          "Multi-SWE-Bench__go__maintenance__bugfix__00f7bf1b",
+          "Multi-SWE-Bench__go__maintenance__bugfix__03b66e26",
+          "Multi-SWE-Bench__go__maintenance__bugfix__03f04397",
+          "Multi-SWE-Bench__go__maintenance__bugfix__062a3b2e",
+          "Multi-SWE-Bench__go__maintenance__bugfix__09374180",
+          "Multi-SWE-Bench__go__maintenance__bugfix__0dce19c1",
+          "Multi-SWE-Bench__go__maintenance__bugfix__0f51ce0e",
+          "Multi-SWE-Bench__go__maintenance__bugfix__0fb9dbae",
+          "Multi-SWE-Bench__go__maintenance__bugfix__1384380d",
+          "Multi-SWE-Bench__go__maintenance__bugfix__1ae7a100",
+          "Multi-SWE-Bench__go__maintenance__bugfix__1aec1ae3",
+          "Multi-SWE-Bench__go__maintenance__bugfix__1ba303a5",
+          "Multi-SWE-Bench__go__maintenance__bugfix__1eafebd4",
+          "Multi-SWE-Bench__go__maintenance__bugfix__1f155697",
+          "Multi-SWE-Bench__go__maintenance__bugfix__239fd4ae",
+          "Multi-SWE-Bench__go__maintenance__bugfix__2651398f",
+          "Multi-SWE-Bench__go__maintenance__bugfix__2b6c072d",
+          "Multi-SWE-Bench__go__maintenance__bugfix__2b83a112",
+          "Multi-SWE-Bench__go__maintenance__bugfix__2c28b5bb",
+          "Multi-SWE-Bench__go__maintenance__bugfix__2c512ec3",
+          "Multi-SWE-Bench__go__maintenance__bugfix__2ec2b62e",
+          "Multi-SWE-Bench__go__maintenance__bugfix__2eedb5b8",
+          "Multi-SWE-Bench__go__maintenance__bugfix__2f844c5a",
+          "Multi-SWE-Bench__go__maintenance__bugfix__2fea5867",
+          "Multi-SWE-Bench__go__maintenance__bugfix__2ffecd23",
+          "Multi-SWE-Bench__go__maintenance__bugfix__32a949d3",
+          "Multi-SWE-Bench__go__maintenance__bugfix__437b3ccc",
+          "Multi-SWE-Bench__go__maintenance__bugfix__4ca6dbd6",
+          "Multi-SWE-Bench__go__maintenance__bugfix__4d9664f3",
+          "Multi-SWE-Bench__go__maintenance__bugfix__50943d1e",
+          "Multi-SWE-Bench__go__maintenance__bugfix__6278f4d6",
+          "Multi-SWE-Bench__go__maintenance__bugfix__6507285e",
+          "Multi-SWE-Bench__go__maintenance__bugfix__67adc20c",
+          "Multi-SWE-Bench__go__maintenance__bugfix__697e2017",
+          "Multi-SWE-Bench__go__maintenance__bugfix__6d69fe70",
+          "Multi-SWE-Bench__go__maintenance__bugfix__7604b122",
+          "Multi-SWE-Bench__go__maintenance__bugfix__8e26ff1b",
+          "Multi-SWE-Bench__go__maintenance__bugfix__a48e4f92",
+          "Multi-SWE-Bench__go__maintenance__bugfix__b64d0325",
+          "Multi-SWE-Bench__go__maintenance__bugfix__b74904cc",
+          "Multi-SWE-Bench__go__maintenance__bugfix__cedbb0cb",
+          "Multi-SWE-Bench__go__maintenance__bugfix__e7d01ad8",
+          "Multi-SWE-Bench__go__maintenance__bugfix__eb5704a5",
+          "Multi-SWE-Bench__go__maintenance__bugfix__eda678ea",
+          "Multi-SWE-Bench__java__maintenance__bugfix__0b6512c8",
+          "Multi-SWE-Bench__java__maintenance__bugfix__0bf4ab42",
+          "Multi-SWE-Bench__java__maintenance__bugfix__0e8711b0",
+          "Multi-SWE-Bench__java__maintenance__bugfix__14da06bc",
+          "Multi-SWE-Bench__java__maintenance__bugfix__167a45c5",
+          "Multi-SWE-Bench__java__maintenance__bugfix__1817c8ed",
+          "Multi-SWE-Bench__java__maintenance__bugfix__1e49fe9b",
+          "Multi-SWE-Bench__java__maintenance__bugfix__1e82a367",
+          "Multi-SWE-Bench__java__maintenance__bugfix__1fceae89",
+          "Multi-SWE-Bench__java__maintenance__bugfix__23ed271f",
+          "Multi-SWE-Bench__java__maintenance__bugfix__286bee60",
+          "Multi-SWE-Bench__java__maintenance__bugfix__28d6b4f8",
+          "Multi-SWE-Bench__java__maintenance__bugfix__2c0c7c93",
+          "Multi-SWE-Bench__java__maintenance__bugfix__2fc9583e",
+          "Multi-SWE-Bench__java__maintenance__bugfix__2ffa7c93",
+          "Multi-SWE-Bench__java__maintenance__bugfix__30e97967",
+          "Multi-SWE-Bench__java__maintenance__bugfix__3360f285",
+          "Multi-SWE-Bench__java__maintenance__bugfix__37e0db74",
+          "Multi-SWE-Bench__java__maintenance__bugfix__3df45953",
+          "Multi-SWE-Bench__java__maintenance__bugfix__488338ae",
+          "Multi-SWE-Bench__java__maintenance__bugfix__4c9564d0",
+          "Multi-SWE-Bench__java__maintenance__bugfix__4d196265",
+          "Multi-SWE-Bench__java__maintenance__bugfix__4e0927d8",
+          "Multi-SWE-Bench__java__maintenance__bugfix__5b0ee9d4",
+          "Multi-SWE-Bench__java__maintenance__bugfix__5e082813",
+          "Multi-SWE-Bench__java__maintenance__bugfix__5f28b944",
+          "Multi-SWE-Bench__java__maintenance__bugfix__65cd72b7",
+          "Multi-SWE-Bench__java__maintenance__bugfix__6b4d2516",
+          "Multi-SWE-Bench__java__maintenance__bugfix__6bd8aca7",
+          "Multi-SWE-Bench__java__maintenance__bugfix__747c7f60",
+          "Multi-SWE-Bench__java__maintenance__bugfix__7c19351d",
+          "Multi-SWE-Bench__java__maintenance__bugfix__7e7100ff",
+          "Multi-SWE-Bench__java__maintenance__bugfix__9a294334",
+          "Multi-SWE-Bench__java__maintenance__bugfix__9a3d9d3f",
+          "Multi-SWE-Bench__java__maintenance__bugfix__be63553e",
+          "Multi-SWE-Bench__java__maintenance__bugfix__e1b10b60",
+          "Multi-SWE-Bench__java__maintenance__bugfix__ebf98685",
+          "Multi-SWE-Bench__java__maintenance__bugfix__ec4f6157",
+          "Multi-SWE-Bench__java__maintenance__bugfix__f3dcac34",
+          "Multi-SWE-Bench__java__maintenance__bugfix__f72ebf63",
+          "Multi-SWE-Bench__java__maintenance__bugfix__fa49b08d",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__000d0675",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__00fd24ea",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__02c5df7f",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__03fc2f07",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__0a8059a1",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__0d45c7d3",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__0db9182c",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__0e58c6cf",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__0ed136bf",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__0ed92fe3",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__124b0a75",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__17cc2eff",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__1be84ffc",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__1d08a30d",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__20bead90",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__28a15959",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__2a93ee66",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__2b5b7c1a",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__2b901618",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__2d1e9238",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__2d378f9b",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__2d4dc0a9",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__2db84281",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__2e8a1482",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__3a3cd664",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__3d4cfa9c",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__3d5cd5de",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__3d84a3a4",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__3db06908",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__3fc4d35b",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__3ffe5fef",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__53b08a9f",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__5b47b0dd",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__6d649769",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__6fadd8e0",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__721ee9d6",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__72488b59",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__776ecce5",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__88e86575",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__98bbaed2",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__9f7f9937",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__a8655bb4",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__b31d2f53",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__baf8a2e6",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__bd81816f",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__c51ae361",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__cbea412a",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__cf55b635",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__d2584708",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__d8fe134c",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__e1b1c62b",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__efd49f96",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__f9c6210a",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__fcd8789b",
+          "Multi-SWE-Bench__rust__maintenance__bugfix__0cdc1a09",
+          "Multi-SWE-Bench__rust__maintenance__bugfix__1b1ad6ba",
+          "Multi-SWE-Bench__rust__maintenance__bugfix__1d105f30",
+          "Multi-SWE-Bench__rust__maintenance__bugfix__1db0c403",
+          "Multi-SWE-Bench__rust__maintenance__bugfix__25df8223",
+          "Multi-SWE-Bench__rust__maintenance__bugfix__2a1daf41",
+          "Multi-SWE-Bench__rust__maintenance__bugfix__2cd03658",
+          "Multi-SWE-Bench__rust__maintenance__bugfix__2e0110cd",
+          "Multi-SWE-Bench__rust__maintenance__bugfix__3a080ce7",
+          "Multi-SWE-Bench__rust__maintenance__bugfix__40c7307e",
+          "Multi-SWE-Bench__rust__maintenance__bugfix__4aa8fc3e",
+          "Multi-SWE-Bench__rust__maintenance__bugfix__4ba7e9d3",
+          "Multi-SWE-Bench__rust__maintenance__bugfix__4bbd4593",
+          "Multi-SWE-Bench__rust__maintenance__bugfix__4d5c77ad",
+          "Multi-SWE-Bench__rust__maintenance__bugfix__4fc9de12",
+          "Multi-SWE-Bench__rust__maintenance__bugfix__4fcf4b1c",
+          "Multi-SWE-Bench__rust__maintenance__bugfix__5baf9739",
+          "Multi-SWE-Bench__rust__maintenance__bugfix__5c6c8b01",
+          "Multi-SWE-Bench__rust__maintenance__bugfix__6d94a3ab",
+          "Multi-SWE-Bench__rust__maintenance__bugfix__6fbe70d3",
+          "Multi-SWE-Bench__rust__maintenance__bugfix__7df7e1c0",
+          "Multi-SWE-Bench__rust__maintenance__bugfix__7e1b8f0a",
+          "Multi-SWE-Bench__rust__maintenance__bugfix__92158fba",
+          "Multi-SWE-Bench__rust__maintenance__bugfix__97604906",
+          "Multi-SWE-Bench__rust__maintenance__bugfix__a6d71a25",
+          "Multi-SWE-Bench__rust__maintenance__bugfix__ae8b362a",
+          "Multi-SWE-Bench__rust__maintenance__bugfix__c763032c",
+          "Multi-SWE-Bench__rust__maintenance__bugfix__c9cd2b2c",
+          "Multi-SWE-Bench__rust__maintenance__bugfix__daf2bf65",
+          "Multi-SWE-Bench__rust__maintenance__bugfix__e23da35e",
+          "Multi-SWE-Bench__rust__maintenance__bugfix__e2c42cbe",
+          "Multi-SWE-Bench__rust__maintenance__bugfix__ebeba2e0",
+          "Multi-SWE-Bench__rust__maintenance__bugfix__fecd5288",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__04c51be7",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__05c9e61e",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__0a4f7929",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__0ae3b255",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__0c53b6a1",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__0ec53c73",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__0fed75c5",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__1e99f2c7",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__2186b6b3",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__2be123a6",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__2c753cff",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__2cdfd9a1",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__3a348b16",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__3c1a4f89",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__3cb539ec",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__3d366b5c",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__4085c2a5",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__4b02a4db",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__54ebe590",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__5bbc1cb0",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__5eee261d",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__5f6606a5",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__6a14056a",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__77b5a0cc",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__7c41997b",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__7c573a46",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__7ee2742e",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__7f347fd7",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__84424f7e",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__8ae98e43",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__8d780f70",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__95ee98dd",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__9907b12d",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__9aef9350",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__a277aace",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__a7aba10f",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__c24eb7dc",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__c8b82135",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__dbff0193",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__ff629f34",
+          "SWE-Bench-Pro__go__maintenance__bugfix__1177cd53",
+          "SWE-Bench-Pro__go__maintenance__bugfix__153337fe",
+          "SWE-Bench-Pro__go__maintenance__bugfix__157932b6",
+          "SWE-Bench-Pro__go__maintenance__bugfix__1c69a463",
+          "SWE-Bench-Pro__go__maintenance__bugfix__40a717e5",
+          "SWE-Bench-Pro__go__maintenance__bugfix__997c7afd",
+          "SWE-Bench-Pro__go__maintenance__bugfix__b0783224",
+          "SWE-Bench-Pro__javascript__maintenance__bugfix__14ef25ae",
+          "SWE-Bench-Pro__python__maintenance__bugfix__091dae2f",
+          "SWE-Bench-Pro__python__maintenance__bugfix__0c4f8d13",
+          "SWE-Bench-Pro__python__maintenance__bugfix__120c6a17",
+          "SWE-Bench-Pro__python__maintenance__bugfix__18d7bbbc",
+          "SWE-Bench-Pro__python__maintenance__bugfix__19a1fba2",
+          "SWE-Bench-Pro__python__maintenance__bugfix__1cae51cc",
+          "SWE-Bench-Pro__python__maintenance__bugfix__31f13b61",
+          "SWE-Bench-Pro__python__maintenance__bugfix__36b8c9ee",
+          "SWE-Bench-Pro__python__maintenance__bugfix__53ca6a30",
+          "SWE-Bench-Pro__python__maintenance__bugfix__66e05eaa",
+          "SWE-Bench-Pro__python__maintenance__bugfix__6c2ff818",
+          "SWE-Bench-Pro__python__maintenance__bugfix__788af515",
+          "SWE-Bench-Pro__python__maintenance__bugfix__7fe75022",
+          "SWE-Bench-Pro__python__maintenance__bugfix__81c5c6fa",
+          "SWE-Bench-Pro__python__maintenance__bugfix__83c269c9",
+          "SWE-Bench-Pro__python__maintenance__bugfix__89932d58",
+          "SWE-Bench-Pro__python__maintenance__bugfix__983f2896",
+          "SWE-Bench-Pro__python__maintenance__bugfix__a0c2a105",
+          "SWE-Bench-Pro__python__maintenance__bugfix__ab946da6",
+          "SWE-Bench-Pro__python__maintenance__bugfix__b6eff698",
+          "SWE-Bench-Pro__python__maintenance__bugfix__b9f9961f",
+          "SWE-Bench-Pro__python__maintenance__bugfix__d131db7a",
+          "SWE-Bench-Pro__python__maintenance__bugfix__d2506f10",
+          "SWE-Bench-Pro__python__maintenance__bugfix__d5827cb9",
+          "SWE-Bench-Pro__python__maintenance__bugfix__e2b70931",
+          "SWE-Bench-Pro__python__maintenance__bugfix__e579f2f0",
+          "SWE-Bench-Pro__python__maintenance__bugfix__e9e02e89",
+          "SWE-Bench-Pro__python__maintenance__bugfix__eafb1f0b",
+          "SWE-Bench-Pro__python__maintenance__bugfix__ef8756b1",
+          "SWE-Bench-Pro__python__maintenance__bugfix__f29228c8",
+          "SWE-Bench-Pro__python__maintenance__bugfix__f2973ae1",
+          "SWE-Bench-Pro__python__maintenance__bugfix__fcb506a5",
+          "SWE-Bench-Pro__python__maintenance__bugfix__fd2aaa2a",
+          "SWE-Bench-Pro__python__maintenance__bugfix__ff79bafd",
+          "SWE-Bench-Verified__python__maintenance__bugfix__17c22a6f",
+          "SWE-Bench-Verified__python__maintenance__bugfix__63bd0928",
+          "SWE-Bench-Verified__python__maintenance__bugfix__67e32922",
+          "SWE-Bench-Verified__python__maintenance__bugfix__9db89f01",
+          "SWE-Bench-Verified__python__maintenance__bugfix__abb9b8b0",
+          "SWE-Bench-Verified__python__maintenance__bugfix__bd3d7a3d",
+          "SWE-Bench-Verified__python__maintenance__bugfix__c4c8d376",
+          "SWE-Bench-Verified__python__maintenance__bugfix__d0de46b5",
+          "SWE-Bench-Verified__python__maintenance__bugfix__d3576321",
+          "SWE-Bench-Verified__python__maintenance__bugfix__d939b999",
+          "SWE-Bench-Verified__python__maintenance__bugfix__deb49033",
+          "SWE-Bench-Verified__python__maintenance__bugfix__f827251e",
+          "SWE-PolyBench__javascript__maintenance__bugfix__246db671",
+          "SWE-PolyBench__javascript__maintenance__bugfix__2d7a3934",
+          "SWE-PolyBench__javascript__maintenance__bugfix__352fcc27",
+          "SWE-PolyBench__javascript__maintenance__bugfix__463d4713",
+          "SWE-PolyBench__javascript__maintenance__bugfix__47a93da5",
+          "SWE-PolyBench__javascript__maintenance__bugfix__59dd675b",
+          "SWE-PolyBench__javascript__maintenance__bugfix__9c9b931e",
+          "SWE-PolyBench__javascript__maintenance__bugfix__9d623e73",
+          "SWE-PolyBench__javascript__maintenance__bugfix__bdc85da2",
+          "SWE-PolyBench__javascript__maintenance__bugfix__c26fd1ab",
+          "SWE-PolyBench__python__evolution__feature__17a093c8",
+          "SWE-PolyBench__python__evolution__feature__327c2003",
+          "SWE-PolyBench__python__evolution__feature__4a329645",
+          "SWE-PolyBench__python__evolution__feature__99fe1556",
+          "SWE-PolyBench__python__evolution__feature__9e2901b5",
+          "SWE-PolyBench__python__evolution__feature__c081ba2d",
+          "SWE-PolyBench__python__evolution__refactor__475a33ea",
+          "SWE-PolyBench__python__evolution__refactor__57ad5598",
+          "SWE-PolyBench__python__maintenance__bugfix__52a91dd8",
+          "SWE-PolyBench__typescript__evolution__feature__9d75462c",
+          "SWE-PolyBench__typescript__maintenance__bugfix__446aeec5"
+        ],
+        "verified": [
+          "Multi-SWE-Bench__c__maintenance__bugfix__0f495035",
+          "Multi-SWE-Bench__c__maintenance__bugfix__39769692",
+          "Multi-SWE-Bench__c__maintenance__bugfix__5dc9809e",
+          "Multi-SWE-Bench__c__maintenance__bugfix__5e659108",
+          "Multi-SWE-Bench__c__maintenance__bugfix__7b474035",
+          "Multi-SWE-Bench__c__maintenance__bugfix__8f9042e3",
+          "Multi-SWE-Bench__c__maintenance__bugfix__b8c88ac8",
+          "Multi-SWE-Bench__cpp__maintenance__bugfix__3e497d27",
+          "Multi-SWE-Bench__cpp__maintenance__bugfix__6a4e21e9",
+          "Multi-SWE-Bench__cpp__maintenance__bugfix__7c9ef76c",
+          "Multi-SWE-Bench__go__maintenance__bugfix__03f04397",
+          "Multi-SWE-Bench__go__maintenance__bugfix__1384380d",
+          "Multi-SWE-Bench__go__maintenance__bugfix__1ba303a5",
+          "Multi-SWE-Bench__go__maintenance__bugfix__2c512ec3",
+          "Multi-SWE-Bench__go__maintenance__bugfix__4d9664f3",
+          "Multi-SWE-Bench__go__maintenance__bugfix__cedbb0cb",
+          "Multi-SWE-Bench__go__maintenance__bugfix__eb5704a5",
+          "Multi-SWE-Bench__java__maintenance__bugfix__14da06bc",
+          "Multi-SWE-Bench__java__maintenance__bugfix__747c7f60",
+          "Multi-SWE-Bench__java__maintenance__bugfix__9a3d9d3f",
+          "Multi-SWE-Bench__java__maintenance__bugfix__ec4f6157",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__3d4cfa9c",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__3d84a3a4",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__5b47b0dd",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__72488b59",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__98bbaed2",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__b31d2f53",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__bd81816f",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__cbea412a",
+          "Multi-SWE-Bench__rust__maintenance__bugfix__92158fba",
+          "Multi-SWE-Bench__rust__maintenance__bugfix__ae8b362a",
+          "Multi-SWE-Bench__rust__maintenance__bugfix__c9cd2b2c",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__04c51be7",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__05c9e61e",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__3cb539ec",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__54ebe590",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__5eee261d",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__6a14056a",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__7c41997b",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__9907b12d",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__a7aba10f",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__c8b82135",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__ff629f34",
+          "SWE-Bench-Pro__go__maintenance__bugfix__40a717e5",
+          "SWE-Bench-Pro__go__maintenance__bugfix__997c7afd",
+          "SWE-Bench-Pro__python__maintenance__bugfix__0c4f8d13",
+          "SWE-Bench-Pro__python__maintenance__bugfix__18d7bbbc",
+          "SWE-Bench-Pro__python__maintenance__bugfix__1cae51cc",
+          "SWE-Bench-Pro__python__maintenance__bugfix__31f13b61",
+          "SWE-Bench-Pro__python__maintenance__bugfix__36b8c9ee",
+          "SWE-Bench-Pro__python__maintenance__bugfix__53ca6a30",
+          "SWE-Bench-Pro__python__maintenance__bugfix__81c5c6fa",
+          "SWE-Bench-Pro__python__maintenance__bugfix__89932d58",
+          "SWE-Bench-Pro__python__maintenance__bugfix__ab946da6",
+          "SWE-Bench-Pro__python__maintenance__bugfix__b9f9961f",
+          "SWE-Bench-Pro__python__maintenance__bugfix__e2b70931",
+          "SWE-Bench-Pro__python__maintenance__bugfix__fcb506a5",
+          "SWE-Bench-Verified__python__maintenance__bugfix__abb9b8b0",
+          "SWE-Bench-Verified__python__maintenance__bugfix__c4c8d376",
+          "SWE-Bench-Verified__python__maintenance__bugfix__d3576321",
+          "SWE-Bench-Verified__python__maintenance__bugfix__deb49033",
+          "SWE-PolyBench__javascript__maintenance__bugfix__2d7a3934",
+          "SWE-PolyBench__javascript__maintenance__bugfix__463d4713",
+          "SWE-PolyBench__javascript__maintenance__bugfix__59dd675b",
+          "SWE-PolyBench__javascript__maintenance__bugfix__9c9b931e",
+          "SWE-PolyBench__javascript__maintenance__bugfix__9d623e73",
+          "SWE-PolyBench__javascript__maintenance__bugfix__c26fd1ab",
+          "SWE-PolyBench__python__evolution__feature__17a093c8",
+          "SWE-PolyBench__python__evolution__feature__4a329645",
+          "SWE-PolyBench__python__evolution__feature__9e2901b5",
+          "SWE-PolyBench__python__evolution__refactor__57ad5598",
+          "SWE-PolyBench__python__maintenance__bugfix__52a91dd8"
+        ],
+        "verified-test": [
+          "Multi-SWE-Bench__c__maintenance__bugfix__49f4a0f4",
+          "Multi-SWE-Bench__go__maintenance__bugfix__2fea5f6b",
+          "Multi-SWE-Bench__go__maintenance__bugfix__4d9664f3",
+          "Multi-SWE-Bench__go__maintenance__bugfix__85c030cf",
+          "Multi-SWE-Bench__java__maintenance__bugfix__2bd87230",
+          "Multi-SWE-Bench__java__maintenance__bugfix__6ba3d94b",
+          "Multi-SWE-Bench__java__maintenance__bugfix__9a3d9d3f",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__2f405b15",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__72488b59",
+          "Multi-SWE-Bench__rust__maintenance__bugfix__1b6e3d94",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__54ebe590",
+          "SWE-Bench-Pro__python__maintenance__bugfix__ab946da6"
+        ],
+        "verified-train": [
+          "Multi-SWE-Bench__c__maintenance__bugfix__0f495035",
+          "Multi-SWE-Bench__c__maintenance__bugfix__0f94ce4d",
+          "Multi-SWE-Bench__c__maintenance__bugfix__1e195cd6",
+          "Multi-SWE-Bench__c__maintenance__bugfix__1e842312",
+          "Multi-SWE-Bench__c__maintenance__bugfix__39769692",
+          "Multi-SWE-Bench__c__maintenance__bugfix__45da4482",
+          "Multi-SWE-Bench__c__maintenance__bugfix__538e9f59",
+          "Multi-SWE-Bench__c__maintenance__bugfix__5dc9809e",
+          "Multi-SWE-Bench__c__maintenance__bugfix__5e659108",
+          "Multi-SWE-Bench__c__maintenance__bugfix__7b474035",
+          "Multi-SWE-Bench__c__maintenance__bugfix__8bffb1b1",
+          "Multi-SWE-Bench__c__maintenance__bugfix__8f9042e3",
+          "Multi-SWE-Bench__c__maintenance__bugfix__a47dfbbf",
+          "Multi-SWE-Bench__c__maintenance__bugfix__b8c88ac8",
+          "Multi-SWE-Bench__cpp__maintenance__bugfix__3e497d27",
+          "Multi-SWE-Bench__cpp__maintenance__bugfix__41b108ee",
+          "Multi-SWE-Bench__cpp__maintenance__bugfix__4a37a167",
+          "Multi-SWE-Bench__cpp__maintenance__bugfix__6a4e21e9",
+          "Multi-SWE-Bench__cpp__maintenance__bugfix__7c9ef76c",
+          "Multi-SWE-Bench__cpp__maintenance__bugfix__bca55dea",
+          "Multi-SWE-Bench__cpp__maintenance__bugfix__e43d9aa5",
+          "Multi-SWE-Bench__cpp__maintenance__bugfix__fe080aac",
+          "Multi-SWE-Bench__go__maintenance__bugfix__03f04397",
+          "Multi-SWE-Bench__go__maintenance__bugfix__0498ad7f",
+          "Multi-SWE-Bench__go__maintenance__bugfix__0b78ed50",
+          "Multi-SWE-Bench__go__maintenance__bugfix__0e3febd0",
+          "Multi-SWE-Bench__go__maintenance__bugfix__0f79e39c",
+          "Multi-SWE-Bench__go__maintenance__bugfix__1384380d",
+          "Multi-SWE-Bench__go__maintenance__bugfix__1b8cfbf9",
+          "Multi-SWE-Bench__go__maintenance__bugfix__1ba303a5",
+          "Multi-SWE-Bench__go__maintenance__bugfix__250649eb",
+          "Multi-SWE-Bench__go__maintenance__bugfix__2a889a1d",
+          "Multi-SWE-Bench__go__maintenance__bugfix__2c512ec3",
+          "Multi-SWE-Bench__go__maintenance__bugfix__3c9b757f",
+          "Multi-SWE-Bench__go__maintenance__bugfix__3d1b3145",
+          "Multi-SWE-Bench__go__maintenance__bugfix__3d85271b",
+          "Multi-SWE-Bench__go__maintenance__bugfix__3da242a2",
+          "Multi-SWE-Bench__go__maintenance__bugfix__3e92c76b",
+          "Multi-SWE-Bench__go__maintenance__bugfix__4606de0b",
+          "Multi-SWE-Bench__go__maintenance__bugfix__52c152ba",
+          "Multi-SWE-Bench__go__maintenance__bugfix__6e022940",
+          "Multi-SWE-Bench__go__maintenance__bugfix__74cafcca",
+          "Multi-SWE-Bench__go__maintenance__bugfix__9e8a151e",
+          "Multi-SWE-Bench__go__maintenance__bugfix__cedbb0cb",
+          "Multi-SWE-Bench__go__maintenance__bugfix__d129d52f",
+          "Multi-SWE-Bench__go__maintenance__bugfix__eb5704a5",
+          "Multi-SWE-Bench__go__maintenance__bugfix__ed8db47d",
+          "Multi-SWE-Bench__go__maintenance__bugfix__ff0cfab5",
+          "Multi-SWE-Bench__java__maintenance__bugfix__14da06bc",
+          "Multi-SWE-Bench__java__maintenance__bugfix__1665de74",
+          "Multi-SWE-Bench__java__maintenance__bugfix__747c7f60",
+          "Multi-SWE-Bench__java__maintenance__bugfix__92782c7b",
+          "Multi-SWE-Bench__java__maintenance__bugfix__be0b5fff",
+          "Multi-SWE-Bench__java__maintenance__bugfix__ec4f6157",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__01d1908e",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__1081c568",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__2f838a18",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__3d4cfa9c",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__3d84a3a4",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__5b47b0dd",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__838d3d25",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__87d9772c",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__98bbaed2",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__a98dbc6f",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__b31d2f53",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__bb727b6d",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__bd81816f",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__cbea412a",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__d33de279",
+          "Multi-SWE-Bench__javascript__maintenance__bugfix__eea782b2",
+          "Multi-SWE-Bench__rust__maintenance__bugfix__0e4346f7",
+          "Multi-SWE-Bench__rust__maintenance__bugfix__16860730",
+          "Multi-SWE-Bench__rust__maintenance__bugfix__3a4062fe",
+          "Multi-SWE-Bench__rust__maintenance__bugfix__3be02163",
+          "Multi-SWE-Bench__rust__maintenance__bugfix__627665a2",
+          "Multi-SWE-Bench__rust__maintenance__bugfix__92158fba",
+          "Multi-SWE-Bench__rust__maintenance__bugfix__aa16b8b2",
+          "Multi-SWE-Bench__rust__maintenance__bugfix__ae8b362a",
+          "Multi-SWE-Bench__rust__maintenance__bugfix__c9cd2b2c",
+          "Multi-SWE-Bench__rust__maintenance__bugfix__d3133dfb",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__04c51be7",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__05c53458",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__05c9e61e",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__0b0f1e0e",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__18eac778",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__1ac0bb81",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__1ff281e5",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__3cb539ec",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__41a5a6f5",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__4c3f5d3d",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__5aed9f96",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__5eee261d",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__6a14056a",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__6a53360d",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__6cb88b18",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__6f9b5ff2",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__7958c8a7",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__7c41997b",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__8d0f55cd",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__8d36ca39",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__8fcb53e6",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__9907b12d",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__a7aba10f",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__c3284db4",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__c8b82135",
+          "Multi-SWE-Bench__typescript__maintenance__bugfix__ff629f34",
+          "SWE-Bench-Pro__go__maintenance__bugfix__40a717e5",
+          "SWE-Bench-Pro__go__maintenance__bugfix__997c7afd",
+          "SWE-Bench-Pro__python__maintenance__bugfix__0c4f8d13",
+          "SWE-Bench-Pro__python__maintenance__bugfix__18d7bbbc",
+          "SWE-Bench-Pro__python__maintenance__bugfix__1cae51cc",
+          "SWE-Bench-Pro__python__maintenance__bugfix__31f13b61",
+          "SWE-Bench-Pro__python__maintenance__bugfix__36b8c9ee",
+          "SWE-Bench-Pro__python__maintenance__bugfix__53ca6a30",
+          "SWE-Bench-Pro__python__maintenance__bugfix__81c5c6fa",
+          "SWE-Bench-Pro__python__maintenance__bugfix__89932d58",
+          "SWE-Bench-Pro__python__maintenance__bugfix__b9f9961f",
+          "SWE-Bench-Pro__python__maintenance__bugfix__e2b70931",
+          "SWE-Bench-Pro__python__maintenance__bugfix__fcb506a5",
+          "SWE-Bench-Verified__python__maintenance__bugfix__abb9b8b0",
+          "SWE-Bench-Verified__python__maintenance__bugfix__c4c8d376",
+          "SWE-Bench-Verified__python__maintenance__bugfix__d3576321",
+          "SWE-Bench-Verified__python__maintenance__bugfix__deb49033",
+          "SWE-PolyBench__javascript__maintenance__bugfix__2d7a3934",
+          "SWE-PolyBench__javascript__maintenance__bugfix__463d4713",
+          "SWE-PolyBench__javascript__maintenance__bugfix__59dd675b",
+          "SWE-PolyBench__javascript__maintenance__bugfix__9c9b931e",
+          "SWE-PolyBench__javascript__maintenance__bugfix__9d623e73",
+          "SWE-PolyBench__javascript__maintenance__bugfix__c26fd1ab",
+          "SWE-PolyBench__python__evolution__feature__17a093c8",
+          "SWE-PolyBench__python__evolution__feature__4a329645",
+          "SWE-PolyBench__python__evolution__feature__9e2901b5",
+          "SWE-PolyBench__python__evolution__refactor__57ad5598",
+          "SWE-PolyBench__python__maintenance__bugfix__52a91dd8"
+        ]
+      }
+    },
+    "wrong_problem_statements": {
+      "description": "Rows whose problem statement describes a different change than the instance's gold patch. Each family's statements were compared with the source release they copy, and SWE-bench Pro statements also with the requirements and interface that release gives for the same instance.",
+      "adapter_handling": "Corrected at generation from corrections.json, which names the source and revision of each corrected value; the generation report lists every applied correction.",
+      "counts": {
+        "full": 2,
+        "verified": 1,
+        "verified-test": 1,
+        "verified-train": 0
+      },
+      "provenance": {
+        "Verified": {
+          "source": {
+            "dataset": "princeton-nlp/SWE-bench_Verified",
+            "revision": "c104f840cc67f8b6eec6f759ebc8b2693d585d4a",
+            "file": "data/test-00000-of-00001.parquet",
+            "sha256": "a45b1fe4e2f0c8390b2b2938ac83e92ed5979000856808f3679c07812e9e6dcd"
+          },
+          "rows": 313,
+          "identical": 313,
+          "different": [],
+          "missing_from_source": []
+        },
+        "Poly": {
+          "source": {
+            "dataset": "AmazonScience/SWE-PolyBench",
+            "revision": "d56445f9940eae4e9d2974ec66820c2f1d7754e6",
+            "file": "test.csv",
+            "sha256": "17ad661b20e9af1e2067fbbc2e2658a21137d56693570d1d07f966d8bc0408b7"
+          },
+          "rows": 219,
+          "identical": 219,
+          "different": [],
+          "missing_from_source": []
+        },
+        "Pro": {
+          "source": {
+            "dataset": "ScaleAI/SWE-bench_Pro",
+            "revision": "2d52cb3df914a3fcf80c7f66738b3a88ae37fc50",
+            "file": "data/v1/test-00000-of-00001.parquet",
+            "sha256": "c8cd7115496ad4e9a8b21d088cef576a65bf821bb542b24336f13f714cef13f8"
+          },
+          "rows": 142,
+          "identical": 142,
+          "different": [],
+          "missing_from_source": []
+        }
+      },
+      "not_checked": {
+        "Multi": "Multi-SWE-bench's dataset is 1.5 GB of JSONL"
+      },
+      "pro_requirements_check": [
+        {
+          "instance_id": "SWE-Bench-Pro__javascript__maintenance__bugfix__ac8400d9",
+          "original_inst_id": "instance_NodeBB__NodeBB-f48ed3658aab7be0f1165d4c1f89af48d7865189-v0495b863a912fbff5749c67e860612b91825407c",
+          "own_similarity": 0.016,
+          "best_similarity": 0.045,
+          "best_match": "instance_NodeBB__NodeBB-4327a09d76f10a79109da9d91c22120428d3bdb9-vnan",
+          "verdict": "corrected"
+        },
+        {
+          "instance_id": "SWE-Bench-Pro__python__maintenance__bugfix__450d75e0",
+          "original_inst_id": "instance_ansible__ansible-709484969c8a4ffd74b839a673431a8c5caa6457-vba6da65a0f3baefda7a058ebbd0a8dcafb8512f5",
+          "own_similarity": 0.053,
+          "best_similarity": 0.148,
+          "best_match": "instance_ansible__ansible-4c5ce5a1a9e79a845aff4978cfeb72a0d4ecf7d6-v1055803c3a812189a1133297f7f5468579283f86",
+          "verdict": "kept: the statement is the BSD uptime issue that the patch fixes, and SWE-bench Pro v1's requirements ask for an uptime_seconds fact on BSD hosts"
+        },
+        {
+          "instance_id": "SWE-Bench-Pro__go__maintenance__bugfix__2cef67df",
+          "original_inst_id": "instance_future-architect__vuls-1832b4ee3a20177ad313d806983127cb6e53f5cf",
+          "own_similarity": 0.029,
+          "best_similarity": 0.083,
+          "best_match": "instance_future-architect__vuls-e6c0da61324a0c04026ffd1c031436ee2be9503a",
+          "verdict": "corrected"
+        }
+      ],
+      "corrections": [
+        {
+          "instance_id": "SWE-Bench-Pro__go__maintenance__bugfix__2cef67df",
+          "field": "problem_statement",
+          "applied_in": [
+            "full"
+          ],
+          "source_instance_is_original_inst_id": true,
+          "value_matches_source": true
+        },
+        {
+          "instance_id": "SWE-Bench-Pro__javascript__maintenance__bugfix__ac8400d9",
+          "field": "problem_statement",
+          "applied_in": [
+            "full",
+            "verified",
+            "verified-test"
+          ],
+          "source_instance_is_original_inst_id": true,
+          "value_matches_source": true
+        }
+      ],
+      "instances": {
+        "full": [
+          "SWE-Bench-Pro__go__maintenance__bugfix__2cef67df",
+          "SWE-Bench-Pro__javascript__maintenance__bugfix__ac8400d9"
+        ],
+        "verified": [
+          "SWE-Bench-Pro__javascript__maintenance__bugfix__ac8400d9"
+        ],
+        "verified-test": [
+          "SWE-Bench-Pro__javascript__maintenance__bugfix__ac8400d9"
+        ],
+        "verified-train": []
+      }
+    },
+    "json_quoted_problem_statements": {
+      "description": "Problem statements stored as a JSON string literal, so the text shows its quotes and \\n escapes. The source release stores them the same way; SWE-bench Pro V2 stores none of them quoted.",
+      "adapter_handling": "Decoded at generation when the whole value is one JSON string literal (adapter.decoded_json_string); the generation report lists the decoded rows. A corrected statement is replaced instead.",
+      "counts": {
+        "full": 67,
+        "verified": 29,
+        "verified-test": 2,
+        "verified-train": 27
+      },
+      "source_release": {
+        "Pro": {
+          "rows": 67,
+          "stored_identically": 67
+        }
+      },
+      "swe_bench_pro_v2": {
+        "rows": 58,
+        "equal_to_the_decoded_text": 6,
+        "json_quoted": 0
+      },
+      "instances": {
+        "full": [
+          "SWE-Bench-Pro__go__maintenance__bugfix__05aad678",
+          "SWE-Bench-Pro__go__maintenance__bugfix__09f45300",
+          "SWE-Bench-Pro__go__maintenance__bugfix__1177cd53",
+          "SWE-Bench-Pro__go__maintenance__bugfix__153337fe",
+          "SWE-Bench-Pro__go__maintenance__bugfix__3ddf60b3",
+          "SWE-Bench-Pro__go__maintenance__bugfix__40a717e5",
+          "SWE-Bench-Pro__go__maintenance__bugfix__43d6d59b",
+          "SWE-Bench-Pro__go__maintenance__bugfix__52d866b3",
+          "SWE-Bench-Pro__go__maintenance__bugfix__6efcf999",
+          "SWE-Bench-Pro__go__maintenance__bugfix__b5ad2c2c",
+          "SWE-Bench-Pro__go__maintenance__bugfix__d3c56cc5",
+          "SWE-Bench-Pro__go__maintenance__bugfix__d66a0254",
+          "SWE-Bench-Pro__javascript__maintenance__bugfix__0155d9d9",
+          "SWE-Bench-Pro__javascript__maintenance__bugfix__09eb0d6d",
+          "SWE-Bench-Pro__javascript__maintenance__bugfix__14ef25ae",
+          "SWE-Bench-Pro__javascript__maintenance__bugfix__2bfb5681",
+          "SWE-Bench-Pro__javascript__maintenance__bugfix__39a9746b",
+          "SWE-Bench-Pro__javascript__maintenance__bugfix__4eb0e647",
+          "SWE-Bench-Pro__javascript__maintenance__bugfix__5c001746",
+          "SWE-Bench-Pro__javascript__maintenance__bugfix__7b6185af",
+          "SWE-Bench-Pro__javascript__maintenance__bugfix__82518720",
+          "SWE-Bench-Pro__javascript__maintenance__bugfix__a6ee51da",
+          "SWE-Bench-Pro__javascript__maintenance__bugfix__ac8400d9",
+          "SWE-Bench-Pro__javascript__maintenance__bugfix__bc5ac89f",
+          "SWE-Bench-Pro__javascript__maintenance__bugfix__e31ec45c",
+          "SWE-Bench-Pro__python__maintenance__bugfix__07bb383a",
+          "SWE-Bench-Pro__python__maintenance__bugfix__0bac5789",
+          "SWE-Bench-Pro__python__maintenance__bugfix__0c4f8d13",
+          "SWE-Bench-Pro__python__maintenance__bugfix__10a41eff",
+          "SWE-Bench-Pro__python__maintenance__bugfix__120c6a17",
+          "SWE-Bench-Pro__python__maintenance__bugfix__183dd4c4",
+          "SWE-Bench-Pro__python__maintenance__bugfix__18d7bbbc",
+          "SWE-Bench-Pro__python__maintenance__bugfix__19a1fba2",
+          "SWE-Bench-Pro__python__maintenance__bugfix__1bb5c0b0",
+          "SWE-Bench-Pro__python__maintenance__bugfix__1cae51cc",
+          "SWE-Bench-Pro__python__maintenance__bugfix__31f13b61",
+          "SWE-Bench-Pro__python__maintenance__bugfix__3e3c6b22",
+          "SWE-Bench-Pro__python__maintenance__bugfix__450d75e0",
+          "SWE-Bench-Pro__python__maintenance__bugfix__4c132bfd",
+          "SWE-Bench-Pro__python__maintenance__bugfix__552343cd",
+          "SWE-Bench-Pro__python__maintenance__bugfix__58ff6ae6",
+          "SWE-Bench-Pro__python__maintenance__bugfix__62badbbf",
+          "SWE-Bench-Pro__python__maintenance__bugfix__64469377",
+          "SWE-Bench-Pro__python__maintenance__bugfix__65d3f730",
+          "SWE-Bench-Pro__python__maintenance__bugfix__6e9e4336",
+          "SWE-Bench-Pro__python__maintenance__bugfix__739b23db",
+          "SWE-Bench-Pro__python__maintenance__bugfix__7b688a35",
+          "SWE-Bench-Pro__python__maintenance__bugfix__7c2efe8a",
+          "SWE-Bench-Pro__python__maintenance__bugfix__7c4a11fb",
+          "SWE-Bench-Pro__python__maintenance__bugfix__7fe1dc23",
+          "SWE-Bench-Pro__python__maintenance__bugfix__7fe75022",
+          "SWE-Bench-Pro__python__maintenance__bugfix__942d0b14",
+          "SWE-Bench-Pro__python__maintenance__bugfix__9af74069",
+          "SWE-Bench-Pro__python__maintenance__bugfix__9c878ad5",
+          "SWE-Bench-Pro__python__maintenance__bugfix__b6eff698",
+          "SWE-Bench-Pro__python__maintenance__bugfix__c6afe1c7",
+          "SWE-Bench-Pro__python__maintenance__bugfix__cf01f471",
+          "SWE-Bench-Pro__python__maintenance__bugfix__d131db7a",
+          "SWE-Bench-Pro__python__maintenance__bugfix__e2b70931",
+          "SWE-Bench-Pro__python__maintenance__bugfix__e579f2f0",
+          "SWE-Bench-Pro__python__maintenance__bugfix__e6efdd87",
+          "SWE-Bench-Pro__python__maintenance__bugfix__eafb1f0b",
+          "SWE-Bench-Pro__python__maintenance__bugfix__f1ba3b67",
+          "SWE-Bench-Pro__python__maintenance__bugfix__f87209f8",
+          "SWE-Bench-Pro__python__maintenance__bugfix__fcb506a5",
+          "SWE-Bench-Pro__python__maintenance__bugfix__fd2aaa2a",
+          "SWE-Bench-Pro__python__maintenance__bugfix__ff79bafd"
+        ],
+        "verified": [
+          "SWE-Bench-Pro__go__maintenance__bugfix__40a717e5",
+          "SWE-Bench-Pro__go__maintenance__bugfix__6efcf999",
+          "SWE-Bench-Pro__go__maintenance__bugfix__d3c56cc5",
+          "SWE-Bench-Pro__javascript__maintenance__bugfix__09eb0d6d",
+          "SWE-Bench-Pro__javascript__maintenance__bugfix__39a9746b",
+          "SWE-Bench-Pro__javascript__maintenance__bugfix__4eb0e647",
+          "SWE-Bench-Pro__javascript__maintenance__bugfix__5c001746",
+          "SWE-Bench-Pro__javascript__maintenance__bugfix__7b6185af",
+          "SWE-Bench-Pro__javascript__maintenance__bugfix__ac8400d9",
+          "SWE-Bench-Pro__javascript__maintenance__bugfix__e31ec45c",
+          "SWE-Bench-Pro__python__maintenance__bugfix__07bb383a",
+          "SWE-Bench-Pro__python__maintenance__bugfix__0c4f8d13",
+          "SWE-Bench-Pro__python__maintenance__bugfix__18d7bbbc",
+          "SWE-Bench-Pro__python__maintenance__bugfix__1bb5c0b0",
+          "SWE-Bench-Pro__python__maintenance__bugfix__1cae51cc",
+          "SWE-Bench-Pro__python__maintenance__bugfix__31f13b61",
+          "SWE-Bench-Pro__python__maintenance__bugfix__450d75e0",
+          "SWE-Bench-Pro__python__maintenance__bugfix__4c132bfd",
+          "SWE-Bench-Pro__python__maintenance__bugfix__62badbbf",
+          "SWE-Bench-Pro__python__maintenance__bugfix__64469377",
+          "SWE-Bench-Pro__python__maintenance__bugfix__739b23db",
+          "SWE-Bench-Pro__python__maintenance__bugfix__7c2efe8a",
+          "SWE-Bench-Pro__python__maintenance__bugfix__7c4a11fb",
+          "SWE-Bench-Pro__python__maintenance__bugfix__942d0b14",
+          "SWE-Bench-Pro__python__maintenance__bugfix__9c878ad5",
+          "SWE-Bench-Pro__python__maintenance__bugfix__cf01f471",
+          "SWE-Bench-Pro__python__maintenance__bugfix__e2b70931",
+          "SWE-Bench-Pro__python__maintenance__bugfix__e6efdd87",
+          "SWE-Bench-Pro__python__maintenance__bugfix__fcb506a5"
+        ],
+        "verified-test": [
+          "SWE-Bench-Pro__javascript__maintenance__bugfix__ac8400d9",
+          "SWE-Bench-Pro__python__maintenance__bugfix__1bb5c0b0"
+        ],
+        "verified-train": [
+          "SWE-Bench-Pro__go__maintenance__bugfix__40a717e5",
+          "SWE-Bench-Pro__go__maintenance__bugfix__6efcf999",
+          "SWE-Bench-Pro__go__maintenance__bugfix__d3c56cc5",
+          "SWE-Bench-Pro__javascript__maintenance__bugfix__09eb0d6d",
+          "SWE-Bench-Pro__javascript__maintenance__bugfix__39a9746b",
+          "SWE-Bench-Pro__javascript__maintenance__bugfix__4eb0e647",
+          "SWE-Bench-Pro__javascript__maintenance__bugfix__5c001746",
+          "SWE-Bench-Pro__javascript__maintenance__bugfix__7b6185af",
+          "SWE-Bench-Pro__javascript__maintenance__bugfix__e31ec45c",
+          "SWE-Bench-Pro__python__maintenance__bugfix__07bb383a",
+          "SWE-Bench-Pro__python__maintenance__bugfix__0c4f8d13",
+          "SWE-Bench-Pro__python__maintenance__bugfix__18d7bbbc",
+          "SWE-Bench-Pro__python__maintenance__bugfix__1cae51cc",
+          "SWE-Bench-Pro__python__maintenance__bugfix__31f13b61",
+          "SWE-Bench-Pro__python__maintenance__bugfix__450d75e0",
+          "SWE-Bench-Pro__python__maintenance__bugfix__4c132bfd",
+          "SWE-Bench-Pro__python__maintenance__bugfix__62badbbf",
+          "SWE-Bench-Pro__python__maintenance__bugfix__64469377",
+          "SWE-Bench-Pro__python__maintenance__bugfix__739b23db",
+          "SWE-Bench-Pro__python__maintenance__bugfix__7c2efe8a",
+          "SWE-Bench-Pro__python__maintenance__bugfix__7c4a11fb",
+          "SWE-Bench-Pro__python__maintenance__bugfix__942d0b14",
+          "SWE-Bench-Pro__python__maintenance__bugfix__9c878ad5",
+          "SWE-Bench-Pro__python__maintenance__bugfix__cf01f471",
+          "SWE-Bench-Pro__python__maintenance__bugfix__e2b70931",
+          "SWE-Bench-Pro__python__maintenance__bugfix__e6efdd87",
+          "SWE-Bench-Pro__python__maintenance__bugfix__fcb506a5"
+        ]
+      }
+    },
+    "polybench_untracked_dockerfile": {
+      "description": "SWE-PolyBench builds each image by copying the build context into /testbed (`WORKDIR /testbed`, `COPY . .`), so the checkout holds the Dockerfile the image was built from as an untracked /testbed/Dockerfile.",
+      "adapter_handling": "Left out of the model patch. ContextBench's OpenHands runner exports with `git add -A` and `git diff --cached <base>`, so its patches add Dockerfile; the agent image lists the image's untracked files in .git/info/exclude, so the adapter's patches do not. Edit localization counts only deleted lines, so the added file changes no metric. Where the repository tracks a root Dockerfile (`tracked_dockerfile_overwritten`), the image overwrote it. The agent image keeps the overwritten file, as native agents see it, and records it in the model patch's baseline. Upstream's patch would then modify Dockerfile, and its deleted lines would count as edits outside the gold context; the adapter's does not.",
+      "counts": {
+        "full": 193,
+        "verified": 108,
+        "verified-test": 11,
+        "verified-train": 97
+      },
+      "tracked_dockerfile_overwritten": {
+        "full": [
+          "SWE-PolyBench__javascript__maintenance__bugfix__0f1fd789",
+          "SWE-PolyBench__javascript__maintenance__bugfix__1d1e6b31",
+          "SWE-PolyBench__javascript__maintenance__bugfix__233b4dcf",
+          "SWE-PolyBench__javascript__maintenance__bugfix__246db671",
+          "SWE-PolyBench__javascript__maintenance__bugfix__3d0126bc",
+          "SWE-PolyBench__javascript__maintenance__bugfix__4678c55f",
+          "SWE-PolyBench__javascript__maintenance__bugfix__4a0345cb",
+          "SWE-PolyBench__javascript__maintenance__bugfix__509abf92",
+          "SWE-PolyBench__javascript__maintenance__bugfix__59dd675b",
+          "SWE-PolyBench__javascript__maintenance__bugfix__6888b9ab",
+          "SWE-PolyBench__javascript__maintenance__bugfix__a65e43ee",
+          "SWE-PolyBench__javascript__maintenance__bugfix__bdc85da2",
+          "SWE-PolyBench__javascript__maintenance__bugfix__eb4ff271",
+          "SWE-PolyBench__javascript__maintenance__bugfix__f4541fb1",
+          "SWE-PolyBench__python__evolution__feature__99fe1556",
+          "SWE-PolyBench__python__maintenance__bugfix__4409826b",
+          "SWE-PolyBench__python__maintenance__bugfix__52a91dd8",
+          "SWE-PolyBench__python__maintenance__bugfix__7fb7f57f",
+          "SWE-PolyBench__python__maintenance__bugfix__938a9f43",
+          "SWE-PolyBench__python__maintenance__bugfix__a18cb311",
+          "SWE-PolyBench__python__maintenance__bugfix__aaf309d2",
+          "SWE-PolyBench__python__maintenance__bugfix__b52bbc24",
+          "SWE-PolyBench__python__maintenance__bugfix__c3c84d11",
+          "SWE-PolyBench__python__maintenance__bugfix__d91f5999",
+          "SWE-PolyBench__python__maintenance__bugfix__ed58622a",
+          "SWE-PolyBench__python__maintenance__bugfix__ef257729"
+        ],
+        "verified": [
+          "SWE-PolyBench__javascript__maintenance__bugfix__0f1fd789",
+          "SWE-PolyBench__javascript__maintenance__bugfix__59dd675b",
+          "SWE-PolyBench__javascript__maintenance__bugfix__a65e43ee",
+          "SWE-PolyBench__javascript__maintenance__bugfix__f4541fb1",
+          "SWE-PolyBench__python__maintenance__bugfix__52a91dd8",
+          "SWE-PolyBench__python__maintenance__bugfix__aaf309d2",
+          "SWE-PolyBench__python__maintenance__bugfix__b52bbc24",
+          "SWE-PolyBench__python__maintenance__bugfix__ed58622a"
+        ],
+        "verified-test": [
+          "SWE-PolyBench__python__maintenance__bugfix__b52bbc24"
+        ],
+        "verified-train": [
+          "SWE-PolyBench__javascript__maintenance__bugfix__0f1fd789",
+          "SWE-PolyBench__javascript__maintenance__bugfix__59dd675b",
+          "SWE-PolyBench__javascript__maintenance__bugfix__a65e43ee",
+          "SWE-PolyBench__javascript__maintenance__bugfix__f4541fb1",
+          "SWE-PolyBench__python__maintenance__bugfix__52a91dd8",
+          "SWE-PolyBench__python__maintenance__bugfix__aaf309d2",
+          "SWE-PolyBench__python__maintenance__bugfix__ed58622a"
+        ]
+      },
+      "instances": {
+        "full": [
+          "SWE-PolyBench__javascript__maintenance__bugfix__108b2d38",
+          "SWE-PolyBench__javascript__maintenance__bugfix__10ab7842",
+          "SWE-PolyBench__javascript__maintenance__bugfix__11e78a8d",
+          "SWE-PolyBench__javascript__maintenance__bugfix__1ad00901",
+          "SWE-PolyBench__javascript__maintenance__bugfix__1e29a469",
+          "SWE-PolyBench__javascript__maintenance__bugfix__21086305",
+          "SWE-PolyBench__javascript__maintenance__bugfix__2180c91a",
+          "SWE-PolyBench__javascript__maintenance__bugfix__24a9e40c",
+          "SWE-PolyBench__javascript__maintenance__bugfix__27e1903f",
+          "SWE-PolyBench__javascript__maintenance__bugfix__2abf0a6d",
+          "SWE-PolyBench__javascript__maintenance__bugfix__2bce56a3",
+          "SWE-PolyBench__javascript__maintenance__bugfix__2d7a3934",
+          "SWE-PolyBench__javascript__maintenance__bugfix__2f438f92",
+          "SWE-PolyBench__javascript__maintenance__bugfix__352fcc27",
+          "SWE-PolyBench__javascript__maintenance__bugfix__368a9735",
+          "SWE-PolyBench__javascript__maintenance__bugfix__3b6063b3",
+          "SWE-PolyBench__javascript__maintenance__bugfix__3b6e6f3a",
+          "SWE-PolyBench__javascript__maintenance__bugfix__3c2eb0e8",
+          "SWE-PolyBench__javascript__maintenance__bugfix__432c6033",
+          "SWE-PolyBench__javascript__maintenance__bugfix__463d4713",
+          "SWE-PolyBench__javascript__maintenance__bugfix__47a93da5",
+          "SWE-PolyBench__javascript__maintenance__bugfix__4d090fc6",
+          "SWE-PolyBench__javascript__maintenance__bugfix__55d29da8",
+          "SWE-PolyBench__javascript__maintenance__bugfix__575f5d76",
+          "SWE-PolyBench__javascript__maintenance__bugfix__5bb861ad",
+          "SWE-PolyBench__javascript__maintenance__bugfix__62a63305",
+          "SWE-PolyBench__javascript__maintenance__bugfix__63513ada",
+          "SWE-PolyBench__javascript__maintenance__bugfix__78039f77",
+          "SWE-PolyBench__javascript__maintenance__bugfix__7e3e2bb9",
+          "SWE-PolyBench__javascript__maintenance__bugfix__8cc426dd",
+          "SWE-PolyBench__javascript__maintenance__bugfix__90db6ffd",
+          "SWE-PolyBench__javascript__maintenance__bugfix__9b08d665",
+          "SWE-PolyBench__javascript__maintenance__bugfix__9c9b931e",
+          "SWE-PolyBench__javascript__maintenance__bugfix__9ca0e415",
+          "SWE-PolyBench__javascript__maintenance__bugfix__9d623e73",
+          "SWE-PolyBench__javascript__maintenance__bugfix__a9c18162",
+          "SWE-PolyBench__javascript__maintenance__bugfix__b13ae184",
+          "SWE-PolyBench__javascript__maintenance__bugfix__b9ce6a70",
+          "SWE-PolyBench__javascript__maintenance__bugfix__c017c9ba",
+          "SWE-PolyBench__javascript__maintenance__bugfix__c26fd1ab",
+          "SWE-PolyBench__javascript__maintenance__bugfix__c6d3e230",
+          "SWE-PolyBench__javascript__maintenance__bugfix__d1cb6b19",
+          "SWE-PolyBench__javascript__maintenance__bugfix__d3babcfe",
+          "SWE-PolyBench__javascript__maintenance__bugfix__d6eb75d7",
+          "SWE-PolyBench__javascript__maintenance__bugfix__e21304a6",
+          "SWE-PolyBench__javascript__maintenance__bugfix__e647c8ce",
+          "SWE-PolyBench__javascript__maintenance__bugfix__eb1411ba",
+          "SWE-PolyBench__python__evolution__feature__17a093c8",
+          "SWE-PolyBench__python__evolution__feature__327c2003",
+          "SWE-PolyBench__python__evolution__feature__4a329645",
+          "SWE-PolyBench__python__evolution__feature__659eb05d",
+          "SWE-PolyBench__python__evolution__feature__66f97093",
+          "SWE-PolyBench__python__evolution__feature__674464fb",
+          "SWE-PolyBench__python__evolution__feature__6c40c40b",
+          "SWE-PolyBench__python__evolution__feature__7fe6d907",
+          "SWE-PolyBench__python__evolution__feature__8bb50331",
+          "SWE-PolyBench__python__evolution__feature__9e2901b5",
+          "SWE-PolyBench__python__evolution__feature__b4302840",
+          "SWE-PolyBench__python__evolution__feature__b571e16b",
+          "SWE-PolyBench__python__evolution__feature__c081ba2d",
+          "SWE-PolyBench__python__evolution__feature__c0e4893c",
+          "SWE-PolyBench__python__evolution__feature__ebb79d55",
+          "SWE-PolyBench__python__evolution__refactor__475a33ea",
+          "SWE-PolyBench__python__evolution__refactor__57ad5598",
+          "SWE-PolyBench__python__maintenance__bugfix__001a3c43",
+          "SWE-PolyBench__python__maintenance__bugfix__016ce55c",
+          "SWE-PolyBench__python__maintenance__bugfix__023915d6",
+          "SWE-PolyBench__python__maintenance__bugfix__05ee156f",
+          "SWE-PolyBench__python__maintenance__bugfix__080b595b",
+          "SWE-PolyBench__python__maintenance__bugfix__0cf27f56",
+          "SWE-PolyBench__python__maintenance__bugfix__0d2716a2",
+          "SWE-PolyBench__python__maintenance__bugfix__14ce2fa9",
+          "SWE-PolyBench__python__maintenance__bugfix__158909b8",
+          "SWE-PolyBench__python__maintenance__bugfix__214ce29d",
+          "SWE-PolyBench__python__maintenance__bugfix__21c90fc9",
+          "SWE-PolyBench__python__maintenance__bugfix__24342259",
+          "SWE-PolyBench__python__maintenance__bugfix__24529d70",
+          "SWE-PolyBench__python__maintenance__bugfix__2a404651",
+          "SWE-PolyBench__python__maintenance__bugfix__2a9201a9",
+          "SWE-PolyBench__python__maintenance__bugfix__2b00c0d1",
+          "SWE-PolyBench__python__maintenance__bugfix__2f88019c",
+          "SWE-PolyBench__python__maintenance__bugfix__2fda4823",
+          "SWE-PolyBench__python__maintenance__bugfix__31f7341a",
+          "SWE-PolyBench__python__maintenance__bugfix__37455515",
+          "SWE-PolyBench__python__maintenance__bugfix__37b10945",
+          "SWE-PolyBench__python__maintenance__bugfix__380568e9",
+          "SWE-PolyBench__python__maintenance__bugfix__3bb9721e",
+          "SWE-PolyBench__python__maintenance__bugfix__3dee4cdf",
+          "SWE-PolyBench__python__maintenance__bugfix__3f3ff585",
+          "SWE-PolyBench__python__maintenance__bugfix__40f09c26",
+          "SWE-PolyBench__python__maintenance__bugfix__453e08b5",
+          "SWE-PolyBench__python__maintenance__bugfix__453fb844",
+          "SWE-PolyBench__python__maintenance__bugfix__4a4abcd4",
+          "SWE-PolyBench__python__maintenance__bugfix__4b884b82",
+          "SWE-PolyBench__python__maintenance__bugfix__4c48ff4b",
+          "SWE-PolyBench__python__maintenance__bugfix__5188c6bc",
+          "SWE-PolyBench__python__maintenance__bugfix__546cff10",
+          "SWE-PolyBench__python__maintenance__bugfix__5518cb7f",
+          "SWE-PolyBench__python__maintenance__bugfix__593e727c",
+          "SWE-PolyBench__python__maintenance__bugfix__5acd9675",
+          "SWE-PolyBench__python__maintenance__bugfix__5b56aee1",
+          "SWE-PolyBench__python__maintenance__bugfix__5c9ac70f",
+          "SWE-PolyBench__python__maintenance__bugfix__6195e136",
+          "SWE-PolyBench__python__maintenance__bugfix__64a006b0",
+          "SWE-PolyBench__python__maintenance__bugfix__6516ee68",
+          "SWE-PolyBench__python__maintenance__bugfix__65ea5673",
+          "SWE-PolyBench__python__maintenance__bugfix__6bd3c565",
+          "SWE-PolyBench__python__maintenance__bugfix__6cfdf766",
+          "SWE-PolyBench__python__maintenance__bugfix__6e27cc63",
+          "SWE-PolyBench__python__maintenance__bugfix__6ef81275",
+          "SWE-PolyBench__python__maintenance__bugfix__70acfaad",
+          "SWE-PolyBench__python__maintenance__bugfix__72250609",
+          "SWE-PolyBench__python__maintenance__bugfix__76c902ce",
+          "SWE-PolyBench__python__maintenance__bugfix__7740e652",
+          "SWE-PolyBench__python__maintenance__bugfix__80b52b85",
+          "SWE-PolyBench__python__maintenance__bugfix__84e0afe2",
+          "SWE-PolyBench__python__maintenance__bugfix__8b1080ea",
+          "SWE-PolyBench__python__maintenance__bugfix__8c189fda",
+          "SWE-PolyBench__python__maintenance__bugfix__91190bdb",
+          "SWE-PolyBench__python__maintenance__bugfix__91e6ed53",
+          "SWE-PolyBench__python__maintenance__bugfix__9a72b241",
+          "SWE-PolyBench__python__maintenance__bugfix__9ea927ce",
+          "SWE-PolyBench__python__maintenance__bugfix__9ff56151",
+          "SWE-PolyBench__python__maintenance__bugfix__a00a5cc9",
+          "SWE-PolyBench__python__maintenance__bugfix__a89cc1dc",
+          "SWE-PolyBench__python__maintenance__bugfix__aa0703bc",
+          "SWE-PolyBench__python__maintenance__bugfix__ac5893a5",
+          "SWE-PolyBench__python__maintenance__bugfix__ad15cd86",
+          "SWE-PolyBench__python__maintenance__bugfix__b01e9113",
+          "SWE-PolyBench__python__maintenance__bugfix__b110ef6c",
+          "SWE-PolyBench__python__maintenance__bugfix__d492f44e",
+          "SWE-PolyBench__python__maintenance__bugfix__d9412351",
+          "SWE-PolyBench__python__maintenance__bugfix__dbd7cde5",
+          "SWE-PolyBench__python__maintenance__bugfix__dfe58f78",
+          "SWE-PolyBench__python__maintenance__bugfix__e3c9c53c",
+          "SWE-PolyBench__python__maintenance__bugfix__e73cd2fd",
+          "SWE-PolyBench__python__maintenance__bugfix__ea5a4764",
+          "SWE-PolyBench__python__maintenance__bugfix__faa6b3ac",
+          "SWE-PolyBench__typescript__evolution__feature__01d49779",
+          "SWE-PolyBench__typescript__evolution__feature__07098661",
+          "SWE-PolyBench__typescript__evolution__feature__0c4f6bb2",
+          "SWE-PolyBench__typescript__evolution__feature__112bbbf5",
+          "SWE-PolyBench__typescript__evolution__feature__34826a6a",
+          "SWE-PolyBench__typescript__evolution__feature__34b9deda",
+          "SWE-PolyBench__typescript__evolution__feature__41cd3842",
+          "SWE-PolyBench__typescript__evolution__feature__4ee78455",
+          "SWE-PolyBench__typescript__evolution__feature__560e6cf4",
+          "SWE-PolyBench__typescript__evolution__feature__6041a01e",
+          "SWE-PolyBench__typescript__evolution__feature__676e9486",
+          "SWE-PolyBench__typescript__evolution__feature__684a3415",
+          "SWE-PolyBench__typescript__evolution__feature__856aa6a4",
+          "SWE-PolyBench__typescript__evolution__feature__9d75462c",
+          "SWE-PolyBench__typescript__evolution__feature__a565b4b4",
+          "SWE-PolyBench__typescript__evolution__feature__c2e9e5ff",
+          "SWE-PolyBench__typescript__evolution__feature__d33b8607",
+          "SWE-PolyBench__typescript__evolution__feature__d4854a33",
+          "SWE-PolyBench__typescript__evolution__feature__d520ba22",
+          "SWE-PolyBench__typescript__evolution__feature__eb21d713",
+          "SWE-PolyBench__typescript__maintenance__bugfix__0307e40c",
+          "SWE-PolyBench__typescript__maintenance__bugfix__05b26677",
+          "SWE-PolyBench__typescript__maintenance__bugfix__15589352",
+          "SWE-PolyBench__typescript__maintenance__bugfix__16d1ff7a",
+          "SWE-PolyBench__typescript__maintenance__bugfix__18d389e5",
+          "SWE-PolyBench__typescript__maintenance__bugfix__1de1bd3c",
+          "SWE-PolyBench__typescript__maintenance__bugfix__1eac6e28",
+          "SWE-PolyBench__typescript__maintenance__bugfix__22615f27",
+          "SWE-PolyBench__typescript__maintenance__bugfix__2487b02a",
+          "SWE-PolyBench__typescript__maintenance__bugfix__2599ed5a",
+          "SWE-PolyBench__typescript__maintenance__bugfix__27393dd8",
+          "SWE-PolyBench__typescript__maintenance__bugfix__2bb4ea7a",
+          "SWE-PolyBench__typescript__maintenance__bugfix__2bfb742a",
+          "SWE-PolyBench__typescript__maintenance__bugfix__2d1b4a72",
+          "SWE-PolyBench__typescript__maintenance__bugfix__2f2954b5",
+          "SWE-PolyBench__typescript__maintenance__bugfix__338a2426",
+          "SWE-PolyBench__typescript__maintenance__bugfix__3864c137",
+          "SWE-PolyBench__typescript__maintenance__bugfix__42165c4e",
+          "SWE-PolyBench__typescript__maintenance__bugfix__446aeec5",
+          "SWE-PolyBench__typescript__maintenance__bugfix__48468065",
+          "SWE-PolyBench__typescript__maintenance__bugfix__48e5846a",
+          "SWE-PolyBench__typescript__maintenance__bugfix__4f3cb6be",
+          "SWE-PolyBench__typescript__maintenance__bugfix__52180d42",
+          "SWE-PolyBench__typescript__maintenance__bugfix__574eba0a",
+          "SWE-PolyBench__typescript__maintenance__bugfix__62f78810",
+          "SWE-PolyBench__typescript__maintenance__bugfix__65a07845",
+          "SWE-PolyBench__typescript__maintenance__bugfix__6659fd5a",
+          "SWE-PolyBench__typescript__maintenance__bugfix__6688f2d9",
+          "SWE-PolyBench__typescript__maintenance__bugfix__678fa217",
+          "SWE-PolyBench__typescript__maintenance__bugfix__6da325be",
+          "SWE-PolyBench__typescript__maintenance__bugfix__708894b2",
+          "SWE-PolyBench__typescript__maintenance__bugfix__7827bc22",
+          "SWE-PolyBench__typescript__maintenance__bugfix__7d106697",
+          "SWE-PolyBench__typescript__maintenance__bugfix__7dfdbbd1",
+          "SWE-PolyBench__typescript__maintenance__bugfix__cb7a4329"
+        ],
+        "verified": [
+          "SWE-PolyBench__javascript__maintenance__bugfix__108b2d38",
+          "SWE-PolyBench__javascript__maintenance__bugfix__10ab7842",
+          "SWE-PolyBench__javascript__maintenance__bugfix__11e78a8d",
+          "SWE-PolyBench__javascript__maintenance__bugfix__1ad00901",
+          "SWE-PolyBench__javascript__maintenance__bugfix__1e29a469",
+          "SWE-PolyBench__javascript__maintenance__bugfix__21086305",
+          "SWE-PolyBench__javascript__maintenance__bugfix__27e1903f",
+          "SWE-PolyBench__javascript__maintenance__bugfix__2d7a3934",
+          "SWE-PolyBench__javascript__maintenance__bugfix__3b6e6f3a",
+          "SWE-PolyBench__javascript__maintenance__bugfix__463d4713",
+          "SWE-PolyBench__javascript__maintenance__bugfix__4d090fc6",
+          "SWE-PolyBench__javascript__maintenance__bugfix__63513ada",
+          "SWE-PolyBench__javascript__maintenance__bugfix__78039f77",
+          "SWE-PolyBench__javascript__maintenance__bugfix__7e3e2bb9",
+          "SWE-PolyBench__javascript__maintenance__bugfix__8cc426dd",
+          "SWE-PolyBench__javascript__maintenance__bugfix__9b08d665",
+          "SWE-PolyBench__javascript__maintenance__bugfix__9c9b931e",
+          "SWE-PolyBench__javascript__maintenance__bugfix__9ca0e415",
+          "SWE-PolyBench__javascript__maintenance__bugfix__9d623e73",
+          "SWE-PolyBench__javascript__maintenance__bugfix__b9ce6a70",
+          "SWE-PolyBench__javascript__maintenance__bugfix__c017c9ba",
+          "SWE-PolyBench__javascript__maintenance__bugfix__c26fd1ab",
+          "SWE-PolyBench__javascript__maintenance__bugfix__c6d3e230",
+          "SWE-PolyBench__javascript__maintenance__bugfix__d1cb6b19",
+          "SWE-PolyBench__javascript__maintenance__bugfix__d3babcfe",
+          "SWE-PolyBench__javascript__maintenance__bugfix__d6eb75d7",
+          "SWE-PolyBench__javascript__maintenance__bugfix__e21304a6",
+          "SWE-PolyBench__javascript__maintenance__bugfix__e647c8ce",
+          "SWE-PolyBench__javascript__maintenance__bugfix__eb1411ba",
+          "SWE-PolyBench__python__evolution__feature__17a093c8",
+          "SWE-PolyBench__python__evolution__feature__4a329645",
+          "SWE-PolyBench__python__evolution__feature__66f97093",
+          "SWE-PolyBench__python__evolution__feature__674464fb",
+          "SWE-PolyBench__python__evolution__feature__7fe6d907",
+          "SWE-PolyBench__python__evolution__feature__8bb50331",
+          "SWE-PolyBench__python__evolution__feature__9e2901b5",
+          "SWE-PolyBench__python__evolution__feature__b4302840",
+          "SWE-PolyBench__python__evolution__feature__c0e4893c",
+          "SWE-PolyBench__python__evolution__feature__ebb79d55",
+          "SWE-PolyBench__python__evolution__refactor__57ad5598",
+          "SWE-PolyBench__python__maintenance__bugfix__016ce55c",
+          "SWE-PolyBench__python__maintenance__bugfix__023915d6",
+          "SWE-PolyBench__python__maintenance__bugfix__0cf27f56",
+          "SWE-PolyBench__python__maintenance__bugfix__14ce2fa9",
+          "SWE-PolyBench__python__maintenance__bugfix__158909b8",
+          "SWE-PolyBench__python__maintenance__bugfix__214ce29d",
+          "SWE-PolyBench__python__maintenance__bugfix__24342259",
+          "SWE-PolyBench__python__maintenance__bugfix__2a9201a9",
+          "SWE-PolyBench__python__maintenance__bugfix__2b00c0d1",
+          "SWE-PolyBench__python__maintenance__bugfix__2f88019c",
+          "SWE-PolyBench__python__maintenance__bugfix__31f7341a",
+          "SWE-PolyBench__python__maintenance__bugfix__37455515",
+          "SWE-PolyBench__python__maintenance__bugfix__380568e9",
+          "SWE-PolyBench__python__maintenance__bugfix__3bb9721e",
+          "SWE-PolyBench__python__maintenance__bugfix__3f3ff585",
+          "SWE-PolyBench__python__maintenance__bugfix__40f09c26",
+          "SWE-PolyBench__python__maintenance__bugfix__453fb844",
+          "SWE-PolyBench__python__maintenance__bugfix__5188c6bc",
+          "SWE-PolyBench__python__maintenance__bugfix__5518cb7f",
+          "SWE-PolyBench__python__maintenance__bugfix__5acd9675",
+          "SWE-PolyBench__python__maintenance__bugfix__64a006b0",
+          "SWE-PolyBench__python__maintenance__bugfix__6ef81275",
+          "SWE-PolyBench__python__maintenance__bugfix__70acfaad",
+          "SWE-PolyBench__python__maintenance__bugfix__84e0afe2",
+          "SWE-PolyBench__python__maintenance__bugfix__8b1080ea",
+          "SWE-PolyBench__python__maintenance__bugfix__8c189fda",
+          "SWE-PolyBench__python__maintenance__bugfix__91e6ed53",
+          "SWE-PolyBench__python__maintenance__bugfix__9a72b241",
+          "SWE-PolyBench__python__maintenance__bugfix__9ea927ce",
+          "SWE-PolyBench__python__maintenance__bugfix__9ff56151",
+          "SWE-PolyBench__python__maintenance__bugfix__ac5893a5",
+          "SWE-PolyBench__python__maintenance__bugfix__b01e9113",
+          "SWE-PolyBench__python__maintenance__bugfix__b110ef6c",
+          "SWE-PolyBench__python__maintenance__bugfix__dbd7cde5",
+          "SWE-PolyBench__python__maintenance__bugfix__e3c9c53c",
+          "SWE-PolyBench__python__maintenance__bugfix__ea5a4764",
+          "SWE-PolyBench__python__maintenance__bugfix__faa6b3ac",
+          "SWE-PolyBench__typescript__evolution__feature__07098661",
+          "SWE-PolyBench__typescript__evolution__feature__34826a6a",
+          "SWE-PolyBench__typescript__evolution__feature__41cd3842",
+          "SWE-PolyBench__typescript__evolution__feature__684a3415",
+          "SWE-PolyBench__typescript__evolution__feature__c2e9e5ff",
+          "SWE-PolyBench__typescript__evolution__feature__d520ba22",
+          "SWE-PolyBench__typescript__maintenance__bugfix__0307e40c",
+          "SWE-PolyBench__typescript__maintenance__bugfix__15589352",
+          "SWE-PolyBench__typescript__maintenance__bugfix__16d1ff7a",
+          "SWE-PolyBench__typescript__maintenance__bugfix__18d389e5",
+          "SWE-PolyBench__typescript__maintenance__bugfix__1de1bd3c",
+          "SWE-PolyBench__typescript__maintenance__bugfix__22615f27",
+          "SWE-PolyBench__typescript__maintenance__bugfix__2487b02a",
+          "SWE-PolyBench__typescript__maintenance__bugfix__27393dd8",
+          "SWE-PolyBench__typescript__maintenance__bugfix__2bb4ea7a",
+          "SWE-PolyBench__typescript__maintenance__bugfix__2bfb742a",
+          "SWE-PolyBench__typescript__maintenance__bugfix__2d1b4a72",
+          "SWE-PolyBench__typescript__maintenance__bugfix__3864c137",
+          "SWE-PolyBench__typescript__maintenance__bugfix__42165c4e",
+          "SWE-PolyBench__typescript__maintenance__bugfix__48468065",
+          "SWE-PolyBench__typescript__maintenance__bugfix__48e5846a",
+          "SWE-PolyBench__typescript__maintenance__bugfix__4f3cb6be",
+          "SWE-PolyBench__typescript__maintenance__bugfix__52180d42",
+          "SWE-PolyBench__typescript__maintenance__bugfix__6659fd5a",
+          "SWE-PolyBench__typescript__maintenance__bugfix__6688f2d9",
+          "SWE-PolyBench__typescript__maintenance__bugfix__678fa217",
+          "SWE-PolyBench__typescript__maintenance__bugfix__6da325be",
+          "SWE-PolyBench__typescript__maintenance__bugfix__708894b2",
+          "SWE-PolyBench__typescript__maintenance__bugfix__7827bc22",
+          "SWE-PolyBench__typescript__maintenance__bugfix__7d106697",
+          "SWE-PolyBench__typescript__maintenance__bugfix__7dfdbbd1"
+        ],
+        "verified-test": [
+          "SWE-PolyBench__javascript__maintenance__bugfix__9ca0e415",
+          "SWE-PolyBench__javascript__maintenance__bugfix__b9ce6a70",
+          "SWE-PolyBench__javascript__maintenance__bugfix__d1cb6b19",
+          "SWE-PolyBench__python__maintenance__bugfix__3f3ff585",
+          "SWE-PolyBench__python__maintenance__bugfix__453fb844",
+          "SWE-PolyBench__python__maintenance__bugfix__ac5893a5",
+          "SWE-PolyBench__python__maintenance__bugfix__dbd7cde5",
+          "SWE-PolyBench__typescript__evolution__feature__684a3415",
+          "SWE-PolyBench__typescript__maintenance__bugfix__2bb4ea7a",
+          "SWE-PolyBench__typescript__maintenance__bugfix__2bfb742a",
+          "SWE-PolyBench__typescript__maintenance__bugfix__48e5846a"
+        ],
+        "verified-train": [
+          "SWE-PolyBench__javascript__maintenance__bugfix__108b2d38",
+          "SWE-PolyBench__javascript__maintenance__bugfix__10ab7842",
+          "SWE-PolyBench__javascript__maintenance__bugfix__11e78a8d",
+          "SWE-PolyBench__javascript__maintenance__bugfix__1ad00901",
+          "SWE-PolyBench__javascript__maintenance__bugfix__1e29a469",
+          "SWE-PolyBench__javascript__maintenance__bugfix__21086305",
+          "SWE-PolyBench__javascript__maintenance__bugfix__27e1903f",
+          "SWE-PolyBench__javascript__maintenance__bugfix__2d7a3934",
+          "SWE-PolyBench__javascript__maintenance__bugfix__3b6e6f3a",
+          "SWE-PolyBench__javascript__maintenance__bugfix__463d4713",
+          "SWE-PolyBench__javascript__maintenance__bugfix__4d090fc6",
+          "SWE-PolyBench__javascript__maintenance__bugfix__63513ada",
+          "SWE-PolyBench__javascript__maintenance__bugfix__78039f77",
+          "SWE-PolyBench__javascript__maintenance__bugfix__7e3e2bb9",
+          "SWE-PolyBench__javascript__maintenance__bugfix__8cc426dd",
+          "SWE-PolyBench__javascript__maintenance__bugfix__9b08d665",
+          "SWE-PolyBench__javascript__maintenance__bugfix__9c9b931e",
+          "SWE-PolyBench__javascript__maintenance__bugfix__9d623e73",
+          "SWE-PolyBench__javascript__maintenance__bugfix__c017c9ba",
+          "SWE-PolyBench__javascript__maintenance__bugfix__c26fd1ab",
+          "SWE-PolyBench__javascript__maintenance__bugfix__c6d3e230",
+          "SWE-PolyBench__javascript__maintenance__bugfix__d3babcfe",
+          "SWE-PolyBench__javascript__maintenance__bugfix__d6eb75d7",
+          "SWE-PolyBench__javascript__maintenance__bugfix__e21304a6",
+          "SWE-PolyBench__javascript__maintenance__bugfix__e647c8ce",
+          "SWE-PolyBench__javascript__maintenance__bugfix__eb1411ba",
+          "SWE-PolyBench__python__evolution__feature__17a093c8",
+          "SWE-PolyBench__python__evolution__feature__4a329645",
+          "SWE-PolyBench__python__evolution__feature__66f97093",
+          "SWE-PolyBench__python__evolution__feature__674464fb",
+          "SWE-PolyBench__python__evolution__feature__7fe6d907",
+          "SWE-PolyBench__python__evolution__feature__8bb50331",
+          "SWE-PolyBench__python__evolution__feature__9e2901b5",
+          "SWE-PolyBench__python__evolution__feature__b4302840",
+          "SWE-PolyBench__python__evolution__feature__c0e4893c",
+          "SWE-PolyBench__python__evolution__feature__ebb79d55",
+          "SWE-PolyBench__python__evolution__refactor__57ad5598",
+          "SWE-PolyBench__python__maintenance__bugfix__016ce55c",
+          "SWE-PolyBench__python__maintenance__bugfix__023915d6",
+          "SWE-PolyBench__python__maintenance__bugfix__0cf27f56",
+          "SWE-PolyBench__python__maintenance__bugfix__14ce2fa9",
+          "SWE-PolyBench__python__maintenance__bugfix__158909b8",
+          "SWE-PolyBench__python__maintenance__bugfix__214ce29d",
+          "SWE-PolyBench__python__maintenance__bugfix__24342259",
+          "SWE-PolyBench__python__maintenance__bugfix__2a9201a9",
+          "SWE-PolyBench__python__maintenance__bugfix__2b00c0d1",
+          "SWE-PolyBench__python__maintenance__bugfix__2f88019c",
+          "SWE-PolyBench__python__maintenance__bugfix__31f7341a",
+          "SWE-PolyBench__python__maintenance__bugfix__37455515",
+          "SWE-PolyBench__python__maintenance__bugfix__380568e9",
+          "SWE-PolyBench__python__maintenance__bugfix__3bb9721e",
+          "SWE-PolyBench__python__maintenance__bugfix__40f09c26",
+          "SWE-PolyBench__python__maintenance__bugfix__5188c6bc",
+          "SWE-PolyBench__python__maintenance__bugfix__5518cb7f",
+          "SWE-PolyBench__python__maintenance__bugfix__5acd9675",
+          "SWE-PolyBench__python__maintenance__bugfix__64a006b0",
+          "SWE-PolyBench__python__maintenance__bugfix__6ef81275",
+          "SWE-PolyBench__python__maintenance__bugfix__70acfaad",
+          "SWE-PolyBench__python__maintenance__bugfix__84e0afe2",
+          "SWE-PolyBench__python__maintenance__bugfix__8b1080ea",
+          "SWE-PolyBench__python__maintenance__bugfix__8c189fda",
+          "SWE-PolyBench__python__maintenance__bugfix__91e6ed53",
+          "SWE-PolyBench__python__maintenance__bugfix__9a72b241",
+          "SWE-PolyBench__python__maintenance__bugfix__9ea927ce",
+          "SWE-PolyBench__python__maintenance__bugfix__9ff56151",
+          "SWE-PolyBench__python__maintenance__bugfix__b01e9113",
+          "SWE-PolyBench__python__maintenance__bugfix__b110ef6c",
+          "SWE-PolyBench__python__maintenance__bugfix__e3c9c53c",
+          "SWE-PolyBench__python__maintenance__bugfix__ea5a4764",
+          "SWE-PolyBench__python__maintenance__bugfix__faa6b3ac",
+          "SWE-PolyBench__typescript__evolution__feature__07098661",
+          "SWE-PolyBench__typescript__evolution__feature__34826a6a",
+          "SWE-PolyBench__typescript__evolution__feature__41cd3842",
+          "SWE-PolyBench__typescript__evolution__feature__c2e9e5ff",
+          "SWE-PolyBench__typescript__evolution__feature__d520ba22",
+          "SWE-PolyBench__typescript__maintenance__bugfix__0307e40c",
+          "SWE-PolyBench__typescript__maintenance__bugfix__15589352",
+          "SWE-PolyBench__typescript__maintenance__bugfix__16d1ff7a",
+          "SWE-PolyBench__typescript__maintenance__bugfix__18d389e5",
+          "SWE-PolyBench__typescript__maintenance__bugfix__1de1bd3c",
+          "SWE-PolyBench__typescript__maintenance__bugfix__22615f27",
+          "SWE-PolyBench__typescript__maintenance__bugfix__2487b02a",
+          "SWE-PolyBench__typescript__maintenance__bugfix__27393dd8",
+          "SWE-PolyBench__typescript__maintenance__bugfix__2d1b4a72",
+          "SWE-PolyBench__typescript__maintenance__bugfix__3864c137",
+          "SWE-PolyBench__typescript__maintenance__bugfix__42165c4e",
+          "SWE-PolyBench__typescript__maintenance__bugfix__48468065",
+          "SWE-PolyBench__typescript__maintenance__bugfix__4f3cb6be",
+          "SWE-PolyBench__typescript__maintenance__bugfix__52180d42",
+          "SWE-PolyBench__typescript__maintenance__bugfix__6659fd5a",
+          "SWE-PolyBench__typescript__maintenance__bugfix__6688f2d9",
+          "SWE-PolyBench__typescript__maintenance__bugfix__678fa217",
+          "SWE-PolyBench__typescript__maintenance__bugfix__6da325be",
+          "SWE-PolyBench__typescript__maintenance__bugfix__708894b2",
+          "SWE-PolyBench__typescript__maintenance__bugfix__7827bc22",
+          "SWE-PolyBench__typescript__maintenance__bugfix__7d106697",
+          "SWE-PolyBench__typescript__maintenance__bugfix__7dfdbbd1"
+        ]
+      }
+    }
+  }
+}

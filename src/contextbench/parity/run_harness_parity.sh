@@ -4,6 +4,7 @@ set -euo pipefail
 usage() {
   echo "usage: $0 <prepare|preflight|report> CONTEXTBENCH_REPO WORK_DIR" >&2
   echo "       $0 <original|harbor> CONTEXTBENCH_REPO WORK_DIR RUN_NUMBER" >&2
+  echo "       $0 rescore CONTEXTBENCH_REPO WORK_DIR RETAINED_DIR" >&2
   exit 2
 }
 
@@ -17,9 +18,7 @@ WORK_DIR=$(cd "$WORK_DIR" && pwd)
 
 PARITY_DIR=$(cd "$(dirname "$0")" && pwd)
 ADAPTER_ROOT=$(cd "$PARITY_DIR/.." && pwd)
-HARBOR_ROOT=$(cd "$ADAPTER_ROOT/../.." && pwd)
 CONFIG="$PARITY_DIR/harness_experiment.json"
-REPORT="$PARITY_DIR/report.py"
 OPENHANDS_COMPAT=
 OPENHANDS_SYSTEM_PROMPT=
 PYTHON=${PYTHON:-"$ADAPTER_ROOT/.venv/bin/python"}
@@ -45,28 +44,18 @@ selected_run() {
 }
 
 verify_compatibility() {
-  local relative expected actual
-  relative=$(config agent.compatibility.path)
-  expected=$(config agent.compatibility.sha256)
-  OPENHANDS_COMPAT="$HARBOR_ROOT/$relative"
-  [[ -f "$OPENHANDS_COMPAT" ]] ||
-    { echo "missing OpenHands compatibility shim: $OPENHANDS_COMPAT" >&2; exit 1; }
-  actual=$("$PYTHON" -c \
-    'import hashlib,sys; print(hashlib.sha256(open(sys.argv[1],"rb").read()).hexdigest())' \
-    "$OPENHANDS_COMPAT")
-  [[ "$actual" == "$expected" ]] ||
-    { echo "OpenHands compatibility shim checksum mismatch" >&2; exit 1; }
-
-  relative=$(config agent.compatibility.system_prompt.path)
-  expected=$(config agent.compatibility.system_prompt.sha256)
-  OPENHANDS_SYSTEM_PROMPT="$HARBOR_ROOT/$relative"
-  [[ -f "$OPENHANDS_SYSTEM_PROMPT" ]] ||
-    { echo "missing OpenHands system prompt: $OPENHANDS_SYSTEM_PROMPT" >&2; exit 1; }
-  actual=$("$PYTHON" -c \
-    'import hashlib,sys; print(hashlib.sha256(open(sys.argv[1],"rb").read()).hexdigest())' \
-    "$OPENHANDS_SYSTEM_PROMPT")
-  [[ "$actual" == "$expected" ]] ||
-    { echo "OpenHands system prompt checksum mismatch" >&2; exit 1; }
+  local files
+  files=$(PYTHONPATH="$ADAPTER_ROOT:$ADAPTER_ROOT/src" "$PYTHON" -c '
+import json, sys
+from parity.prepare import compatibility_file
+compatibility = json.load(open(sys.argv[1]))["agent"]["compatibility"]
+try:
+    print(compatibility_file(compatibility))
+    print(compatibility_file(compatibility["system_prompt"]))
+except (TypeError, ValueError) as error:
+    sys.exit(str(error))
+' "$CONFIG") || exit 1
+  { read -r OPENHANDS_COMPAT; read -r OPENHANDS_SYSTEM_PROMPT; } <<<"$files"
 }
 
 verify_checkout() {
@@ -110,6 +99,10 @@ verify_swebench_cache() {
   "$PYTHON" -c \
     'import hashlib,sys; assert hashlib.sha256(open(sys.argv[1],"rb").read()).hexdigest() == sys.argv[2]' \
     "$parquet" "$expected"
+}
+
+parity_report() {
+  PYTHONPATH="$ADAPTER_ROOT${PYTHONPATH:+:$PYTHONPATH}" "$PYTHON" -m parity.report "$@"
 }
 
 json_value() {
@@ -268,7 +261,7 @@ preflight() {
 
 prepare() {
   verify_checkout
-  PYTHONPATH="$ADAPTER_ROOT/src" "$PYTHON" "$PARITY_DIR/prepare.py" \
+  PYTHONPATH="$ADAPTER_ROOT:$ADAPTER_ROOT/src" "$PYTHON" -m parity.prepare \
     --config "$CONFIG" \
     --contextbench-repo "$CONTEXTBENCH" \
     --output "$WORK_DIR/prepared"
@@ -405,7 +398,7 @@ run_original() {
       --out "$run_dir/predictions.jsonl" \
       --agent openhands
   )
-  "$PYTHON" "$REPORT" score-native \
+  parity_report score-native \
     --contextbench-repo "$CONTEXTBENCH" \
     --work-dir "$WORK_DIR" \
     --run "$number"
@@ -440,8 +433,8 @@ run_harbor() {
     { echo "remove incomplete run directory: $run_dir" >&2; exit 1; }
   mkdir -p "$run_dir"
   (
-    cd "$HARBOR_ROOT"
-    PYTHONPATH="$ADAPTER_ROOT${PYTHONPATH:+:$PYTHONPATH}" uv run harbor run \
+    cd "$ADAPTER_ROOT"
+    PYTHONPATH="$ADAPTER_ROOT${PYTHONPATH:+:$PYTHONPATH}" uv run --extra harbor harbor run \
       --path "$WORK_DIR/prepared/harbor-tasks" \
       --agent "parity.openhands_agent:ContextBenchOpenHands" \
       --model "$model" \
@@ -454,11 +447,25 @@ run_harbor() {
       --jobs-dir "$run_dir/jobs" \
       --job-name "$(printf 'contextbench-parity-%02d' "$number")"
   )
-  "$PYTHON" "$REPORT" score-harbor --work-dir "$WORK_DIR" --run "$number"
+  parity_report score-harbor --work-dir "$WORK_DIR" --run "$number"
 }
 
 run_report() {
-  "$PYTHON" "$REPORT" report --work-dir "$WORK_DIR"
+  parity_report report --work-dir "$WORK_DIR"
+}
+
+run_rescore() {
+  local retained
+  retained=$(cd "$1" && pwd)
+  verify_prepared
+  (
+    cd "$ADAPTER_ROOT"
+    "$PYTHON" -m parity.rescore \
+      --work-dir "$WORK_DIR" \
+      --retained "$retained" \
+      --n-concurrent "${RESCORE_CONCURRENCY:-1}"
+  )
+  parity_report report --work-dir "$WORK_DIR/rescore"
 }
 
 case "$PHASE" in
@@ -467,5 +474,6 @@ case "$PHASE" in
   original) run_original ;;
   harbor) run_harbor ;;
   report) [[ -z "$RUN_NUMBER" ]] || usage; run_report ;;
+  rescore) [[ -n "$RUN_NUMBER" ]] || usage; run_rescore "$RUN_NUMBER" ;;
   *) usage ;;
 esac
