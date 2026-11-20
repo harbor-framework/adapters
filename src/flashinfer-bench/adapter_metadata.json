@@ -1,0 +1,36 @@
+[
+  {
+    "adapter_name": "flashinfer-bench",
+    "adapter_builders": [
+      "vyomakesh0728 (dvyomkesh.vishwakarma@gmail.com)"
+    ],
+    "original_benchmark": [
+      {
+        "split": "public-definitions",
+        "size": 190,
+        "harness": "agent",
+        "supported_agents": [
+          "KernelGenerator@15618a67"
+        ],
+        "adaptable": true,
+        "notes": "111 definitions have workloads. Exactly 95 also have one baseline; all 2699 workloads of these definitions are included."
+      }
+    ],
+    "harbor_adapter": [
+      {
+        "split": "public-single-baseline",
+        "adapted_benchmark_size": 95,
+        "parity_benchmark_size": 0,
+        "parity_sampling_rate": 0.0,
+        "registry_benchmark_size": 0,
+        "added_agents": [
+          "flashinfer-native@15618a67"
+        ],
+        "parity_matching_agents": [],
+        "parity_unmatching_agents": [],
+        "parity_costs": null,
+        "notes": "No agent parity performed. One-definition B200 oracle validation passed for rmsnorm_h128 across all 14 workloads; full-bank and Harbor Docker validation are not established. Grading isolation remains an upstream issue; native execution and scoring are retained. No registered tasks. Unknown parity cost. Full exclusions in README and generated scope.json."
+      }
+    ]
+  }
+]
