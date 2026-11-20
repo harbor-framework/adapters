@@ -38,6 +38,23 @@ ORG = "google-deepmind"
 UPSTREAM_PKG = Path("src/inspect_evals/gdm_self_reasoning")
 
 
+def verifier_artifacts(challenge: str) -> list[str]:
+    """Agent-container files the separate verifier needs for a challenge.
+
+    Read from the verifier's own SIDE_KEYS so the artifact list and the
+    files verify.py grades can never drift apart.
+    """
+    import importlib.util
+
+    spec = importlib.util.spec_from_file_location(
+        "gdm_sa_verify_template", TEMPLATE_DIR / "tests/verify.py"
+    )
+    assert spec and spec.loader
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return list(module.SIDE_KEYS[challenge])
+
+
 def get_objective(objective: str, noticing: str, execution: str) -> str:
     """Replicates get_objective() in upstream data/dataset.py."""
     if not noticing and not execution:
@@ -249,6 +266,10 @@ class GDMSituationalAwarenessAdapter:
             template.replace("{task_id}", sanitize(sample["sample_id"]))
             .replace("{difficulty}", difficulty)
             .replace("{tags}", json.dumps([sample["record"]["challenge_name"], sample["noticing"]]))
+            .replace(
+                "{artifacts}",
+                json.dumps(verifier_artifacts(sample["record"]["challenge_name"])),
+            )
         )
         (task_dir / "task.toml").write_text(content, encoding="utf-8")
 
@@ -325,6 +346,12 @@ class GDMSituationalAwarenessAdapter:
             test_template.replace("{challenge}", challenge), encoding="utf-8"
         )
         shutil.copy2(TEMPLATE_DIR / "tests/verify.py", tests_dir / "verify.py")
+        (tests_dir / "Dockerfile").write_text(
+            (TEMPLATE_DIR / "tests/Dockerfile")
+            .read_text(encoding="utf-8")
+            .replace("{base_image}", BASE_IMAGE),
+            encoding="utf-8",
+        )
         originals = tests_dir / "originals"
         originals.mkdir()
         for fname in ("config.json", "calculator.py", "blocklisted_words.txt"):
