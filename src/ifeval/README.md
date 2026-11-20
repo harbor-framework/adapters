@@ -33,6 +33,7 @@ ifeval/
 │   ├── solution/
 │   │   └── solve.sh
 │   └── tests/
+│       ├── Dockerfile
 │       ├── test.sh
 │       ├── verify.py
 │       ├── checkers.py
@@ -183,6 +184,7 @@ The generator fetches the pinned upstream IFEval Python modules and JSONL data f
 - **Frozen GPT-4 responses are fixtures, not answers.** The response file under `tests/fixtures/` is used only as fixed input for the golden parity test. They can and do fail individual instructions (they score 77%, not 100%).
 - **Reward file format.** The verifier writes `/logs/verifier/reward.json` (a flat numeric dictionary), which Harbor accepts, rather than `reward.txt`. If `verify.py` raises before writing (for example, a malformed case file or missing response/trajectory), the `set -e` in `test.sh` aborts and no reward file is produced, which Harbor records as a trial error.
 - **`langdetect` is non-deterministic unless seeded.** The verifier seeds it so language checks are reproducible.
+- **Separate verifier.** Generated tasks set `environment_mode = "separate"`. The grader and its pinned `langdetect`, `nltk`, and `punkt` data live in the verifier image built from `tests/Dockerfile`, not in the agent image. Harbor copies `/workspace/response.txt` and `/logs/agent/trajectory.json` into the verifier through the task `artifacts` list.
 - **Internet is disabled** inside task containers (`network_mode = "no-network"`), so the verifier and its data are fully vendored into each task.
 
 ## Installation / Prerequisites

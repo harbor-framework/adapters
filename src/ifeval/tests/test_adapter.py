@@ -315,6 +315,12 @@ def test_generate_all_tasks_defaults_to_full_corpus(tmp_path: Path) -> None:
         )
         assert config.task is not None
         assert config.task.name.startswith("google-research/ifeval-")
+        assert config.verifier.environment_mode == "separate"
+        assert config.artifacts == [
+            "/workspace/response.txt",
+            "/logs/agent/trajectory.json",
+        ]
+        assert (task_dir / "tests" / "Dockerfile").is_file()
 
         sidecar = json.loads(
             (task_dir / "tests" / "ifeval_case.json").read_text(encoding="utf-8")
@@ -618,6 +624,17 @@ def test_verifier_runtime_has_no_llm_judge_path() -> None:
         content = path.read_text(encoding="utf-8").lower()
         for token in forbidden_tokens:
             assert token not in content, f"{token} found in {path}"
+
+
+def test_grader_dependencies_live_only_in_verifier_image() -> None:
+    template_dir = SRC_DIR / "ifeval" / "task-template"
+    agent_image = (template_dir / "environment" / "Dockerfile").read_text(
+        encoding="utf-8"
+    )
+    verifier_image = (template_dir / "tests" / "Dockerfile").read_text(encoding="utf-8")
+    for dependency in ("langdetect==1.0.9", "nltk==3.9.4", "six>=1.16.0", "punkt_tab"):
+        assert dependency not in agent_image
+        assert dependency in verifier_image
 
 
 class _RecordingTempFactory:

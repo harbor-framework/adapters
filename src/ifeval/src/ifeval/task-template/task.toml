@@ -1,4 +1,7 @@
 version = "1.0"
+# A separate verifier starts from a fresh container, so the agent's answer
+# must be declared here to be copied in. Missing paths are skipped.
+artifacts = ["/workspace/response.txt", "/logs/agent/trajectory.json"]
 
 [task]
 name = "{task_name}"
@@ -20,6 +23,7 @@ category = "instruction-following"
 tags = ["ifeval"]
 
 [verifier]
+environment_mode = "separate"
 timeout_sec = 120.0
 
 [agent]
