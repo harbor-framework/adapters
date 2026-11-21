@@ -222,7 +222,9 @@ def call_judge(prompt: str) -> str:
                 messages=[{"role": "user", "content": prompt}],
                 max_tokens=4096,
             )
-            text = response.choices[0].message.content or ""
+            choices = response.choices or []
+            message = choices[0].message if choices else None
+            text = (message.content if message else None) or ""
             if text.strip():
                 return text
             last_error = RuntimeError("empty judge response")

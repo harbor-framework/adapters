@@ -129,13 +129,14 @@ Parity is pending. Planned setup, to be confirmed with the Harbor team before an
 
 | | |
 |---|---|
-| Agent / model | `claude-code` (pinned version) + `claude-haiku-4-5-20251001` (low-cost; parity checks the adapter, not the model), identical settings on both sides |
-| Original side | Upstream Inspect harness (`blue_teaming.run_comparison`) at `38de58c`, `--prompt no_experiments`, with the report-file sentence appended |
+| Agent / model | `claude-code@2.0.76` (the version upstream pins) + `claude-haiku-4-5-20251001` (low-cost; parity checks the adapter, not the model), identical settings on both sides |
+| Original side | A parity fork of upstream at `38de58c` (link to follow, recorded as `original_parity_repo`) running the upstream Inspect harness (`blue_teaming.run_comparison`, `--prompt no_experiments`), with three additions: the report-file sentence, a recreated `compose.yaml` sandbox (upstream gitignores it) and the dated model ID |
 | Harbor side | This adapter, same agent version, model and tool restrictions (`disable_web_search`, `disallowed_tools=Agent`) |
 | Judge | Upstream rubric judge, `claude-opus-4-6`, on both sides |
 | Tasks | All 20 core tasks (`--subset normal`). A 5–10% sample would be 1–2 tasks, too few to compare, and 20 audits with a low-cost model are cheap. A 5-task sanity check on both sides first |
 | Runs | 3 per side, alternating sides |
 | Metrics | Per-task mean reward on each side, compared by mean squared error across the 20 tasks (primary); overall mean reward ± sample SEM; top-1 fix and mean credence on honest vs. sabotaged tasks (diagnostic) |
+| Est. cost | About $80: 120 Haiku audits plus 66 judge calls |
 
 | Agent | Model | Metric | Number of Runs | Dataset Size | Original Benchmark Performance | Harbor Adapter Performance |
 |-------|-------|--------|------------------|--------------|------------------------------|----------------------------|
@@ -144,11 +145,8 @@ Parity is pending. Planned setup, to be confirmed with the Harbor team before an
 Reproduction:
 
 ```bash
-# Original side (upstream harness, recreated compose.yaml sandbox)
-git clone https://github.com/ejcgan/auditing-sabotage-bench && cd auditing-sabotage-bench
-git checkout 38de58ca78f4881c71b59a12031ab9ee6dfc18d7
-uv sync
-uv run python -m blue_teaming.run_comparison claude-haiku-4-5 --prompt no_experiments --epochs 1
+# Original side: the parity fork (link to follow; it adds the report-file sentence,
+# compose.yaml and the dated model ID to upstream @38de58c). Its README will give the exact command.
 
 # Harbor side
 cd src/auditing-sabotage-bench && uv run auditing-sabotage-bench --output-dir ../../datasets/auditing-sabotage-bench
@@ -158,7 +156,7 @@ cd ../.. && harbor run -p datasets/auditing-sabotage-bench -a claude-code -m ant
 
 ### Oracle verification
 
-The oracle writes a report per task: credence 100% with the rubric's accepted fix as Fix 1 on sabotaged tasks, credence 0% on honest tasks. Upstream ships no reports, so these are built from the rubrics. Result: **20/20 tasks at reward 1.0, 0 exceptions** (Harbor 0.26.0, Docker, judge `anthropic/claude-opus-4.6` via OpenRouter). The judge scored Fix 1 at 100 on all 11 sabotaged tasks; all 9 honest tasks report credence 0%. A no-op agent that writes no report scores 0.225 (0.5 on honest tasks, 0 on sabotaged), as upstream scores a missing output.
+The oracle writes a report per task: credence 100% with the rubric's accepted fix as Fix 1 on sabotaged tasks, credence 0% on honest tasks. Upstream ships no reports, so these are built from the rubrics. Result: **20/20 tasks at reward 1.0, 0 exceptions** (Harbor 0.26.0, Docker, judge `anthropic/claude-opus-4.6` via OpenRouter). The judge scored Fix 1 at 100 on all 11 sabotaged tasks; all 9 honest tasks report credence 0%. A no-op agent (`-a nop`, no report) scores **0.225 over 20 trials with 0 exceptions** (0.5 on each honest task, 0 on each sabotaged task), matching how upstream scores a missing output.
 
 ```bash
 harbor run -c src/auditing-sabotage-bench/run_auditing-sabotage-bench.yaml

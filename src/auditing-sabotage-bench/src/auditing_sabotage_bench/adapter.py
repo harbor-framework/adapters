@@ -88,6 +88,17 @@ def ensure_source(source_dir: Path | None, cache_dir: Path) -> Path:
             raise FileNotFoundError(
                 f"{source_dir} is not an auditing-sabotage-bench checkout"
             )
+        head = subprocess.run(
+            ["git", "-C", str(source_dir), "rev-parse", "HEAD"],
+            capture_output=True,
+            text=True,
+            check=False,
+        ).stdout.strip()
+        if head and head != UPSTREAM_COMMIT:
+            print(
+                f"Warning: {source_dir} is at {head[:7]}, not the pinned upstream "
+                f"commit {UPSTREAM_COMMIT[:7]}; generated tasks may differ"
+            )
         return source_dir
 
     checkout = cache_dir / UPSTREAM_COMMIT
@@ -184,14 +195,6 @@ def load_samples(source: Path, subset: str = "normal") -> list[Sample]:
 
     samples = [s for s in samples if s.id in finished]
 
-    # Some red-team rubrics point at workspaces that are not in the public release.
-    missing = [s for s in samples if not s.workspace.is_dir()]
-    for s in missing:
-        print(
-            f"Warning: skipping {s.id}: workspace {s.workspace} is not in the release"
-        )
-    samples = [s for s in samples if s.workspace.is_dir()]
-
     def keep(s: Sample) -> bool:
         is_rt = s.id.startswith("rt_")
         is_wt = s.id.startswith("wt_")
@@ -211,7 +214,15 @@ def load_samples(source: Path, subset: str = "normal") -> list[Sample]:
             "fixed": is_fixed,
         }[subset]
 
-    return sorted((s for s in samples if keep(s)), key=lambda s: s.id)
+    selected = [s for s in samples if keep(s)]
+
+    # Some red-team rubrics point at workspaces that are not in the public release.
+    for s in selected:
+        if not s.workspace.is_dir():
+            print(
+                f"Warning: skipping {s.id}: workspace {s.workspace} is not in the release"
+            )
+    return sorted((s for s in selected if s.workspace.is_dir()), key=lambda s: s.id)
 
 
 def _ignore_forbidden(_dir: str, names: list[str]) -> set[str]:
@@ -285,6 +296,12 @@ class AuditingSabotageBenchAdapter:
 
         if self.task_ids:
             wanted = {t.lower().replace("_", "-") for t in self.task_ids}
+            unknown = wanted - {s.slug for s in samples}
+            if unknown:
+                raise ValueError(
+                    f"Unknown task ids for subset {self.subset!r}: {sorted(unknown)}; "
+                    f"available: {sorted(s.slug for s in samples)}"
+                )
             samples = [s for s in samples if s.slug in wanted]
         if self.limit is not None:
             samples = samples[: self.limit]
@@ -309,7 +326,7 @@ class AuditingSabotageBenchAdapter:
         toml_path.write_text(
             toml_path.read_text()
             .replace("{task_name}", sample.task_name)
-            .replace("{paper_name}", sample.paper_name.replace('"', "'"))
+            .replace("{paper_name}", json.dumps(sample.paper_name)[1:-1])
         )
 
         # instruction.md: upstream no-experiments prompt + the sample's user message.
