@@ -129,9 +129,18 @@ the team must agree on sampling and size before model experiments.
 
 ## Comparison with Original Benchmark (Parity)
 
-**Not run. User requested pre-parity work only.** `parity_experiment.json` is
-intentionally an empty array rather than fabricated agent/model/results entries.
-Full submission validation therefore reports missing parity evidence.
+**In preparation / sanity validation.** The plan uses `supergpqa-direct@0.1.0`
+and the reviewer-selected model alias `gpt-6-luna`, with a strict response-version
+guard requiring `gpt-6-luna-2026-09-22` on every request
+on the same deterministic 100-question subset (seed 42), with 8 sanity tasks per
+side followed by three 100-question passes per side: 616 calls excluding retries.
+`parity_experiment.json` remains empty until real paired experiments finish.
+The supplied credential works at `https://app.ppapi.ai/v1`. An initial alias
+compatibility request and a failed dated-ID routing request (HTTP 503) are preserved
+separately from the formal experiment. The provider returned the dated version
+but did not successfully route requests addressed to that dated ID; this alias
+limitation must be retained in the final report.
+No completed model parity result is claimed.
 
 | Agent | Model | Metric | Number of Runs | Dataset Size | Original Benchmark Performance | Harbor Adapter Performance |
 |-------|-------|--------|----------------|--------------|--------------------------------|----------------------------|
@@ -158,6 +167,72 @@ oracle evidence. After team coordination, both sides must use the same agent,
 model ID, prompt suffix, permissions and budgets; run 5–10 tasks on each side,
 then one complete agreed bank per side, then repeat symmetrically. Report raw run
 scores plus Mean ± sample SEM; complete JSON and PR links only after real runs.
+
+### Direct-agent parity runner
+
+The shared `direct.py` client sends one user message through Chat Completions,
+with no model-accessible tools or hidden retries. Both sides use the same Python
+stdlib HTTP transport and effective settings: `reasoning_effort=none`,
+`temperature=0`, `max_completion_tokens=2048`, and `stream=false`.
+`harbor_agent.py` writes the unmodified response to `/app/answer.txt` through
+Harbor's upload API; the model does not execute shell commands.
+
+`parity_upstream.py` independently loads the pinned original data-loader and
+parser function bodies. AST selection avoids importing unused reporting
+packages; upstream function bodies and decorators are not rewritten. The same
+adapter suffix and newline normalization are applied to original-side prompts.
+`parity.py` checks every selected prompt pair and scorer controls before running.
+
+From the adapters repository root, using an environment with this adapter and
+Harbor installed (the validated runtime is Python 3.13.18 / Harbor 0.25.0):
+
+```bash
+# Offline preparation only: generates exactly 100 tasks and a UUID/code manifest.
+PYTHONPATH=src/supergpqa/src python -m supergpqa.parity \
+  --upstream-repo /path/to/pinned/SuperGPQA \
+  --output-dir /path/to/parity-experiment
+
+# Set SUPERGPQA_BASE_URL and SUPERGPQA_API_KEY in the process environment.
+# This experiment uses the provider-confirmed https://app.ppapi.ai/v1 endpoint.
+# First validate the credential, exact model/version, parameter compatibility,
+# spending limit, and current Harbor revision with the agreed experiment plan.
+# Run the 8-task paired sanity check before scaling.
+PYTHONPATH=src/supergpqa/src python -m supergpqa.parity \
+  --upstream-repo /path/to/pinned/SuperGPQA \
+  --output-dir /path/to/parity-experiment --execute --sanity-only --concurrency 4
+
+# Continue the same experiment after inspecting sanity artifacts.
+# Completed same-run responses are reused; distinct sides/repetitions make fresh calls.
+PYTHONPATH=src/supergpqa/src python -m supergpqa.parity \
+  --upstream-repo /path/to/pinned/SuperGPQA \
+  --output-dir /path/to/parity-experiment --execute --concurrency 4
+```
+
+The runner completes each paired stage before advancing. It stores request JSON
+(without authorization headers), complete response JSON/text, model-returned IDs,
+usage, timings, per-task scores and native Harbor trial artifacts. It calculates
+per-run sample/macro accuracies, between-run sample SEM, and observed score-range
+overlap. `summary.json` is an intermediate report; publish reviewed results in
+`parity_experiment.json` and this README only after actual execution.
+
+Completed results are reused only with an identical frozen configuration.
+Pending/failed calls are never retried automatically because a timeout may have
+consumed a paid request. Diagnose these first and record any explicit retry or
+configuration change; do not select the better response. Stop scheduling queued
+tasks after the first infrastructure failure, allowing in-flight requests to finish.
+
+For a zero-model-call integration check through real Docker, run:
+
+```bash
+PYTHONPATH=src/supergpqa/src python src/supergpqa/scripts/parity_docker_smoke.py \
+  --upstream-repo /path/to/pinned/SuperGPQA \
+  --output-dir /path/to/separate-offline-smoke
+```
+
+This uses fake HTTP responses for one correct and one wrong control and tests
+resume deduplication. Its artifacts explicitly identify it as offline harness
+validation, **not model parity evidence**. Use a fresh output directory for a
+new integration test. Keep credentials outside experiment artifacts and source.
 
 ## Notes & Caveats
 
