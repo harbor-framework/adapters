@@ -140,7 +140,12 @@ compatibility request and a failed dated-ID routing request (HTTP 503) are prese
 separately from the formal experiment. The provider returned the dated version
 but did not successfully route requests addressed to that dated ID; this alias
 limitation must be retained in the final report.
-No completed model parity result is claimed.
+The first paired sanity check completed (original 4/8, Harbor 3/8); its one
+disagreement came from different generated answers, with matching requests and
+scorers. One API call took 119.7 seconds, so both sides use a revised 300-second
+HTTP timeout for the formal experiment, with a fresh paired sanity check. The
+600-second Harbor agent timeout is unchanged. No completed model parity result
+is claimed.
 
 | Agent | Model | Metric | Number of Runs | Dataset Size | Original Benchmark Performance | Harbor Adapter Performance |
 |-------|-------|--------|----------------|--------------|--------------------------------|----------------------------|

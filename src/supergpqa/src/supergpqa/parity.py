@@ -243,7 +243,7 @@ async def execute(
             "python": platform.python_version(),
             "harbor": importlib.metadata.version("harbor"),
             "concurrency": concurrency,
-            "timeout_sec": 120,
+            "timeout_sec": 300,
             "automatic_retries": 0,
             "planned_calls": 616,
             "transport": "python-stdlib-urllib",

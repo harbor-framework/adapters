@@ -74,7 +74,7 @@ def complete(
     *,
     model: str = DEFAULT_SETTINGS["model"],
     base_url: str | None = None,
-    timeout: float = 120,
+    timeout: float = 300,
 ) -> str:
     """Persist request/response once. Pending/failed calls require explicit diagnosis.
 
