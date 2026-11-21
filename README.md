@@ -108,6 +108,8 @@ Key conventions (enforced by [`scripts/validate_adapter.py`](scripts/validate_ad
 
 ## Parity and review tooling
 
+Reviewers can follow the [adapter review guide](docs/reviewer-guide.md) from the first bot report through final sign-off.
+
 Use [run-parity](skills/run-parity/SKILL.md) to plan and report matched experiments,
 [parity diagnostics](docs/parity-diagnostics.md) to investigate anomalies, and
 [upload-parity-experiments](skills/upload-parity-experiments/SKILL.md) to publish
