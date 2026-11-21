@@ -1,0 +1,63 @@
+[
+  {
+    "adapter_name": "chess-puzzles",
+    "errors": [
+      {
+        "level": "error",
+        "check": "Parity JSON structure",
+        "message": "Must be a non-empty JSON array.",
+        "file": "src/chess-puzzles/parity_experiment.json",
+        "line": 1
+      }
+    ],
+    "warnings": [
+      {
+        "level": "warning",
+        "check": "Metadata: parity_costs",
+        "message": "`parity_costs` is missing or null \u2014 fill in a USD cost estimate when available (canonical format: a string such as `$150`).",
+        "file": "src/chess-puzzles/adapter_metadata.json",
+        "line": null
+      },
+      {
+        "level": "warning",
+        "check": "Cross-validation: adapter_name mismatch",
+        "message": "`adapter_name` differs between files: metadata={'chess-puzzles'}, parity=set().",
+        "file": "src/chess-puzzles/adapter_metadata.json",
+        "line": null
+      }
+    ],
+    "preexisting_errors": [],
+    "passed": [
+      "`README.md` exists",
+      "`parity_experiment.json` exists",
+      "`adapter_metadata.json` exists",
+      "`src/chess_puzzles/` package exists",
+      "`src/chess_puzzles/adapter.py` exists",
+      "`src/chess_puzzles/main.py` exists",
+      "`src/chess_puzzles/task-template/` directory exists",
+      "`src/chess_puzzles/task-template/task.toml` exists",
+      "`src/chess_puzzles/task-template/instruction.md` exists",
+      "`src/chess_puzzles/task-template/environment/Dockerfile` exists",
+      "`src/chess_puzzles/task-template/tests/test.sh` exists",
+      "`src/chess_puzzles/task-template/solution/solve.sh` exists",
+      "Template `[task].name` present",
+      "Template `[task].authors` present",
+      "Parity PR links are non-empty with valid URLs",
+      "`adapter_metadata.json` is valid JSON array",
+      "README section `Overview` present",
+      "README section `What is` present",
+      "README section `Adapter Features` present",
+      "README section `Generated Task Structure` present",
+      "README section `Run Evaluation` present",
+      "README section `Usage` present",
+      "README section `Parity` present",
+      "README section `Notes & Caveats` present",
+      "README section `Installation / Prerequisites` present",
+      "README section `Citation` present",
+      "README section `Authors & Contributions` present",
+      "Parity table column count correct",
+      "`test.sh` writes to reward path",
+      "No canary strings found"
+    ]
+  }
+]

@@ -1,0 +1,15 @@
+   Building harbor-chess-puzzles-adapter @ file:///Users/AlanMacBook/Desktop/Adapter/adapters-chess-puzzles/src/chess-puzzles
+      Built harbor-chess-puzzles-adapter @ file:///Users/AlanMacBook/Desktop/Adapter/adapters-chess-puzzles/src/chess-puzzles
+Uninstalled 1 package in 3ms
+Installed 1 package in 4ms
+........................................................................ [ 87%]
+..........                                                               [100%]
+=============================== warnings summary ===============================
+tests/test_local_counting.py: 73 warnings
+tests/test_review_regressions.py: 19 warnings
+tests/test_runtime.py: 16 warnings
+  /Users/AlanMacBook/Desktop/Adapter/adapters-chess-puzzles/src/chess-puzzles/.venv/lib/python3.13/site-packages/inspect_ai/model/_retry.py:110: DeprecationWarning: The 'initial' parameter is deprecated, use 'multiplier' instead
+    else wait_exponential_jitter(initial=3, max=(30 * 60), jitter=3)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+82 passed, 108 warnings in 51.52s

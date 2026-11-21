@@ -1,0 +1,17 @@
+{
+  "repo": "epoch-research/chess-puzzles-mirror",
+  "commit": "2c9416aac2a6b0731a3680eadfff3735fdaad396",
+  "version": "2.0.1",
+  "files": {
+    "bench/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bench/solver/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bench/solver/forced_answer.py": "bac380800b5f125c1ef7f282aff5a80696b21f5dd6c369aee11c8e485fa84144",
+    "bench/solver/qa_agent.py": "e5bdea5a5d37affc3cd804b9ef2e472324f68a654b5cfb15f3b92d82d4fec4f7",
+    "bench/solver/structured_answer.py": "a45b8798486c13ced29629caa567dfc9441484ae0083140e311863bfdb1b5dab",
+    "bench/solver/submission.py": "d95d9e8da6ab5acd857f664bb230a38bd71e3db31b148411fd349af1742603b9",
+    "bench/task/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bench/task/chess_puzzles/__init__.py": "9113f0d3cfc9018a7120ba8efca43b245e7ddf8cba3aceb27faf1b6d611bff4e",
+    "bench/task/chess_puzzles/puzzles.csv": "e85df658a305c29f722fe0bc9f4de678ebeb5ce839b132c55210030ab7ff6fe8",
+    "pyproject.toml": "aee39915416039c5f3378aadac4d48e97426e8a537c2bcf329692e9038cbc113"
+  }
+}

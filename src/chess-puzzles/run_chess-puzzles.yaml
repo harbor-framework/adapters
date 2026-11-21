@@ -1,0 +1,24 @@
+jobs_dir: jobs
+n_attempts: 1
+timeout_multiplier: 1.0
+n_concurrent_trials: 4
+quiet: false
+retry:
+  max_retries: 0
+environment:
+  type: docker
+  # type: daytona
+  force_build: true
+  delete: true
+  # env:
+  #   ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY}
+  #   ANTHROPIC_BASE_URL: ${ANTHROPIC_BASE_URL}
+  #   DAYTONA_API_KEY: ${DAYTONA_API_KEY}
+agents:
+  - name: oracle
+  # - name: codex
+  #   model_name: openai/<model>
+  # - name: claude-code
+  #   model_name: anthropic/<model>
+datasets:
+  - path: datasets/chess-puzzles-separate

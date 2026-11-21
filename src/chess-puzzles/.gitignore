@@ -1,0 +1,22 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+# Generated locally
+datasets/
+jobs/
+.cache/
+.pytest_cache/
+.env
+.env.*
+!.env.example
+
+# Machine-specific run settings (never credentials)
+parity_settings.local.json

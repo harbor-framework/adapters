@@ -1,0 +1,164 @@
+{
+  "date_local": "2026-11-21",
+  "timezone": "America/Los_Angeles",
+  "runtime": {
+    "harbor": "0.27.0",
+    "inspect-ai": "0.3.273",
+    "anthropic": "1.17.0",
+    "tiktoken": "0.14.0",
+    "chess": "1.11.2"
+  },
+  "real_model_calls": 0,
+  "counts_as_parity": false,
+  "changes": [
+    "Pin Harbor 0.27.0",
+    "Retain separate verifier and answer artifact; use default verifier networking",
+    "Align generator default with reference YAML",
+    "Use top-level concurrency and retry settings",
+    "Use explicit local parity settings in documentation; clarify token-estimate limitations"
+  ],
+  "source_sha256": {
+    "parity_settings.json": "36f00ac180a6b845b71a24ff62633d6442df9f157db126f03adb75baad04cf71",
+    "pyproject.toml": "83e8591ca8a5486e97e133c2d4631337a57cdb6bedee24273e07294de708c01d",
+    "run_chess-puzzles.yaml": "5f4a8bfd0da92967394573e59c3b478ab28d7241a6888dbbbfb1d1fefa7789dc",
+    "src/chess_puzzles/__init__.py": "75ad4f4c2943325f88064ad2beae890b59674be2bf0404b30afc5584dc4de4bb",
+    "src/chess_puzzles/adapter.py": "46039e1b7b23b0202a46ea271ddcaf2b32e28a47175c771fc2f26e24827a33e0",
+    "src/chess_puzzles/agent.py": "c89293507bd4325b336acd4f1230bf7bb6f07f6b712d37e7498a24bcfc0ebcf7",
+    "src/chess_puzzles/api_probe.py": "ee8663e54a8caaa43fec0b8ec9846deb1ce9551a4cb50cafb1b41c9765d51664",
+    "src/chess_puzzles/main.py": "b7566b3d885cf3faf69be27961659efa8de086a8bc4b0a95e607a2a68b0d6b58",
+    "src/chess_puzzles/original.py": "66055868b7bba596a848d9fea11eee301a9eaee9cbc325d6645f4de780f8ba07",
+    "src/chess_puzzles/outcomes.py": "a51d40381cabcbdbad17ef3544e6e02f02a439375e34d9418e035b6a352b7164",
+    "src/chess_puzzles/parity.py": "a7160faba3c36d2fda2ea4557ba46ee70c120994f0326bbf5413cd0a9424c73e",
+    "src/chess_puzzles/process.py": "ca8270ff9e173e6d04f1781eb59a0fd416641ab48793c463985f8522f8d9999d",
+    "src/chess_puzzles/runtime.py": "9ae24cd2c5c454c0647082352fdbce9cb2b21243a9c76f795769c6ac096fa52e",
+    "src/chess_puzzles/scoring.py": "b8fb41369487eef9c56a92ffd525b525f812864292aa98d9880e5a278353d361",
+    "src/chess_puzzles/simulation.py": "d69eacbc7f185c931ae089d1d6e0d77120baf01a333abb38d545220099eb22be",
+    "src/chess_puzzles/source.py": "6bbfadab7987a92cfb285039f6c805b5e9f4d974463134ec74b64ae3e31809bc",
+    "src/chess_puzzles/source_pins.json": "6eb28340b55285a6670ed4bc8163145b6d096561e06a3e8059766ccf22f58bea",
+    "src/chess_puzzles/task-template/environment/Dockerfile": "55d30926cbb558ec7575737cab06d416b1cc04ccc572dca910f8c68c5c92c236",
+    "src/chess_puzzles/task-template/instruction.md": "66471a5fb4e662ed0b7a041c268d2fa8271f180960a1e6132082a88a90d5ebb3",
+    "src/chess_puzzles/task-template/solution/solve.sh": "af1f660f896ce4cae46c37ed1d2bbd1a96473f009e86a3f1e1cfeba29dfe55c4",
+    "src/chess_puzzles/task-template/task.toml": "c8a3c5d9709365dd115f4303eb0329aed8763456b3fec8444083887e7c022d96",
+    "src/chess_puzzles/task-template/tests/Dockerfile": "3c93466d3ff10f51ebdbf9172dedce491c0b94640cbade6876fdc3193397c924",
+    "src/chess_puzzles/task-template/tests/grade.py": "5118aba99c77310faf757159405d3911815bb3b164f584337fe9e3a672f4f46a",
+    "src/chess_puzzles/task-template/tests/test.sh": "279798b5f1c573ce7b4347eb9b9fcfe59b093aef39776b4ee13081a6525bb57c",
+    "src/chess_puzzles/token_counting.py": "c4baa216c22f267212d6e3d154fee38af149c70bb59b64eb022688617acd1584",
+    "src/chess_puzzles/worker.py": "2f0f0995f2761a1fe9a87ca310162d8e99708470bf8c38e1798fb4467347467e",
+    "tests/fake_anthropic.py": "2f04e3e27a04a69c5666d7ac4be69bd8be78ffb21982666e1a5ea4fc48c21b5b",
+    "tests/offline_local_count_smoke.py": "46ea97f580f742a5d22bda25d49909df6c5665f4cbec85abab1a7030ab133ec0",
+    "tests/offline_smoke.py": "338bf6bda7885cb82e5bf1b818a6c1418ba0f48aa9b5e6e779c7c1bcd6ec2929",
+    "tests/offline_verifier_smoke.py": "44a4c39664253400c755227dd775ff11f7d67c34bc2ad019424b1a52130d9898",
+    "tests/test_adapter.py": "9836060f71d2c0448ec8a2838b4fd679d72947f84e3356620af746494939d7a1",
+    "tests/test_api_probe.py": "f2c969de310b5f27186785b4e3f8964131efaa128ab25ac4c22c5a1b6a71e9f2",
+    "tests/test_haiku_transport.py": "6554247144e605f675efcb5f094e44fdcf7a5a85c2050745a6953d7327fd989f",
+    "tests/test_local_counting.py": "080fe8ed615f3a6ce1c20e8aa905225ccb55123494dfdb08990ee7b4c43d3647",
+    "tests/test_parity.py": "ed4bc51df4619f012304cbf05cc7cdf47e921029dd4f2f0f555f337a46e24226",
+    "tests/test_review_regressions.py": "911ff5ae1ee0d9e3f695c5cfdc6117f347bd1f66b09b661dde0a7e41ce0aa8ba",
+    "tests/test_runtime.py": "bd3b23c7475491afc7ad9124bfbdc6865ddb8e37627ddfd2796a8257fc6c9c27",
+    "tests/test_separate_verifier.py": "f47ef66724b90045247542da4fa7dff0c2e88ffc4c5b7b7f9641f96536a1079a",
+    "uv.lock": "6e8c1304b854e205638a8f171b3dd54875c9808bc339df58f5195c5cd5f8dae3"
+  },
+  "unit_tests": {
+    "passed": 82,
+    "failed": 0,
+    "skipped": 0,
+    "warnings": 108,
+    "warnings_note": "Existing Inspect/tenacity deprecation warnings",
+    "log": "validation/harbor-027-pytest-final-2026-11-21.txt"
+  },
+  "oracle_evidence": "validation/harbor-027-oracle-2026-11-21.json",
+  "full_oracle": {
+    "trials": 100,
+    "exceptions": 0,
+    "retries": 0,
+    "mean_reward": 1.0,
+    "runtime_sec": 311.006868
+  },
+  "oracle_screenshot": "validation/oracle-2026-11-21.jpg",
+  "transport_native_logs": "jobs/offline-local-count-20261121-153935",
+  "transport_results": [
+    {
+      "scenario": "submit",
+      "status_both": "complete",
+      "requests_identical": true,
+      "count_endpoint_requests": 0,
+      "message_requests_per_side": 1,
+      "simulated": true,
+      "verifier_mode": "separate",
+      "submitted_answer_retained": true
+    },
+    {
+      "scenario": "continue",
+      "status_both": "complete",
+      "requests_identical": true,
+      "count_endpoint_requests": 0,
+      "message_requests_per_side": 2,
+      "simulated": true,
+      "verifier_mode": "separate",
+      "submitted_answer_retained": true
+    },
+    {
+      "scenario": "forced",
+      "status_both": "complete",
+      "requests_identical": true,
+      "count_endpoint_requests": 0,
+      "message_requests_per_side": 2,
+      "simulated": true,
+      "verifier_mode": "separate",
+      "submitted_answer_retained": true
+    },
+    {
+      "scenario": "compact",
+      "status_both": "complete",
+      "requests_identical": true,
+      "count_endpoint_requests": 0,
+      "message_requests_per_side": 3,
+      "simulated": true,
+      "verifier_mode": "separate",
+      "submitted_answer_retained": true
+    },
+    {
+      "scenario": "error",
+      "status_both": "incomplete",
+      "requests_identical": true,
+      "count_endpoint_requests": 0,
+      "message_requests_per_side": 1,
+      "simulated": true
+    },
+    {
+      "scenario": "timeout",
+      "status_both": "incomplete",
+      "requests_identical": true,
+      "count_endpoint_requests": 0,
+      "message_requests_per_side": 1,
+      "simulated": true
+    }
+  ],
+  "transport_log": "validation/harbor-027-transport-2026-11-21.txt",
+  "harbor_lint": {
+    "tasks": 101,
+    "findings": 0,
+    "report": "validation/harbor-027-lint-2026-11-21.json"
+  },
+  "official_adapter_validator": {
+    "passed": 30,
+    "errors": 1,
+    "warnings": 2,
+    "remaining": [
+      "empty parity_experiment.json",
+      "parity_costs null",
+      "no parity adapter_name to compare"
+    ],
+    "report": "validation/harbor-027-validator-2026-11-21.txt"
+  },
+  "setup_notes": [
+    "Initial offline tests lacked the public tokenizer vocabulary cache; prewarmed before final run.",
+    "Docker Desktop was initially stopped; started before the recorded 106 trials.",
+    "Updated the previous default-directory expectation to match the reference YAML."
+  ],
+  "limitations": [
+    "Real PPAPI local-count compatibility probe and model parity are pending.",
+    "Local estimator error versus provider count remains unmeasured; compaction must be inspected in real traces.",
+    "Oracle and fake-provider results do not establish model parity."
+  ]
+}

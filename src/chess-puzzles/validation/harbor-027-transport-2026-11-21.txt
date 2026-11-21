@@ -1,0 +1,7 @@
+{"scenario": "submit", "status_both": "complete", "requests_identical": true, "count_endpoint_requests": 0, "message_requests_per_side": 1, "simulated": true, "verifier_mode": "separate", "submitted_answer_retained": true}
+{"scenario": "continue", "status_both": "complete", "requests_identical": true, "count_endpoint_requests": 0, "message_requests_per_side": 2, "simulated": true, "verifier_mode": "separate", "submitted_answer_retained": true}
+{"scenario": "forced", "status_both": "complete", "requests_identical": true, "count_endpoint_requests": 0, "message_requests_per_side": 2, "simulated": true, "verifier_mode": "separate", "submitted_answer_retained": true}
+{"scenario": "compact", "status_both": "complete", "requests_identical": true, "count_endpoint_requests": 0, "message_requests_per_side": 3, "simulated": true, "verifier_mode": "separate", "submitted_answer_retained": true}
+{"scenario": "error", "status_both": "incomplete", "requests_identical": true, "count_endpoint_requests": 0, "message_requests_per_side": 1, "simulated": true}
+{"scenario": "timeout", "status_both": "incomplete", "requests_identical": true, "count_endpoint_requests": 0, "message_requests_per_side": 1, "simulated": true}
+jobs/offline-local-count-20261121-153935/summary.json

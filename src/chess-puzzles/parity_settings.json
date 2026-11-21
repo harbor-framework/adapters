@@ -1,0 +1,13 @@
+{
+  "model": "anthropic/claude-haiku-5-5",
+  "base_url": "https://app.ppapi.ai",
+  "token_count_mode": "local",
+  "sample_ids": [4, 14, 15, 18, 29, 32, 36, 82, 87, 95],
+  "sanity_ids": [4, 14, 15, 18, 29],
+  "runs_per_side": 3,
+  "max_output_tokens": null,
+  "response_max_tokens": null,
+  "compaction_threshold_tokens": null,
+  "reasoning_effort": null,
+  "attempt_timeout_sec": 1800
+}
