@@ -33,6 +33,14 @@ IMAGE_PATTERN = re.compile(
 # Pattern strictly matching adapter-generated backup directories
 BACKUP_DIR_PATTERN = re.compile(r"^\.backup_(?P<task_id>.+)_(?P<token>[0-9a-f]{8,32})$")
 
+LIGHTHOUSE_1549_ID = "GoogleChrome__lighthouse-1549"
+LIGHTHOUSE_1549_BASE = "e5fdadd8272ca456afb5dcd4b52c8e67f7d9e73c"
+LIGHTHOUSE_1549_IMAGE = "swebench/sweb.eval.x86_64.googlechrome_1776_lighthouse-1549"
+LIGHTHOUSE_1549_PIN = (
+    LIGHTHOUSE_1549_IMAGE + "@sha256:3612d5a8a0a4c78f24fa22b672619f18565cac40cdc4fdb0e50dfdb5e7ce5347"
+)
+LIGHTHOUSE_1549_COLLECTOR = "/usr/local/libexec/harbor-lighthouse1549-collector.sh"
+
 DEFAULT_SOURCE_DIR = Path(
     os.environ.get(
         "SWEBENCH_MULTIMODAL_SOURCE_DIR",
@@ -235,6 +243,36 @@ class SWEBenchMultimodalAdapter:
         with _file_lock(self.output_dir / ".adapter_install.lock"):
             self._recover_backups_locked()
 
+    @staticmethod
+    def _install_lighthouse_image_baseline(staging_dir: Path) -> None:
+        environment = staging_dir / "environment"
+        helper = environment / "snapshot-and-collect.sh"
+        shutil.copy2(TEMPLATE_DIR / "environment" / "lighthouse1549-collector.sh", helper)
+        dockerfile = environment / "Dockerfile"
+        with dockerfile.open("a", encoding="utf-8") as stream:
+            stream.write(
+                f"\nCOPY {helper.name} {LIGHTHOUSE_1549_COLLECTOR}\n"
+                f"RUN bash {LIGHTHOUSE_1549_COLLECTOR} freeze\n"
+            )
+
+        launcher = staging_dir / "tests" / "test.sh"
+        command = "python3 -I /tests/apply_submission.py"
+        text = launcher.read_text(encoding="utf-8")
+        if text.count(command) != 1:
+            raise ValueError("Unexpected Lighthouse #1549 verifier launcher")
+        launcher.write_text(
+            text.replace(command, f"bash {LIGHTHOUSE_1549_COLLECTOR} verify\n{command}", 1),
+            encoding="utf-8",
+        )
+
+        config = staging_dir / "task.toml"
+        lines = config.read_text(encoding="utf-8").splitlines(keepends=True)
+        collect = [i for i, line in enumerate(lines) if line.startswith("command = ")]
+        if len(collect) != 1 or LIGHTHOUSE_1549_BASE not in lines[collect[0]]:
+            raise ValueError("Unexpected Lighthouse #1549 collector configuration")
+        lines[collect[0]] = f'command = "bash {LIGHTHOUSE_1549_COLLECTOR} collect"\n'
+        config.write_text("".join(lines), encoding="utf-8")
+
     def generate_task(self, instance_id: str, overwrite: bool | None = None) -> Path:
         """Generate a single Harbor task directory."""
         instance_id = self._normalize_instance_id(instance_id)
@@ -277,6 +315,14 @@ class SWEBenchMultimodalAdapter:
                 f"Untrusted or malformed container image for task {instance_id}: {raw_image!r}."
             )
         image_name = raw_image
+        if instance_id == LIGHTHOUSE_1549_ID:
+            expected = {LIGHTHOUSE_1549_IMAGE + ":latest", LIGHTHOUSE_1549_PIN}
+            if (
+                meta["base_commit"] != LIGHTHOUSE_1549_BASE
+                or raw_image.removeprefix("docker.io/") not in expected
+            ):
+                raise ValueError("Unverified Lighthouse #1549 base commit or image")
+            image_name = LIGHTHOUSE_1549_PIN
 
         # Stage generation in a temporary directory for atomic creation
         self.output_dir.mkdir(parents=True, exist_ok=True)
@@ -389,6 +435,8 @@ class SWEBenchMultimodalAdapter:
                 .replace("{base_commit}", meta["base_commit"])
             )
             (staging_dir / "task.toml").write_text(task_toml_content, encoding="utf-8")
+            if instance_id == LIGHTHOUSE_1549_ID:
+                self._install_lighthouse_image_baseline(staging_dir)
 
             # Atomically move staging_dir to task_dir with backup restoration on failure
             lock_file = self.output_dir / ".adapter_install.lock"
