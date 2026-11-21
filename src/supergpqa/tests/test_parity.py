@@ -3,6 +3,7 @@
 import asyncio
 import json
 from pathlib import Path
+from typing import cast
 from unittest.mock import MagicMock
 
 import pytest
@@ -121,6 +122,7 @@ def test_frozen_experiment_refuses_changed_settings(tmp_path):
 
 def test_wrapper_writes_verbatim_response_and_token_usage(monkeypatch, tmp_path):
     # Requires Harbor on the test runtime; the standalone adapter keeps it external.
+    from harbor.environments.base import BaseEnvironment
     from harbor.models.agent.context import AgentContext
 
     from supergpqa.harbor_agent import SuperGPQADirectAgent
@@ -136,7 +138,7 @@ def test_wrapper_writes_verbatim_response_and_token_usage(monkeypatch, tmp_path)
         logs_dir=tmp_path, model_name="gpt-6-luna", skip_model_parsing=True
     )
     context = AgentContext()
-    asyncio.run(agent.run("question", Environment(), context))
+    asyncio.run(agent.run("question", cast(BaseEnvironment, Environment()), context))
     assert saved == {"/app/answer.txt": b"Answer: B\r\n"}
     assert context.n_input_tokens == 5
     assert context.n_output_tokens == 3

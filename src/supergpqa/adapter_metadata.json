@@ -20,16 +20,20 @@
       {
         "split": "full",
         "adapted_benchmark_size": 26529,
-        "parity_benchmark_size": 0,
-        "parity_sampling_rate": 0.0,
+        "parity_benchmark_size": 100,
+        "parity_sampling_rate": 0.003769459836405443,
         "registry_benchmark_size": 0,
         "added_agents": [
+          "supergpqa-direct@0.1.0"
+        ],
+        "parity_matching_agents": [
+          "supergpqa-direct@0.1.0+gpt-6-luna-2026-09-22"
+        ],
+        "parity_unmatching_agents": [
           "None"
         ],
-        "parity_matching_agents": [],
-        "parity_unmatching_agents": [],
-        "parity_costs": "$0",
-        "notes": "Pre-parity implementation. No model experiments or publication. Empty match arrays mean untested, not all matched."
+        "parity_costs": null,
+        "notes": "600 complete formal results; primary and supplementary metric ranges overlap. Requested model alias, strict returned-version guard, retries and user-requested cross-round overlap are detailed in PARITY_REPORT.md. Billed USD is unavailable; evidence is submitted in HF PR #293; registry publication is pending."
       }
     ]
   }

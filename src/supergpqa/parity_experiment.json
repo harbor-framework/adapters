@@ -1,1 +1,134 @@
-[]
+[
+  {
+    "adapter_name": "supergpqa",
+    "agent": "supergpqa-direct@0.1.0",
+    "model": "gpt-6-luna-2026-09-22",
+    "date": "2026-11-21",
+    "adapted_benchmark_size": 26529,
+    "parity_benchmark_size": 100,
+    "number_of_runs": 3,
+    "notes": "100-task deterministic subset, seed 42; 3 runs per side; percent units. Requested alias gpt-6-luna; all formal replies reported gpt-6-luna-2026-09-22; dated-ID routing failed and a strict returned-ID guard was used. Same direct API client and symmetric prompts/parameters, Python 3.13.18, Harbor 0.25.0 / ff2a1ef, Docker. User requested cross-round overlap, deviating from the guide ramp-up order; all failed transport attempts are preserved, with no score-based answer selection. Original-side harness lives in the adapter fork and loads pinned upstream function bodies, rather than invoking full upstream infer.py. Billed USD unknown. GitHub evidence: https://github.com/jialen2/adapters/releases/tag/supergpqa-parity-2026-11-21. HF evidence PR #293 created; dataset registration pending.",
+    "original_parity_repo": "https://github.com/jialen2/adapters/tree/fdef3d1469a9ebf213082e9cf2c67b73989115a1/src/supergpqa",
+    "adapter_pr": [
+      "https://github.com/harbor-framework/adapters/pull/82"
+    ],
+    "dataset_pr": null,
+    "parity_pr": [
+      "https://huggingface.co/datasets/harborframework/parity-experiments/discussions/293"
+    ],
+    "metrics": [
+      {
+        "benchmark_name": "SuperGPQA",
+        "metric": "sample_accuracy (%)",
+        "original": "45.3333 \u00b1 0.8819",
+        "harbor": "44.6667 \u00b1 0.6667",
+        "original_runs": [
+          44.0,
+          45.0,
+          47.0
+        ],
+        "harbor_runs": [
+          46.0,
+          44.0,
+          44.0
+        ]
+      },
+      {
+        "benchmark_name": "SuperGPQA",
+        "metric": "discipline_accuracy (%)",
+        "original": "37.8750 \u00b1 3.0958",
+        "harbor": "39.8287 \u00b1 1.6178",
+        "original_runs": [
+          36.40277777777778,
+          33.40277777777778,
+          43.81944444444444
+        ],
+        "harbor_runs": [
+          39.40277777777778,
+          42.81944444444444,
+          37.263888888888886
+        ]
+      },
+      {
+        "benchmark_name": "SuperGPQA",
+        "metric": "field_accuracy (%)",
+        "original": "47.7875 \u00b1 1.0888",
+        "harbor": "46.0837 \u00b1 0.6747",
+        "original_runs": [
+          45.96979817568052,
+          47.657877253465486,
+          49.73470157293687
+        ],
+        "harbor_runs": [
+          47.38808985132514,
+          45.730984701572936,
+          45.13193097751921
+        ]
+      },
+      {
+        "benchmark_name": "SuperGPQA",
+        "metric": "subfield_accuracy (%)",
+        "original": "44.3651 \u00b1 1.0317",
+        "harbor": "44.4444 \u00b1 0.6919",
+        "original_runs": [
+          43.33333333333333,
+          43.33333333333333,
+          46.42857142857143
+        ],
+        "harbor_runs": [
+          45.714285714285715,
+          44.285714285714285,
+          43.33333333333333
+        ]
+      },
+      {
+        "benchmark_name": "SuperGPQA",
+        "metric": "difficulty_hard (%)",
+        "original": "37.1429 \u00b1 1.6496",
+        "harbor": "36.1905 \u00b1 0.9524",
+        "original_runs": [
+          37.142857142857146,
+          34.285714285714285,
+          40.0
+        ],
+        "harbor_runs": [
+          37.142857142857146,
+          37.142857142857146,
+          34.285714285714285
+        ]
+      },
+      {
+        "benchmark_name": "SuperGPQA",
+        "metric": "difficulty_middle (%)",
+        "original": "55.7692 \u00b1 1.1103",
+        "harbor": "54.4872 \u00b1 0.6410",
+        "original_runs": [
+          55.769230769230774,
+          53.84615384615385,
+          57.692307692307686
+        ],
+        "harbor_runs": [
+          55.769230769230774,
+          53.84615384615385,
+          53.84615384615385
+        ]
+      },
+      {
+        "benchmark_name": "SuperGPQA",
+        "metric": "difficulty_easy (%)",
+        "original": "25.6410 \u00b1 6.7840",
+        "harbor": "28.2051 \u00b1 2.5641",
+        "original_runs": [
+          15.384615384615385,
+          38.46153846153847,
+          23.076923076923077
+        ],
+        "harbor_runs": [
+          30.76923076923077,
+          23.076923076923077,
+          30.76923076923077
+        ]
+      }
+    ]
+  }
+]

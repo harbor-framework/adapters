@@ -77,8 +77,7 @@ harbor run -p datasets/supergpqa -a oracle
 ```
 
 Default configuration uses oracle and Docker, one attempt, four-way concurrency.
-Docker must be installed and its daemon running. Agent/model experiments are
-outside the current pre-parity scope.
+Docker must be installed and its daemon running. The direct-agent parity setup and results are documented below.
 
 ### Running Individual Trial
 
@@ -129,49 +128,39 @@ the team must agree on sampling and size before model experiments.
 
 ## Comparison with Original Benchmark (Parity)
 
-**In preparation / sanity validation.** The plan uses `supergpqa-direct@0.1.0`
-and the reviewer-selected model alias `gpt-6-luna`, with a strict response-version
-guard requiring `gpt-6-luna-2026-09-22` on every request
-on the same deterministic 100-question subset (seed 42), with 8 sanity tasks per
-side followed by three 100-question passes per side: 616 calls excluding retries.
-`parity_experiment.json` remains empty until real paired experiments finish.
-The supplied credential works at `https://app.ppapi.ai/v1`. An initial alias
-compatibility request and a failed dated-ID routing request (HTTP 503) are preserved
-separately from the formal experiment. The provider returned the dated version
-but did not successfully route requests addressed to that dated ID; this alias
-limitation must be retained in the final report.
-The first paired sanity check completed (original 4/8, Harbor 3/8); its one
-disagreement came from different generated answers, with matching requests and
-scorers. One API call took 119.7 seconds, so both sides use a revised 300-second
-HTTP timeout for the formal experiment, with a fresh paired sanity check. The
-600-second Harbor agent timeout is unchanged. No completed model parity result
-is claimed.
+**Completed on 2026-11-21:** 100 fixed questions (0.3769% of 26,529), seed 42,
+three passes per side, 600/600 formal results with exact UUID coverage.
 
 | Agent | Model | Metric | Number of Runs | Dataset Size | Original Benchmark Performance | Harbor Adapter Performance |
 |-------|-------|--------|----------------|--------------|--------------------------------|----------------------------|
-| Not run | Not run | Accuracy | 0 | Not selected | Not measured | Not measured |
+| supergpqa-direct@0.1.0 | gpt-6-luna-2026-09-22 (returned ID) | Sample accuracy (%) | 3 | 100 | 45.3333 ± 0.8819 | 44.6667 ± 0.6667 |
 
-No agent/model compatibility claim is made. Upstream currently supports direct
-LLM inference, so Scenario 2 of the guide applies if the team chooses a CLI agent:
-add the same agent to an upstream fork before running matched experiments.
-Never compare a tool-enabled CLI agent directly with a published direct-LLM score.
+Raw runs are original **[44, 45, 47]%** and Harbor **[46, 44, 44]%**. The ranges
+44–47% and 44–46% overlap, satisfying the guide's primary range-overlap criterion.
+Uncertainty is sample SEM across run scores. All four aggregate accuracy metrics
+and all three difficulty metrics are reported in `parity_experiment.json`.
 
-Reproducible pre-parity source and scorer checks (requires Harbor and upstream
-reporting dependencies in the active Python environment):
+See [the full analysis](PARITY_REPORT.md), [the evidence release](https://github.com/jialen2/adapters/releases/tag/supergpqa-parity-2026-11-21), and
+[the complete download](https://github.com/jialen2/adapters/releases/download/supergpqa-parity-2026-11-21/SuperGPQA-parity-evidence-2026-11-21.tar.gz). [HF evidence PR #293](https://huggingface.co/datasets/harborframework/parity-experiments/discussions/293) tracks the archive upload. Dataset registration remains pending. [The original-side implementation](https://github.com/jialen2/adapters/tree/fdef3d1469a9ebf213082e9cf2c67b73989115a1/src/supergpqa)
+is shipped in the adapter fork and reads unmodified pinned upstream function
+bodies. It uses the same single-turn client as the Harbor wrapper.
+
+Requests use `gpt-6-luna` via `https://app.ppapi.ai/v1`, with every returned ID
+required to equal `gpt-6-luna-2026-09-22`. Prompts, tool policy, parameters and
+scoring are symmetric. Four workers run per active side. The user requested
+cross-round overlap during execution; the exact sequence and explicit transport
+retries are disclosed under Notes & Caveats and in the full report.
+
+Offline source/scorer checks, from the adapters repository root:
 
 ```bash
-git clone https://github.com/SuperGPQA/SuperGPQA.git /path/to/SuperGPQA
-git -C /path/to/SuperGPQA checkout e31e8bf3e7089aef808be5ddecafd4538dee6e41
 PYTHONPATH=src/supergpqa/src python src/supergpqa/scripts/validate_source.py \
-  --upstream-repo /path/to/SuperGPQA --generated-dir datasets/supergpqa \
+  --upstream-repo /path/to/pinned/SuperGPQA --generated-dir datasets/supergpqa \
   --report pre-parity-validation.json
-```
 
-These are deterministic local tests, **not** model parity or Harbor container
-oracle evidence. After team coordination, both sides must use the same agent,
-model ID, prompt suffix, permissions and budgets; run 5–10 tasks on each side,
-then one complete agreed bank per side, then repeat symmetrically. Report raw run
-scores plus Mean ± sample SEM; complete JSON and PR links only after real runs.
+PYTHONPATH=src/supergpqa/src python src/supergpqa/scripts/summarize_parity.py \
+  --experiment-dir /path/to/reconstructed-experiment --output-dir /path/to/report
+```
 
 ### Direct-agent parity runner
 
@@ -241,6 +230,19 @@ new integration test. Keep credentials outside experiment artifacts and source.
 
 ## Notes & Caveats
 
+- The actual provider accepts the alias `gpt-6-luna`; a dated-ID request returned
+  HTTP 503. Every formal reply passes a `gpt-6-luna-2026-09-22` response guard.
+  Null system fingerprints limit backend-configuration verification.
+- The user requested original round 2 alongside Harbor round 1 and original
+  round 3 alongside Harbor round 2, departing from strictly paired ramp-up.
+  Inference parameters and task IDs stayed fixed. Transport failures, retries
+  and interrupted native trials are archived separately; no received answer was
+  rerun to select a higher score. Billed USD is unknown and metadata records null.
+- The 100-question subset represents eight of thirteen disciplines. Results and
+  SEM describe this fixed subset and shared direct agent; CLI agents were not
+  evaluated. The e-approximation sanity item has multiple options within the
+  stated tolerance; upstream gold/parser behavior was preserved.
+
 - Local verification completed: all 26,529 generated tasks load through Harbor's task model; 26,529 gold labels pass and 53,058 wrong/empty controls fail as expected. A 26,529-response deterministic mixed corpus matches the original evaluator and micro/macro/difficulty aggregations. Sixteen behavioral tests pass. These results are not container oracle or model parity evidence.
 - The original prompt is unchanged, with an appended file-output and closed-book
   instruction. Apply the identical suffix to both sides in future agent parity.
@@ -261,23 +263,23 @@ new integration test. Keep credentials outside experiment artifacts and source.
 - On 2026-11-08, a real Harbor Docker oracle trial passed with reward 1.0 and
   no exception, using Harbor 0.25.0, Python 3.13.18, Docker 29.9.3 and Lima 2.3.0
   on Linux aarch64. An eight-task pilot also passed (8/8 rewards 1.0, zero
-  exceptions). Full-bank container validation is still pending; the smoke trial
-  and pilot do not establish full oracle coverage. The Linux installation
+  exceptions). The full bank later passed 26,529/26,529 with zero final exceptions; see the
+  full Oracle evidence included with the parity report. The Linux installation
   uses `uv sync --locked --no-dev --python 3.13` to avoid macOS native builds.
 - For large local runs on macOS, place generated tasks and job results on the
   Linux VM's native disk. Scanning the full bank through the macOS shared mount
   exhausted host file handles during a pilot startup. This occurred before
   trial execution and does not count as a completed oracle experiment.
-- Full-bank oracle verification, registry publication, dataset upload and parity
-  remain pending. The WIP PR does not claim full-bank oracle success.
+- Full-bank Oracle and the recorded direct-agent parity experiment are complete.
+  Dataset registration remains pending; the PR stays WIP without
+  manually requested reviewers.
 
 ## Installation / Prerequisites
 
 - Python 3.12+, uv 0.13.7+; `uv sync --project src/supergpqa` installs adapter deps.
 - A complete compatible Harbor installation and working Docker (or approved
   cloud sandbox) are additionally required for container oracle runs.
-- Task generation and oracle need no model API key or GPU. Future model trials
-  require separately provisioned keys and team coordination.
+- Task generation and oracle need no model API key or GPU. Model trials require separately provisioned keys and team coordination.
 - Developer differential checks additionally use upstream reporting dependencies:
   pandas, openpyxl, prettytable and tqdm. Do not install the upstream GPU inference
   stack merely to validate task generation.
