@@ -212,3 +212,14 @@ formal runs and recovery history are separate compressed archives to preserve
 native logs while limiting file counts. `SHA256SUMS` covers the upload payload.
 The GitHub report and evidence release are available independently of the blocked HF upload.
 Dataset registry publication remains tracked separately.
+
+## Subsequent separate-verifier validation
+
+The task template was subsequently migrated to a separate verifier on Harbor
+0.27.0. Same-task Oracle and valid incorrect-option controls scored 1 and 0.
+All 300 saved Harbor responses were regraded without new model calls; all
+rewards remained unchanged (46%, 44%, 44%). Original records were preserved;
+explicitly labeled source copies reconstruct the previously undeclared answer
+artifact from saved raw replies. This does not replace the original run history
+or claim a repeat of the full-bank Oracle on the new template. See
+[SEPARATE_VERIFIER_REPORT.md](SEPARATE_VERIFIER_REPORT.md).

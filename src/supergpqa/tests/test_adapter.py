@@ -52,6 +52,15 @@ def test_generated_task_is_harbor_valid_and_gold_stays_outside_build(tmp_path):
     assert task.config.task.name == f"m-a-p/supergpqa-{row['uuid']}"
     assert task.config.schema_version == "1.4"
     assert task.config.task.version == "1.0"
+    assert task.config.verifier.environment_mode == "separate"
+    assert task.config.artifacts == ["/app/answer.txt"]
+    from harbor.models.task.verifier_mode import resolve_verifier_environment_definition
+
+    verifier = resolve_verifier_environment_definition(task.config, task.paths)
+    assert verifier is not None and verifier.bundled_tests
+    assert verifier.directory == task_path / "tests"
+    assert "COPY . /tests/" in (task_path / "tests/Dockerfile").read_text()
+    assert "timeout-decorator" not in (task_path / "environment/Dockerfile").read_text()
     assert task.instruction == original_prompt(row) + ANSWER_HANDOFF + "\n"
     assert list((task_path / "environment").iterdir()) == [
         task_path / "environment/Dockerfile"

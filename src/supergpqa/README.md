@@ -29,6 +29,8 @@ This is distinct from GPQA Diamond; it is not a software-engineering benchmark.
 - Unchanged source option ordering and official zero-shot prompt.
 - Verbatim upstream parser functions, including five-second regex timeout.
 - Gold labels and oracle scripts excluded from the agent Docker build context.
+- Separate verifier image bundles grading code and gold records; only the declared
+  `/app/answer.txt` artifact crosses from the agent sandbox into verification.
 - Explicit overwrite, task filtering, limit and deterministic parity-subset utility.
 - Binary per-task reward; original macro and difficulty aggregation available
   in `supergpqa.scoring.aggregate`, not replaced by a generic task mean.
@@ -44,6 +46,7 @@ supergpqa/
     ├── environment/Dockerfile
     ├── solution/solve.sh
     └── tests/
+        ├── Dockerfile
         ├── test.sh
         ├── grade.py
         ├── record.json
@@ -178,7 +181,8 @@ adapter suffix and newline normalization are applied to original-side prompts.
 `parity.py` checks every selected prompt pair and scorer controls before running.
 
 From the adapters repository root, using an environment with this adapter and
-Harbor installed (the validated runtime is Python 3.13.18 / Harbor 0.25.0):
+Harbor installed (the original parity runtime was Python 3.13.18 / Harbor 0.25.0;
+separate-verifier validation uses Harbor 0.27.0):
 
 ```bash
 # Offline preparation only: generates exactly 100 tasks and a UUID/code manifest.
@@ -228,6 +232,42 @@ resume deduplication. Its artifacts explicitly identify it as offline harness
 validation, **not model parity evidence**. Use a fresh output directory for a
 new integration test. Keep credentials outside experiment artifacts and source.
 
+### Separate-verifier migration
+
+Generated tasks now explicitly use `verifier.environment_mode = "separate"`
+and declare `/app/answer.txt` as an artifact. `tests/Dockerfile` bundles the
+unchanged grader, upstream parser, gold record, and pinned scoring dependency.
+The agent image contains no grading dependency or gold record. Instructions,
+answer paths, task names and scoring semantics remain unchanged.
+
+On Harbor 0.27.0, task `supergpqa-060d1632f1644d4990af62065b597fdd`
+passed the same-task Docker controls: Oracle `Answer: D` scored 1; the valid
+incorrect option `Answer: A` scored 0. Both trials recorded separate verification
+and no infrastructure exception. This is a representative migration check,
+not a repeat of the full-bank Oracle on the new template.
+
+All **300 saved Harbor responses** were subsequently regraded with the separate
+verifier: **300/300 rewards unchanged**, zero final exceptions and zero model
+calls. Run scores remain **46%, 44%, 44%**. See
+[SEPARATE_VERIFIER_REPORT.md](SEPARATE_VERIFIER_REPORT.md) for provenance and scope.
+
+To reproduce the controls and regrade saved parity replies without model calls:
+
+```bash
+PYTHONPATH=src/supergpqa/src python src/supergpqa/scripts/verify_separate.py \
+  --experiment-dir /path/to/reconstructed-original-experiment \
+  --output-dir /path/to/new-migration-evidence --concurrency 4
+```
+
+Add `--controls-only` for just the same-task Oracle and incorrect-answer checks.
+The original shared-verifier trials did not declare the answer artifact. The
+script therefore creates **derived source copies**, reconstructs that artifact
+from each saved raw API response, records checksums and reconstruction provenance,
+and uses Harbor's native `source_trial.action = "regrade"` workflow. It never
+modifies the original trials, invokes the model, or reinterprets the response.
+Each new reward is checked against its original reward. Derived sources must
+not be presented as original artifact-collection events.
+
 ## Notes & Caveats
 
 - The actual provider accepts the alias `gpt-6-luna`; a dated-ID request returned
@@ -243,7 +283,7 @@ new integration test. Keep credentials outside experiment artifacts and source.
   evaluated. The e-approximation sanity item has multiple options within the
   stated tolerance; upstream gold/parser behavior was preserved.
 
-- Local verification completed: all 26,529 generated tasks load through Harbor's task model; 26,529 gold labels pass and 53,058 wrong/empty controls fail as expected. A 26,529-response deterministic mixed corpus matches the original evaluator and micro/macro/difficulty aggregations. Sixteen behavioral tests pass. These results are not container oracle or model parity evidence.
+- Local verification completed: all 26,529 generated tasks load through Harbor's task model; 26,529 gold labels pass and 53,058 wrong/empty controls fail as expected. A 26,529-response deterministic mixed corpus matches the original evaluator and micro/macro/difficulty aggregations. Thirty behavioral tests pass. These results are not container oracle or model parity evidence.
 - The original prompt is unchanged, with an appended file-output and closed-book
   instruction. Apply the identical suffix to both sides in future agent parity.
   The instruction alone does not technically enforce tool restrictions; the
