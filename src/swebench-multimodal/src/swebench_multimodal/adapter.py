@@ -248,6 +248,8 @@ class SWEBenchMultimodalAdapter:
 
         src_folder = self.tasks_by_id[instance_id]
         meta = self.task_metadata[instance_id]
+        if not re.fullmatch(r"[0-9a-f]{40}", str(meta.get("base_commit", ""))):
+            raise ValueError("Missing or invalid upstream base_commit")
         task_name = self._task_name(instance_id)
         task_dir = self.output_dir / task_name
         for filename in ("gold.patch", "eval.sh", "tests.json", "problem_statement.md"):
@@ -313,7 +315,7 @@ class SWEBenchMultimodalAdapter:
             shutil.copy2(TEMPLATE_DIR / "tests" / "test.sh", tests_dir / "test.sh")
             (tests_dir / "test.sh").chmod(0o755)
 
-            for filename in ("grade.py", "upstream.py", "SWEBENCH_LICENSE"):
+            for filename in ("grade.py", "upstream.py", "SWEBENCH_LICENSE", "apply_submission.py"):
                 shutil.copy2(TEMPLATE_DIR / "tests" / filename, tests_dir / filename)
             for key in ("log_parser", "eval_type", "version"):
                 if key not in meta:
@@ -384,6 +386,7 @@ class SWEBenchMultimodalAdapter:
                 .replace("{repo}", meta.get("repo", "unknown"))
                 .replace("{version}", str(meta.get("version", "latest")))
                 .replace("{split}", str(meta.get("split", "test")))
+                .replace("{base_commit}", meta["base_commit"])
             )
             (staging_dir / "task.toml").write_text(task_toml_content, encoding="utf-8")
 

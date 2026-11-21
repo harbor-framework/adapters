@@ -1,4 +1,5 @@
 schema_version = "1.0"
+artifacts = ["/tmp/harbor-submission/model.patch"]
 
 [task]
 name = "swebench-multimodal/{task_name}"
@@ -25,8 +26,13 @@ version = "{version}"
 split = "{split}"
 
 [verifier]
+environment_mode = "separate"
 network_mode = "no-network"
 timeout_sec = 1800.0
+
+[[verifier.collect]]
+command = """bash -ec 'mkdir -p /tmp/harbor-submission; rm -f /tmp/harbor-submission/model.patch; cd /testbed; git -c safe.directory=/testbed add -N -- . ":!problem_assets"; git -c safe.directory=/testbed diff --binary {base_commit} -- . ":!problem_assets" > /tmp/harbor-submission/model.patch.tmp; mv /tmp/harbor-submission/model.patch.tmp /tmp/harbor-submission/model.patch'"""
+timeout_sec = 60.0
 
 [agent]
 network_mode = "public"

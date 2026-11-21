@@ -1,10 +1,10 @@
 #!/bin/bash
-set -u
+set -eu
 
 # Clean up any pre-existing or agent-forged reward files
 rm -f /logs/verifier/reward.json /logs/verifier/reward.txt /logs/verifier/metrics.json /logs/verifier/report.json
 mkdir -p /logs/verifier
-echo 0 > /logs/verifier/reward.txt
+python3 -I /tests/apply_submission.py
 
 cd /testbed
 set +e
