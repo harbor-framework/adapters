@@ -19,18 +19,20 @@ RUN cd /opt && HF_HOME=/opt/tmp/hf_samples HF_HUB_CACHE=/opt/tmp/hf_samples/hub 
     chmod -R a+rX,go-w /opt/inference_eval && \
     chmod a+x /opt/inference_eval/bin/launch_supervised_server.sh
 
-# Harbor runs the collect hook and the verifier as root in this sandbox and resolves commands
-# through the image's PATH, so the agent-writable bin directory must come last. The evaluation
-# server still gets it first, because test.sh prepends it, and so does Claude Code, because
-# Harbor's agent prepends it.
+# Harbor runs the collect hook as root in the agent's sandbox and the verifier as root in a
+# sandbox from this same image, after test.sh has put the agent's files back. Both resolve
+# commands through the image's PATH, so the agent-writable bin directory must come last. The
+# evaluation server still gets it first, because test.sh prepends it, and so does Claude Code,
+# because Harbor's agent prepends it.
 ENV PATH="/usr/local/nvidia/bin:/usr/local/cuda/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/root/.local/bin:/home/agent/.local/bin"
 
-# On Daytona and Modal, Harbor's upload gives /tests the uid of the user who runs Harbor, and
-# upstream's image gives user agent uid 1000, which is that user's uid on many Linux hosts.
+# On Daytona and Modal, Harbor's uploads give /tests and the hand-off in /var/lib/ib_handoff the
+# uid of the user who runs Harbor, and upstream's image gives user agent uid 1000, which is that
+# user's uid on many Linux hosts.
 RUN usermod -u 64321 agent && groupmod -g 64321 agent
 
 COPY collect.sh /usr/local/bin/
-COPY agent_processes.sh download_model.py /usr/local/lib/inferencebench/
+COPY agent_processes.sh download_model.py handoff.py /usr/local/lib/inferencebench/
 COPY home /home/agent
 RUN if [ "{agent_seed}" != "{quality_seed}" ]; then \
         mkdir -p /opt/inference_eval/baselines/samples/longbench_v2/{agent_seed}_{longbench_n} && \

@@ -3,7 +3,7 @@
 # without one, no trial is evaluated or graded. Each trial gets its own sandbox and GPU, so -n
 # can be raised to your H100 quota once a single task has passed.
 # From the repository root, one task at a time (see "Oracle pilot" in the README):
-#   uv run --project src/inferencebench --with 'harbor[daytona]==0.25.0' harbor run -c src/inferencebench/inferencebench_daytona.yaml \
+#   uv run --project src/inferencebench --with 'harbor[daytona]==0.26.0' harbor run -c src/inferencebench/inferencebench_daytona.yaml \
 #       -p datasets/inferencebench -i inferencebench-a-mistral-7b-21-1337
 jobs_dir: jobs
 n_attempts: 1

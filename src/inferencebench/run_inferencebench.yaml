@@ -5,7 +5,7 @@
 # (ANTHROPIC_API_KEY or CLAUDE_CODE_OAUTH_TOKEN); without one, no trial is evaluated or graded.
 # For an agent run, use inferencebench_parity.yaml with `environment.type: docker`.
 # From the repository root, one task at a time (see "Oracle pilot" in the README):
-#   uv run --project src/inferencebench --with harbor==0.25.0 harbor run -c src/inferencebench/run_inferencebench.yaml \
+#   uv run --project src/inferencebench --with harbor==0.26.0 harbor run -c src/inferencebench/run_inferencebench.yaml \
 #       -p datasets/inferencebench -i inferencebench-a-mistral-7b-21-1337
 jobs_dir: jobs
 n_attempts: 1

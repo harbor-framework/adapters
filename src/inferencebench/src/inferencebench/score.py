@@ -8,7 +8,8 @@ A trial is graded if the verifier wrote a reward after the integrity judge retur
 verdicts. A graded trial that failed counts as 1x, as in the paper. A trial without valid
 verdicts is ungraded, a trial without any verifier outcome is an error, and a run that recomputes
 the PyTorch quality reference is not a benchmark trial; all of them are listed and none enters a
-mean.
+mean. A trial whose two sandboxes had different GPUs, or a GPU of another type than the task asks
+for, is listed with its GPUs, and it still enters the means.
 """
 
 import argparse
@@ -49,6 +50,25 @@ def read_json(path: Path) -> dict | None:
     return data if isinstance(data, dict) else None
 
 
+def gpu_problems(environment: dict | None) -> str:
+    """What the verifier's environment record says is wrong with the trial's GPUs, if anything."""
+    if environment is None:
+        return ""
+    problems = []
+    same = environment.get("same_hardware_as_agent_sandbox")
+    if isinstance(same, dict):
+        differs = [field for field, value in same.items() if value is False]
+        if differs:
+            problems.append(f"the agent's sandbox had another GPU ({', '.join(differs)} differ)")
+    expected = environment.get("expected_gpu")
+    if isinstance(expected, dict):
+        wanted = " or ".join(str(gpu_type) for gpu_type in expected.get("types") or [])
+        for sandbox, owner in (("verifier", "the verifier's"), ("agent_sandbox", "the agent's")):
+            if expected.get(sandbox) is False:
+                problems.append(f"{owner} GPU is not {wanted}")
+    return "; ".join(problems)
+
+
 def load_trials(job_dir: Path) -> list[dict]:
     """Return one record per InferenceBench trial of a Harbor job.
 
@@ -75,6 +95,7 @@ def load_trials(job_dir: Path) -> list[dict]:
             "status": "error",
             "reward": None,
             "note": str((result.get("exception_info") or {}).get("exception_type") or "no reward"),
+            "gpu": gpu_problems(read_json(path.parent / "verifier" / "environment.json")),
         }
         rewards = (result.get("verifier_result") or {}).get("rewards")
         if not isinstance(rewards, dict) or not isinstance(rewards.get("reward"), (int, float)):
@@ -136,6 +157,9 @@ def summarize(records: list[dict]) -> dict:
             for scenario in SCENARIOS
             if not cells[pair, scenario]
         ],
+        "gpu_warnings": [
+            f"{record['scenario']} {record['seed_pair']}: {record['gpu']}" for record in records if record["gpu"]
+        ],
         "repeated": [
             f"{scenario} {pair}"
             for pair in seed_pairs
@@ -147,7 +171,7 @@ def summarize(records: list[dict]) -> dict:
             {
                 "trial": record["trial"],
                 "cell": f"{record['scenario']} {record['seed_pair']}",
-                **{key: record.get(key) for key in ("status", "reward", "speedup", "note")},
+                **{key: record.get(key) for key in ("status", "reward", "speedup", "note", "gpu")},
             }
             for record in records
         ],
@@ -210,6 +234,8 @@ def main() -> None:
             for row in summary["trials"]:
                 if row["status"] in ("ungraded", "error", "reference"):
                     print(f"{name} {agent}: {row['status']}: {row['trial']}: {row['note']}", file=sys.stderr)
+                if row["gpu"]:
+                    print(f"{name} {agent}: GPU: {row['trial']}: {row['gpu']}; counted all the same", file=sys.stderr)
     sys.exit(0 if complete else 1)
 
 

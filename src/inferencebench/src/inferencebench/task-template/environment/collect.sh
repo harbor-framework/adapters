@@ -1,8 +1,12 @@
 #!/bin/bash
 # Derived from aisa-group/InferenceBench src/harbor_adapter/template/environment/collect.sh
-# (Apache-2.0). Harbor runs this as root after the agent phase and before it uploads /tests.
-# Nothing the agent owns may run as root here: use a clean PATH and PYTHONPATH and leave the
-# agent's working directory.
+# (Apache-2.0). Harbor runs this as root in the agent's sandbox after the agent phase. The
+# verifier runs in a new sandbox from the same image, so this script hands the agent's work
+# over, as upstream's does through a Modal volume: it packs /home/agent and the /tmp targets of
+# the task directory's links into /var/lib/ib_handoff, which only root can write. task.toml
+# declares its files as artifacts, so Harbor copies them to the trial directory and from there
+# into the verifier's sandbox. Nothing the agent owns may run as root here: use a clean PATH and
+# PYTHONPATH and leave the agent's working directory.
 set -uo pipefail
 cd /
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
@@ -11,16 +15,21 @@ export PYTHONNOUSERSITE=1
 unset PYTHONUSERBASE PIP_USER
 source /usr/local/lib/inferencebench/agent_processes.sh
 
-STATE=/var/lib/ib_state
+LIB=/usr/local/lib/inferencebench
 TASK=/home/agent/task
-rm -rf "${STATE}" /tests
-mkdir -m 700 "${STATE}" "${STATE}/tmp"
+HANDOFF=/var/lib/ib_handoff
+# The healthcheck's list of the model files that it downloaded; only root can read it.
+RECORD=/var/lib/inferencebench/pinned_model.json
+WORK=/var/lib/ib_collect
+rm -rf "${WORK}"
+mkdir -m 700 "${WORK}"
 # Keep the log where only root can write it. Harbor gets a copy however this script ends.
-exec 3>&1 >> "${STATE}/collect.log" 2>&1
+exec 3>&1 >> "${WORK}/collect.log" 2>&1
 publish_log() {
-    cat "${STATE}/collect.log" >&3
-    mkdir -p /logs/artifacts
-    cp --remove-destination "${STATE}/collect.log" /logs/artifacts/collect.log
+    cat "${WORK}/collect.log" >&3
+    if [ -d "${HANDOFF}" ] && [ ! -L "${HANDOFF}" ]; then
+        cp --remove-destination "${WORK}/collect.log" "${HANDOFF}/collect.log"
+    fi
 }
 trap publish_log EXIT
 
@@ -37,6 +46,9 @@ if ! kill_agent_processes; then
 fi
 phase "stopped the agent's processes"
 
+rm -rf "${HANDOFF}"
+mkdir -m 755 "${HANDOFF}"
+
 # Harbor runs every command with the task directory as its working directory, so this script
 # only starts if that path resolves. A symbolic link there is not the agent's task directory.
 if [ -L "${TASK}" ]; then
@@ -45,13 +57,9 @@ if [ -L "${TASK}" ]; then
     phase "the task directory was a symbolic link; replaced it with an empty directory"
 fi
 
-# The verifier writes here as root, and the agent could write here until now.
-find /logs/verifier -mindepth 1 -delete
-chown root:root /logs/verifier && chmod 700 /logs/verifier
-
-# As in run_task.sh: keep the /tmp targets of symbolic links in the task directory, and drop
-# everything else the agent left in scratch space.
-phase "tmp snapshot"
+# As in run_task.sh: keep the /tmp targets of symbolic links in the task directory. Nothing else
+# that the agent left in scratch space reaches the verifier.
+: > "${WORK}/tmp.list"
 while IFS= read -r link; do
     target="$(readlink "${link}")"
     case "${target}" in
@@ -67,14 +75,9 @@ while IFS= read -r link; do
         /tmp/?*) ;;
         *) continue ;;
     esac
-    if mkdir -p "$(dirname "${STATE}${target}")" && cp -aT -- "${target}" "${STATE}${target}"; then
-        phase "snapshot ${link} -> ${target} ($(du -sh "${STATE}${target}" | cut -f1))"
-    else
-        phase "ERROR: snapshot of ${target} failed"
-        exit 1
-    fi
+    printf '%s\0' "${target}" >> "${WORK}/tmp.list"
+    phase "snapshot ${link} -> ${target} ($(du -sh "${target}" | cut -f1))"
 done < <(find "${TASK}" -maxdepth 1 -type l)
-find /tmp /var/tmp /dev/shm -mindepth 1 -user agent -delete 2> /dev/null
 
 # The evaluation server does not get the agent CLI's state or credentials. Remove them as
 # user agent, so that root never follows a path that the agent laid out.
@@ -85,6 +88,19 @@ as_agent /bin/rm -rf /home/agent/.nvm /home/agent/.npm /home/agent/.claude /home
     /home/agent/.codex /home/agent/.gemini /home/agent/.config/opencode \
     /home/agent/.local/share/opencode /home/agent/.local/share/claude
 as_agent /usr/bin/find /home/agent \( -name oauth_token -o -name api_key \) -type f -delete
+# Hugging Face tokens that a login writes, and git or netrc credentials, which the trial directory
+# would otherwise keep: Harbor's secret scrubbing does not look inside the hand-off's archive.
+as_agent /bin/rm -f /home/agent/hf_cache/token /home/agent/hf_cache/stored_tokens \
+    /home/agent/.cache/huggingface/token /home/agent/.cache/huggingface/stored_tokens \
+    /home/agent/.huggingface/token /home/agent/.git-credentials /home/agent/.netrc
 
-date --iso-8601=seconds > "${STATE}/complete"
-phase "ready for the verifier; /home/agent is $(du -sh /home/agent | cut -f1)"
+# The model files that the healthcheck downloaded and that are unchanged stay out of the stream:
+# the verifier downloads the same revision and puts them back.
+phase "packing /home/agent ($(du -sh /home/agent | cut -f1))"
+if ! python3 -I "${LIB}/handoff.py" pack --home /home/agent --record "${RECORD}" \
+    --tmp-list "${WORK}/tmp.list" --out "${HANDOFF}"; then
+    phase "ERROR: could not pack the hand-off"
+    exit 1
+fi
+date --iso-8601=seconds > "${HANDOFF}/complete"
+phase "ready for the verifier: $(du -sh "${HANDOFF}" | cut -f1) in ${HANDOFF}"

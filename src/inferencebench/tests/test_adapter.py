@@ -1,15 +1,20 @@
 """Tests that run without a GPU, a container runtime, or API keys.
 
-uv run --with pytest --with pytest-asyncio --with harbor==0.25.0 pytest tests/
+uv run --with pytest --with pytest-asyncio --with harbor==0.26.0 pytest tests/
 """
 
 import hashlib
 import importlib.util
+import io
 import json
 import os
 import re
+import shutil
+import stat
 import subprocess
 import sys
+import tarfile
+import tempfile
 import tomllib
 import types
 from pathlib import Path
@@ -122,15 +127,21 @@ def test_task_config(tasks: Path) -> None:
     assert config["verifier"]["env"]["ANTHROPIC_BASE_URL"] == "${ANTHROPIC_BASE_URL:-}"
     assert config["agent"]["user"] == "agent"
     assert config["agent"]["timeout_sec"] == 7200.0
-    assert config["verifier"]["environment_mode"] == "shared"
+    assert config["verifier"]["environment_mode"] == "separate"
+    # Harbor makes the verifier's sandbox from a copy of [environment]: the same image, GPU, and
+    # variables, which test.sh needs to download the model and to run the agent's server.
+    assert "environment" not in config["verifier"]
     assert config["environment"]["env"]["INFERENCE_BENCH_DATASET_SEED"] == "248"
     assert config["environment"]["env"]["BASH_MAX_TIMEOUT_MS"] == "36000000"
     assert config["verifier"]["env"]["INFERENCE_BENCH_DATASET_SEED"] == "428"
     assert config["verifier"]["env"]["INFERENCE_BENCH_JUDGE"] == "${INFERENCE_BENCH_JUDGE:-required}"
     assert config["verifier"]["collect"][0]["command"].startswith("/bin/bash ")
     healthcheck = config["environment"]["healthcheck"]["command"]
-    # The evaluator's tokenizer cache, which test.sh requires.
-    assert "python3 /usr/local/lib/inferencebench/download_model.py && " in healthcheck
+    # The healthcheck records the model files that it downloads, where collect.sh looks for them.
+    record = "/var/lib/inferencebench/pinned_model.json"
+    assert f"python3 /usr/local/lib/inferencebench/download_model.py --record {record} && " in healthcheck
+    assert f"RECORD={record}\n" in (TEMPLATE / "environment" / "collect.sh").read_text()
+    # The evaluator's tokenizer cache, which test.sh fills in the verifier's sandbox.
     assert 'EVAL_HUB = "/opt/ib_eval_hf/hub"\n' in (TEMPLATE / "environment" / "download_model.py").read_text()
     assert "EVAL_HF=/opt/ib_eval_hf\n" in (TEMPLATE / "tests" / "test.sh").read_text()
     # The model repository is pinned to a commit, and the task says which.
@@ -138,8 +149,27 @@ def test_task_config(tasks: Path) -> None:
     assert re.fullmatch(r"[0-9a-f]{40}", revision)
     assert config["metadata"]["model_revision"] == revision
     assert config["metadata"]["upstream_commit"] == adapter_module.UPSTREAM_COMMIT
-    # User agent can never write a reward, whether or not the verifier's scripts run.
-    assert "chown root:root /logs/verifier && chmod 700 /logs/verifier && date +%s > /timer_start" in healthcheck
+    assert healthcheck.endswith("&& date +%s > /timer_start; }")
+
+
+def test_harbor_runs_the_verifier_in_a_sandbox_of_its_own(tasks: Path) -> None:
+    from harbor.lint.models import LintRule
+    from harbor.lint.task import lint_task
+    from harbor.models.task.config import TaskConfig
+    from harbor.models.task.paths import TaskPaths
+    from harbor.models.task.verifier_mode import resolve_verifier_environment_definition
+
+    task = tasks / FIRST_TASK
+    config = TaskConfig.model_validate(tomllib.loads((task / "task.toml").read_text()))
+    definition = resolve_verifier_environment_definition(config, TaskPaths(task))
+    # The task's own image, built from environment/, with its GPU and variables; Harbor uploads
+    # tests/ when the verifier starts.
+    assert definition.directory == task / "environment" and not definition.bundled_tests
+    assert (definition.config.gpus, definition.config.gpu_types) == (1, ["H100!", "H100"])
+    assert definition.config.env["INFERENCE_BENCH_MODEL_REVISION"] == config.environment.env["INFERENCE_BENCH_MODEL_REVISION"]
+    assert definition.config.healthcheck is not None  # Harbor runs it only in the agent's sandbox
+    rules = {finding.rule for finding in lint_task(task)}
+    assert LintRule.SHARED_VERIFIER not in rules
 
 
 def test_agent_image_has_no_evaluation_seed_or_verifier_files(tasks: Path) -> None:
@@ -164,7 +194,10 @@ def test_root_commands_do_not_resolve_through_the_agents_directory(tasks: Path) 
         assert "cd /\n" in script
         # Both stop the agent's processes with the helper that the image ships.
         assert "source /usr/local/lib/inferencebench/agent_processes.sh\n" in script
-    assert "COPY agent_processes.sh download_model.py /usr/local/lib/inferencebench/\n" in dockerfile
+    assert "COPY agent_processes.sh download_model.py handoff.py /usr/local/lib/inferencebench/\n" in dockerfile
+    # Root runs the hand-off's Python in isolated mode, so the agent's files cannot be imported.
+    assert 'python3 -I "${LIB}/handoff.py" pack' in (tasks / FIRST_TASK / "environment" / "collect.sh").read_text()
+    assert 'python3 -I "${LIB}/handoff.py" verify' in (tasks / FIRST_TASK / "tests" / "test.sh").read_text()
     # Files that Harbor uploads with the host user's uid do not belong to user agent.
     assert "--uid 1000 agent" in dockerfile
     assert dockerfile.index("usermod -u 64321 agent") < dockerfile.rindex("chown -R agent:agent /home/agent")
@@ -177,9 +210,11 @@ def test_the_verifier_takes_over_its_files_before_it_uses_them(tasks: Path) -> N
         "kill_agent_processes ||",
         'chown root:root "${LOGS}" && chmod 700 "${LOGS}"',
         "chown -R -h root:root /tests && chmod -R go-rwx /tests",
-        '[ -f "${STATE}/complete" ]',
+        'rm -rf "${STATE}" && mkdir -m 700 "${STATE}"',
         'no_reward "INFERENCE_BENCH_JUDGE must be required or off',
         'source "${IB}/src/disallowed_usage_judge/judge.sh"',
+        "\nreceive_handoff\n",
+        '[ -d "${EVAL_HF}/hub" ] || no_reward',
         # A GPU that does not answer cannot hold up the verifier.
         '/usr/bin/timeout --kill-after=10s 300s \\\n    python3 -I /tests/record_environment.py "${LOGS}/environment.json"',
         "run_judge",
@@ -194,9 +229,175 @@ def test_the_verifier_takes_over_its_files_before_it_uses_them(tasks: Path) -> N
     ]
     positions = [main.index(step) for step in steps]
     assert positions == sorted(positions)
-    # The agent's launcher and the judge cannot gain privileges from a set-user-ID file.
-    assert script.count("/usr/bin/setpriv --no-new-privs --reuid=agent --regid=agent --clear-groups") == 2
+    # Unpacking, the agent's launcher, and the judge cannot gain privileges from a set-user-ID file.
+    assert script.count("/usr/bin/setpriv --no-new-privs --reuid=agent --regid=agent --clear-groups") == 3
     assert "eval_seed" not in script
+
+
+def test_the_verifier_unpacks_the_handoff_as_user_agent(tasks: Path) -> None:
+    script = (tasks / FIRST_TASK / "tests" / "test.sh").read_text()
+    receive = shell_function(script, "receive_handoff")
+    steps = [
+        '[ -f "${HANDOFF}/complete" ]',
+        # Only root can read the parts once they are checked, so the judge's CLI cannot either.
+        'chown -R -h root:root "${HANDOFF}" && chmod -R go-rwx,a-s "${HANDOFF}"',
+        'python3 -I "${LIB}/handoff.py" verify "${HANDOFF}"',
+        'cp "${HANDOFF}/manifest.json" "${LOGS}/handoff.json"',
+        "for attempt in 1 2 3 4 5; do",
+        # The fresh download goes to a staging cache, not to the agent's home.
+        'HF_HOME="${PINNED}" HF_HUB_CACHE="${PINNED}/hub"',
+        'python3 "${LIB}/download_model.py" --evaluator',
+        'chmod -R a+rX,go-w "${EVAL_HF}"',
+        'find "${AGENT_HOME}" -mindepth 1 -delete',
+        'python3 -I "${LIB}/handoff.py" stream "${HANDOFF}"',
+        (
+            "        /usr/bin/env -i /usr/bin/setpriv --no-new-privs --reuid=agent --regid=agent --clear-groups \\\n"
+            '        /usr/bin/python3 -I "${LIB}/handoff.py" unpack --manifest-fd 3'
+        ),
+        '3< "${HANDOFF}/manifest.json"',
+        'local status=("${PIPESTATUS[@]}")',
+        # The staging cache goes once the model files are back.
+        'rm -rf "${PINNED}"\n',
+        'mv "${TMP_IN}" "${STATE}/tmp"',
+        '[ -d "${TASK}" ] && [ ! -L "${TASK}" ] || no_reward',
+    ]
+    positions = [receive.index(step) for step in steps]
+    assert positions == sorted(positions)
+    # The agent's sandbox has no verifier files and no evaluator cache; this one gets both.
+    collect = (tasks / FIRST_TASK / "environment" / "collect.sh").read_text()
+    assert "/logs/verifier" not in collect and "ib_eval_hf" not in collect and "/logs/artifacts" not in collect
+    assert collect.index("kill_agent_processes") < collect.index('rm -rf "${HANDOFF}"') < collect.index('handoff.py" pack')
+    assert collect.rindex('handoff.py" pack') < collect.index('> "${HANDOFF}/complete"')
+    # Only root can create the hand-off's directory, and task.toml declares its files.
+    handoff = adapter_module.HANDOFF_DIR
+    assert f"HANDOFF={handoff}\n" in collect and f"HANDOFF={handoff}\n" in script
+    config = tomllib.loads((tasks / FIRST_TASK / "task.toml").read_text())
+    assert config["artifacts"] == [
+        f"{handoff}/{name}"
+        for name in ["manifest.json", "complete", "collect.log", *(f"part.{i:03d}" for i in range(adapter_module.HANDOFF_PARTS))]
+    ]
+
+
+def shell_harness_paths(root: Path) -> dict[str, Path]:
+    return {name: root / name for name in ("lib", "handoff", "pinned", "tmp-in", "state", "logs", "eval-hf", "home")}
+
+
+def run_collect(tasks: Path, root: Path, home: Path, record: Path) -> subprocess.CompletedProcess:
+    """Run collect.sh as it runs in the agent's sandbox, with stand-ins for the user switch."""
+    script = (tasks / FIRST_TASK / "environment" / "collect.sh").read_text()
+    lib = root / "lib"
+    lib.mkdir(exist_ok=True)
+    shutil.copy(tasks / FIRST_TASK / "environment" / "handoff.py", lib / "handoff.py")
+    replacements = {
+        "source /usr/local/lib/inferencebench/agent_processes.sh\n": "kill_agent_processes() { return 0; }\n",
+        "LIB=/usr/local/lib/inferencebench\n": f"LIB={lib}\n",
+        "HANDOFF=/var/lib/ib_handoff\n": f"HANDOFF={root / 'handoff'}\n",
+        "RECORD=/var/lib/inferencebench/pinned_model.json\n": f"RECORD={record}\n",
+        "WORK=/var/lib/ib_collect\n": f"WORK={root / 'collect'}\n",
+        '    /usr/bin/env -i /usr/bin/setpriv --reuid=agent --regid=agent --clear-groups "$@"\n': '    "$@"\n',
+        "chown agent:agent": ":",
+    }
+    for old, new in replacements.items():
+        assert old in script, old
+        script = script.replace(old, new)
+    script = script.replace("/home/agent", str(home))
+    shims = f"""
+python3() {{ "{sys.executable}" "$@"; }}
+date() {{ command date +%Y-%m-%dT%H:%M:%S; }}
+cp() {{ if [ "$1" = --remove-destination ]; then rm -f "$3"; command cp "$2" "$3"; else command cp "$@"; fi; }}
+# GNU realpath -e; on macOS /tmp is a link to /private/tmp.
+realpath() {{ "{sys.executable}" -c 'import os, sys
+path = os.path.realpath(sys.argv[1]).replace("/private/tmp/", "/tmp/", 1)
+sys.exit(0 if os.path.exists(path) and print(path) is None else 1)' "$3"; }}
+"""
+    return bash(SHELL_COMPAT + shims + script.split("\n", 1)[1])
+
+
+def run_receive(tasks: Path, root: Path, staging_source: Path) -> subprocess.CompletedProcess:
+    """Run test.sh's receive_handoff, with stand-ins for root, user agent, and the model download."""
+    script = (tasks / FIRST_TASK / "tests" / "test.sh").read_text()
+    paths = shell_harness_paths(root)
+    for name in ("pinned", "tmp-in", "state", "logs", "eval-hf"):
+        paths[name].mkdir(exist_ok=True)
+    (paths["home"] / "task").mkdir(parents=True, exist_ok=True)
+    (paths["home"] / "task" / "from-the-image").write_text("the task's original file")
+    # The stand-in download copies the pinned files into the staging cache named by HF_HUB_CACHE.
+    (paths["lib"] / "download_model.py").write_text(
+        "import os, shutil, sys\n"
+        f"shutil.copytree({str(staging_source)!r}, os.environ['HF_HUB_CACHE'], dirs_exist_ok=True)\n"
+        f"os.makedirs({str(paths['eval-hf'] / 'hub')!r}, exist_ok=True)\n"
+    )
+    function = shell_function(script, "receive_handoff")
+    for old, new in (
+        # user agent's unpacking still starts with an empty environment
+        ("/usr/bin/env -i /usr/bin/setpriv --no-new-privs --reuid=agent --regid=agent --clear-groups", "/usr/bin/env -i"),
+        ("/usr/bin/python3 -I", f'"{sys.executable}" -I'),
+        ("/usr/bin/timeout --kill-after=60s 3600s", ""),
+    ):
+        assert old in function, old
+        function = function.replace(old, new)
+    harness = f"""
+{SHELL_COMPAT}
+LIB={paths['lib']}; HANDOFF={paths['handoff']}; PINNED={paths['pinned']}; TMP_IN={paths['tmp-in']}
+STATE={paths['state']}; LOGS={paths['logs']}; EVAL_HF={paths['eval-hf']}
+AGENT_HOME={paths['home']}; TASK={paths['home']}/task
+INFERENCE_BENCH_BASE_MODEL=org/name; INFERENCE_BENCH_MODEL_REVISION=rev1
+python3() {{ "{sys.executable}" "$@"; }}
+chown() {{ :; }}
+sleep() {{ :; }}
+log() {{ echo "log: $*"; }}
+no_reward() {{ echo "no reward: $*"; exit 3; }}
+{function}
+receive_handoff
+echo received
+"""
+    return bash(harness)
+
+
+def test_collect_and_receive_hand_the_home_over(tasks: Path, agent_home) -> None:
+    root = agent_home.root / "shell"
+    root.mkdir()
+    collected = run_collect(tasks, root, agent_home.home, agent_home.record)
+    assert collected.returncode == 0, collected.stdout + collected.stderr
+    assert (root / "handoff" / "complete").is_file()
+    # The CLI's state and the Hugging Face token do not leave the agent's sandbox.
+    for name in (".claude.json", "hf_cache/token"):
+        assert not (agent_home.home / name).exists()
+    log = (root / "handoff" / "collect.log").read_text()
+    assert "ready for the verifier" in log and f"-> {agent_home.target}" in log
+    # Harbor carries the declared files over; nothing else of the agent's sandbox comes along.
+    staging = agent_home.root / "staging" / "hub"
+    received = run_receive(tasks, root, staging)
+    assert received.stdout.splitlines()[-1] == "received", received.stdout + received.stderr
+    home = root / "home"
+    assert not (home / "task" / "from-the-image").exists()
+    assert (home / "task" / "start_server.sh").read_text() == "#!/bin/bash\nexec vllm serve\n"
+    weights = agent_home.blobs["model.safetensors"][0]
+    assert (home / "task" / "weights.safetensors").stat().st_ino == (
+        home / "hf_cache" / "hub" / "models--org--name" / "blobs" / weights
+    ).stat().st_ino
+    name = Path(agent_home.target).name
+    assert (root / "state" / "tmp" / name / "engine" / "plan.bin").read_bytes() == b"plan"
+    assert json.loads((root / "logs" / "handoff.json").read_text())["model"]["revision"] == "rev1"
+    assert not (root / "pinned").exists() and not (root / "tmp-in").exists()
+
+
+def test_the_verifier_refuses_a_handoff_that_is_missing_or_damaged(tasks: Path, agent_home) -> None:
+    root = agent_home.root / "shell"
+    root.mkdir()
+    staging = agent_home.root / "staging" / "hub"
+    (root / "lib").mkdir()
+    shutil.copy(tasks / FIRST_TASK / "environment" / "handoff.py", root / "lib" / "handoff.py")
+    (root / "handoff").mkdir()
+    result = run_receive(tasks, root, staging)
+    assert result.returncode == 3 and "no reward: the hand-off from the agent's sandbox is missing" in result.stdout
+    shutil.rmtree(root / "handoff")
+    assert run_collect(tasks, root, agent_home.home, agent_home.record).returncode == 0
+    part = root / "handoff" / "part.000"
+    part.write_bytes(part.read_bytes()[:-1] + b"!")
+    result = run_receive(tasks, root, staging)
+    assert result.returncode == 3 and "is incomplete or damaged; see handoff.log" in result.stdout
+    assert "part.000" in (root / "logs" / "handoff.log").read_text()
 
 
 def test_judge_prompt_points_at_the_copy(tasks: Path) -> None:
@@ -217,6 +418,8 @@ def test_scripts_parse(tasks: Path) -> None:
         "solution/pytorch_reference.sh",
     ):
         subprocess.run(["bash", "-n", str(task / name)], check=True)
+    for name in ("environment/handoff.py", "environment/download_model.py", "tests/record_environment.py"):
+        compile((task / name).read_text(), name, "exec")
 
 
 def test_oracle_loads_upstreams_vllm_shims(tasks: Path) -> None:
@@ -233,13 +436,18 @@ def test_oracle_loads_upstreams_vllm_shims(tasks: Path) -> None:
     compile((task / "environment" / site).read_text() + shims, "sitecustomize.py", "exec")
 
 
-def test_the_healthcheck_caches_the_pinned_revision_under_the_models_name(tmp_path: Path, monkeypatch) -> None:
+def load_download_model(tmp_path: Path, monkeypatch) -> tuple[types.ModuleType, list]:
+    """Load download_model.py with a stand-in for the Hub that writes one blob per cache."""
     calls = []
 
     def snapshot_download(model, revision, cache_dir, ignore_patterns):
         calls.append((model, revision, cache_dir, ignore_patterns))
-        snapshot = Path(cache_dir or tmp_path / "agent") / "models--org--name" / "snapshots" / revision
+        repository = Path(cache_dir or tmp_path / "home" / "hf_cache" / "hub") / "models--org--name"
+        (repository / "blobs").mkdir(parents=True)
+        (repository / "blobs" / ("a" * 64)).write_bytes(b"weights")
+        snapshot = repository / "snapshots" / revision
         snapshot.mkdir(parents=True)
+        (snapshot / "model.safetensors").symlink_to(f"../../blobs/{'a' * 64}")
         return str(snapshot)
 
     monkeypatch.setitem(sys.modules, "huggingface_hub", types.SimpleNamespace(snapshot_download=snapshot_download))
@@ -247,19 +455,43 @@ def test_the_healthcheck_caches_the_pinned_revision_under_the_models_name(tmp_pa
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     monkeypatch.setattr(module, "EVAL_HUB", str(tmp_path / "evaluator"))
-    revision = adapter_module.MODEL_REVISIONS["mistralai/Mistral-7B-Instruct-v0.3"]
+    monkeypatch.setattr(module, "AGENT_HOME", str(tmp_path / "home"))
     monkeypatch.setenv("INFERENCE_BENCH_BASE_MODEL", "org/name")
-    monkeypatch.setenv("INFERENCE_BENCH_MODEL_REVISION", revision)
+    monkeypatch.setenv("INFERENCE_BENCH_MODEL_REVISION", adapter_module.MODEL_REVISIONS["mistralai/Mistral-7B-Instruct-v0.3"])
+    return module, calls
+
+
+def test_the_healthcheck_caches_the_pinned_revision_and_records_its_files(tmp_path: Path, monkeypatch) -> None:
+    module, calls = load_download_model(tmp_path, monkeypatch)
+    revision = os.environ["INFERENCE_BENCH_MODEL_REVISION"]
+    record = tmp_path / "state" / "pinned_model.json"
+    monkeypatch.setattr(sys, "argv", ["download_model.py", "--record", str(record)])
     module.main()
-    # The agent's cache gets every file, and the evaluator's cache everything but the weights.
+    # In the agent's sandbox only the agent's cache is filled; the evaluator's is the verifier's.
+    assert calls == [("org/name", revision, None, None)]
+    # A lookup by name reads refs/main, as after a download of the main branch.
+    repository = tmp_path / "home" / "hf_cache" / "hub" / "models--org--name"
+    assert (repository / "refs" / "main").read_text() == revision
+    assert json.loads(record.read_text()) == {
+        "revision": revision,
+        "repository": "hf_cache/hub/models--org--name",
+        "blobs": [{"name": "a" * 64, "size": 7}],
+    }
+    assert record.stat().st_mode & 0o777 == 0o600
+
+
+def test_the_verifier_fills_a_staging_cache_and_the_evaluators_cache(tmp_path: Path, monkeypatch) -> None:
+    module, calls = load_download_model(tmp_path, monkeypatch)
+    revision = os.environ["INFERENCE_BENCH_MODEL_REVISION"]
+    monkeypatch.setattr(sys, "argv", ["download_model.py", "--evaluator"])
+    module.main()
+    # The default cache is the staging cache that test.sh names; the evaluator gets no weights.
     assert calls == [
         ("org/name", revision, None, None),
         ("org/name", revision, str(tmp_path / "evaluator"), module.WEIGHTS),
     ]
     assert "*.safetensors" in module.WEIGHTS
-    # A lookup by name reads refs/main, as after a download of the main branch.
-    for cache in ("agent", "evaluator"):
-        assert (tmp_path / cache / "models--org--name" / "refs" / "main").read_text() == revision
+    assert (tmp_path / "evaluator" / "models--org--name" / "refs" / "main").read_text() == revision
 
 
 def test_the_manifest_records_what_the_task_pins(tasks: Path) -> None:
@@ -270,6 +502,7 @@ def test_the_manifest_records_what_the_task_pins(tasks: Path) -> None:
     assert manifest["upstream"]["commit"] == adapter_module.UPSTREAM_COMMIT
     assert manifest["model_revision"] == adapter_module.MODEL_REVISIONS[manifest["base_model"]]
     assert manifest["timeouts_sec"]["agent"] == 7200.0 and manifest["timeouts_sec"]["verifier"] == 43200.0
+    assert (manifest["gpus"], manifest["gpu_types"]) == (1, ["H100!", "H100"])
     assert len(manifest["files_sha256"]) == 5
     for name, digest in manifest["files_sha256"].items():
         assert hashlib.sha256((task / name).read_bytes()).hexdigest() == digest, name
@@ -541,6 +774,341 @@ def test_restore_tmp_puts_back_names_that_start_with_a_dot(tmp_path: Path) -> No
     assert result.returncode == 0
     assert sorted(path.name for path in dest.iterdir()) == [".venv", "engine"]
     assert [path.name for path in (dest / ".venv").iterdir()] == ["python"]
+
+
+HANDOFF = TEMPLATE / "environment" / "handoff.py"
+
+
+def load_handoff() -> types.ModuleType:
+    spec = importlib.util.spec_from_file_location("handoff", HANDOFF)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def run_handoff(*args, **kwargs) -> subprocess.CompletedProcess:
+    return subprocess.run(
+        [sys.executable, "-I", str(HANDOFF), *map(str, args)], check=False, capture_output=True, **kwargs
+    )
+
+
+def unpack_handoff(handoff: Path, home: Path, tmp: Path, staging: Path) -> subprocess.CompletedProcess:
+    """Run stream and unpack the way test.sh does: the stream on stdin, the manifest on an fd."""
+    streamed = run_handoff("stream", handoff)
+    assert streamed.returncode == 0, streamed.stderr
+    with open(handoff / "manifest.json", "rb") as manifest:
+        return run_handoff(
+            "unpack", "--manifest-fd", manifest.fileno(), "--home", home, "--tmp", tmp, "--staging", staging,
+            input=streamed.stdout, pass_fds=(manifest.fileno(),),
+        )
+
+
+def git_blob_id(data: bytes) -> str:
+    return hashlib.sha1(b"blob %d\0" % len(data) + data).hexdigest()
+
+
+def tree(base: Path) -> dict:
+    """Each entry's kind, mode, and content hash. Only regular files are read."""
+    rows = {}
+    for dirpath, dirnames, filenames in os.walk(base):
+        for name in dirnames + filenames:
+            path = Path(dirpath) / name
+            info = os.lstat(path)
+            key = str(path.relative_to(base))
+            if stat.S_ISLNK(info.st_mode):
+                rows[key] = ("link", os.readlink(path))
+            elif stat.S_ISDIR(info.st_mode):
+                rows[key] = ("dir", info.st_mode & 0o7777)
+            elif stat.S_ISREG(info.st_mode):
+                rows[key] = ("file", info.st_mode & 0o7777, hashlib.sha256(path.read_bytes()).hexdigest())
+            else:
+                rows[key] = ("special",)
+    return rows
+
+
+@pytest.fixture
+def agent_home(tmp_path: Path):
+    """An agent's home as collect.sh finds it, the healthcheck's record, and a fresh download."""
+    home = tmp_path / "home" / "agent"
+    task = home / "task"
+    task.mkdir(parents=True)
+    (task / "start_server.sh").write_text("#!/bin/bash\nexec vllm serve\n")
+    (task / "start_server.sh").chmod(0o755)
+    site = home / ".local" / "lib" / "python3.10" / "site-packages" / "engine"
+    site.mkdir(parents=True)
+    (site / "__init__.py").write_text("FAST = True\n")
+    os.link(site / "__init__.py", task / "engine_copy.py")
+    (task / "packages").symlink_to("../.local")
+    (task / "readonly").mkdir()
+    (task / "readonly" / "notes").write_text("kept")
+    (task / "readonly").chmod(0o555)
+    (task / "setuid").write_text("x")
+    (task / "setuid").chmod(0o4755)
+    os.mkfifo(task / "pipe")
+    (home / ".claude.json").write_text('{"oauthAccount": "secret"}')
+    (home / "hf_cache" / "xet" / "chunks").mkdir(parents=True)
+    (home / "hf_cache" / "xet" / "chunks" / "0").write_bytes(b"chunk" * 100)
+    # The pinned revision: two files in LFS and one that is not; the agent changes the second.
+    weights, other, config = b"weights" * 300_000, b"tokenizer" * 1000, b'{"model_type": "mistral"}'
+    blobs = {
+        "model.safetensors": (hashlib.sha256(weights).hexdigest(), weights),
+        "tokenizer.model": (hashlib.sha256(other).hexdigest(), other),
+        "config.json": (git_blob_id(config), config),
+    }
+    repository = home / "hf_cache" / "hub" / "models--org--name"
+    snapshot = repository / "snapshots" / "rev1"
+    snapshot.mkdir(parents=True)
+    (repository / "blobs").mkdir()
+    (repository / "refs").mkdir()
+    (repository / "refs" / "main").write_text("rev1")
+    staging = tmp_path / "staging" / "hub" / "models--org--name" / "blobs"
+    staging.mkdir(parents=True)
+    for name, (blob, data) in blobs.items():
+        (repository / "blobs" / blob).write_bytes(data)
+        (snapshot / name).symlink_to(f"../../blobs/{blob}")
+        (staging / blob).write_bytes(data)
+    record = tmp_path / "record.json"
+    record.write_text(json.dumps({
+        "revision": "rev1",
+        "repository": "hf_cache/hub/models--org--name",
+        "blobs": [{"name": blob, "size": len(data)} for blob, data in blobs.values()],
+    }))
+    (repository / "blobs" / blobs["tokenizer.model"][0]).write_bytes(b"the agent's tokenizer")
+    (home / "hf_cache" / "token").write_text("hf_secret")
+    # The agent links the weights into its task directory, and copies them once more.
+    os.link(repository / "blobs" / blobs["model.safetensors"][0], task / "weights.safetensors")
+    (task / "weights-copy.safetensors").write_bytes(weights)
+    (task / "weights-copy.safetensors").chmod(0o600)
+    # A /tmp target, and one inside it that must not be archived twice.
+    scratch = Path(tempfile.mkdtemp(prefix="ib-handoff-", dir="/tmp"))
+    (scratch / "engine").mkdir()
+    (scratch / "engine" / "plan.bin").write_bytes(b"plan")
+    target = f"/tmp/{scratch.name}"
+    (task / "engine_link").symlink_to(target)
+    tmp_list = tmp_path / "tmp.list"
+    tmp_list.write_bytes(f"{target}\0{target}/engine\0".encode())
+    out = tmp_path / "out"
+    out.mkdir()
+    dest, tmp = tmp_path / "dest", tmp_path / "tmp-in"
+    dest.mkdir()
+    tmp.mkdir()
+    yield types.SimpleNamespace(
+        home=home, record=record, tmp_list=tmp_list, out=out, staging=tmp_path / "staging" / "hub",
+        blobs=blobs, target=target, root=tmp_path, dest=dest, tmp=tmp, weights=weights,
+    )
+    for base in (home, dest):
+        for path in [base, *base.rglob("*")]:
+            if path.is_dir() and not path.is_symlink():
+                path.chmod(0o755)
+    shutil.rmtree(scratch)
+
+
+def pack_home(agent_home, *extra) -> dict:
+    result = run_handoff("pack", "--home", agent_home.home, "--record", agent_home.record,
+                         "--tmp-list", agent_home.tmp_list, "--out", agent_home.out, *extra)
+    assert result.returncode == 0, result.stdout + result.stderr
+    return json.loads((agent_home.out / "manifest.json").read_text())
+
+
+def test_the_handoff_rebuilds_the_agents_home(agent_home) -> None:
+    manifest = pack_home(agent_home)
+    blobs = agent_home.blobs
+    weights = blobs["model.safetensors"][0]
+    # The unchanged model files stay behind, LFS or not; the changed one travels. A hard link to
+    # the weights and a copy of them are recorded instead of their content.
+    assert sorted(blob["name"] for blob in manifest["model"]["left_out"]) == sorted([weights, blobs["config.json"][0]])
+    assert manifest["model"]["changed"] == [blobs["tokenizer.model"][0]]
+    assert sorted((f["path"], f["kind"], f["mode"]) for f in manifest["model"]["files"]) == [
+        ("home/task/weights-copy.safetensors", "copy", 0o600),
+        ("home/task/weights.safetensors", "link", 0o644),
+    ]
+    assert manifest["stream_bytes"] < len(agent_home.weights)
+    assert manifest["tmp_targets"] == [agent_home.target]
+    verified = run_handoff("verify", agent_home.out, "--model", "org/name", "--revision", "rev1")
+    assert verified.returncode == 0, verified.stdout + verified.stderr
+    result = unpack_handoff(agent_home.out, agent_home.dest, agent_home.tmp, agent_home.staging)
+    assert result.returncode == 0, result.stdout + result.stderr
+    before, after = tree(agent_home.home), tree(agent_home.dest)
+    # Only the xet cache, the pipe, and the set-user-ID bit are not carried over.
+    expected = {key: row for key, row in before.items() if not key.startswith("hf_cache/xet") and key != "task/pipe"}
+    expected["task/setuid"] = ("file", 0o755, before["task/setuid"][2])
+    assert after == expected
+    dest = agent_home.dest
+    for first, second in (
+        ("task/engine_copy.py", ".local/lib/python3.10/site-packages/engine/__init__.py"),
+        ("task/weights.safetensors", f"hf_cache/hub/models--org--name/blobs/{weights}"),
+    ):
+        assert (dest / first).stat().st_ino == (dest / second).stat().st_ino
+    # The model files came back from the fresh download, which unpack moved, not copied.
+    assert not (agent_home.staging / "models--org--name" / "blobs" / weights).exists()
+    # The target inside the other one is archived once, as part of it.
+    name = Path(agent_home.target).name
+    unpacked = tree(agent_home.tmp)
+    assert sorted(unpacked) == [name, f"{name}/engine", f"{name}/engine/plan.bin"]
+    assert unpacked[f"{name}/engine/plan.bin"][2] == hashlib.sha256(b"plan").hexdigest()
+
+
+def test_read_only_directories_get_their_modes_after_the_model_files(agent_home) -> None:
+    for path in (agent_home.home / "hf_cache" / "hub" / "models--org--name").rglob("*"):
+        if path.is_dir() and not path.is_symlink():
+            path.chmod(0o555)
+    pack_home(agent_home)
+    result = unpack_handoff(agent_home.out, agent_home.dest, agent_home.tmp, agent_home.staging)
+    assert result.returncode == 0, result.stdout + result.stderr
+    blobs = agent_home.dest / "hf_cache" / "hub" / "models--org--name" / "blobs"
+    assert blobs.stat().st_mode & 0o777 == 0o555
+    assert (blobs / agent_home.blobs["model.safetensors"][0]).read_bytes() == agent_home.weights
+
+
+def test_a_large_handoff_comes_in_parts(agent_home) -> None:
+    (agent_home.home / "task" / "engine.plan").write_bytes(os.urandom(300_000))
+    manifest = pack_home(agent_home, "--part-bytes", 65536)
+    names = [part["name"] for part in manifest["parts"]]
+    assert len(names) > 3 and names == [f"part.{index:03d}" for index in range(len(names))]
+    header = load_handoff().PART_HEADER_BYTES
+    assert sum(part["bytes"] - header for part in manifest["parts"]) == manifest["stream_bytes"]
+    assert all(part["bytes"] <= 65536 + header for part in manifest["parts"])
+    # Harbor's secret scrubbing rewrites a file only if its first 8 KiB has no NUL byte.
+    for name in names:
+        assert b"\0" in (agent_home.out / name).read_bytes()[:8192]
+    result = unpack_handoff(agent_home.out, agent_home.dest, agent_home.tmp, agent_home.staging)
+    assert result.returncode == 0, result.stdout + result.stderr
+    (agent_home.out / names[1]).unlink()
+    result = run_handoff("verify", agent_home.out, "--model", "org/name", "--revision", "rev1")
+    assert result.returncode != 0 and b"part.001" in result.stderr
+    # The hand-off cannot need more parts than task.toml declares.
+    for part in agent_home.out.iterdir():
+        part.unlink()
+    result = run_handoff("pack", "--home", agent_home.home, "--record", agent_home.record,
+                         "--tmp-list", agent_home.tmp_list, "--out", agent_home.out, "--part-bytes", 1024)
+    assert result.returncode != 0 and b"larger than 40 parts" in result.stderr
+    assert load_handoff().MAX_PARTS == adapter_module.HANDOFF_PARTS
+
+
+def test_a_damaged_or_foreign_handoff_is_refused(agent_home) -> None:
+    pack_home(agent_home)
+    part = agent_home.out / "part.000"
+    original = part.read_bytes()
+    part.write_bytes(original[:600] + bytes([original[600] ^ 1]) + original[601:])
+    result = run_handoff("verify", agent_home.out, "--model", "org/name", "--revision", "rev1")
+    assert result.returncode != 0 and b"part.000" in result.stderr
+    # stream checks the parts again while it reads them.
+    assert run_handoff("stream", agent_home.out).returncode != 0
+    part.write_bytes(original)
+    result = run_handoff("verify", agent_home.out, "--model", "org/name", "--revision", "rev2")
+    assert result.returncode != 0 and b"is for hf_cache/hub/models--org--name at rev1" in result.stderr
+    (agent_home.out / "manifest.json").unlink()
+    assert run_handoff("verify", agent_home.out, "--model", "org/name", "--revision", "rev1").returncode != 0
+
+
+def test_a_model_file_behind_a_symbolic_link_is_handed_off(agent_home) -> None:
+    repository = agent_home.home / "hf_cache" / "hub" / "models--org--name"
+    (repository / "blobs").rename(agent_home.root / "elsewhere")
+    (repository / "blobs").symlink_to(agent_home.root / "elsewhere")
+    manifest = pack_home(agent_home)
+    assert manifest["model"]["left_out"] == [] and manifest["model"]["files"] == []
+
+
+def test_without_the_healthchecks_record_every_file_is_handed_off(agent_home) -> None:
+    agent_home.record.unlink()
+    manifest = pack_home(agent_home)
+    assert manifest["model"] is None
+    assert manifest["stream_bytes"] > 2 * len(agent_home.weights)
+    result = unpack_handoff(agent_home.out, agent_home.dest, agent_home.tmp, agent_home.root / "no-staging")
+    assert result.returncode == 0, result.stdout + result.stderr
+    weights = agent_home.blobs["model.safetensors"][0]
+    assert (agent_home.dest / "hf_cache" / "hub" / "models--org--name" / "blobs" / weights).read_bytes() == agent_home.weights
+
+
+def test_a_tmp_target_that_shares_files_with_the_home_is_unpacked(agent_home) -> None:
+    # A /tmp target with a hard link to a file in the home, and a single-file target below a
+    # directory: a hard link to the pinned weights, which the stream records instead of holding.
+    scratch = Path(agent_home.target)
+    os.link(agent_home.home / "task" / "start_server.sh", scratch / "engine" / "launcher")
+    (scratch / "weights").mkdir()
+    weights = agent_home.blobs["model.safetensors"][0]
+    os.link(agent_home.home / "hf_cache" / "hub" / "models--org--name" / "blobs" / weights, scratch / "weights" / "w.bin")
+    extra = f"{scratch}/weights/w.bin".replace(str(scratch), agent_home.target)
+    agent_home.tmp_list.write_bytes(agent_home.tmp_list.read_bytes() + extra.encode() + b"\0")
+    manifest = pack_home(agent_home)
+    assert {"path": f"tmp/{scratch.name}/weights/w.bin", "kind": "link"}.items() <= next(
+        entry for entry in manifest["model"]["files"] if entry["path"].startswith("tmp/")
+    ).items()
+    result = unpack_handoff(agent_home.out, agent_home.dest, agent_home.tmp, agent_home.staging)
+    assert result.returncode == 0, result.stdout + result.stderr
+    unpacked = agent_home.tmp / scratch.name
+    assert (unpacked / "engine" / "launcher").read_text() == "#!/bin/bash\nexec vllm serve\n"
+    assert (unpacked / "weights" / "w.bin").read_bytes() == agent_home.weights
+
+
+def test_the_record_says_whether_the_agent_had_the_same_gpu(tasks: Path) -> None:
+    spec = importlib.util.spec_from_file_location("record_environment", tasks / FIRST_TASK / "tests" / "record_environment.py")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    gpu = {"name": "NVIDIA H100 80GB HBM3", "memory_total_mib": "81559", "driver_version": "550.54.15"}
+    here = {"devices": [{"index": "0", **gpu, "vbios_version": "96.00"}]}
+    assert module.same_hardware(here, {"gpus": [gpu]}) == {"name": True, "memory_total_mib": True, "driver_version": True}
+    other = {**gpu, "name": "NVIDIA H100 PCIe", "memory_total_mib": "81559"}
+    assert module.same_hardware(here, {"gpus": [other]})["name"] is False
+    # Both sandboxes must have the type of GPU that the task asks for; the trial is graded anyway.
+    h200 = {**gpu, "name": "NVIDIA H200", "memory_total_mib": "143771"}
+    record = {"task": {"gpu_types": ["H100!", "H100"]}, "gpus": here, "agent_sandbox": {"gpus": [h200]}}
+    record["same_hardware_as_agent_sandbox"] = module.same_hardware(here, record["agent_sandbox"])
+    record["expected_gpu"] = module.expected_gpu(record)
+    assert record["expected_gpu"] == {"types": ["H100"], "verifier": True, "agent_sandbox": False}
+    warnings = module.gpu_warnings(record)
+    assert len(warnings) == 2 and warnings[1].startswith("the agent's sandbox's GPU was not H100")
+    record["agent_sandbox"] = {"gpus": [gpu]}
+    record["same_hardware_as_agent_sandbox"] = module.same_hardware(here, record["agent_sandbox"])
+    record["expected_gpu"] = module.expected_gpu(record)
+    assert module.gpu_warnings(record) == []
+    # Without the agent sandbox's record nothing can be compared, and nothing is claimed.
+    record["agent_sandbox"] = {"error": "KeyError: 'agent_sandbox'"}
+    assert module.expected_gpu(record)["agent_sandbox"] is None
+
+
+def test_unpack_refuses_members_that_could_leave_the_destination(tmp_path: Path) -> None:
+    handoff, home, tmp, outside = tmp_path / "handoff", tmp_path / "home", tmp_path / "tmp-in", tmp_path / "outside"
+    for path in (handoff, home, tmp, outside):
+        path.mkdir()
+    (outside / "victim").write_text("x")
+    (outside / "victim").chmod(0o644)
+
+    def member(name: str, kind=tarfile.REGTYPE, data: bytes = b"", linkname: str = "", mode: int = 0o644) -> tuple:
+        info = tarfile.TarInfo(name)
+        info.type, info.size, info.linkname, info.mode = kind, len(data), linkname, mode
+        return info, data
+
+    members = [
+        member("home/../escaped", data=b"x"),
+        member("/absolute", data=b"x"),
+        member("other/file", data=b"x"),
+        member("home/link", tarfile.SYMTYPE, linkname=str(outside)),
+        member("home/link/through", data=b"x"),
+        member("home/device", tarfile.CHRTYPE),
+        # A hard link to a symbolic link would reach the file it points to.
+        member("home/victim-link", tarfile.SYMTYPE, linkname=str(outside / "victim")),
+        member("home/hard", tarfile.LNKTYPE, linkname="home/victim-link", mode=0o777),
+        member("home/kept", data=b"kept"),
+    ]
+    stream = io.BytesIO()
+    with tarfile.open(fileobj=stream, mode="w", format=tarfile.PAX_FORMAT) as tar:
+        for info, data in members:
+            tar.addfile(info, io.BytesIO(data) if data else None)
+    data = load_handoff().part_header(0) + stream.getvalue()
+    (handoff / "part.000").write_bytes(data)
+    (handoff / "manifest.json").write_text(json.dumps({
+        "format": 2, "model": None,
+        "parts": [{"name": "part.000", "bytes": len(data), "sha256": hashlib.sha256(data).hexdigest()}],
+    }))
+    result = unpack_handoff(handoff, home, tmp, tmp_path / "staging")
+    assert result.returncode != 0
+    refused = [line for line in result.stdout.decode().splitlines() if line.startswith("[handoff] refused ")]
+    assert len(refused) == 6, result.stdout
+    assert sorted(path.name for path in home.iterdir()) == ["kept", "link", "victim-link"]
+    assert sorted(path.name for path in outside.iterdir()) == ["victim"]
+    assert (outside / "victim").stat().st_mode & 0o777 == 0o644 and (outside / "victim").stat().st_nlink == 1
+    assert not (tmp_path / "escaped").exists()
 
 
 def run_judge(
@@ -1058,6 +1626,27 @@ def test_score_reproduces_the_papers_aggregate(tmp_path: Path) -> None:
     assert summary["scenarios"]["a"]["sem"] == pytest.approx(0.2887, abs=0.001)
     assert summary["aggregate"]["mean"] == pytest.approx(8.08, abs=0.01)
     assert len(summary["aggregate"]["seed_pairs"]) == 3
+
+
+def test_score_lists_trials_on_other_gpus_and_counts_them(tmp_path, monkeypatch, capsys) -> None:
+    write_job(tmp_path)
+    trial = min(tmp_path.iterdir())
+    (trial / "verifier").mkdir()
+    (trial / "verifier" / "environment.json").write_text(json.dumps({
+        "same_hardware_as_agent_sandbox": {"name": False, "memory_total_mib": True, "driver_version": True},
+        "expected_gpu": {"types": ["H100"], "verifier": False, "agent_sandbox": True},
+    }))
+    summary = score.summarize(score.load_trials(tmp_path))
+    assert summary["aggregate"]["mean"] == pytest.approx(8.08, abs=0.01)
+    assert len(summary["gpu_warnings"]) == 1
+    assert summary["gpu_warnings"][0].endswith(
+        "the agent's sandbox had another GPU (name differ); the verifier's GPU is not H100"
+    )
+    monkeypatch.setattr(sys, "argv", ["inferencebench-score", str(tmp_path)])
+    with pytest.raises(SystemExit) as exit_info:
+        score.main()
+    assert exit_info.value.code == 0
+    assert f"GPU: {trial}: the agent's sandbox had another GPU" in capsys.readouterr().err
 
 
 def test_score_reads_only_harbors_trial_results(tmp_path: Path) -> None:

@@ -1,6 +1,7 @@
 # Sourced by collect.sh and test.sh, which run as root. Derived from the cleanup barrier in
 # aisa-group/InferenceBench src/run_task.sh (Apache-2.0). Every process of user agent is
-# untrusted, and the verifier shares its sandbox, so nothing may start while one is alive.
+# untrusted: collect.sh stops them before it packs the agent's home, and test.sh stops the
+# judge's and the evaluation server's before root goes on.
 
 agent_processes_remain() {
     local state

@@ -1,10 +1,11 @@
 """Record what a trial ran on in /logs/verifier/environment.json.
 
-test.sh runs this as root with `python3 -I`, before the judge and the evaluation. It reads what
-the sandbox reports about itself and what the image and the verifier's files pin. The agent's
-directories are only listed, never read, and a name taken from them must match a strict
-pattern. No credential is recorded: only the environment variables selected below are copied.
-The record cannot change a trial's outcome, so every probe is allowed to fail.
+test.sh runs this as root with `python3 -I` in the verifier's sandbox, after it has received the
+agent's files and before the judge and the evaluation. It reads what the sandbox reports about
+itself, what the image and the verifier's files pin, and the manifest that collect.sh wrote in the
+agent's sandbox. The agent's directories are only listed, never read, and a name taken from them
+must match a strict pattern. No credential is recorded: only the environment variables selected
+below are copied. The record cannot change a trial's outcome, so every probe is allowed to fail.
 """
 
 import hashlib
@@ -24,6 +25,8 @@ QUALITY = Path("/opt/inference_eval/baselines/quality")
 EVAL_HUB = Path("/opt/ib_eval_hf/hub")
 AGENT_HUB = Path("/home/agent/hf_cache/hub")
 AGENT_SITE = Path("/home/agent/.local/lib/python3.10/site-packages")
+# Written by root in the agent's sandbox; the agent's files are in the parts next to it.
+HANDOFF_MANIFEST = Path("/var/lib/ib_handoff/manifest.json")
 NVIDIA_SMI = ("/usr/bin/nvidia-smi", "/usr/local/nvidia/bin/nvidia-smi", "/usr/lib/nvidia/current/nvidia-smi")
 NODE_MODULES = ("/usr/lib/node_modules", "/usr/local/lib/node_modules")
 JUDGE_CLI = "@anthropic-ai/claude-code"
@@ -165,6 +168,67 @@ def server_python_packages() -> dict:
     return dict(sorted(found.items()))
 
 
+def handoff() -> dict:
+    """What collect.sh handed over from the agent's sandbox."""
+    manifest = json.loads(HANDOFF_MANIFEST.read_text())
+    model = manifest.get("model") or {}
+    return {
+        "packed_at_unix": manifest.get("packed_at_unix"),
+        "parts": manifest.get("parts"),
+        "stream_bytes": manifest.get("stream_bytes"),
+        "entries": manifest.get("entries"),
+        "tmp_targets": len(manifest.get("tmp_targets", [])),
+        "model_files_left_out": len(model.get("left_out", [])),
+        "model_bytes_left_out": sum(blob["size"] for blob in model.get("left_out", [])),
+        "model_files_changed": model.get("changed", []),
+        "model_file_links_and_copies": len(model.get("files", [])),
+    }
+
+
+def same_hardware(verifier_gpus: dict, agent_sandbox: dict) -> dict:
+    """Whether the agent tuned its server on the GPUs and driver that measure it."""
+    agent = agent_sandbox["gpus"]
+    here = verifier_gpus["devices"]
+    return {
+        field: [gpu[field] for gpu in agent] == [gpu[field] for gpu in here]
+        for field in ("name", "memory_total_mib", "driver_version")
+    }
+
+
+def expected_gpu(record: dict) -> dict:
+    """Whether each sandbox had a GPU of a type that the task asks for (None if unknown)."""
+    types = sorted({gpu_type.rstrip("!") for gpu_type in record["task"]["gpu_types"]})
+    found: dict = {"types": types}
+    for sandbox, devices in (
+        ("verifier", lambda: record["gpus"]["devices"]),
+        ("agent_sandbox", lambda: record["agent_sandbox"]["gpus"]),
+    ):
+        try:
+            names = [gpu["name"] for gpu in devices()]
+        except (KeyError, TypeError):
+            found[sandbox] = None
+            continue
+        found[sandbox] = bool(names) and all(any(gpu_type in name for gpu_type in types) for name in names)
+    return found
+
+
+def gpu_warnings(record: dict) -> list[str]:
+    """What test-stdout.txt should say about the GPUs; the trial is graded either way."""
+    warnings = []
+    agent, here = record["agent_sandbox"].get("gpus"), record["gpus"].get("devices")
+    same = record["same_hardware_as_agent_sandbox"]
+    if "error" not in same and not all(same.values()):
+        warnings.append(f"the agent's sandbox had {agent}, and this one has {here}")
+    expected = record["expected_gpu"]
+    if "error" not in expected:
+        wanted = " or ".join(expected["types"])
+        if expected["verifier"] is False:
+            warnings.append(f"this sandbox's GPU is not {wanted}: {here}")
+        if expected["agent_sandbox"] is False:
+            warnings.append(f"the agent's sandbox's GPU was not {wanted}: {agent}")
+    return warnings
+
+
 def samples() -> dict:
     return {
         str(path.relative_to(SAMPLES)): sha256(path)
@@ -192,7 +256,7 @@ def main() -> None:
         },
         "provider": {name: env[name] for name in PROVIDER_ENV if name in env},
         "timing": section(
-            budget_started_at_unix=lambda: int(Path("/timer_start").read_text()),
+            budget_started_at_unix=lambda: json.loads(HANDOFF_MANIFEST.read_text())["budget_started_at_unix"],
             evaluation_deadline_unix=lambda: int(env["EVAL_DEADLINE"]),
             server_wait_s=lambda: env.get("INFERENCE_BENCH_SERVER_WAIT_S"),
         ),
@@ -223,12 +287,21 @@ def main() -> None:
             agent_clis=agent_clis,
             python_packages=python_packages,
         ),
+        "verifier": {"environment_mode": "separate"},
+        "handoff": probe(handoff),
+        # The agent ran in another sandbox, which may not have had the same GPU or driver.
+        "agent_sandbox": probe(lambda: json.loads(HANDOFF_MANIFEST.read_text())["agent_sandbox"]),
         "evaluator_model": probe(evaluator_model),
         "agent_model_cache": probe(agent_model_cache),
         "server_python_packages": probe(server_python_packages),
         "data": section(samples_sha256=samples, quality_reference=quality_reference),
         "verifier_files": probe(tree_sha256, Path("/tests")),
     }
+    record["same_hardware_as_agent_sandbox"] = probe(same_hardware, record["gpus"], record["agent_sandbox"])
+    record["expected_gpu"] = probe(expected_gpu, record)
+    warnings = probe(gpu_warnings, record)
+    for warning in warnings if isinstance(warnings, list) else []:
+        print(f"[environment] WARNING: {warning}")
     Path(sys.argv[1]).write_text(json.dumps(record, indent=2) + "\n", encoding="utf-8")
     print(f"[environment] recorded in {sys.argv[1]}")
 

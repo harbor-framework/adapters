@@ -30,6 +30,7 @@ Two gates decide whether a run counts. The quality gate requires at least 95% of
 
 - Generates all 12 tasks from a pinned upstream commit, using upstream's prompt, evaluator, quality gate, judge, and package locks.
 - Runs on Harbor's Daytona, Modal, and Docker environments with no extra volumes. `harbor run -d` works without setup steps.
+- Runs the final evaluation in a separate verifier sandbox. The agent's work reaches it through the trial directory, so `harbor jobs regrade` can grade a trial again without rerunning the agent. See [Separate verifier](#notes--caveats).
 - Reports the paper's numbers. See [the reward table](#reward).
 - Grades a trial only after the integrity judge returned two valid verdicts. Without them the trial gets no reward. A run without the judge is possible only as an explicit, unscored diagnostic run. See [Judge](#notes--caveats).
 - Uses vLLM with default settings as the oracle, and compares it with the paper's "vLLM default" row. The oracle is judged like any other run.
@@ -66,13 +67,14 @@ Upstream's own Harbor adapter reports the raw metric as `reward`, scores a faile
 
 ```
 inferencebench-a-mistral-7b-21-1337/
-├── task.toml             # resources, timeouts, per-task environment, collect hook
+├── task.toml             # resources, timeouts, per-task environment, separate verifier, collect hook
 ├── instruction.md        # prompt from upstream's get_prompt.py
 ├── environment/
 │   ├── Dockerfile        # upstream's image, plus the evaluator bundle and benchmark samples
-│   ├── collect.sh        # stops the agent and prepares the sandbox for the verifier
+│   ├── collect.sh        # stops the agent and packs its work for the verifier
+│   ├── handoff.py        # packs, checks, and unpacks the hand-off between the two sandboxes
 │   ├── agent_processes.sh  # stops user agent's processes and checks the result
-│   ├── download_model.py   # healthcheck: caches the pinned model revision
+│   ├── download_model.py   # caches the pinned model revision (healthcheck and verifier)
 │   ├── inference_eval/   # evaluator available to the agent
 │   └── home/task/        # the agent's working directory
 ├── solution/
@@ -84,7 +86,7 @@ inferencebench-a-mistral-7b-21-1337/
 │   ├── torch-constraints.txt
 │   └── ib/               # upstream's PyTorch server and baseline procedure
 └── tests/
-    ├── test.sh           # judge, final evaluation, reward
+    ├── test.sh           # hand-off, judge, final evaluation, reward
     ├── write_reward.py   # reward.json for a graded trial, ungraded.json otherwise
     ├── record_environment.py  # writes environment.json
     ├── manifest.json     # what the task pins: commits, seeds, timeouts, checksums
@@ -133,13 +135,13 @@ uv run inferencebench --output-dir ../../datasets/inferencebench
 cd ../..
 
 # Oracle on Daytona, one task
-uv run --project src/inferencebench --with 'harbor[daytona]==0.25.0' harbor run -c src/inferencebench/inferencebench_daytona.yaml \
+uv run --project src/inferencebench --with 'harbor[daytona]==0.26.0' harbor run -c src/inferencebench/inferencebench_daytona.yaml \
     -p datasets/inferencebench -i inferencebench-a-mistral-7b-21-1337
 
 # The same on Modal, or on a Docker host with GPUs
-uv run --project src/inferencebench --with 'harbor[modal]==0.25.0' harbor run -c src/inferencebench/inferencebench_modal.yaml \
+uv run --project src/inferencebench --with 'harbor[modal]==0.26.0' harbor run -c src/inferencebench/inferencebench_modal.yaml \
     -p datasets/inferencebench -i inferencebench-a-mistral-7b-21-1337
-uv run --project src/inferencebench --with harbor==0.25.0 harbor run -c src/inferencebench/run_inferencebench.yaml \
+uv run --project src/inferencebench --with harbor==0.26.0 harbor run -c src/inferencebench/run_inferencebench.yaml \
     -p datasets/inferencebench -i inferencebench-a-mistral-7b-21-1337
 ```
 
@@ -151,7 +153,7 @@ Run the oracle in three stages, each only after the one before it has passed:
 
 ```bash
 ib_run() {
-    uv run --project src/inferencebench --with 'harbor[daytona]==0.25.0' harbor run \
+    uv run --project src/inferencebench --with 'harbor[daytona]==0.26.0' harbor run \
         -c src/inferencebench/inferencebench_daytona.yaml -p datasets/inferencebench "$@"
 }
 ib_run -i inferencebench-a-mistral-7b-21-1337            # scenario A, seed pair 21:1337
@@ -205,9 +207,9 @@ A job directory is one run of the benchmark; with `--pool`, the given job direct
 | `error` | the verifier wrote neither a reward nor `ungraded.json` | no |
 | `reference` | a run that recomputed the PyTorch quality reference | no |
 
-The command reports the aggregate only for a complete run. If a cell of the 4 × 3 grid has no graded trial or more than one, it names the cell and exits with status 1.
+The command reports the aggregate only for a complete run. If a cell of the 4 × 3 grid has no graded trial or more than one, it names the cell and exits with status 1. It also lists, with `GPU:`, the trials whose two sandboxes had different GPUs or a GPU other than an H100; they stay in the means.
 
-Each trial directory keeps the evidence: `verifier/environment.json`, `verifier/metrics.json` and one `metrics.attempt-<n>.json` per evaluation attempt, `verifier/eval.log`, `verifier/server.log`, `verifier/judge.log`, the verdict files of every judge attempt, and a snapshot of the task directory.
+Each trial directory keeps the evidence: `verifier/environment.json`, `verifier/metrics.json` and one `metrics.attempt-<n>.json` per evaluation attempt, `verifier/eval.log`, `verifier/server.log`, `verifier/judge.log`, the verdict files of every judge attempt, `verifier/handoff.json` and `verifier/handoff.log` for the hand-off, `verifier/model_download.log`, and a snapshot of the task directory. The hand-off itself, which is what the agent submitted, is under `artifacts/var/lib/ib_handoff/`: the stream's parts (`part.000`, ...), `manifest.json`, and `collect.log`. `harbor jobs regrade` grades a job again from these files.
 
 ## Usage: Create Task Directories
 
@@ -250,21 +252,22 @@ The PyTorch server itself cannot be the oracle. Upstream measures its baseline a
 
 **Quality reference.** `data/quality/` holds the PyTorch baseline's accuracy on the 500 cached MMLU-Pro questions. The value in this repository is still the paper's (128/500) and has not been measured for this adapter yet; [Recomputing the PyTorch quality reference](#recomputing-the-pytorch-quality-reference) describes the run that measures it. Every trial's `metrics.json` names the reference entry that its quality gate used.
 
-**Model revision.** The healthcheck downloads commit `c170c708` of `mistralai/Mistral-7B-Instruct-v0.3`, which the repository's main branch has pointed at since 2025-12-03, into both model caches, and stores it as the cache's `main` reference so that a lookup by name finds it. The original benchmark downloads whatever `main` is. An agent's server that asks the Hub for `main` gets a newer commit if the repository has moved; `environment.json` lists the revisions in the agent's cache.
+**Model revision.** The healthcheck downloads commit `c170c708` of `mistralai/Mistral-7B-Instruct-v0.3`, which the repository's main branch has pointed at since 2025-12-03, into the agent's cache, and stores it as the cache's `main` reference so that a lookup by name finds it. The verifier downloads the same commit in its own sandbox; see [Separate verifier](#notes--caveats). The original benchmark downloads whatever `main` is. An agent's server that asks the Hub for `main` gets a newer commit if the repository has moved; `environment.json` lists the revisions in the agent's cache.
 
-**Environment record.** Before the judge and the evaluation, the verifier writes `environment.json` to its log directory: the GPU model, memory, and driver; CPUs, memory, and disk; the image's Python packages, CUDA toolkit, package lock checksum, and agent CLI versions; the packages that the agent installed for its server; the model revision and the content hashes of the tokenizer files that the evaluator uses; the checksums of the cached samples and of the quality reference; the judge's CLI version and model; and the task's manifest (upstream commit, seeds, timeouts, lock file checksums). It also copies identifiers that a provider may set in the sandbox (`MODAL_REGION`, `MODAL_CLOUD_PROVIDER`, `MODAL_IMAGE_ID`, `MODAL_TASK_ID`, `MODAL_ENVIRONMENT`, `DAYTONA_SANDBOX_ID`, `DAYTONA_SANDBOX_SNAPSHOT`) when they are present, and no credential. The image digest is not visible inside the sandbox, and Harbor writes its own version and the resolved job to `lock.json` in the job directory; anything else about the machine comes from the provider. The recorder has five minutes, so a GPU that does not answer cannot hold up the verifier.
+**Environment record.** Before the judge and the evaluation, the verifier writes `environment.json` to its log directory: the GPU model, memory, and driver; CPUs, memory, and disk; the image's Python packages, CUDA toolkit, package lock checksum, and agent CLI versions; the packages that the agent installed for its server; the model revision and the content hashes of the tokenizer files that the evaluator uses; the checksums of the cached samples and of the quality reference; the judge's CLI version and model; the hand-off (when it was packed, the parts' sizes and checksums, and which downloaded model files the agent changed); the agent's sandbox's GPUs and driver, whether they match the verifier's, and whether both are H100s; and the task's manifest (upstream commit, seeds, timeouts, lock file checksums). It also copies identifiers that a provider may set in the sandbox (`MODAL_REGION`, `MODAL_CLOUD_PROVIDER`, `MODAL_IMAGE_ID`, `MODAL_TASK_ID`, `MODAL_ENVIRONMENT`, `DAYTONA_SANDBOX_ID`, `DAYTONA_SANDBOX_SNAPSHOT`) when they are present, and no credential. The image digest is not visible inside the sandbox, and Harbor writes its own version and the resolved job to `lock.json` in the job directory; anything else about the machine comes from the provider. The recorder has five minutes, so a GPU that does not answer cannot hold up the verifier.
 
-**Shared sandbox.** The final evaluation runs in the agent's sandbox, whereas upstream's own Harbor adapter uses a second sandbox and passes `/home/agent` through a Modal volume. With a shared sandbox, `harbor run` needs no volume, runs on Daytona, Modal, and Docker, and keeps upstream's single HF cache for the model weights. A second sandbox on any other environment would receive `/home/agent`, including agent-built engines and weights, through the machine that runs Harbor. The trade-offs are that `harbor jobs regrade` does not apply and that the verifier has to separate itself from the agent inside one sandbox. `harbor lint` reports `shared-verifier` for this reason. The separation works as follows:
+**Separate verifier.** The final evaluation runs in a second sandbox, which Harbor makes from a copy of `[environment]`: the same image, GPU, resources, and variables. This is Harbor's default for new tasks ([harbor#3712](https://github.com/harbor-framework/harbor/pull/3712)), and upstream's own Harbor adapter also uses a second sandbox, to which it passes `/home/agent` through a Modal volume. Here the hand-off goes through the trial directory instead, so it needs no volume, works on Daytona, Modal, and Docker, and stays with the trial:
 
-- The agent runs as the non-root user `agent`, as upstream runs it as the job user.
-- Harbor runs the `[[verifier.collect]]` hook before it uploads `/tests`. `collect.sh` first stops every process of user `agent` and checks that none is left. `test.sh` does the same before anything else, after the judge, when the evaluation server's supervisor exits, and before it writes the reward. If a process survives, or if `collect.sh` did not finish, the run gets no reward.
-- Only the verifier can write a reward. The healthcheck closes `/logs/verifier`, which Harbor creates world-writable, to user `agent` before the agent starts.
-- `collect.sh` empties `/logs/verifier` and removes what the agent left in `/tmp`, `/var/tmp`, and `/dev/shm`. It keeps the `/tmp` targets of symbolic links in the task directory, as `run_task.sh` does. `test.sh` restores them for the judge and for each server start.
-- On Daytona and Modal, Harbor's upload gives `/tests` the uid of the user who runs Harbor. The image therefore gives user `agent` a uid that host users do not have (upstream's image uses 1000), and `test.sh` makes `/tests` owned by root and closed to other users before it uses it.
-- The image's `PATH` lists the agent-writable bin directory last, and the root scripts use a clean `PATH` and `PYTHONPATH`, so root does not run a program that the agent planted. The evaluation server and the judge start with `no_new_privs`, so a set-user-ID file gives them no privileges.
-- The evaluator builds its requests with a copy of the tokenizer that the healthcheck stores under `/opt/ib_eval_hf`, which only root can write, before the agent starts.
+- `collect.sh`, the `[[verifier.collect]]` hook, runs as root in the agent's sandbox after the agent phase. It stops every process of user `agent` and checks that none is left, as the end of the agent's container does in the original. It removes the state and credential files of the agent CLIs that upstream's adapter lists (Claude Code, Codex, Gemini CLI, OpenCode), Hugging Face tokens, and git and netrc credentials; a key that the agent wrote into any other file stays in the hand-off. It then packs `/home/agent`, and the `/tmp` targets of symbolic links in the task directory, which is what `run_task.sh` keeps of `/tmp`, into one tar stream in `/var/lib/ib_handoff`, a directory that only root can write. Symbolic links stay as they are, and hard links within the home or within the `/tmp` targets stay hard links; a `/tmp` file that shares its content with a file in the home gets a copy of its own, as with `cp -a`. Sockets, pipes, and device files are left out. The manifest lists the stream's parts with their sizes and checksums, and the GPUs and driver of the agent's sandbox. The agent tunes its server on one GPU and the verifier measures it on another, which can be a different H100 variant or run a different driver, whereas the original benchmark uses the same GPU for both. `environment.json` therefore records both sandboxes' GPUs and says whether they match and whether both are of the type that the task asks for. If not, `test-stdout.txt` has a warning and `inferencebench-score` lists the trial, which is graded and counted all the same.
+- The model weights stay behind if the agent did not change them. The healthcheck records the files that it downloaded; `collect.sh` checks each one against the content hash that the Hub names it after, and leaves out those that match. A hard link to such a file, or a copy of it, anywhere in the hand-off is recorded instead of its content. The verifier downloads the same revision, with five attempts of up to an hour each, and puts all of them back. A file that the agent changed or added travels in the stream, and so does everything else in the home except the xet client's download cache, `hf_cache/xet`.
+- The stream is split into parts of 2 GiB, below the 5 GiB that Harbor can download from a Modal sandbox in one file ([harbor#3924](https://github.com/harbor-framework/harbor/issues/3924)), and `task.toml` declares the manifest and 40 parts as artifacts, so the hand-off can hold up to 80 GiB. Harbor downloads each file on its own to the trial directory, stops the agent's sandbox, starts the verifier's, and uploads the files to the same path there. A file never passes through Harbor's directory archives, which have a ten-minute limit.
+- `test.sh` takes the hand-off over as root and checks it against the manifest. Root then reads the parts and passes the stream over a pipe to user `agent`, who unpacks it into an empty `/home/agent` and puts the model files back. The hand-off itself stays closed to that user and to the judge. The unpacking refuses any member that would leave its destination, pass through a symbolic link, or link to anything but a file of the stream. It clears set-user-ID, set-group-ID, and sticky bits and gives directories their modes last, so a read-only directory can still receive the model files. If the hand-off is missing, damaged, or for another model revision, the trial gets no reward. An agent cannot place a hand-off of its own, because it cannot write to `/var/lib`.
+- The agent's code still runs in the verifier's sandbox, as user `agent`: the evaluation server and whatever the judge's CLI starts. So the verifier keeps its own files from that user. It makes `/tests` and `/logs/verifier` owned by root before it uses them, so only root can write a reward. It builds the evaluator's requests with a tokenizer cache under `/opt/ib_eval_hf` that only root can write. Its scripts use a clean `PATH` and `PYTHONPATH`, and the image lists the agent-writable bin directory last, so root does not run a program that the agent planted. It starts the evaluation server and the judge with `no_new_privs`, and it stops every process of user `agent` after the judge, when the evaluation server's supervisor exits, and before it writes the reward.
+- On Daytona and Modal, Harbor's uploads keep the uid of the user who runs Harbor. The image therefore gives user `agent` a uid that host users do not have (upstream's image uses 1000).
 
-Two limits remain. Harbor runs every command, including the collect hook and `test.sh`, in the task directory, which belongs to the agent. An agent that removes or renames that directory keeps both from running; the trial then ends without a reward, and its processes are not stopped before the sandbox is. The model weights stay in the agent's HF cache, as in the original benchmark; the judge reviews the task directory, so it does not see a change to that cache, here or in the original.
+The hand-off has costs. The verifier downloads the pinned revision again, 29 GB in both of the repository's weight formats, before it starts. Everything else in the agent's home passes through the machine that runs Harbor twice, down from the agent's sandbox and up to the verifier's; for the oracle, that is mostly the vLLM packages that it installs. While Harbor uploads the parts, it stages a copy of each, so that machine needs free disk for about twice the hand-off. The trial directory keeps the parts as they are. Each part starts with a header that holds a NUL byte, so Harbor's secret scrubbing, which rewrites text files at the end of a trial, never changes a part and `harbor jobs regrade` finds them intact; it also means that the parts are not scrubbed. The stream is not compressed, so a search for a credential's value, such as `grep -a -F`, finds it in the parts too.
+
+One limit remains. Harbor runs the collect hook in the task directory, which belongs to the agent. An agent that removes or renames that directory keeps the hook from running, so the trial has no hand-off and gets no reward, where the original would count a failed run. The model weights are the agent's to change, as in the original benchmark; the judge reviews the task directory, so it does not see a change to the model cache, here or in the original.
 
 **Differences from the original benchmark:**
 
@@ -279,10 +282,11 @@ Two limits remain. Harbor runs every command, including the collect hook and `te
 | `nvidia-smi` wrapper, `check_cuda.py` | present | omitted |
 | Starting points | `default`, `vllm_running`, `bare` | `default` only |
 | `/data` bind mount | binds the host's `/data` read-only if it exists | none |
-| Isolation | the agent and the final server each run in a container with its own PID namespace | one sandbox; the verifier stops user `agent`'s processes, as the end of a container does |
+| Isolation | the agent and the final server each run in a container with its own PID namespace | each runs in a sandbox of its own; in the verifier's, the judge and the server run as user `agent`, and the verifier stops that user's processes between them |
+| Hand-off | the final server's container mounts the agent's home and model cache | `collect.sh` packs `/home/agent` without the model files that the agent left unchanged and without the credential files that it knows of, and Harbor carries it to the verifier, which downloads the same revision for those files |
 | Judge failure | the job exits with the judge's status and can be judged again (`run_rejudge.sh`) | the judge gets three attempts; then the trial is ungraded and has to be run again |
 | No judge credential | the run does not start | the agent runs, but the evaluation does not, and the trial stays ungraded; `INFERENCE_BENCH_JUDGE=off` makes it a diagnostic run that is measured but not graded |
-| Model download | the `main` branch at the time of the run | a pinned commit |
+| Model download | the `main` branch at the time of the run | a pinned commit, downloaded in both sandboxes |
 | Judge's view | the task directory, mounted read-only at `/home/agent/task`, and everything the agent left in `/tmp` | a read-only copy at `/var/lib/ib_judge/task` (the prompt's three paths change), and the `/tmp` targets of symbolic links in the task directory |
 | Samples in the agent image | all cached seeds | the task's development seed and the quality seed |
 
@@ -294,7 +298,7 @@ Two limits remain. Harbor runs every command, including the collect hook and `te
 
 ## Installation / Prerequisites
 
-- [uv](https://docs.astral.sh/uv/) and Harbor 0.25.0 or newer
+- [uv](https://docs.astral.sh/uv/) and Harbor 0.26.0 or newer
 - One of:
   - Daytona: `uv tool install 'harbor[daytona]'`, then set `DAYTONA_API_KEY`
   - Modal: `uv tool install 'harbor[modal]'`, then `modal setup`
@@ -305,12 +309,13 @@ Two limits remain. Harbor runs every command, including the collect hook and `te
 
 ## Troubleshooting
 
-- **The trial ends with `RewardFileNotFoundError`:** read the last lines of `verifier/test-stdout.txt`. An `[ungraded]` line means that the trial has no valid judge verdicts; the reason is on that line and in `verifier/ungraded.json`, and `verifier/judge.log` has the judge's output. A `[fatal]` line means that the verifier stopped: `collect.sh` did not finish (read `artifacts/logs/artifacts/collect.log` in the trial directory), or processes of user `agent` could not be stopped.
+- **The trial ends with `RewardFileNotFoundError`:** read the last lines of `verifier/test-stdout.txt`. An `[ungraded]` line means that the trial has no valid judge verdicts; the reason is on that line and in `verifier/ungraded.json`, and `verifier/judge.log` has the judge's output. A `[fatal]` line means that the verifier stopped. If it names the hand-off, read `artifacts/var/lib/ib_handoff/collect.log` in the trial directory for the agent's side, `artifacts/manifest.json` for the files that Harbor did or did not bring, and `verifier/handoff.log` or `verifier/model_download.log` for the verifier's side. Otherwise, processes of user `agent` could not be stopped.
 - **`inferencebench-score` exits with status 1:** a cell of the grid has no graded trial or more than one. The message names the cell, and the lines after it name the ungraded trials, the errors, and the reference runs.
 - **`valid` is 0 and `quality_pass` is 0:** read `verifier/metrics.json`. A quantized server can fall below the 95% threshold; this is a real benchmark outcome.
 - **`eval_valid` is 0:** read `verifier/eval.log` and `verifier/server.log`.
 - **The image build fails at `sha256sum`:** the Hugging Face dataset changed. The samples no longer match the published benchmark.
-- **The healthcheck fails:** check that `HF_TOKEN` can read the model repository and that the pinned commit still exists.
+- **The healthcheck fails, or the verifier cannot download the model:** check that `HF_TOKEN` can read the model repository and that the pinned commit still exists.
+- **`collect.log` says that the hand-off is larger than 40 parts:** the agent's home, without the unchanged model files, is larger than 80 GiB. The trial cannot be graded.
 
 ## Citation
 

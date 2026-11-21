@@ -53,6 +53,9 @@ REWARD_FILES = ["hpo_search_baselines.py", "precompute_all_baselines.py"]
 JUDGE_FILES = ["judge.sh", "get_judge_prompt.py"]
 # Where test.sh puts the judge's copy of the task directory and expects its verdicts.
 JUDGE_HOME = "/var/lib/ib_judge"
+# Where collect.sh writes the hand-off, and how many parts of handoff.py's PART_BYTES it may have.
+HANDOFF_DIR = "/var/lib/ib_handoff"
+HANDOFF_PARTS = 40
 VLLM_VERSION = "0.11.0"
 # sha256 of src.eval.inference.cache_samples output for the default sample counts.
 SAMPLE_SHA256 = {
@@ -132,6 +135,12 @@ def parse_num_hours(value: str) -> str:
 
 def sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def handoff_artifacts() -> str:
+    """The TOML array of the files that collect.sh may write; see handoff.py."""
+    names = ["manifest.json", "complete", "collect.log", *(f"part.{index:03d}" for index in range(HANDOFF_PARTS))]
+    return "[\n" + "".join(f'    "{HANDOFF_DIR}/{name}",\n' for name in names) + "]"
 
 
 def render(text: str, values: dict[str, str]) -> str:
@@ -257,6 +266,7 @@ class InferenceBenchAdapter:
                 "model_revision": MODEL_REVISIONS[spec.base_model],
                 "upstream_commit": self.upstream_commit,
                 "shared_env": shared_env,
+                "handoff_artifacts": handoff_artifacts(),
                 "agent_timeout_sec": str(float(self.num_hours) * 3600),
             },
         )
@@ -311,7 +321,7 @@ class InferenceBenchAdapter:
             base.read_text(encoding="utf-8") + "\n" + tail, encoding="utf-8"
         )
         place(self.upstream / "containers" / "locks" / "inference.txt", env_dir / "constraints.txt")
-        for name in ("collect.sh", "agent_processes.sh", "download_model.py"):
+        for name in ("collect.sh", "agent_processes.sh", "download_model.py", "handoff.py"):
             place(TEMPLATE_DIR / "environment" / name, env_dir / name)
         for name in EVAL_FILES + SERVER_FILES:
             place(self.inference_dir / name, env_dir / "inference_eval" / name)
@@ -442,6 +452,9 @@ class InferenceBenchAdapter:
                 "quality": quality_seed,
             },
             "num_hours": self.num_hours,
+            # Both sandboxes ask for this; environment.json says whether they got it.
+            "gpus": config["environment"]["gpus"],
+            "gpu_types": config["environment"]["gpu_types"],
             "timeouts_sec": {
                 "build": config["environment"]["build_timeout_sec"],
                 "healthcheck": config["environment"]["healthcheck"]["timeout_sec"],

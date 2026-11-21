@@ -1,4 +1,8 @@
 schema_version = "1.4"
+# The hand-off that collect.sh writes in the agent's sandbox. Harbor downloads each file on its
+# own and uploads it to the same path in the verifier's sandbox; parts that a smaller hand-off
+# does not need are missing, which Harbor skips.
+artifacts = {handoff_artifacts}
 
 [task]
 name = "aisa-group/{task_id}"
@@ -33,11 +37,10 @@ build_timeout_sec = 3600.0
 workdir = "/home/agent/task"
 
 [environment.healthcheck]
-# download_model.py fills the agent's cache with the pinned revision of the model, and a cache
-# that only root can write with its tokenizer and configuration files; the final evaluation
-# builds its requests from that copy. The command also closes the verifier's log directory,
-# which Harbor creates world-writable, so that only the verifier can ever write a reward there.
-command = "test -f /timer_start || { python3 /usr/local/lib/inferencebench/download_model.py && chown -R agent:agent /home/agent/hf_cache && chmod -R a+rX,go-w /opt/ib_eval_hf && chown root:root /logs/verifier && chmod 700 /logs/verifier && date +%s > /timer_start; }"
+# download_model.py fills the agent's cache with the pinned revision of the model and records
+# which files it wrote, so that collect.sh can leave those that the agent did not change out of
+# the hand-off to the verifier.
+command = "test -f /timer_start || { python3 /usr/local/lib/inferencebench/download_model.py --record /var/lib/inferencebench/pinned_model.json && chown -R agent:agent /home/agent/hf_cache && date +%s > /timer_start; }"
 interval_sec = 10
 timeout_sec = 3600
 start_period_sec = 0
@@ -58,12 +61,13 @@ BASH_MAX_TIMEOUT_MS = "36000000"
 timeout_sec = {agent_timeout_sec}
 user = "agent"
 
-# The final evaluation restarts the agent's own launcher on the agent's GPU, so the
-# verifier shares the sandbox. The collect hook below stops every agent process before
-# Harbor uploads /tests, and test.sh checks that again; see "Notes & Caveats" in the README.
+# The verifier runs in a new sandbox, which Harbor makes from a copy of [environment]: the same
+# image, GPU, resources, and variables. The collect hook below stops the agent's processes and
+# packs its work into the artifacts above; test.sh unpacks it and restarts the agent's own
+# launcher there. See "Separate verifier" in the README.
 [verifier]
 timeout_sec = 43200.0
-environment_mode = "shared"
+environment_mode = "separate"
 
 # The judge's credential. A trial without a valid judge verdict is ungraded and gets no reward:
 # without a credential, test.sh skips the evaluation; if the judge fails, it still measures the
