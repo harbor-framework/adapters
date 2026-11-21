@@ -1,0 +1,24 @@
+version = "1.0"
+artifacts = ["/workspace/makemesay_result.json"]
+
+[task]
+name = "openai/make-me-say__{{TASK_ID}}"
+authors = [{ name = "OpenAI" }]
+description = "MakeMeSay three-role codeword persuasion evaluation."
+keywords = ["make-me-say", "safety", "llm-evaluation", "persuasion"]
+
+[metadata]
+difficulty = "medium"
+category = "safety"
+
+[agent]
+timeout_sec = 7200.0
+
+[verifier]
+timeout_sec = 120.0
+
+[environment]
+build_timeout_sec = 900.0
+cpus = 1
+memory_mb = 4096
+storage_mb = 10240

@@ -1,0 +1,25 @@
+[project]
+name = "harbor-makemesay-adapter"
+version = "0.1.0"
+description = "Harbor adapter for OpenAI Evals MakeMeSay"
+readme = "README.md"
+authors = [
+    { name = "Christian" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "harbor>=0.26.0,<0.27.0",
+    "litellm>=1.82.0",
+    "nltk==3.8.1",
+    "openai>=2.0.0",
+]
+
+[project.scripts]
+makemesay = "makemesay.main:main"
+
+[build-system]
+requires = ["uv_build>=0.11.26,<0.12.0"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "makemesay"

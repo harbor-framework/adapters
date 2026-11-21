@@ -1,0 +1,17 @@
+datasets:
+  - path: datasets/makemesay
+
+agents:
+  - name: makemesay.agent:MakeMeSayAgent
+    # Supply the manipulator model with `-m`. By default all three roles use it.
+    # Set kwargs.manipulatee_model and kwargs.judge_model to use separate models.
+    kwargs:
+      request_timeout_sec: 120
+
+environment:
+  type: docker
+  delete: true
+
+orchestrator:
+  type: local
+  n_concurrent_trials: 1
