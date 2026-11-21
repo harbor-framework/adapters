@@ -180,6 +180,7 @@ saved Harbor terminal output. Oracle does not invoke an evaluation model.
 ## Reproduction and artifacts
 
 - [Source and both-side runner](https://github.com/jialen2/adapters/tree/fdef3d1469a9ebf213082e9cf2c67b73989115a1/src/supergpqa)
+- [Pinned personal HF evidence mirror](https://huggingface.co/datasets/jialen2/supergpqa-parity-experiments/tree/3b972e12416341af37116fda29edd0bb94181ac3/adapters/supergpqa) — full original payload and later separate-verifier validation; [SHA256SUMS](https://huggingface.co/datasets/jialen2/supergpqa-parity-experiments/blob/3b972e12416341af37116fda29edd0bb94181ac3/SHA256SUMS).
 - [GitHub evidence release](https://github.com/jialen2/adapters/releases/tag/supergpqa-parity-2026-11-21)
 - [Download the complete evidence bundle](https://github.com/jialen2/adapters/releases/download/supergpqa-parity-2026-11-21/SuperGPQA-parity-evidence-2026-11-21.tar.gz)
 - [Hugging Face evidence PR #293](https://huggingface.co/datasets/harborframework/parity-experiments/discussions/293): created, but artifact push was rejected because the shared repository exceeds its 1,000,000-file limit (1,348,025 files after the proposed push). The 46-file payload is available in the GitHub evidence bundle; HF upload requires the repository owners to resolve the limit.
@@ -210,7 +211,7 @@ The bundle follows the guide's `adapters/supergpqa/` layout, including
 `original_parity/`, `harbor_parity/`, `oracle/` and `results_collection/`. The six
 formal runs and recovery history are separate compressed archives to preserve
 native logs while limiting file counts. `SHA256SUMS` covers the upload payload.
-The GitHub report and evidence release are available independently of the blocked HF upload.
+The full evidence is published in the pinned personal HF mirror above; the shared HF PR remains blocked. GitHub attachments are retained as a backup.
 Dataset registry publication remains tracked separately.
 
 ## Subsequent separate-verifier validation

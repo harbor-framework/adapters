@@ -71,3 +71,7 @@ passed. Structural validation: 29 passes, no errors, three existing warnings
 - [Reviewer request](https://github.com/harbor-framework/adapters/pull/82#issuecomment-7036486682)
 - [Harbor separate-verifier template change](https://github.com/harbor-framework/harbor/pull/3712)
 - [Harbor 0.27.0 regrade documentation](https://github.com/harbor-framework/harbor/blob/v0.27.0/docs-mintlify/jobs/regrade.mdx)
+
+## Published evidence
+
+[Pinned personal HF mirror](https://huggingface.co/datasets/jialen2/supergpqa-parity-experiments/tree/3b972e12416341af37116fda29edd0bb94181ac3/adapters/supergpqa/separate_verifier) includes the full validation archive, control results, 300-response audit and runtime freeze. The [root SHA256SUMS](https://huggingface.co/datasets/jialen2/supergpqa-parity-experiments/blob/3b972e12416341af37116fda29edd0bb94181ac3/SHA256SUMS) covers this payload. The shared HF PR #293 remains open while the repository file-count limit is unresolved.

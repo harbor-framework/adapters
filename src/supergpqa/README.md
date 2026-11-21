@@ -359,4 +359,4 @@ implementation, local validation and documentation.
 No paid API inference or parity compute has been used. Add the prescribed
 2077AI acknowledgement if their provisioned keys are used in future parity.
 
-HF evidence PR #293 was created, but its artifact push was rejected because the shared repository exceeds its 1,000,000-file limit. The complete evidence is available in the GitHub release linked above.
+The shared HF evidence PR #293 remains open but its artifact push is blocked by the shared repository file-count limit. The complete original evidence and separate-verifier validation are now published in [the personal HF mirror](https://huggingface.co/datasets/jialen2/supergpqa-parity-experiments/tree/3b972e12416341af37116fda29edd0bb94181ac3/adapters/supergpqa), pinned to `3b972e12416341af37116fda29edd0bb94181ac3`. The [root checksum manifest](https://huggingface.co/datasets/jialen2/supergpqa-parity-experiments/blob/3b972e12416341af37116fda29edd0bb94181ac3/SHA256SUMS) has SHA-256 `cf02a761951411cbb3bd853d1f9e35382b81e67a28583349c2b9b90f237655ff`. All 55 remote file hashes were verified. GitHub release attachments remain available as a backup.
