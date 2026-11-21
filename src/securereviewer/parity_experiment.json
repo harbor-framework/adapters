@@ -1,0 +1,26 @@
+[
+  {
+    "adapter_name": "securereviewer",
+    "agent": "securereviewer-single-call@1.0.0",
+    "model": "claude-haiku-4-5",
+    "date": "2026-11-20",
+    "adapted_benchmark_size": 261,
+    "parity_benchmark_size": 25,
+    "number_of_runs": 2,
+    "notes": "Parity subset: 25 of 261 tasks (uv run securereviewer --split parity), stratified by security type with seed 42. Both sides send the same prompt (upstream's review prompt + the raw diff + the output-format section of the Harbor instruction) in one Messages API call with the same settings (temperature 0 as upstream's greedy decoding, max_tokens 2000), via the 2077ai endpoint. Original side: infer/test_api.py in the fork, parsed with upstream parse_security_review and scored with upstream evaluate/SecureBleu.py (unmodified). Harbor side: the single-call agent in parity/, run on Daytona with the separate verifier. Metric: SecureBLEU (0-100), the mean over items; Harbor value = mean reward x 100. Run-to-run differences come from API nondeterminism at temperature 0. Harbor 0.26.0 (Daytona SDK 0.233.0). Model ID is the alias claude-haiku-4-5 on both sides, because the endpoint rejects the dated ID claude-haiku-4-5-20251001. Run order: a one-task sanity check per side, then original runs 1-2, then Harbor runs 1-2.",
+    "original_parity_repo": "https://github.com/YiDanielLu/SecureReviewer/tree/harbor-parity",
+    "adapter_pr": ["https://github.com/harbor-framework/adapters/pull/97"],
+    "dataset_pr": ["https://github.com/harbor-framework/harbor-datasets/pull/285"],
+    "parity_pr": ["https://huggingface.co/datasets/harborframework/parity-experiments/discussions/287"],
+    "metrics": [
+      {
+        "benchmark_name": "SecureReviewer",
+        "metric": "SecureBLEU",
+        "original": "26.1055 ± 0.1446",
+        "harbor": "26.3495 ± 0.1436",
+        "original_runs": [25.9609, 26.2501],
+        "harbor_runs": [26.2059, 26.4931]
+      }
+    ]
+  }
+]

@@ -1,0 +1,26 @@
+# Harbor side of the SecureReviewer parity experiments (see README, "Comparison with Original Benchmark").
+# Generate the subset first:  cd src/securereviewer && uv run securereviewer --split parity --output-dir ../../datasets/securereviewer-parity
+# Then, from the adapters repo root (once per run, changing job_name):
+#   PYTHONPATH=src/securereviewer/parity harbor run -c src/securereviewer/run_securereviewer_parity.yaml --env-file .env
+# .env holds ANTHROPIC_API_KEY, ANTHROPIC_BASE_URL and DAYTONA_API_KEY. Parity used Harbor 0.26.0.
+job_name: parity-harbor-run1
+jobs_dir: jobs
+n_attempts: 1
+timeout_multiplier: 1.0
+
+orchestrator:
+  type: local
+  n_concurrent_trials: 4
+  quiet: false
+
+environment:
+  type: daytona
+  force_build: false
+  delete: true
+
+agents:
+  - import_path: securereviewer_parity_agent:SecureReviewerSingleCallAgent
+    model_name: anthropic/claude-haiku-4-5
+
+datasets:
+  - path: datasets/securereviewer-parity

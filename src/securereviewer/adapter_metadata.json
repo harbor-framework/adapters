@@ -1,0 +1,30 @@
+[
+  {
+    "adapter_name": "securereviewer",
+    "adapter_builders": ["Yi Lu (81632945+YiDanielLu@users.noreply.github.com)"],
+    "original_benchmark": [
+      {
+        "split": "test",
+        "size": 300,
+        "harness": "llm",
+        "supported_agents": ["None"],
+        "adaptable": true,
+        "notes": "300 expert-refined test items (261 with a security issue, 39 'No Issue'). Upstream prompts a model once per item and scores with evaluate/SecureBleu.py, which skips 'No Issue' items."
+      }
+    ],
+    "harbor_adapter": [
+      {
+        "split": "test",
+        "adapted_benchmark_size": 261,
+        "parity_benchmark_size": 25,
+        "parity_sampling_rate": 0.0958,
+        "registry_benchmark_size": 261,
+        "added_agents": ["securereviewer-single-call@1.0.0"],
+        "parity_matching_agents": ["securereviewer-single-call@1.0.0+claude-haiku-4-5"],
+        "parity_unmatching_agents": ["None"],
+        "parity_costs": "$0.30",
+        "notes": "One task per scored test item. Grading runs upstream SecureBleu.py unmodified (pinned commit 86df98bf); reward = SecureBLEU / 100. Oracle ceiling is 80.73 SecureBLEU because of the metric's keyword-overlap term. Parity on a 25-task subset stratified by security type (--split parity), 2 runs per side; parity_costs is API cost only (about 101k tokens)."
+      }
+    ]
+  }
+]

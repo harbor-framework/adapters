@@ -1,0 +1,29 @@
+jobs_dir: jobs
+n_attempts: 1
+timeout_multiplier: 1.0
+orchestrator:
+  type: local
+  n_concurrent_trials: 4
+  quiet: false
+environment:
+  type: docker
+  # type: daytona
+  # All tasks share the same nltk/scorer layers; only the final COPY of the diff differs.
+  force_build: false
+  delete: true
+  # env:
+  #   ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY}
+  #   OPENAI_API_KEY: ${OPENAI_API_KEY}
+  #   DAYTONA_API_KEY: ${DAYTONA_API_KEY}
+# Default: oracle agent (writes the expert-refined reference review)
+agents:
+  - name: oracle
+# Uncomment to run with other agents:
+# agents:
+#   - name: claude-code
+#     model_name: anthropic/claude-haiku-4-5
+# agents:
+#   - name: codex
+#     model_name: openai/gpt-5-mini
+datasets:
+  - path: datasets/securereviewer
