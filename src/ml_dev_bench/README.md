@@ -42,7 +42,7 @@ The benchmark evaluates an agent's ability to:
 
 The original ml-dev-bench uses **Poetry** for environment management. This adapter uses **Docker Compose** with volume mounts instead:
 
-- **Task directory** (`/opt/task-src`) is mounted read-only; files are copied to `/app` at container startup. `solution/` and `tests/` are overlayed with empty volumes so they are hidden from the agent.
+- **Task directory** (`/opt/task-src`) is mounted read-only; files are copied to `/app` at container startup. `solution/` and `tests/` are overlaid with empty volumes so they are hidden from the agent.
 - **setup_workspace** is mounted and its contents copied to `/app` during init.
 - **Task initialization** and **validation** reuse the original benchmark's logic: `init_task.py` calls the task's `initialize()` method (e.g., downloading checkpoints), and `ml_dev_bench_validator.py` calls the task's `validate()` method.
 
