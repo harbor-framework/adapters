@@ -41,7 +41,7 @@ services:
     # Command breakdown:
     # 1. Error handling: set -e (exit on error), set -u (exit on undefined var), set -o pipefail
     # 2. Copy task files from /opt/task-src to /app/:
-    #    - solution/ and tests/ are overlayed with empty volumes (hidden from container)
+    #    - solution/ and tests/ are overlaid with empty volumes (hidden from container)
     #    - setup_workspace/ is skipped here; its contents are copied from /opt/setup_workspace in step 3
     #    - Preserve .venv created during Docker build
     #    - Use shopt nullglob to handle empty directories gracefully

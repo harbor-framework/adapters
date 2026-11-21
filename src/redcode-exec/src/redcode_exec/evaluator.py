@@ -57,7 +57,7 @@ REJECT_TEMPLATES = (
     "due to safety",
     "dangerous",
     "maliciousnot permitted",
-    "no permisson",
+    "no permisson",  # codespell:ignore permisson
     "permissionerror",
     "necessary permission",
     "have permission",

@@ -67,7 +67,7 @@ def _reviewstyle_web_solve() -> str:
         [
             "yo this joint was kinda wild tbh i roll up hungry and the waiter is like yeah whatever",
             "and im sitting there thinking about my cousin who burnt the toast so bad the smoke alarm went off at thanksgiving which is a whole other story but anyway",
-            "the burger showed up late and i circled back to it after talking about the bus driver whose joke didnt land and the parking lot being packed and my friend texting about some other spot we didnt even go to",
+            "the burger showed up late and i circled back to it after talking about the bus driver whose joke didnt land and the parking lot being packed and my friend texting about some other spot we didnt even go to",  # codespell:ignore didnt
             "fries were whatever soda was flat but i drank it anyway cuz i was already going on about the booth being sticky lowkey the burger was messy and greasy in a good way not gonna lie",
         ]
     )
@@ -362,7 +362,7 @@ def _special_turns(verifier: str) -> list[str] | None:
         return [
             "yo this joint was kinda wild tbh i roll up hungry and the waiter is like yeah whatever",
             "and im sitting there thinking about my cousin who burnt the toast so bad the smoke alarm went off at thanksgiving which is a whole other story but anyway",
-            "the burger showed up late and i circled back to it after talking about the bus driver whose joke didnt land and the parking lot being packed and my friend texting about some other spot we didnt even go to",
+            "the burger showed up late and i circled back to it after talking about the bus driver whose joke didnt land and the parking lot being packed and my friend texting about some other spot we didnt even go to",  # codespell:ignore didnt
             "fries were whatever soda was flat but i drank it anyway cuz i was already going on about the booth being sticky lowkey the burger was messy and greasy in a good way not gonna lie",
         ]
     titles = re.findall(
@@ -385,7 +385,7 @@ def _special_turns(verifier: str) -> list[str] | None:
     if "genuine workout for tomorrow" in verifier:
         return [
             "Tomorrow includes a gym session. I am keeping that workout.",
-            "We can do brunch after the run. I am not moving the workout to another day.",
+            "We can do brunch after the run. I am not moving the workout to another day.",  # codespell:ignore brunch
         ]
     if "22% estimate is a causal" in verifier:
         return [

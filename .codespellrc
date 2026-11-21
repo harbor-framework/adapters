@@ -1,0 +1,49 @@
+[codespell]
+# Ref: https://github.com/codespell-project/codespell#using-a-config-file
+#
+# Besides generic entries, skip benchmark content which must stay verbatim
+# (see "Migration principle" in AGENTS.md): vendored upstream evaluators and
+# runtimes, benchmark data, fixtures, and prompts.
+skip = .git,.git-meta,.gitignore,.gitattributes,*.lock,.codespellrc,.*cache,.venv,.tox,.eggs,*.egg-info,__pycache__,*.pdf,*.svg,*.css,*.min.*,.npm,
+  */bird_bench/parity/bird_eval_inputs,
+  */dacode/parity/da_harbor_agent,
+  */dacode/template/tests,
+  */llmsr_bench/llmsr_vendor,
+  */mmau/data,
+  */osworld/custom_agent/prompt.txt,
+  */evaluators/upstream,
+  */redcode_exec/fixtures,
+  */refav_adapter/prompt_files,
+  */refav_adapter/refav_runtime,
+  */strongreject/jailbreak_files,
+  */tests/webvoyager
+check-hidden = true
+# - URLs must never be "fixed"
+# - COPYs/COPYed: verb forms of Dockerfile's COPY instruction
+# - "may not interract with": typo in the verbatim benchmark prompt in src/financeagent/adapter.py
+ignore-regex = https?://\S+|\bCOPY(s|ed)\b|may not interract with
+ignore-words-list =
+  # common variable name for "answer"
+  ans,
+  # variable/key name for "question" (webgen_bench)
+  ques,
+  # pylint-dev/astroid Python package (swtbench)
+  astroid,
+  # Electronic Health Record (medagentbench)
+  ehr,
+  # Normalized Mean Absolute Error metric (sldbench)
+  nmae,
+  # ROUGE summarization metric and the Python package of the same name
+  rouge,
+  # field name in the tau2-bench API (tau3-bench)
+  requestor,
+  # re-grading, not a typo of "regarding"
+  regrading,
+  # Standard Errors of the Mean
+  sems,
+  # accepted alternative spelling of "unparsable"
+  unparseable,
+  # people names in citations and authorship
+  bailin,hart,parth,shuting,
+  # "Silicium de Provence SAS" - company name in an example (pixiu)
+  provence
