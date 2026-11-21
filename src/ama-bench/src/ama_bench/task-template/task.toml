@@ -22,8 +22,8 @@ environment_mode = "separate"
 # unset.
 [verifier.env]
 OPENAI_API_KEY = "${OPENAI_API_KEY}"
-OPENAI_BASE_URL = "${OPENAI_BASE_URL}"
-MODEL_NAME = "${MODEL_NAME}"
+OPENAI_BASE_URL = "${OPENAI_BASE_URL:-}"
+MODEL_NAME = "${MODEL_NAME:-gpt-5-mini}"
 
 [agent]
 timeout_sec = 7200.0

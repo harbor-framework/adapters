@@ -5,6 +5,7 @@ Source: https://huggingface.co/datasets/AMA-bench/AMA-bench
 
 from __future__ import annotations
 
+import hashlib
 import json
 import logging
 import re
@@ -17,6 +18,9 @@ TEMPLATE_DIR = Path(__file__).parent / "task-template"
 
 HF_REPO_ID = "AMA-bench/AMA-bench"
 HF_FILENAME = "test/open_end_qa_set.jsonl"
+# Dataset revision the adapter and the parity runs were built against.
+HF_REVISION = "a5777378066f53229a94557a7b192435cd027909"
+HF_SHA256 = "45c36052e1520d87ad9de4114f71c9df42d4aac9cf158c0c353e800b653d65ff"
 
 
 class AMABenchEpisode:
@@ -72,9 +76,17 @@ class AMABenchAdapter:
                 repo_id=HF_REPO_ID,
                 filename=HF_FILENAME,
                 repo_type="dataset",
+                revision=HF_REVISION,
                 local_dir=str(self.cache_dir),
             )
             jsonl_path = Path(downloaded)
+        # A cached copy skips the download, so check it is the pinned file.
+        digest = hashlib.sha256(jsonl_path.read_bytes()).hexdigest()
+        if digest != HF_SHA256:
+            raise ValueError(
+                f"{jsonl_path} does not match the pinned dataset revision "
+                f"{HF_REVISION[:7]}; delete it to re-download."
+            )
         records = []
         with jsonl_path.open() as f:
             for line in f:
