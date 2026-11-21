@@ -123,6 +123,7 @@ class AMABenchAdapter:
         # tests/
         tests_dir = task_dir / "tests"
         tests_dir.mkdir(exist_ok=True)
+        shutil.copy2(TEMPLATE_DIR / "tests/Dockerfile", tests_dir / "Dockerfile")
         shutil.copy2(TEMPLATE_DIR / "tests/test.sh", tests_dir / "test.sh")
         shutil.copy2(TEMPLATE_DIR / "tests/llm_judge.py", tests_dir / "llm_judge.py")
         ground_truth = {

@@ -50,6 +50,7 @@ The upstream evaluator scores each predicted answer with an LLM-as-judge (Qwen3-
   - <https://github.com/AMA-Bench/AMA-Bench/blob/main/src/memory_interface.py>
 - Reward written to `/logs/verifier/reward.txt` is the mean LLM-judge score across the 12 QAs (the paper's primary metric). Per-QA F1 is logged alongside the judge score in `/logs/verifier/grading_details.json` for analysis, but the reward itself is judge-only — a failed judge call raises rather than silently degrading.
 - An exact-match short-circuit fires before the judge call: if the predicted answer equals the gold answer after `.strip()`, the QA scores 1.0 without calling the judge. This is the canonical pattern (see `omnimath`) and handles a small number of upstream gold answers that are internally inconsistent enough to confuse the judge.
+- Separate verifier: grading runs in its own container built from `tests/Dockerfile`, not in the agent's workspace. The judge code, the `openai` dependency and `ground_truth.json` exist only in that image. `/workspace/answers.txt` is the single declared artifact carried over from the agent container, so saved trials can be regraded with `harbor job regrade` without rerunning the agent.
 - Judge endpoint is configurable via `OPENAI_BASE_URL` / `OPENAI_API_KEY` / `MODEL_NAME` — defaults to OpenAI + `gpt-5-mini`, but works with self-hosted vLLM, DashScope, OpenRouter, or any OpenAI-compatible endpoint.
 
 ## Generated Task Structure
@@ -57,13 +58,14 @@ The upstream evaluator scores each predicted answer with an LLM-as-judge (Qwen3-
 ```
 ama-bench/
 ├── ama-bench-<episode_id>/
-│   ├── task.toml                      # Schema 1.0, verifier env wired for gpt-5-mini judge
+│   ├── task.toml                      # Schema 1.4, separate verifier, answers.txt declared as artifact
 │   ├── instruction.md                 # Task description + 12 questions + Answer[i] format
 │   ├── environment/
 │   │   ├── Dockerfile                 # python:3.11-slim, COPY trajectory.jsonl
 │   │   └── trajectory.jsonl           # One JSON line per turn: {turn_idx, action, observation}
 │   ├── tests/
-│   │   ├── test.sh                    # pip install openai; python /tests/llm_judge.py
+│   │   ├── Dockerfile                 # Verifier image: python:3.11-slim + openai, COPY . /tests/
+│   │   ├── test.sh                    # python /tests/llm_judge.py
 │   │   ├── llm_judge.py               # Judge + F1; writes reward.txt + grading_details.json
 │   │   └── ground_truth.json          # 12 QA pairs with answers + episode_id + task_type + task_description
 │   └── solution/
@@ -75,7 +77,7 @@ ama-bench/
 ### Running with Datasets Registry
 
 ```bash
-# Use oracle agent (reference solution; reward ≈ 1.0 modulo judge stochasticity at temp=0)
+# Use oracle agent (reference solution; reward 1.0 via the exact-match short-circuit)
 harbor run -d ama-bench
 
 # Use a specific agent and model
@@ -87,7 +89,7 @@ Requires the dataset to be uploaded to `harbor-framework/harbor-datasets` and re
 ### Using Job Configurations
 
 ```bash
-# Oracle parity check (verifier still calls the judge 12× per task — needs OPENAI_*)
+# Oracle check (exact-match short-circuit, so no judge calls are made; Harbor still requires the three judge variables to be set)
 harbor run -c src/ama-bench/ama-bench_oracle.yaml
 
 # Run a real agent against locally generated tasks
@@ -101,10 +103,11 @@ The verifier defaults to OpenAI + `gpt-5-mini`:
 
 ```bash
 export OPENAI_API_KEY="<your key>"
-# Optional: override the endpoint / model
-export OPENAI_BASE_URL="https://<your-endpoint>/v1"
-export MODEL_NAME="gpt-5-mini"                              # task.toml default
+export OPENAI_BASE_URL="https://api.openai.com/v1"          # or any OpenAI-compatible endpoint
+export MODEL_NAME="gpt-5-mini"
 ```
+
+Recent Harbor releases refuse to start a run while any variable referenced in `[verifier.env]` is unset, so export all three (or pass `--env-file`).
 
 To reproduce the paper-faithful Qwen3-32B judge instead, point `OPENAI_BASE_URL` at a Qwen endpoint and set `MODEL_NAME=Qwen/Qwen3-32B`.
 
@@ -200,7 +203,7 @@ The Harbor judge prompt was aligned byte-for-byte with upstream after review (th
 
 Only `mean_judge_score` is reported because upstream's `src/run.py` does not compute token-level F1; F1 is logged in Harbor's `grading_details.json` for inspection only.
 
-**Oracle.** The oracle solution passes all 208 tasks with reward 1.0 (208/208 trials, mean 1.000).
+**Oracle.** The oracle solution passes all 208 tasks with reward 1.0 (208/208 trials, mean 1.000). Re-verified on Harbor 0.27.0 with the separate verifier: 208/208 trials, 0 exceptions, mean 1.000.
 
 **Links.**
 
