@@ -243,7 +243,7 @@ def date_near(response: str, target: str, criterion=None) -> tuple[float, str]:
     if response_date is None or target_date is None:
         if response_date is None and target_date is None:
             return 1.0, f"date near, response: {response}, target: {target}"
-        return 0.0, f"date not convertable, response: {response}, target: {target}"
+        return 0.0, f"date not convertable, response: {response}, target: {target}"  # codespell:ignore convertable
 
     if abs((response_date - target_date).days) <= 31:
         return 1.0, f"date near, response: {response_date}, target: {target_date}"
