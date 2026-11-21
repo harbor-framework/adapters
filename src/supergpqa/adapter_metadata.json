@@ -33,7 +33,7 @@
           "None"
         ],
         "parity_costs": null,
-        "notes": "600 complete formal results; primary and supplementary metric ranges overlap. Requested model alias, strict returned-version guard, retries and user-requested cross-round overlap are detailed in PARITY_REPORT.md. Billed USD is unavailable; evidence is submitted in HF PR #293; registry publication is pending."
+        "notes": "600 complete formal results; primary and supplementary metric ranges overlap. Requested model alias, strict returned-version guard, retries and user-requested cross-round overlap are detailed in PARITY_REPORT.md. Billed USD is unavailable; HF PR #293 was created but upload is blocked by the shared repository file-count limit; registry publication is pending."
       }
     ]
   }

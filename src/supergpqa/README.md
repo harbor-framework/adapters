@@ -318,3 +318,5 @@ implementation, local validation and documentation.
 
 No paid API inference or parity compute has been used. Add the prescribed
 2077AI acknowledgement if their provisioned keys are used in future parity.
+
+HF evidence PR #293 was created, but its artifact push was rejected because the shared repository exceeds its 1,000,000-file limit. The complete evidence is available in the GitHub release linked above.
