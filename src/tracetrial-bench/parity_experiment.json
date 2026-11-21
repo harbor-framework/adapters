@@ -1,0 +1,73 @@
+[
+  {
+    "adapter_name": "tracetrial-bench",
+    "agent": "opencode@1.19.6",
+    "model": "deepseek/deepseek-flash",
+    "date": "2026-11-21",
+    "adapted_benchmark_size": 14,
+    "parity_benchmark_size": 14,
+    "number_of_runs": 3,
+    "notes": "Full 14-task standalone single-principal CLI split evaluated across 3 matched runs per side using deterministic rule-based score.py verifiers (50/50 macro-average of agent_rule_score and harness_rule_score). Oracle passes 14/14 (1.000).",
+    "original_parity_repo": "https://github.com/TraceLite-AI/TraceTrial-Bench/tree/4f94ae64a8e99ef8806200ffdcf496c9d7390f76",
+    "adapter_pr": [
+      "https://github.com/harbor-framework/adapters/pull/121"
+    ],
+    "dataset_pr": [
+      "https://github.com/harbor-framework/harbor-datasets/pull/286"
+    ],
+    "parity_pr": [
+      "https://huggingface.co/datasets/harborframework/parity-experiments/discussions/288",
+      "https://huggingface.co/datasets/TraceLite-AI/tracetrial-bench-harbor-parity"
+    ],
+    "metrics": [
+      {
+        "benchmark_name": "tracetrial-bench",
+        "metric": "rule_overall_score",
+        "original": "66.90 ± 0.5944",
+        "harbor": "68.40 ± 0.9545",
+        "original_runs": [
+          65.7571,
+          67.1688,
+          67.761
+        ],
+        "harbor_runs": [
+          66.511,
+          69.1003,
+          69.5864
+        ]
+      },
+      {
+        "benchmark_name": "tracetrial-bench",
+        "metric": "agent_rule_score",
+        "original": "80.87 ± 0.7467",
+        "harbor": "83.86 ± 1.8349",
+        "original_runs": [
+          79.5267,
+          80.9864,
+          82.106
+        ],
+        "harbor_runs": [
+          80.3203,
+          84.7846,
+          86.4711
+        ]
+      },
+      {
+        "benchmark_name": "tracetrial-bench",
+        "metric": "harness_rule_score",
+        "original": "52.92 ± 0.4657",
+        "harbor": "52.94 ± 0.2381",
+        "original_runs": [
+          51.9875,
+          53.3511,
+          53.4161
+        ],
+        "harbor_runs": [
+          52.7018,
+          53.4161,
+          52.7018
+        ]
+      }
+    ]
+  }
+]

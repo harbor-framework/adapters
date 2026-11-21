@@ -1,0 +1,20 @@
+jobs_dir: jobs
+n_attempts: 1
+timeout_multiplier: 1.0
+orchestrator:
+  type: local
+  n_concurrent_trials: 7
+  quiet: false
+environment:
+  type: docker
+  force_build: true
+  delete: true
+agents:
+  - name: oracle
+  # Parity configuration (recorded in parity_experiment.json):
+  # - name: opencode
+  #   model_name: deepseek/deepseek-flash
+  #   kwargs:
+  #     version: "1.19.6"
+datasets:
+  - path: datasets/tracetrial-bench

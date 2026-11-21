@@ -1,0 +1,60 @@
+[
+  {
+    "adapter_name": "tracetrial-bench",
+    "adapter_builders": [
+      "TraceLite AI (290594480+zsicheng0214@users.noreply.github.com)"
+    ],
+    "original_benchmark": [
+      {
+        "split": "standalone",
+        "size": 14,
+        "harness": "agent",
+        "supported_agents": [
+          "opencode@1.19.6",
+          "claude-code@2.1.76",
+          "codex@0.114.0",
+          "openhands@1.49.0",
+          "hermes-agent@1.0.5",
+          "openclaw@2026.3.13"
+        ],
+        "adaptable": true,
+        "notes": "14 standalone single-principal, single-turn CLI tasks without external host Unix-socket simulators or custom runtime sidecars."
+      },
+      {
+        "split": "full",
+        "size": 96,
+        "harness": "agent",
+        "supported_agents": [
+          "opencode@1.19.6",
+          "claude-code@2.1.76",
+          "codex@0.114.0",
+          "openhands@1.49.0",
+          "hermes-agent@1.0.5",
+          "openclaw@2026.3.13"
+        ],
+        "adaptable": false,
+        "notes": "Full repository (94 core tasks + 2 calibration controls); remaining 82 tasks require host Unix-socket simulator sidecars, multi-turn simulated-user loops (turns.json), custom MCP container runtimes, or multi-principal child-subagent session graphs not modeled by single-session ATIF."
+      }
+    ],
+    "harbor_adapter": [
+      {
+        "split": "standalone",
+        "adapted_benchmark_size": 14,
+        "parity_benchmark_size": 14,
+        "parity_sampling_rate": 1.0,
+        "registry_benchmark_size": 14,
+        "added_agents": [
+          "None"
+        ],
+        "parity_matching_agents": [
+          "opencode@1.19.6+deepseek/deepseek-flash"
+        ],
+        "parity_unmatching_agents": [
+          "None"
+        ],
+        "parity_costs": "$1",
+        "notes": "Full 14-task standalone split evaluated over 3 matched runs per side (~$0.30 total API token spend, rounded to $1)."
+      }
+    ]
+  }
+]

@@ -1,0 +1,38 @@
+schema_version = "1.0"
+artifacts = ["/workspace"]
+
+[task]
+name = "tracelite-ai/tracetrial-bench__{task_id_lower}"
+authors = [
+  {{ name = "TraceLite AI", email = "290594480+zsicheng0214@users.noreply.github.com" }},
+]
+keywords = {keywords}
+
+[metadata]
+source = "TraceLite-AI/TraceTrial-Bench"
+source_commit = "{source_commit}"
+source_id = "{task_id}"
+dimension = "{dimension}"
+subdimension = "{subdimension}"
+difficulty = "{difficulty}"
+category = "{category}"
+input_mode = "{input_mode}"
+
+[verifier]
+environment_mode = "separate"
+network_mode = "no-network"
+timeout_sec = {verifier_timeout_sec}
+
+[[verifier.collect]]
+command = "python3 /opt/tracetrial/collect_containment.py"
+
+[agent]
+network_mode = "{agent_network_mode}"
+timeout_sec = {agent_timeout_sec}
+
+[environment]
+build_timeout_sec = 600
+cpus = 2
+memory_mb = 4096
+storage_mb = 10240
+gpus = 0
