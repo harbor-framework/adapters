@@ -15,7 +15,7 @@
           "cursor-cli"
         ],
         "adaptable": true,
-        "notes": "Paper's main set: 9 honest + 11 sabotaged codebases (upstream load_dataset default subset). Upstream also has persuasion (11), red_team (27 listed, 18 released) and fixed (9) subsets, which the adapter can generate with --subset."
+        "notes": "Paper's main set: 9 honest + 11 sabotaged codebases (upstream load_dataset default subset). The adapter can also generate the paper's 9 Claude Opus 4.6 red-team sabotages (its 9 Gemini 3.1 Pro ones are not released), the 11 persuasion variants (Appendix H) and the 9 fixed honest variants with --subset."
       }
     ],
     "harbor_adapter": [

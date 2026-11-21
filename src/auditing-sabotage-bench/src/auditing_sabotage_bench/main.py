@@ -46,7 +46,7 @@ def main() -> None:
         "--subset",
         choices=SUBSETS,
         default="normal",
-        help="normal = the paper's 20 core samples (default); persuasion, red_team, fixed or all",
+        help="normal = the paper's 20 core samples (default); red_team (the paper's 9 Opus 4.6 sabotages), persuasion, fixed or all",
     )
     args = parser.parse_args()
 

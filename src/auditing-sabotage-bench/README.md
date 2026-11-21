@@ -6,7 +6,7 @@ Auditing Sabotage Bench measures whether an AI auditor can detect and fix **rese
 
 - **Source:** [ejcgan/auditing-sabotage-bench](https://github.com/ejcgan/auditing-sabotage-bench) at commit `38de58c` (MIT), paper [arXiv:2604.16286](https://arxiv.org/abs/2604.16286), NeurIPS 2026 Evaluations & Datasets Track.
 - **Tasks in this adapter (default, `--subset normal`):** **20**, the paper's main set: 9 honest codebases (one per paper) plus 11 sabotaged variants (two papers have two sabotages). This is upstream `load_dataset()` with its default `normal` subset.
-- **Optional subsets** (`--subset`): `persuasion` (11 sabotaged variants whose paper text argues for the sabotaged design), `red_team` (18 LLM-written sabotages; 9 rubric entries whose workspaces are not in the public release are skipped), `fixed` (9 honest variants with fewer benign distractors), or `all`. Parity uses `normal`.
+- **Optional subsets** (`--subset`): `red_team` (the paper's 9 sabotages written by Claude Opus 4.6; its 9 Gemini 3.1 Pro sabotages are not in the public release), `persuasion` (11 sabotaged variants with added comments and paper text justifying the sabotage, from the paper's Appendix H), `fixed` (9 honest variants with fewer benign distractors), or `all`. Parity uses `normal`.
 - **Audit setting:** upstream's **no-experiments** prompt. The agent can run code to inspect data and test functions but must not run training or experiment pipelines. The paper reports this setting performs best, and it needs no GPUs, Modal or OpenAI fine-tuning access.
 - **Main adaptation:** Harbor's verifier cannot read the agent's final chat message, so one sentence is appended to the task: save the final output to `/workspace/audit_report.txt`. The original-side parity runs append the same sentence.
 
@@ -169,7 +169,7 @@ harbor run -c src/auditing-sabotage-bench/run_auditing-sabotage-bench.yaml
 - **Judge.** Fix scores come from an LLM judge, so sabotaged-task rewards vary slightly between runs. Use the same judge model on both sides.
 - **Tool restrictions.** Upstream's no-experiments setting disallows `WebSearch` and `Agent` (sub-agents) for Claude Code. Pass `--ak disable_web_search=true --ak disallowed_tools=Agent` to match; Harbor's web-search switch also blocks `WebFetch`.
 - **Sandbox image.** Upstream's `compose.yaml` is not released; this adapter uses `python:3.12-slim` with git, uv and build tools. The agent can install a codebase's locked dependencies with `uv sync`, which needs network access.
-- **Excluded samples.** Upstream `wt_*` work-test samples are not part of the released benchmark. In `red_team`, the 9 `rt_*_claudeopus46_e1` rubric entries point at workspaces missing from the release and are skipped.
+- **Excluded samples.** Upstream `wt_*` work-test samples are not part of the released benchmark. For `red_team`, the paper used 9 Claude Opus 4.6 and 9 Gemini 3.1 Pro sabotages; only the Opus 4.6 ones are released, so `red_team` has 9 tasks. The release also contains 9 Claude Opus 4.5 sabotages that the paper does not use; they are left out. Nine `rt_*_claudeopus46_e1` rubric entries point at workspaces missing from the release and are skipped with a warning.
 
 ## Installation / Prerequisites
 

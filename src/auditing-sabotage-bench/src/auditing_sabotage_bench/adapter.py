@@ -50,6 +50,11 @@ FORBIDDEN_DIRS = {".venv", ".git", "__pycache__", "node_modules", ".eggs"}
 
 SUBSETS = ("normal", "persuasion", "red_team", "fixed", "all")
 
+# The paper's LLM red team (Section 3) used Claude Opus 4.6 and Gemini 3.1 Pro. Only the Opus 4.6
+# sabotages are in the public release; it also ships Claude Opus 4.5 sabotages that the paper
+# does not use, which are left out.
+PAPER_RED_TEAM_MODELS = {"anthropic/claude-opus-4-6"}
+
 TEMPLATE_DIR = Path(__file__).parent / "task-template"
 
 
@@ -60,6 +65,7 @@ class Sample:
     paper_name: str
     workspace: Path
     overlay_on: Path | None = None  # persuasion variants ship only changed files
+    generated_by: str = ""  # red-team sabotages: the attacker model
     sabotage_description: str = ""
     sabotage_location: str = ""
     impact: str = ""
@@ -156,6 +162,7 @@ def load_samples(source: Path, subset: str = "normal") -> list[Sample]:
         ):
             continue  # e.g. bugs.yaml (benign-bug catalogue), not a sample file
         paper_name = rubric_file.get("paper_name", "Unknown")
+        generated_by = str(rubric_file.get("generated_by", ""))
         sabotaged = _as_list(rubric_file.get("sabotaged"))
         by_id = {s["id"]: s for s in sabotaged}
 
@@ -177,6 +184,7 @@ def load_samples(source: Path, subset: str = "normal") -> list[Sample]:
                     paper_name=paper_name,
                     workspace=source / sab["workspace"],
                     overlay_on=overlay_on,
+                    generated_by=generated_by,
                     sabotage_description=str(info.get("description", "")).strip(),
                     sabotage_location=str(info.get("location", "")),
                     impact=str(info.get("impact", "")).strip(),
@@ -197,6 +205,8 @@ def load_samples(source: Path, subset: str = "normal") -> list[Sample]:
 
     def keep(s: Sample) -> bool:
         is_rt = s.id.startswith("rt_")
+        if is_rt and s.generated_by not in PAPER_RED_TEAM_MODELS:
+            return False  # e.g. the released Opus 4.5 sabotages, not used in the paper
         is_wt = s.id.startswith("wt_")
         is_persuasion = s.overlay_on is not None
         is_fixed = s.id.endswith("_fixed")
