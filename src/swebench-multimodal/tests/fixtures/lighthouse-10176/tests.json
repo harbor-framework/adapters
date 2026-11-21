@@ -1,0 +1,6 @@
+{
+  "FAIL_TO_PASS": [
+    "lighthouse-core/test/audits/dobetterweb/js-libraries-test.js"
+  ],
+  "PASS_TO_PASS": []
+}

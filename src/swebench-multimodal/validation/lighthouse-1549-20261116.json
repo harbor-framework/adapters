@@ -1,0 +1,194 @@
+{
+  "scope": "One ordinary fixed-image native amd64 base/golden diagnostic, not full-dataset oracle, Harbor orchestrator acceptance, or model parity",
+  "run_url": "https://github.com/joe1chief/adapters/actions/runs/43822253137",
+  "workflow_commit": "c9456c04995e89593ffd3887c63865f3b5d52297",
+  "task_source_commit": "8d3ed32f37af9ceb8b5778b92a0088384ed057d4",
+  "image": "swebench/sweb.eval.x86_64.googlechrome_1776_lighthouse-1549@sha256:3612d5a8a0a4c78f24fa22b672619f18565cac40cdc4fdb0e50dfdb5e7ce5347",
+  "mocha_timeout_ms": 2000,
+  "run_id": 43822253137,
+  "raw_run_zip_sha256": "7767f7428f16c828fb957ff0201d02b84e5c65a9a574cf2254097f860a43351a",
+  "grader_sha256": "ccf08f2d1de503999722669141caf4af9e9e92d06f85260973446ee1d6ff5808",
+  "upstream_parser_sha256": "b6e50637352b17bbbec02315c0b26bac3da49693a24e508871ec5c052033f5c5",
+  "modes": {
+    "base": {
+      "start": "2026-11-16T07:14:01+00:00",
+      "end": "2026-11-16T07:14:10+00:00",
+      "report": {
+        "instance_id": "GoogleChrome__lighthouse-1549",
+        "resolved": false,
+        "valid_test_output": true,
+        "tests_status": {
+          "FAIL_TO_PASS": {
+            "success": [],
+            "failure": [
+              "Trace of Tab computed artifact: finds correct FMP if there was a tracingStartedInPage after the frame's navStart",
+              "Trace of Tab computed artifact: gathers the events from the tab's process",
+              "Trace of Tab computed artifact: finds correct FMP if it appears slightly before the fCP",
+              "Trace of Tab computed artifact: finds correct FMP if there was a tracingStartedInPage after the frame's navStart #2"
+            ]
+          },
+          "PASS_TO_PASS": {
+            "success": [
+              "Performance: time-to-interactive audit evaluates valid input correctly"
+            ],
+            "failure": []
+          },
+          "FAIL_TO_FAIL": {
+            "success": [],
+            "failure": []
+          },
+          "PASS_TO_FAIL": {
+            "success": [],
+            "failure": []
+          }
+        }
+      },
+      "mocha_blocks": 3,
+      "stats": [
+        {
+          "suites": 3,
+          "tests": 9,
+          "passes": 9,
+          "pending": 0,
+          "failures": 0,
+          "start": "2026-11-16T07:14:09.293Z",
+          "end": "2026-11-16T07:14:09.346Z",
+          "duration": 53
+        },
+        {
+          "suites": 1,
+          "tests": 2,
+          "passes": 2,
+          "pending": 0,
+          "failures": 0,
+          "start": "2026-11-16T07:14:09.612Z",
+          "end": "2026-11-16T07:14:10.299Z",
+          "duration": 687
+        },
+        {
+          "suites": 1,
+          "tests": 1,
+          "passes": 0,
+          "pending": 0,
+          "failures": 1,
+          "start": "2026-11-16T07:14:10.474Z",
+          "end": "2026-11-16T07:14:10.492Z",
+          "duration": 18
+        }
+      ],
+      "required_test_details": [
+        {
+          "fullTitle": "Performance: time-to-interactive audit evaluates valid input correctly",
+          "duration": 643,
+          "err": {}
+        }
+      ],
+      "original_log_sha256": "3ef5a4d894b732f343b59415e7f5daa522394f148aa17508caaa19048961980d"
+    },
+    "golden": {
+      "start": "2026-11-16T07:14:11+00:00",
+      "end": "2026-11-16T07:14:22+00:00",
+      "report": {
+        "instance_id": "GoogleChrome__lighthouse-1549",
+        "resolved": true,
+        "valid_test_output": true,
+        "tests_status": {
+          "FAIL_TO_PASS": {
+            "success": [
+              "Trace of Tab computed artifact: finds correct FMP if there was a tracingStartedInPage after the frame's navStart",
+              "Trace of Tab computed artifact: gathers the events from the tab's process",
+              "Trace of Tab computed artifact: finds correct FMP if it appears slightly before the fCP",
+              "Trace of Tab computed artifact: finds correct FMP if there was a tracingStartedInPage after the frame's navStart #2"
+            ],
+            "failure": []
+          },
+          "PASS_TO_PASS": {
+            "success": [
+              "Performance: time-to-interactive audit evaluates valid input correctly"
+            ],
+            "failure": []
+          },
+          "FAIL_TO_FAIL": {
+            "success": [],
+            "failure": []
+          },
+          "PASS_TO_FAIL": {
+            "success": [],
+            "failure": []
+          }
+        }
+      },
+      "mocha_blocks": 4,
+      "stats": [
+        {
+          "suites": 3,
+          "tests": 9,
+          "passes": 9,
+          "pending": 0,
+          "failures": 0,
+          "start": "2026-11-16T07:14:20.346Z",
+          "end": "2026-11-16T07:14:20.414Z",
+          "duration": 68
+        },
+        {
+          "suites": 1,
+          "tests": 2,
+          "passes": 2,
+          "pending": 0,
+          "failures": 0,
+          "start": "2026-11-16T07:14:20.695Z",
+          "end": "2026-11-16T07:14:21.460Z",
+          "duration": 765
+        },
+        {
+          "suites": 1,
+          "tests": 1,
+          "passes": 1,
+          "pending": 0,
+          "failures": 0,
+          "start": "2026-11-16T07:14:21.639Z",
+          "end": "2026-11-16T07:14:21.655Z",
+          "duration": 16
+        },
+        {
+          "suites": 2,
+          "tests": 4,
+          "passes": 4,
+          "pending": 0,
+          "failures": 0,
+          "start": "2026-11-16T07:14:21.811Z",
+          "end": "2026-11-16T07:14:21.839Z",
+          "duration": 28
+        }
+      ],
+      "required_test_details": [
+        {
+          "fullTitle": "Performance: time-to-interactive audit evaluates valid input correctly",
+          "duration": 703,
+          "err": {}
+        },
+        {
+          "fullTitle": "Trace of Tab computed artifact: gathers the events from the tab's process",
+          "duration": 14,
+          "err": {}
+        },
+        {
+          "fullTitle": "Trace of Tab computed artifact: finds correct FMP if there was a tracingStartedInPage after the frame's navStart",
+          "duration": 7,
+          "err": {}
+        },
+        {
+          "fullTitle": "Trace of Tab computed artifact: finds correct FMP if there was a tracingStartedInPage after the frame's navStart #2",
+          "duration": 6,
+          "err": {}
+        },
+        {
+          "fullTitle": "Trace of Tab computed artifact: finds correct FMP if it appears slightly before the fCP",
+          "duration": 0,
+          "err": {}
+        }
+      ],
+      "original_log_sha256": "c5411b591ca7a7d15f3f6244e6d04308487ffc8e0778257d96ecb1717e23e353"
+    }
+  }
+}

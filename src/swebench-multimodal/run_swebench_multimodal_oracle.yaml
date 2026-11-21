@@ -1,0 +1,17 @@
+orchestrator:
+  type: local
+  n_concurrent_trials: 2
+
+environment:
+  type: docker
+
+agents:
+  - name: oracle
+
+# For model evaluation, replace agents with:
+# agents:
+#   - name: terminus-2
+#     model_name: openai/gpt-5-mini-2025-08-07
+
+datasets:
+  - path: datasets/swebench-multimodal
