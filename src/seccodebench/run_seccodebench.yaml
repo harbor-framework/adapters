@@ -1,0 +1,20 @@
+# Oracle verification of the generated SecCodeBench tasks (default).
+job_name: seccodebench-oracle
+jobs_dir: jobs/seccodebench
+n_attempts: 1
+n_concurrent_trials: 4
+
+environment:
+  type: docker
+  delete: true
+
+agents:
+  - name: oracle
+
+# Uncomment to evaluate an agent (parity plan not yet agreed with maintainers):
+# agents:
+#   - name: claude-code
+#     model_name: <dated-model-id>
+
+datasets:
+  - path: datasets/seccodebench

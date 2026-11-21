@@ -1,0 +1,40 @@
+[
+  {
+    "adapter_name": "seccodebench",
+    "adapter_builders": [
+      "yiminnn (yiminliu.career@gmail.com)"
+    ],
+    "original_benchmark": [
+      {
+        "split": "full",
+        "size": 392,
+        "harness": "agent",
+        "supported_agents": [
+          "None"
+        ],
+        "adaptable": true,
+        "notes": "98 cases (java 53, cpp 15, go 13, python 13, nodejs 4) x 4 scenarios (gen, gen-hints, fix, fix-hints). Upstream E2E mode drives CLI coding agents (claude-code, codex, gemini, ...). 8 Java cases use an LLM-judge tester."
+      }
+    ],
+    "harbor_adapter": [
+      {
+        "split": "full",
+        "adapted_benchmark_size": 328,
+        "parity_benchmark_size": 0,
+        "parity_sampling_rate": 0.0,
+        "registry_benchmark_size": 0,
+        "added_agents": [
+          "None"
+        ],
+        "parity_matching_agents": [
+          "None"
+        ],
+        "parity_unmatching_agents": [
+          "None"
+        ],
+        "parity_costs": null,
+        "notes": "82 cases x 4 scenarios. Excluded: 8 Java LLM-judge cases (--include-llm-judge) and 8 cases verifiably broken upstream (--include-broken): python/SQLInjectionSQLite3, cpp/BufferOverflowMemset, go/CommandInjectionExec, java XXEDocumentBuilder/XXESAXParser/XXESAXReader/XXETransformerFactory/XXEValidator. Hand-written oracles: 320/328 reward 1 in local Harbor runs; the remaining 8 (2 Java Mockito cases) fail only on rootless podman with NFS-backed storage; verified oracle 1 / vulnerable 0 on standard Docker (fork CI runs 43838781966 and 43840868444 (all 4 scenarios)). No parity yet."
+      }
+    ]
+  }
+]
