@@ -1,0 +1,58 @@
+[
+  {
+    "adapter_name": "ama-bench",
+    "adapter_builders": [
+      "Boqin Yuan (b4yuan@ucsd.edu)"
+    ],
+    "original_benchmark": [
+      {
+        "split": "test",
+        "size": 208,
+        "harness": "llm",
+        "supported_agents": [
+          "claude-code@2.1.330"
+        ],
+        "adaptable": true,
+        "notes": "AMA-Bench open-end QA: 208 episodes, each with one long agent trajectory and 12 memory QA pairs (types A=Recall, B=Causal, C=State Update, D=Abstraction). Primary metric is LLM-as-judge accuracy (Qwen3-32B at temperature 0). Harbor additionally logs token-level F1 per QA for inspection; it is not part of the reward."
+      }
+    ],
+    "harbor_adapter": [
+      {
+        "split": "test",
+        "adapted_benchmark_size": 208,
+        "parity_benchmark_size": 10,
+        "parity_sampling_rate": 0.0481,
+        "registry_benchmark_size": 208,
+        "added_agents": [
+          "None"
+        ],
+        "parity_matching_agents": [
+          "claude-code@2.1.330+anthropic/claude-haiku-5-5"
+        ],
+        "parity_unmatching_agents": [
+          "None"
+        ],
+        "parity_costs": "$2",
+        "notes": "alfworld-10 subset: 10 alfworld episodes (EMBODIED_AI, ids 30-39), 120 QAs per run. One Harbor task is one AMA-Bench episode; the agent answers all 12 QA pairs in a single Answer[1]..Answer[12] block written to /workspace/answers.txt, and the reward is the mean LLM-judge score across the 12 QAs. Parity runs the same Claude Code agent on both sides over the same raw trajectory.jsonl (ama-bench_parity_claude_code_alfworld.yaml on Harbor 0.27.0; --method claude_code upstream at commit d2d5715), graded by claude-haiku-4-5 on both sides, 3 runs per side. See parity_experiment.json."
+      },
+      {
+        "split": "test",
+        "adapted_benchmark_size": 208,
+        "parity_benchmark_size": 30,
+        "parity_sampling_rate": 0.1442,
+        "registry_benchmark_size": 208,
+        "added_agents": [
+          "None"
+        ],
+        "parity_matching_agents": [
+          "claude-code@2.1.330+anthropic/claude-haiku-5-5"
+        ],
+        "parity_unmatching_agents": [
+          "None"
+        ],
+        "parity_costs": "$5",
+        "notes": "random-30 subset: stratified random sample of 5 episodes per domain across the 6 domains (seed 42), 360 QAs per run. One Harbor task is one AMA-Bench episode; the agent answers all 12 QA pairs in a single Answer[1]..Answer[12] block written to /workspace/answers.txt, and the reward is the mean LLM-judge score across the 12 QAs. Parity runs the same Claude Code agent on both sides over the same raw trajectory.jsonl (ama-bench_parity_claude_code_random.yaml on Harbor 0.27.0; --method claude_code upstream at commit d2d5715), graded by claude-haiku-4-5 on both sides, 3 runs per side. See parity_experiment.json."
+      }
+    ]
+  }
+]

@@ -1,0 +1,80 @@
+[
+  {
+    "adapter_name": "ama-bench",
+    "agent": "claude-code@2.1.330",
+    "model": "anthropic/claude-haiku-5-5",
+    "date": "2026-11-22",
+    "adapted_benchmark_size": 208,
+    "parity_benchmark_size": 10,
+    "number_of_runs": 3,
+    "notes": "The same Claude Code agent (claude-code@2.1.330, anthropic/claude-haiku-5-5) runs on both sides over the same raw trajectory.jsonl with a 1800 s timeout per episode. Harbor side: the standard claude-code agent on Harbor 0.27.0 with the separate verifier (ama-bench_parity_claude_code_alfworld.yaml). Original side: AMA-Bench at commit d2d5715 with --method claude_code. Both sides are graded by claude-haiku-4-5 through Anthropic's OpenAI-compatible endpoint (temperature 0, max_tokens 2048). Subset alfworld-10: 10 alfworld episodes (EMBODIED_AI, ids 30-39), 120 graded QAs per run. 3 runs per side. Metric is mean_judge_score (the paper's avg_score). All trials completed on the first attempt with no agent errors, retries or judge failures. Run-score ranges overlap: Harbor [0.517, 0.558] vs original [0.533, 0.583].",
+    "original_parity_repo": "https://github.com/AMA-Bench/AMA-Bench/tree/d2d57150fb0dbb8b4697e9cbe9ea05b6b47b83a4",
+    "adapter_pr": [
+      "https://github.com/harbor-framework/adapters/pull/27",
+      "https://github.com/harbor-framework/harbor/pull/1642"
+    ],
+    "dataset_pr": [
+      "https://github.com/harbor-framework/harbor-datasets/pull/233"
+    ],
+    "parity_pr": [
+      "https://huggingface.co/datasets/harborframework/parity-experiments/discussions/253"
+    ],
+    "metrics": [
+      {
+        "benchmark_name": "AMA-Bench (alfworld-10)",
+        "metric": "mean_judge_score",
+        "original": "0.556 ± 0.015",
+        "harbor": "0.531 ± 0.014",
+        "original_runs": [
+          0.5333,
+          0.55,
+          0.5833
+        ],
+        "harbor_runs": [
+          0.5583,
+          0.5167,
+          0.5167
+        ]
+      }
+    ]
+  },
+  {
+    "adapter_name": "ama-bench",
+    "agent": "claude-code@2.1.330",
+    "model": "anthropic/claude-haiku-5-5",
+    "date": "2026-11-22",
+    "adapted_benchmark_size": 208,
+    "parity_benchmark_size": 30,
+    "number_of_runs": 3,
+    "notes": "The same Claude Code agent (claude-code@2.1.330, anthropic/claude-haiku-5-5) runs on both sides over the same raw trajectory.jsonl with a 1800 s timeout per episode. Harbor side: the standard claude-code agent on Harbor 0.27.0 with the separate verifier (ama-bench_parity_claude_code_random.yaml). Original side: AMA-Bench at commit d2d5715 with --method claude_code. Both sides are graded by claude-haiku-4-5 through Anthropic's OpenAI-compatible endpoint (temperature 0, max_tokens 2048). Subset random-30: stratified random sample of 5 episodes per domain across the 6 domains (seed 42), 360 graded QAs per run. 3 runs per side. Metric is mean_judge_score (the paper's avg_score). All trials completed on the first attempt with no agent errors, retries or judge failures. Run-score ranges overlap: Harbor [0.611, 0.636] vs original [0.592, 0.633].",
+    "original_parity_repo": "https://github.com/AMA-Bench/AMA-Bench/tree/d2d57150fb0dbb8b4697e9cbe9ea05b6b47b83a4",
+    "adapter_pr": [
+      "https://github.com/harbor-framework/adapters/pull/27",
+      "https://github.com/harbor-framework/harbor/pull/1642"
+    ],
+    "dataset_pr": [
+      "https://github.com/harbor-framework/harbor-datasets/pull/233"
+    ],
+    "parity_pr": [
+      "https://huggingface.co/datasets/harborframework/parity-experiments/discussions/253"
+    ],
+    "metrics": [
+      {
+        "benchmark_name": "AMA-Bench (random-30, all 6 domains)",
+        "metric": "mean_judge_score",
+        "original": "0.616 ± 0.012",
+        "harbor": "0.622 ± 0.007",
+        "original_runs": [
+          0.6333,
+          0.6222,
+          0.5917
+        ],
+        "harbor_runs": [
+          0.6111,
+          0.6194,
+          0.6361
+        ]
+      }
+    ]
+  }
+]
