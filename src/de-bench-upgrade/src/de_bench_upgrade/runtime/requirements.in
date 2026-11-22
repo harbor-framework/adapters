@@ -1,0 +1,22 @@
+# Original runtime roots, resolved together to retain Airflow 3.0.3.
+apache-airflow==3.0.3
+apache-airflow-providers-standard
+apache-airflow-providers-amazon
+apache-airflow-providers-cncf-kubernetes
+apache-airflow-providers-common-sql
+apache-airflow-providers-google
+apache-airflow-providers-http
+apache-airflow-providers-postgres
+apache-airflow-providers-snowflake
+pytest
+pytest-timeout
+duckdb>=1.1
+dbt-duckdb>=1.8
+dag-factory>=0.22
+astronomer-cosmos==1.15.0
+airflow-blueprint==0.4.0
+# Explicit compatibility additions: keep dbt on 1.x and account for these
+# already-installed consumers when resolving protobuf/OpenTelemetry versions.
+dbt-core>=1.8,<2
+snowflake-snowpark-python
+opentelemetry-exporter-prometheus

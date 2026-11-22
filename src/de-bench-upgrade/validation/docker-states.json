@@ -1,0 +1,1053 @@
+{
+  "image": "de-bench-upgrade-scoring:5dcfc2b",
+  "upstream_commit": "5dcfc2b81b13dcf58cff49e192e97f1ae05f8dbc",
+  "rows": [
+    {
+      "task_id": "task-upgrade-v2-23f2a0",
+      "state": "baseline",
+      "pass": false,
+      "checks": {
+        "delivered": {
+          "passed": true,
+          "detail": "133 byte patch"
+        },
+        "do_not_modify": {
+          "passed": null,
+          "detail": "no protected paths declared"
+        },
+        "scoring_primitive:dag_imports_bundle_safe": {
+          "passed": false,
+          "detail": "value=0.00"
+        },
+        "scoring_primitive:imports_clean_across_sibling_pkgs": {
+          "passed": false,
+          "detail": "value=0.00"
+        },
+        "scoring_primitive:triggers_outside_bundle": {
+          "passed": false,
+          "detail": "value=0.00"
+        },
+        "scoring_primitive:no_deprecated_imports": {
+          "passed": false,
+          "detail": "value=0.00"
+        }
+      },
+      "tiers": {
+        "delivered": {
+          "passed": true,
+          "detail": "133 byte patch"
+        },
+        "do_not_modify": {
+          "passed": null,
+          "detail": "no protected paths declared"
+        },
+        "scoring_primitive:dag_imports_bundle_safe": {
+          "passed": false,
+          "detail": "value=0.00"
+        },
+        "scoring_primitive:imports_clean_across_sibling_pkgs": {
+          "passed": false,
+          "detail": "value=0.00"
+        },
+        "scoring_primitive:triggers_outside_bundle": {
+          "passed": false,
+          "detail": "value=0.00"
+        },
+        "scoring_primitive:no_deprecated_imports": {
+          "passed": false,
+          "detail": "value=0.00"
+        }
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-23f2a0",
+      "state": "oracle",
+      "pass": true,
+      "checks": {
+        "delivered": {
+          "passed": true,
+          "detail": "5110 byte patch"
+        },
+        "do_not_modify": {
+          "passed": null,
+          "detail": "no protected paths declared"
+        },
+        "scoring_primitive:dag_imports_bundle_safe": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:imports_clean_across_sibling_pkgs": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:triggers_outside_bundle": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:no_deprecated_imports": {
+          "passed": true,
+          "detail": "value=1.00"
+        }
+      },
+      "tiers": {
+        "delivered": {
+          "passed": true,
+          "detail": "5110 byte patch"
+        },
+        "do_not_modify": {
+          "passed": null,
+          "detail": "no protected paths declared"
+        },
+        "scoring_primitive:dag_imports_bundle_safe": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:imports_clean_across_sibling_pkgs": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:triggers_outside_bundle": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:no_deprecated_imports": {
+          "passed": true,
+          "detail": "value=1.00"
+        }
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-23f2a0",
+      "state": "partial_reversion",
+      "pass": true,
+      "checks": {
+        "delivered": {
+          "passed": true,
+          "detail": "5243 byte patch"
+        },
+        "do_not_modify": {
+          "passed": null,
+          "detail": "no protected paths declared"
+        },
+        "scoring_primitive:dag_imports_bundle_safe": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:imports_clean_across_sibling_pkgs": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:triggers_outside_bundle": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:no_deprecated_imports": {
+          "passed": true,
+          "detail": "value=1.00"
+        }
+      },
+      "tiers": {
+        "delivered": {
+          "passed": true,
+          "detail": "5243 byte patch"
+        },
+        "do_not_modify": {
+          "passed": null,
+          "detail": "no protected paths declared"
+        },
+        "scoring_primitive:dag_imports_bundle_safe": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:imports_clean_across_sibling_pkgs": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:triggers_outside_bundle": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:no_deprecated_imports": {
+          "passed": true,
+          "detail": "value=1.00"
+        }
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-2c5f8a",
+      "state": "baseline",
+      "pass": false,
+      "checks": {
+        "delivered": {
+          "passed": true,
+          "detail": "133 byte patch"
+        },
+        "do_not_modify": {
+          "passed": null,
+          "detail": "no protected paths declared"
+        },
+        "scoring_primitive:provider_compatibility_check": {
+          "passed": false,
+          "detail": "value=0.00"
+        }
+      },
+      "tiers": {
+        "delivered": {
+          "passed": true,
+          "detail": "133 byte patch"
+        },
+        "do_not_modify": {
+          "passed": null,
+          "detail": "no protected paths declared"
+        },
+        "scoring_primitive:provider_compatibility_check": {
+          "passed": false,
+          "detail": "value=0.00"
+        }
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-2c5f8a",
+      "state": "oracle",
+      "pass": true,
+      "checks": {
+        "delivered": {
+          "passed": true,
+          "detail": "301 byte patch"
+        },
+        "do_not_modify": {
+          "passed": null,
+          "detail": "no protected paths declared"
+        },
+        "scoring_primitive:provider_compatibility_check": {
+          "passed": true,
+          "detail": "value=1.00"
+        }
+      },
+      "tiers": {
+        "delivered": {
+          "passed": true,
+          "detail": "301 byte patch"
+        },
+        "do_not_modify": {
+          "passed": null,
+          "detail": "no protected paths declared"
+        },
+        "scoring_primitive:provider_compatibility_check": {
+          "passed": true,
+          "detail": "value=1.00"
+        }
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-2c5f8a",
+      "state": "partial_reversion",
+      "pass": true,
+      "checks": {
+        "delivered": {
+          "passed": true,
+          "detail": "434 byte patch"
+        },
+        "do_not_modify": {
+          "passed": null,
+          "detail": "no protected paths declared"
+        },
+        "scoring_primitive:provider_compatibility_check": {
+          "passed": true,
+          "detail": "value=1.00"
+        }
+      },
+      "tiers": {
+        "delivered": {
+          "passed": true,
+          "detail": "434 byte patch"
+        },
+        "do_not_modify": {
+          "passed": null,
+          "detail": "no protected paths declared"
+        },
+        "scoring_primitive:provider_compatibility_check": {
+          "passed": true,
+          "detail": "value=1.00"
+        }
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-a1b2c3",
+      "state": "baseline",
+      "pass": false,
+      "checks": {
+        "delivered": {
+          "passed": true,
+          "detail": "133 byte patch"
+        },
+        "do_not_modify": {
+          "passed": null,
+          "detail": "no protected paths declared"
+        },
+        "scoring_primitive:no_deprecated_imports": {
+          "passed": false,
+          "detail": "value=0.00"
+        },
+        "scoring_primitive:no_deprecated_context_vars": {
+          "passed": false,
+          "detail": "value=0.00"
+        },
+        "scoring_primitive:structural_match_taskids": {
+          "passed": true,
+          "detail": "value=1.00"
+        }
+      },
+      "tiers": {
+        "delivered": {
+          "passed": true,
+          "detail": "133 byte patch"
+        },
+        "do_not_modify": {
+          "passed": null,
+          "detail": "no protected paths declared"
+        },
+        "scoring_primitive:no_deprecated_imports": {
+          "passed": false,
+          "detail": "value=0.00"
+        },
+        "scoring_primitive:no_deprecated_context_vars": {
+          "passed": false,
+          "detail": "value=0.00"
+        },
+        "scoring_primitive:structural_match_taskids": {
+          "passed": true,
+          "detail": "value=1.00"
+        }
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-a1b2c3",
+      "state": "oracle",
+      "pass": true,
+      "checks": {
+        "delivered": {
+          "passed": true,
+          "detail": "861 byte patch"
+        },
+        "do_not_modify": {
+          "passed": null,
+          "detail": "no protected paths declared"
+        },
+        "scoring_primitive:no_deprecated_imports": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:no_deprecated_context_vars": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:structural_match_taskids": {
+          "passed": true,
+          "detail": "value=1.00"
+        }
+      },
+      "tiers": {
+        "delivered": {
+          "passed": true,
+          "detail": "861 byte patch"
+        },
+        "do_not_modify": {
+          "passed": null,
+          "detail": "no protected paths declared"
+        },
+        "scoring_primitive:no_deprecated_imports": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:no_deprecated_context_vars": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:structural_match_taskids": {
+          "passed": true,
+          "detail": "value=1.00"
+        }
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-a1b2c3",
+      "state": "partial_reversion",
+      "pass": false,
+      "checks": {
+        "delivered": {
+          "passed": true,
+          "detail": "133 byte patch"
+        },
+        "do_not_modify": {
+          "passed": null,
+          "detail": "no protected paths declared"
+        },
+        "scoring_primitive:no_deprecated_imports": {
+          "passed": false,
+          "detail": "value=0.00"
+        },
+        "scoring_primitive:no_deprecated_context_vars": {
+          "passed": false,
+          "detail": "value=0.00"
+        },
+        "scoring_primitive:structural_match_taskids": {
+          "passed": true,
+          "detail": "value=1.00"
+        }
+      },
+      "tiers": {
+        "delivered": {
+          "passed": true,
+          "detail": "133 byte patch"
+        },
+        "do_not_modify": {
+          "passed": null,
+          "detail": "no protected paths declared"
+        },
+        "scoring_primitive:no_deprecated_imports": {
+          "passed": false,
+          "detail": "value=0.00"
+        },
+        "scoring_primitive:no_deprecated_context_vars": {
+          "passed": false,
+          "detail": "value=0.00"
+        },
+        "scoring_primitive:structural_match_taskids": {
+          "passed": true,
+          "detail": "value=1.00"
+        }
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-cosme01",
+      "state": "baseline",
+      "pass": false,
+      "checks": {
+        "delivered": {
+          "passed": true,
+          "detail": "133 byte patch"
+        },
+        "do_not_modify": {
+          "passed": null,
+          "detail": "no protected paths declared"
+        },
+        "scoring_primitive:airflow_pin_target_aligned": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:cosmos_imports_post_1_0": {
+          "passed": false,
+          "detail": "value=0.00"
+        },
+        "scoring_primitive:dbtdag_uses_projectconfig": {
+          "passed": false,
+          "detail": "value=0.00"
+        },
+        "scoring_primitive:dbtdag_uses_profileconfig": {
+          "passed": false,
+          "detail": "value=0.00"
+        },
+        "scoring_primitive:dbtdag_no_pre_1_0_kwargs": {
+          "passed": false,
+          "detail": "value=0.00"
+        },
+        "scoring_primitive:dbt_local_operators_use_profileconfig": {
+          "passed": false,
+          "detail": "value=0.00"
+        },
+        "scoring_primitive:cosmos_pin_uplifted": {
+          "passed": false,
+          "detail": "value=0.00"
+        }
+      },
+      "tiers": {
+        "delivered": {
+          "passed": true,
+          "detail": "133 byte patch"
+        },
+        "do_not_modify": {
+          "passed": null,
+          "detail": "no protected paths declared"
+        },
+        "scoring_primitive:airflow_pin_target_aligned": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:cosmos_imports_post_1_0": {
+          "passed": false,
+          "detail": "value=0.00"
+        },
+        "scoring_primitive:dbtdag_uses_projectconfig": {
+          "passed": false,
+          "detail": "value=0.00"
+        },
+        "scoring_primitive:dbtdag_uses_profileconfig": {
+          "passed": false,
+          "detail": "value=0.00"
+        },
+        "scoring_primitive:dbtdag_no_pre_1_0_kwargs": {
+          "passed": false,
+          "detail": "value=0.00"
+        },
+        "scoring_primitive:dbt_local_operators_use_profileconfig": {
+          "passed": false,
+          "detail": "value=0.00"
+        },
+        "scoring_primitive:cosmos_pin_uplifted": {
+          "passed": false,
+          "detail": "value=0.00"
+        }
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-cosme01",
+      "state": "oracle",
+      "pass": true,
+      "checks": {
+        "delivered": {
+          "passed": true,
+          "detail": "2481 byte patch"
+        },
+        "do_not_modify": {
+          "passed": null,
+          "detail": "no protected paths declared"
+        },
+        "scoring_primitive:airflow_pin_target_aligned": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:cosmos_imports_post_1_0": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:dbtdag_uses_projectconfig": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:dbtdag_uses_profileconfig": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:dbtdag_no_pre_1_0_kwargs": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:dbt_local_operators_use_profileconfig": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:cosmos_pin_uplifted": {
+          "passed": true,
+          "detail": "value=1.00"
+        }
+      },
+      "tiers": {
+        "delivered": {
+          "passed": true,
+          "detail": "2481 byte patch"
+        },
+        "do_not_modify": {
+          "passed": null,
+          "detail": "no protected paths declared"
+        },
+        "scoring_primitive:airflow_pin_target_aligned": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:cosmos_imports_post_1_0": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:dbtdag_uses_projectconfig": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:dbtdag_uses_profileconfig": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:dbtdag_no_pre_1_0_kwargs": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:dbt_local_operators_use_profileconfig": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:cosmos_pin_uplifted": {
+          "passed": true,
+          "detail": "value=1.00"
+        }
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-cosme01",
+      "state": "partial_reversion",
+      "pass": false,
+      "checks": {
+        "delivered": {
+          "passed": true,
+          "detail": "2397 byte patch"
+        },
+        "do_not_modify": {
+          "passed": null,
+          "detail": "no protected paths declared"
+        },
+        "scoring_primitive:airflow_pin_target_aligned": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:cosmos_imports_post_1_0": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:dbtdag_uses_projectconfig": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:dbtdag_uses_profileconfig": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:dbtdag_no_pre_1_0_kwargs": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:dbt_local_operators_use_profileconfig": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:cosmos_pin_uplifted": {
+          "passed": false,
+          "detail": "value=0.00"
+        }
+      },
+      "tiers": {
+        "delivered": {
+          "passed": true,
+          "detail": "2397 byte patch"
+        },
+        "do_not_modify": {
+          "passed": null,
+          "detail": "no protected paths declared"
+        },
+        "scoring_primitive:airflow_pin_target_aligned": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:cosmos_imports_post_1_0": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:dbtdag_uses_projectconfig": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:dbtdag_uses_profileconfig": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:dbtdag_no_pre_1_0_kwargs": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:dbt_local_operators_use_profileconfig": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:cosmos_pin_uplifted": {
+          "passed": false,
+          "detail": "value=0.00"
+        }
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-dgfh01",
+      "state": "baseline",
+      "pass": false,
+      "checks": {
+        "delivered": {
+          "passed": true,
+          "detail": "133 byte patch"
+        },
+        "do_not_modify": {
+          "passed": null,
+          "detail": "no protected paths declared"
+        },
+        "scoring_primitive:airflow_pin_target_aligned": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:loader_uses_load_yaml_dags": {
+          "passed": false,
+          "detail": "value=0.00"
+        },
+        "scoring_primitive:loader_kwarg_renames": {
+          "passed": false,
+          "detail": "value=0.67"
+        },
+        "scoring_primitive:loader_no_clean_dags": {
+          "passed": false,
+          "detail": "value=0.00"
+        },
+        "scoring_primitive:yaml_uses_schedule_not_schedule_interval": {
+          "passed": false,
+          "detail": "value=0.00"
+        },
+        "scoring_primitive:yaml_no_sec_shortcut_kwargs": {
+          "passed": false,
+          "detail": "value=0.00"
+        },
+        "scoring_primitive:yaml_timeouts_use_timedelta": {
+          "passed": false,
+          "detail": "value=0.00"
+        },
+        "scoring_primitive:yaml_logical_keys_consolidated": {
+          "passed": false,
+          "detail": "value=0.00"
+        },
+        "scoring_primitive:dag_factory_pin_uplifted": {
+          "passed": false,
+          "detail": "value=0.00"
+        },
+        "scoring_primitive:dag_factory_providers_declared": {
+          "passed": false,
+          "detail": "value=0.00"
+        },
+        "scoring_primitive:kpo_uses_type_annotations": {
+          "passed": false,
+          "detail": "value=0.00"
+        },
+        "scoring_primitive:timetable_uses_type_annotation": {
+          "passed": null,
+          "detail": "not applicable (no oracle)"
+        },
+        "scoring_primitive:sla_miss_callback_handled": {
+          "passed": false,
+          "detail": "value=0.00"
+        }
+      },
+      "tiers": {
+        "delivered": {
+          "passed": true,
+          "detail": "133 byte patch"
+        },
+        "do_not_modify": {
+          "passed": null,
+          "detail": "no protected paths declared"
+        },
+        "scoring_primitive:airflow_pin_target_aligned": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:loader_uses_load_yaml_dags": {
+          "passed": false,
+          "detail": "value=0.00"
+        },
+        "scoring_primitive:loader_kwarg_renames": {
+          "passed": false,
+          "detail": "value=0.67"
+        },
+        "scoring_primitive:loader_no_clean_dags": {
+          "passed": false,
+          "detail": "value=0.00"
+        },
+        "scoring_primitive:yaml_uses_schedule_not_schedule_interval": {
+          "passed": false,
+          "detail": "value=0.00"
+        },
+        "scoring_primitive:yaml_no_sec_shortcut_kwargs": {
+          "passed": false,
+          "detail": "value=0.00"
+        },
+        "scoring_primitive:yaml_timeouts_use_timedelta": {
+          "passed": false,
+          "detail": "value=0.00"
+        },
+        "scoring_primitive:yaml_logical_keys_consolidated": {
+          "passed": false,
+          "detail": "value=0.00"
+        },
+        "scoring_primitive:dag_factory_pin_uplifted": {
+          "passed": false,
+          "detail": "value=0.00"
+        },
+        "scoring_primitive:dag_factory_providers_declared": {
+          "passed": false,
+          "detail": "value=0.00"
+        },
+        "scoring_primitive:kpo_uses_type_annotations": {
+          "passed": false,
+          "detail": "value=0.00"
+        },
+        "scoring_primitive:timetable_uses_type_annotation": {
+          "passed": null,
+          "detail": "not applicable (no oracle)"
+        },
+        "scoring_primitive:sla_miss_callback_handled": {
+          "passed": false,
+          "detail": "value=0.00"
+        }
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-dgfh01",
+      "state": "oracle",
+      "pass": true,
+      "checks": {
+        "delivered": {
+          "passed": true,
+          "detail": "4662 byte patch"
+        },
+        "do_not_modify": {
+          "passed": null,
+          "detail": "no protected paths declared"
+        },
+        "scoring_primitive:airflow_pin_target_aligned": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:loader_uses_load_yaml_dags": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:loader_kwarg_renames": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:loader_no_clean_dags": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:yaml_uses_schedule_not_schedule_interval": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:yaml_no_sec_shortcut_kwargs": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:yaml_timeouts_use_timedelta": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:yaml_logical_keys_consolidated": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:dag_factory_pin_uplifted": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:dag_factory_providers_declared": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:kpo_uses_type_annotations": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:timetable_uses_type_annotation": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:sla_miss_callback_handled": {
+          "passed": true,
+          "detail": "value=1.00"
+        }
+      },
+      "tiers": {
+        "delivered": {
+          "passed": true,
+          "detail": "4662 byte patch"
+        },
+        "do_not_modify": {
+          "passed": null,
+          "detail": "no protected paths declared"
+        },
+        "scoring_primitive:airflow_pin_target_aligned": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:loader_uses_load_yaml_dags": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:loader_kwarg_renames": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:loader_no_clean_dags": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:yaml_uses_schedule_not_schedule_interval": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:yaml_no_sec_shortcut_kwargs": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:yaml_timeouts_use_timedelta": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:yaml_logical_keys_consolidated": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:dag_factory_pin_uplifted": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:dag_factory_providers_declared": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:kpo_uses_type_annotations": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:timetable_uses_type_annotation": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:sla_miss_callback_handled": {
+          "passed": true,
+          "detail": "value=1.00"
+        }
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-dgfh01",
+      "state": "partial_reversion",
+      "pass": false,
+      "checks": {
+        "delivered": {
+          "passed": true,
+          "detail": "4541 byte patch"
+        },
+        "do_not_modify": {
+          "passed": null,
+          "detail": "no protected paths declared"
+        },
+        "scoring_primitive:airflow_pin_target_aligned": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:loader_uses_load_yaml_dags": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:loader_kwarg_renames": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:loader_no_clean_dags": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:yaml_uses_schedule_not_schedule_interval": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:yaml_no_sec_shortcut_kwargs": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:yaml_timeouts_use_timedelta": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:yaml_logical_keys_consolidated": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:dag_factory_pin_uplifted": {
+          "passed": false,
+          "detail": "value=0.00"
+        },
+        "scoring_primitive:dag_factory_providers_declared": {
+          "passed": false,
+          "detail": "value=0.00"
+        },
+        "scoring_primitive:kpo_uses_type_annotations": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:timetable_uses_type_annotation": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:sla_miss_callback_handled": {
+          "passed": true,
+          "detail": "value=1.00"
+        }
+      },
+      "tiers": {
+        "delivered": {
+          "passed": true,
+          "detail": "4541 byte patch"
+        },
+        "do_not_modify": {
+          "passed": null,
+          "detail": "no protected paths declared"
+        },
+        "scoring_primitive:airflow_pin_target_aligned": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:loader_uses_load_yaml_dags": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:loader_kwarg_renames": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:loader_no_clean_dags": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:yaml_uses_schedule_not_schedule_interval": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:yaml_no_sec_shortcut_kwargs": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:yaml_timeouts_use_timedelta": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:yaml_logical_keys_consolidated": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:dag_factory_pin_uplifted": {
+          "passed": false,
+          "detail": "value=0.00"
+        },
+        "scoring_primitive:dag_factory_providers_declared": {
+          "passed": false,
+          "detail": "value=0.00"
+        },
+        "scoring_primitive:kpo_uses_type_annotations": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:timetable_uses_type_annotation": {
+          "passed": true,
+          "detail": "value=1.00"
+        },
+        "scoring_primitive:sla_miss_callback_handled": {
+          "passed": true,
+          "detail": "value=1.00"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,159 @@
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 2.42kB done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/python:3.12-slim-bookworm@sha256:935c3c5b12357a7e10caa9c1e6ca5692344d97cf229832ef584be2cec9fc03df
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [ 1/13] FROM docker.io/library/python:3.12-slim-bookworm@sha256:935c3c5b12357a7e10caa9c1e6ca5692344d97cf229832ef584be2cec9fc03df
+#4 DONE 0.0s
+
+#5 [ 3/13] RUN pip install --no-cache-dir apache-airflow==3.0.3     apache-airflow-providers-standard apache-airflow-providers-amazon     apache-airflow-providers-cncf-kubernetes apache-airflow-providers-common-sql     apache-airflow-providers-google apache-airflow-providers-http     apache-airflow-providers-postgres apache-airflow-providers-snowflake     --constraint https://raw.githubusercontent.com/apache/airflow/constraints-3.0.3/constraints-3.12.txt
+#5 CACHED
+
+#6 [ 2/13] RUN apt-get update && apt-get install -y --no-install-recommends     git curl ca-certificates ripgrep procps psmisc unzip sqlite3 file iproute2 jq     && curl -fsSL https://deb.nodesource.com/setup_22.x | bash -     && apt-get install -y nodejs && rm -rf /var/lib/apt/lists/*
+#6 CACHED
+
+#7 [ 4/13] RUN pip install --no-cache-dir uv==0.13.9
+#7 CACHED
+
+#8 [internal] load build context
+#8 transferring context: 575B done
+#8 DONE 0.0s
+
+#9 [ 5/13] RUN uv pip install --system --no-cache pytest pytest-timeout 'duckdb>=1.1' 'dbt-duckdb>=1.8'     'dag-factory>=0.22' astronomer-cosmos==1.15.0 airflow-blueprint==0.4.0
+#9 0.155 Using Python 3.12.16 environment at: /usr/local
+#9 9.442 Resolved 168 packages in 9.28s
+#9 9.447    Building dbt-core-experimental-parser==2.0.11
+#9 9.507 Downloading dbt-core (1.1MiB)
+#9 9.507 Downloading openlineage-sql (2.9MiB)
+#9 9.507 Downloading rapidfuzz (3.0MiB)
+#9 9.507 Downloading networkx (2.0MiB)
+#9 9.507 Downloading duckdb (23.8MiB)
+#9 9.508 Downloading babel (9.7MiB)
+#9 9.737  Downloaded dbt-core
+#9 9.955  Downloaded openlineage-sql
+#9 10.16  Downloaded rapidfuzz
+#9 10.36  Downloaded networkx
+#9 10.84  Downloaded duckdb
+#9 11.25  Downloaded babel
+#9 25.23       Built dbt-core-experimental-parser==2.0.11
+#9 25.47 Prepared 49 packages in 16.02s
+#9 25.69 Uninstalled 12 packages in 218ms
+#9 25.71 Installed 49 packages in 27ms
+#9 25.71  + aenum==3.1.17
+#9 25.71  + agate==1.9.1
+#9 25.71  + airflow-blueprint==0.4.0
+#9 25.71  + astronomer-cosmos==1.15.0
+#9 25.71  + babel==2.18.0
+#9 25.71  - click==8.2.1
+#9 25.71  + click==8.5.1
+#9 25.71  + colorama==0.4.6
+#9 25.71  + daff==1.4.2
+#9 25.71  + dag-factory==1.1.0
+#9 25.71  + dbt-adapters==1.24.6
+#9 25.71  + dbt-common==1.39.0
+#9 25.71  + dbt-core==1.12.7
+#9 25.72  + dbt-core-experimental-parser==2.0.11
+#9 25.72  + dbt-duckdb==1.11.1
+#9 25.72  + dbt-extractor==0.6.0
+#9 25.72  + dbt-protos==1.0.615
+#9 25.72  + deepdiff==8.6.2
+#9 25.72  + deprecation==2.1.0
+#9 25.72  + duckdb==2.0.1
+#9 25.72  + iniconfig==2.3.1
+#9 25.72  + isodate==0.7.2
+#9 25.72  + leather==0.4.1
+#9 25.72  + mashumaro==3.17
+#9 25.72  + metricflow==0.214.0
+#9 25.72  + networkx==3.7
+#9 25.72  + openlineage-integration-common==1.55.0
+#9 25.72  + openlineage-python==1.52.0
+#9 25.72  + openlineage-sql==1.55.0
+#9 25.72  - opentelemetry-api==1.27.0
+#9 25.72  + opentelemetry-api==1.45.2
+#9 25.72  + opentelemetry-exporter-http-transport==0.66b2
+#9 25.72  - opentelemetry-exporter-otlp==1.27.0
+#9 25.72  + opentelemetry-exporter-otlp==1.45.2
+#9 25.72  + opentelemetry-exporter-otlp-common==0.66b2
+#9 25.72  - opentelemetry-exporter-otlp-proto-common==1.27.0
+#9 25.72  + opentelemetry-exporter-otlp-proto-common==1.45.2
+#9 25.72  - opentelemetry-exporter-otlp-proto-grpc==1.27.0
+#9 25.72  + opentelemetry-exporter-otlp-proto-grpc==1.45.2
+#9 25.72  - opentelemetry-exporter-otlp-proto-http==1.27.0
+#9 25.72  + opentelemetry-exporter-otlp-proto-http==1.45.2
+#9 25.72  - opentelemetry-proto==1.27.0
+#9 25.72  + opentelemetry-proto==1.45.2
+#9 25.72  - opentelemetry-sdk==1.27.0
+#9 25.72  + opentelemetry-sdk==1.45.2
+#9 25.72  - opentelemetry-semantic-conventions==0.48b0
+#9 25.72  + opentelemetry-semantic-conventions==0.66b2
+#9 25.72  + orderly-set==5.5.0
+#9 25.72  + parsedatetime==2.6
+#9 25.72  - protobuf==4.25.8
+#9 25.72  + protobuf==6.33.6
+#9 25.72  + pytest==9.2.0
+#9 25.72  + pytest-timeout==2.4.0
+#9 25.72  - python-dotenv==1.1.1
+#9 25.72  + python-dotenv==1.2.4
+#9 25.72  + pytimeparse==1.1.10
+#9 25.72  + rapidfuzz==3.14.6
+#9 25.72  + snowplow-tracker==1.1.0
+#9 25.72  + sqlglot==30.33.0
+#9 25.72  - sqlparse==0.5.3
+#9 25.72  + sqlparse==0.6.1
+#9 DONE 25.9s
+
+#10 [ 6/13] RUN airflow db migrate >/dev/null 2>&1 || true
+#10 DONE 1.9s
+
+#11 [ 7/13] RUN uv python install 3.11
+#11 1.583 Downloading cpython-3.11.18-linux-x86_64-gnu (download) (29.4MiB)
+#11 17.21  Downloaded cpython-3.11.18-linux-x86_64-gnu (download)
+#11 17.21 Installed Python 3.11.18 in 17.03s
+#11 17.21  + cpython-3.11.18-linux-x86_64-gnu (python3.11)
+#11 17.21 warning: `/root/.local/bin` is not on your PATH. To use installed Python executables, add the directory to your PATH.
+#11 DONE 17.3s
+
+#12 [ 8/13] RUN pip freeze > /opt/runtime-packages.txt
+#12 DONE 0.5s
+
+#13 [ 9/13] RUN python -m venv /opt/verifier-venv &&     /opt/verifier-venv/bin/pip install --no-cache-dir PyYAML==6.0.4 packaging==26.3
+#13 3.304 Collecting PyYAML==6.0.4
+#13 4.249   Downloading pyyaml-6.0.4-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.3 kB)
+#13 4.783 Collecting packaging==26.3
+#13 5.016   Downloading packaging-26.3-py3-none-any.whl.metadata (3.5 kB)
+#13 5.270 Downloading pyyaml-6.0.4-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (849 kB)
+#13 6.848    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 849.2/849.2 kB 2.0 MB/s eta 0:00:00
+#13 7.087 Downloading packaging-26.3-py3-none-any.whl (129 kB)
+#13 7.618 Installing collected packages: PyYAML, packaging
+#13 7.704 Successfully installed PyYAML-6.0.4 packaging-26.3
+#13 9.188
+#13 9.188 [notice] A new release of pip is available: 25.0.1 -> 26.3
+#13 9.188 [notice] To update, run: python -m pip install --upgrade pip
+#13 DONE 9.2s
+
+#14 [10/13] WORKDIR /work
+#14 DONE 0.0s
+
+#15 [11/13] COPY workspace/ /work/
+#15 DONE 0.0s
+
+#16 [12/13] COPY bootstrap.py add-excludes.json /tmp/
+#16 DONE 0.0s
+
+#17 [13/13] RUN python /tmp/bootstrap.py && rm /tmp/bootstrap.py
+#17 DONE 0.2s
+
+#18 exporting to image
+#18 exporting layers
+#18 exporting layers 3.7s done
+#18 writing image sha256:a16864f4cca63b06ff09f25d78e97a8cb1c3f5c9de1d96e0075d4690d59e70ad done
+#18 naming to docker.io/library/de-bench-upgrade-runtime:5dcfc2b done
+#18 DONE 3.7s

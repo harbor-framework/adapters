@@ -1,0 +1,9 @@
+Python 3.12.16
+3.0.3
+v22.23.5
+uv 0.13.9 (x86_64-unknown-linux-gnu)
+snowflake-snowpark-python 1.33.0 has requirement protobuf<6,>=3.20, but you have protobuf 6.33.6.
+opentelemetry-exporter-prometheus 0.48b0 has requirement opentelemetry-sdk~=1.27.0, but you have opentelemetry-sdk 1.45.2.
+[2026-11-22T03:14:46.053+0000] {providers_manager.py:953} INFO - The hook_class 'airflow.providers.standard.hooks.filesystem.FSHook' is not fully initialized (UI widgets will be missing), because the 'flask_appbuilder' package is not installed, however it is not required for Airflow components to work
+[2026-11-22T03:14:46.054+0000] {providers_manager.py:953} INFO - The hook_class 'airflow.providers.standard.hooks.package_index.PackageIndexHook' is not fully initialized (UI widgets will be missing), because the 'flask_appbuilder' package is not installed, however it is not required for Airflow components to work
+[2026-11-22T03:14:46.088+0000] {db.py:1279} INFO - Connection successful.

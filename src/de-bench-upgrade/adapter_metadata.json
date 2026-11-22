@@ -1,0 +1,39 @@
+[
+  {
+    "adapter_name": "de-bench-upgrade",
+    "adapter_builders": [
+      "Billy1900 (billyrobertluo@gmail.com)"
+    ],
+    "original_benchmark": [
+      {
+        "split": "upgrade-v2",
+        "size": 62,
+        "harness": "agent",
+        "supported_agents": [
+          "codex@0.146.1",
+          "claude-code@2.1.224",
+          "pi@0.84.1",
+          "opencode@1.18.14"
+        ],
+        "adaptable": true,
+        "notes": "Pinned upstream; parity agent/model configuration has not been selected."
+      }
+    ],
+    "harbor_adapter": [
+      {
+        "split": "upgrade-v2",
+        "adapted_benchmark_size": 62,
+        "parity_benchmark_size": 0,
+        "parity_sampling_rate": 0,
+        "registry_benchmark_size": 0,
+        "added_agents": [
+          "None"
+        ],
+        "parity_matching_agents": [],
+        "parity_unmatching_agents": [],
+        "parity_costs": "$0",
+        "notes": "Oracle/scoring validation phase. No agent parity run or registry publication; empty matching lists mean unmeasured."
+      }
+    ]
+  }
+]

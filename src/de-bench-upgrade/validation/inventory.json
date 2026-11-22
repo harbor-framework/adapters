@@ -1,0 +1,2441 @@
+{
+  "compatible": 62,
+  "tasks": [
+    {
+      "boot_airflow": true,
+      "checks": [
+        {
+          "kind": "scoring_primitive",
+          "name": "astro_runtime_target_aligned"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "no_deprecated_imports"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "structural_match_taskids"
+        }
+      ],
+      "difficulty": "medium",
+      "exclusions": [],
+      "has_deletions": false,
+      "has_solution": true,
+      "history": [],
+      "live_env": false,
+      "protected": [],
+      "replay_dags": [],
+      "requirements": null,
+      "source": {
+        "airflow": "2.10",
+        "python": "3.11"
+      },
+      "start_airflow": null,
+      "status": "ready",
+      "target": {
+        "airflow": "3.1",
+        "python": "3.12"
+      },
+      "task_id": "task-upgrade-v2-13ee0f",
+      "workspace_sha": "a1ce5d3e63a5e5f707382ba93cac20c20a2d7574855f0b01edd6a4c1b69f751c"
+    },
+    {
+      "boot_airflow": true,
+      "checks": [
+        {
+          "kind": "scoring_primitive",
+          "name": "import_ok"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "triggers_outside_bundle"
+        }
+      ],
+      "difficulty": "medium",
+      "exclusions": [],
+      "has_deletions": false,
+      "has_solution": true,
+      "history": [],
+      "live_env": false,
+      "protected": [],
+      "replay_dags": [],
+      "requirements": null,
+      "source": {
+        "airflow": "2.10",
+        "python": "3.11"
+      },
+      "start_airflow": null,
+      "status": "ready",
+      "target": {
+        "airflow": "3.0",
+        "python": "3.12"
+      },
+      "task_id": "task-upgrade-v2-158cba",
+      "workspace_sha": "2e399e9413a2d7fa628a54c21bcd4efef826f5c41d09591368426412d0da0cf3"
+    },
+    {
+      "boot_airflow": true,
+      "checks": [
+        {
+          "kind": "scoring_primitive",
+          "name": "kpo_uses_type_annotations"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "loader_uses_load_yaml_dags"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "dag_factory_pin_uplifted"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "yaml_uses_schedule_not_schedule_interval"
+        }
+      ],
+      "difficulty": "medium",
+      "exclusions": [],
+      "has_deletions": false,
+      "has_solution": true,
+      "history": [],
+      "live_env": false,
+      "protected": [],
+      "replay_dags": [],
+      "requirements": "apache-airflow==2.10.4\napache-airflow-providers-cncf-kubernetes==8.4.2\ndag-factory==0.19.0\n",
+      "source": {
+        "airflow": "2.10",
+        "python": "3.11"
+      },
+      "start_airflow": null,
+      "status": "ready",
+      "target": {
+        "airflow": "3.0",
+        "python": "3.12"
+      },
+      "task_id": "task-upgrade-v2-1803ab",
+      "workspace_sha": "e4578ea08f8884310a1b0f946750e29393f9cb35154c9e9e38f2c1e7752288fc"
+    },
+    {
+      "boot_airflow": true,
+      "checks": [
+        {
+          "kind": "scoring_primitive",
+          "name": "dag_imports_bundle_safe"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "imports_clean_across_sibling_pkgs"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "triggers_outside_bundle"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "no_deprecated_imports"
+        }
+      ],
+      "difficulty": "medium",
+      "exclusions": [],
+      "has_deletions": false,
+      "has_solution": true,
+      "history": [],
+      "live_env": false,
+      "protected": [],
+      "replay_dags": [],
+      "requirements": "apache-airflow==2.10.5\n",
+      "source": {
+        "airflow": "2.10",
+        "python": "3.11"
+      },
+      "start_airflow": null,
+      "status": "ready",
+      "target": {
+        "airflow": "3.0",
+        "python": "3.12"
+      },
+      "task_id": "task-upgrade-v2-23f2a0",
+      "workspace_sha": "eddd3ff62e8c6ecdc977fc82567374de867be994f15877d7d04592e1db9a59fc"
+    },
+    {
+      "boot_airflow": true,
+      "checks": [
+        {
+          "kind": "scoring_primitive",
+          "name": "provider_compatibility_check"
+        }
+      ],
+      "difficulty": "medium",
+      "exclusions": [],
+      "has_deletions": false,
+      "has_solution": true,
+      "history": [],
+      "live_env": false,
+      "protected": [],
+      "replay_dags": [],
+      "requirements": "apache-airflow==2.8.4\napache-airflow-providers-snowflake==4.3.0\n",
+      "source": {
+        "airflow": "2.8",
+        "python": "3.11"
+      },
+      "start_airflow": null,
+      "status": "ready",
+      "target": null,
+      "task_id": "task-upgrade-v2-2c5f8a",
+      "workspace_sha": "ae7005ce889f08bd5c70a09857aa15c2a5c667d1ed63609d2f489339585eb521"
+    },
+    {
+      "boot_airflow": true,
+      "checks": [
+        {
+          "kind": "scoring_primitive",
+          "name": "xcom_pull_explicit_task_ids"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "structural_match_taskids"
+        }
+      ],
+      "difficulty": "hard",
+      "exclusions": [],
+      "has_deletions": false,
+      "has_solution": true,
+      "history": [],
+      "live_env": false,
+      "protected": [],
+      "replay_dags": [],
+      "requirements": null,
+      "source": {
+        "airflow": "2.10",
+        "python": "3.11"
+      },
+      "start_airflow": null,
+      "status": "ready",
+      "target": {
+        "airflow": "3.0",
+        "python": "3.12"
+      },
+      "task_id": "task-upgrade-v2-2e7d4c",
+      "workspace_sha": "26f73086301b90cfa642fc027a36d9368e7e0453bcf9c53750d3f4b5b648f7ab"
+    },
+    {
+      "boot_airflow": true,
+      "checks": [
+        {
+          "kind": "scoring_primitive",
+          "name": "provider_compatibility_check"
+        }
+      ],
+      "difficulty": "hard",
+      "exclusions": [],
+      "has_deletions": false,
+      "has_solution": true,
+      "history": [],
+      "live_env": false,
+      "protected": [],
+      "replay_dags": [],
+      "requirements": "apache-airflow==2.6.3\napache-airflow-providers-google==8.1.0\napache-airflow-providers-cncf-kubernetes==7.0.0\n",
+      "source": {
+        "airflow": "2.6",
+        "python": "3.10"
+      },
+      "start_airflow": null,
+      "status": "ready",
+      "target": {
+        "airflow": "3.2",
+        "python": "3.12"
+      },
+      "task_id": "task-upgrade-v2-3a7e9c",
+      "workspace_sha": "0c4f9d058ca8faa211d06368bd501e735f1721189a39c9de02c7256d9663dc01"
+    },
+    {
+      "boot_airflow": true,
+      "checks": [
+        {
+          "kind": "scoring_primitive",
+          "name": "no_deprecated_imports"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "no_deprecated_usage"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "structural_match_taskids"
+        }
+      ],
+      "difficulty": "trivial",
+      "exclusions": [],
+      "has_deletions": false,
+      "has_solution": true,
+      "history": [],
+      "live_env": false,
+      "protected": [],
+      "replay_dags": [],
+      "requirements": null,
+      "source": {
+        "airflow": "2.10",
+        "python": "3.11"
+      },
+      "start_airflow": null,
+      "status": "ready",
+      "target": {
+        "airflow": "3.0",
+        "python": "3.12"
+      },
+      "task_id": "task-upgrade-v2-3bc940",
+      "workspace_sha": "ece971b682b1bdc06ae94ca9a0a4bd1f630b89eaa11e5905a1a8c02d8ed6d0d6"
+    },
+    {
+      "boot_airflow": true,
+      "checks": [
+        {
+          "kind": "scoring_primitive",
+          "name": "provider_incompatibility_flagged"
+        }
+      ],
+      "difficulty": "trivial",
+      "exclusions": [],
+      "has_deletions": false,
+      "has_solution": true,
+      "history": [],
+      "live_env": false,
+      "protected": [],
+      "replay_dags": [],
+      "requirements": "apache-airflow==3.0.0\napache-airflow-providers-cncf-kubernetes==10.16.0\n",
+      "source": {
+        "airflow": "3.0",
+        "python": "3.12"
+      },
+      "start_airflow": null,
+      "status": "ready",
+      "target": null,
+      "task_id": "task-upgrade-v2-3c8b7f",
+      "workspace_sha": "0130faa10e8c6105218eeb025fd8a8f45d66b35fd61b64ac3b5eeab7e8265bde"
+    },
+    {
+      "boot_airflow": true,
+      "checks": [
+        {
+          "kind": "scoring_primitive",
+          "name": "provider_compatibility_check"
+        }
+      ],
+      "difficulty": "trivial",
+      "exclusions": [],
+      "has_deletions": false,
+      "has_solution": true,
+      "history": [],
+      "live_env": false,
+      "protected": [],
+      "replay_dags": [],
+      "requirements": "apache-airflow==2.11.0\napache-airflow-providers-snowflake==5.0.0\n",
+      "source": {
+        "airflow": "2.11",
+        "python": "3.11"
+      },
+      "start_airflow": null,
+      "status": "ready",
+      "target": null,
+      "task_id": "task-upgrade-v2-4a7d3e",
+      "workspace_sha": "92354b2e1aaf00f0a6f964258c6ac39cbc9853e2425925ce799ca2a0bd8d7737"
+    },
+    {
+      "boot_airflow": true,
+      "checks": [
+        {
+          "kind": "scoring_primitive",
+          "name": "no_deprecated_imports"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "no_deprecated_usage"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "structural_match_taskids"
+        }
+      ],
+      "difficulty": "trivial",
+      "exclusions": [],
+      "has_deletions": false,
+      "has_solution": true,
+      "history": [],
+      "live_env": false,
+      "protected": [],
+      "replay_dags": [],
+      "requirements": null,
+      "source": {
+        "airflow": "2.10",
+        "python": "3.11"
+      },
+      "start_airflow": null,
+      "status": "ready",
+      "target": {
+        "airflow": "3.0",
+        "python": "3.12"
+      },
+      "task_id": "task-upgrade-v2-4bd90e",
+      "workspace_sha": "90b13be9165a4880e4d5158b2b41e01e6bb123e833a0431849be6de184d68fe7"
+    },
+    {
+      "boot_airflow": true,
+      "checks": [
+        {
+          "kind": "scoring_primitive",
+          "name": "no_deprecated_imports"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "no_deprecated_context_vars"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "no_deprecated_usage"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "no_removed_ti_attrs"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "structural_match_taskids"
+        }
+      ],
+      "difficulty": "medium",
+      "exclusions": [],
+      "has_deletions": false,
+      "has_solution": true,
+      "history": [],
+      "live_env": false,
+      "protected": [],
+      "replay_dags": [],
+      "requirements": null,
+      "source": {
+        "airflow": "2.10",
+        "python": "3.11"
+      },
+      "start_airflow": null,
+      "status": "ready",
+      "target": {
+        "airflow": "3.0",
+        "python": "3.12"
+      },
+      "task_id": "task-upgrade-v2-5aad12",
+      "workspace_sha": "0ed9408a66eaff95f2961e50a6345971ecb68e7420a4305c14bfe777711d5e95"
+    },
+    {
+      "boot_airflow": true,
+      "checks": [
+        {
+          "kind": "scoring_primitive",
+          "name": "astro_runtime_target_aligned"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "no_deprecated_imports"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "structural_match_taskids"
+        }
+      ],
+      "difficulty": "medium",
+      "exclusions": [],
+      "has_deletions": false,
+      "has_solution": true,
+      "history": [],
+      "live_env": false,
+      "protected": [],
+      "replay_dags": [],
+      "requirements": null,
+      "source": {
+        "airflow": "2.10",
+        "python": "3.11"
+      },
+      "start_airflow": null,
+      "status": "ready",
+      "target": {
+        "airflow": "3.1",
+        "python": "3.12"
+      },
+      "task_id": "task-upgrade-v2-5b1d9e",
+      "workspace_sha": "91a1c19caa2ee1ccdff28ba81133d80aa0fa4a134988a220a684fa2edbdc93ab"
+    },
+    {
+      "boot_airflow": true,
+      "checks": [
+        {
+          "kind": "scoring_primitive",
+          "name": "stepping_stone_path_match"
+        }
+      ],
+      "difficulty": "easy",
+      "exclusions": [],
+      "has_deletions": false,
+      "has_solution": true,
+      "history": [],
+      "live_env": false,
+      "protected": [],
+      "replay_dags": [],
+      "requirements": "apache-airflow==2.8.0\n",
+      "source": {
+        "airflow": "2.8",
+        "python": "3.11"
+      },
+      "start_airflow": null,
+      "status": "ready",
+      "target": {
+        "airflow": "2.11",
+        "python": "3.11"
+      },
+      "task_id": "task-upgrade-v2-5d1a92",
+      "workspace_sha": "597d937341b78456c2ceac8a3f216d50925e817f870e00969c030aae54ddb9c2"
+    },
+    {
+      "boot_airflow": true,
+      "checks": [
+        {
+          "kind": "scoring_primitive",
+          "name": "tz_aware_start_date"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "structural_match_taskids"
+        }
+      ],
+      "difficulty": "trivial",
+      "exclusions": [],
+      "has_deletions": false,
+      "has_solution": true,
+      "history": [],
+      "live_env": false,
+      "protected": [],
+      "replay_dags": [],
+      "requirements": null,
+      "source": {
+        "airflow": "2.10",
+        "python": "3.11"
+      },
+      "start_airflow": null,
+      "status": "ready",
+      "target": {
+        "airflow": "3.0",
+        "python": "3.12"
+      },
+      "task_id": "task-upgrade-v2-6ae13f",
+      "workspace_sha": "4629847f3bcea4b19f6c75bef29752c97ad3dd5c927e7cf75bb399ff6e5e29a5"
+    },
+    {
+      "boot_airflow": true,
+      "checks": [
+        {
+          "kind": "scoring_primitive",
+          "name": "stepping_stone_path_match"
+        }
+      ],
+      "difficulty": "trivial",
+      "exclusions": [],
+      "has_deletions": false,
+      "has_solution": true,
+      "history": [],
+      "live_env": false,
+      "protected": [],
+      "replay_dags": [],
+      "requirements": "apache-airflow==3.1.0\n",
+      "source": {
+        "airflow": "3.1",
+        "python": "3.12"
+      },
+      "start_airflow": null,
+      "status": "ready",
+      "target": {
+        "airflow": "3.2",
+        "python": "3.12"
+      },
+      "task_id": "task-upgrade-v2-6e4c8b",
+      "workspace_sha": "8c07f633cde31db110ab7b57b16e88dca1666737fab0498c56bae069c850d18a"
+    },
+    {
+      "boot_airflow": true,
+      "checks": [
+        {
+          "kind": "scoring_primitive",
+          "name": "provider_compatibility_check"
+        }
+      ],
+      "difficulty": "hard",
+      "exclusions": [],
+      "has_deletions": false,
+      "has_solution": true,
+      "history": [],
+      "live_env": false,
+      "protected": [],
+      "replay_dags": [],
+      "requirements": "apache-airflow==2.6.3\napache-airflow-providers-google==8.1.0\n",
+      "source": {
+        "airflow": "2.6",
+        "python": "3.10"
+      },
+      "start_airflow": null,
+      "status": "ready",
+      "target": {
+        "airflow": "3.2",
+        "python": "3.12"
+      },
+      "task_id": "task-upgrade-v2-6e9b1c",
+      "workspace_sha": "7183ffe7b2c7fc231b9918ff23a4aff856de98f4dc5e7ddc24f9e73f7434dd5d"
+    },
+    {
+      "boot_airflow": true,
+      "checks": [
+        {
+          "kind": "scoring_primitive",
+          "name": "render_config_explicit_load_mode"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "dbtdag_uses_projectconfig"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "dbtdag_uses_profileconfig"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "cosmos_imports_post_1_0"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "cosmos_pin_uplifted"
+        }
+      ],
+      "difficulty": "medium",
+      "exclusions": [],
+      "has_deletions": false,
+      "has_solution": true,
+      "history": [],
+      "live_env": false,
+      "protected": [],
+      "replay_dags": [],
+      "requirements": "apache-airflow==2.10.2\nastronomer-cosmos==0.7.0\n",
+      "source": {
+        "airflow": "2.10",
+        "python": "3.11"
+      },
+      "start_airflow": null,
+      "status": "ready",
+      "target": {
+        "airflow": "3.0",
+        "python": "3.12"
+      },
+      "task_id": "task-upgrade-v2-74e087",
+      "workspace_sha": "75e0bc8d7a8d574dc0074cbf3ba2edd7dcafcc75450bb0b5a09f83e9da8a2216"
+    },
+    {
+      "boot_airflow": true,
+      "checks": [
+        {
+          "kind": "scoring_primitive",
+          "name": "no_deprecated_imports"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "structural_match_taskids"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "stepping_stone_respected"
+        }
+      ],
+      "difficulty": "medium",
+      "exclusions": [],
+      "has_deletions": false,
+      "has_solution": true,
+      "history": [],
+      "live_env": false,
+      "protected": [],
+      "replay_dags": [],
+      "requirements": "apache-airflow==2.6.3\n",
+      "source": {
+        "airflow": "2.6",
+        "python": "3.9"
+      },
+      "start_airflow": null,
+      "status": "ready",
+      "target": {
+        "airflow": "3.0",
+        "python": "3.12"
+      },
+      "task_id": "task-upgrade-v2-7a8b9c",
+      "workspace_sha": "6b809b90bbdef36a95771294bac5236e2e4385131d95f9d2d06dd9ddba9a64e7"
+    },
+    {
+      "boot_airflow": true,
+      "checks": [
+        {
+          "kind": "scoring_primitive",
+          "name": "loader_uses_load_yaml_dags"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "yaml_uses_schedule_not_schedule_interval"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "dag_factory_pin_uplifted"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "dag_factory_providers_declared"
+        }
+      ],
+      "difficulty": "medium",
+      "exclusions": [],
+      "has_deletions": false,
+      "has_solution": true,
+      "history": [],
+      "live_env": false,
+      "protected": [],
+      "replay_dags": [],
+      "requirements": "apache-airflow==2.10.4\ndag-factory==0.19.0\n",
+      "source": {
+        "airflow": "2.10",
+        "python": "3.11"
+      },
+      "start_airflow": null,
+      "status": "ready",
+      "target": {
+        "airflow": "3.0",
+        "python": "3.12"
+      },
+      "task_id": "task-upgrade-v2-7b7c4f",
+      "workspace_sha": "9b4397567d159aad77881f8ed00c471ad098efb69e094bbdcf207bdadc64b1e2"
+    },
+    {
+      "boot_airflow": true,
+      "checks": [
+        {
+          "kind": "scoring_primitive",
+          "name": "stepping_stone_path_match"
+        }
+      ],
+      "difficulty": "hard",
+      "exclusions": [],
+      "has_deletions": false,
+      "has_solution": true,
+      "history": [],
+      "live_env": false,
+      "protected": [],
+      "replay_dags": [],
+      "requirements": "apache-airflow==2.5.3\n",
+      "source": {
+        "airflow": "2.5",
+        "python": "3.10"
+      },
+      "start_airflow": null,
+      "status": "ready",
+      "target": null,
+      "task_id": "task-upgrade-v2-7e251d",
+      "workspace_sha": "368e062f1dd915f74d9fb7f791db60f59441972ad43d195553da7e7812836bc3"
+    },
+    {
+      "boot_airflow": true,
+      "checks": [
+        {
+          "kind": "scoring_primitive",
+          "name": "no_deprecated_imports"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "no_deprecated_context_vars"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "no_orm_access"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "uses_task_sdk_ipc"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "structural_match_taskids"
+        }
+      ],
+      "difficulty": "hard",
+      "exclusions": [],
+      "has_deletions": false,
+      "has_solution": true,
+      "history": [],
+      "live_env": false,
+      "protected": [],
+      "replay_dags": [],
+      "requirements": null,
+      "source": {
+        "airflow": "2.10",
+        "python": "3.11"
+      },
+      "start_airflow": null,
+      "status": "ready",
+      "target": {
+        "airflow": "3.0",
+        "python": "3.12"
+      },
+      "task_id": "task-upgrade-v2-7ed192",
+      "workspace_sha": "594aae0b4eaad0a467fd9c7161c1193704a3dcfd3249fdb53733d25ae6b3a892"
+    },
+    {
+      "boot_airflow": true,
+      "checks": [
+        {
+          "kind": "scoring_primitive",
+          "name": "no_deprecated_imports"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "no_deprecated_usage"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "no_removed_ti_attrs"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "task_group_matches_oracle"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "structural_match_taskids"
+        }
+      ],
+      "difficulty": "medium",
+      "exclusions": [],
+      "has_deletions": false,
+      "has_solution": true,
+      "history": [],
+      "live_env": false,
+      "protected": [],
+      "replay_dags": [],
+      "requirements": null,
+      "source": {
+        "airflow": "2.10",
+        "python": "3.11"
+      },
+      "start_airflow": null,
+      "status": "ready",
+      "target": {
+        "airflow": "3.0",
+        "python": "3.12"
+      },
+      "task_id": "task-upgrade-v2-86b4f2",
+      "workspace_sha": "d2011ed6b03ae098237afda1a230da46891696f1a456574a7852148d6d07a6cc"
+    },
+    {
+      "boot_airflow": true,
+      "checks": [
+        {
+          "kind": "scoring_primitive",
+          "name": "no_deprecated_imports"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "structural_match_taskids"
+        }
+      ],
+      "difficulty": "trivial",
+      "exclusions": [],
+      "has_deletions": false,
+      "has_solution": true,
+      "history": [],
+      "live_env": false,
+      "protected": [],
+      "replay_dags": [],
+      "requirements": null,
+      "source": {
+        "airflow": "2.10",
+        "python": "3.11"
+      },
+      "start_airflow": null,
+      "status": "ready",
+      "target": {
+        "airflow": "3.0",
+        "python": "3.12"
+      },
+      "task_id": "task-upgrade-v2-8c2d51",
+      "workspace_sha": "d532df1c2dd2a026f8a15cbd6d652a9b0eb7b4f91464c6e768a89130592f7f78"
+    },
+    {
+      "boot_airflow": true,
+      "checks": [
+        {
+          "kind": "scoring_primitive",
+          "name": "provider_compatibility_check"
+        }
+      ],
+      "difficulty": "trivial",
+      "exclusions": [],
+      "has_deletions": false,
+      "has_solution": true,
+      "history": [],
+      "live_env": false,
+      "protected": [],
+      "replay_dags": [],
+      "requirements": "apache-airflow==2.7.3\napache-airflow-providers-cncf-kubernetes==10.0.0\n",
+      "source": {
+        "airflow": "2.7",
+        "python": "3.10"
+      },
+      "start_airflow": null,
+      "status": "ready",
+      "target": null,
+      "task_id": "task-upgrade-v2-8f2d5a",
+      "workspace_sha": "5cc369a7f2e496a3a4b09e40a3c4502b5cb0798de33fcf5474231a3212c1c2db"
+    },
+    {
+      "boot_airflow": true,
+      "checks": [
+        {
+          "kind": "scoring_primitive",
+          "name": "provider_incompatibility_flagged"
+        }
+      ],
+      "difficulty": "trivial",
+      "exclusions": [],
+      "has_deletions": false,
+      "has_solution": true,
+      "history": [],
+      "live_env": false,
+      "protected": [],
+      "replay_dags": [],
+      "requirements": "apache-airflow==3.0.0\napache-airflow-providers-snowflake==6.12.1\n",
+      "source": {
+        "airflow": "3.0",
+        "python": "3.12"
+      },
+      "start_airflow": null,
+      "status": "ready",
+      "target": null,
+      "task_id": "task-upgrade-v2-9a2fed",
+      "workspace_sha": "8c9e8025ebfd79370bd290a0b20ea48cac6dd784220e6b59235bce6b6a41ce53"
+    },
+    {
+      "boot_airflow": true,
+      "checks": [
+        {
+          "kind": "scoring_primitive",
+          "name": "import_ok"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "no_orm_access"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "uses_task_sdk_ipc"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "fixture_taskids_preserved_plus_count"
+        }
+      ],
+      "difficulty": "medium",
+      "exclusions": [],
+      "has_deletions": false,
+      "has_solution": true,
+      "history": [],
+      "live_env": false,
+      "protected": [],
+      "replay_dags": [],
+      "requirements": "apache-airflow==3.0.0\n",
+      "source": {
+        "airflow": "3.0",
+        "python": "3.12"
+      },
+      "start_airflow": null,
+      "status": "ready",
+      "target": null,
+      "task_id": "task-upgrade-v2-9c2a4d",
+      "workspace_sha": "f157f7904fd7abd060dbe5cfef43d5070ba91d0dc5c38b474526984440e64880"
+    },
+    {
+      "boot_airflow": true,
+      "checks": [
+        {
+          "kind": "scoring_primitive",
+          "name": "airflow_pin_target_aligned"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "baseoperator_from_sdk"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "operator_link_uses_af3_signature"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "imports_clean_across_sibling_pkgs"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "structural_match_taskids"
+        }
+      ],
+      "difficulty": "hard",
+      "exclusions": [],
+      "has_deletions": false,
+      "has_solution": true,
+      "history": [],
+      "live_env": false,
+      "protected": [],
+      "replay_dags": [],
+      "requirements": "apache-airflow==2.10.0\n",
+      "source": {
+        "airflow": "2.10",
+        "python": "3.11"
+      },
+      "start_airflow": null,
+      "status": "ready",
+      "target": {
+        "airflow": "3.0",
+        "python": "3.12"
+      },
+      "task_id": "task-upgrade-v2-9d4e1a",
+      "workspace_sha": "bd40c7cd028798308b7efa8515f3dc18234c1ca3d44101bf4c8f61d1ed983c51"
+    },
+    {
+      "boot_airflow": true,
+      "checks": [
+        {
+          "kind": "scoring_primitive",
+          "name": "python_drop_detected"
+        }
+      ],
+      "difficulty": "hard",
+      "exclusions": [],
+      "has_deletions": false,
+      "has_solution": true,
+      "history": [],
+      "live_env": false,
+      "protected": [],
+      "replay_dags": [],
+      "requirements": null,
+      "source": {
+        "airflow": "2.9",
+        "python": "3.11"
+      },
+      "start_airflow": null,
+      "status": "ready",
+      "target": {
+        "airflow": "3.2"
+      },
+      "task_id": "task-upgrade-v2-9e8d7c",
+      "workspace_sha": "9131822eb3350e90eb97d2f4043df30a6364e82c61b72a753c36f99234c1a705"
+    },
+    {
+      "boot_airflow": true,
+      "checks": [
+        {
+          "kind": "scoring_primitive",
+          "name": "no_deprecated_imports"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "no_deprecated_context_vars"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "structural_match_taskids"
+        }
+      ],
+      "difficulty": "trivial",
+      "exclusions": [],
+      "has_deletions": false,
+      "has_solution": true,
+      "history": [],
+      "live_env": false,
+      "protected": [],
+      "replay_dags": [],
+      "requirements": null,
+      "source": {
+        "airflow": "2.10",
+        "python": "3.11"
+      },
+      "start_airflow": null,
+      "status": "ready",
+      "target": {
+        "airflow": "3.0",
+        "python": "3.12"
+      },
+      "task_id": "task-upgrade-v2-a1b2c3",
+      "workspace_sha": "fced84e09dabf9fd4df282030b1ebc011ca31e3e9fba3c06f04b2571a70a1851"
+    },
+    {
+      "boot_airflow": true,
+      "checks": [
+        {
+          "kind": "scoring_primitive",
+          "name": "airflow_pin_target_aligned"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "no_deprecated_usage"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "structural_match_taskids"
+        }
+      ],
+      "difficulty": "trivial",
+      "exclusions": [],
+      "has_deletions": false,
+      "has_solution": true,
+      "history": [],
+      "live_env": false,
+      "protected": [],
+      "replay_dags": [],
+      "requirements": "apache-airflow==2.10.0\napache-airflow-providers-cncf-kubernetes==9.0.0\n",
+      "source": {
+        "airflow": "2.10",
+        "python": "3.11"
+      },
+      "start_airflow": null,
+      "status": "ready",
+      "target": {
+        "airflow": "2.10",
+        "python": "3.11"
+      },
+      "task_id": "task-upgrade-v2-a1d3f9",
+      "workspace_sha": "8654e01ae6c4f6655ec2cfd1fedeae209b12412fda66a3f93aaf88ea5df71d1b"
+    },
+    {
+      "boot_airflow": true,
+      "checks": [
+        {
+          "kind": "scoring_primitive",
+          "name": "uses_sql_execute_query_operator"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "no_deprecated_usage"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "no_deprecated_imports"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "structural_match_taskids"
+        }
+      ],
+      "difficulty": "medium",
+      "exclusions": [],
+      "has_deletions": false,
+      "has_solution": true,
+      "history": [],
+      "live_env": false,
+      "protected": [],
+      "replay_dags": [],
+      "requirements": "apache-airflow==2.10.0\napache-airflow-providers-snowflake==5.5.0\n",
+      "source": {
+        "airflow": "2.10",
+        "python": "3.11"
+      },
+      "start_airflow": null,
+      "status": "ready",
+      "target": {
+        "airflow": "3.0",
+        "python": "3.12"
+      },
+      "task_id": "task-upgrade-v2-a3ea1b",
+      "workspace_sha": "b5d87de3a95746a3af3108613f647890b5ae604317b5bcd3537d2a6d8f486347"
+    },
+    {
+      "boot_airflow": true,
+      "checks": [
+        {
+          "kind": "scoring_primitive",
+          "name": "import_ok"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "no_orm_access"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "uses_task_sdk_ipc"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "task_sdk_ipc_version_aware"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "fixture_taskids_preserved_plus_count"
+        }
+      ],
+      "difficulty": "hard",
+      "exclusions": [],
+      "has_deletions": false,
+      "has_solution": true,
+      "history": [],
+      "live_env": false,
+      "protected": [],
+      "replay_dags": [],
+      "requirements": "apache-airflow==3.0.0\n",
+      "source": {
+        "airflow": "3.0",
+        "python": "3.12"
+      },
+      "start_airflow": null,
+      "status": "ready",
+      "target": null,
+      "task_id": "task-upgrade-v2-ad4791",
+      "workspace_sha": "1ff13440836bc309a1f2363bf4dd4f76b146492c974e1da06158bd59de732d8c"
+    },
+    {
+      "boot_airflow": true,
+      "checks": [
+        {
+          "kind": "scoring_primitive",
+          "name": "dbt_local_operators_use_profileconfig"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "cosmos_imports_post_1_0"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "cosmos_pin_uplifted"
+        }
+      ],
+      "difficulty": "medium",
+      "exclusions": [],
+      "has_deletions": false,
+      "has_solution": true,
+      "history": [],
+      "live_env": false,
+      "protected": [],
+      "replay_dags": [],
+      "requirements": "apache-airflow==2.10.2\nastronomer-cosmos==0.7.5\n",
+      "source": {
+        "airflow": "2.10",
+        "python": "3.11"
+      },
+      "start_airflow": null,
+      "status": "ready",
+      "target": {
+        "airflow": "3.0",
+        "python": "3.12"
+      },
+      "task_id": "task-upgrade-v2-b16c01",
+      "workspace_sha": "e81307ba72733b318c86c4867fae6b1a2badc968b3188c87b0ad4121a7c3a3a3"
+    },
+    {
+      "boot_airflow": true,
+      "checks": [
+        {
+          "kind": "scoring_primitive",
+          "name": "timetable_uses_type_annotation"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "loader_uses_load_yaml_dags"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "sla_miss_callback_handled"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "dag_factory_pin_uplifted"
+        }
+      ],
+      "difficulty": "medium",
+      "exclusions": [],
+      "has_deletions": false,
+      "has_solution": true,
+      "history": [],
+      "live_env": false,
+      "protected": [],
+      "replay_dags": [],
+      "requirements": "apache-airflow==2.10.4\ndag-factory==0.20.0\n",
+      "source": {
+        "airflow": "2.10",
+        "python": "3.11"
+      },
+      "start_airflow": null,
+      "status": "ready",
+      "target": {
+        "airflow": "3.0",
+        "python": "3.12"
+      },
+      "task_id": "task-upgrade-v2-b3cbb4",
+      "workspace_sha": "cef625a412a0e9c089d05c401de42502db9422a870ea429372ae4e8e58cc0f35"
+    },
+    {
+      "boot_airflow": true,
+      "checks": [
+        {
+          "kind": "scoring_primitive",
+          "name": "airflow_pin_target_aligned"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "baseoperator_from_sdk"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "imports_clean_across_sibling_pkgs"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "structural_match_taskids"
+        }
+      ],
+      "difficulty": "hard",
+      "exclusions": [],
+      "has_deletions": false,
+      "has_solution": true,
+      "history": [],
+      "live_env": false,
+      "protected": [],
+      "replay_dags": [],
+      "requirements": "apache-airflow==2.10.0\n",
+      "source": {
+        "airflow": "2.10",
+        "python": "3.11"
+      },
+      "start_airflow": null,
+      "status": "ready",
+      "target": {
+        "airflow": "3.0",
+        "python": "3.12"
+      },
+      "task_id": "task-upgrade-v2-b6f2e1",
+      "workspace_sha": "f928589f8804285c6904cd9b21d91eedb35040b9cbed556853b4fc003156a0a9"
+    },
+    {
+      "boot_airflow": true,
+      "checks": [
+        {
+          "kind": "scoring_primitive",
+          "name": "no_deprecated_imports"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "no_deprecated_context_vars"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "siblings_no_deprecated_context_vars"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "imports_clean_across_sibling_pkgs"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "structural_match_taskids"
+        }
+      ],
+      "difficulty": "hard",
+      "exclusions": [],
+      "has_deletions": false,
+      "has_solution": true,
+      "history": [],
+      "live_env": false,
+      "protected": [],
+      "replay_dags": [],
+      "requirements": null,
+      "source": {
+        "airflow": "2.10",
+        "python": "3.11"
+      },
+      "start_airflow": null,
+      "status": "ready",
+      "target": {
+        "airflow": "3.0",
+        "python": "3.12"
+      },
+      "task_id": "task-upgrade-v2-bb36fa",
+      "workspace_sha": "f89f35ebcff11d5d99ea5f56d8fc32bb59606a88c5e91ac53fcab1475d9d854b"
+    },
+    {
+      "boot_airflow": true,
+      "checks": [
+        {
+          "kind": "scoring_primitive",
+          "name": "no_deprecated_imports"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "no_deprecated_context_vars"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "imports_clean_across_sibling_pkgs"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "siblings_no_deprecated_context_vars"
+        }
+      ],
+      "difficulty": "hard",
+      "exclusions": [],
+      "has_deletions": false,
+      "has_solution": true,
+      "history": [],
+      "live_env": false,
+      "protected": [],
+      "replay_dags": [],
+      "requirements": null,
+      "source": {
+        "airflow": "2.10",
+        "python": "3.11"
+      },
+      "start_airflow": null,
+      "status": "ready",
+      "target": {
+        "airflow": "3.0",
+        "python": "3.12"
+      },
+      "task_id": "task-upgrade-v2-be18e0",
+      "workspace_sha": "334fc4e4ceb614d07ca827badcb78ce7cf1f30cb75d44527b0c0c2a0f9cea9f1"
+    },
+    {
+      "boot_airflow": true,
+      "checks": [
+        {
+          "kind": "scoring_primitive",
+          "name": "detected_airflow_version_match"
+        }
+      ],
+      "difficulty": "trivial",
+      "exclusions": [],
+      "has_deletions": false,
+      "has_solution": true,
+      "history": [],
+      "live_env": false,
+      "protected": [],
+      "replay_dags": [],
+      "requirements": "apache-airflow==2.10.5\napache-airflow-providers-standard==0.3.0\n",
+      "source": {
+        "airflow": "2.10",
+        "python": "3.11"
+      },
+      "start_airflow": null,
+      "status": "ready",
+      "target": null,
+      "task_id": "task-upgrade-v2-c1d2e3",
+      "workspace_sha": "2b7b98f6b28947d1f020b80db72cdbe797180c289396a12be6a772ac3a5c62eb"
+    },
+    {
+      "boot_airflow": true,
+      "checks": [
+        {
+          "kind": "scoring_primitive",
+          "name": "postgreshook_uses_database_kwarg"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "no_deprecated_imports"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "structural_match_taskids"
+        }
+      ],
+      "difficulty": "medium",
+      "exclusions": [],
+      "has_deletions": false,
+      "has_solution": true,
+      "history": [],
+      "live_env": false,
+      "protected": [],
+      "replay_dags": [],
+      "requirements": "apache-airflow==2.10.0\napache-airflow-providers-postgres==5.13.0\n",
+      "source": {
+        "airflow": "2.10",
+        "python": "3.11"
+      },
+      "start_airflow": null,
+      "status": "ready",
+      "target": {
+        "airflow": "3.0",
+        "python": "3.12"
+      },
+      "task_id": "task-upgrade-v2-c31a39",
+      "workspace_sha": "549de7602ca6d31f48a8d2bf8791c70075430f8526b527066887b21de11100b3"
+    },
+    {
+      "boot_airflow": true,
+      "checks": [
+        {
+          "kind": "scoring_primitive",
+          "name": "airflow_pin_target_aligned"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "plugin_no_legacy_ui_attrs"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "structural_match_taskids"
+        }
+      ],
+      "difficulty": "hard",
+      "exclusions": [],
+      "has_deletions": false,
+      "has_solution": true,
+      "history": [],
+      "live_env": false,
+      "protected": [],
+      "replay_dags": [],
+      "requirements": "apache-airflow==2.10.0\nflask-appbuilder==4.4.1\n",
+      "source": {
+        "airflow": "2.10",
+        "python": "3.11"
+      },
+      "start_airflow": null,
+      "status": "ready",
+      "target": {
+        "airflow": "3.0",
+        "python": "3.12"
+      },
+      "task_id": "task-upgrade-v2-c8e2f5",
+      "workspace_sha": "17d612a178882b886807533d87da90a3a96121b3f40a754d2a2449bf864e6a01"
+    },
+    {
+      "boot_airflow": true,
+      "checks": [
+        {
+          "kind": "scoring_primitive",
+          "name": "compat_conflict_detected"
+        }
+      ],
+      "difficulty": "trivial",
+      "exclusions": [],
+      "has_deletions": false,
+      "has_solution": true,
+      "history": [],
+      "live_env": false,
+      "protected": [],
+      "replay_dags": [],
+      "requirements": "apache-airflow==2.10.0\napache-airflow-providers-google==19.0.0\napache-airflow-providers-common-ai==1.4.0\n",
+      "source": {
+        "airflow": "2.10",
+        "python": "3.11"
+      },
+      "start_airflow": null,
+      "status": "ready",
+      "target": null,
+      "task_id": "task-upgrade-v2-c8f2e3",
+      "workspace_sha": "44b826890745adf5e62dcbad9bba87c81f1289f5fbd62b18fe4f566048c40a54"
+    },
+    {
+      "boot_airflow": true,
+      "checks": [
+        {
+          "kind": "scoring_primitive",
+          "name": "no_deprecated_imports"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "no_deprecated_context_vars"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "no_deprecated_usage"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "no_orm_access"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "uses_task_sdk_ipc"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "structural_match_taskids"
+        }
+      ],
+      "difficulty": "hard",
+      "exclusions": [],
+      "has_deletions": false,
+      "has_solution": true,
+      "history": [],
+      "live_env": false,
+      "protected": [],
+      "replay_dags": [],
+      "requirements": null,
+      "source": {
+        "airflow": "2.10",
+        "python": "3.11"
+      },
+      "start_airflow": null,
+      "status": "ready",
+      "target": {
+        "airflow": "3.0",
+        "python": "3.12"
+      },
+      "task_id": "task-upgrade-v2-c91e72",
+      "workspace_sha": "fedabe828dee369fefd95caac7781acc663c99854514d5d7644c08a071a8cfaf"
+    },
+    {
+      "boot_airflow": true,
+      "checks": [
+        {
+          "kind": "scoring_primitive",
+          "name": "airflow_pin_target_aligned"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "cosmos_imports_post_1_0"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "dbtdag_uses_projectconfig"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "dbtdag_uses_profileconfig"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "dbtdag_no_pre_1_0_kwargs"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "dbt_local_operators_use_profileconfig"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "cosmos_pin_uplifted"
+        }
+      ],
+      "difficulty": "trivial",
+      "exclusions": [],
+      "has_deletions": false,
+      "has_solution": true,
+      "history": [],
+      "live_env": false,
+      "protected": [],
+      "replay_dags": [],
+      "requirements": "apache-airflow==2.5.0\nastronomer-cosmos==0.7.5\n",
+      "source": {
+        "airflow": "2.5",
+        "python": "3.10"
+      },
+      "start_airflow": null,
+      "status": "ready",
+      "target": {
+        "airflow": "2.5",
+        "python": "3.10"
+      },
+      "task_id": "task-upgrade-v2-cosme01",
+      "workspace_sha": "2ab5ee1ca09998bb8c8b00c6033963af52332b555e75dee47d128cc13f7eb2d1"
+    },
+    {
+      "boot_airflow": true,
+      "checks": [
+        {
+          "kind": "scoring_primitive",
+          "name": "airflow_pin_target_aligned"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "cosmos_imports_post_1_0"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "cosmos_pin_uplifted"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "render_config_explicit_load_mode"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "project_config_explicit_install_deps"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "downstream_uses_dataset_alias"
+        }
+      ],
+      "difficulty": "medium",
+      "exclusions": [],
+      "has_deletions": false,
+      "has_solution": true,
+      "history": [],
+      "live_env": false,
+      "protected": [],
+      "replay_dags": [],
+      "requirements": "apache-airflow==2.10.2\nastronomer-cosmos==1.6.0\n",
+      "source": {
+        "airflow": "2.10",
+        "python": "3.10"
+      },
+      "start_airflow": null,
+      "status": "ready",
+      "target": {
+        "airflow": "2.10",
+        "python": "3.10"
+      },
+      "task_id": "task-upgrade-v2-cosmm01",
+      "workspace_sha": "a96bc217fd5f67fc59080fef418f971ed1574953efc71ed925f56386c88a2dee"
+    },
+    {
+      "boot_airflow": true,
+      "checks": [
+        {
+          "kind": "scoring_primitive",
+          "name": "no_orm_access"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "uses_task_sdk_ipc"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "no_deprecated_imports"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "structural_match_taskids"
+        }
+      ],
+      "difficulty": "hard",
+      "exclusions": [],
+      "has_deletions": false,
+      "has_solution": true,
+      "history": [],
+      "live_env": false,
+      "protected": [],
+      "replay_dags": [],
+      "requirements": null,
+      "source": {
+        "airflow": "2.10",
+        "python": "3.11"
+      },
+      "start_airflow": null,
+      "status": "ready",
+      "target": {
+        "airflow": "3.0",
+        "python": "3.12"
+      },
+      "task_id": "task-upgrade-v2-d132d2",
+      "workspace_sha": "894d53a355331cbd260d2aad88fbfe0dd620e72e6c6e4927f001df6c83c5e72e"
+    },
+    {
+      "boot_airflow": true,
+      "checks": [
+        {
+          "kind": "scoring_primitive",
+          "name": "no_deprecated_imports"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "no_deprecated_usage"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "no_orm_access"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "uses_task_sdk_ipc"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "structural_match_taskids"
+        }
+      ],
+      "difficulty": "hard",
+      "exclusions": [],
+      "has_deletions": false,
+      "has_solution": true,
+      "history": [],
+      "live_env": false,
+      "protected": [],
+      "replay_dags": [],
+      "requirements": null,
+      "source": {
+        "airflow": "2.10",
+        "python": "3.11"
+      },
+      "start_airflow": null,
+      "status": "ready",
+      "target": {
+        "airflow": "3.0",
+        "python": "3.12"
+      },
+      "task_id": "task-upgrade-v2-d3f608",
+      "workspace_sha": "af1dfea41df230c52b53798a8ffdf4956c078fb3ffa14dd9e51f616a9f476bf6"
+    },
+    {
+      "boot_airflow": true,
+      "checks": [
+        {
+          "kind": "scoring_primitive",
+          "name": "schedule_interval_replaced"
+        }
+      ],
+      "difficulty": "trivial",
+      "exclusions": [],
+      "has_deletions": false,
+      "has_solution": true,
+      "history": [],
+      "live_env": false,
+      "protected": [],
+      "replay_dags": [],
+      "requirements": null,
+      "source": {
+        "airflow": "2.10",
+        "python": "3.11"
+      },
+      "start_airflow": null,
+      "status": "ready",
+      "target": {
+        "airflow": "3.0",
+        "python": "3.12"
+      },
+      "task_id": "task-upgrade-v2-d4e5f6",
+      "workspace_sha": "9b89cb83adb24a58a3fa580f237c5ac2511a714ea79ca26d4e694f21c1d2285f"
+    },
+    {
+      "boot_airflow": true,
+      "checks": [
+        {
+          "kind": "scoring_primitive",
+          "name": "airflow_pin_target_aligned"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "postgreshook_uses_database_kwarg"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "structural_match_taskids"
+        }
+      ],
+      "difficulty": "hard",
+      "exclusions": [],
+      "has_deletions": false,
+      "has_solution": true,
+      "history": [],
+      "live_env": false,
+      "protected": [],
+      "replay_dags": [],
+      "requirements": "apache-airflow==2.10.0\napache-airflow-providers-postgres==5.13.0\n",
+      "source": {
+        "airflow": "2.10",
+        "python": "3.11"
+      },
+      "start_airflow": null,
+      "status": "ready",
+      "target": {
+        "airflow": "2.10",
+        "python": "3.11"
+      },
+      "task_id": "task-upgrade-v2-d4f3a2",
+      "workspace_sha": "2e343ce408e91ccf1611a2b9f2d51393a90028a899a05ab8f16086000c731445"
+    },
+    {
+      "boot_airflow": true,
+      "checks": [
+        {
+          "kind": "scoring_primitive",
+          "name": "astro_runtime_target_aligned"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "schedule_interval_replaced"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "no_deprecated_context_vars"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "no_af3_only_imports"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "structural_match_taskids"
+        }
+      ],
+      "difficulty": "medium",
+      "exclusions": [],
+      "has_deletions": false,
+      "has_solution": true,
+      "history": [],
+      "live_env": false,
+      "protected": [],
+      "replay_dags": [],
+      "requirements": null,
+      "source": {
+        "airflow": "2.9",
+        "python": "3.11"
+      },
+      "start_airflow": null,
+      "status": "ready",
+      "target": {
+        "airflow": "2.11",
+        "python": "3.12"
+      },
+      "task_id": "task-upgrade-v2-d8e7f6",
+      "workspace_sha": "3a785b71e909c38a92c44a2602f1c063302f205526f299624ce662f6fb0ff08b"
+    },
+    {
+      "boot_airflow": true,
+      "checks": [
+        {
+          "kind": "scoring_primitive",
+          "name": "airflow_pin_target_aligned"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "sensor_uses_deferrable_mode"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "structural_match_taskids"
+        }
+      ],
+      "difficulty": "medium",
+      "exclusions": [],
+      "has_deletions": false,
+      "has_solution": true,
+      "history": [],
+      "live_env": false,
+      "protected": [],
+      "replay_dags": [],
+      "requirements": "apache-airflow==2.10.0\n",
+      "source": {
+        "airflow": "2.10",
+        "python": "3.11"
+      },
+      "start_airflow": null,
+      "status": "ready",
+      "target": {
+        "airflow": "3.0",
+        "python": "3.12"
+      },
+      "task_id": "task-upgrade-v2-d9e4f7",
+      "workspace_sha": "8ce1811d62f41db7f8564f3a09df9f4e98ab03724a13bc0d40aa9c8939f5fbe5"
+    },
+    {
+      "boot_airflow": true,
+      "checks": [
+        {
+          "kind": "scoring_primitive",
+          "name": "airflow_pin_target_aligned"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "loader_uses_load_yaml_dags"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "yaml_uses_schedule_not_schedule_interval"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "dag_factory_pin_uplifted"
+        }
+      ],
+      "difficulty": "easy",
+      "exclusions": [],
+      "has_deletions": false,
+      "has_solution": true,
+      "history": [],
+      "live_env": false,
+      "protected": [],
+      "replay_dags": [],
+      "requirements": "apache-airflow==3.1.5\ndag-factory==0.22.0\n",
+      "source": {
+        "airflow": "3.1",
+        "python": "3.11"
+      },
+      "start_airflow": null,
+      "status": "ready",
+      "target": {
+        "airflow": "3.1",
+        "python": "3.11"
+      },
+      "task_id": "task-upgrade-v2-dgfe01",
+      "workspace_sha": "5d835f210cd30af24dd5f7afc84f4ab75581f36d86803f17dc1e7fdf55384eb4"
+    },
+    {
+      "boot_airflow": true,
+      "checks": [
+        {
+          "kind": "scoring_primitive",
+          "name": "airflow_pin_target_aligned"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "loader_uses_load_yaml_dags"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "loader_kwarg_renames"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "loader_no_clean_dags"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "yaml_uses_schedule_not_schedule_interval"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "yaml_no_sec_shortcut_kwargs"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "yaml_timeouts_use_timedelta"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "yaml_logical_keys_consolidated"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "dag_factory_pin_uplifted"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "dag_factory_providers_declared"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "kpo_uses_type_annotations"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "timetable_uses_type_annotation"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "sla_miss_callback_handled"
+        }
+      ],
+      "difficulty": "hard",
+      "exclusions": [],
+      "has_deletions": false,
+      "has_solution": true,
+      "history": [],
+      "live_env": false,
+      "protected": [],
+      "replay_dags": [],
+      "requirements": "apache-airflow==3.1.5\ndag-factory==0.22.0\n",
+      "source": {
+        "airflow": "3.1",
+        "python": "3.11"
+      },
+      "start_airflow": null,
+      "status": "ready",
+      "target": {
+        "airflow": "3.1",
+        "python": "3.11"
+      },
+      "task_id": "task-upgrade-v2-dgfh01",
+      "workspace_sha": "6f0a9939e4d83820ddd4529ef3668da4824239c6c8847015a58665685f3d3e8e"
+    },
+    {
+      "boot_airflow": true,
+      "checks": [
+        {
+          "kind": "scoring_primitive",
+          "name": "airflow_pin_target_aligned"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "loader_uses_load_yaml_dags"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "loader_kwarg_renames"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "loader_no_clean_dags"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "yaml_uses_schedule_not_schedule_interval"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "yaml_no_sec_shortcut_kwargs"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "yaml_timeouts_use_timedelta"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "yaml_logical_keys_consolidated"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "dag_factory_pin_uplifted"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "dag_factory_providers_declared"
+        }
+      ],
+      "difficulty": "medium",
+      "exclusions": [],
+      "has_deletions": false,
+      "has_solution": true,
+      "history": [],
+      "live_env": false,
+      "protected": [],
+      "replay_dags": [],
+      "requirements": "apache-airflow==3.1.5\ndag-factory==0.22.0\n",
+      "source": {
+        "airflow": "3.1",
+        "python": "3.11"
+      },
+      "start_airflow": null,
+      "status": "ready",
+      "target": {
+        "airflow": "3.1",
+        "python": "3.11"
+      },
+      "task_id": "task-upgrade-v2-dgfm01",
+      "workspace_sha": "b1351cf24243d74bdd8c5c8de652b0e4d4ae6392c630e7cca355f71f2edb3bfa"
+    },
+    {
+      "boot_airflow": true,
+      "checks": [
+        {
+          "kind": "scoring_primitive",
+          "name": "no_deprecated_imports"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "no_deprecated_usage"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "no_deprecated_context_vars"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "structural_match_taskids"
+        }
+      ],
+      "difficulty": "hard",
+      "exclusions": [],
+      "has_deletions": false,
+      "has_solution": true,
+      "history": [],
+      "live_env": false,
+      "protected": [],
+      "replay_dags": [],
+      "requirements": null,
+      "source": {
+        "airflow": "2.10",
+        "python": "3.11"
+      },
+      "start_airflow": null,
+      "status": "ready",
+      "target": {
+        "airflow": "3.0",
+        "python": "3.12"
+      },
+      "task_id": "task-upgrade-v2-e1f374",
+      "workspace_sha": "753bc70410d73397b4377c1b38c8a90e2c14a38d659d77ba32784b386bdacb29"
+    },
+    {
+      "boot_airflow": true,
+      "checks": [
+        {
+          "kind": "scoring_primitive",
+          "name": "no_deprecated_imports"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "schedule_interval_replaced"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "no_deprecated_context_vars"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "structural_match_taskids"
+        }
+      ],
+      "difficulty": "medium",
+      "exclusions": [],
+      "has_deletions": false,
+      "has_solution": true,
+      "history": [],
+      "live_env": false,
+      "protected": [],
+      "replay_dags": [],
+      "requirements": null,
+      "source": {
+        "airflow": "2.11",
+        "python": "3.11"
+      },
+      "start_airflow": null,
+      "status": "ready",
+      "target": {
+        "airflow": "3.2",
+        "python": "3.12"
+      },
+      "task_id": "task-upgrade-v2-e691fb",
+      "workspace_sha": "ca9103bbb3669dc1abbdbd7e67e16e3b7d0f5d6aacc8b0d9d719b2a5e071bc57"
+    },
+    {
+      "boot_airflow": true,
+      "checks": [
+        {
+          "kind": "scoring_primitive",
+          "name": "astro_runtime_target_aligned"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "no_deprecated_imports"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "no_deprecated_usage"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "no_deprecated_context_vars"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "schedule_interval_replaced"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "structural_match_taskids"
+        }
+      ],
+      "difficulty": "hard",
+      "exclusions": [],
+      "has_deletions": false,
+      "has_solution": true,
+      "history": [],
+      "live_env": false,
+      "protected": [],
+      "replay_dags": [],
+      "requirements": "apache-airflow-providers-google==10.0.0\napache-airflow-providers-cncf-kubernetes==6.1.0\napache-airflow-providers-postgres==5.6.0\ndill>=0.3.6\npandas>=2.0.0\n",
+      "source": {
+        "airflow": "2.7",
+        "python": "3.11"
+      },
+      "start_airflow": null,
+      "status": "ready",
+      "target": {
+        "airflow": "3.1",
+        "python": "3.12"
+      },
+      "task_id": "task-upgrade-v2-e9c7b1",
+      "workspace_sha": "d3c660333a2bfa6818ba410695cb7982876e266ead80b55cb4678b6ed278ce26"
+    },
+    {
+      "boot_airflow": true,
+      "checks": [
+        {
+          "kind": "scoring_primitive",
+          "name": "dbtdag_uses_projectconfig"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "dbtdag_uses_profileconfig"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "dbtdag_no_pre_1_0_kwargs"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "cosmos_imports_post_1_0"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "cosmos_pin_uplifted"
+        }
+      ],
+      "difficulty": "medium",
+      "exclusions": [],
+      "has_deletions": false,
+      "has_solution": true,
+      "history": [],
+      "live_env": false,
+      "protected": [],
+      "replay_dags": [],
+      "requirements": "apache-airflow==2.10.2\nastronomer-cosmos==0.9.5\n",
+      "source": {
+        "airflow": "2.10",
+        "python": "3.11"
+      },
+      "start_airflow": null,
+      "status": "ready",
+      "target": {
+        "airflow": "3.0",
+        "python": "3.12"
+      },
+      "task_id": "task-upgrade-v2-ef8d00",
+      "workspace_sha": "6aaade768b85c70506166c2070daba8a35a6b3d7222c723c9a381a5e66dd7fa0"
+    },
+    {
+      "boot_airflow": true,
+      "checks": [
+        {
+          "kind": "scoring_primitive",
+          "name": "stepping_stone_path_match"
+        }
+      ],
+      "difficulty": "medium",
+      "exclusions": [],
+      "has_deletions": false,
+      "has_solution": true,
+      "history": [],
+      "live_env": false,
+      "protected": [],
+      "replay_dags": [],
+      "requirements": "apache-airflow==2.6.3\n",
+      "source": {
+        "airflow": "2.6",
+        "python": "3.9"
+      },
+      "start_airflow": null,
+      "status": "ready",
+      "target": null,
+      "task_id": "task-upgrade-v2-f1a2b3",
+      "workspace_sha": "157436452dc46cc69be919f57defd3a8972eb4130f565b8be84913b1dcb127f6"
+    },
+    {
+      "boot_airflow": true,
+      "checks": [
+        {
+          "kind": "scoring_primitive",
+          "name": "airflow_pin_target_aligned"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "no_deprecated_usage"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "structural_match_taskids"
+        }
+      ],
+      "difficulty": "medium",
+      "exclusions": [],
+      "has_deletions": false,
+      "has_solution": true,
+      "history": [],
+      "live_env": false,
+      "protected": [],
+      "replay_dags": [],
+      "requirements": "apache-airflow==2.10.0\napache-airflow-providers-snowflake==5.0.0\n",
+      "source": {
+        "airflow": "2.10",
+        "python": "3.11"
+      },
+      "start_airflow": null,
+      "status": "ready",
+      "target": {
+        "airflow": "2.10",
+        "python": "3.11"
+      },
+      "task_id": "task-upgrade-v2-fe8a73",
+      "workspace_sha": "e0ea73a54b4d90b36514483a2b5bfbe507a185d02bcc042dd0bf0e4176847ab1"
+    },
+    {
+      "boot_airflow": true,
+      "checks": [
+        {
+          "kind": "scoring_primitive",
+          "name": "airflow_pin_target_aligned"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "no_deprecated_usage"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "structural_match_taskids"
+        }
+      ],
+      "difficulty": "medium",
+      "exclusions": [],
+      "has_deletions": false,
+      "has_solution": true,
+      "history": [],
+      "live_env": false,
+      "protected": [],
+      "replay_dags": [],
+      "requirements": "apache-airflow==2.10.0\n",
+      "source": {
+        "airflow": "2.10",
+        "python": "3.11"
+      },
+      "start_airflow": null,
+      "status": "ready",
+      "target": {
+        "airflow": "3.0",
+        "python": "3.12"
+      },
+      "task_id": "task-upgrade-v2-s5l4a3",
+      "workspace_sha": "ea452b06fe0988dae3218aa7026d30e45884aced5127768986aa2aef217f5552"
+    },
+    {
+      "boot_airflow": true,
+      "checks": [
+        {
+          "kind": "scoring_primitive",
+          "name": "airflow_pin_target_aligned"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "uses_sql_execute_query_operator"
+        },
+        {
+          "kind": "scoring_primitive",
+          "name": "structural_match_taskids"
+        }
+      ],
+      "difficulty": "hard",
+      "exclusions": [],
+      "has_deletions": false,
+      "has_solution": true,
+      "history": [],
+      "live_env": false,
+      "protected": [],
+      "replay_dags": [],
+      "requirements": "apache-airflow==2.10.0\napache-airflow-providers-snowflake==5.5.0\napache-airflow-providers-postgres==5.13.0\n",
+      "source": {
+        "airflow": "2.10",
+        "python": "3.11"
+      },
+      "start_airflow": null,
+      "status": "ready",
+      "target": {
+        "airflow": "3.0",
+        "python": "3.12"
+      },
+      "task_id": "task-upgrade-v2-sql01",
+      "workspace_sha": "4b125d0de63e880cb2089fb06b6619822a5bb6c6d577e47b201cfc1c51ab41ee"
+    }
+  ],
+  "total": 62,
+  "upstream_commit": "5dcfc2b81b13dcf58cff49e192e97f1ae05f8dbc"
+}

@@ -1,0 +1,22 @@
+Python 3.12.16
+3.0.3
+Core:
+  - installed: 1.12.7
+
+  The latest version of dbt-core could not be determined!
+  Make sure that the following URL is accessible:
+  https://pypi.org/pypi/dbt-core/json
+
+Plugins:
+  - duckdb: 1.11.1 - Could not determine latest version
+
+
+[0m03:24:00  dbt v2 is available, and is the default for new installations. This is dbt Core v1.
+          New project - install v2: https://docs.getdbt.com/docs/local/install-dbt?utm_source=dbt-cli
+          Existing v1 project - upgrade guide: https://docs.getdbt.com/docs/dbt-versions/dbt-upgrade/upgrading-to-v2?utm_source=dbt-cli
+v22.23.5
+uv 0.13.9 (x86_64-unknown-linux-gnu)
+No broken requirements found.
+[2026-11-22T03:24:01.920+0000] {providers_manager.py:953} INFO - The hook_class 'airflow.providers.standard.hooks.filesystem.FSHook' is not fully initialized (UI widgets will be missing), because the 'flask_appbuilder' package is not installed, however it is not required for Airflow components to work
+[2026-11-22T03:24:01.920+0000] {providers_manager.py:953} INFO - The hook_class 'airflow.providers.standard.hooks.package_index.PackageIndexHook' is not fully initialized (UI widgets will be missing), because the 'flask_appbuilder' package is not installed, however it is not required for Airflow components to work
+[2026-11-22T03:24:01.954+0000] {db.py:1279} INFO - Connection successful.

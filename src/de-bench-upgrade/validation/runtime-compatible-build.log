@@ -1,0 +1,187 @@
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 3.30kB done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/python:3.12-slim-bookworm@sha256:935c3c5b12357a7e10caa9c1e6ca5692344d97cf229832ef584be2cec9fc03df
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [ 1/14] FROM docker.io/library/python:3.12-slim-bookworm@sha256:935c3c5b12357a7e10caa9c1e6ca5692344d97cf229832ef584be2cec9fc03df
+#4 DONE 0.0s
+
+#5 [ 2/14] RUN apt-get update && apt-get install -y --no-install-recommends     git curl ca-certificates ripgrep procps psmisc unzip sqlite3 file iproute2 jq     && curl -fsSL https://deb.nodesource.com/setup_22.x | bash -     && apt-get install -y nodejs && rm -rf /var/lib/apt/lists/*
+#5 CACHED
+
+#6 [ 3/14] RUN pip install --no-cache-dir apache-airflow==3.0.3     apache-airflow-providers-standard apache-airflow-providers-amazon     apache-airflow-providers-cncf-kubernetes apache-airflow-providers-common-sql     apache-airflow-providers-google apache-airflow-providers-http     apache-airflow-providers-postgres apache-airflow-providers-snowflake     --constraint https://raw.githubusercontent.com/apache/airflow/constraints-3.0.3/constraints-3.12.txt
+#6 CACHED
+
+#7 [ 4/14] RUN pip install --no-cache-dir uv==0.13.9
+#7 CACHED
+
+#8 [internal] load build context
+#8 transferring context: 575B done
+#8 DONE 0.0s
+
+#9 [ 5/14] RUN uv pip install --system --no-cache apache-airflow==3.0.3     apache-airflow-providers-standard apache-airflow-providers-amazon     apache-airflow-providers-cncf-kubernetes apache-airflow-providers-common-sql     apache-airflow-providers-google apache-airflow-providers-http     apache-airflow-providers-postgres apache-airflow-providers-snowflake     pytest pytest-timeout 'duckdb>=1.1' 'dbt-duckdb>=1.8' 'dbt-core>=1.8,<2'     'dag-factory>=0.22' astronomer-cosmos==1.15.0 airflow-blueprint==0.4.0     snowflake-snowpark-python opentelemetry-exporter-prometheus
+#9 0.159 Using Python 3.12.16 environment at: /usr/local
+#9 5.848 Resolved 329 packages in 5.68s
+#9 5.868    Building dbt-core-experimental-parser==2.0.11
+#9 5.922 Downloading openlineage-sql (2.9MiB)
+#9 5.923 Downloading networkx (2.0MiB)
+#9 5.928 Downloading duckdb (23.8MiB)
+#9 5.929 Downloading snowflake-connector-python (2.9MiB)
+#9 5.930 Downloading snowflake-snowpark-python (1.9MiB)
+#9 5.930 Downloading dbt-core (1.1MiB)
+#9 5.930 Downloading rapidfuzz (3.0MiB)
+#9 5.935 Downloading babel (9.7MiB)
+#9 5.957 Downloading cryptography (4.5MiB)
+#9 6.133  Downloaded dbt-core
+#9 6.193  Downloaded snowflake-snowpark-python
+#9 6.219  Downloaded networkx
+#9 6.293  Downloaded cryptography
+#9 6.303  Downloaded openlineage-sql
+#9 6.318  Downloaded snowflake-connector-python
+#9 6.337  Downloaded rapidfuzz
+#9 6.493  Downloaded babel
+#9 6.663  Downloaded duckdb
+#9 21.84       Built dbt-core-experimental-parser==2.0.11
+#9 22.08 Prepared 58 packages in 16.23s
+#9 22.43 Uninstalled 21 packages in 345ms
+#9 22.46 Installed 58 packages in 29ms
+#9 22.46  + aenum==3.1.17
+#9 22.46  + agate==1.9.1
+#9 22.46  + airflow-blueprint==0.4.0
+#9 22.46  + astronomer-cosmos==1.15.0
+#9 22.46  + babel==2.18.0
+#9 22.46  - certifi==2025.7.9
+#9 22.46  + certifi==2026.11.20
+#9 22.46  - cffi==1.17.1
+#9 22.46  + cffi==2.1.1
+#9 22.46  - click==8.2.1
+#9 22.46  + click==8.5.1
+#9 22.46  + colorama==0.4.6
+#9 22.46  - cryptography==42.0.8
+#9 22.46  + cryptography==50.0.2
+#9 22.46  + daff==1.4.2
+#9 22.46  + dag-factory==1.1.0
+#9 22.46  + dbt-adapters==1.24.6
+#9 22.46  + dbt-common==1.39.0
+#9 22.46  + dbt-core==1.12.7
+#9 22.46  + dbt-core-experimental-parser==2.0.11
+#9 22.46  + dbt-duckdb==1.11.1
+#9 22.46  + dbt-extractor==0.6.0
+#9 22.46  + dbt-protos==1.0.615
+#9 22.46  + deepdiff==8.6.2
+#9 22.46  + deprecation==2.1.0
+#9 22.46  + duckdb==2.0.1
+#9 22.46  - gcloud-aio-auth==5.4.2
+#9 22.46  + gcloud-aio-auth==5.6.1
+#9 22.46  + iniconfig==2.3.1
+#9 22.46  + isodate==0.7.2
+#9 22.46  + leather==0.4.1
+#9 22.46  + mashumaro==3.17
+#9 22.46  + metricflow==0.214.0
+#9 22.46  + networkx==3.7
+#9 22.46  + openlineage-integration-common==1.55.0
+#9 22.46  + openlineage-python==1.52.0
+#9 22.46  + openlineage-sql==1.55.0
+#9 22.46  - opentelemetry-api==1.27.0
+#9 22.46  + opentelemetry-api==1.45.2
+#9 22.46  + opentelemetry-exporter-http-transport==0.66b2
+#9 22.46  - opentelemetry-exporter-otlp==1.27.0
+#9 22.46  + opentelemetry-exporter-otlp==1.45.2
+#9 22.46  + opentelemetry-exporter-otlp-common==0.66b2
+#9 22.46  - opentelemetry-exporter-otlp-proto-common==1.27.0
+#9 22.46  + opentelemetry-exporter-otlp-proto-common==1.45.2
+#9 22.46  - opentelemetry-exporter-otlp-proto-grpc==1.27.0
+#9 22.46  + opentelemetry-exporter-otlp-proto-grpc==1.45.2
+#9 22.46  - opentelemetry-exporter-otlp-proto-http==1.27.0
+#9 22.46  + opentelemetry-exporter-otlp-proto-http==1.45.2
+#9 22.46  - opentelemetry-exporter-prometheus==0.48b0
+#9 22.46  + opentelemetry-exporter-prometheus==0.66b2
+#9 22.46  - opentelemetry-proto==1.27.0
+#9 22.46  + opentelemetry-proto==1.45.2
+#9 22.46  - opentelemetry-sdk==1.27.0
+#9 22.46  + opentelemetry-sdk==1.45.2
+#9 22.46  - opentelemetry-semantic-conventions==0.48b0
+#9 22.46  + opentelemetry-semantic-conventions==0.66b2
+#9 22.46  + orderly-set==5.5.0
+#9 22.46  + parsedatetime==2.6
+#9 22.46  - protobuf==4.25.8
+#9 22.46  + protobuf==6.33.6
+#9 22.46  - pyopenssl==25.1.0
+#9 22.46  + pyopenssl==26.4.0
+#9 22.46  + pytest==9.2.0
+#9 22.46  + pytest-timeout==2.4.0
+#9 22.46  - python-dotenv==1.1.1
+#9 22.46  + python-dotenv==1.2.4
+#9 22.46  + pytimeparse==1.1.10
+#9 22.46  + rapidfuzz==3.14.6
+#9 22.46  - snowflake-connector-python==3.16.0
+#9 22.46  + snowflake-connector-python==4.8.1
+#9 22.46  - snowflake-snowpark-python==1.33.0
+#9 22.46  + snowflake-snowpark-python==1.58.0
+#9 22.46  - snowflake-sqlalchemy==1.7.6
+#9 22.46  + snowflake-sqlalchemy==1.11.1
+#9 22.46  + snowplow-tracker==1.1.0
+#9 22.46  + sqlglot==30.33.0
+#9 22.46  - sqlparse==0.5.3
+#9 22.46  + sqlparse==0.6.1
+#9 DONE 22.7s
+
+#10 [ 6/14] RUN python -m pip check
+#10 0.600 No broken requirements found.
+#10 DONE 0.6s
+
+#11 [ 7/14] RUN airflow db migrate >/dev/null 2>&1
+#11 DONE 1.9s
+
+#12 [ 8/14] RUN uv python install 3.11
+#12 2.152 Downloading cpython-3.11.18-linux-x86_64-gnu (download) (29.4MiB)
+#12 13.96  Downloaded cpython-3.11.18-linux-x86_64-gnu (download)
+#12 13.96 Installed Python 3.11.18 in 13.79s
+#12 13.96  + cpython-3.11.18-linux-x86_64-gnu (python3.11)
+#12 13.96 warning: `/root/.local/bin` is not on your PATH. To use installed Python executables, add the directory to your PATH.
+#12 DONE 14.0s
+
+#13 [ 9/14] RUN pip freeze > /opt/runtime-packages.txt
+#13 DONE 0.5s
+
+#14 [10/14] RUN python -m venv /opt/verifier-venv &&     /opt/verifier-venv/bin/pip install --no-cache-dir PyYAML==6.0.4 packaging==26.3
+#14 3.095 Collecting PyYAML==6.0.4
+#14 4.029   Downloading pyyaml-6.0.4-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.3 kB)
+#14 4.578 Collecting packaging==26.3
+#14 4.811   Downloading packaging-26.3-py3-none-any.whl.metadata (3.5 kB)
+#14 5.060 Downloading pyyaml-6.0.4-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (849 kB)
+#14 6.764    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 849.2/849.2 kB 898.1 kB/s eta 0:00:00
+#14 6.997 Downloading packaging-26.3-py3-none-any.whl (129 kB)
+#14 7.328 Installing collected packages: PyYAML, packaging
+#14 7.412 Successfully installed PyYAML-6.0.4 packaging-26.3
+#14 8.910
+#14 8.910 [notice] A new release of pip is available: 25.0.1 -> 26.3
+#14 8.910 [notice] To update, run: python -m pip install --upgrade pip
+#14 DONE 9.0s
+
+#15 [11/14] WORKDIR /work
+#15 DONE 0.0s
+
+#16 [12/14] COPY workspace/ /work/
+#16 DONE 0.0s
+
+#17 [13/14] COPY bootstrap.py add-excludes.json /tmp/
+#17 DONE 0.0s
+
+#18 [14/14] RUN python /tmp/bootstrap.py && rm /tmp/bootstrap.py
+#18 DONE 0.2s
+
+#19 exporting to image
+#19 exporting layers
+#19 exporting layers 0.7s done
+#19 writing image sha256:3e47e3d0ad5da56660285108b2b2c6ce752723e8ca613a2c85bc64a54716ea98 done
+#19 naming to docker.io/library/de-bench-upgrade-runtime-final:5dcfc2b done
+#19 DONE 0.7s

@@ -1,0 +1,20 @@
+[project]
+name = "harbor-de-bench-upgrade-adapter"
+version = "0.1.0"
+description = "Pinned de-bench upgrade-v2 adapter; scoring validation phase"
+readme = "README.md"
+authors = [
+    { name = "Billy1900", email = "billyrobertluo@gmail.com" }
+]
+requires-python = ">=3.12"
+dependencies = ["PyYAML==6.0.4", "packaging==26.3"]
+
+[project.scripts]
+de-bench-upgrade = "de_bench_upgrade.main:main"
+
+[build-system]
+requires = ["uv_build>=0.13.9,<0.14.0"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "de_bench_upgrade"

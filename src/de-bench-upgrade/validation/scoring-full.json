@@ -1,0 +1,5439 @@
+{
+  "upstream_commit": "5dcfc2b81b13dcf58cff49e192e97f1ae05f8dbc",
+  "kind": "local-scoring-comparison-not-agent-parity",
+  "comparisons": 248,
+  "rows": [
+    {
+      "task_id": "task-upgrade-v2-13ee0f",
+      "state": "untouched",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:astro_runtime_target_aligned": null,
+        "scoring_primitive:no_deprecated_imports": null,
+        "scoring_primitive:structural_match_taskids": null
+      },
+      "harbor_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:astro_runtime_target_aligned": null,
+        "scoring_primitive:no_deprecated_imports": null,
+        "scoring_primitive:structural_match_taskids": null
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-13ee0f",
+      "state": "baseline",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:astro_runtime_target_aligned": false,
+        "scoring_primitive:no_deprecated_imports": false,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:astro_runtime_target_aligned": false,
+        "scoring_primitive:no_deprecated_imports": false,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-13ee0f",
+      "state": "oracle",
+      "original_pass": true,
+      "harbor_wrapper_pass": true,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:astro_runtime_target_aligned": true,
+        "scoring_primitive:no_deprecated_imports": true,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:astro_runtime_target_aligned": true,
+        "scoring_primitive:no_deprecated_imports": true,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-13ee0f",
+      "state": "broken",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:astro_runtime_target_aligned": false,
+        "scoring_primitive:no_deprecated_imports": false,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:astro_runtime_target_aligned": false,
+        "scoring_primitive:no_deprecated_imports": false,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-158cba",
+      "state": "untouched",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:import_ok": null,
+        "scoring_primitive:triggers_outside_bundle": null
+      },
+      "harbor_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:import_ok": null,
+        "scoring_primitive:triggers_outside_bundle": null
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-158cba",
+      "state": "baseline",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:import_ok": true,
+        "scoring_primitive:triggers_outside_bundle": false
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:import_ok": true,
+        "scoring_primitive:triggers_outside_bundle": false
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-158cba",
+      "state": "oracle",
+      "original_pass": true,
+      "harbor_wrapper_pass": true,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:import_ok": true,
+        "scoring_primitive:triggers_outside_bundle": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:import_ok": true,
+        "scoring_primitive:triggers_outside_bundle": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-158cba",
+      "state": "broken",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:import_ok": true,
+        "scoring_primitive:triggers_outside_bundle": false
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:import_ok": true,
+        "scoring_primitive:triggers_outside_bundle": false
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-1803ab",
+      "state": "untouched",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:kpo_uses_type_annotations": null,
+        "scoring_primitive:loader_uses_load_yaml_dags": null,
+        "scoring_primitive:dag_factory_pin_uplifted": null,
+        "scoring_primitive:yaml_uses_schedule_not_schedule_interval": null
+      },
+      "harbor_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:kpo_uses_type_annotations": null,
+        "scoring_primitive:loader_uses_load_yaml_dags": null,
+        "scoring_primitive:dag_factory_pin_uplifted": null,
+        "scoring_primitive:yaml_uses_schedule_not_schedule_interval": null
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-1803ab",
+      "state": "baseline",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:kpo_uses_type_annotations": false,
+        "scoring_primitive:loader_uses_load_yaml_dags": false,
+        "scoring_primitive:dag_factory_pin_uplifted": false,
+        "scoring_primitive:yaml_uses_schedule_not_schedule_interval": false
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:kpo_uses_type_annotations": false,
+        "scoring_primitive:loader_uses_load_yaml_dags": false,
+        "scoring_primitive:dag_factory_pin_uplifted": false,
+        "scoring_primitive:yaml_uses_schedule_not_schedule_interval": false
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-1803ab",
+      "state": "oracle",
+      "original_pass": true,
+      "harbor_wrapper_pass": true,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:kpo_uses_type_annotations": true,
+        "scoring_primitive:loader_uses_load_yaml_dags": true,
+        "scoring_primitive:dag_factory_pin_uplifted": true,
+        "scoring_primitive:yaml_uses_schedule_not_schedule_interval": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:kpo_uses_type_annotations": true,
+        "scoring_primitive:loader_uses_load_yaml_dags": true,
+        "scoring_primitive:dag_factory_pin_uplifted": true,
+        "scoring_primitive:yaml_uses_schedule_not_schedule_interval": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-1803ab",
+      "state": "broken",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:kpo_uses_type_annotations": false,
+        "scoring_primitive:loader_uses_load_yaml_dags": false,
+        "scoring_primitive:dag_factory_pin_uplifted": false,
+        "scoring_primitive:yaml_uses_schedule_not_schedule_interval": false
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:kpo_uses_type_annotations": false,
+        "scoring_primitive:loader_uses_load_yaml_dags": false,
+        "scoring_primitive:dag_factory_pin_uplifted": false,
+        "scoring_primitive:yaml_uses_schedule_not_schedule_interval": false
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-23f2a0",
+      "state": "untouched",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:dag_imports_bundle_safe": null,
+        "scoring_primitive:imports_clean_across_sibling_pkgs": null,
+        "scoring_primitive:triggers_outside_bundle": null,
+        "scoring_primitive:no_deprecated_imports": null
+      },
+      "harbor_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:dag_imports_bundle_safe": null,
+        "scoring_primitive:imports_clean_across_sibling_pkgs": null,
+        "scoring_primitive:triggers_outside_bundle": null,
+        "scoring_primitive:no_deprecated_imports": null
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-23f2a0",
+      "state": "baseline",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:dag_imports_bundle_safe": false,
+        "scoring_primitive:imports_clean_across_sibling_pkgs": false,
+        "scoring_primitive:triggers_outside_bundle": false,
+        "scoring_primitive:no_deprecated_imports": false
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:dag_imports_bundle_safe": false,
+        "scoring_primitive:imports_clean_across_sibling_pkgs": false,
+        "scoring_primitive:triggers_outside_bundle": false,
+        "scoring_primitive:no_deprecated_imports": false
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-23f2a0",
+      "state": "oracle",
+      "original_pass": true,
+      "harbor_wrapper_pass": true,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:dag_imports_bundle_safe": true,
+        "scoring_primitive:imports_clean_across_sibling_pkgs": true,
+        "scoring_primitive:triggers_outside_bundle": true,
+        "scoring_primitive:no_deprecated_imports": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:dag_imports_bundle_safe": true,
+        "scoring_primitive:imports_clean_across_sibling_pkgs": true,
+        "scoring_primitive:triggers_outside_bundle": true,
+        "scoring_primitive:no_deprecated_imports": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-23f2a0",
+      "state": "broken",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:dag_imports_bundle_safe": false,
+        "scoring_primitive:imports_clean_across_sibling_pkgs": false,
+        "scoring_primitive:triggers_outside_bundle": false,
+        "scoring_primitive:no_deprecated_imports": false
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:dag_imports_bundle_safe": false,
+        "scoring_primitive:imports_clean_across_sibling_pkgs": false,
+        "scoring_primitive:triggers_outside_bundle": false,
+        "scoring_primitive:no_deprecated_imports": false
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-2c5f8a",
+      "state": "untouched",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:provider_compatibility_check": null
+      },
+      "harbor_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:provider_compatibility_check": null
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-2c5f8a",
+      "state": "baseline",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:provider_compatibility_check": false
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:provider_compatibility_check": false
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-2c5f8a",
+      "state": "oracle",
+      "original_pass": true,
+      "harbor_wrapper_pass": true,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:provider_compatibility_check": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:provider_compatibility_check": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-2c5f8a",
+      "state": "broken",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:provider_compatibility_check": false
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:provider_compatibility_check": false
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-2e7d4c",
+      "state": "untouched",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:xcom_pull_explicit_task_ids": null,
+        "scoring_primitive:structural_match_taskids": null
+      },
+      "harbor_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:xcom_pull_explicit_task_ids": null,
+        "scoring_primitive:structural_match_taskids": null
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-2e7d4c",
+      "state": "baseline",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:xcom_pull_explicit_task_ids": false,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:xcom_pull_explicit_task_ids": false,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-2e7d4c",
+      "state": "oracle",
+      "original_pass": true,
+      "harbor_wrapper_pass": true,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:xcom_pull_explicit_task_ids": true,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:xcom_pull_explicit_task_ids": true,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-2e7d4c",
+      "state": "broken",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:xcom_pull_explicit_task_ids": false,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:xcom_pull_explicit_task_ids": false,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-3a7e9c",
+      "state": "untouched",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:provider_compatibility_check": null
+      },
+      "harbor_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:provider_compatibility_check": null
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-3a7e9c",
+      "state": "baseline",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:provider_compatibility_check": false
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:provider_compatibility_check": false
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-3a7e9c",
+      "state": "oracle",
+      "original_pass": true,
+      "harbor_wrapper_pass": true,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:provider_compatibility_check": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:provider_compatibility_check": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-3a7e9c",
+      "state": "broken",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:provider_compatibility_check": false
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:provider_compatibility_check": false
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-3bc940",
+      "state": "untouched",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": null,
+        "scoring_primitive:no_deprecated_usage": null,
+        "scoring_primitive:structural_match_taskids": null
+      },
+      "harbor_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": null,
+        "scoring_primitive:no_deprecated_usage": null,
+        "scoring_primitive:structural_match_taskids": null
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-3bc940",
+      "state": "baseline",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": false,
+        "scoring_primitive:no_deprecated_usage": false,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": false,
+        "scoring_primitive:no_deprecated_usage": false,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-3bc940",
+      "state": "oracle",
+      "original_pass": true,
+      "harbor_wrapper_pass": true,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": true,
+        "scoring_primitive:no_deprecated_usage": true,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": true,
+        "scoring_primitive:no_deprecated_usage": true,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-3bc940",
+      "state": "broken",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": false,
+        "scoring_primitive:no_deprecated_usage": false,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": false,
+        "scoring_primitive:no_deprecated_usage": false,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-3c8b7f",
+      "state": "untouched",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:provider_incompatibility_flagged": null
+      },
+      "harbor_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:provider_incompatibility_flagged": null
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-3c8b7f",
+      "state": "baseline",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:provider_incompatibility_flagged": false
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:provider_incompatibility_flagged": false
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-3c8b7f",
+      "state": "oracle",
+      "original_pass": true,
+      "harbor_wrapper_pass": true,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:provider_incompatibility_flagged": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:provider_incompatibility_flagged": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-3c8b7f",
+      "state": "broken",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:provider_incompatibility_flagged": false
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:provider_incompatibility_flagged": false
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-4a7d3e",
+      "state": "untouched",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:provider_compatibility_check": null
+      },
+      "harbor_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:provider_compatibility_check": null
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-4a7d3e",
+      "state": "baseline",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:provider_compatibility_check": false
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:provider_compatibility_check": false
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-4a7d3e",
+      "state": "oracle",
+      "original_pass": true,
+      "harbor_wrapper_pass": true,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:provider_compatibility_check": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:provider_compatibility_check": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-4a7d3e",
+      "state": "broken",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:provider_compatibility_check": false
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:provider_compatibility_check": false
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-4bd90e",
+      "state": "untouched",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": null,
+        "scoring_primitive:no_deprecated_usage": null,
+        "scoring_primitive:structural_match_taskids": null
+      },
+      "harbor_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": null,
+        "scoring_primitive:no_deprecated_usage": null,
+        "scoring_primitive:structural_match_taskids": null
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-4bd90e",
+      "state": "baseline",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": true,
+        "scoring_primitive:no_deprecated_usage": false,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": true,
+        "scoring_primitive:no_deprecated_usage": false,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-4bd90e",
+      "state": "oracle",
+      "original_pass": true,
+      "harbor_wrapper_pass": true,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": true,
+        "scoring_primitive:no_deprecated_usage": true,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": true,
+        "scoring_primitive:no_deprecated_usage": true,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-4bd90e",
+      "state": "broken",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": true,
+        "scoring_primitive:no_deprecated_usage": false,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": true,
+        "scoring_primitive:no_deprecated_usage": false,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-5aad12",
+      "state": "untouched",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": null,
+        "scoring_primitive:no_deprecated_context_vars": null,
+        "scoring_primitive:no_deprecated_usage": null,
+        "scoring_primitive:no_removed_ti_attrs": null,
+        "scoring_primitive:structural_match_taskids": null
+      },
+      "harbor_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": null,
+        "scoring_primitive:no_deprecated_context_vars": null,
+        "scoring_primitive:no_deprecated_usage": null,
+        "scoring_primitive:no_removed_ti_attrs": null,
+        "scoring_primitive:structural_match_taskids": null
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-5aad12",
+      "state": "baseline",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": false,
+        "scoring_primitive:no_deprecated_context_vars": false,
+        "scoring_primitive:no_deprecated_usage": false,
+        "scoring_primitive:no_removed_ti_attrs": false,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": false,
+        "scoring_primitive:no_deprecated_context_vars": false,
+        "scoring_primitive:no_deprecated_usage": false,
+        "scoring_primitive:no_removed_ti_attrs": false,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-5aad12",
+      "state": "oracle",
+      "original_pass": true,
+      "harbor_wrapper_pass": true,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": true,
+        "scoring_primitive:no_deprecated_context_vars": true,
+        "scoring_primitive:no_deprecated_usage": true,
+        "scoring_primitive:no_removed_ti_attrs": true,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": true,
+        "scoring_primitive:no_deprecated_context_vars": true,
+        "scoring_primitive:no_deprecated_usage": true,
+        "scoring_primitive:no_removed_ti_attrs": true,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-5aad12",
+      "state": "broken",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": false,
+        "scoring_primitive:no_deprecated_context_vars": false,
+        "scoring_primitive:no_deprecated_usage": false,
+        "scoring_primitive:no_removed_ti_attrs": false,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": false,
+        "scoring_primitive:no_deprecated_context_vars": false,
+        "scoring_primitive:no_deprecated_usage": false,
+        "scoring_primitive:no_removed_ti_attrs": false,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-5b1d9e",
+      "state": "untouched",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:astro_runtime_target_aligned": null,
+        "scoring_primitive:no_deprecated_imports": null,
+        "scoring_primitive:structural_match_taskids": null
+      },
+      "harbor_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:astro_runtime_target_aligned": null,
+        "scoring_primitive:no_deprecated_imports": null,
+        "scoring_primitive:structural_match_taskids": null
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-5b1d9e",
+      "state": "baseline",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:astro_runtime_target_aligned": false,
+        "scoring_primitive:no_deprecated_imports": false,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:astro_runtime_target_aligned": false,
+        "scoring_primitive:no_deprecated_imports": false,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-5b1d9e",
+      "state": "oracle",
+      "original_pass": true,
+      "harbor_wrapper_pass": true,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:astro_runtime_target_aligned": true,
+        "scoring_primitive:no_deprecated_imports": true,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:astro_runtime_target_aligned": true,
+        "scoring_primitive:no_deprecated_imports": true,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-5b1d9e",
+      "state": "broken",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:astro_runtime_target_aligned": false,
+        "scoring_primitive:no_deprecated_imports": false,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:astro_runtime_target_aligned": false,
+        "scoring_primitive:no_deprecated_imports": false,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-5d1a92",
+      "state": "untouched",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:stepping_stone_path_match": null
+      },
+      "harbor_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:stepping_stone_path_match": null
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-5d1a92",
+      "state": "baseline",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:stepping_stone_path_match": false
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:stepping_stone_path_match": false
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-5d1a92",
+      "state": "oracle",
+      "original_pass": true,
+      "harbor_wrapper_pass": true,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:stepping_stone_path_match": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:stepping_stone_path_match": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-5d1a92",
+      "state": "broken",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:stepping_stone_path_match": false
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:stepping_stone_path_match": false
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-6ae13f",
+      "state": "untouched",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:tz_aware_start_date": null,
+        "scoring_primitive:structural_match_taskids": null
+      },
+      "harbor_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:tz_aware_start_date": null,
+        "scoring_primitive:structural_match_taskids": null
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-6ae13f",
+      "state": "baseline",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:tz_aware_start_date": false,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:tz_aware_start_date": false,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-6ae13f",
+      "state": "oracle",
+      "original_pass": true,
+      "harbor_wrapper_pass": true,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:tz_aware_start_date": true,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:tz_aware_start_date": true,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-6ae13f",
+      "state": "broken",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:tz_aware_start_date": false,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:tz_aware_start_date": false,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-6e4c8b",
+      "state": "untouched",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:stepping_stone_path_match": null
+      },
+      "harbor_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:stepping_stone_path_match": null
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-6e4c8b",
+      "state": "baseline",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:stepping_stone_path_match": false
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:stepping_stone_path_match": false
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-6e4c8b",
+      "state": "oracle",
+      "original_pass": true,
+      "harbor_wrapper_pass": true,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:stepping_stone_path_match": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:stepping_stone_path_match": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-6e4c8b",
+      "state": "broken",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:stepping_stone_path_match": false
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:stepping_stone_path_match": false
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-6e9b1c",
+      "state": "untouched",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:provider_compatibility_check": null
+      },
+      "harbor_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:provider_compatibility_check": null
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-6e9b1c",
+      "state": "baseline",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:provider_compatibility_check": false
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:provider_compatibility_check": false
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-6e9b1c",
+      "state": "oracle",
+      "original_pass": true,
+      "harbor_wrapper_pass": true,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:provider_compatibility_check": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:provider_compatibility_check": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-6e9b1c",
+      "state": "broken",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:provider_compatibility_check": false
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:provider_compatibility_check": false
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-74e087",
+      "state": "untouched",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:render_config_explicit_load_mode": null,
+        "scoring_primitive:dbtdag_uses_projectconfig": null,
+        "scoring_primitive:dbtdag_uses_profileconfig": null,
+        "scoring_primitive:cosmos_imports_post_1_0": null,
+        "scoring_primitive:cosmos_pin_uplifted": null
+      },
+      "harbor_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:render_config_explicit_load_mode": null,
+        "scoring_primitive:dbtdag_uses_projectconfig": null,
+        "scoring_primitive:dbtdag_uses_profileconfig": null,
+        "scoring_primitive:cosmos_imports_post_1_0": null,
+        "scoring_primitive:cosmos_pin_uplifted": null
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-74e087",
+      "state": "baseline",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:render_config_explicit_load_mode": false,
+        "scoring_primitive:dbtdag_uses_projectconfig": false,
+        "scoring_primitive:dbtdag_uses_profileconfig": false,
+        "scoring_primitive:cosmos_imports_post_1_0": false,
+        "scoring_primitive:cosmos_pin_uplifted": false
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:render_config_explicit_load_mode": false,
+        "scoring_primitive:dbtdag_uses_projectconfig": false,
+        "scoring_primitive:dbtdag_uses_profileconfig": false,
+        "scoring_primitive:cosmos_imports_post_1_0": false,
+        "scoring_primitive:cosmos_pin_uplifted": false
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-74e087",
+      "state": "oracle",
+      "original_pass": true,
+      "harbor_wrapper_pass": true,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:render_config_explicit_load_mode": true,
+        "scoring_primitive:dbtdag_uses_projectconfig": true,
+        "scoring_primitive:dbtdag_uses_profileconfig": true,
+        "scoring_primitive:cosmos_imports_post_1_0": true,
+        "scoring_primitive:cosmos_pin_uplifted": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:render_config_explicit_load_mode": true,
+        "scoring_primitive:dbtdag_uses_projectconfig": true,
+        "scoring_primitive:dbtdag_uses_profileconfig": true,
+        "scoring_primitive:cosmos_imports_post_1_0": true,
+        "scoring_primitive:cosmos_pin_uplifted": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-74e087",
+      "state": "broken",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:render_config_explicit_load_mode": false,
+        "scoring_primitive:dbtdag_uses_projectconfig": false,
+        "scoring_primitive:dbtdag_uses_profileconfig": false,
+        "scoring_primitive:cosmos_imports_post_1_0": false,
+        "scoring_primitive:cosmos_pin_uplifted": false
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:render_config_explicit_load_mode": false,
+        "scoring_primitive:dbtdag_uses_projectconfig": false,
+        "scoring_primitive:dbtdag_uses_profileconfig": false,
+        "scoring_primitive:cosmos_imports_post_1_0": false,
+        "scoring_primitive:cosmos_pin_uplifted": false
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-7a8b9c",
+      "state": "untouched",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": null,
+        "scoring_primitive:structural_match_taskids": null,
+        "scoring_primitive:stepping_stone_respected": null
+      },
+      "harbor_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": null,
+        "scoring_primitive:structural_match_taskids": null,
+        "scoring_primitive:stepping_stone_respected": null
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-7a8b9c",
+      "state": "baseline",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": false,
+        "scoring_primitive:structural_match_taskids": true,
+        "scoring_primitive:stepping_stone_respected": false
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": false,
+        "scoring_primitive:structural_match_taskids": true,
+        "scoring_primitive:stepping_stone_respected": false
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-7a8b9c",
+      "state": "oracle",
+      "original_pass": true,
+      "harbor_wrapper_pass": true,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": true,
+        "scoring_primitive:structural_match_taskids": true,
+        "scoring_primitive:stepping_stone_respected": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": true,
+        "scoring_primitive:structural_match_taskids": true,
+        "scoring_primitive:stepping_stone_respected": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-7a8b9c",
+      "state": "broken",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": false,
+        "scoring_primitive:structural_match_taskids": true,
+        "scoring_primitive:stepping_stone_respected": false
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": false,
+        "scoring_primitive:structural_match_taskids": true,
+        "scoring_primitive:stepping_stone_respected": false
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-7b7c4f",
+      "state": "untouched",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:loader_uses_load_yaml_dags": null,
+        "scoring_primitive:yaml_uses_schedule_not_schedule_interval": null,
+        "scoring_primitive:dag_factory_pin_uplifted": null,
+        "scoring_primitive:dag_factory_providers_declared": null
+      },
+      "harbor_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:loader_uses_load_yaml_dags": null,
+        "scoring_primitive:yaml_uses_schedule_not_schedule_interval": null,
+        "scoring_primitive:dag_factory_pin_uplifted": null,
+        "scoring_primitive:dag_factory_providers_declared": null
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-7b7c4f",
+      "state": "baseline",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:loader_uses_load_yaml_dags": false,
+        "scoring_primitive:yaml_uses_schedule_not_schedule_interval": false,
+        "scoring_primitive:dag_factory_pin_uplifted": false,
+        "scoring_primitive:dag_factory_providers_declared": false
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:loader_uses_load_yaml_dags": false,
+        "scoring_primitive:yaml_uses_schedule_not_schedule_interval": false,
+        "scoring_primitive:dag_factory_pin_uplifted": false,
+        "scoring_primitive:dag_factory_providers_declared": false
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-7b7c4f",
+      "state": "oracle",
+      "original_pass": true,
+      "harbor_wrapper_pass": true,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:loader_uses_load_yaml_dags": true,
+        "scoring_primitive:yaml_uses_schedule_not_schedule_interval": true,
+        "scoring_primitive:dag_factory_pin_uplifted": true,
+        "scoring_primitive:dag_factory_providers_declared": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:loader_uses_load_yaml_dags": true,
+        "scoring_primitive:yaml_uses_schedule_not_schedule_interval": true,
+        "scoring_primitive:dag_factory_pin_uplifted": true,
+        "scoring_primitive:dag_factory_providers_declared": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-7b7c4f",
+      "state": "broken",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:loader_uses_load_yaml_dags": false,
+        "scoring_primitive:yaml_uses_schedule_not_schedule_interval": false,
+        "scoring_primitive:dag_factory_pin_uplifted": false,
+        "scoring_primitive:dag_factory_providers_declared": false
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:loader_uses_load_yaml_dags": false,
+        "scoring_primitive:yaml_uses_schedule_not_schedule_interval": false,
+        "scoring_primitive:dag_factory_pin_uplifted": false,
+        "scoring_primitive:dag_factory_providers_declared": false
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-7e251d",
+      "state": "untouched",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:stepping_stone_path_match": null
+      },
+      "harbor_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:stepping_stone_path_match": null
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-7e251d",
+      "state": "baseline",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:stepping_stone_path_match": false
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:stepping_stone_path_match": false
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-7e251d",
+      "state": "oracle",
+      "original_pass": true,
+      "harbor_wrapper_pass": true,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:stepping_stone_path_match": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:stepping_stone_path_match": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-7e251d",
+      "state": "broken",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:stepping_stone_path_match": false
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:stepping_stone_path_match": false
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-7ed192",
+      "state": "untouched",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": null,
+        "scoring_primitive:no_deprecated_context_vars": null,
+        "scoring_primitive:no_orm_access": null,
+        "scoring_primitive:uses_task_sdk_ipc": null,
+        "scoring_primitive:structural_match_taskids": null
+      },
+      "harbor_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": null,
+        "scoring_primitive:no_deprecated_context_vars": null,
+        "scoring_primitive:no_orm_access": null,
+        "scoring_primitive:uses_task_sdk_ipc": null,
+        "scoring_primitive:structural_match_taskids": null
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-7ed192",
+      "state": "baseline",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": false,
+        "scoring_primitive:no_deprecated_context_vars": false,
+        "scoring_primitive:no_orm_access": false,
+        "scoring_primitive:uses_task_sdk_ipc": false,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": false,
+        "scoring_primitive:no_deprecated_context_vars": false,
+        "scoring_primitive:no_orm_access": false,
+        "scoring_primitive:uses_task_sdk_ipc": false,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-7ed192",
+      "state": "oracle",
+      "original_pass": true,
+      "harbor_wrapper_pass": true,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": true,
+        "scoring_primitive:no_deprecated_context_vars": true,
+        "scoring_primitive:no_orm_access": true,
+        "scoring_primitive:uses_task_sdk_ipc": true,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": true,
+        "scoring_primitive:no_deprecated_context_vars": true,
+        "scoring_primitive:no_orm_access": true,
+        "scoring_primitive:uses_task_sdk_ipc": true,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-7ed192",
+      "state": "broken",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": false,
+        "scoring_primitive:no_deprecated_context_vars": false,
+        "scoring_primitive:no_orm_access": false,
+        "scoring_primitive:uses_task_sdk_ipc": false,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": false,
+        "scoring_primitive:no_deprecated_context_vars": false,
+        "scoring_primitive:no_orm_access": false,
+        "scoring_primitive:uses_task_sdk_ipc": false,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-86b4f2",
+      "state": "untouched",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": null,
+        "scoring_primitive:no_deprecated_usage": null,
+        "scoring_primitive:no_removed_ti_attrs": null,
+        "scoring_primitive:task_group_matches_oracle": null,
+        "scoring_primitive:structural_match_taskids": null
+      },
+      "harbor_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": null,
+        "scoring_primitive:no_deprecated_usage": null,
+        "scoring_primitive:no_removed_ti_attrs": null,
+        "scoring_primitive:task_group_matches_oracle": null,
+        "scoring_primitive:structural_match_taskids": null
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-86b4f2",
+      "state": "baseline",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": false,
+        "scoring_primitive:no_deprecated_usage": false,
+        "scoring_primitive:no_removed_ti_attrs": false,
+        "scoring_primitive:task_group_matches_oracle": true,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": false,
+        "scoring_primitive:no_deprecated_usage": false,
+        "scoring_primitive:no_removed_ti_attrs": false,
+        "scoring_primitive:task_group_matches_oracle": true,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-86b4f2",
+      "state": "oracle",
+      "original_pass": true,
+      "harbor_wrapper_pass": true,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": true,
+        "scoring_primitive:no_deprecated_usage": true,
+        "scoring_primitive:no_removed_ti_attrs": true,
+        "scoring_primitive:task_group_matches_oracle": true,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": true,
+        "scoring_primitive:no_deprecated_usage": true,
+        "scoring_primitive:no_removed_ti_attrs": true,
+        "scoring_primitive:task_group_matches_oracle": true,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-86b4f2",
+      "state": "broken",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": false,
+        "scoring_primitive:no_deprecated_usage": false,
+        "scoring_primitive:no_removed_ti_attrs": false,
+        "scoring_primitive:task_group_matches_oracle": true,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": false,
+        "scoring_primitive:no_deprecated_usage": false,
+        "scoring_primitive:no_removed_ti_attrs": false,
+        "scoring_primitive:task_group_matches_oracle": true,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-8c2d51",
+      "state": "untouched",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": null,
+        "scoring_primitive:structural_match_taskids": null
+      },
+      "harbor_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": null,
+        "scoring_primitive:structural_match_taskids": null
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-8c2d51",
+      "state": "baseline",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": false,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": false,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-8c2d51",
+      "state": "oracle",
+      "original_pass": true,
+      "harbor_wrapper_pass": true,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": true,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": true,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-8c2d51",
+      "state": "broken",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": false,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": false,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-8f2d5a",
+      "state": "untouched",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:provider_compatibility_check": null
+      },
+      "harbor_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:provider_compatibility_check": null
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-8f2d5a",
+      "state": "baseline",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:provider_compatibility_check": false
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:provider_compatibility_check": false
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-8f2d5a",
+      "state": "oracle",
+      "original_pass": true,
+      "harbor_wrapper_pass": true,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:provider_compatibility_check": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:provider_compatibility_check": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-8f2d5a",
+      "state": "broken",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:provider_compatibility_check": false
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:provider_compatibility_check": false
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-9a2fed",
+      "state": "untouched",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:provider_incompatibility_flagged": null
+      },
+      "harbor_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:provider_incompatibility_flagged": null
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-9a2fed",
+      "state": "baseline",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:provider_incompatibility_flagged": false
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:provider_incompatibility_flagged": false
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-9a2fed",
+      "state": "oracle",
+      "original_pass": true,
+      "harbor_wrapper_pass": true,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:provider_incompatibility_flagged": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:provider_incompatibility_flagged": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-9a2fed",
+      "state": "broken",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:provider_incompatibility_flagged": false
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:provider_incompatibility_flagged": false
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-9c2a4d",
+      "state": "untouched",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:import_ok": null,
+        "scoring_primitive:no_orm_access": null,
+        "scoring_primitive:uses_task_sdk_ipc": null,
+        "scoring_primitive:fixture_taskids_preserved_plus_count": null
+      },
+      "harbor_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:import_ok": null,
+        "scoring_primitive:no_orm_access": null,
+        "scoring_primitive:uses_task_sdk_ipc": null,
+        "scoring_primitive:fixture_taskids_preserved_plus_count": null
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-9c2a4d",
+      "state": "baseline",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:import_ok": true,
+        "scoring_primitive:no_orm_access": true,
+        "scoring_primitive:uses_task_sdk_ipc": false,
+        "scoring_primitive:fixture_taskids_preserved_plus_count": false
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:import_ok": true,
+        "scoring_primitive:no_orm_access": true,
+        "scoring_primitive:uses_task_sdk_ipc": false,
+        "scoring_primitive:fixture_taskids_preserved_plus_count": false
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-9c2a4d",
+      "state": "oracle",
+      "original_pass": true,
+      "harbor_wrapper_pass": true,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:import_ok": true,
+        "scoring_primitive:no_orm_access": true,
+        "scoring_primitive:uses_task_sdk_ipc": true,
+        "scoring_primitive:fixture_taskids_preserved_plus_count": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:import_ok": true,
+        "scoring_primitive:no_orm_access": true,
+        "scoring_primitive:uses_task_sdk_ipc": true,
+        "scoring_primitive:fixture_taskids_preserved_plus_count": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-9c2a4d",
+      "state": "broken",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:import_ok": true,
+        "scoring_primitive:no_orm_access": true,
+        "scoring_primitive:uses_task_sdk_ipc": false,
+        "scoring_primitive:fixture_taskids_preserved_plus_count": false
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:import_ok": true,
+        "scoring_primitive:no_orm_access": true,
+        "scoring_primitive:uses_task_sdk_ipc": false,
+        "scoring_primitive:fixture_taskids_preserved_plus_count": false
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-9d4e1a",
+      "state": "untouched",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": null,
+        "scoring_primitive:baseoperator_from_sdk": null,
+        "scoring_primitive:operator_link_uses_af3_signature": null,
+        "scoring_primitive:imports_clean_across_sibling_pkgs": null,
+        "scoring_primitive:structural_match_taskids": null
+      },
+      "harbor_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": null,
+        "scoring_primitive:baseoperator_from_sdk": null,
+        "scoring_primitive:operator_link_uses_af3_signature": null,
+        "scoring_primitive:imports_clean_across_sibling_pkgs": null,
+        "scoring_primitive:structural_match_taskids": null
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-9d4e1a",
+      "state": "baseline",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": false,
+        "scoring_primitive:baseoperator_from_sdk": false,
+        "scoring_primitive:operator_link_uses_af3_signature": false,
+        "scoring_primitive:imports_clean_across_sibling_pkgs": true,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": false,
+        "scoring_primitive:baseoperator_from_sdk": false,
+        "scoring_primitive:operator_link_uses_af3_signature": false,
+        "scoring_primitive:imports_clean_across_sibling_pkgs": true,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-9d4e1a",
+      "state": "oracle",
+      "original_pass": true,
+      "harbor_wrapper_pass": true,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": true,
+        "scoring_primitive:baseoperator_from_sdk": true,
+        "scoring_primitive:operator_link_uses_af3_signature": true,
+        "scoring_primitive:imports_clean_across_sibling_pkgs": true,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": true,
+        "scoring_primitive:baseoperator_from_sdk": true,
+        "scoring_primitive:operator_link_uses_af3_signature": true,
+        "scoring_primitive:imports_clean_across_sibling_pkgs": true,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-9d4e1a",
+      "state": "broken",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": false,
+        "scoring_primitive:baseoperator_from_sdk": false,
+        "scoring_primitive:operator_link_uses_af3_signature": false,
+        "scoring_primitive:imports_clean_across_sibling_pkgs": true,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": false,
+        "scoring_primitive:baseoperator_from_sdk": false,
+        "scoring_primitive:operator_link_uses_af3_signature": false,
+        "scoring_primitive:imports_clean_across_sibling_pkgs": true,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-9e8d7c",
+      "state": "untouched",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:python_drop_detected": null
+      },
+      "harbor_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:python_drop_detected": null
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-9e8d7c",
+      "state": "baseline",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:python_drop_detected": false
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:python_drop_detected": false
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-9e8d7c",
+      "state": "oracle",
+      "original_pass": true,
+      "harbor_wrapper_pass": true,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:python_drop_detected": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:python_drop_detected": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-9e8d7c",
+      "state": "broken",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:python_drop_detected": false
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:python_drop_detected": false
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-a1b2c3",
+      "state": "untouched",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": null,
+        "scoring_primitive:no_deprecated_context_vars": null,
+        "scoring_primitive:structural_match_taskids": null
+      },
+      "harbor_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": null,
+        "scoring_primitive:no_deprecated_context_vars": null,
+        "scoring_primitive:structural_match_taskids": null
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-a1b2c3",
+      "state": "baseline",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": false,
+        "scoring_primitive:no_deprecated_context_vars": false,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": false,
+        "scoring_primitive:no_deprecated_context_vars": false,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-a1b2c3",
+      "state": "oracle",
+      "original_pass": true,
+      "harbor_wrapper_pass": true,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": true,
+        "scoring_primitive:no_deprecated_context_vars": true,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": true,
+        "scoring_primitive:no_deprecated_context_vars": true,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-a1b2c3",
+      "state": "broken",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": false,
+        "scoring_primitive:no_deprecated_context_vars": false,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": false,
+        "scoring_primitive:no_deprecated_context_vars": false,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-a1d3f9",
+      "state": "untouched",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": null,
+        "scoring_primitive:no_deprecated_usage": null,
+        "scoring_primitive:structural_match_taskids": null
+      },
+      "harbor_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": null,
+        "scoring_primitive:no_deprecated_usage": null,
+        "scoring_primitive:structural_match_taskids": null
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-a1d3f9",
+      "state": "baseline",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": true,
+        "scoring_primitive:no_deprecated_usage": false,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": true,
+        "scoring_primitive:no_deprecated_usage": false,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-a1d3f9",
+      "state": "oracle",
+      "original_pass": true,
+      "harbor_wrapper_pass": true,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": true,
+        "scoring_primitive:no_deprecated_usage": true,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": true,
+        "scoring_primitive:no_deprecated_usage": true,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-a1d3f9",
+      "state": "broken",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": true,
+        "scoring_primitive:no_deprecated_usage": false,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": true,
+        "scoring_primitive:no_deprecated_usage": false,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-a3ea1b",
+      "state": "untouched",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:uses_sql_execute_query_operator": null,
+        "scoring_primitive:no_deprecated_usage": null,
+        "scoring_primitive:no_deprecated_imports": null,
+        "scoring_primitive:structural_match_taskids": null
+      },
+      "harbor_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:uses_sql_execute_query_operator": null,
+        "scoring_primitive:no_deprecated_usage": null,
+        "scoring_primitive:no_deprecated_imports": null,
+        "scoring_primitive:structural_match_taskids": null
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-a3ea1b",
+      "state": "baseline",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:uses_sql_execute_query_operator": false,
+        "scoring_primitive:no_deprecated_usage": false,
+        "scoring_primitive:no_deprecated_imports": false,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:uses_sql_execute_query_operator": false,
+        "scoring_primitive:no_deprecated_usage": false,
+        "scoring_primitive:no_deprecated_imports": false,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-a3ea1b",
+      "state": "oracle",
+      "original_pass": true,
+      "harbor_wrapper_pass": true,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:uses_sql_execute_query_operator": true,
+        "scoring_primitive:no_deprecated_usage": true,
+        "scoring_primitive:no_deprecated_imports": true,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:uses_sql_execute_query_operator": true,
+        "scoring_primitive:no_deprecated_usage": true,
+        "scoring_primitive:no_deprecated_imports": true,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-a3ea1b",
+      "state": "broken",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:uses_sql_execute_query_operator": false,
+        "scoring_primitive:no_deprecated_usage": false,
+        "scoring_primitive:no_deprecated_imports": false,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:uses_sql_execute_query_operator": false,
+        "scoring_primitive:no_deprecated_usage": false,
+        "scoring_primitive:no_deprecated_imports": false,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-ad4791",
+      "state": "untouched",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:import_ok": null,
+        "scoring_primitive:no_orm_access": null,
+        "scoring_primitive:uses_task_sdk_ipc": null,
+        "scoring_primitive:task_sdk_ipc_version_aware": null,
+        "scoring_primitive:fixture_taskids_preserved_plus_count": null
+      },
+      "harbor_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:import_ok": null,
+        "scoring_primitive:no_orm_access": null,
+        "scoring_primitive:uses_task_sdk_ipc": null,
+        "scoring_primitive:task_sdk_ipc_version_aware": null,
+        "scoring_primitive:fixture_taskids_preserved_plus_count": null
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-ad4791",
+      "state": "baseline",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:import_ok": true,
+        "scoring_primitive:no_orm_access": true,
+        "scoring_primitive:uses_task_sdk_ipc": false,
+        "scoring_primitive:task_sdk_ipc_version_aware": null,
+        "scoring_primitive:fixture_taskids_preserved_plus_count": false
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:import_ok": true,
+        "scoring_primitive:no_orm_access": true,
+        "scoring_primitive:uses_task_sdk_ipc": false,
+        "scoring_primitive:task_sdk_ipc_version_aware": null,
+        "scoring_primitive:fixture_taskids_preserved_plus_count": false
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-ad4791",
+      "state": "oracle",
+      "original_pass": true,
+      "harbor_wrapper_pass": true,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:import_ok": true,
+        "scoring_primitive:no_orm_access": true,
+        "scoring_primitive:uses_task_sdk_ipc": true,
+        "scoring_primitive:task_sdk_ipc_version_aware": true,
+        "scoring_primitive:fixture_taskids_preserved_plus_count": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:import_ok": true,
+        "scoring_primitive:no_orm_access": true,
+        "scoring_primitive:uses_task_sdk_ipc": true,
+        "scoring_primitive:task_sdk_ipc_version_aware": true,
+        "scoring_primitive:fixture_taskids_preserved_plus_count": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-ad4791",
+      "state": "broken",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:import_ok": true,
+        "scoring_primitive:no_orm_access": true,
+        "scoring_primitive:uses_task_sdk_ipc": false,
+        "scoring_primitive:task_sdk_ipc_version_aware": null,
+        "scoring_primitive:fixture_taskids_preserved_plus_count": false
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:import_ok": true,
+        "scoring_primitive:no_orm_access": true,
+        "scoring_primitive:uses_task_sdk_ipc": false,
+        "scoring_primitive:task_sdk_ipc_version_aware": null,
+        "scoring_primitive:fixture_taskids_preserved_plus_count": false
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-b16c01",
+      "state": "untouched",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:dbt_local_operators_use_profileconfig": null,
+        "scoring_primitive:cosmos_imports_post_1_0": null,
+        "scoring_primitive:cosmos_pin_uplifted": null
+      },
+      "harbor_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:dbt_local_operators_use_profileconfig": null,
+        "scoring_primitive:cosmos_imports_post_1_0": null,
+        "scoring_primitive:cosmos_pin_uplifted": null
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-b16c01",
+      "state": "baseline",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:dbt_local_operators_use_profileconfig": false,
+        "scoring_primitive:cosmos_imports_post_1_0": false,
+        "scoring_primitive:cosmos_pin_uplifted": false
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:dbt_local_operators_use_profileconfig": false,
+        "scoring_primitive:cosmos_imports_post_1_0": false,
+        "scoring_primitive:cosmos_pin_uplifted": false
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-b16c01",
+      "state": "oracle",
+      "original_pass": true,
+      "harbor_wrapper_pass": true,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:dbt_local_operators_use_profileconfig": true,
+        "scoring_primitive:cosmos_imports_post_1_0": true,
+        "scoring_primitive:cosmos_pin_uplifted": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:dbt_local_operators_use_profileconfig": true,
+        "scoring_primitive:cosmos_imports_post_1_0": true,
+        "scoring_primitive:cosmos_pin_uplifted": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-b16c01",
+      "state": "broken",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:dbt_local_operators_use_profileconfig": false,
+        "scoring_primitive:cosmos_imports_post_1_0": false,
+        "scoring_primitive:cosmos_pin_uplifted": false
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:dbt_local_operators_use_profileconfig": false,
+        "scoring_primitive:cosmos_imports_post_1_0": false,
+        "scoring_primitive:cosmos_pin_uplifted": false
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-b3cbb4",
+      "state": "untouched",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:timetable_uses_type_annotation": null,
+        "scoring_primitive:loader_uses_load_yaml_dags": null,
+        "scoring_primitive:sla_miss_callback_handled": null,
+        "scoring_primitive:dag_factory_pin_uplifted": null
+      },
+      "harbor_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:timetable_uses_type_annotation": null,
+        "scoring_primitive:loader_uses_load_yaml_dags": null,
+        "scoring_primitive:sla_miss_callback_handled": null,
+        "scoring_primitive:dag_factory_pin_uplifted": null
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-b3cbb4",
+      "state": "baseline",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:timetable_uses_type_annotation": false,
+        "scoring_primitive:loader_uses_load_yaml_dags": false,
+        "scoring_primitive:sla_miss_callback_handled": false,
+        "scoring_primitive:dag_factory_pin_uplifted": false
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:timetable_uses_type_annotation": false,
+        "scoring_primitive:loader_uses_load_yaml_dags": false,
+        "scoring_primitive:sla_miss_callback_handled": false,
+        "scoring_primitive:dag_factory_pin_uplifted": false
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-b3cbb4",
+      "state": "oracle",
+      "original_pass": true,
+      "harbor_wrapper_pass": true,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:timetable_uses_type_annotation": true,
+        "scoring_primitive:loader_uses_load_yaml_dags": true,
+        "scoring_primitive:sla_miss_callback_handled": true,
+        "scoring_primitive:dag_factory_pin_uplifted": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:timetable_uses_type_annotation": true,
+        "scoring_primitive:loader_uses_load_yaml_dags": true,
+        "scoring_primitive:sla_miss_callback_handled": true,
+        "scoring_primitive:dag_factory_pin_uplifted": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-b3cbb4",
+      "state": "broken",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:timetable_uses_type_annotation": false,
+        "scoring_primitive:loader_uses_load_yaml_dags": false,
+        "scoring_primitive:sla_miss_callback_handled": false,
+        "scoring_primitive:dag_factory_pin_uplifted": false
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:timetable_uses_type_annotation": false,
+        "scoring_primitive:loader_uses_load_yaml_dags": false,
+        "scoring_primitive:sla_miss_callback_handled": false,
+        "scoring_primitive:dag_factory_pin_uplifted": false
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-b6f2e1",
+      "state": "untouched",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": null,
+        "scoring_primitive:baseoperator_from_sdk": null,
+        "scoring_primitive:imports_clean_across_sibling_pkgs": null,
+        "scoring_primitive:structural_match_taskids": null
+      },
+      "harbor_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": null,
+        "scoring_primitive:baseoperator_from_sdk": null,
+        "scoring_primitive:imports_clean_across_sibling_pkgs": null,
+        "scoring_primitive:structural_match_taskids": null
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-b6f2e1",
+      "state": "baseline",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": false,
+        "scoring_primitive:baseoperator_from_sdk": false,
+        "scoring_primitive:imports_clean_across_sibling_pkgs": false,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": false,
+        "scoring_primitive:baseoperator_from_sdk": false,
+        "scoring_primitive:imports_clean_across_sibling_pkgs": false,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-b6f2e1",
+      "state": "oracle",
+      "original_pass": true,
+      "harbor_wrapper_pass": true,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": true,
+        "scoring_primitive:baseoperator_from_sdk": true,
+        "scoring_primitive:imports_clean_across_sibling_pkgs": true,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": true,
+        "scoring_primitive:baseoperator_from_sdk": true,
+        "scoring_primitive:imports_clean_across_sibling_pkgs": true,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-b6f2e1",
+      "state": "broken",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": false,
+        "scoring_primitive:baseoperator_from_sdk": false,
+        "scoring_primitive:imports_clean_across_sibling_pkgs": false,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": false,
+        "scoring_primitive:baseoperator_from_sdk": false,
+        "scoring_primitive:imports_clean_across_sibling_pkgs": false,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-bb36fa",
+      "state": "untouched",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": null,
+        "scoring_primitive:no_deprecated_context_vars": null,
+        "scoring_primitive:siblings_no_deprecated_context_vars": null,
+        "scoring_primitive:imports_clean_across_sibling_pkgs": null,
+        "scoring_primitive:structural_match_taskids": null
+      },
+      "harbor_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": null,
+        "scoring_primitive:no_deprecated_context_vars": null,
+        "scoring_primitive:siblings_no_deprecated_context_vars": null,
+        "scoring_primitive:imports_clean_across_sibling_pkgs": null,
+        "scoring_primitive:structural_match_taskids": null
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-bb36fa",
+      "state": "baseline",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": false,
+        "scoring_primitive:no_deprecated_context_vars": false,
+        "scoring_primitive:siblings_no_deprecated_context_vars": false,
+        "scoring_primitive:imports_clean_across_sibling_pkgs": false,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": false,
+        "scoring_primitive:no_deprecated_context_vars": false,
+        "scoring_primitive:siblings_no_deprecated_context_vars": false,
+        "scoring_primitive:imports_clean_across_sibling_pkgs": false,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-bb36fa",
+      "state": "oracle",
+      "original_pass": true,
+      "harbor_wrapper_pass": true,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": true,
+        "scoring_primitive:no_deprecated_context_vars": true,
+        "scoring_primitive:siblings_no_deprecated_context_vars": true,
+        "scoring_primitive:imports_clean_across_sibling_pkgs": true,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": true,
+        "scoring_primitive:no_deprecated_context_vars": true,
+        "scoring_primitive:siblings_no_deprecated_context_vars": true,
+        "scoring_primitive:imports_clean_across_sibling_pkgs": true,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-bb36fa",
+      "state": "broken",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": false,
+        "scoring_primitive:no_deprecated_context_vars": false,
+        "scoring_primitive:siblings_no_deprecated_context_vars": false,
+        "scoring_primitive:imports_clean_across_sibling_pkgs": false,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": false,
+        "scoring_primitive:no_deprecated_context_vars": false,
+        "scoring_primitive:siblings_no_deprecated_context_vars": false,
+        "scoring_primitive:imports_clean_across_sibling_pkgs": false,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-be18e0",
+      "state": "untouched",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": null,
+        "scoring_primitive:no_deprecated_context_vars": null,
+        "scoring_primitive:imports_clean_across_sibling_pkgs": null,
+        "scoring_primitive:siblings_no_deprecated_context_vars": null
+      },
+      "harbor_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": null,
+        "scoring_primitive:no_deprecated_context_vars": null,
+        "scoring_primitive:imports_clean_across_sibling_pkgs": null,
+        "scoring_primitive:siblings_no_deprecated_context_vars": null
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-be18e0",
+      "state": "baseline",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": false,
+        "scoring_primitive:no_deprecated_context_vars": true,
+        "scoring_primitive:imports_clean_across_sibling_pkgs": false,
+        "scoring_primitive:siblings_no_deprecated_context_vars": false
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": false,
+        "scoring_primitive:no_deprecated_context_vars": true,
+        "scoring_primitive:imports_clean_across_sibling_pkgs": false,
+        "scoring_primitive:siblings_no_deprecated_context_vars": false
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-be18e0",
+      "state": "oracle",
+      "original_pass": true,
+      "harbor_wrapper_pass": true,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": true,
+        "scoring_primitive:no_deprecated_context_vars": true,
+        "scoring_primitive:imports_clean_across_sibling_pkgs": true,
+        "scoring_primitive:siblings_no_deprecated_context_vars": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": true,
+        "scoring_primitive:no_deprecated_context_vars": true,
+        "scoring_primitive:imports_clean_across_sibling_pkgs": true,
+        "scoring_primitive:siblings_no_deprecated_context_vars": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-be18e0",
+      "state": "broken",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": false,
+        "scoring_primitive:no_deprecated_context_vars": true,
+        "scoring_primitive:imports_clean_across_sibling_pkgs": false,
+        "scoring_primitive:siblings_no_deprecated_context_vars": false
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": false,
+        "scoring_primitive:no_deprecated_context_vars": true,
+        "scoring_primitive:imports_clean_across_sibling_pkgs": false,
+        "scoring_primitive:siblings_no_deprecated_context_vars": false
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-c1d2e3",
+      "state": "untouched",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:detected_airflow_version_match": null
+      },
+      "harbor_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:detected_airflow_version_match": null
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-c1d2e3",
+      "state": "baseline",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:detected_airflow_version_match": false
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:detected_airflow_version_match": false
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-c1d2e3",
+      "state": "oracle",
+      "original_pass": true,
+      "harbor_wrapper_pass": true,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:detected_airflow_version_match": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:detected_airflow_version_match": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-c1d2e3",
+      "state": "broken",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:detected_airflow_version_match": false
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:detected_airflow_version_match": false
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-c31a39",
+      "state": "untouched",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:postgreshook_uses_database_kwarg": null,
+        "scoring_primitive:no_deprecated_imports": null,
+        "scoring_primitive:structural_match_taskids": null
+      },
+      "harbor_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:postgreshook_uses_database_kwarg": null,
+        "scoring_primitive:no_deprecated_imports": null,
+        "scoring_primitive:structural_match_taskids": null
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-c31a39",
+      "state": "baseline",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:postgreshook_uses_database_kwarg": false,
+        "scoring_primitive:no_deprecated_imports": false,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:postgreshook_uses_database_kwarg": false,
+        "scoring_primitive:no_deprecated_imports": false,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-c31a39",
+      "state": "oracle",
+      "original_pass": true,
+      "harbor_wrapper_pass": true,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:postgreshook_uses_database_kwarg": true,
+        "scoring_primitive:no_deprecated_imports": true,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:postgreshook_uses_database_kwarg": true,
+        "scoring_primitive:no_deprecated_imports": true,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-c31a39",
+      "state": "broken",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:postgreshook_uses_database_kwarg": false,
+        "scoring_primitive:no_deprecated_imports": false,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:postgreshook_uses_database_kwarg": false,
+        "scoring_primitive:no_deprecated_imports": false,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-c8e2f5",
+      "state": "untouched",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": null,
+        "scoring_primitive:plugin_no_legacy_ui_attrs": null,
+        "scoring_primitive:structural_match_taskids": null
+      },
+      "harbor_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": null,
+        "scoring_primitive:plugin_no_legacy_ui_attrs": null,
+        "scoring_primitive:structural_match_taskids": null
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-c8e2f5",
+      "state": "baseline",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": false,
+        "scoring_primitive:plugin_no_legacy_ui_attrs": false,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": false,
+        "scoring_primitive:plugin_no_legacy_ui_attrs": false,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-c8e2f5",
+      "state": "oracle",
+      "original_pass": true,
+      "harbor_wrapper_pass": true,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": true,
+        "scoring_primitive:plugin_no_legacy_ui_attrs": true,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": true,
+        "scoring_primitive:plugin_no_legacy_ui_attrs": true,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-c8e2f5",
+      "state": "broken",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": false,
+        "scoring_primitive:plugin_no_legacy_ui_attrs": false,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": false,
+        "scoring_primitive:plugin_no_legacy_ui_attrs": false,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-c8f2e3",
+      "state": "untouched",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:compat_conflict_detected": null
+      },
+      "harbor_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:compat_conflict_detected": null
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-c8f2e3",
+      "state": "baseline",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:compat_conflict_detected": false
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:compat_conflict_detected": false
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-c8f2e3",
+      "state": "oracle",
+      "original_pass": true,
+      "harbor_wrapper_pass": true,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:compat_conflict_detected": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:compat_conflict_detected": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-c8f2e3",
+      "state": "broken",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:compat_conflict_detected": false
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:compat_conflict_detected": false
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-c91e72",
+      "state": "untouched",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": null,
+        "scoring_primitive:no_deprecated_context_vars": null,
+        "scoring_primitive:no_deprecated_usage": null,
+        "scoring_primitive:no_orm_access": null,
+        "scoring_primitive:uses_task_sdk_ipc": null,
+        "scoring_primitive:structural_match_taskids": null
+      },
+      "harbor_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": null,
+        "scoring_primitive:no_deprecated_context_vars": null,
+        "scoring_primitive:no_deprecated_usage": null,
+        "scoring_primitive:no_orm_access": null,
+        "scoring_primitive:uses_task_sdk_ipc": null,
+        "scoring_primitive:structural_match_taskids": null
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-c91e72",
+      "state": "baseline",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": false,
+        "scoring_primitive:no_deprecated_context_vars": false,
+        "scoring_primitive:no_deprecated_usage": false,
+        "scoring_primitive:no_orm_access": false,
+        "scoring_primitive:uses_task_sdk_ipc": false,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": false,
+        "scoring_primitive:no_deprecated_context_vars": false,
+        "scoring_primitive:no_deprecated_usage": false,
+        "scoring_primitive:no_orm_access": false,
+        "scoring_primitive:uses_task_sdk_ipc": false,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-c91e72",
+      "state": "oracle",
+      "original_pass": true,
+      "harbor_wrapper_pass": true,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": true,
+        "scoring_primitive:no_deprecated_context_vars": true,
+        "scoring_primitive:no_deprecated_usage": true,
+        "scoring_primitive:no_orm_access": true,
+        "scoring_primitive:uses_task_sdk_ipc": true,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": true,
+        "scoring_primitive:no_deprecated_context_vars": true,
+        "scoring_primitive:no_deprecated_usage": true,
+        "scoring_primitive:no_orm_access": true,
+        "scoring_primitive:uses_task_sdk_ipc": true,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-c91e72",
+      "state": "broken",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": false,
+        "scoring_primitive:no_deprecated_context_vars": false,
+        "scoring_primitive:no_deprecated_usage": false,
+        "scoring_primitive:no_orm_access": false,
+        "scoring_primitive:uses_task_sdk_ipc": false,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": false,
+        "scoring_primitive:no_deprecated_context_vars": false,
+        "scoring_primitive:no_deprecated_usage": false,
+        "scoring_primitive:no_orm_access": false,
+        "scoring_primitive:uses_task_sdk_ipc": false,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-cosme01",
+      "state": "untouched",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": null,
+        "scoring_primitive:cosmos_imports_post_1_0": null,
+        "scoring_primitive:dbtdag_uses_projectconfig": null,
+        "scoring_primitive:dbtdag_uses_profileconfig": null,
+        "scoring_primitive:dbtdag_no_pre_1_0_kwargs": null,
+        "scoring_primitive:dbt_local_operators_use_profileconfig": null,
+        "scoring_primitive:cosmos_pin_uplifted": null
+      },
+      "harbor_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": null,
+        "scoring_primitive:cosmos_imports_post_1_0": null,
+        "scoring_primitive:dbtdag_uses_projectconfig": null,
+        "scoring_primitive:dbtdag_uses_profileconfig": null,
+        "scoring_primitive:dbtdag_no_pre_1_0_kwargs": null,
+        "scoring_primitive:dbt_local_operators_use_profileconfig": null,
+        "scoring_primitive:cosmos_pin_uplifted": null
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-cosme01",
+      "state": "baseline",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": true,
+        "scoring_primitive:cosmos_imports_post_1_0": false,
+        "scoring_primitive:dbtdag_uses_projectconfig": false,
+        "scoring_primitive:dbtdag_uses_profileconfig": false,
+        "scoring_primitive:dbtdag_no_pre_1_0_kwargs": false,
+        "scoring_primitive:dbt_local_operators_use_profileconfig": false,
+        "scoring_primitive:cosmos_pin_uplifted": false
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": true,
+        "scoring_primitive:cosmos_imports_post_1_0": false,
+        "scoring_primitive:dbtdag_uses_projectconfig": false,
+        "scoring_primitive:dbtdag_uses_profileconfig": false,
+        "scoring_primitive:dbtdag_no_pre_1_0_kwargs": false,
+        "scoring_primitive:dbt_local_operators_use_profileconfig": false,
+        "scoring_primitive:cosmos_pin_uplifted": false
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-cosme01",
+      "state": "oracle",
+      "original_pass": true,
+      "harbor_wrapper_pass": true,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": true,
+        "scoring_primitive:cosmos_imports_post_1_0": true,
+        "scoring_primitive:dbtdag_uses_projectconfig": true,
+        "scoring_primitive:dbtdag_uses_profileconfig": true,
+        "scoring_primitive:dbtdag_no_pre_1_0_kwargs": true,
+        "scoring_primitive:dbt_local_operators_use_profileconfig": true,
+        "scoring_primitive:cosmos_pin_uplifted": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": true,
+        "scoring_primitive:cosmos_imports_post_1_0": true,
+        "scoring_primitive:dbtdag_uses_projectconfig": true,
+        "scoring_primitive:dbtdag_uses_profileconfig": true,
+        "scoring_primitive:dbtdag_no_pre_1_0_kwargs": true,
+        "scoring_primitive:dbt_local_operators_use_profileconfig": true,
+        "scoring_primitive:cosmos_pin_uplifted": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-cosme01",
+      "state": "broken",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": true,
+        "scoring_primitive:cosmos_imports_post_1_0": false,
+        "scoring_primitive:dbtdag_uses_projectconfig": false,
+        "scoring_primitive:dbtdag_uses_profileconfig": false,
+        "scoring_primitive:dbtdag_no_pre_1_0_kwargs": false,
+        "scoring_primitive:dbt_local_operators_use_profileconfig": false,
+        "scoring_primitive:cosmos_pin_uplifted": false
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": true,
+        "scoring_primitive:cosmos_imports_post_1_0": false,
+        "scoring_primitive:dbtdag_uses_projectconfig": false,
+        "scoring_primitive:dbtdag_uses_profileconfig": false,
+        "scoring_primitive:dbtdag_no_pre_1_0_kwargs": false,
+        "scoring_primitive:dbt_local_operators_use_profileconfig": false,
+        "scoring_primitive:cosmos_pin_uplifted": false
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-cosmm01",
+      "state": "untouched",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": null,
+        "scoring_primitive:cosmos_imports_post_1_0": null,
+        "scoring_primitive:cosmos_pin_uplifted": null,
+        "scoring_primitive:render_config_explicit_load_mode": null,
+        "scoring_primitive:project_config_explicit_install_deps": null,
+        "scoring_primitive:downstream_uses_dataset_alias": null
+      },
+      "harbor_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": null,
+        "scoring_primitive:cosmos_imports_post_1_0": null,
+        "scoring_primitive:cosmos_pin_uplifted": null,
+        "scoring_primitive:render_config_explicit_load_mode": null,
+        "scoring_primitive:project_config_explicit_install_deps": null,
+        "scoring_primitive:downstream_uses_dataset_alias": null
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-cosmm01",
+      "state": "baseline",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": true,
+        "scoring_primitive:cosmos_imports_post_1_0": true,
+        "scoring_primitive:cosmos_pin_uplifted": false,
+        "scoring_primitive:render_config_explicit_load_mode": false,
+        "scoring_primitive:project_config_explicit_install_deps": false,
+        "scoring_primitive:downstream_uses_dataset_alias": false
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": true,
+        "scoring_primitive:cosmos_imports_post_1_0": true,
+        "scoring_primitive:cosmos_pin_uplifted": false,
+        "scoring_primitive:render_config_explicit_load_mode": false,
+        "scoring_primitive:project_config_explicit_install_deps": false,
+        "scoring_primitive:downstream_uses_dataset_alias": false
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-cosmm01",
+      "state": "oracle",
+      "original_pass": true,
+      "harbor_wrapper_pass": true,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": true,
+        "scoring_primitive:cosmos_imports_post_1_0": true,
+        "scoring_primitive:cosmos_pin_uplifted": true,
+        "scoring_primitive:render_config_explicit_load_mode": true,
+        "scoring_primitive:project_config_explicit_install_deps": true,
+        "scoring_primitive:downstream_uses_dataset_alias": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": true,
+        "scoring_primitive:cosmos_imports_post_1_0": true,
+        "scoring_primitive:cosmos_pin_uplifted": true,
+        "scoring_primitive:render_config_explicit_load_mode": true,
+        "scoring_primitive:project_config_explicit_install_deps": true,
+        "scoring_primitive:downstream_uses_dataset_alias": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-cosmm01",
+      "state": "broken",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": true,
+        "scoring_primitive:cosmos_imports_post_1_0": true,
+        "scoring_primitive:cosmos_pin_uplifted": false,
+        "scoring_primitive:render_config_explicit_load_mode": false,
+        "scoring_primitive:project_config_explicit_install_deps": false,
+        "scoring_primitive:downstream_uses_dataset_alias": false
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": true,
+        "scoring_primitive:cosmos_imports_post_1_0": true,
+        "scoring_primitive:cosmos_pin_uplifted": false,
+        "scoring_primitive:render_config_explicit_load_mode": false,
+        "scoring_primitive:project_config_explicit_install_deps": false,
+        "scoring_primitive:downstream_uses_dataset_alias": false
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-d132d2",
+      "state": "untouched",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:no_orm_access": null,
+        "scoring_primitive:uses_task_sdk_ipc": null,
+        "scoring_primitive:no_deprecated_imports": null,
+        "scoring_primitive:structural_match_taskids": null
+      },
+      "harbor_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:no_orm_access": null,
+        "scoring_primitive:uses_task_sdk_ipc": null,
+        "scoring_primitive:no_deprecated_imports": null,
+        "scoring_primitive:structural_match_taskids": null
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-d132d2",
+      "state": "baseline",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_orm_access": false,
+        "scoring_primitive:uses_task_sdk_ipc": false,
+        "scoring_primitive:no_deprecated_imports": false,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_orm_access": false,
+        "scoring_primitive:uses_task_sdk_ipc": false,
+        "scoring_primitive:no_deprecated_imports": false,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-d132d2",
+      "state": "oracle",
+      "original_pass": true,
+      "harbor_wrapper_pass": true,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_orm_access": true,
+        "scoring_primitive:uses_task_sdk_ipc": true,
+        "scoring_primitive:no_deprecated_imports": true,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_orm_access": true,
+        "scoring_primitive:uses_task_sdk_ipc": true,
+        "scoring_primitive:no_deprecated_imports": true,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-d132d2",
+      "state": "broken",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_orm_access": false,
+        "scoring_primitive:uses_task_sdk_ipc": false,
+        "scoring_primitive:no_deprecated_imports": false,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_orm_access": false,
+        "scoring_primitive:uses_task_sdk_ipc": false,
+        "scoring_primitive:no_deprecated_imports": false,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-d3f608",
+      "state": "untouched",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": null,
+        "scoring_primitive:no_deprecated_usage": null,
+        "scoring_primitive:no_orm_access": null,
+        "scoring_primitive:uses_task_sdk_ipc": null,
+        "scoring_primitive:structural_match_taskids": null
+      },
+      "harbor_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": null,
+        "scoring_primitive:no_deprecated_usage": null,
+        "scoring_primitive:no_orm_access": null,
+        "scoring_primitive:uses_task_sdk_ipc": null,
+        "scoring_primitive:structural_match_taskids": null
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-d3f608",
+      "state": "baseline",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": false,
+        "scoring_primitive:no_deprecated_usage": false,
+        "scoring_primitive:no_orm_access": false,
+        "scoring_primitive:uses_task_sdk_ipc": false,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": false,
+        "scoring_primitive:no_deprecated_usage": false,
+        "scoring_primitive:no_orm_access": false,
+        "scoring_primitive:uses_task_sdk_ipc": false,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-d3f608",
+      "state": "oracle",
+      "original_pass": true,
+      "harbor_wrapper_pass": true,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": true,
+        "scoring_primitive:no_deprecated_usage": true,
+        "scoring_primitive:no_orm_access": true,
+        "scoring_primitive:uses_task_sdk_ipc": true,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": true,
+        "scoring_primitive:no_deprecated_usage": true,
+        "scoring_primitive:no_orm_access": true,
+        "scoring_primitive:uses_task_sdk_ipc": true,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-d3f608",
+      "state": "broken",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": false,
+        "scoring_primitive:no_deprecated_usage": false,
+        "scoring_primitive:no_orm_access": false,
+        "scoring_primitive:uses_task_sdk_ipc": false,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": false,
+        "scoring_primitive:no_deprecated_usage": false,
+        "scoring_primitive:no_orm_access": false,
+        "scoring_primitive:uses_task_sdk_ipc": false,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-d4e5f6",
+      "state": "untouched",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:schedule_interval_replaced": null
+      },
+      "harbor_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:schedule_interval_replaced": null
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-d4e5f6",
+      "state": "baseline",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:schedule_interval_replaced": false
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:schedule_interval_replaced": false
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-d4e5f6",
+      "state": "oracle",
+      "original_pass": true,
+      "harbor_wrapper_pass": true,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:schedule_interval_replaced": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:schedule_interval_replaced": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-d4e5f6",
+      "state": "broken",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:schedule_interval_replaced": false
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:schedule_interval_replaced": false
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-d4f3a2",
+      "state": "untouched",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": null,
+        "scoring_primitive:postgreshook_uses_database_kwarg": null,
+        "scoring_primitive:structural_match_taskids": null
+      },
+      "harbor_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": null,
+        "scoring_primitive:postgreshook_uses_database_kwarg": null,
+        "scoring_primitive:structural_match_taskids": null
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-d4f3a2",
+      "state": "baseline",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": true,
+        "scoring_primitive:postgreshook_uses_database_kwarg": false,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": true,
+        "scoring_primitive:postgreshook_uses_database_kwarg": false,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-d4f3a2",
+      "state": "oracle",
+      "original_pass": true,
+      "harbor_wrapper_pass": true,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": true,
+        "scoring_primitive:postgreshook_uses_database_kwarg": true,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": true,
+        "scoring_primitive:postgreshook_uses_database_kwarg": true,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-d4f3a2",
+      "state": "broken",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": true,
+        "scoring_primitive:postgreshook_uses_database_kwarg": false,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": true,
+        "scoring_primitive:postgreshook_uses_database_kwarg": false,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-d8e7f6",
+      "state": "untouched",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:astro_runtime_target_aligned": null,
+        "scoring_primitive:schedule_interval_replaced": null,
+        "scoring_primitive:no_deprecated_context_vars": null,
+        "scoring_primitive:no_af3_only_imports": null,
+        "scoring_primitive:structural_match_taskids": null
+      },
+      "harbor_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:astro_runtime_target_aligned": null,
+        "scoring_primitive:schedule_interval_replaced": null,
+        "scoring_primitive:no_deprecated_context_vars": null,
+        "scoring_primitive:no_af3_only_imports": null,
+        "scoring_primitive:structural_match_taskids": null
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-d8e7f6",
+      "state": "baseline",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:astro_runtime_target_aligned": false,
+        "scoring_primitive:schedule_interval_replaced": false,
+        "scoring_primitive:no_deprecated_context_vars": true,
+        "scoring_primitive:no_af3_only_imports": true,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:astro_runtime_target_aligned": false,
+        "scoring_primitive:schedule_interval_replaced": false,
+        "scoring_primitive:no_deprecated_context_vars": true,
+        "scoring_primitive:no_af3_only_imports": true,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-d8e7f6",
+      "state": "oracle",
+      "original_pass": true,
+      "harbor_wrapper_pass": true,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:astro_runtime_target_aligned": true,
+        "scoring_primitive:schedule_interval_replaced": true,
+        "scoring_primitive:no_deprecated_context_vars": true,
+        "scoring_primitive:no_af3_only_imports": true,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:astro_runtime_target_aligned": true,
+        "scoring_primitive:schedule_interval_replaced": true,
+        "scoring_primitive:no_deprecated_context_vars": true,
+        "scoring_primitive:no_af3_only_imports": true,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-d8e7f6",
+      "state": "broken",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:astro_runtime_target_aligned": false,
+        "scoring_primitive:schedule_interval_replaced": false,
+        "scoring_primitive:no_deprecated_context_vars": true,
+        "scoring_primitive:no_af3_only_imports": true,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:astro_runtime_target_aligned": false,
+        "scoring_primitive:schedule_interval_replaced": false,
+        "scoring_primitive:no_deprecated_context_vars": true,
+        "scoring_primitive:no_af3_only_imports": true,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-d9e4f7",
+      "state": "untouched",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": null,
+        "scoring_primitive:sensor_uses_deferrable_mode": null,
+        "scoring_primitive:structural_match_taskids": null
+      },
+      "harbor_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": null,
+        "scoring_primitive:sensor_uses_deferrable_mode": null,
+        "scoring_primitive:structural_match_taskids": null
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-d9e4f7",
+      "state": "baseline",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": false,
+        "scoring_primitive:sensor_uses_deferrable_mode": false,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": false,
+        "scoring_primitive:sensor_uses_deferrable_mode": false,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-d9e4f7",
+      "state": "oracle",
+      "original_pass": true,
+      "harbor_wrapper_pass": true,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": true,
+        "scoring_primitive:sensor_uses_deferrable_mode": true,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": true,
+        "scoring_primitive:sensor_uses_deferrable_mode": true,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-d9e4f7",
+      "state": "broken",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": false,
+        "scoring_primitive:sensor_uses_deferrable_mode": false,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": false,
+        "scoring_primitive:sensor_uses_deferrable_mode": false,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-dgfe01",
+      "state": "untouched",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": null,
+        "scoring_primitive:loader_uses_load_yaml_dags": null,
+        "scoring_primitive:yaml_uses_schedule_not_schedule_interval": null,
+        "scoring_primitive:dag_factory_pin_uplifted": null
+      },
+      "harbor_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": null,
+        "scoring_primitive:loader_uses_load_yaml_dags": null,
+        "scoring_primitive:yaml_uses_schedule_not_schedule_interval": null,
+        "scoring_primitive:dag_factory_pin_uplifted": null
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-dgfe01",
+      "state": "baseline",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": true,
+        "scoring_primitive:loader_uses_load_yaml_dags": false,
+        "scoring_primitive:yaml_uses_schedule_not_schedule_interval": false,
+        "scoring_primitive:dag_factory_pin_uplifted": false
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": true,
+        "scoring_primitive:loader_uses_load_yaml_dags": false,
+        "scoring_primitive:yaml_uses_schedule_not_schedule_interval": false,
+        "scoring_primitive:dag_factory_pin_uplifted": false
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-dgfe01",
+      "state": "oracle",
+      "original_pass": true,
+      "harbor_wrapper_pass": true,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": true,
+        "scoring_primitive:loader_uses_load_yaml_dags": true,
+        "scoring_primitive:yaml_uses_schedule_not_schedule_interval": true,
+        "scoring_primitive:dag_factory_pin_uplifted": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": true,
+        "scoring_primitive:loader_uses_load_yaml_dags": true,
+        "scoring_primitive:yaml_uses_schedule_not_schedule_interval": true,
+        "scoring_primitive:dag_factory_pin_uplifted": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-dgfe01",
+      "state": "broken",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": true,
+        "scoring_primitive:loader_uses_load_yaml_dags": false,
+        "scoring_primitive:yaml_uses_schedule_not_schedule_interval": false,
+        "scoring_primitive:dag_factory_pin_uplifted": false
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": true,
+        "scoring_primitive:loader_uses_load_yaml_dags": false,
+        "scoring_primitive:yaml_uses_schedule_not_schedule_interval": false,
+        "scoring_primitive:dag_factory_pin_uplifted": false
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-dgfh01",
+      "state": "untouched",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": null,
+        "scoring_primitive:loader_uses_load_yaml_dags": null,
+        "scoring_primitive:loader_kwarg_renames": null,
+        "scoring_primitive:loader_no_clean_dags": null,
+        "scoring_primitive:yaml_uses_schedule_not_schedule_interval": null,
+        "scoring_primitive:yaml_no_sec_shortcut_kwargs": null,
+        "scoring_primitive:yaml_timeouts_use_timedelta": null,
+        "scoring_primitive:yaml_logical_keys_consolidated": null,
+        "scoring_primitive:dag_factory_pin_uplifted": null,
+        "scoring_primitive:dag_factory_providers_declared": null,
+        "scoring_primitive:kpo_uses_type_annotations": null,
+        "scoring_primitive:timetable_uses_type_annotation": null,
+        "scoring_primitive:sla_miss_callback_handled": null
+      },
+      "harbor_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": null,
+        "scoring_primitive:loader_uses_load_yaml_dags": null,
+        "scoring_primitive:loader_kwarg_renames": null,
+        "scoring_primitive:loader_no_clean_dags": null,
+        "scoring_primitive:yaml_uses_schedule_not_schedule_interval": null,
+        "scoring_primitive:yaml_no_sec_shortcut_kwargs": null,
+        "scoring_primitive:yaml_timeouts_use_timedelta": null,
+        "scoring_primitive:yaml_logical_keys_consolidated": null,
+        "scoring_primitive:dag_factory_pin_uplifted": null,
+        "scoring_primitive:dag_factory_providers_declared": null,
+        "scoring_primitive:kpo_uses_type_annotations": null,
+        "scoring_primitive:timetable_uses_type_annotation": null,
+        "scoring_primitive:sla_miss_callback_handled": null
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-dgfh01",
+      "state": "baseline",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": true,
+        "scoring_primitive:loader_uses_load_yaml_dags": false,
+        "scoring_primitive:loader_kwarg_renames": false,
+        "scoring_primitive:loader_no_clean_dags": false,
+        "scoring_primitive:yaml_uses_schedule_not_schedule_interval": false,
+        "scoring_primitive:yaml_no_sec_shortcut_kwargs": false,
+        "scoring_primitive:yaml_timeouts_use_timedelta": false,
+        "scoring_primitive:yaml_logical_keys_consolidated": false,
+        "scoring_primitive:dag_factory_pin_uplifted": false,
+        "scoring_primitive:dag_factory_providers_declared": false,
+        "scoring_primitive:kpo_uses_type_annotations": false,
+        "scoring_primitive:timetable_uses_type_annotation": null,
+        "scoring_primitive:sla_miss_callback_handled": false
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": true,
+        "scoring_primitive:loader_uses_load_yaml_dags": false,
+        "scoring_primitive:loader_kwarg_renames": false,
+        "scoring_primitive:loader_no_clean_dags": false,
+        "scoring_primitive:yaml_uses_schedule_not_schedule_interval": false,
+        "scoring_primitive:yaml_no_sec_shortcut_kwargs": false,
+        "scoring_primitive:yaml_timeouts_use_timedelta": false,
+        "scoring_primitive:yaml_logical_keys_consolidated": false,
+        "scoring_primitive:dag_factory_pin_uplifted": false,
+        "scoring_primitive:dag_factory_providers_declared": false,
+        "scoring_primitive:kpo_uses_type_annotations": false,
+        "scoring_primitive:timetable_uses_type_annotation": null,
+        "scoring_primitive:sla_miss_callback_handled": false
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-dgfh01",
+      "state": "oracle",
+      "original_pass": true,
+      "harbor_wrapper_pass": true,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": true,
+        "scoring_primitive:loader_uses_load_yaml_dags": true,
+        "scoring_primitive:loader_kwarg_renames": true,
+        "scoring_primitive:loader_no_clean_dags": true,
+        "scoring_primitive:yaml_uses_schedule_not_schedule_interval": true,
+        "scoring_primitive:yaml_no_sec_shortcut_kwargs": true,
+        "scoring_primitive:yaml_timeouts_use_timedelta": true,
+        "scoring_primitive:yaml_logical_keys_consolidated": true,
+        "scoring_primitive:dag_factory_pin_uplifted": true,
+        "scoring_primitive:dag_factory_providers_declared": true,
+        "scoring_primitive:kpo_uses_type_annotations": true,
+        "scoring_primitive:timetable_uses_type_annotation": true,
+        "scoring_primitive:sla_miss_callback_handled": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": true,
+        "scoring_primitive:loader_uses_load_yaml_dags": true,
+        "scoring_primitive:loader_kwarg_renames": true,
+        "scoring_primitive:loader_no_clean_dags": true,
+        "scoring_primitive:yaml_uses_schedule_not_schedule_interval": true,
+        "scoring_primitive:yaml_no_sec_shortcut_kwargs": true,
+        "scoring_primitive:yaml_timeouts_use_timedelta": true,
+        "scoring_primitive:yaml_logical_keys_consolidated": true,
+        "scoring_primitive:dag_factory_pin_uplifted": true,
+        "scoring_primitive:dag_factory_providers_declared": true,
+        "scoring_primitive:kpo_uses_type_annotations": true,
+        "scoring_primitive:timetable_uses_type_annotation": true,
+        "scoring_primitive:sla_miss_callback_handled": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-dgfh01",
+      "state": "broken",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": true,
+        "scoring_primitive:loader_uses_load_yaml_dags": false,
+        "scoring_primitive:loader_kwarg_renames": false,
+        "scoring_primitive:loader_no_clean_dags": false,
+        "scoring_primitive:yaml_uses_schedule_not_schedule_interval": false,
+        "scoring_primitive:yaml_no_sec_shortcut_kwargs": false,
+        "scoring_primitive:yaml_timeouts_use_timedelta": false,
+        "scoring_primitive:yaml_logical_keys_consolidated": false,
+        "scoring_primitive:dag_factory_pin_uplifted": false,
+        "scoring_primitive:dag_factory_providers_declared": false,
+        "scoring_primitive:kpo_uses_type_annotations": false,
+        "scoring_primitive:timetable_uses_type_annotation": null,
+        "scoring_primitive:sla_miss_callback_handled": false
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": true,
+        "scoring_primitive:loader_uses_load_yaml_dags": false,
+        "scoring_primitive:loader_kwarg_renames": false,
+        "scoring_primitive:loader_no_clean_dags": false,
+        "scoring_primitive:yaml_uses_schedule_not_schedule_interval": false,
+        "scoring_primitive:yaml_no_sec_shortcut_kwargs": false,
+        "scoring_primitive:yaml_timeouts_use_timedelta": false,
+        "scoring_primitive:yaml_logical_keys_consolidated": false,
+        "scoring_primitive:dag_factory_pin_uplifted": false,
+        "scoring_primitive:dag_factory_providers_declared": false,
+        "scoring_primitive:kpo_uses_type_annotations": false,
+        "scoring_primitive:timetable_uses_type_annotation": null,
+        "scoring_primitive:sla_miss_callback_handled": false
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-dgfm01",
+      "state": "untouched",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": null,
+        "scoring_primitive:loader_uses_load_yaml_dags": null,
+        "scoring_primitive:loader_kwarg_renames": null,
+        "scoring_primitive:loader_no_clean_dags": null,
+        "scoring_primitive:yaml_uses_schedule_not_schedule_interval": null,
+        "scoring_primitive:yaml_no_sec_shortcut_kwargs": null,
+        "scoring_primitive:yaml_timeouts_use_timedelta": null,
+        "scoring_primitive:yaml_logical_keys_consolidated": null,
+        "scoring_primitive:dag_factory_pin_uplifted": null,
+        "scoring_primitive:dag_factory_providers_declared": null
+      },
+      "harbor_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": null,
+        "scoring_primitive:loader_uses_load_yaml_dags": null,
+        "scoring_primitive:loader_kwarg_renames": null,
+        "scoring_primitive:loader_no_clean_dags": null,
+        "scoring_primitive:yaml_uses_schedule_not_schedule_interval": null,
+        "scoring_primitive:yaml_no_sec_shortcut_kwargs": null,
+        "scoring_primitive:yaml_timeouts_use_timedelta": null,
+        "scoring_primitive:yaml_logical_keys_consolidated": null,
+        "scoring_primitive:dag_factory_pin_uplifted": null,
+        "scoring_primitive:dag_factory_providers_declared": null
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-dgfm01",
+      "state": "baseline",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": true,
+        "scoring_primitive:loader_uses_load_yaml_dags": false,
+        "scoring_primitive:loader_kwarg_renames": false,
+        "scoring_primitive:loader_no_clean_dags": false,
+        "scoring_primitive:yaml_uses_schedule_not_schedule_interval": false,
+        "scoring_primitive:yaml_no_sec_shortcut_kwargs": false,
+        "scoring_primitive:yaml_timeouts_use_timedelta": false,
+        "scoring_primitive:yaml_logical_keys_consolidated": false,
+        "scoring_primitive:dag_factory_pin_uplifted": false,
+        "scoring_primitive:dag_factory_providers_declared": false
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": true,
+        "scoring_primitive:loader_uses_load_yaml_dags": false,
+        "scoring_primitive:loader_kwarg_renames": false,
+        "scoring_primitive:loader_no_clean_dags": false,
+        "scoring_primitive:yaml_uses_schedule_not_schedule_interval": false,
+        "scoring_primitive:yaml_no_sec_shortcut_kwargs": false,
+        "scoring_primitive:yaml_timeouts_use_timedelta": false,
+        "scoring_primitive:yaml_logical_keys_consolidated": false,
+        "scoring_primitive:dag_factory_pin_uplifted": false,
+        "scoring_primitive:dag_factory_providers_declared": false
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-dgfm01",
+      "state": "oracle",
+      "original_pass": true,
+      "harbor_wrapper_pass": true,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": true,
+        "scoring_primitive:loader_uses_load_yaml_dags": true,
+        "scoring_primitive:loader_kwarg_renames": true,
+        "scoring_primitive:loader_no_clean_dags": true,
+        "scoring_primitive:yaml_uses_schedule_not_schedule_interval": true,
+        "scoring_primitive:yaml_no_sec_shortcut_kwargs": true,
+        "scoring_primitive:yaml_timeouts_use_timedelta": true,
+        "scoring_primitive:yaml_logical_keys_consolidated": true,
+        "scoring_primitive:dag_factory_pin_uplifted": true,
+        "scoring_primitive:dag_factory_providers_declared": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": true,
+        "scoring_primitive:loader_uses_load_yaml_dags": true,
+        "scoring_primitive:loader_kwarg_renames": true,
+        "scoring_primitive:loader_no_clean_dags": true,
+        "scoring_primitive:yaml_uses_schedule_not_schedule_interval": true,
+        "scoring_primitive:yaml_no_sec_shortcut_kwargs": true,
+        "scoring_primitive:yaml_timeouts_use_timedelta": true,
+        "scoring_primitive:yaml_logical_keys_consolidated": true,
+        "scoring_primitive:dag_factory_pin_uplifted": true,
+        "scoring_primitive:dag_factory_providers_declared": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-dgfm01",
+      "state": "broken",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": true,
+        "scoring_primitive:loader_uses_load_yaml_dags": false,
+        "scoring_primitive:loader_kwarg_renames": false,
+        "scoring_primitive:loader_no_clean_dags": false,
+        "scoring_primitive:yaml_uses_schedule_not_schedule_interval": false,
+        "scoring_primitive:yaml_no_sec_shortcut_kwargs": false,
+        "scoring_primitive:yaml_timeouts_use_timedelta": false,
+        "scoring_primitive:yaml_logical_keys_consolidated": false,
+        "scoring_primitive:dag_factory_pin_uplifted": false,
+        "scoring_primitive:dag_factory_providers_declared": false
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": true,
+        "scoring_primitive:loader_uses_load_yaml_dags": false,
+        "scoring_primitive:loader_kwarg_renames": false,
+        "scoring_primitive:loader_no_clean_dags": false,
+        "scoring_primitive:yaml_uses_schedule_not_schedule_interval": false,
+        "scoring_primitive:yaml_no_sec_shortcut_kwargs": false,
+        "scoring_primitive:yaml_timeouts_use_timedelta": false,
+        "scoring_primitive:yaml_logical_keys_consolidated": false,
+        "scoring_primitive:dag_factory_pin_uplifted": false,
+        "scoring_primitive:dag_factory_providers_declared": false
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-e1f374",
+      "state": "untouched",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": null,
+        "scoring_primitive:no_deprecated_usage": null,
+        "scoring_primitive:no_deprecated_context_vars": null,
+        "scoring_primitive:structural_match_taskids": null
+      },
+      "harbor_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": null,
+        "scoring_primitive:no_deprecated_usage": null,
+        "scoring_primitive:no_deprecated_context_vars": null,
+        "scoring_primitive:structural_match_taskids": null
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-e1f374",
+      "state": "baseline",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": false,
+        "scoring_primitive:no_deprecated_usage": false,
+        "scoring_primitive:no_deprecated_context_vars": false,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": false,
+        "scoring_primitive:no_deprecated_usage": false,
+        "scoring_primitive:no_deprecated_context_vars": false,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-e1f374",
+      "state": "oracle",
+      "original_pass": true,
+      "harbor_wrapper_pass": true,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": true,
+        "scoring_primitive:no_deprecated_usage": true,
+        "scoring_primitive:no_deprecated_context_vars": true,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": true,
+        "scoring_primitive:no_deprecated_usage": true,
+        "scoring_primitive:no_deprecated_context_vars": true,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-e1f374",
+      "state": "broken",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": false,
+        "scoring_primitive:no_deprecated_usage": false,
+        "scoring_primitive:no_deprecated_context_vars": false,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": false,
+        "scoring_primitive:no_deprecated_usage": false,
+        "scoring_primitive:no_deprecated_context_vars": false,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-e691fb",
+      "state": "untouched",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": null,
+        "scoring_primitive:schedule_interval_replaced": null,
+        "scoring_primitive:no_deprecated_context_vars": null,
+        "scoring_primitive:structural_match_taskids": null
+      },
+      "harbor_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": null,
+        "scoring_primitive:schedule_interval_replaced": null,
+        "scoring_primitive:no_deprecated_context_vars": null,
+        "scoring_primitive:structural_match_taskids": null
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-e691fb",
+      "state": "baseline",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": false,
+        "scoring_primitive:schedule_interval_replaced": false,
+        "scoring_primitive:no_deprecated_context_vars": false,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": false,
+        "scoring_primitive:schedule_interval_replaced": false,
+        "scoring_primitive:no_deprecated_context_vars": false,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-e691fb",
+      "state": "oracle",
+      "original_pass": true,
+      "harbor_wrapper_pass": true,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": true,
+        "scoring_primitive:schedule_interval_replaced": true,
+        "scoring_primitive:no_deprecated_context_vars": true,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": true,
+        "scoring_primitive:schedule_interval_replaced": true,
+        "scoring_primitive:no_deprecated_context_vars": true,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-e691fb",
+      "state": "broken",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": false,
+        "scoring_primitive:schedule_interval_replaced": false,
+        "scoring_primitive:no_deprecated_context_vars": false,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:no_deprecated_imports": false,
+        "scoring_primitive:schedule_interval_replaced": false,
+        "scoring_primitive:no_deprecated_context_vars": false,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-e9c7b1",
+      "state": "untouched",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:astro_runtime_target_aligned": null,
+        "scoring_primitive:no_deprecated_imports": null,
+        "scoring_primitive:no_deprecated_usage": null,
+        "scoring_primitive:no_deprecated_context_vars": null,
+        "scoring_primitive:schedule_interval_replaced": null,
+        "scoring_primitive:structural_match_taskids": null
+      },
+      "harbor_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:astro_runtime_target_aligned": null,
+        "scoring_primitive:no_deprecated_imports": null,
+        "scoring_primitive:no_deprecated_usage": null,
+        "scoring_primitive:no_deprecated_context_vars": null,
+        "scoring_primitive:schedule_interval_replaced": null,
+        "scoring_primitive:structural_match_taskids": null
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-e9c7b1",
+      "state": "baseline",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:astro_runtime_target_aligned": false,
+        "scoring_primitive:no_deprecated_imports": false,
+        "scoring_primitive:no_deprecated_usage": false,
+        "scoring_primitive:no_deprecated_context_vars": false,
+        "scoring_primitive:schedule_interval_replaced": false,
+        "scoring_primitive:structural_match_taskids": false
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:astro_runtime_target_aligned": false,
+        "scoring_primitive:no_deprecated_imports": false,
+        "scoring_primitive:no_deprecated_usage": false,
+        "scoring_primitive:no_deprecated_context_vars": false,
+        "scoring_primitive:schedule_interval_replaced": false,
+        "scoring_primitive:structural_match_taskids": false
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-e9c7b1",
+      "state": "oracle",
+      "original_pass": true,
+      "harbor_wrapper_pass": true,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:astro_runtime_target_aligned": true,
+        "scoring_primitive:no_deprecated_imports": true,
+        "scoring_primitive:no_deprecated_usage": true,
+        "scoring_primitive:no_deprecated_context_vars": true,
+        "scoring_primitive:schedule_interval_replaced": true,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:astro_runtime_target_aligned": true,
+        "scoring_primitive:no_deprecated_imports": true,
+        "scoring_primitive:no_deprecated_usage": true,
+        "scoring_primitive:no_deprecated_context_vars": true,
+        "scoring_primitive:schedule_interval_replaced": true,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-e9c7b1",
+      "state": "broken",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:astro_runtime_target_aligned": false,
+        "scoring_primitive:no_deprecated_imports": false,
+        "scoring_primitive:no_deprecated_usage": false,
+        "scoring_primitive:no_deprecated_context_vars": false,
+        "scoring_primitive:schedule_interval_replaced": false,
+        "scoring_primitive:structural_match_taskids": false
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:astro_runtime_target_aligned": false,
+        "scoring_primitive:no_deprecated_imports": false,
+        "scoring_primitive:no_deprecated_usage": false,
+        "scoring_primitive:no_deprecated_context_vars": false,
+        "scoring_primitive:schedule_interval_replaced": false,
+        "scoring_primitive:structural_match_taskids": false
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-ef8d00",
+      "state": "untouched",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:dbtdag_uses_projectconfig": null,
+        "scoring_primitive:dbtdag_uses_profileconfig": null,
+        "scoring_primitive:dbtdag_no_pre_1_0_kwargs": null,
+        "scoring_primitive:cosmos_imports_post_1_0": null,
+        "scoring_primitive:cosmos_pin_uplifted": null
+      },
+      "harbor_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:dbtdag_uses_projectconfig": null,
+        "scoring_primitive:dbtdag_uses_profileconfig": null,
+        "scoring_primitive:dbtdag_no_pre_1_0_kwargs": null,
+        "scoring_primitive:cosmos_imports_post_1_0": null,
+        "scoring_primitive:cosmos_pin_uplifted": null
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-ef8d00",
+      "state": "baseline",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:dbtdag_uses_projectconfig": false,
+        "scoring_primitive:dbtdag_uses_profileconfig": false,
+        "scoring_primitive:dbtdag_no_pre_1_0_kwargs": false,
+        "scoring_primitive:cosmos_imports_post_1_0": false,
+        "scoring_primitive:cosmos_pin_uplifted": false
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:dbtdag_uses_projectconfig": false,
+        "scoring_primitive:dbtdag_uses_profileconfig": false,
+        "scoring_primitive:dbtdag_no_pre_1_0_kwargs": false,
+        "scoring_primitive:cosmos_imports_post_1_0": false,
+        "scoring_primitive:cosmos_pin_uplifted": false
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-ef8d00",
+      "state": "oracle",
+      "original_pass": true,
+      "harbor_wrapper_pass": true,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:dbtdag_uses_projectconfig": true,
+        "scoring_primitive:dbtdag_uses_profileconfig": true,
+        "scoring_primitive:dbtdag_no_pre_1_0_kwargs": true,
+        "scoring_primitive:cosmos_imports_post_1_0": true,
+        "scoring_primitive:cosmos_pin_uplifted": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:dbtdag_uses_projectconfig": true,
+        "scoring_primitive:dbtdag_uses_profileconfig": true,
+        "scoring_primitive:dbtdag_no_pre_1_0_kwargs": true,
+        "scoring_primitive:cosmos_imports_post_1_0": true,
+        "scoring_primitive:cosmos_pin_uplifted": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-ef8d00",
+      "state": "broken",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:dbtdag_uses_projectconfig": false,
+        "scoring_primitive:dbtdag_uses_profileconfig": false,
+        "scoring_primitive:dbtdag_no_pre_1_0_kwargs": false,
+        "scoring_primitive:cosmos_imports_post_1_0": false,
+        "scoring_primitive:cosmos_pin_uplifted": false
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:dbtdag_uses_projectconfig": false,
+        "scoring_primitive:dbtdag_uses_profileconfig": false,
+        "scoring_primitive:dbtdag_no_pre_1_0_kwargs": false,
+        "scoring_primitive:cosmos_imports_post_1_0": false,
+        "scoring_primitive:cosmos_pin_uplifted": false
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-f1a2b3",
+      "state": "untouched",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:stepping_stone_path_match": null
+      },
+      "harbor_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:stepping_stone_path_match": null
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-f1a2b3",
+      "state": "baseline",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:stepping_stone_path_match": false
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:stepping_stone_path_match": false
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-f1a2b3",
+      "state": "oracle",
+      "original_pass": true,
+      "harbor_wrapper_pass": true,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:stepping_stone_path_match": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:stepping_stone_path_match": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-f1a2b3",
+      "state": "broken",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:stepping_stone_path_match": false
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:stepping_stone_path_match": false
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-fe8a73",
+      "state": "untouched",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": null,
+        "scoring_primitive:no_deprecated_usage": null,
+        "scoring_primitive:structural_match_taskids": null
+      },
+      "harbor_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": null,
+        "scoring_primitive:no_deprecated_usage": null,
+        "scoring_primitive:structural_match_taskids": null
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-fe8a73",
+      "state": "baseline",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": true,
+        "scoring_primitive:no_deprecated_usage": false,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": true,
+        "scoring_primitive:no_deprecated_usage": false,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-fe8a73",
+      "state": "oracle",
+      "original_pass": true,
+      "harbor_wrapper_pass": true,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": true,
+        "scoring_primitive:no_deprecated_usage": true,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": true,
+        "scoring_primitive:no_deprecated_usage": true,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-fe8a73",
+      "state": "broken",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": true,
+        "scoring_primitive:no_deprecated_usage": false,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": true,
+        "scoring_primitive:no_deprecated_usage": false,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-s5l4a3",
+      "state": "untouched",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": null,
+        "scoring_primitive:no_deprecated_usage": null,
+        "scoring_primitive:structural_match_taskids": null
+      },
+      "harbor_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": null,
+        "scoring_primitive:no_deprecated_usage": null,
+        "scoring_primitive:structural_match_taskids": null
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-s5l4a3",
+      "state": "baseline",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": false,
+        "scoring_primitive:no_deprecated_usage": false,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": false,
+        "scoring_primitive:no_deprecated_usage": false,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-s5l4a3",
+      "state": "oracle",
+      "original_pass": true,
+      "harbor_wrapper_pass": true,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": true,
+        "scoring_primitive:no_deprecated_usage": true,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": true,
+        "scoring_primitive:no_deprecated_usage": true,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-s5l4a3",
+      "state": "broken",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": false,
+        "scoring_primitive:no_deprecated_usage": false,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": false,
+        "scoring_primitive:no_deprecated_usage": false,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-sql01",
+      "state": "untouched",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": null,
+        "scoring_primitive:uses_sql_execute_query_operator": null,
+        "scoring_primitive:structural_match_taskids": null
+      },
+      "harbor_checks": {
+        "delivered": false,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": null,
+        "scoring_primitive:uses_sql_execute_query_operator": null,
+        "scoring_primitive:structural_match_taskids": null
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-sql01",
+      "state": "baseline",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": false,
+        "scoring_primitive:uses_sql_execute_query_operator": false,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": false,
+        "scoring_primitive:uses_sql_execute_query_operator": false,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-sql01",
+      "state": "oracle",
+      "original_pass": true,
+      "harbor_wrapper_pass": true,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": true,
+        "scoring_primitive:uses_sql_execute_query_operator": true,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": true,
+        "scoring_primitive:uses_sql_execute_query_operator": true,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    },
+    {
+      "task_id": "task-upgrade-v2-sql01",
+      "state": "broken",
+      "original_pass": false,
+      "harbor_wrapper_pass": false,
+      "checks_match": true,
+      "original_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": false,
+        "scoring_primitive:uses_sql_execute_query_operator": false,
+        "scoring_primitive:structural_match_taskids": true
+      },
+      "harbor_checks": {
+        "delivered": true,
+        "do_not_modify": null,
+        "scoring_primitive:airflow_pin_target_aligned": false,
+        "scoring_primitive:uses_sql_execute_query_operator": false,
+        "scoring_primitive:structural_match_taskids": true
+      }
+    }
+  ]
+}

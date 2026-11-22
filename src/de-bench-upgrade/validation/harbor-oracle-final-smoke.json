@@ -1,0 +1,82 @@
+{
+  "harbor_version": "0.27.0",
+  "upstream_commit": "5dcfc2b81b13dcf58cff49e192e97f1ae05f8dbc",
+  "environment_profile": "scoring-smoke",
+  "raw_results": "/home/lnq/adapters/jobs/de-bench-upgrade/oracle-final-smoke",
+  "trials": [
+    {
+      "task_name": "astronomer/task-upgrade-v2-23f2a0",
+      "trial": "task-upgrade-v2-23f2a0__9FEYhbq",
+      "reward": 1.0,
+      "exception": null
+    },
+    {
+      "task_name": "astronomer/task-upgrade-v2-2c5f8a",
+      "trial": "task-upgrade-v2-2c5f8a__eqpHq36",
+      "reward": 1.0,
+      "exception": null
+    },
+    {
+      "task_name": "astronomer/task-upgrade-v2-a1b2c3",
+      "trial": "task-upgrade-v2-a1b2c3__RnNcJWr",
+      "reward": 1.0,
+      "exception": null
+    },
+    {
+      "task_name": "astronomer/task-upgrade-v2-cosme01",
+      "trial": "task-upgrade-v2-cosme01__VoRFWyT",
+      "reward": 1.0,
+      "exception": null
+    },
+    {
+      "task_name": "astronomer/task-upgrade-v2-dgfh01",
+      "trial": "task-upgrade-v2-dgfh01__hXvs9cF",
+      "reward": 1.0,
+      "exception": null
+    }
+  ],
+  "job_result": {
+    "schema_version": 1,
+    "id": "c7cbe526-df98-4ccd-8dd4-edfe48feb831",
+    "started_at": "2026-11-22T11:00:49.204472",
+    "updated_at": "2026-11-22T11:01:27.266451",
+    "finished_at": "2026-11-22T11:01:27.266451",
+    "n_total_trials": 5,
+    "stats": {
+      "n_completed_trials": 5,
+      "n_errored_trials": 0,
+      "n_running_trials": 0,
+      "n_pending_trials": 0,
+      "n_cancelled_trials": 0,
+      "n_retries": 0,
+      "evals": {
+        "oracle__de-bench-final-smoke": {
+          "n_trials": 5,
+          "n_errors": 0,
+          "metrics": [
+            {
+              "mean": 1.0
+            }
+          ],
+          "pass_at_k": {},
+          "reward_stats": {
+            "reward": {
+              "1.0": [
+                "task-upgrade-v2-23f2a0__9FEYhbq",
+                "task-upgrade-v2-2c5f8a__eqpHq36",
+                "task-upgrade-v2-a1b2c3__RnNcJWr",
+                "task-upgrade-v2-cosme01__VoRFWyT",
+                "task-upgrade-v2-dgfh01__hXvs9cF"
+              ]
+            }
+          },
+          "exception_stats": {}
+        }
+      },
+      "n_input_tokens": null,
+      "n_cache_tokens": null,
+      "n_output_tokens": null,
+      "cost_usd": null
+    }
+  }
+}

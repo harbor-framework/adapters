@@ -1,0 +1,12 @@
+test_inventory_and_deterministic_generation (test_adapter.CorpusTest.test_inventory_and_deterministic_generation) ... ok
+test_stashed_oracle_edits_are_recovered_without_mutating_agent (test_adapter.CorpusTest.test_stashed_oracle_edits_are_recovered_without_mutating_agent) ... ok
+test_subset_generation_cannot_leave_stale_tasks (test_adapter.CorpusTest.test_subset_generation_cannot_leave_stale_tasks) ... ok
+test_unknown_task_and_existing_destination_rejected (test_adapter.CorpusTest.test_unknown_task_and_existing_destination_rejected) ... ok
+test_verifier_protected_paths_and_excluded_outputs (test_adapter.CorpusTest.test_verifier_protected_paths_and_excluded_outputs) ... ok
+test_deleted_globs_and_overlay (test_adapter.OverlayTest.test_deleted_globs_and_overlay) ... ok
+test_deletion_cannot_escape (test_adapter.OverlayTest.test_deletion_cannot_escape) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 5.041s
+
+OK

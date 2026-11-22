@@ -1,0 +1,21 @@
+version = "1.0"
+
+[task]
+name = "astronomer/__TASK_ID__"
+authors = [{name = "Astronomer / de-bench contributors"}]
+
+[metadata]
+category = "programming"
+tags = ["airflow", "migration", "de-bench", "scoring-smoke"]
+
+[agent]
+timeout_sec = __TIMEOUT__
+
+[verifier]
+timeout_sec = 180
+
+[environment]
+build_timeout_sec = 600
+cpus = 1
+memory_mb = 2048
+storage_mb = 10240

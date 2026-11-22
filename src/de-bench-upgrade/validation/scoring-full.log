@@ -1,0 +1,1600 @@
+  FAIL delivered
+  skip do_not_modify
+  skip scoring_primitive:astro_runtime_target_aligned
+  skip scoring_primitive:no_deprecated_imports
+  skip scoring_primitive:structural_match_taskids
+verdict: fail (1 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:astro_runtime_target_aligned
+  FAIL scoring_primitive:no_deprecated_imports
+  ok   scoring_primitive:structural_match_taskids
+verdict: fail (4 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:astro_runtime_target_aligned
+  ok   scoring_primitive:no_deprecated_imports
+  ok   scoring_primitive:structural_match_taskids
+verdict: PASS (4 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:astro_runtime_target_aligned
+  FAIL scoring_primitive:no_deprecated_imports
+  ok   scoring_primitive:structural_match_taskids
+verdict: fail (4 check(s) ran)
+  FAIL delivered
+  skip do_not_modify
+  skip scoring_primitive:import_ok
+  skip scoring_primitive:triggers_outside_bundle
+verdict: fail (1 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:import_ok
+  FAIL scoring_primitive:triggers_outside_bundle
+verdict: fail (3 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:import_ok
+  ok   scoring_primitive:triggers_outside_bundle
+verdict: PASS (3 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:import_ok
+  FAIL scoring_primitive:triggers_outside_bundle
+verdict: fail (3 check(s) ran)
+  FAIL delivered
+  skip do_not_modify
+  skip scoring_primitive:kpo_uses_type_annotations
+  skip scoring_primitive:loader_uses_load_yaml_dags
+  skip scoring_primitive:dag_factory_pin_uplifted
+  skip scoring_primitive:yaml_uses_schedule_not_schedule_interval
+verdict: fail (1 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:kpo_uses_type_annotations
+  FAIL scoring_primitive:loader_uses_load_yaml_dags
+  FAIL scoring_primitive:dag_factory_pin_uplifted
+  FAIL scoring_primitive:yaml_uses_schedule_not_schedule_interval
+verdict: fail (5 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:kpo_uses_type_annotations
+  ok   scoring_primitive:loader_uses_load_yaml_dags
+  ok   scoring_primitive:dag_factory_pin_uplifted
+  ok   scoring_primitive:yaml_uses_schedule_not_schedule_interval
+verdict: PASS (5 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:kpo_uses_type_annotations
+  FAIL scoring_primitive:loader_uses_load_yaml_dags
+  FAIL scoring_primitive:dag_factory_pin_uplifted
+  FAIL scoring_primitive:yaml_uses_schedule_not_schedule_interval
+verdict: fail (5 check(s) ran)
+  FAIL delivered
+  skip do_not_modify
+  skip scoring_primitive:dag_imports_bundle_safe
+  skip scoring_primitive:imports_clean_across_sibling_pkgs
+  skip scoring_primitive:triggers_outside_bundle
+  skip scoring_primitive:no_deprecated_imports
+verdict: fail (1 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:dag_imports_bundle_safe
+  FAIL scoring_primitive:imports_clean_across_sibling_pkgs
+  FAIL scoring_primitive:triggers_outside_bundle
+  FAIL scoring_primitive:no_deprecated_imports
+verdict: fail (5 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:dag_imports_bundle_safe
+  ok   scoring_primitive:imports_clean_across_sibling_pkgs
+  ok   scoring_primitive:triggers_outside_bundle
+  ok   scoring_primitive:no_deprecated_imports
+verdict: PASS (5 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:dag_imports_bundle_safe
+  FAIL scoring_primitive:imports_clean_across_sibling_pkgs
+  FAIL scoring_primitive:triggers_outside_bundle
+  FAIL scoring_primitive:no_deprecated_imports
+verdict: fail (5 check(s) ran)
+  FAIL delivered
+  skip do_not_modify
+  skip scoring_primitive:provider_compatibility_check
+verdict: fail (1 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:provider_compatibility_check
+verdict: fail (2 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:provider_compatibility_check
+verdict: PASS (2 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:provider_compatibility_check
+verdict: fail (2 check(s) ran)
+  FAIL delivered
+  skip do_not_modify
+  skip scoring_primitive:xcom_pull_explicit_task_ids
+  skip scoring_primitive:structural_match_taskids
+verdict: fail (1 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:xcom_pull_explicit_task_ids
+  ok   scoring_primitive:structural_match_taskids
+verdict: fail (3 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:xcom_pull_explicit_task_ids
+  ok   scoring_primitive:structural_match_taskids
+verdict: PASS (3 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:xcom_pull_explicit_task_ids
+  ok   scoring_primitive:structural_match_taskids
+verdict: fail (3 check(s) ran)
+  FAIL delivered
+  skip do_not_modify
+  skip scoring_primitive:provider_compatibility_check
+verdict: fail (1 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:provider_compatibility_check
+verdict: fail (2 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:provider_compatibility_check
+verdict: PASS (2 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:provider_compatibility_check
+verdict: fail (2 check(s) ran)
+  FAIL delivered
+  skip do_not_modify
+  skip scoring_primitive:no_deprecated_imports
+  skip scoring_primitive:no_deprecated_usage
+  skip scoring_primitive:structural_match_taskids
+verdict: fail (1 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:no_deprecated_imports
+  FAIL scoring_primitive:no_deprecated_usage
+  ok   scoring_primitive:structural_match_taskids
+verdict: fail (4 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:no_deprecated_imports
+  ok   scoring_primitive:no_deprecated_usage
+  ok   scoring_primitive:structural_match_taskids
+verdict: PASS (4 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:no_deprecated_imports
+  FAIL scoring_primitive:no_deprecated_usage
+  ok   scoring_primitive:structural_match_taskids
+verdict: fail (4 check(s) ran)
+  FAIL delivered
+  skip do_not_modify
+  skip scoring_primitive:provider_incompatibility_flagged
+verdict: fail (1 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:provider_incompatibility_flagged
+verdict: fail (2 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:provider_incompatibility_flagged
+verdict: PASS (2 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:provider_incompatibility_flagged
+verdict: fail (2 check(s) ran)
+  FAIL delivered
+  skip do_not_modify
+  skip scoring_primitive:provider_compatibility_check
+verdict: fail (1 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:provider_compatibility_check
+verdict: fail (2 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:provider_compatibility_check
+verdict: PASS (2 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:provider_compatibility_check
+verdict: fail (2 check(s) ran)
+  FAIL delivered
+  skip do_not_modify
+  skip scoring_primitive:no_deprecated_imports
+  skip scoring_primitive:no_deprecated_usage
+  skip scoring_primitive:structural_match_taskids
+verdict: fail (1 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:no_deprecated_imports
+  FAIL scoring_primitive:no_deprecated_usage
+  ok   scoring_primitive:structural_match_taskids
+verdict: fail (4 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:no_deprecated_imports
+  ok   scoring_primitive:no_deprecated_usage
+  ok   scoring_primitive:structural_match_taskids
+verdict: PASS (4 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:no_deprecated_imports
+  FAIL scoring_primitive:no_deprecated_usage
+  ok   scoring_primitive:structural_match_taskids
+verdict: fail (4 check(s) ran)
+  FAIL delivered
+  skip do_not_modify
+  skip scoring_primitive:no_deprecated_imports
+  skip scoring_primitive:no_deprecated_context_vars
+  skip scoring_primitive:no_deprecated_usage
+  skip scoring_primitive:no_removed_ti_attrs
+  skip scoring_primitive:structural_match_taskids
+verdict: fail (1 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:no_deprecated_imports
+  FAIL scoring_primitive:no_deprecated_context_vars
+  FAIL scoring_primitive:no_deprecated_usage
+  FAIL scoring_primitive:no_removed_ti_attrs
+  ok   scoring_primitive:structural_match_taskids
+verdict: fail (6 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:no_deprecated_imports
+  ok   scoring_primitive:no_deprecated_context_vars
+  ok   scoring_primitive:no_deprecated_usage
+  ok   scoring_primitive:no_removed_ti_attrs
+  ok   scoring_primitive:structural_match_taskids
+verdict: PASS (6 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:no_deprecated_imports
+  FAIL scoring_primitive:no_deprecated_context_vars
+  FAIL scoring_primitive:no_deprecated_usage
+  FAIL scoring_primitive:no_removed_ti_attrs
+  ok   scoring_primitive:structural_match_taskids
+verdict: fail (6 check(s) ran)
+  FAIL delivered
+  skip do_not_modify
+  skip scoring_primitive:astro_runtime_target_aligned
+  skip scoring_primitive:no_deprecated_imports
+  skip scoring_primitive:structural_match_taskids
+verdict: fail (1 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:astro_runtime_target_aligned
+  FAIL scoring_primitive:no_deprecated_imports
+  ok   scoring_primitive:structural_match_taskids
+verdict: fail (4 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:astro_runtime_target_aligned
+  ok   scoring_primitive:no_deprecated_imports
+  ok   scoring_primitive:structural_match_taskids
+verdict: PASS (4 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:astro_runtime_target_aligned
+  FAIL scoring_primitive:no_deprecated_imports
+  ok   scoring_primitive:structural_match_taskids
+verdict: fail (4 check(s) ran)
+  FAIL delivered
+  skip do_not_modify
+  skip scoring_primitive:stepping_stone_path_match
+verdict: fail (1 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:stepping_stone_path_match
+verdict: fail (2 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:stepping_stone_path_match
+verdict: PASS (2 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:stepping_stone_path_match
+verdict: fail (2 check(s) ran)
+  FAIL delivered
+  skip do_not_modify
+  skip scoring_primitive:tz_aware_start_date
+  skip scoring_primitive:structural_match_taskids
+verdict: fail (1 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:tz_aware_start_date
+  ok   scoring_primitive:structural_match_taskids
+verdict: fail (3 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:tz_aware_start_date
+  ok   scoring_primitive:structural_match_taskids
+verdict: PASS (3 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:tz_aware_start_date
+  ok   scoring_primitive:structural_match_taskids
+verdict: fail (3 check(s) ran)
+  FAIL delivered
+  skip do_not_modify
+  skip scoring_primitive:stepping_stone_path_match
+verdict: fail (1 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:stepping_stone_path_match
+verdict: fail (2 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:stepping_stone_path_match
+verdict: PASS (2 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:stepping_stone_path_match
+verdict: fail (2 check(s) ran)
+  FAIL delivered
+  skip do_not_modify
+  skip scoring_primitive:provider_compatibility_check
+verdict: fail (1 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:provider_compatibility_check
+verdict: fail (2 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:provider_compatibility_check
+verdict: PASS (2 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:provider_compatibility_check
+verdict: fail (2 check(s) ran)
+  FAIL delivered
+  skip do_not_modify
+  skip scoring_primitive:render_config_explicit_load_mode
+  skip scoring_primitive:dbtdag_uses_projectconfig
+  skip scoring_primitive:dbtdag_uses_profileconfig
+  skip scoring_primitive:cosmos_imports_post_1_0
+  skip scoring_primitive:cosmos_pin_uplifted
+verdict: fail (1 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:render_config_explicit_load_mode
+  FAIL scoring_primitive:dbtdag_uses_projectconfig
+  FAIL scoring_primitive:dbtdag_uses_profileconfig
+  FAIL scoring_primitive:cosmos_imports_post_1_0
+  FAIL scoring_primitive:cosmos_pin_uplifted
+verdict: fail (6 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:render_config_explicit_load_mode
+  ok   scoring_primitive:dbtdag_uses_projectconfig
+  ok   scoring_primitive:dbtdag_uses_profileconfig
+  ok   scoring_primitive:cosmos_imports_post_1_0
+  ok   scoring_primitive:cosmos_pin_uplifted
+verdict: PASS (6 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:render_config_explicit_load_mode
+  FAIL scoring_primitive:dbtdag_uses_projectconfig
+  FAIL scoring_primitive:dbtdag_uses_profileconfig
+  FAIL scoring_primitive:cosmos_imports_post_1_0
+  FAIL scoring_primitive:cosmos_pin_uplifted
+verdict: fail (6 check(s) ran)
+  FAIL delivered
+  skip do_not_modify
+  skip scoring_primitive:no_deprecated_imports
+  skip scoring_primitive:structural_match_taskids
+  skip scoring_primitive:stepping_stone_respected
+verdict: fail (1 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:no_deprecated_imports
+  ok   scoring_primitive:structural_match_taskids
+  FAIL scoring_primitive:stepping_stone_respected
+verdict: fail (4 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:no_deprecated_imports
+  ok   scoring_primitive:structural_match_taskids
+  ok   scoring_primitive:stepping_stone_respected
+verdict: PASS (4 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:no_deprecated_imports
+  ok   scoring_primitive:structural_match_taskids
+  FAIL scoring_primitive:stepping_stone_respected
+verdict: fail (4 check(s) ran)
+  FAIL delivered
+  skip do_not_modify
+  skip scoring_primitive:loader_uses_load_yaml_dags
+  skip scoring_primitive:yaml_uses_schedule_not_schedule_interval
+  skip scoring_primitive:dag_factory_pin_uplifted
+  skip scoring_primitive:dag_factory_providers_declared
+verdict: fail (1 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:loader_uses_load_yaml_dags
+  FAIL scoring_primitive:yaml_uses_schedule_not_schedule_interval
+  FAIL scoring_primitive:dag_factory_pin_uplifted
+  FAIL scoring_primitive:dag_factory_providers_declared
+verdict: fail (5 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:loader_uses_load_yaml_dags
+  ok   scoring_primitive:yaml_uses_schedule_not_schedule_interval
+  ok   scoring_primitive:dag_factory_pin_uplifted
+  ok   scoring_primitive:dag_factory_providers_declared
+verdict: PASS (5 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:loader_uses_load_yaml_dags
+  FAIL scoring_primitive:yaml_uses_schedule_not_schedule_interval
+  FAIL scoring_primitive:dag_factory_pin_uplifted
+  FAIL scoring_primitive:dag_factory_providers_declared
+verdict: fail (5 check(s) ran)
+  FAIL delivered
+  skip do_not_modify
+  skip scoring_primitive:stepping_stone_path_match
+verdict: fail (1 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:stepping_stone_path_match
+verdict: fail (2 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:stepping_stone_path_match
+verdict: PASS (2 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:stepping_stone_path_match
+verdict: fail (2 check(s) ran)
+  FAIL delivered
+  skip do_not_modify
+  skip scoring_primitive:no_deprecated_imports
+  skip scoring_primitive:no_deprecated_context_vars
+  skip scoring_primitive:no_orm_access
+  skip scoring_primitive:uses_task_sdk_ipc
+  skip scoring_primitive:structural_match_taskids
+verdict: fail (1 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:no_deprecated_imports
+  FAIL scoring_primitive:no_deprecated_context_vars
+  FAIL scoring_primitive:no_orm_access
+  FAIL scoring_primitive:uses_task_sdk_ipc
+  ok   scoring_primitive:structural_match_taskids
+verdict: fail (6 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:no_deprecated_imports
+  ok   scoring_primitive:no_deprecated_context_vars
+  ok   scoring_primitive:no_orm_access
+  ok   scoring_primitive:uses_task_sdk_ipc
+  ok   scoring_primitive:structural_match_taskids
+verdict: PASS (6 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:no_deprecated_imports
+  FAIL scoring_primitive:no_deprecated_context_vars
+  FAIL scoring_primitive:no_orm_access
+  FAIL scoring_primitive:uses_task_sdk_ipc
+  ok   scoring_primitive:structural_match_taskids
+verdict: fail (6 check(s) ran)
+  FAIL delivered
+  skip do_not_modify
+  skip scoring_primitive:no_deprecated_imports
+  skip scoring_primitive:no_deprecated_usage
+  skip scoring_primitive:no_removed_ti_attrs
+  skip scoring_primitive:task_group_matches_oracle
+  skip scoring_primitive:structural_match_taskids
+verdict: fail (1 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:no_deprecated_imports
+  FAIL scoring_primitive:no_deprecated_usage
+  FAIL scoring_primitive:no_removed_ti_attrs
+  ok   scoring_primitive:task_group_matches_oracle
+  ok   scoring_primitive:structural_match_taskids
+verdict: fail (6 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:no_deprecated_imports
+  ok   scoring_primitive:no_deprecated_usage
+  ok   scoring_primitive:no_removed_ti_attrs
+  ok   scoring_primitive:task_group_matches_oracle
+  ok   scoring_primitive:structural_match_taskids
+verdict: PASS (6 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:no_deprecated_imports
+  FAIL scoring_primitive:no_deprecated_usage
+  FAIL scoring_primitive:no_removed_ti_attrs
+  ok   scoring_primitive:task_group_matches_oracle
+  ok   scoring_primitive:structural_match_taskids
+verdict: fail (6 check(s) ran)
+  FAIL delivered
+  skip do_not_modify
+  skip scoring_primitive:no_deprecated_imports
+  skip scoring_primitive:structural_match_taskids
+verdict: fail (1 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:no_deprecated_imports
+  ok   scoring_primitive:structural_match_taskids
+verdict: fail (3 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:no_deprecated_imports
+  ok   scoring_primitive:structural_match_taskids
+verdict: PASS (3 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:no_deprecated_imports
+  ok   scoring_primitive:structural_match_taskids
+verdict: fail (3 check(s) ran)
+  FAIL delivered
+  skip do_not_modify
+  skip scoring_primitive:provider_compatibility_check
+verdict: fail (1 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:provider_compatibility_check
+verdict: fail (2 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:provider_compatibility_check
+verdict: PASS (2 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:provider_compatibility_check
+verdict: fail (2 check(s) ran)
+  FAIL delivered
+  skip do_not_modify
+  skip scoring_primitive:provider_incompatibility_flagged
+verdict: fail (1 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:provider_incompatibility_flagged
+verdict: fail (2 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:provider_incompatibility_flagged
+verdict: PASS (2 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:provider_incompatibility_flagged
+verdict: fail (2 check(s) ran)
+  FAIL delivered
+  skip do_not_modify
+  skip scoring_primitive:import_ok
+  skip scoring_primitive:no_orm_access
+  skip scoring_primitive:uses_task_sdk_ipc
+  skip scoring_primitive:fixture_taskids_preserved_plus_count
+verdict: fail (1 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:import_ok
+  ok   scoring_primitive:no_orm_access
+  FAIL scoring_primitive:uses_task_sdk_ipc
+  FAIL scoring_primitive:fixture_taskids_preserved_plus_count
+verdict: fail (5 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:import_ok
+  ok   scoring_primitive:no_orm_access
+  ok   scoring_primitive:uses_task_sdk_ipc
+  ok   scoring_primitive:fixture_taskids_preserved_plus_count
+verdict: PASS (5 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:import_ok
+  ok   scoring_primitive:no_orm_access
+  FAIL scoring_primitive:uses_task_sdk_ipc
+  FAIL scoring_primitive:fixture_taskids_preserved_plus_count
+verdict: fail (5 check(s) ran)
+  FAIL delivered
+  skip do_not_modify
+  skip scoring_primitive:airflow_pin_target_aligned
+  skip scoring_primitive:baseoperator_from_sdk
+  skip scoring_primitive:operator_link_uses_af3_signature
+  skip scoring_primitive:imports_clean_across_sibling_pkgs
+  skip scoring_primitive:structural_match_taskids
+verdict: fail (1 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:airflow_pin_target_aligned
+  FAIL scoring_primitive:baseoperator_from_sdk
+  FAIL scoring_primitive:operator_link_uses_af3_signature
+  ok   scoring_primitive:imports_clean_across_sibling_pkgs
+  ok   scoring_primitive:structural_match_taskids
+verdict: fail (6 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:airflow_pin_target_aligned
+  ok   scoring_primitive:baseoperator_from_sdk
+  ok   scoring_primitive:operator_link_uses_af3_signature
+  ok   scoring_primitive:imports_clean_across_sibling_pkgs
+  ok   scoring_primitive:structural_match_taskids
+verdict: PASS (6 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:airflow_pin_target_aligned
+  FAIL scoring_primitive:baseoperator_from_sdk
+  FAIL scoring_primitive:operator_link_uses_af3_signature
+  ok   scoring_primitive:imports_clean_across_sibling_pkgs
+  ok   scoring_primitive:structural_match_taskids
+verdict: fail (6 check(s) ran)
+  FAIL delivered
+  skip do_not_modify
+  skip scoring_primitive:python_drop_detected
+verdict: fail (1 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:python_drop_detected
+verdict: fail (2 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:python_drop_detected
+verdict: PASS (2 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:python_drop_detected
+verdict: fail (2 check(s) ran)
+  FAIL delivered
+  skip do_not_modify
+  skip scoring_primitive:no_deprecated_imports
+  skip scoring_primitive:no_deprecated_context_vars
+  skip scoring_primitive:structural_match_taskids
+verdict: fail (1 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:no_deprecated_imports
+  FAIL scoring_primitive:no_deprecated_context_vars
+  ok   scoring_primitive:structural_match_taskids
+verdict: fail (4 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:no_deprecated_imports
+  ok   scoring_primitive:no_deprecated_context_vars
+  ok   scoring_primitive:structural_match_taskids
+verdict: PASS (4 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:no_deprecated_imports
+  FAIL scoring_primitive:no_deprecated_context_vars
+  ok   scoring_primitive:structural_match_taskids
+verdict: fail (4 check(s) ran)
+  FAIL delivered
+  skip do_not_modify
+  skip scoring_primitive:airflow_pin_target_aligned
+  skip scoring_primitive:no_deprecated_usage
+  skip scoring_primitive:structural_match_taskids
+verdict: fail (1 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:airflow_pin_target_aligned
+  FAIL scoring_primitive:no_deprecated_usage
+  ok   scoring_primitive:structural_match_taskids
+verdict: fail (4 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:airflow_pin_target_aligned
+  ok   scoring_primitive:no_deprecated_usage
+  ok   scoring_primitive:structural_match_taskids
+verdict: PASS (4 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:airflow_pin_target_aligned
+  FAIL scoring_primitive:no_deprecated_usage
+  ok   scoring_primitive:structural_match_taskids
+verdict: fail (4 check(s) ran)
+  FAIL delivered
+  skip do_not_modify
+  skip scoring_primitive:uses_sql_execute_query_operator
+  skip scoring_primitive:no_deprecated_usage
+  skip scoring_primitive:no_deprecated_imports
+  skip scoring_primitive:structural_match_taskids
+verdict: fail (1 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:uses_sql_execute_query_operator
+  FAIL scoring_primitive:no_deprecated_usage
+  FAIL scoring_primitive:no_deprecated_imports
+  ok   scoring_primitive:structural_match_taskids
+verdict: fail (5 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:uses_sql_execute_query_operator
+  ok   scoring_primitive:no_deprecated_usage
+  ok   scoring_primitive:no_deprecated_imports
+  ok   scoring_primitive:structural_match_taskids
+verdict: PASS (5 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:uses_sql_execute_query_operator
+  FAIL scoring_primitive:no_deprecated_usage
+  FAIL scoring_primitive:no_deprecated_imports
+  ok   scoring_primitive:structural_match_taskids
+verdict: fail (5 check(s) ran)
+  FAIL delivered
+  skip do_not_modify
+  skip scoring_primitive:import_ok
+  skip scoring_primitive:no_orm_access
+  skip scoring_primitive:uses_task_sdk_ipc
+  skip scoring_primitive:task_sdk_ipc_version_aware
+  skip scoring_primitive:fixture_taskids_preserved_plus_count
+verdict: fail (1 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:import_ok
+  ok   scoring_primitive:no_orm_access
+  FAIL scoring_primitive:uses_task_sdk_ipc
+  skip scoring_primitive:task_sdk_ipc_version_aware
+  FAIL scoring_primitive:fixture_taskids_preserved_plus_count
+verdict: fail (5 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:import_ok
+  ok   scoring_primitive:no_orm_access
+  ok   scoring_primitive:uses_task_sdk_ipc
+  ok   scoring_primitive:task_sdk_ipc_version_aware
+  ok   scoring_primitive:fixture_taskids_preserved_plus_count
+verdict: PASS (6 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:import_ok
+  ok   scoring_primitive:no_orm_access
+  FAIL scoring_primitive:uses_task_sdk_ipc
+  skip scoring_primitive:task_sdk_ipc_version_aware
+  FAIL scoring_primitive:fixture_taskids_preserved_plus_count
+verdict: fail (5 check(s) ran)
+  FAIL delivered
+  skip do_not_modify
+  skip scoring_primitive:dbt_local_operators_use_profileconfig
+  skip scoring_primitive:cosmos_imports_post_1_0
+  skip scoring_primitive:cosmos_pin_uplifted
+verdict: fail (1 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:dbt_local_operators_use_profileconfig
+  FAIL scoring_primitive:cosmos_imports_post_1_0
+  FAIL scoring_primitive:cosmos_pin_uplifted
+verdict: fail (4 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:dbt_local_operators_use_profileconfig
+  ok   scoring_primitive:cosmos_imports_post_1_0
+  ok   scoring_primitive:cosmos_pin_uplifted
+verdict: PASS (4 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:dbt_local_operators_use_profileconfig
+  FAIL scoring_primitive:cosmos_imports_post_1_0
+  FAIL scoring_primitive:cosmos_pin_uplifted
+verdict: fail (4 check(s) ran)
+  FAIL delivered
+  skip do_not_modify
+  skip scoring_primitive:timetable_uses_type_annotation
+  skip scoring_primitive:loader_uses_load_yaml_dags
+  skip scoring_primitive:sla_miss_callback_handled
+  skip scoring_primitive:dag_factory_pin_uplifted
+verdict: fail (1 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:timetable_uses_type_annotation
+  FAIL scoring_primitive:loader_uses_load_yaml_dags
+  FAIL scoring_primitive:sla_miss_callback_handled
+  FAIL scoring_primitive:dag_factory_pin_uplifted
+verdict: fail (5 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:timetable_uses_type_annotation
+  ok   scoring_primitive:loader_uses_load_yaml_dags
+  ok   scoring_primitive:sla_miss_callback_handled
+  ok   scoring_primitive:dag_factory_pin_uplifted
+verdict: PASS (5 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:timetable_uses_type_annotation
+  FAIL scoring_primitive:loader_uses_load_yaml_dags
+  FAIL scoring_primitive:sla_miss_callback_handled
+  FAIL scoring_primitive:dag_factory_pin_uplifted
+verdict: fail (5 check(s) ran)
+  FAIL delivered
+  skip do_not_modify
+  skip scoring_primitive:airflow_pin_target_aligned
+  skip scoring_primitive:baseoperator_from_sdk
+  skip scoring_primitive:imports_clean_across_sibling_pkgs
+  skip scoring_primitive:structural_match_taskids
+verdict: fail (1 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:airflow_pin_target_aligned
+  FAIL scoring_primitive:baseoperator_from_sdk
+  FAIL scoring_primitive:imports_clean_across_sibling_pkgs
+  ok   scoring_primitive:structural_match_taskids
+verdict: fail (5 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:airflow_pin_target_aligned
+  ok   scoring_primitive:baseoperator_from_sdk
+  ok   scoring_primitive:imports_clean_across_sibling_pkgs
+  ok   scoring_primitive:structural_match_taskids
+verdict: PASS (5 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:airflow_pin_target_aligned
+  FAIL scoring_primitive:baseoperator_from_sdk
+  FAIL scoring_primitive:imports_clean_across_sibling_pkgs
+  ok   scoring_primitive:structural_match_taskids
+verdict: fail (5 check(s) ran)
+  FAIL delivered
+  skip do_not_modify
+  skip scoring_primitive:no_deprecated_imports
+  skip scoring_primitive:no_deprecated_context_vars
+  skip scoring_primitive:siblings_no_deprecated_context_vars
+  skip scoring_primitive:imports_clean_across_sibling_pkgs
+  skip scoring_primitive:structural_match_taskids
+verdict: fail (1 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:no_deprecated_imports
+  FAIL scoring_primitive:no_deprecated_context_vars
+  FAIL scoring_primitive:siblings_no_deprecated_context_vars
+  FAIL scoring_primitive:imports_clean_across_sibling_pkgs
+  ok   scoring_primitive:structural_match_taskids
+verdict: fail (6 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:no_deprecated_imports
+  ok   scoring_primitive:no_deprecated_context_vars
+  ok   scoring_primitive:siblings_no_deprecated_context_vars
+  ok   scoring_primitive:imports_clean_across_sibling_pkgs
+  ok   scoring_primitive:structural_match_taskids
+verdict: PASS (6 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:no_deprecated_imports
+  FAIL scoring_primitive:no_deprecated_context_vars
+  FAIL scoring_primitive:siblings_no_deprecated_context_vars
+  FAIL scoring_primitive:imports_clean_across_sibling_pkgs
+  ok   scoring_primitive:structural_match_taskids
+verdict: fail (6 check(s) ran)
+  FAIL delivered
+  skip do_not_modify
+  skip scoring_primitive:no_deprecated_imports
+  skip scoring_primitive:no_deprecated_context_vars
+  skip scoring_primitive:imports_clean_across_sibling_pkgs
+  skip scoring_primitive:siblings_no_deprecated_context_vars
+verdict: fail (1 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:no_deprecated_imports
+  ok   scoring_primitive:no_deprecated_context_vars
+  FAIL scoring_primitive:imports_clean_across_sibling_pkgs
+  FAIL scoring_primitive:siblings_no_deprecated_context_vars
+verdict: fail (5 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:no_deprecated_imports
+  ok   scoring_primitive:no_deprecated_context_vars
+  ok   scoring_primitive:imports_clean_across_sibling_pkgs
+  ok   scoring_primitive:siblings_no_deprecated_context_vars
+verdict: PASS (5 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:no_deprecated_imports
+  ok   scoring_primitive:no_deprecated_context_vars
+  FAIL scoring_primitive:imports_clean_across_sibling_pkgs
+  FAIL scoring_primitive:siblings_no_deprecated_context_vars
+verdict: fail (5 check(s) ran)
+  FAIL delivered
+  skip do_not_modify
+  skip scoring_primitive:detected_airflow_version_match
+verdict: fail (1 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:detected_airflow_version_match
+verdict: fail (2 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:detected_airflow_version_match
+verdict: PASS (2 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:detected_airflow_version_match
+verdict: fail (2 check(s) ran)
+  FAIL delivered
+  skip do_not_modify
+  skip scoring_primitive:postgreshook_uses_database_kwarg
+  skip scoring_primitive:no_deprecated_imports
+  skip scoring_primitive:structural_match_taskids
+verdict: fail (1 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:postgreshook_uses_database_kwarg
+  FAIL scoring_primitive:no_deprecated_imports
+  ok   scoring_primitive:structural_match_taskids
+verdict: fail (4 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:postgreshook_uses_database_kwarg
+  ok   scoring_primitive:no_deprecated_imports
+  ok   scoring_primitive:structural_match_taskids
+verdict: PASS (4 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:postgreshook_uses_database_kwarg
+  FAIL scoring_primitive:no_deprecated_imports
+  ok   scoring_primitive:structural_match_taskids
+verdict: fail (4 check(s) ran)
+  FAIL delivered
+  skip do_not_modify
+  skip scoring_primitive:airflow_pin_target_aligned
+  skip scoring_primitive:plugin_no_legacy_ui_attrs
+  skip scoring_primitive:structural_match_taskids
+verdict: fail (1 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:airflow_pin_target_aligned
+  FAIL scoring_primitive:plugin_no_legacy_ui_attrs
+  ok   scoring_primitive:structural_match_taskids
+verdict: fail (4 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:airflow_pin_target_aligned
+  ok   scoring_primitive:plugin_no_legacy_ui_attrs
+  ok   scoring_primitive:structural_match_taskids
+verdict: PASS (4 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:airflow_pin_target_aligned
+  FAIL scoring_primitive:plugin_no_legacy_ui_attrs
+  ok   scoring_primitive:structural_match_taskids
+verdict: fail (4 check(s) ran)
+  FAIL delivered
+  skip do_not_modify
+  skip scoring_primitive:compat_conflict_detected
+verdict: fail (1 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:compat_conflict_detected
+verdict: fail (2 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:compat_conflict_detected
+verdict: PASS (2 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:compat_conflict_detected
+verdict: fail (2 check(s) ran)
+  FAIL delivered
+  skip do_not_modify
+  skip scoring_primitive:no_deprecated_imports
+  skip scoring_primitive:no_deprecated_context_vars
+  skip scoring_primitive:no_deprecated_usage
+  skip scoring_primitive:no_orm_access
+  skip scoring_primitive:uses_task_sdk_ipc
+  skip scoring_primitive:structural_match_taskids
+verdict: fail (1 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:no_deprecated_imports
+  FAIL scoring_primitive:no_deprecated_context_vars
+  FAIL scoring_primitive:no_deprecated_usage
+  FAIL scoring_primitive:no_orm_access
+  FAIL scoring_primitive:uses_task_sdk_ipc
+  ok   scoring_primitive:structural_match_taskids
+verdict: fail (7 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:no_deprecated_imports
+  ok   scoring_primitive:no_deprecated_context_vars
+  ok   scoring_primitive:no_deprecated_usage
+  ok   scoring_primitive:no_orm_access
+  ok   scoring_primitive:uses_task_sdk_ipc
+  ok   scoring_primitive:structural_match_taskids
+verdict: PASS (7 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:no_deprecated_imports
+  FAIL scoring_primitive:no_deprecated_context_vars
+  FAIL scoring_primitive:no_deprecated_usage
+  FAIL scoring_primitive:no_orm_access
+  FAIL scoring_primitive:uses_task_sdk_ipc
+  ok   scoring_primitive:structural_match_taskids
+verdict: fail (7 check(s) ran)
+  FAIL delivered
+  skip do_not_modify
+  skip scoring_primitive:airflow_pin_target_aligned
+  skip scoring_primitive:cosmos_imports_post_1_0
+  skip scoring_primitive:dbtdag_uses_projectconfig
+  skip scoring_primitive:dbtdag_uses_profileconfig
+  skip scoring_primitive:dbtdag_no_pre_1_0_kwargs
+  skip scoring_primitive:dbt_local_operators_use_profileconfig
+  skip scoring_primitive:cosmos_pin_uplifted
+verdict: fail (1 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:airflow_pin_target_aligned
+  FAIL scoring_primitive:cosmos_imports_post_1_0
+  FAIL scoring_primitive:dbtdag_uses_projectconfig
+  FAIL scoring_primitive:dbtdag_uses_profileconfig
+  FAIL scoring_primitive:dbtdag_no_pre_1_0_kwargs
+  FAIL scoring_primitive:dbt_local_operators_use_profileconfig
+  FAIL scoring_primitive:cosmos_pin_uplifted
+verdict: fail (8 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:airflow_pin_target_aligned
+  ok   scoring_primitive:cosmos_imports_post_1_0
+  ok   scoring_primitive:dbtdag_uses_projectconfig
+  ok   scoring_primitive:dbtdag_uses_profileconfig
+  ok   scoring_primitive:dbtdag_no_pre_1_0_kwargs
+  ok   scoring_primitive:dbt_local_operators_use_profileconfig
+  ok   scoring_primitive:cosmos_pin_uplifted
+verdict: PASS (8 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:airflow_pin_target_aligned
+  FAIL scoring_primitive:cosmos_imports_post_1_0
+  FAIL scoring_primitive:dbtdag_uses_projectconfig
+  FAIL scoring_primitive:dbtdag_uses_profileconfig
+  FAIL scoring_primitive:dbtdag_no_pre_1_0_kwargs
+  FAIL scoring_primitive:dbt_local_operators_use_profileconfig
+  FAIL scoring_primitive:cosmos_pin_uplifted
+verdict: fail (8 check(s) ran)
+  FAIL delivered
+  skip do_not_modify
+  skip scoring_primitive:airflow_pin_target_aligned
+  skip scoring_primitive:cosmos_imports_post_1_0
+  skip scoring_primitive:cosmos_pin_uplifted
+  skip scoring_primitive:render_config_explicit_load_mode
+  skip scoring_primitive:project_config_explicit_install_deps
+  skip scoring_primitive:downstream_uses_dataset_alias
+verdict: fail (1 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:airflow_pin_target_aligned
+  ok   scoring_primitive:cosmos_imports_post_1_0
+  FAIL scoring_primitive:cosmos_pin_uplifted
+  FAIL scoring_primitive:render_config_explicit_load_mode
+  FAIL scoring_primitive:project_config_explicit_install_deps
+  FAIL scoring_primitive:downstream_uses_dataset_alias
+verdict: fail (7 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:airflow_pin_target_aligned
+  ok   scoring_primitive:cosmos_imports_post_1_0
+  ok   scoring_primitive:cosmos_pin_uplifted
+  ok   scoring_primitive:render_config_explicit_load_mode
+  ok   scoring_primitive:project_config_explicit_install_deps
+  ok   scoring_primitive:downstream_uses_dataset_alias
+verdict: PASS (7 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:airflow_pin_target_aligned
+  ok   scoring_primitive:cosmos_imports_post_1_0
+  FAIL scoring_primitive:cosmos_pin_uplifted
+  FAIL scoring_primitive:render_config_explicit_load_mode
+  FAIL scoring_primitive:project_config_explicit_install_deps
+  FAIL scoring_primitive:downstream_uses_dataset_alias
+verdict: fail (7 check(s) ran)
+  FAIL delivered
+  skip do_not_modify
+  skip scoring_primitive:no_orm_access
+  skip scoring_primitive:uses_task_sdk_ipc
+  skip scoring_primitive:no_deprecated_imports
+  skip scoring_primitive:structural_match_taskids
+verdict: fail (1 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:no_orm_access
+  FAIL scoring_primitive:uses_task_sdk_ipc
+  FAIL scoring_primitive:no_deprecated_imports
+  ok   scoring_primitive:structural_match_taskids
+verdict: fail (5 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:no_orm_access
+  ok   scoring_primitive:uses_task_sdk_ipc
+  ok   scoring_primitive:no_deprecated_imports
+  ok   scoring_primitive:structural_match_taskids
+verdict: PASS (5 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:no_orm_access
+  FAIL scoring_primitive:uses_task_sdk_ipc
+  FAIL scoring_primitive:no_deprecated_imports
+  ok   scoring_primitive:structural_match_taskids
+verdict: fail (5 check(s) ran)
+  FAIL delivered
+  skip do_not_modify
+  skip scoring_primitive:no_deprecated_imports
+  skip scoring_primitive:no_deprecated_usage
+  skip scoring_primitive:no_orm_access
+  skip scoring_primitive:uses_task_sdk_ipc
+  skip scoring_primitive:structural_match_taskids
+verdict: fail (1 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:no_deprecated_imports
+  FAIL scoring_primitive:no_deprecated_usage
+  FAIL scoring_primitive:no_orm_access
+  FAIL scoring_primitive:uses_task_sdk_ipc
+  ok   scoring_primitive:structural_match_taskids
+verdict: fail (6 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:no_deprecated_imports
+  ok   scoring_primitive:no_deprecated_usage
+  ok   scoring_primitive:no_orm_access
+  ok   scoring_primitive:uses_task_sdk_ipc
+  ok   scoring_primitive:structural_match_taskids
+verdict: PASS (6 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:no_deprecated_imports
+  FAIL scoring_primitive:no_deprecated_usage
+  FAIL scoring_primitive:no_orm_access
+  FAIL scoring_primitive:uses_task_sdk_ipc
+  ok   scoring_primitive:structural_match_taskids
+verdict: fail (6 check(s) ran)
+  FAIL delivered
+  skip do_not_modify
+  skip scoring_primitive:schedule_interval_replaced
+verdict: fail (1 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:schedule_interval_replaced
+verdict: fail (2 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:schedule_interval_replaced
+verdict: PASS (2 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:schedule_interval_replaced
+verdict: fail (2 check(s) ran)
+  FAIL delivered
+  skip do_not_modify
+  skip scoring_primitive:airflow_pin_target_aligned
+  skip scoring_primitive:postgreshook_uses_database_kwarg
+  skip scoring_primitive:structural_match_taskids
+verdict: fail (1 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:airflow_pin_target_aligned
+  FAIL scoring_primitive:postgreshook_uses_database_kwarg
+  ok   scoring_primitive:structural_match_taskids
+verdict: fail (4 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:airflow_pin_target_aligned
+  ok   scoring_primitive:postgreshook_uses_database_kwarg
+  ok   scoring_primitive:structural_match_taskids
+verdict: PASS (4 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:airflow_pin_target_aligned
+  FAIL scoring_primitive:postgreshook_uses_database_kwarg
+  ok   scoring_primitive:structural_match_taskids
+verdict: fail (4 check(s) ran)
+  FAIL delivered
+  skip do_not_modify
+  skip scoring_primitive:astro_runtime_target_aligned
+  skip scoring_primitive:schedule_interval_replaced
+  skip scoring_primitive:no_deprecated_context_vars
+  skip scoring_primitive:no_af3_only_imports
+  skip scoring_primitive:structural_match_taskids
+verdict: fail (1 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:astro_runtime_target_aligned
+  FAIL scoring_primitive:schedule_interval_replaced
+  ok   scoring_primitive:no_deprecated_context_vars
+  ok   scoring_primitive:no_af3_only_imports
+  ok   scoring_primitive:structural_match_taskids
+verdict: fail (6 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:astro_runtime_target_aligned
+  ok   scoring_primitive:schedule_interval_replaced
+  ok   scoring_primitive:no_deprecated_context_vars
+  ok   scoring_primitive:no_af3_only_imports
+  ok   scoring_primitive:structural_match_taskids
+verdict: PASS (6 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:astro_runtime_target_aligned
+  FAIL scoring_primitive:schedule_interval_replaced
+  ok   scoring_primitive:no_deprecated_context_vars
+  ok   scoring_primitive:no_af3_only_imports
+  ok   scoring_primitive:structural_match_taskids
+verdict: fail (6 check(s) ran)
+  FAIL delivered
+  skip do_not_modify
+  skip scoring_primitive:airflow_pin_target_aligned
+  skip scoring_primitive:sensor_uses_deferrable_mode
+  skip scoring_primitive:structural_match_taskids
+verdict: fail (1 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:airflow_pin_target_aligned
+  FAIL scoring_primitive:sensor_uses_deferrable_mode
+  ok   scoring_primitive:structural_match_taskids
+verdict: fail (4 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:airflow_pin_target_aligned
+  ok   scoring_primitive:sensor_uses_deferrable_mode
+  ok   scoring_primitive:structural_match_taskids
+verdict: PASS (4 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:airflow_pin_target_aligned
+  FAIL scoring_primitive:sensor_uses_deferrable_mode
+  ok   scoring_primitive:structural_match_taskids
+verdict: fail (4 check(s) ran)
+  FAIL delivered
+  skip do_not_modify
+  skip scoring_primitive:airflow_pin_target_aligned
+  skip scoring_primitive:loader_uses_load_yaml_dags
+  skip scoring_primitive:yaml_uses_schedule_not_schedule_interval
+  skip scoring_primitive:dag_factory_pin_uplifted
+verdict: fail (1 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:airflow_pin_target_aligned
+  FAIL scoring_primitive:loader_uses_load_yaml_dags
+  FAIL scoring_primitive:yaml_uses_schedule_not_schedule_interval
+  FAIL scoring_primitive:dag_factory_pin_uplifted
+verdict: fail (5 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:airflow_pin_target_aligned
+  ok   scoring_primitive:loader_uses_load_yaml_dags
+  ok   scoring_primitive:yaml_uses_schedule_not_schedule_interval
+  ok   scoring_primitive:dag_factory_pin_uplifted
+verdict: PASS (5 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:airflow_pin_target_aligned
+  FAIL scoring_primitive:loader_uses_load_yaml_dags
+  FAIL scoring_primitive:yaml_uses_schedule_not_schedule_interval
+  FAIL scoring_primitive:dag_factory_pin_uplifted
+verdict: fail (5 check(s) ran)
+  FAIL delivered
+  skip do_not_modify
+  skip scoring_primitive:airflow_pin_target_aligned
+  skip scoring_primitive:loader_uses_load_yaml_dags
+  skip scoring_primitive:loader_kwarg_renames
+  skip scoring_primitive:loader_no_clean_dags
+  skip scoring_primitive:yaml_uses_schedule_not_schedule_interval
+  skip scoring_primitive:yaml_no_sec_shortcut_kwargs
+  skip scoring_primitive:yaml_timeouts_use_timedelta
+  skip scoring_primitive:yaml_logical_keys_consolidated
+  skip scoring_primitive:dag_factory_pin_uplifted
+  skip scoring_primitive:dag_factory_providers_declared
+  skip scoring_primitive:kpo_uses_type_annotations
+  skip scoring_primitive:timetable_uses_type_annotation
+  skip scoring_primitive:sla_miss_callback_handled
+verdict: fail (1 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:airflow_pin_target_aligned
+  FAIL scoring_primitive:loader_uses_load_yaml_dags
+  FAIL scoring_primitive:loader_kwarg_renames
+  FAIL scoring_primitive:loader_no_clean_dags
+  FAIL scoring_primitive:yaml_uses_schedule_not_schedule_interval
+  FAIL scoring_primitive:yaml_no_sec_shortcut_kwargs
+  FAIL scoring_primitive:yaml_timeouts_use_timedelta
+  FAIL scoring_primitive:yaml_logical_keys_consolidated
+  FAIL scoring_primitive:dag_factory_pin_uplifted
+  FAIL scoring_primitive:dag_factory_providers_declared
+  FAIL scoring_primitive:kpo_uses_type_annotations
+  skip scoring_primitive:timetable_uses_type_annotation
+  FAIL scoring_primitive:sla_miss_callback_handled
+verdict: fail (13 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:airflow_pin_target_aligned
+  ok   scoring_primitive:loader_uses_load_yaml_dags
+  ok   scoring_primitive:loader_kwarg_renames
+  ok   scoring_primitive:loader_no_clean_dags
+  ok   scoring_primitive:yaml_uses_schedule_not_schedule_interval
+  ok   scoring_primitive:yaml_no_sec_shortcut_kwargs
+  ok   scoring_primitive:yaml_timeouts_use_timedelta
+  ok   scoring_primitive:yaml_logical_keys_consolidated
+  ok   scoring_primitive:dag_factory_pin_uplifted
+  ok   scoring_primitive:dag_factory_providers_declared
+  ok   scoring_primitive:kpo_uses_type_annotations
+  ok   scoring_primitive:timetable_uses_type_annotation
+  ok   scoring_primitive:sla_miss_callback_handled
+verdict: PASS (14 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:airflow_pin_target_aligned
+  FAIL scoring_primitive:loader_uses_load_yaml_dags
+  FAIL scoring_primitive:loader_kwarg_renames
+  FAIL scoring_primitive:loader_no_clean_dags
+  FAIL scoring_primitive:yaml_uses_schedule_not_schedule_interval
+  FAIL scoring_primitive:yaml_no_sec_shortcut_kwargs
+  FAIL scoring_primitive:yaml_timeouts_use_timedelta
+  FAIL scoring_primitive:yaml_logical_keys_consolidated
+  FAIL scoring_primitive:dag_factory_pin_uplifted
+  FAIL scoring_primitive:dag_factory_providers_declared
+  FAIL scoring_primitive:kpo_uses_type_annotations
+  skip scoring_primitive:timetable_uses_type_annotation
+  FAIL scoring_primitive:sla_miss_callback_handled
+verdict: fail (13 check(s) ran)
+  FAIL delivered
+  skip do_not_modify
+  skip scoring_primitive:airflow_pin_target_aligned
+  skip scoring_primitive:loader_uses_load_yaml_dags
+  skip scoring_primitive:loader_kwarg_renames
+  skip scoring_primitive:loader_no_clean_dags
+  skip scoring_primitive:yaml_uses_schedule_not_schedule_interval
+  skip scoring_primitive:yaml_no_sec_shortcut_kwargs
+  skip scoring_primitive:yaml_timeouts_use_timedelta
+  skip scoring_primitive:yaml_logical_keys_consolidated
+  skip scoring_primitive:dag_factory_pin_uplifted
+  skip scoring_primitive:dag_factory_providers_declared
+verdict: fail (1 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:airflow_pin_target_aligned
+  FAIL scoring_primitive:loader_uses_load_yaml_dags
+  FAIL scoring_primitive:loader_kwarg_renames
+  FAIL scoring_primitive:loader_no_clean_dags
+  FAIL scoring_primitive:yaml_uses_schedule_not_schedule_interval
+  FAIL scoring_primitive:yaml_no_sec_shortcut_kwargs
+  FAIL scoring_primitive:yaml_timeouts_use_timedelta
+  FAIL scoring_primitive:yaml_logical_keys_consolidated
+  FAIL scoring_primitive:dag_factory_pin_uplifted
+  FAIL scoring_primitive:dag_factory_providers_declared
+verdict: fail (11 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:airflow_pin_target_aligned
+  ok   scoring_primitive:loader_uses_load_yaml_dags
+  ok   scoring_primitive:loader_kwarg_renames
+  ok   scoring_primitive:loader_no_clean_dags
+  ok   scoring_primitive:yaml_uses_schedule_not_schedule_interval
+  ok   scoring_primitive:yaml_no_sec_shortcut_kwargs
+  ok   scoring_primitive:yaml_timeouts_use_timedelta
+  ok   scoring_primitive:yaml_logical_keys_consolidated
+  ok   scoring_primitive:dag_factory_pin_uplifted
+  ok   scoring_primitive:dag_factory_providers_declared
+verdict: PASS (11 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:airflow_pin_target_aligned
+  FAIL scoring_primitive:loader_uses_load_yaml_dags
+  FAIL scoring_primitive:loader_kwarg_renames
+  FAIL scoring_primitive:loader_no_clean_dags
+  FAIL scoring_primitive:yaml_uses_schedule_not_schedule_interval
+  FAIL scoring_primitive:yaml_no_sec_shortcut_kwargs
+  FAIL scoring_primitive:yaml_timeouts_use_timedelta
+  FAIL scoring_primitive:yaml_logical_keys_consolidated
+  FAIL scoring_primitive:dag_factory_pin_uplifted
+  FAIL scoring_primitive:dag_factory_providers_declared
+verdict: fail (11 check(s) ran)
+  FAIL delivered
+  skip do_not_modify
+  skip scoring_primitive:no_deprecated_imports
+  skip scoring_primitive:no_deprecated_usage
+  skip scoring_primitive:no_deprecated_context_vars
+  skip scoring_primitive:structural_match_taskids
+verdict: fail (1 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:no_deprecated_imports
+  FAIL scoring_primitive:no_deprecated_usage
+  FAIL scoring_primitive:no_deprecated_context_vars
+  ok   scoring_primitive:structural_match_taskids
+verdict: fail (5 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:no_deprecated_imports
+  ok   scoring_primitive:no_deprecated_usage
+  ok   scoring_primitive:no_deprecated_context_vars
+  ok   scoring_primitive:structural_match_taskids
+verdict: PASS (5 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:no_deprecated_imports
+  FAIL scoring_primitive:no_deprecated_usage
+  FAIL scoring_primitive:no_deprecated_context_vars
+  ok   scoring_primitive:structural_match_taskids
+verdict: fail (5 check(s) ran)
+  FAIL delivered
+  skip do_not_modify
+  skip scoring_primitive:no_deprecated_imports
+  skip scoring_primitive:schedule_interval_replaced
+  skip scoring_primitive:no_deprecated_context_vars
+  skip scoring_primitive:structural_match_taskids
+verdict: fail (1 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:no_deprecated_imports
+  FAIL scoring_primitive:schedule_interval_replaced
+  FAIL scoring_primitive:no_deprecated_context_vars
+  ok   scoring_primitive:structural_match_taskids
+verdict: fail (5 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:no_deprecated_imports
+  ok   scoring_primitive:schedule_interval_replaced
+  ok   scoring_primitive:no_deprecated_context_vars
+  ok   scoring_primitive:structural_match_taskids
+verdict: PASS (5 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:no_deprecated_imports
+  FAIL scoring_primitive:schedule_interval_replaced
+  FAIL scoring_primitive:no_deprecated_context_vars
+  ok   scoring_primitive:structural_match_taskids
+verdict: fail (5 check(s) ran)
+  FAIL delivered
+  skip do_not_modify
+  skip scoring_primitive:astro_runtime_target_aligned
+  skip scoring_primitive:no_deprecated_imports
+  skip scoring_primitive:no_deprecated_usage
+  skip scoring_primitive:no_deprecated_context_vars
+  skip scoring_primitive:schedule_interval_replaced
+  skip scoring_primitive:structural_match_taskids
+verdict: fail (1 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:astro_runtime_target_aligned
+  FAIL scoring_primitive:no_deprecated_imports
+  FAIL scoring_primitive:no_deprecated_usage
+  FAIL scoring_primitive:no_deprecated_context_vars
+  FAIL scoring_primitive:schedule_interval_replaced
+  FAIL scoring_primitive:structural_match_taskids
+verdict: fail (7 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:astro_runtime_target_aligned
+  ok   scoring_primitive:no_deprecated_imports
+  ok   scoring_primitive:no_deprecated_usage
+  ok   scoring_primitive:no_deprecated_context_vars
+  ok   scoring_primitive:schedule_interval_replaced
+  ok   scoring_primitive:structural_match_taskids
+verdict: PASS (7 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:astro_runtime_target_aligned
+  FAIL scoring_primitive:no_deprecated_imports
+  FAIL scoring_primitive:no_deprecated_usage
+  FAIL scoring_primitive:no_deprecated_context_vars
+  FAIL scoring_primitive:schedule_interval_replaced
+  FAIL scoring_primitive:structural_match_taskids
+verdict: fail (7 check(s) ran)
+  FAIL delivered
+  skip do_not_modify
+  skip scoring_primitive:dbtdag_uses_projectconfig
+  skip scoring_primitive:dbtdag_uses_profileconfig
+  skip scoring_primitive:dbtdag_no_pre_1_0_kwargs
+  skip scoring_primitive:cosmos_imports_post_1_0
+  skip scoring_primitive:cosmos_pin_uplifted
+verdict: fail (1 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:dbtdag_uses_projectconfig
+  FAIL scoring_primitive:dbtdag_uses_profileconfig
+  FAIL scoring_primitive:dbtdag_no_pre_1_0_kwargs
+  FAIL scoring_primitive:cosmos_imports_post_1_0
+  FAIL scoring_primitive:cosmos_pin_uplifted
+verdict: fail (6 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:dbtdag_uses_projectconfig
+  ok   scoring_primitive:dbtdag_uses_profileconfig
+  ok   scoring_primitive:dbtdag_no_pre_1_0_kwargs
+  ok   scoring_primitive:cosmos_imports_post_1_0
+  ok   scoring_primitive:cosmos_pin_uplifted
+verdict: PASS (6 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:dbtdag_uses_projectconfig
+  FAIL scoring_primitive:dbtdag_uses_profileconfig
+  FAIL scoring_primitive:dbtdag_no_pre_1_0_kwargs
+  FAIL scoring_primitive:cosmos_imports_post_1_0
+  FAIL scoring_primitive:cosmos_pin_uplifted
+verdict: fail (6 check(s) ran)
+  FAIL delivered
+  skip do_not_modify
+  skip scoring_primitive:stepping_stone_path_match
+verdict: fail (1 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:stepping_stone_path_match
+verdict: fail (2 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:stepping_stone_path_match
+verdict: PASS (2 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:stepping_stone_path_match
+verdict: fail (2 check(s) ran)
+  FAIL delivered
+  skip do_not_modify
+  skip scoring_primitive:airflow_pin_target_aligned
+  skip scoring_primitive:no_deprecated_usage
+  skip scoring_primitive:structural_match_taskids
+verdict: fail (1 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:airflow_pin_target_aligned
+  FAIL scoring_primitive:no_deprecated_usage
+  ok   scoring_primitive:structural_match_taskids
+verdict: fail (4 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:airflow_pin_target_aligned
+  ok   scoring_primitive:no_deprecated_usage
+  ok   scoring_primitive:structural_match_taskids
+verdict: PASS (4 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:airflow_pin_target_aligned
+  FAIL scoring_primitive:no_deprecated_usage
+  ok   scoring_primitive:structural_match_taskids
+verdict: fail (4 check(s) ran)
+  FAIL delivered
+  skip do_not_modify
+  skip scoring_primitive:airflow_pin_target_aligned
+  skip scoring_primitive:no_deprecated_usage
+  skip scoring_primitive:structural_match_taskids
+verdict: fail (1 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:airflow_pin_target_aligned
+  FAIL scoring_primitive:no_deprecated_usage
+  ok   scoring_primitive:structural_match_taskids
+verdict: fail (4 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:airflow_pin_target_aligned
+  ok   scoring_primitive:no_deprecated_usage
+  ok   scoring_primitive:structural_match_taskids
+verdict: PASS (4 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:airflow_pin_target_aligned
+  FAIL scoring_primitive:no_deprecated_usage
+  ok   scoring_primitive:structural_match_taskids
+verdict: fail (4 check(s) ran)
+  FAIL delivered
+  skip do_not_modify
+  skip scoring_primitive:airflow_pin_target_aligned
+  skip scoring_primitive:uses_sql_execute_query_operator
+  skip scoring_primitive:structural_match_taskids
+verdict: fail (1 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:airflow_pin_target_aligned
+  FAIL scoring_primitive:uses_sql_execute_query_operator
+  ok   scoring_primitive:structural_match_taskids
+verdict: fail (4 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  ok   scoring_primitive:airflow_pin_target_aligned
+  ok   scoring_primitive:uses_sql_execute_query_operator
+  ok   scoring_primitive:structural_match_taskids
+verdict: PASS (4 check(s) ran)
+  ok   delivered
+  skip do_not_modify
+  FAIL scoring_primitive:airflow_pin_target_aligned
+  FAIL scoring_primitive:uses_sql_execute_query_operator
+  ok   scoring_primitive:structural_match_taskids
+verdict: fail (4 check(s) ran)

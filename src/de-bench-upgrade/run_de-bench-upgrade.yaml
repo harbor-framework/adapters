@@ -1,0 +1,16 @@
+jobs_dir: jobs/de-bench-upgrade
+n_attempts: 1
+orchestrator:
+  type: local
+  n_concurrent_trials: 4
+environment:
+  type: docker
+  delete: true
+agents:
+  - name: oracle
+# Agent parity config must be agreed with the Harbor team before model runs.
+# Example fields only; supply agreed versions and model ID before uncommenting:
+#  - name: codex
+#    model_name: <agreed-model-id>
+datasets:
+  - path: datasets/de-bench-upgrade

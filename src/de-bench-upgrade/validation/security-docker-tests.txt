@@ -1,0 +1,22 @@
+test_conflicting_stash_cannot_run_external_merge_driver (test_adapter.CorpusTest.test_conflicting_stash_cannot_run_external_merge_driver) ... ok
+test_escaping_file_directory_and_chained_symlinks_are_rejected (test_adapter.CorpusTest.test_escaping_file_directory_and_chained_symlinks_are_rejected) ... ok
+test_escaping_symlink_restored_from_stash_is_rejected (test_adapter.CorpusTest.test_escaping_symlink_restored_from_stash_is_rejected) ... ok
+test_internal_relative_symlinks_still_score (test_adapter.CorpusTest.test_internal_relative_symlinks_still_score) ... ok
+test_inventory_and_deterministic_generation (test_adapter.CorpusTest.test_inventory_and_deterministic_generation) ... ok
+test_packed_stashes_recover_with_untrusted_metadata_ignored (test_adapter.CorpusTest.test_packed_stashes_recover_with_untrusted_metadata_ignored) ... ok
+test_reference_symlink_cannot_turn_baseline_into_pass (test_adapter.CorpusTest.test_reference_symlink_cannot_turn_baseline_into_pass) ... ok
+test_stash_recovery_never_executes_submitted_git_configuration (test_adapter.CorpusTest.test_stash_recovery_never_executes_submitted_git_configuration) ... ok
+test_stashed_oracle_edits_are_recovered_without_mutating_agent (test_adapter.CorpusTest.test_stashed_oracle_edits_are_recovered_without_mutating_agent) ... ok
+test_subset_generation_cannot_leave_stale_tasks (test_adapter.CorpusTest.test_subset_generation_cannot_leave_stale_tasks) ... ok
+test_symlinked_git_objects_are_rejected (test_adapter.CorpusTest.test_symlinked_git_objects_are_rejected) ... ok
+test_unknown_task_and_existing_destination_rejected (test_adapter.CorpusTest.test_unknown_task_and_existing_destination_rejected) ... ok
+test_verifier_ignores_inherited_git_configuration (test_adapter.CorpusTest.test_verifier_ignores_inherited_git_configuration) ... ok
+test_verifier_protected_paths_and_excluded_outputs (test_adapter.CorpusTest.test_verifier_protected_paths_and_excluded_outputs) ... ok
+test_workspace_root_cannot_be_replaced_with_oracle_symlink (test_adapter.CorpusTest.test_workspace_root_cannot_be_replaced_with_oracle_symlink) ... ok
+test_deleted_globs_and_overlay (test_adapter.OverlayTest.test_deleted_globs_and_overlay) ... ok
+test_deletion_cannot_escape (test_adapter.OverlayTest.test_deletion_cannot_escape) ... ok
+
+----------------------------------------------------------------------
+Ran 17 tests in 12.858s
+
+OK

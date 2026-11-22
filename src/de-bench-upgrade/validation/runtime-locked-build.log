@@ -1,0 +1,67 @@
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 2.85kB done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/python:3.12-slim-bookworm@sha256:935c3c5b12357a7e10caa9c1e6ca5692344d97cf229832ef584be2cec9fc03df
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [ 1/15] FROM docker.io/library/python:3.12-slim-bookworm@sha256:935c3c5b12357a7e10caa9c1e6ca5692344d97cf229832ef584be2cec9fc03df
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 8.45kB done
+#5 DONE 0.0s
+
+#6 [ 3/15] RUN pip install --no-cache-dir apache-airflow==3.0.3     apache-airflow-providers-standard apache-airflow-providers-amazon     apache-airflow-providers-cncf-kubernetes apache-airflow-providers-common-sql     apache-airflow-providers-google apache-airflow-providers-http     apache-airflow-providers-postgres apache-airflow-providers-snowflake     --constraint https://raw.githubusercontent.com/apache/airflow/constraints-3.0.3/constraints-3.12.txt
+#6 CACHED
+
+#7 [12/15] WORKDIR /work
+#7 CACHED
+
+#8 [ 5/15] COPY runtime-requirements.txt /tmp/runtime-requirements.txt
+#8 CACHED
+
+#9 [11/15] RUN python -m venv /opt/verifier-venv &&     /opt/verifier-venv/bin/pip install --no-cache-dir PyYAML==6.0.4 packaging==26.3
+#9 CACHED
+
+#10 [14/15] COPY bootstrap.py add-excludes.json /tmp/
+#10 CACHED
+
+#11 [ 2/15] RUN apt-get update && apt-get install -y --no-install-recommends     git curl ca-certificates ripgrep procps psmisc unzip sqlite3 file iproute2 jq     && curl -fsSL https://deb.nodesource.com/setup_22.x | bash -     && apt-get install -y nodejs && rm -rf /var/lib/apt/lists/*
+#11 CACHED
+
+#12 [ 7/15] RUN python -m pip check
+#12 CACHED
+
+#13 [ 4/15] RUN pip install --no-cache-dir uv==0.13.9
+#13 CACHED
+
+#14 [ 9/15] RUN uv python install 3.11.18
+#14 CACHED
+
+#15 [10/15] RUN pip freeze > /opt/runtime-packages.txt
+#15 CACHED
+
+#16 [13/15] COPY workspace/ /work/
+#16 CACHED
+
+#17 [ 8/15] RUN airflow db migrate >/dev/null 2>&1
+#17 CACHED
+
+#18 [ 6/15] RUN uv pip install --system --no-cache -r /tmp/runtime-requirements.txt
+#18 CACHED
+
+#19 [15/15] RUN python /tmp/bootstrap.py && rm /tmp/bootstrap.py
+#19 CACHED
+
+#20 exporting to image
+#20 exporting layers done
+#20 writing image sha256:c0e8a8199ea4b8b3674de7937f3f7bd0484bc752408607ffe7997667d4deea38 done
+#20 naming to docker.io/library/de-bench-upgrade-runtime-locked:5dcfc2b done
+#20 DONE 0.0s

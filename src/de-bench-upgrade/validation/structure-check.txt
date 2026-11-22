@@ -1,0 +1,44 @@
+<!-- adapter-validation-bot -->
+Adapter contract v1 (`docs/adapters.mdx`).
+
+## ❌ Adapter Validation: `de-bench-upgrade`
+
+✅ 28 passed | ❌ 1 errors | ⚠️ 0 warnings
+
+### Errors (must fix)
+
+- ❌ **Required file missing**: Required file `parity_experiment.json` not found. — `src/de-bench-upgrade/parity_experiment.json`
+
+<details>
+<summary>Passed checks (28)</summary>
+
+- ✅ `README.md` exists
+- ✅ `adapter_metadata.json` exists
+- ✅ `src/de_bench_upgrade/` package exists
+- ✅ `src/de_bench_upgrade/adapter.py` exists
+- ✅ `src/de_bench_upgrade/main.py` exists
+- ✅ `src/de_bench_upgrade/task-template/` directory exists
+- ✅ `src/de_bench_upgrade/task-template/task.toml` exists
+- ✅ `src/de_bench_upgrade/task-template/instruction.md` exists
+- ✅ `src/de_bench_upgrade/task-template/environment/Dockerfile` exists
+- ✅ `src/de_bench_upgrade/task-template/tests/test.sh` exists
+- ✅ `src/de_bench_upgrade/task-template/solution/solve.sh` exists
+- ✅ Template `[task].name` present
+- ✅ Template `[task].authors` present
+- ✅ `adapter_metadata.json` is valid JSON array
+- ✅ README section `Overview` present
+- ✅ README section `What is` present
+- ✅ README section `Adapter Features` present
+- ✅ README section `Generated Task Structure` present
+- ✅ README section `Run Evaluation` present
+- ✅ README section `Usage` present
+- ✅ README section `Parity` present
+- ✅ README section `Notes & Caveats` present
+- ✅ README section `Installation / Prerequisites` present
+- ✅ README section `Citation` present
+- ✅ README section `Authors & Contributions` present
+- ✅ Parity table column count correct
+- ✅ `test.sh` writes to reward path
+- ✅ No canary strings found
+
+</details>
