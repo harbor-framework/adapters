@@ -1,6 +1,7 @@
 # Refer to https://harborframework.com/docs/task-format for more details.
 
 schema_version = "1.4"
+artifacts = ["/app/solution.py"]
 
 # =============================================================================
 # Task Section
@@ -37,6 +38,7 @@ problem_name = "{problem_name}"
 # Verifier Section
 # =============================================================================
 [verifier]
+environment_mode = "separate"
 network_mode = "no-network"
 timeout_sec = 5400.0
 

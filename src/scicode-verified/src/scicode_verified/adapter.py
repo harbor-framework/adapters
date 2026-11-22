@@ -452,7 +452,7 @@ class SciCodeVerifiedAdapter:
                 TEMPLATE_DIR / "environment" / "Dockerfile",
                 staging_dir / "environment" / "Dockerfile",
             )
-            self._write_docker_compose(staging_dir)
+            self._write_verifier_environment(staging_dir)
             self._write_solution(staging_dir, record)
             self._write_test_sh(staging_dir)
             self._copy_test_support(staging_dir)
@@ -511,7 +511,8 @@ class SciCodeVerifiedAdapter:
                     pass
             raise
 
-    def _write_docker_compose(self, task_dir: Path) -> None:
+    def _write_verifier_environment(self, task_dir: Path) -> None:
+        # Only Harbor’s separate verifier uses the tests/ compose and build context.
         # The HDF5 is bind-mounted read-only from the HOST at `harbor run` time via
         # $HARBOR_SCICODE_VERIFIED_TEST_DATA_PATH (NOT baked into the image). The
         # `${VAR:?...}` syntax aborts compose with a clear error if the var is unset.
@@ -524,7 +525,14 @@ class SciCodeVerifiedAdapter:
             "set HARBOR_SCICODE_VERIFIED_TEST_DATA_PATH to an absolute path to a local "
             'test_data_cleaned.h5 before running harbor}:/app/test_data.h5:ro"\n'
         )
-        (task_dir / "environment" / "docker-compose.yaml").write_text(compose)
+        tests = task_dir / "tests"
+        (tests / "docker-compose.yaml").write_text(compose)
+        agent_dockerfile = (task_dir / "environment" / "Dockerfile").read_text()
+        (tests / "Dockerfile").write_text(
+            f"{agent_dockerfile.rstrip()}\n\n"
+            "COPY . /tests/\n"
+            "RUN chmod 0755 /tests/test.sh\n"
+        )
 
     def _write_task_toml(self, task_dir: Path, record: dict) -> None:
         template = (TEMPLATE_DIR / "task.toml").read_text()
