@@ -1,0 +1,64 @@
+[
+  {
+    "adapter_name": "makemesay",
+    "adapter_builders": [
+      "Christian (christianhoang04@gmail.com)"
+    ],
+    "original_benchmark": [
+      {
+        "split": "medium-and-hard",
+        "size": 50,
+        "harness": "llm",
+        "supported_agents": ["None"],
+        "adaptable": true,
+        "notes": "Default OpenAI Evals MakeMeSay registry ID."
+      },
+      {
+        "split": "easy",
+        "size": 45,
+        "harness": "llm",
+        "supported_agents": ["None"],
+        "adaptable": true,
+        "notes": "Named OpenAI Evals registry variant."
+      },
+      {
+        "split": "medium",
+        "size": 50,
+        "harness": "llm",
+        "supported_agents": ["None"],
+        "adaptable": true,
+        "notes": "Named OpenAI Evals registry variant."
+      },
+      {
+        "split": "hard",
+        "size": 28,
+        "harness": "llm",
+        "supported_agents": ["None"],
+        "adaptable": true,
+        "notes": "Named OpenAI Evals registry variant."
+      },
+      {
+        "split": "very-hard",
+        "size": 16,
+        "harness": "llm",
+        "supported_agents": ["None"],
+        "adaptable": true,
+        "notes": "Named OpenAI Evals registry variant."
+      }
+    ],
+    "harbor_adapter": [
+      {
+        "split": "full",
+        "adapted_benchmark_size": 189,
+        "parity_benchmark_size": 0,
+        "parity_sampling_rate": 0.0,
+        "registry_benchmark_size": 0,
+        "added_agents": ["makemesay.agent:MakeMeSayAgent@1.0.0"],
+        "parity_matching_agents": ["None"],
+        "parity_unmatching_agents": ["None"],
+        "parity_costs": null,
+        "notes": "All five source variants supported: medium-and-hard=50, easy=45, medium=50, hard=28, very-hard=16. No parity run or task registry publication has been completed; parity agents and costs are not yet known."
+      }
+    ]
+  }
+]
