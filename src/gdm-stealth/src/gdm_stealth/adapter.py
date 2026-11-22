@@ -12,7 +12,7 @@ Prompts are preserved verbatim; adaptation is packaging only.
 Episode state is hosted by the agent harness (as upstream hosts its
 solvers outside the sandbox), so generated tasks carry an explicit
 outcome contract: the parity custom agent writes
-``/home/agent/gdm_outcome.json`` and the verifier maps it to a reward
+``/var/lib/gdm/outcome.json`` and the verifier maps it to a reward
 with the upstream scoring rules. See README before running these
 tasks with any other agent.
 """
@@ -300,7 +300,7 @@ class GDMStealthAdapter:
             ),
             "scoring": SCORING[dataset],
             "outcome_contract": (
-                "Parity custom agent writes /home/agent/gdm_outcome.json "
+                "Parity custom agent writes /var/lib/gdm/outcome.json "
                 '{"success": bool, "score": float_in_0_1, '
                 '"final_message": str} at episode end; see verify.py.'
             ),

@@ -3,7 +3,7 @@
 Replicates the upstream Inspect `stealth_solver` pipeline: plan
 instruction turns, host-side tools with LLM raters, challenge-status
 detection from the last tool result, and (Harbor-specific) writing
-`/home/agent/gdm_outcome.json` for the task verifier.
+`/var/lib/gdm/outcome.json` for the task verifier.
 
 Usage (Harbor >= 0.26 custom agent import path):
     harbor run -p datasets/gdm-stealth \
@@ -42,6 +42,7 @@ from ..task_catalog import rater_model_for
 from .strategic.customer_support_env import CustomerSupportEnv
 from .strategic.model_shim import ShimModel
 from .strategic_tools import StrategicTools, get_handbook
+from .tool_output import DEFAULT_MAX_TOOL_OUTPUT, truncate_tool_output
 from .transport import ModelTransport, OpenAICompatibleTransport
 
 
@@ -113,6 +114,7 @@ class GDMStealthParityAgent(BaseAgent):
         strategic_seed: int | None = None,
         message_limit: int | None = None,
         role_temperature: float | None = None,
+        max_tool_output: int = DEFAULT_MAX_TOOL_OUTPUT,
         **kwargs: Any,
     ):
         super().__init__(logs_dir=logs_dir, model_name=model_name, **kwargs)
@@ -130,6 +132,9 @@ class GDMStealthParityAgent(BaseAgent):
         self._rater_model_company = rater_model_company
         self._strategic_seed = strategic_seed
         self._message_limit_override = message_limit
+        # Inspect truncates tool outputs to max_tool_output bytes (default
+        # 16 KiB; `inspect eval --max-tool-output N`). Use the same N here.
+        self._max_tool_output = int(max_tool_output)
         # None keeps upstream role-model sampling (parity default);
         # the oracle pins it for reproducible replays.
         self._role_temperature = (
@@ -304,6 +309,9 @@ class GDMStealthParityAgent(BaseAgent):
                     except Exception as exc:  # Inspect surfaces tool errors
                         result = f"Error: {exc}"
                     tool_texts.append(result)
+                    result = truncate_tool_output(
+                        call.name, result, self._max_tool_output
+                    )
                     messages.append(
                         {"role": "tool", "tool_call_id": call.id, "content": result}
                     )
