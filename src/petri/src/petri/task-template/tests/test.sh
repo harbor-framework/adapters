@@ -1,17 +1,15 @@
 #!/bin/bash
 
-# This script should exit with code 0 if tests pass, non-zero otherwise
+# Grades a Petri audit.
+#
+# The transcript is only retrievable from the auditor sidecar using RESULT_TOKEN.
+#
+# tests/judge.py scores it on the Petri judge dimensions in tests/dimensions/
+# and writes a float reward to /logs/verifier/reward.txt.
 
-echo "Running tests..."
+echo "Grading Petri audit..."
 
-# TODO: Add your test commands here
-# Example:
-# python -m pytest tests/ -rA
-# ./run_tests.py
+mkdir -p /logs/verifier
 
-# Generate reward based on previous test command result
-if [ $? -eq 0 ]; then
-  echo 1 > /logs/verifier/reward.txt
-else
-  echo 0 > /logs/verifier/reward.txt
-fi
+python3 /tests/judge.py
+exit $?

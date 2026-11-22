@@ -1,13 +1,9 @@
 #!/bin/bash
 set -e
 
-# This script demonstrates how to solve the task
+# No oracle solution is available for this task since
+# Petri has no reference behavior for the target.
+# See Oracle Verification in README.
 
-echo "Executing solution..."
-
-# TODO: Add your solution commands here
-# Example:
-# git apply solution.patch
-# python solve.py
-
-echo "Solution completed!"
+echo "No oracle solution available for Petri tasks."
+exit 1

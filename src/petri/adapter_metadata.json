@@ -1,24 +1,27 @@
 [
   {
     "adapter_name": "petri",
-    "adapter_builders": [],
+    "adapter_builders": [
+      "Tristan Roath (troath@berkeley.edu)",
+      "Tyler Roath (tyroath@berkeley.edu)"
+    ],
     "original_benchmark": [
       {
         "split": "test",
-        "size": null,
-        "harness": null,
+        "size": 174,
+        "harness": "llm",
         "supported_agents": null,
         "adaptable": true,
-        "notes": null
+        "notes": "Petri alignment-auditing benchmark with 174 tasks (one per seed instruction)."
       }
     ],
     "harbor_adapter": [
       {
         "split": "test",
-        "adapted_benchmark_size": null,
-        "parity_benchmark_size": null,
+        "adapted_benchmark_size": 174,
+        "parity_benchmark_size": 174,
         "parity_sampling_rate": null,
-        "registry_benchmark_size": null,
+        "registry_benchmark_size": 174,
         "added_agents": [],
         "parity_matching_agents": [],
         "parity_unmatching_agents": null,
