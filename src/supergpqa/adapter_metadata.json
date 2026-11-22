@@ -1,0 +1,40 @@
+[
+  {
+    "adapter_name": "supergpqa",
+    "adapter_builders": [
+      "jiale.ning1 (jiale.ning1@bytedance.com)"
+    ],
+    "original_benchmark": [
+      {
+        "split": "full",
+        "size": 26529,
+        "harness": "llm",
+        "supported_agents": [
+          "None"
+        ],
+        "adaptable": true,
+        "notes": "Pinned SuperGPQA-all; zero-shot initial scope. Source taxonomy is preserved."
+      }
+    ],
+    "harbor_adapter": [
+      {
+        "split": "full",
+        "adapted_benchmark_size": 26529,
+        "parity_benchmark_size": 100,
+        "parity_sampling_rate": 0.003769459836405443,
+        "registry_benchmark_size": 0,
+        "added_agents": [
+          "supergpqa-direct@0.1.0"
+        ],
+        "parity_matching_agents": [
+          "supergpqa-direct@0.1.0+gpt-6-luna-2026-09-22"
+        ],
+        "parity_unmatching_agents": [
+          "None"
+        ],
+        "parity_costs": null,
+        "notes": "600 complete formal results; primary and supplementary metric ranges overlap. Requested model alias, strict returned-version guard, retries and user-requested cross-round overlap are detailed in PARITY_REPORT.md. Billed USD is unavailable; HF PR #293 was created but upload is blocked by the shared repository file-count limit; registry publication is pending. Complete evidence is available in the pinned personal HF mirror: https://huggingface.co/datasets/jialen2/supergpqa-parity-experiments/tree/3b972e12416341af37116fda29edd0bb94181ac3/adapters/supergpqa (55 remote file hashes verified). Dataset registration PR: https://github.com/harbor-framework/harbor-datasets/pull/291; full 26,529-task and fixed 100-task parity payloads submitted, registry publication pending."
+      }
+    ]
+  }
+]
