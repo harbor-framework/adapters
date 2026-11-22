@@ -1,0 +1,22 @@
+[
+  {
+    "adapter_name": "gsm8k",
+    "adapter_builders": [
+      "stein-wang0226 (101868035+stein-wang0226@users.noreply.github.com)"
+    ],
+    "original_benchmark": [
+      {"split": "train", "size": 7473, "harness": "llm", "adaptable": true},
+      {"split": "test", "size": 1319, "harness": "llm", "adaptable": true}
+    ],
+    "harbor_adapter": [
+      {
+        "adapted_benchmark_size": 8792,
+        "parity_benchmark_size": 0,
+        "parity_sampling_rate": 0,
+        "registry_benchmark_size": 0,
+        "parity_costs": null,
+        "notes": "Matched model parity and Harbor Registry publication are pending."
+      }
+    ]
+  }
+]
