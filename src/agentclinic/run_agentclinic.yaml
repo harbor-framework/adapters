@@ -1,0 +1,22 @@
+jobs_dir: jobs
+n_attempts: 1
+timeout_multiplier: 1.0
+n_concurrent_trials: 8
+quiet: false
+environment:
+  type: docker
+  force_build: false
+  delete: true
+agents:
+  - name: oracle
+# - name: agentclinic-doctor
+#   import_path: agentclinic.agents.doctor:AgentClinicDoctorAgent
+#   model_name: gpt-4o-mini
+# - name: agentclinic-wrong-diagnosis
+#   import_path: agentclinic.agents.controls:WrongDiagnosisAgent
+# - name: codex
+#   model_name: openai/gpt-4o-mini
+#   kwargs:
+#     version: "0.167.0"
+datasets:
+  - path: datasets/agentclinic

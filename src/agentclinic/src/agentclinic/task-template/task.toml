@@ -1,0 +1,52 @@
+version = "1.0"
+artifacts = [{ source = "/root/logs", service = "clinic" }]
+
+[task]
+name = "agentclinic/agentclinic__{task_id}"
+description = "Interview a simulated patient, order tests from a simulated measurement reader, and give a diagnosis within 20 turns."
+authors = [
+  { name = "Samuel Schmidgall" },
+  { name = "Rojin Ziaei" },
+  { name = "Carl Harris" },
+  { name = "Eduardo Reis" },
+  { name = "Jeffrey Jopling" },
+  { name = "Michael Moor" },
+]
+keywords = ["agentclinic", "medqa", "clinical-diagnosis", "simulated-patient", "multi-turn", "llm-judge"]
+
+[metadata]
+difficulty = "hard"
+category = "medical-diagnosis"
+
+[agent]
+timeout_sec = 1800.0
+
+[verifier]
+environment_mode = "separate"
+timeout_sec = 300.0
+
+[verifier.env]
+OPENAI_API_KEY = "${OPENAI_API_KEY:-}"
+OPENAI_BASE_URL = "${OPENAI_BASE_URL:-https://api.openai.com/v1}"
+AGENTCLINIC_MODERATOR_MODEL = "gpt-4o-mini"
+AGENTCLINIC_LLM_DEADLINE = "240"
+AGENTCLINIC_LLM_RETRY_SLEEP = "20"
+
+[[verifier.collect]]
+service = "clinic"
+command = "python3 /app/seal.py"
+
+[environment]
+build_timeout_sec = 600.0
+cpus = 1
+memory_mb = 2048
+mcp_servers = [{ name = "clinic", transport = "streamable-http", url = "http://clinic:8000/mcp" }]
+
+[environment.env]
+OPENAI_API_KEY = "${OPENAI_API_KEY:-}"
+OPENAI_BASE_URL = "${OPENAI_BASE_URL:-https://api.openai.com/v1}"
+AGENTCLINIC_PATIENT_MODEL = "${AGENTCLINIC_PATIENT_MODEL:-gpt-4o-mini}"
+AGENTCLINIC_MEASUREMENT_MODEL = "${AGENTCLINIC_MEASUREMENT_MODEL:-gpt-4o-mini}"
+AGENTCLINIC_LLM_TRIES = "${AGENTCLINIC_LLM_TRIES:-30}"
+AGENTCLINIC_LLM_RETRY_SLEEP = "${AGENTCLINIC_LLM_RETRY_SLEEP:-5}"
+AGENTCLINIC_LLM_DEADLINE = "${AGENTCLINIC_LLM_DEADLINE:-50}"

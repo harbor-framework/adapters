@@ -1,0 +1,26 @@
+services:
+  main:
+    depends_on:
+      clinic:
+        condition: service_healthy
+
+  clinic:
+    build:
+      context: ./runtime
+    restart: on-failure
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - OPENAI_BASE_URL=${OPENAI_BASE_URL:-}
+      - AGENTCLINIC_PATIENT_MODEL=${AGENTCLINIC_PATIENT_MODEL:-gpt-4o-mini}
+      - AGENTCLINIC_MEASUREMENT_MODEL=${AGENTCLINIC_MEASUREMENT_MODEL:-gpt-4o-mini}
+      - AGENTCLINIC_LLM_TRIES=${AGENTCLINIC_LLM_TRIES:-30}
+      - AGENTCLINIC_LLM_RETRY_SLEEP=${AGENTCLINIC_LLM_RETRY_SLEEP:-5}
+      - AGENTCLINIC_LLM_DEADLINE=${AGENTCLINIC_LLM_DEADLINE:-50}
+    expose:
+      - "8000"
+    healthcheck:
+      test: ["CMD", "python3", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=2)"]
+      interval: 2s
+      timeout: 5s
+      retries: 30
+      start_period: 3s
