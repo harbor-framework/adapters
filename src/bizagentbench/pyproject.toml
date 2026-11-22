@@ -1,0 +1,32 @@
+[project]
+name = "harbor-bizagentbench-adapter"
+version = "0.1.0"
+description = "Isolated native BizAgentBench runtime for Harbor"
+readme = "README.md"
+authors = [
+    { name = "QYechang", email = "qiyechang@gmail.com" }
+]
+requires-python = ">=3.12,<3.13"
+dependencies = [
+  "pandas>=2.2.3", "loguru>=0.7.3", "docstring-parser>=0.16",
+  "litellm>=1.80.15,<1.82.7", "deepdiff>=8.4.2", "addict>=2.4.0",
+  "PyYAML>=6.0.2", "toml>=0.10.2", "python-dotenv>=1.0.0",
+  "numpy>=1.24.0", "httpx[socks]>=0.24", "jsonschema>=4.20",
+  "markdown-it-py>=3,<5",
+]
+
+[project.scripts]
+bizagentbench = "bizagentbench.main:main"
+
+[build-system]
+requires = ["hatchling==1.27.0"]
+build-backend = "hatchling.build"
+
+[dependency-groups]
+dev = ["pytest>=8,<9"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/bizagentbench"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

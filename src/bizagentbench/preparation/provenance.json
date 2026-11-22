@@ -1,0 +1,31 @@
+{
+  "kind": "offline_preparation_provenance",
+  "date_local": "2026-11-21",
+  "timezone": "America/Los_Angeles",
+  "base_offline_summary_sha256": "032fa2e005963cc0ac802fdcc56cd2a3554cea80ff009c82cc4023590d700b58",
+  "prior_source_and_evidence_hashes_unchanged": true,
+  "upstream_unchanged": true,
+  "real_model_calls": 0,
+  "authorized_spend_usd": 0,
+  "new_configuration_tests": {
+    "passed": 7,
+    "failed": 0,
+    "process_exit_code": 0,
+    "junit": "validation/preparation-tests.xml",
+    "junit_sha256": "fd427c522a53d827823d5984d5f54ab8da6098399d954031169e22f066ceb52b"
+  },
+  "files_sha256": {
+    "preparation/adaptability-report.json": "0fe89894b378b543efa1ee79214eb3022182b147129e353e5f21c4852e947f3e",
+    "preparation/consent-probe-summary.json": "9bff3047a5f718b755610453ed8ebb3a4fefa30b3ca0b7879b503b9b8599b264",
+    "preparation/experiment-plan.json": "c577e4bbe0b540fcc01a01d892fa048feace89ad166a6e1212e1a39a29e97e27",
+    "preparation/first-batch.json": "3ff7ed80053ee855dba3b32710bc87f23687ec710289ac9b010a9b06af0eb225",
+    "preparation/model.draft.json": "afcdfd259a2440b207dcf8f8b0fcbe1bea5f5495a056e88cd4bc0131fc292ddd",
+    "preparation/oracle-model.draft.json": "a3c22470771b045292d9dfaba72428fc1ffa51b4165aea4a35109191d963d64d",
+    "preparation/readiness.json": "ebc9440cc8a2b0b1264bc4b72c25055d8ea41796651f6eb30e20d9662a762eb0",
+    "preparation/README.md": "524c0c4fb43d3085e4742599d359e6dd60dff2cee6f338c4123cf5f02e8dbc3d",
+    "scripts/audit_reference_adaptability.py": "66845fbc60a59811bd669cdc8212b885e4238b9dc754ae862ea84587388d4836",
+    "scripts/probe_reference_consent.py": "f3fe92ab3a5c88c32454979e29fe0b2c95c91e48e8f1358aac9b5564f748232b",
+    "scripts/check_preparation.py": "cca3e5cdcf83e7975abc60688f3da800cb404f3669232988b0f4f6667d86b5bc",
+    "tests/test_preparation.py": "a75041e3058340d66fcff08355cdc28c0dedec3c124d01777ce0855a8c1f7b6d"
+  }
+}

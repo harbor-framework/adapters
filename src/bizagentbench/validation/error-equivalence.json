@@ -1,0 +1,38 @@
+[
+  {
+    "scenario": "native-user-protocol",
+    "classification": "simulator_protocol_error",
+    "native_reward": null,
+    "harbor_reward": null,
+    "full_verdict_equal": true,
+    "forged_rewards_removed": true,
+    "verifier_error": {
+      "error_class": "ValueError",
+      "error": "Unscored upstream run: simulator_protocol_error"
+    }
+  },
+  {
+    "scenario": "native-provider-error",
+    "classification": "infrastructure_invalid",
+    "native_reward": null,
+    "harbor_reward": null,
+    "full_verdict_equal": true,
+    "forged_rewards_removed": true,
+    "verifier_error": {
+      "error_class": "ValueError",
+      "error": "Unscored upstream run: infrastructure_invalid"
+    }
+  },
+  {
+    "scenario": "native-agent-provider",
+    "classification": "infrastructure_invalid",
+    "native_reward": null,
+    "harbor_reward": null,
+    "full_verdict_equal": true,
+    "forged_rewards_removed": false,
+    "verifier_error": {
+      "error_class": "ValueError",
+      "error": "Unscored upstream run: infrastructure_invalid"
+    }
+  }
+]

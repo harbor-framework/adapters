@@ -1,0 +1,17 @@
+{
+  "kind": "independent_live_llm_validation",
+  "status": "not_run",
+  "paid_model_calls": 0,
+  "independent_customer_oracle_tasks_verified": 0,
+  "real_model_parity_runs": 0,
+  "standard_cli_agent_runs": 0,
+  "scores": null,
+  "statistics": null,
+  "reason": "Current work is limited to model-independent public-tool construction and scripted-customer validation.",
+  "remaining": [
+    "Agree exact dated agent and customer models, provider configurations, budgets, credentials and coordinated run plan.",
+    "Validate all candidate references with an independent LLM customer.",
+    "Run matched native/Harbor model experiments and calculate statistics from actual raw runs.",
+    "Evaluate standard CLI-agent generalization separately."
+  ]
+}

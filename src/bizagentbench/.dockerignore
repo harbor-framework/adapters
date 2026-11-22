@@ -1,0 +1,6 @@
+.venv
+validation
+**/__pycache__
+.pytest_cache
+dist
+build

@@ -1,0 +1,4633 @@
+{
+  "kind": "offline_diagnostic_attempt_inventory_not_model_sampling",
+  "created_at_utc": "2026-11-21T07:42:01.954078+00:00",
+  "construction_attempts": [
+    {
+      "path": "validation/references/attempt01/case_047",
+      "task_id": "case_047",
+      "error": {
+        "error": "RuntimeError('Public tool service exited')"
+      },
+      "tool_calls_recorded": 0,
+      "terminal_outcome_recorded": false
+    },
+    {
+      "path": "validation/references/attempt02/case_047",
+      "task_id": "case_047",
+      "construction": {
+        "task_id": "case_047",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 14,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 14,
+      "terminal_outcome_recorded": false
+    },
+    {
+      "path": "validation/references/attempt02/case_050",
+      "task_id": "case_050",
+      "construction": {
+        "task_id": "case_050",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 12,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "error": {
+        "error": "RuntimeError(('search_records', {'resource': 'xp_c_wallet_payroll', 'limit': 100}, {'ok': False, 'error': 'RESOURCE_NOT_PUBLIC'}))"
+      },
+      "tool_calls_recorded": 12,
+      "terminal_outcome_recorded": false
+    },
+    {
+      "path": "validation/references/attempt03/case_047",
+      "task_id": "case_047",
+      "construction": {
+        "task_id": "case_047",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 26,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 26,
+      "terminal_outcome_recorded": false
+    },
+    {
+      "path": "validation/references/attempt03/case_050",
+      "task_id": "case_050",
+      "construction": {
+        "task_id": "case_050",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 24,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 24,
+      "terminal_outcome_recorded": false
+    },
+    {
+      "path": "validation/references/attempt04/case_047",
+      "task_id": "case_047",
+      "construction": {
+        "task_id": "case_047",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 40,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 40,
+      "terminal_outcome_recorded": false
+    },
+    {
+      "path": "validation/references/attempt04/case_050",
+      "task_id": "case_050",
+      "construction": {
+        "task_id": "case_050",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 48,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 48,
+      "terminal_outcome_recorded": false
+    },
+    {
+      "path": "validation/references/attempt05/case_047",
+      "task_id": "case_047",
+      "construction": {
+        "task_id": "case_047",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 52,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 52,
+      "terminal_outcome_recorded": false
+    },
+    {
+      "path": "validation/references/attempt05/case_050",
+      "task_id": "case_050",
+      "construction": {
+        "task_id": "case_050",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 59,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "error": {
+        "error": "RuntimeError(('execute_request', {'request_id': 'XP_REQUESTS-000019'}, {'ok': False, 'error': 'INSUFFICIENT_AVAILABLE_CASH'}))"
+      },
+      "tool_calls_recorded": 59,
+      "terminal_outcome_recorded": false
+    },
+    {
+      "path": "validation/references/attempt06/case_047",
+      "task_id": "case_047",
+      "construction": {
+        "task_id": "case_047",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 72,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 72,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/attempt06/case_050",
+      "task_id": "case_050",
+      "construction": {
+        "task_id": "case_050",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 68,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 68,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/attempt07/case_034",
+      "task_id": "case_034",
+      "construction": {
+        "task_id": "case_034",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 22,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 22,
+      "terminal_outcome_recorded": false
+    },
+    {
+      "path": "validation/references/attempt07/case_035",
+      "task_id": "case_035",
+      "construction": {
+        "task_id": "case_035",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 20,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 20,
+      "terminal_outcome_recorded": false
+    },
+    {
+      "path": "validation/references/attempt08/case_034",
+      "task_id": "case_034",
+      "construction": {
+        "task_id": "case_034",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 59,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 59,
+      "terminal_outcome_recorded": false
+    },
+    {
+      "path": "validation/references/attempt08/case_035",
+      "task_id": "case_035",
+      "construction": {
+        "task_id": "case_035",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 61,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 61,
+      "terminal_outcome_recorded": false
+    },
+    {
+      "path": "validation/references/attempt09/case_034",
+      "task_id": "case_034",
+      "construction": {
+        "task_id": "case_034",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 85,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 85,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/attempt09/case_035",
+      "task_id": "case_035",
+      "construction": {
+        "task_id": "case_035",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 86,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "error": {
+        "error": "KeyError('return_minor')"
+      },
+      "tool_calls_recorded": 86,
+      "terminal_outcome_recorded": false
+    },
+    {
+      "path": "validation/references/attempt10/case_035",
+      "task_id": "case_035",
+      "construction": {
+        "task_id": "case_035",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 134,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 134,
+      "terminal_outcome_recorded": false
+    },
+    {
+      "path": "validation/references/attempt11/case_035",
+      "task_id": "case_035",
+      "construction": {
+        "task_id": "case_035",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 126,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 126,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/attempt12/case_043",
+      "task_id": "case_043",
+      "construction": {
+        "task_id": "case_043",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 17,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 17,
+      "terminal_outcome_recorded": false
+    },
+    {
+      "path": "validation/references/attempt12/case_044",
+      "task_id": "case_044",
+      "construction": {
+        "task_id": "case_044",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 13,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 13,
+      "terminal_outcome_recorded": false
+    },
+    {
+      "path": "validation/references/attempt12/case_045",
+      "task_id": "case_045",
+      "construction": {
+        "task_id": "case_045",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 15,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 15,
+      "terminal_outcome_recorded": false
+    },
+    {
+      "path": "validation/references/attempt12/case_046",
+      "task_id": "case_046",
+      "construction": {
+        "task_id": "case_046",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 23,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 23,
+      "terminal_outcome_recorded": false
+    },
+    {
+      "path": "validation/references/attempt12/case_048",
+      "task_id": "case_048",
+      "construction": {
+        "task_id": "case_048",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 21,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 21,
+      "terminal_outcome_recorded": false
+    },
+    {
+      "path": "validation/references/attempt12/case_049",
+      "task_id": "case_049",
+      "construction": {
+        "task_id": "case_049",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 13,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 13,
+      "terminal_outcome_recorded": false
+    },
+    {
+      "path": "validation/references/attempt13/case_043",
+      "task_id": "case_043",
+      "construction": {
+        "task_id": "case_043",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 50,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 50,
+      "terminal_outcome_recorded": false
+    },
+    {
+      "path": "validation/references/attempt13/case_044",
+      "task_id": "case_044",
+      "construction": {
+        "task_id": "case_044",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 34,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 34,
+      "terminal_outcome_recorded": false
+    },
+    {
+      "path": "validation/references/attempt13/case_045",
+      "task_id": "case_045",
+      "construction": {
+        "task_id": "case_045",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 13,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "error": {
+        "error": "RuntimeError(('call_discoverable_agent_tool', {'capability_name': 'synchronize_sales_tax_events', 'arguments': {'batch_id': 'C45-BATCH'}}, {'ok': False, 'error': 'MISSING_ARGUMENT:arguments'}))"
+      },
+      "tool_calls_recorded": 13,
+      "terminal_outcome_recorded": false
+    },
+    {
+      "path": "validation/references/attempt13/case_046",
+      "task_id": "case_046",
+      "construction": {
+        "task_id": "case_046",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 35,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "error": {
+        "error": "RuntimeError(('call_discoverable_agent_tool', {'capability_name': 'retrieve_statement_segment', 'arguments': {'statement_id': 'C46-DAY', 'service': 'missing_range'}}, {'ok': False, 'error': 'MISSING_ARGUMENT:arguments'}))"
+      },
+      "tool_calls_recorded": 35,
+      "terminal_outcome_recorded": false
+    },
+    {
+      "path": "validation/references/attempt13/case_048",
+      "task_id": "case_048",
+      "construction": {
+        "task_id": "case_048",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 33,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 33,
+      "terminal_outcome_recorded": false
+    },
+    {
+      "path": "validation/references/attempt13/case_049",
+      "task_id": "case_049",
+      "construction": {
+        "task_id": "case_049",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 20,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 20,
+      "terminal_outcome_recorded": false
+    },
+    {
+      "path": "validation/references/attempt14/case_043",
+      "task_id": "case_043",
+      "construction": {
+        "task_id": "case_043",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 53,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "error": {
+        "error": "KeyError('id')"
+      },
+      "tool_calls_recorded": 53,
+      "terminal_outcome_recorded": false
+    },
+    {
+      "path": "validation/references/attempt14/case_044",
+      "task_id": "case_044",
+      "construction": {
+        "task_id": "case_044",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 30,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "error": {
+        "error": "RuntimeError(('execute_request', {'request_id': 'XP_REQUESTS-000005'}, {'ok': False, 'error': 'INVENTORY_REQUIRED'}))"
+      },
+      "tool_calls_recorded": 30,
+      "terminal_outcome_recorded": false
+    },
+    {
+      "path": "validation/references/attempt14/case_045",
+      "task_id": "case_045",
+      "construction": {
+        "task_id": "case_045",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 27,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 27,
+      "terminal_outcome_recorded": false
+    },
+    {
+      "path": "validation/references/attempt14/case_046",
+      "task_id": "case_046",
+      "construction": {
+        "task_id": "case_046",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 47,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 47,
+      "terminal_outcome_recorded": false
+    },
+    {
+      "path": "validation/references/attempt15/case_043",
+      "task_id": "case_043",
+      "construction": {
+        "task_id": "case_043",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 68,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 68,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/attempt15/case_044",
+      "task_id": "case_044",
+      "construction": {
+        "task_id": "case_044",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 68,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 68,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/attempt15/case_045",
+      "task_id": "case_045",
+      "construction": {
+        "task_id": "case_045",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 42,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 42,
+      "terminal_outcome_recorded": false
+    },
+    {
+      "path": "validation/references/attempt15/case_046",
+      "task_id": "case_046",
+      "construction": {
+        "task_id": "case_046",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 76,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "error": {
+        "error": "RuntimeError(('execute_request', {'request_id': 'XP_REQUESTS-000019'}, {'ok': False, 'error': 'LINKED_MATCHED_REFERENCE_REQUIRED'}))"
+      },
+      "tool_calls_recorded": 76,
+      "terminal_outcome_recorded": false
+    },
+    {
+      "path": "validation/references/attempt15/case_048",
+      "task_id": "case_048",
+      "construction": {
+        "task_id": "case_048",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 70,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 70,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/attempt15/case_049",
+      "task_id": "case_049",
+      "construction": {
+        "task_id": "case_049",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 50,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 50,
+      "terminal_outcome_recorded": false
+    },
+    {
+      "path": "validation/references/attempt16/case_045",
+      "task_id": "case_045",
+      "construction": {
+        "task_id": "case_045",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 62,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 62,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/attempt16/case_046",
+      "task_id": "case_046",
+      "construction": {
+        "task_id": "case_046",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 111,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 111,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/attempt16/case_049",
+      "task_id": "case_049",
+      "construction": {
+        "task_id": "case_049",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 68,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 68,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/attempt17/case_036",
+      "task_id": "case_036",
+      "construction": {
+        "task_id": "case_036",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 15,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 15,
+      "terminal_outcome_recorded": false
+    },
+    {
+      "path": "validation/references/attempt17/case_037",
+      "task_id": "case_037",
+      "construction": {
+        "task_id": "case_037",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 24,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 24,
+      "terminal_outcome_recorded": false
+    },
+    {
+      "path": "validation/references/attempt17/case_038",
+      "task_id": "case_038",
+      "construction": {
+        "task_id": "case_038",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 24,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 24,
+      "terminal_outcome_recorded": false
+    },
+    {
+      "path": "validation/references/attempt17/case_039",
+      "task_id": "case_039",
+      "construction": {
+        "task_id": "case_039",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 21,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 21,
+      "terminal_outcome_recorded": false
+    },
+    {
+      "path": "validation/references/attempt18/case_036",
+      "task_id": "case_036",
+      "construction": {
+        "task_id": "case_036",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 38,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 38,
+      "terminal_outcome_recorded": false
+    },
+    {
+      "path": "validation/references/attempt18/case_037",
+      "task_id": "case_037",
+      "construction": {
+        "task_id": "case_037",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 52,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 52,
+      "terminal_outcome_recorded": false
+    },
+    {
+      "path": "validation/references/attempt18/case_038",
+      "task_id": "case_038",
+      "construction": {
+        "task_id": "case_038",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 25,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 25,
+      "terminal_outcome_recorded": false
+    },
+    {
+      "path": "validation/references/attempt18/case_039",
+      "task_id": "case_039",
+      "construction": {
+        "task_id": "case_039",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 22,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 22,
+      "terminal_outcome_recorded": false
+    },
+    {
+      "path": "validation/references/attempt19/case_036",
+      "task_id": "case_036",
+      "construction": {
+        "task_id": "case_036",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 87,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 87,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/attempt19/case_037",
+      "task_id": "case_037",
+      "construction": {
+        "task_id": "case_037",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 55,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 55,
+      "terminal_outcome_recorded": false
+    },
+    {
+      "path": "validation/references/attempt19/case_038",
+      "task_id": "case_038",
+      "construction": {
+        "task_id": "case_038",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 54,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 54,
+      "terminal_outcome_recorded": false
+    },
+    {
+      "path": "validation/references/attempt19/case_039",
+      "task_id": "case_039",
+      "construction": {
+        "task_id": "case_039",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 36,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "error": {
+        "error": "RuntimeError(('call_discoverable_agent_tool', {'capability_name': 'submit_customs_refund_claim', 'arguments': {'importer_id': 'IMPORTER-ORCHARD'}}, {'ok': False, 'error': 'MISSING_ARGUMENT:arguments'}))"
+      },
+      "tool_calls_recorded": 36,
+      "terminal_outcome_recorded": false
+    },
+    {
+      "path": "validation/references/attempt20/case_037",
+      "task_id": "case_037",
+      "construction": {
+        "task_id": "case_037",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 104,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 104,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/attempt20/case_038",
+      "task_id": "case_038",
+      "construction": {
+        "task_id": "case_038",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 73,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 73,
+      "terminal_outcome_recorded": false
+    },
+    {
+      "path": "validation/references/attempt20/case_039",
+      "task_id": "case_039",
+      "construction": {
+        "task_id": "case_039",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 50,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 50,
+      "terminal_outcome_recorded": false
+    },
+    {
+      "path": "validation/references/attempt21/case_038",
+      "task_id": "case_038",
+      "construction": {
+        "task_id": "case_038",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 110,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 110,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/attempt21/case_039",
+      "task_id": "case_039",
+      "construction": {
+        "task_id": "case_039",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 86,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 86,
+      "terminal_outcome_recorded": false
+    },
+    {
+      "path": "validation/references/attempt22/case_039",
+      "task_id": "case_039",
+      "construction": {
+        "task_id": "case_039",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 110,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 110,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/attempt23/case_041",
+      "task_id": "case_041",
+      "construction": {
+        "task_id": "case_041",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 14,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 14,
+      "terminal_outcome_recorded": false
+    },
+    {
+      "path": "validation/references/attempt23/case_042",
+      "task_id": "case_042",
+      "construction": {
+        "task_id": "case_042",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 16,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 16,
+      "terminal_outcome_recorded": false
+    },
+    {
+      "path": "validation/references/attempt24/case_041",
+      "task_id": "case_041",
+      "construction": {
+        "task_id": "case_041",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 25,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 25,
+      "terminal_outcome_recorded": false
+    },
+    {
+      "path": "validation/references/attempt24/case_042",
+      "task_id": "case_042",
+      "construction": {
+        "task_id": "case_042",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 21,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 21,
+      "terminal_outcome_recorded": false
+    },
+    {
+      "path": "validation/references/attempt25/case_041",
+      "task_id": "case_041",
+      "construction": {
+        "task_id": "case_041",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 66,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 66,
+      "terminal_outcome_recorded": false
+    },
+    {
+      "path": "validation/references/attempt25/case_042",
+      "task_id": "case_042",
+      "construction": {
+        "task_id": "case_042",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 67,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 67,
+      "terminal_outcome_recorded": false
+    },
+    {
+      "path": "validation/references/attempt26/case_041",
+      "task_id": "case_041",
+      "construction": {
+        "task_id": "case_041",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 118,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 118,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/attempt26/case_042",
+      "task_id": "case_042",
+      "construction": {
+        "task_id": "case_042",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 85,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 85,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/attempt27/case_031",
+      "task_id": "case_031",
+      "construction": {
+        "task_id": "case_031",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 29,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 29,
+      "terminal_outcome_recorded": false
+    },
+    {
+      "path": "validation/references/attempt27/case_032",
+      "task_id": "case_032",
+      "construction": {
+        "task_id": "case_032",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 18,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 18,
+      "terminal_outcome_recorded": false
+    },
+    {
+      "path": "validation/references/attempt27/case_033",
+      "task_id": "case_033",
+      "construction": {
+        "task_id": "case_033",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 26,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 26,
+      "terminal_outcome_recorded": false
+    },
+    {
+      "path": "validation/references/attempt28/case_031",
+      "task_id": "case_031",
+      "construction": {
+        "task_id": "case_031",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 90,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 90,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/attempt28/case_032",
+      "task_id": "case_032",
+      "construction": {
+        "task_id": "case_032",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 96,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 96,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/attempt28/case_033",
+      "task_id": "case_033",
+      "construction": {
+        "task_id": "case_033",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 102,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 102,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/attempt29/case_001",
+      "task_id": "case_001",
+      "construction": {
+        "task_id": "case_001",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 5,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 5,
+      "terminal_outcome_recorded": false
+    },
+    {
+      "path": "validation/references/attempt30/case_001",
+      "task_id": "case_001",
+      "construction": {
+        "task_id": "case_001",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 40,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 40,
+      "terminal_outcome_recorded": false
+    },
+    {
+      "path": "validation/references/attempt31/case_001",
+      "task_id": "case_001",
+      "construction": {
+        "task_id": "case_001",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 106,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 106,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/attempt32/case_001",
+      "task_id": "case_001",
+      "construction": {
+        "task_id": "case_001",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 113,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 113,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/attempt33/case_001",
+      "task_id": "case_001",
+      "construction": {
+        "task_id": "case_001",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 113,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 113,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/attempt33/case_025",
+      "task_id": "case_025",
+      "construction": {
+        "task_id": "case_025",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 121,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 121,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/attempt34/case_029",
+      "task_id": "case_029",
+      "construction": {
+        "task_id": "case_029",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 249,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 249,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/attempt35/case_027",
+      "task_id": "case_027",
+      "construction": {
+        "task_id": "case_027",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 370,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 370,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/attempt35/case_029",
+      "task_id": "case_029",
+      "construction": {
+        "task_id": "case_029",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 253,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 253,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/attempt36/case_030",
+      "task_id": "case_030",
+      "construction": {
+        "task_id": "case_030",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 308,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 308,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/attempt37/case_026",
+      "task_id": "case_026",
+      "construction": {
+        "task_id": "case_026",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 140,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 140,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/attempt38/case_021",
+      "task_id": "case_021",
+      "construction": {
+        "task_id": "case_021",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 312,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 312,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/attempt39/case_023",
+      "task_id": "case_023",
+      "construction": {
+        "task_id": "case_023",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 91,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 91,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/attempt39/case_024",
+      "task_id": "case_024",
+      "construction": {
+        "task_id": "case_024",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 98,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 98,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/attempt40/case_017",
+      "task_id": "case_017",
+      "construction": {
+        "task_id": "case_017",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 124,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 124,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/attempt40/case_019",
+      "task_id": "case_019",
+      "construction": {
+        "task_id": "case_019",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 155,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 155,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/attempt41/case_019",
+      "task_id": "case_019",
+      "construction": {
+        "task_id": "case_019",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 146,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 146,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/attempt42/case_018",
+      "task_id": "case_018",
+      "construction": {
+        "task_id": "case_018",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 319,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 319,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/attempt43/case_022",
+      "task_id": "case_022",
+      "construction": {
+        "task_id": "case_022",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 264,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 264,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/attempt44/case_016",
+      "task_id": "case_016",
+      "construction": {
+        "task_id": "case_016",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 212,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 212,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/attempt45/case_020",
+      "task_id": "case_020",
+      "construction": {
+        "task_id": "case_020",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 169,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 169,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/attempt46/case_002",
+      "task_id": "case_002",
+      "construction": {
+        "task_id": "case_002",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 571,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "error": {
+        "error": "AssertionError()"
+      },
+      "tool_calls_recorded": 571,
+      "terminal_outcome_recorded": false
+    },
+    {
+      "path": "validation/references/attempt47/case_002",
+      "task_id": "case_002",
+      "construction": {
+        "task_id": "case_002",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 627,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 627,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/attempt47/case_003",
+      "task_id": "case_003",
+      "construction": {
+        "task_id": "case_003",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 164,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "error": {
+        "error": "RuntimeError(('execute_request', {'request_id': 'REQUESTS-0012'}, {'ok': False, 'error': 'SUBMISSION_ID_SET_REQUIRED'}))"
+      },
+      "tool_calls_recorded": 164,
+      "terminal_outcome_recorded": false
+    },
+    {
+      "path": "validation/references/attempt48/case_005",
+      "task_id": "case_005",
+      "construction": {
+        "task_id": "case_005",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 286,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 286,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/attempt49/case_003",
+      "task_id": "case_003",
+      "construction": {
+        "task_id": "case_003",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 175,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 175,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/attempt50/case_004",
+      "task_id": "case_004",
+      "construction": {
+        "task_id": "case_004",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 331,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 331,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/attempt51/case_008",
+      "task_id": "case_008",
+      "construction": {
+        "task_id": "case_008",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 157,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "error": {
+        "error": "KeyError('retired_mandate')"
+      },
+      "tool_calls_recorded": 157,
+      "terminal_outcome_recorded": false
+    },
+    {
+      "path": "validation/references/attempt51/case_009",
+      "task_id": "case_009",
+      "error": {
+        "error": "RuntimeError('Public tool service exited')"
+      },
+      "tool_calls_recorded": 1619,
+      "terminal_outcome_recorded": false,
+      "diagnostic_note": "Authoring loop did not stop when public wait returned no event; the two verified task-owned processes were stopped. The bounded-wait correction was verified in attempt53."
+    },
+    {
+      "path": "validation/references/attempt52/case_008",
+      "task_id": "case_008",
+      "construction": {
+        "task_id": "case_008",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 279,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 279,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/attempt52/case_010",
+      "task_id": "case_010",
+      "construction": {
+        "task_id": "case_010",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 151,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 151,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/attempt52/case_015",
+      "task_id": "case_015",
+      "construction": {
+        "task_id": "case_015",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 126,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "error": {
+        "error": "KeyError('status')"
+      },
+      "tool_calls_recorded": 126,
+      "terminal_outcome_recorded": false
+    },
+    {
+      "path": "validation/references/attempt53/case_009",
+      "task_id": "case_009",
+      "construction": {
+        "task_id": "case_009",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 336,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 336,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/attempt54/case_011",
+      "task_id": "case_011",
+      "construction": {
+        "task_id": "case_011",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 219,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 219,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/attempt54/case_012",
+      "task_id": "case_012",
+      "construction": {
+        "task_id": "case_012",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 182,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 182,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/attempt54/case_015",
+      "task_id": "case_015",
+      "construction": {
+        "task_id": "case_015",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 143,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 143,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/attempt55/case_013",
+      "task_id": "case_013",
+      "construction": {
+        "task_id": "case_013",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 341,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 341,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/attempt55/case_014",
+      "task_id": "case_014",
+      "construction": {
+        "task_id": "case_014",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 158,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "error": {
+        "error": "KeyError('participant_refs')"
+      },
+      "tool_calls_recorded": 158,
+      "terminal_outcome_recorded": false
+    },
+    {
+      "path": "validation/references/attempt56/case_007",
+      "task_id": "case_007",
+      "construction": {
+        "task_id": "case_007",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 469,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "error": {
+        "error": "AssertionError()"
+      },
+      "tool_calls_recorded": 469,
+      "terminal_outcome_recorded": false
+    },
+    {
+      "path": "validation/references/attempt56/case_014",
+      "task_id": "case_014",
+      "construction": {
+        "task_id": "case_014",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 366,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 366,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/attempt57/case_006",
+      "task_id": "case_006",
+      "construction": {
+        "task_id": "case_006",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 234,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 234,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/attempt58/case_007",
+      "task_id": "case_007",
+      "construction": {
+        "task_id": "case_007",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 403,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 403,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/batch01/case_034",
+      "task_id": "case_034",
+      "construction": {
+        "task_id": "case_034",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 85,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 85,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/batch01/case_035",
+      "task_id": "case_035",
+      "construction": {
+        "task_id": "case_035",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 126,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 126,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/batch01/case_040",
+      "task_id": "case_040",
+      "construction": {
+        "task_id": "case_040",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 66,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 66,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/batch01/case_043",
+      "task_id": "case_043",
+      "construction": {
+        "task_id": "case_043",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 68,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 68,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/batch01/case_044",
+      "task_id": "case_044",
+      "construction": {
+        "task_id": "case_044",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 68,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 68,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/batch01/case_045",
+      "task_id": "case_045",
+      "construction": {
+        "task_id": "case_045",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 62,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 62,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/batch01/case_046",
+      "task_id": "case_046",
+      "construction": {
+        "task_id": "case_046",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 111,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 111,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/batch01/case_047",
+      "task_id": "case_047",
+      "construction": {
+        "task_id": "case_047",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 72,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 72,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/batch01/case_048",
+      "task_id": "case_048",
+      "construction": {
+        "task_id": "case_048",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 70,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 70,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/batch01/case_049",
+      "task_id": "case_049",
+      "construction": {
+        "task_id": "case_049",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 68,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 68,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/batch01/case_050",
+      "task_id": "case_050",
+      "construction": {
+        "task_id": "case_050",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 68,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 68,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/batch02/case_036",
+      "task_id": "case_036",
+      "construction": {
+        "task_id": "case_036",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 87,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 87,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/batch02/case_037",
+      "task_id": "case_037",
+      "construction": {
+        "task_id": "case_037",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 104,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 104,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/batch02/case_038",
+      "task_id": "case_038",
+      "construction": {
+        "task_id": "case_038",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 110,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 110,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/batch02/case_039",
+      "task_id": "case_039",
+      "construction": {
+        "task_id": "case_039",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 110,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 110,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/batch02/case_041",
+      "task_id": "case_041",
+      "construction": {
+        "task_id": "case_041",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 102,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 102,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/batch02/case_042",
+      "task_id": "case_042",
+      "construction": {
+        "task_id": "case_042",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 85,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 85,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/batch04/case_001",
+      "task_id": "case_001",
+      "construction": {
+        "task_id": "case_001",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 113,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 113,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/batch04/case_025",
+      "task_id": "case_025",
+      "construction": {
+        "task_id": "case_025",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 89,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 89,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/batch04/case_027",
+      "task_id": "case_027",
+      "construction": {
+        "task_id": "case_027",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 284,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 284,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/batch04/case_028",
+      "task_id": "case_028",
+      "construction": {
+        "task_id": "case_028",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 337,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 337,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/batch04/case_029",
+      "task_id": "case_029",
+      "construction": {
+        "task_id": "case_029",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 166,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 166,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/batch04/case_030",
+      "task_id": "case_030",
+      "construction": {
+        "task_id": "case_030",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 308,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 308,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/batch05/case_021",
+      "task_id": "case_021",
+      "construction": {
+        "task_id": "case_021",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 312,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 312,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/batch05/case_023",
+      "task_id": "case_023",
+      "construction": {
+        "task_id": "case_023",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 91,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 91,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/batch05/case_024",
+      "task_id": "case_024",
+      "construction": {
+        "task_id": "case_024",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 98,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 98,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/batch05/case_026",
+      "task_id": "case_026",
+      "construction": {
+        "task_id": "case_026",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 140,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 140,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/batch06/case_017",
+      "task_id": "case_017",
+      "construction": {
+        "task_id": "case_017",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 124,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 124,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/batch06/case_018",
+      "task_id": "case_018",
+      "construction": {
+        "task_id": "case_018",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 319,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 319,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/batch06/case_019",
+      "task_id": "case_019",
+      "construction": {
+        "task_id": "case_019",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 146,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 146,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/batch06/case_022",
+      "task_id": "case_022",
+      "construction": {
+        "task_id": "case_022",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 264,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 264,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/batch07/case_002",
+      "task_id": "case_002",
+      "construction": {
+        "task_id": "case_002",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 627,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 627,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/batch07/case_003",
+      "task_id": "case_003",
+      "construction": {
+        "task_id": "case_003",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 175,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 175,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/batch07/case_004",
+      "task_id": "case_004",
+      "construction": {
+        "task_id": "case_004",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 331,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 331,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/batch07/case_005",
+      "task_id": "case_005",
+      "construction": {
+        "task_id": "case_005",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 286,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 286,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/batch07/case_016",
+      "task_id": "case_016",
+      "construction": {
+        "task_id": "case_016",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 212,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 212,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/batch07/case_020",
+      "task_id": "case_020",
+      "construction": {
+        "task_id": "case_020",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 169,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 169,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/batch08/case_008",
+      "task_id": "case_008",
+      "construction": {
+        "task_id": "case_008",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 279,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 279,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/batch08/case_009",
+      "task_id": "case_009",
+      "construction": {
+        "task_id": "case_009",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 336,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 336,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/batch08/case_010",
+      "task_id": "case_010",
+      "construction": {
+        "task_id": "case_010",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 151,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 151,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/batch08/case_011",
+      "task_id": "case_011",
+      "construction": {
+        "task_id": "case_011",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 219,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 219,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/batch08/case_012",
+      "task_id": "case_012",
+      "construction": {
+        "task_id": "case_012",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 182,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 182,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/batch08/case_015",
+      "task_id": "case_015",
+      "construction": {
+        "task_id": "case_015",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 143,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 143,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/batch09/case_006",
+      "task_id": "case_006",
+      "construction": {
+        "task_id": "case_006",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 234,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 234,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/batch09/case_007",
+      "task_id": "case_007",
+      "construction": {
+        "task_id": "case_007",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 403,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 403,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/batch09/case_013",
+      "task_id": "case_013",
+      "construction": {
+        "task_id": "case_013",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 341,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 341,
+      "terminal_outcome_recorded": true
+    },
+    {
+      "path": "validation/references/batch09/case_014",
+      "task_id": "case_014",
+      "construction": {
+        "task_id": "case_014",
+        "kind": "scripted_customer_public_tool_reference",
+        "tool_calls": 366,
+        "live_llm_verified": false,
+        "score_available_to_planner": false
+      },
+      "tool_calls_recorded": 366,
+      "terminal_outcome_recorded": true
+    }
+  ],
+  "isolated_checks": [
+    {
+      "path": "validation/reference-check-batch02/summary.json",
+      "kind": "scripted_customer_construction_check_not_live_llm",
+      "tasks": [
+        {
+          "task_id": "case_036",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_037",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_038",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_039",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_041",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_042",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        }
+      ]
+    },
+    {
+      "path": "validation/reference-check-batch04/summary.json",
+      "kind": "scripted_customer_construction_check_not_live_llm",
+      "tasks": [
+        {
+          "task_id": "case_001",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_025",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_027",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_028",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_029",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        }
+      ]
+    },
+    {
+      "path": "validation/reference-check-final/summary.json",
+      "kind": "scripted_customer_construction_check_not_live_llm",
+      "tasks": [
+        {
+          "task_id": "case_001",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_002",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_003",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_004",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_005",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_006",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_007",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_008",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_009",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_010",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_011",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_012",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_013",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_014",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_015",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_016",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_017",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_018",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_019",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_020",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_021",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_022",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_023",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_024",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_025",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_026",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_027",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_028",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_029",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_030",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_031",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_032",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_033",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_034",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_035",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_036",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_037",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_038",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_039",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_040",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_041",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_042",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_043",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_044",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_045",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_046",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_047",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_048",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_049",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_050",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        }
+      ]
+    },
+    {
+      "path": "validation/reference-check-final-gate/summary.json",
+      "kind": "scripted_customer_construction_check_not_live_llm",
+      "tasks": [
+        {
+          "task_id": "case_001",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_002",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_003",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_004",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_005",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_006",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_007",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_008",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_009",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_010",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_011",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_012",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_013",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_014",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_015",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_016",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_017",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_018",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_019",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_020",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_021",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_022",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_023",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_024",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_025",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_026",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_027",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_028",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_029",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_030",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_031",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_032",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_033",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_034",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_035",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_036",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_037",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_038",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_039",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_040",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_041",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_042",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_043",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_044",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_045",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_046",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_047",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_048",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_049",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_050",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        }
+      ]
+    },
+    {
+      "path": "validation/reference-check06/summary.json",
+      "kind": "scripted_customer_construction_check_not_live_llm",
+      "tasks": [
+        {
+          "task_id": "case_047",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_050",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        }
+      ]
+    },
+    {
+      "path": "validation/reference-check09/summary.json",
+      "kind": "scripted_customer_construction_check_not_live_llm",
+      "tasks": [
+        {
+          "task_id": "case_034",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_035",
+          "goal_success": false,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": false
+        }
+      ]
+    },
+    {
+      "path": "validation/reference-check11/summary.json",
+      "kind": "scripted_customer_construction_check_not_live_llm",
+      "tasks": [
+        {
+          "task_id": "case_035",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        }
+      ]
+    },
+    {
+      "path": "validation/reference-check15/summary.json",
+      "kind": "scripted_customer_construction_check_not_live_llm",
+      "tasks": [
+        {
+          "task_id": "case_043",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_044",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_045",
+          "goal_success": false,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": false
+        },
+        {
+          "task_id": "case_046",
+          "goal_success": false,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": false
+        },
+        {
+          "task_id": "case_048",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_049",
+          "goal_success": false,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": false
+        }
+      ]
+    },
+    {
+      "path": "validation/reference-check16/summary.json",
+      "kind": "scripted_customer_construction_check_not_live_llm",
+      "tasks": [
+        {
+          "task_id": "case_045",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_046",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_049",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        }
+      ]
+    },
+    {
+      "path": "validation/reference-check19/summary.json",
+      "kind": "scripted_customer_construction_check_not_live_llm",
+      "tasks": [
+        {
+          "task_id": "case_036",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_037",
+          "goal_success": false,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": false
+        },
+        {
+          "task_id": "case_038",
+          "goal_success": false,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": false
+        },
+        {
+          "task_id": "case_039",
+          "goal_success": false,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": false
+        }
+      ]
+    },
+    {
+      "path": "validation/reference-check20/summary.json",
+      "kind": "scripted_customer_construction_check_not_live_llm",
+      "tasks": [
+        {
+          "task_id": "case_037",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_038",
+          "goal_success": false,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": false
+        },
+        {
+          "task_id": "case_039",
+          "goal_success": false,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": false
+        }
+      ]
+    },
+    {
+      "path": "validation/reference-check21/summary.json",
+      "kind": "scripted_customer_construction_check_not_live_llm",
+      "tasks": [
+        {
+          "task_id": "case_038",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_039",
+          "goal_success": false,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": false
+        }
+      ]
+    },
+    {
+      "path": "validation/reference-check22/summary.json",
+      "kind": "scripted_customer_construction_check_not_live_llm",
+      "tasks": [
+        {
+          "task_id": "case_039",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        }
+      ]
+    },
+    {
+      "path": "validation/reference-check26/summary.json",
+      "kind": "scripted_customer_construction_check_not_live_llm",
+      "tasks": [
+        {
+          "task_id": "case_041",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_042",
+          "goal_success": false,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": false
+        }
+      ]
+    },
+    {
+      "path": "validation/reference-check28/summary.json",
+      "kind": "scripted_customer_construction_check_not_live_llm",
+      "tasks": [
+        {
+          "task_id": "case_031",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_032",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_033",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        }
+      ]
+    },
+    {
+      "path": "validation/reference-check31/summary.json",
+      "kind": "scripted_customer_construction_check_not_live_llm",
+      "tasks": [
+        {
+          "task_id": "case_001",
+          "goal_success": false,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": false
+        }
+      ]
+    },
+    {
+      "path": "validation/reference-check32/summary.json",
+      "kind": "scripted_customer_construction_check_not_live_llm",
+      "tasks": [
+        {
+          "task_id": "case_001",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        }
+      ]
+    },
+    {
+      "path": "validation/reference-check33/summary.json",
+      "kind": "scripted_customer_construction_check_not_live_llm",
+      "tasks": [
+        {
+          "task_id": "case_001",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_025",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        }
+      ]
+    },
+    {
+      "path": "validation/reference-check34/summary.json",
+      "kind": "scripted_customer_construction_check_not_live_llm",
+      "tasks": [
+        {
+          "task_id": "case_029",
+          "goal_success": false,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": false
+        }
+      ]
+    },
+    {
+      "path": "validation/reference-check35/summary.json",
+      "kind": "scripted_customer_construction_check_not_live_llm",
+      "tasks": [
+        {
+          "task_id": "case_027",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_029",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        }
+      ]
+    },
+    {
+      "path": "validation/reference-check36/summary.json",
+      "kind": "scripted_customer_construction_check_not_live_llm",
+      "tasks": [
+        {
+          "task_id": "case_030",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        }
+      ]
+    },
+    {
+      "path": "validation/reference-check37/summary.json",
+      "kind": "scripted_customer_construction_check_not_live_llm",
+      "tasks": [
+        {
+          "task_id": "case_026",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        }
+      ]
+    },
+    {
+      "path": "validation/reference-check38/summary.json",
+      "kind": "scripted_customer_construction_check_not_live_llm",
+      "tasks": [
+        {
+          "task_id": "case_021",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        }
+      ]
+    },
+    {
+      "path": "validation/reference-check39/summary.json",
+      "kind": "scripted_customer_construction_check_not_live_llm",
+      "tasks": [
+        {
+          "task_id": "case_023",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_024",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        }
+      ]
+    },
+    {
+      "path": "validation/reference-check40/summary.json",
+      "kind": "scripted_customer_construction_check_not_live_llm",
+      "tasks": [
+        {
+          "task_id": "case_017",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_019",
+          "goal_success": false,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": false
+        }
+      ]
+    },
+    {
+      "path": "validation/reference-check41/summary.json",
+      "kind": "scripted_customer_construction_check_not_live_llm",
+      "tasks": [
+        {
+          "task_id": "case_019",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        }
+      ]
+    },
+    {
+      "path": "validation/reference-check42/summary.json",
+      "kind": "scripted_customer_construction_check_not_live_llm",
+      "tasks": [
+        {
+          "task_id": "case_018",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        }
+      ]
+    },
+    {
+      "path": "validation/reference-check43/summary.json",
+      "kind": "scripted_customer_construction_check_not_live_llm",
+      "tasks": [
+        {
+          "task_id": "case_022",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        }
+      ]
+    },
+    {
+      "path": "validation/reference-check44/summary.json",
+      "kind": "scripted_customer_construction_check_not_live_llm",
+      "tasks": [
+        {
+          "task_id": "case_016",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        }
+      ]
+    },
+    {
+      "path": "validation/reference-check45/summary.json",
+      "kind": "scripted_customer_construction_check_not_live_llm",
+      "tasks": [
+        {
+          "task_id": "case_020",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        }
+      ]
+    },
+    {
+      "path": "validation/reference-check47/summary.json",
+      "kind": "scripted_customer_construction_check_not_live_llm",
+      "tasks": [
+        {
+          "task_id": "case_002",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_003",
+          "goal_success": false,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": false
+        }
+      ]
+    },
+    {
+      "path": "validation/reference-check48/summary.json",
+      "kind": "scripted_customer_construction_check_not_live_llm",
+      "tasks": [
+        {
+          "task_id": "case_005",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        }
+      ]
+    },
+    {
+      "path": "validation/reference-check49/summary.json",
+      "kind": "scripted_customer_construction_check_not_live_llm",
+      "tasks": [
+        {
+          "task_id": "case_003",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        }
+      ]
+    },
+    {
+      "path": "validation/reference-check50/summary.json",
+      "kind": "scripted_customer_construction_check_not_live_llm",
+      "tasks": [
+        {
+          "task_id": "case_004",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        }
+      ]
+    },
+    {
+      "path": "validation/reference-check51/summary.json",
+      "kind": "scripted_customer_construction_check_not_live_llm",
+      "tasks": [
+        {
+          "task_id": "case_008",
+          "goal_success": false,
+          "process_success": false,
+          "protection_success": true,
+          "strict_success": false
+        }
+      ]
+    },
+    {
+      "path": "validation/reference-check52/summary.json",
+      "kind": "scripted_customer_construction_check_not_live_llm",
+      "tasks": [
+        {
+          "task_id": "case_008",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_010",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_015",
+          "goal_success": false,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": false
+        }
+      ]
+    },
+    {
+      "path": "validation/reference-check53/summary.json",
+      "kind": "scripted_customer_construction_check_not_live_llm",
+      "tasks": [
+        {
+          "task_id": "case_009",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        }
+      ]
+    },
+    {
+      "path": "validation/reference-check54/summary.json",
+      "kind": "scripted_customer_construction_check_not_live_llm",
+      "tasks": [
+        {
+          "task_id": "case_011",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_012",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_015",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        }
+      ]
+    },
+    {
+      "path": "validation/reference-check55/summary.json",
+      "kind": "scripted_customer_construction_check_not_live_llm",
+      "tasks": [
+        {
+          "task_id": "case_013",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        },
+        {
+          "task_id": "case_014",
+          "goal_success": false,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": false
+        }
+      ]
+    },
+    {
+      "path": "validation/reference-check56/summary.json",
+      "kind": "scripted_customer_construction_check_not_live_llm",
+      "tasks": [
+        {
+          "task_id": "case_007",
+          "goal_success": false,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": false
+        },
+        {
+          "task_id": "case_014",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        }
+      ]
+    },
+    {
+      "path": "validation/reference-check57/summary.json",
+      "kind": "scripted_customer_construction_check_not_live_llm",
+      "tasks": [
+        {
+          "task_id": "case_006",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        }
+      ]
+    },
+    {
+      "path": "validation/reference-check58/summary.json",
+      "kind": "scripted_customer_construction_check_not_live_llm",
+      "tasks": [
+        {
+          "task_id": "case_007",
+          "goal_success": true,
+          "process_success": true,
+          "protection_success": true,
+          "strict_success": true
+        }
+      ]
+    }
+  ],
+  "native_batches": [
+    {
+      "path": "validation/native-reference-batch01/native-batch.json",
+      "kind": "scripted_customer_not_live_llm",
+      "attempts": [
+        {
+          "task_id": "case_034",
+          "exit_code": 0
+        },
+        {
+          "task_id": "case_035",
+          "exit_code": 0
+        },
+        {
+          "task_id": "case_040",
+          "exit_code": 0
+        },
+        {
+          "task_id": "case_043",
+          "exit_code": 0
+        },
+        {
+          "task_id": "case_044",
+          "exit_code": 0
+        },
+        {
+          "task_id": "case_045",
+          "exit_code": 0
+        },
+        {
+          "task_id": "case_046",
+          "exit_code": 0
+        },
+        {
+          "task_id": "case_047",
+          "exit_code": 0
+        },
+        {
+          "task_id": "case_048",
+          "exit_code": 0
+        },
+        {
+          "task_id": "case_049",
+          "exit_code": 0
+        },
+        {
+          "task_id": "case_050",
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "path": "validation/native-reference-batch02/native-batch.json",
+      "kind": "scripted_customer_not_live_llm",
+      "attempts": [
+        {
+          "task_id": "case_036",
+          "exit_code": 0
+        },
+        {
+          "task_id": "case_037",
+          "exit_code": 0
+        },
+        {
+          "task_id": "case_038",
+          "exit_code": 0
+        },
+        {
+          "task_id": "case_039",
+          "exit_code": 0
+        },
+        {
+          "task_id": "case_041",
+          "exit_code": 0
+        },
+        {
+          "task_id": "case_042",
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "path": "validation/native-reference-batch03/native-batch.json",
+      "kind": "scripted_customer_not_live_llm",
+      "attempts": [
+        {
+          "task_id": "case_031",
+          "exit_code": 0
+        },
+        {
+          "task_id": "case_032",
+          "exit_code": 0
+        },
+        {
+          "task_id": "case_033",
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "path": "validation/native-reference-batch04/native-batch.json",
+      "kind": "scripted_customer_not_live_llm",
+      "attempts": [
+        {
+          "task_id": "case_001",
+          "exit_code": 0
+        },
+        {
+          "task_id": "case_025",
+          "exit_code": 0
+        },
+        {
+          "task_id": "case_027",
+          "exit_code": 0
+        },
+        {
+          "task_id": "case_028",
+          "exit_code": 0
+        },
+        {
+          "task_id": "case_029",
+          "exit_code": 0
+        },
+        {
+          "task_id": "case_030",
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "path": "validation/native-reference-batch05/native-batch.json",
+      "kind": "scripted_customer_not_live_llm",
+      "attempts": [
+        {
+          "task_id": "case_021",
+          "exit_code": 0
+        },
+        {
+          "task_id": "case_023",
+          "exit_code": 0
+        },
+        {
+          "task_id": "case_024",
+          "exit_code": 0
+        },
+        {
+          "task_id": "case_026",
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "path": "validation/native-reference-batch06/native-batch.json",
+      "kind": "scripted_customer_not_live_llm",
+      "attempts": [
+        {
+          "task_id": "case_017",
+          "exit_code": 0
+        },
+        {
+          "task_id": "case_018",
+          "exit_code": 0
+        },
+        {
+          "task_id": "case_019",
+          "exit_code": 0
+        },
+        {
+          "task_id": "case_022",
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "path": "validation/native-reference-batch07/native-batch.json",
+      "kind": "scripted_customer_not_live_llm",
+      "attempts": [
+        {
+          "task_id": "case_002",
+          "exit_code": 0
+        },
+        {
+          "task_id": "case_003",
+          "exit_code": 0
+        },
+        {
+          "task_id": "case_004",
+          "exit_code": 0
+        },
+        {
+          "task_id": "case_005",
+          "exit_code": 0
+        },
+        {
+          "task_id": "case_016",
+          "exit_code": 0
+        },
+        {
+          "task_id": "case_020",
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "path": "validation/native-reference-batch08/native-batch.json",
+      "kind": "scripted_customer_not_live_llm",
+      "attempts": [
+        {
+          "task_id": "case_008",
+          "exit_code": 0
+        },
+        {
+          "task_id": "case_009",
+          "exit_code": 0
+        },
+        {
+          "task_id": "case_010",
+          "exit_code": 0
+        },
+        {
+          "task_id": "case_011",
+          "exit_code": 0
+        },
+        {
+          "task_id": "case_012",
+          "exit_code": 0
+        },
+        {
+          "task_id": "case_015",
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "path": "validation/native-reference-batch09/native-batch.json",
+      "kind": "scripted_customer_not_live_llm",
+      "attempts": [
+        {
+          "task_id": "case_006",
+          "exit_code": 0
+        },
+        {
+          "task_id": "case_007",
+          "exit_code": 0
+        },
+        {
+          "task_id": "case_013",
+          "exit_code": 0
+        },
+        {
+          "task_id": "case_014",
+          "exit_code": 0
+        }
+      ]
+    }
+  ],
+  "harbor_jobs": [
+    {
+      "path": "validation/harbor/scripted-batch01",
+      "finished_at": "2026-11-20T22:23:25.216360",
+      "completed": 11,
+      "errored": 0,
+      "trials": [
+        {
+          "path": "validation/harbor/scripted-batch01/bizagentbench-case-034__SxpZuU5",
+          "task_name": "ant-intl/bizagentbench-case-034",
+          "verifier_environment_mode": "separate",
+          "verifier_result": {
+            "rewards": {
+              "reward": 1.0
+            }
+          },
+          "exception_info": null
+        },
+        {
+          "path": "validation/harbor/scripted-batch01/bizagentbench-case-035__w4uhcuG",
+          "task_name": "ant-intl/bizagentbench-case-035",
+          "verifier_environment_mode": "separate",
+          "verifier_result": {
+            "rewards": {
+              "reward": 1.0
+            }
+          },
+          "exception_info": null
+        },
+        {
+          "path": "validation/harbor/scripted-batch01/bizagentbench-case-040__iNdDjqo",
+          "task_name": "ant-intl/bizagentbench-case-040",
+          "verifier_environment_mode": "separate",
+          "verifier_result": {
+            "rewards": {
+              "reward": 1.0
+            }
+          },
+          "exception_info": null
+        },
+        {
+          "path": "validation/harbor/scripted-batch01/bizagentbench-case-043__sKBFUST",
+          "task_name": "ant-intl/bizagentbench-case-043",
+          "verifier_environment_mode": "separate",
+          "verifier_result": {
+            "rewards": {
+              "reward": 1.0
+            }
+          },
+          "exception_info": null
+        },
+        {
+          "path": "validation/harbor/scripted-batch01/bizagentbench-case-044__jLyX46Q",
+          "task_name": "ant-intl/bizagentbench-case-044",
+          "verifier_environment_mode": "separate",
+          "verifier_result": {
+            "rewards": {
+              "reward": 1.0
+            }
+          },
+          "exception_info": null
+        },
+        {
+          "path": "validation/harbor/scripted-batch01/bizagentbench-case-045__DmgTpsP",
+          "task_name": "ant-intl/bizagentbench-case-045",
+          "verifier_environment_mode": "separate",
+          "verifier_result": {
+            "rewards": {
+              "reward": 1.0
+            }
+          },
+          "exception_info": null
+        },
+        {
+          "path": "validation/harbor/scripted-batch01/bizagentbench-case-046__5wBNj9P",
+          "task_name": "ant-intl/bizagentbench-case-046",
+          "verifier_environment_mode": "separate",
+          "verifier_result": {
+            "rewards": {
+              "reward": 1.0
+            }
+          },
+          "exception_info": null
+        },
+        {
+          "path": "validation/harbor/scripted-batch01/bizagentbench-case-047__dWuca7P",
+          "task_name": "ant-intl/bizagentbench-case-047",
+          "verifier_environment_mode": "separate",
+          "verifier_result": {
+            "rewards": {
+              "reward": 1.0
+            }
+          },
+          "exception_info": null
+        },
+        {
+          "path": "validation/harbor/scripted-batch01/bizagentbench-case-048__CT6yVLA",
+          "task_name": "ant-intl/bizagentbench-case-048",
+          "verifier_environment_mode": "separate",
+          "verifier_result": {
+            "rewards": {
+              "reward": 1.0
+            }
+          },
+          "exception_info": null
+        },
+        {
+          "path": "validation/harbor/scripted-batch01/bizagentbench-case-049__8hkBANv",
+          "task_name": "ant-intl/bizagentbench-case-049",
+          "verifier_environment_mode": "separate",
+          "verifier_result": {
+            "rewards": {
+              "reward": 1.0
+            }
+          },
+          "exception_info": null
+        },
+        {
+          "path": "validation/harbor/scripted-batch01/bizagentbench-case-050__FKYqvKu",
+          "task_name": "ant-intl/bizagentbench-case-050",
+          "verifier_environment_mode": "separate",
+          "verifier_result": {
+            "rewards": {
+              "reward": 1.0
+            }
+          },
+          "exception_info": null
+        }
+      ]
+    },
+    {
+      "path": "validation/harbor/scripted-batch02",
+      "finished_at": "2026-11-20T22:26:18.147930",
+      "completed": 6,
+      "errored": 0,
+      "trials": [
+        {
+          "path": "validation/harbor/scripted-batch02/bizagentbench-case-036__ooeAEDz",
+          "task_name": "ant-intl/bizagentbench-case-036",
+          "verifier_environment_mode": "separate",
+          "verifier_result": {
+            "rewards": {
+              "reward": 1.0
+            }
+          },
+          "exception_info": null
+        },
+        {
+          "path": "validation/harbor/scripted-batch02/bizagentbench-case-037__fxe6xfH",
+          "task_name": "ant-intl/bizagentbench-case-037",
+          "verifier_environment_mode": "separate",
+          "verifier_result": {
+            "rewards": {
+              "reward": 1.0
+            }
+          },
+          "exception_info": null
+        },
+        {
+          "path": "validation/harbor/scripted-batch02/bizagentbench-case-038__XjjPzeS",
+          "task_name": "ant-intl/bizagentbench-case-038",
+          "verifier_environment_mode": "separate",
+          "verifier_result": {
+            "rewards": {
+              "reward": 1.0
+            }
+          },
+          "exception_info": null
+        },
+        {
+          "path": "validation/harbor/scripted-batch02/bizagentbench-case-039__3SU8Dwt",
+          "task_name": "ant-intl/bizagentbench-case-039",
+          "verifier_environment_mode": "separate",
+          "verifier_result": {
+            "rewards": {
+              "reward": 1.0
+            }
+          },
+          "exception_info": null
+        },
+        {
+          "path": "validation/harbor/scripted-batch02/bizagentbench-case-041__AmtdFiB",
+          "task_name": "ant-intl/bizagentbench-case-041",
+          "verifier_environment_mode": "separate",
+          "verifier_result": {
+            "rewards": {
+              "reward": 1.0
+            }
+          },
+          "exception_info": null
+        },
+        {
+          "path": "validation/harbor/scripted-batch02/bizagentbench-case-042__nqQaLzG",
+          "task_name": "ant-intl/bizagentbench-case-042",
+          "verifier_environment_mode": "separate",
+          "verifier_result": {
+            "rewards": {
+              "reward": 1.0
+            }
+          },
+          "exception_info": null
+        }
+      ]
+    },
+    {
+      "path": "validation/harbor/scripted-batch03",
+      "finished_at": "2026-11-20T22:21:20.222792",
+      "completed": 3,
+      "errored": 0,
+      "trials": [
+        {
+          "path": "validation/harbor/scripted-batch03/bizagentbench-case-031__6WBvYAB",
+          "task_name": "ant-intl/bizagentbench-case-031",
+          "verifier_environment_mode": "separate",
+          "verifier_result": {
+            "rewards": {
+              "reward": 1.0
+            }
+          },
+          "exception_info": null
+        },
+        {
+          "path": "validation/harbor/scripted-batch03/bizagentbench-case-032__HHoBWuN",
+          "task_name": "ant-intl/bizagentbench-case-032",
+          "verifier_environment_mode": "separate",
+          "verifier_result": {
+            "rewards": {
+              "reward": 1.0
+            }
+          },
+          "exception_info": null
+        },
+        {
+          "path": "validation/harbor/scripted-batch03/bizagentbench-case-033__HWDL6TA",
+          "task_name": "ant-intl/bizagentbench-case-033",
+          "verifier_environment_mode": "separate",
+          "verifier_result": {
+            "rewards": {
+              "reward": 1.0
+            }
+          },
+          "exception_info": null
+        }
+      ]
+    },
+    {
+      "path": "validation/harbor/scripted-batch04",
+      "finished_at": "2026-11-20T22:58:52.578653",
+      "completed": 6,
+      "errored": 1,
+      "trials": [
+        {
+          "path": "validation/harbor/scripted-batch04/bizagentbench-case-001__np7tBgV",
+          "task_name": "ant-intl/bizagentbench-case-001",
+          "verifier_environment_mode": "separate",
+          "verifier_result": {
+            "rewards": {
+              "reward": 1.0
+            }
+          },
+          "exception_info": null
+        },
+        {
+          "path": "validation/harbor/scripted-batch04/bizagentbench-case-025__xdGr4ua",
+          "task_name": "ant-intl/bizagentbench-case-025",
+          "verifier_environment_mode": "separate",
+          "verifier_result": {
+            "rewards": {
+              "reward": 1.0
+            }
+          },
+          "exception_info": null
+        },
+        {
+          "path": "validation/harbor/scripted-batch04/bizagentbench-case-027__NRhHHdw",
+          "task_name": "ant-intl/bizagentbench-case-027",
+          "verifier_environment_mode": "separate",
+          "verifier_result": {
+            "rewards": {
+              "reward": 1.0
+            }
+          },
+          "exception_info": null
+        },
+        {
+          "path": "validation/harbor/scripted-batch04/bizagentbench-case-028__tLzprB9",
+          "task_name": "ant-intl/bizagentbench-case-028",
+          "verifier_environment_mode": "separate",
+          "verifier_result": {
+            "rewards": {
+              "reward": 1.0
+            }
+          },
+          "exception_info": null
+        },
+        {
+          "path": "validation/harbor/scripted-batch04/bizagentbench-case-029__6VBjqhz",
+          "task_name": "ant-intl/bizagentbench-case-029",
+          "verifier_environment_mode": "separate",
+          "verifier_result": {
+            "rewards": {
+              "reward": 1.0
+            }
+          },
+          "exception_info": null
+        },
+        {
+          "path": "validation/harbor/scripted-batch04/bizagentbench-case-030__N7zC8kL",
+          "task_name": "ant-intl/bizagentbench-case-030",
+          "verifier_environment_mode": "separate",
+          "verifier_result": null,
+          "exception_info": {
+            "exception_type": "RewardFileNotFoundError",
+            "exception_message": "No reward file found at validation\\harbor\\scripted-batch04\\bizagentbench-case-030__N7zC8kL\\verifier\\reward.txt or validation\\harbor\\scripted-batch04\\bizagentbench-case-030__N7zC8kL\\verifier\\reward.json",
+            "exception_traceback": "Traceback (most recent call last):\n  File \"C:\\Users\\yecha\\Desktop\\Study\\harborindex_v2\\.venv-harbor\\Lib\\site-packages\\harbor\\trial\\trial.py\", line 616, in run\n    await self._run()\n  File \"C:\\Users\\yecha\\Desktop\\Study\\harborindex_v2\\.venv-harbor\\Lib\\site-packages\\harbor\\trial\\single_step.py\", line 52, in _run\n    await self._run_verifier()\n  File \"C:\\Users\\yecha\\Desktop\\Study\\harborindex_v2\\.venv-harbor\\Lib\\site-packages\\harbor\\trial\\single_step.py\", line 102, in _run_verifier\n    self.result.verifier_result = await self._run_separate_verifier(\n                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\yecha\\Desktop\\Study\\harborindex_v2\\.venv-harbor\\Lib\\site-packages\\harbor\\trial\\trial.py\", line 1097, in _run_separate_verifier\n    return await self._verify_with_timeout(verifier, timeout_sec)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\yecha\\Desktop\\Study\\harborindex_v2\\.venv-harbor\\Lib\\site-packages\\harbor\\trial\\trial.py\", line 990, in _verify_with_timeout\n    return await asyncio.wait_for(verifier.verify(), timeout=timeout_sec)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\yecha\\Desktop\\Study\\harborindex_v2\\.research-python\\cpython-3.12-windows-x86_64-none\\Lib\\asyncio\\tasks.py\", line 520, in wait_for\n    return await fut\n           ^^^^^^^^^\n  File \"C:\\Users\\yecha\\Desktop\\Study\\harborindex_v2\\.venv-harbor\\Lib\\site-packages\\harbor\\verifier\\verifier.py\", line 304, in verify\n    raise RewardFileNotFoundError(\nharbor.verifier.verifier.RewardFileNotFoundError: No reward file found at validation\\harbor\\scripted-batch04\\bizagentbench-case-030__N7zC8kL\\verifier\\reward.txt or validation\\harbor\\scripted-batch04\\bizagentbench-case-030__N7zC8kL\\verifier\\reward.json\n",
+            "occurred_at": "2026-11-21T06:58:52.546080Z",
+            "policy": {
+              "should_retry": false,
+              "should_grade": true,
+              "has_valid_reward": false
+            }
+          },
+          "verifier_error": {
+            "error_class": "ValueError",
+            "error": "Native sidecar/verifier scoring mismatch"
+          }
+        }
+      ]
+    },
+    {
+      "path": "validation/harbor/scripted-batch05",
+      "finished_at": "2026-11-20T22:52:04.592349",
+      "completed": 4,
+      "errored": 1,
+      "trials": [
+        {
+          "path": "validation/harbor/scripted-batch05/bizagentbench-case-021__Mk4HPye",
+          "task_name": "ant-intl/bizagentbench-case-021",
+          "verifier_environment_mode": "separate",
+          "verifier_result": null,
+          "exception_info": {
+            "exception_type": "RewardFileNotFoundError",
+            "exception_message": "No reward file found at validation\\harbor\\scripted-batch05\\bizagentbench-case-021__Mk4HPye\\verifier\\reward.txt or validation\\harbor\\scripted-batch05\\bizagentbench-case-021__Mk4HPye\\verifier\\reward.json",
+            "exception_traceback": "Traceback (most recent call last):\n  File \"C:\\Users\\yecha\\Desktop\\Study\\harborindex_v2\\.venv-harbor\\Lib\\site-packages\\harbor\\trial\\trial.py\", line 616, in run\n    await self._run()\n  File \"C:\\Users\\yecha\\Desktop\\Study\\harborindex_v2\\.venv-harbor\\Lib\\site-packages\\harbor\\trial\\single_step.py\", line 52, in _run\n    await self._run_verifier()\n  File \"C:\\Users\\yecha\\Desktop\\Study\\harborindex_v2\\.venv-harbor\\Lib\\site-packages\\harbor\\trial\\single_step.py\", line 102, in _run_verifier\n    self.result.verifier_result = await self._run_separate_verifier(\n                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\yecha\\Desktop\\Study\\harborindex_v2\\.venv-harbor\\Lib\\site-packages\\harbor\\trial\\trial.py\", line 1097, in _run_separate_verifier\n    return await self._verify_with_timeout(verifier, timeout_sec)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\yecha\\Desktop\\Study\\harborindex_v2\\.venv-harbor\\Lib\\site-packages\\harbor\\trial\\trial.py\", line 990, in _verify_with_timeout\n    return await asyncio.wait_for(verifier.verify(), timeout=timeout_sec)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\yecha\\Desktop\\Study\\harborindex_v2\\.research-python\\cpython-3.12-windows-x86_64-none\\Lib\\asyncio\\tasks.py\", line 520, in wait_for\n    return await fut\n           ^^^^^^^^^\n  File \"C:\\Users\\yecha\\Desktop\\Study\\harborindex_v2\\.venv-harbor\\Lib\\site-packages\\harbor\\verifier\\verifier.py\", line 304, in verify\n    raise RewardFileNotFoundError(\nharbor.verifier.verifier.RewardFileNotFoundError: No reward file found at validation\\harbor\\scripted-batch05\\bizagentbench-case-021__Mk4HPye\\verifier\\reward.txt or validation\\harbor\\scripted-batch05\\bizagentbench-case-021__Mk4HPye\\verifier\\reward.json\n",
+            "occurred_at": "2026-11-21T06:40:36.008977Z",
+            "policy": {
+              "should_retry": false,
+              "should_grade": true,
+              "has_valid_reward": false
+            }
+          },
+          "verifier_error": {
+            "error_class": "ValueError",
+            "error": "Native sidecar/verifier scoring mismatch"
+          }
+        },
+        {
+          "path": "validation/harbor/scripted-batch05/bizagentbench-case-023__vhHvxwo",
+          "task_name": "ant-intl/bizagentbench-case-023",
+          "verifier_environment_mode": "separate",
+          "verifier_result": {
+            "rewards": {
+              "reward": 1.0
+            }
+          },
+          "exception_info": null
+        },
+        {
+          "path": "validation/harbor/scripted-batch05/bizagentbench-case-024__KLwTtpT",
+          "task_name": "ant-intl/bizagentbench-case-024",
+          "verifier_environment_mode": "separate",
+          "verifier_result": {
+            "rewards": {
+              "reward": 1.0
+            }
+          },
+          "exception_info": null
+        },
+        {
+          "path": "validation/harbor/scripted-batch05/bizagentbench-case-026__kJBm2i6",
+          "task_name": "ant-intl/bizagentbench-case-026",
+          "verifier_environment_mode": "separate",
+          "verifier_result": {
+            "rewards": {
+              "reward": 1.0
+            }
+          },
+          "exception_info": null
+        }
+      ]
+    },
+    {
+      "path": "validation/harbor/scripted-batch06",
+      "finished_at": "2026-11-20T23:09:26.633883",
+      "completed": 4,
+      "errored": 0,
+      "trials": [
+        {
+          "path": "validation/harbor/scripted-batch06/bizagentbench-case-017__PYcXbtQ",
+          "task_name": "ant-intl/bizagentbench-case-017",
+          "verifier_environment_mode": "separate",
+          "verifier_result": {
+            "rewards": {
+              "reward": 1.0
+            }
+          },
+          "exception_info": null
+        },
+        {
+          "path": "validation/harbor/scripted-batch06/bizagentbench-case-018__gyTc8Ur",
+          "task_name": "ant-intl/bizagentbench-case-018",
+          "verifier_environment_mode": "separate",
+          "verifier_result": {
+            "rewards": {
+              "reward": 1.0
+            }
+          },
+          "exception_info": null
+        },
+        {
+          "path": "validation/harbor/scripted-batch06/bizagentbench-case-019__S6y788p",
+          "task_name": "ant-intl/bizagentbench-case-019",
+          "verifier_environment_mode": "separate",
+          "verifier_result": {
+            "rewards": {
+              "reward": 1.0
+            }
+          },
+          "exception_info": null
+        },
+        {
+          "path": "validation/harbor/scripted-batch06/bizagentbench-case-022__RQfwTuj",
+          "task_name": "ant-intl/bizagentbench-case-022",
+          "verifier_environment_mode": "separate",
+          "verifier_result": {
+            "rewards": {
+              "reward": 1.0
+            }
+          },
+          "exception_info": null
+        }
+      ]
+    },
+    {
+      "path": "validation/harbor/scripted-batch07",
+      "finished_at": "2026-11-20T23:36:26.705202",
+      "completed": 6,
+      "errored": 0,
+      "trials": [
+        {
+          "path": "validation/harbor/scripted-batch07/bizagentbench-case-002__ZTKAZSo",
+          "task_name": "ant-intl/bizagentbench-case-002",
+          "verifier_environment_mode": "separate",
+          "verifier_result": {
+            "rewards": {
+              "reward": 1.0
+            }
+          },
+          "exception_info": null
+        },
+        {
+          "path": "validation/harbor/scripted-batch07/bizagentbench-case-003__RfDJib6",
+          "task_name": "ant-intl/bizagentbench-case-003",
+          "verifier_environment_mode": "separate",
+          "verifier_result": {
+            "rewards": {
+              "reward": 1.0
+            }
+          },
+          "exception_info": null
+        },
+        {
+          "path": "validation/harbor/scripted-batch07/bizagentbench-case-004__YfaUPnb",
+          "task_name": "ant-intl/bizagentbench-case-004",
+          "verifier_environment_mode": "separate",
+          "verifier_result": {
+            "rewards": {
+              "reward": 1.0
+            }
+          },
+          "exception_info": null
+        },
+        {
+          "path": "validation/harbor/scripted-batch07/bizagentbench-case-005__gQGZhJ5",
+          "task_name": "ant-intl/bizagentbench-case-005",
+          "verifier_environment_mode": "separate",
+          "verifier_result": {
+            "rewards": {
+              "reward": 1.0
+            }
+          },
+          "exception_info": null
+        },
+        {
+          "path": "validation/harbor/scripted-batch07/bizagentbench-case-016__CZMMVCx",
+          "task_name": "ant-intl/bizagentbench-case-016",
+          "verifier_environment_mode": "separate",
+          "verifier_result": {
+            "rewards": {
+              "reward": 1.0
+            }
+          },
+          "exception_info": null
+        },
+        {
+          "path": "validation/harbor/scripted-batch07/bizagentbench-case-020__Dk5HyMx",
+          "task_name": "ant-intl/bizagentbench-case-020",
+          "verifier_environment_mode": "separate",
+          "verifier_result": {
+            "rewards": {
+              "reward": 1.0
+            }
+          },
+          "exception_info": null
+        }
+      ]
+    },
+    {
+      "path": "validation/harbor/scripted-batch08",
+      "finished_at": "2026-11-20T23:37:40.072689",
+      "completed": 6,
+      "errored": 0,
+      "trials": [
+        {
+          "path": "validation/harbor/scripted-batch08/bizagentbench-case-008__ckWqbcU",
+          "task_name": "ant-intl/bizagentbench-case-008",
+          "verifier_environment_mode": "separate",
+          "verifier_result": {
+            "rewards": {
+              "reward": 1.0
+            }
+          },
+          "exception_info": null
+        },
+        {
+          "path": "validation/harbor/scripted-batch08/bizagentbench-case-009__fkJxMWK",
+          "task_name": "ant-intl/bizagentbench-case-009",
+          "verifier_environment_mode": "separate",
+          "verifier_result": {
+            "rewards": {
+              "reward": 1.0
+            }
+          },
+          "exception_info": null
+        },
+        {
+          "path": "validation/harbor/scripted-batch08/bizagentbench-case-010__qQfjhdp",
+          "task_name": "ant-intl/bizagentbench-case-010",
+          "verifier_environment_mode": "separate",
+          "verifier_result": {
+            "rewards": {
+              "reward": 1.0
+            }
+          },
+          "exception_info": null
+        },
+        {
+          "path": "validation/harbor/scripted-batch08/bizagentbench-case-011__fYavYUM",
+          "task_name": "ant-intl/bizagentbench-case-011",
+          "verifier_environment_mode": "separate",
+          "verifier_result": {
+            "rewards": {
+              "reward": 1.0
+            }
+          },
+          "exception_info": null
+        },
+        {
+          "path": "validation/harbor/scripted-batch08/bizagentbench-case-012__zoGLqw4",
+          "task_name": "ant-intl/bizagentbench-case-012",
+          "verifier_environment_mode": "separate",
+          "verifier_result": {
+            "rewards": {
+              "reward": 1.0
+            }
+          },
+          "exception_info": null
+        },
+        {
+          "path": "validation/harbor/scripted-batch08/bizagentbench-case-015__W5zCmsy",
+          "task_name": "ant-intl/bizagentbench-case-015",
+          "verifier_environment_mode": "separate",
+          "verifier_result": {
+            "rewards": {
+              "reward": 1.0
+            }
+          },
+          "exception_info": null
+        }
+      ]
+    },
+    {
+      "path": "validation/harbor/scripted-batch09",
+      "finished_at": "2026-11-20T23:39:57.254006",
+      "completed": 4,
+      "errored": 0,
+      "trials": [
+        {
+          "path": "validation/harbor/scripted-batch09/bizagentbench-case-006__47LTmv5",
+          "task_name": "ant-intl/bizagentbench-case-006",
+          "verifier_environment_mode": "separate",
+          "verifier_result": {
+            "rewards": {
+              "reward": 1.0
+            }
+          },
+          "exception_info": null
+        },
+        {
+          "path": "validation/harbor/scripted-batch09/bizagentbench-case-007__Ftcm9dd",
+          "task_name": "ant-intl/bizagentbench-case-007",
+          "verifier_environment_mode": "separate",
+          "verifier_result": {
+            "rewards": {
+              "reward": 1.0
+            }
+          },
+          "exception_info": null
+        },
+        {
+          "path": "validation/harbor/scripted-batch09/bizagentbench-case-013__4qMisEh",
+          "task_name": "ant-intl/bizagentbench-case-013",
+          "verifier_environment_mode": "separate",
+          "verifier_result": {
+            "rewards": {
+              "reward": 1.0
+            }
+          },
+          "exception_info": null
+        },
+        {
+          "path": "validation/harbor/scripted-batch09/bizagentbench-case-014__Tfk5kFW",
+          "task_name": "ant-intl/bizagentbench-case-014",
+          "verifier_environment_mode": "separate",
+          "verifier_result": {
+            "rewards": {
+              "reward": 1.0
+            }
+          },
+          "exception_info": null
+        }
+      ]
+    },
+    {
+      "path": "validation/harbor/scripted-retry01",
+      "finished_at": "2026-11-20T22:58:55.474546",
+      "completed": 1,
+      "errored": 0,
+      "trials": [
+        {
+          "path": "validation/harbor/scripted-retry01/bizagentbench-case-021__jokY5uz",
+          "task_name": "ant-intl/bizagentbench-case-021",
+          "verifier_environment_mode": "separate",
+          "verifier_result": {
+            "rewards": {
+              "reward": 1.0
+            }
+          },
+          "exception_info": null
+        }
+      ]
+    },
+    {
+      "path": "validation/harbor/scripted-retry02",
+      "finished_at": "2026-11-20T23:05:05.966990",
+      "completed": 1,
+      "errored": 0,
+      "trials": [
+        {
+          "path": "validation/harbor/scripted-retry02/bizagentbench-case-030__fH3gueT",
+          "task_name": "ant-intl/bizagentbench-case-030",
+          "verifier_environment_mode": "separate",
+          "verifier_result": {
+            "rewards": {
+              "reward": 1.0
+            }
+          },
+          "exception_info": null
+        }
+      ]
+    }
+  ],
+  "notes": [
+    "All existing failed attempts are retained locally.",
+    "final50 is a copy of explicitly selected constructions, not a new attempt.",
+    "Cases 021 and 030 each retain a failed Harbor verifier run and a named retry after JSON normalization.",
+    "No model scores, real-LLM acceptance rate or statistical parity are inferred."
+  ]
+}

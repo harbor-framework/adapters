@@ -1,0 +1,13 @@
+{
+  "kind": "review_only_plan_provenance",
+  "date_local": "2026-11-21",
+  "real_model_calls": 0,
+  "grader_invocations": 0,
+  "prior_evidence_unchanged": true,
+  "files_sha256": {
+    "scripts/estimate_live_budget.py": "9f83f157fed9fb39b063cd47a87225dab44c56ea2feb0576ca26ef3371a9652b",
+    "live-plan/budget-estimate.json": "fd32992b63fd55fea31a70e7da3438f4c1ea83a0c56401627014a79ff10fe52a",
+    "live-plan/experiment-proposal.json": "2fe7b47d80e36028aa31c66d88e3ab1fe43c3c09e290b2d25143a95c223c28c3",
+    "live-plan/README.md": "c757c658241e2a9289b19c8acfbae14e1388ccd78d2d746ca6dbc4b1a545c360"
+  }
+}

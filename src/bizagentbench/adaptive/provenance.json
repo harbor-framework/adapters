@@ -1,0 +1,30 @@
+{
+  "kind": "adaptive_offline_provenance",
+  "real_model_calls": 0,
+  "prior_hashes_unchanged": {
+    "source_files_sha256": 53,
+    "evidence_files_sha256": 6
+  },
+  "preparation_hashes_unchanged": 12,
+  "files_sha256": {
+    "adaptive/readiness.json": "0e89b491172e77d3fefa489362274734cbb682b403179ff5399eddcc3943de64",
+    "adaptive/README.md": "287a255772917b112a4e6c04b895372dd6ca10838524fffb5901df77a7338e48",
+    "adaptive/validation.json": "13b66c58fc353508e5592e007a907a72406e420560a03e6667b630eea26eaeb0",
+    "scripts/check_adaptive_controls.py": "8479e26f8827a792630bcfd9a3b0975002a12814fd904199fbfe5fcfdfbeafa8",
+    "scripts/grade_adaptive_controls.py": "2c4eb18eb768afc9156eb4e329394ed0bc7e8f252463c6cd14a967a08e8c91a2",
+    "scripts/native_adaptive.py": "ec7897d6cea4be6d2b8c9c73486d435391bf50a08720501a3c3d722884ff52fb",
+    "scripts/prepare_adaptive.py": "ba883c49ca51634df074ce3357eb20297ed5f1847b243a8952e3f0feead93328",
+    "scripts/report_adaptive.py": "0f6273fabf1bfbbf09521571a8652249f01e9296b7fc7392262ea9d3e8905fb6",
+    "src/bizagentbench/adaptive.py": "99fdc41b18e31f34ad0d5460064e9c81cb87998728871e3bd8ea593b31d32f23",
+    "src/bizagentbench/adaptive_plans.py": "c2a196639d7de15e9c4012b7d5d66c63d3c08d36f941420642c8231217d626d3",
+    "src/bizagentbench/adaptive_run.py": "e479a46270eded2d7109fd3755c0df652213cd7d2d2177f3301ea37eb974c032",
+    "tests/fixtures/adaptive_customer.py": "e6ae24ba5ffa8da7429cb2a849d5bb2bee01e79819f932a8e2ce6f768303e902",
+    "tests/fixtures/adaptive_provider.py": "6613701527666c98f3d4424fe3653ce2b9dcbe0ae20780201eebe28ff964cdc9",
+    "tests/test_adaptive.py": "a195c63d5fbc96eb127ee41264f1ad4eac4da2ffa5d1a1794e7bce7f7ce044f0"
+  },
+  "evidence_sha256": {
+    "validation/adaptive-controls-grader-final/summary.json": "7f39d31c59b76c31f4df8d7120141403f0c5c80e88f588955eaa609d729deb4f",
+    "validation/harbor/adaptive-final-v2/result.json": "e5bf0eb83782a2d3ef33c3660cbc52ebcfb7faf50f6a714107aa0390c631baca",
+    "validation/unit-adaptive-linux.xml": "9eb0d927798b03951b1a768d707b4770b9a7ffd81215a54424de44a1f9662576"
+  }
+}

@@ -1,0 +1,22 @@
+services:
+  main:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      business:
+        condition: service_healthy
+  business:
+    build:
+      context: ./runtime
+    environment:
+      @USER_KEY_ENV@: ${@USER_KEY_ENV@:-}
+      PYTHONUTF8: "1"
+      LITELLM_LOCAL_MODEL_COST_MAP: "True"
+    expose: ["8000"]
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=2)"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+    # No agent log mounts, host paths, Docker socket, or shared state volumes.

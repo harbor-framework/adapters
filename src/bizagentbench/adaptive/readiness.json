@@ -1,0 +1,20 @@
+{
+  "kind": "adaptive_offline_readiness_not_execution_approval",
+  "supported_tasks": ["case_001", "case_031", "case_036", "case_040", "case_049"],
+  "offline_controller_checks_complete": true,
+  "live_launch_ready": false,
+  "live_model_calls": 0,
+  "model_parity_runs": 0,
+  "authorized_spend_usd": 0,
+  "evidence": "adaptive/validation.json",
+  "remaining": [
+    "Independent LLM customer behavior is unverified; the controller requires structured receipts and bounded clarification.",
+    "The remaining 45 tasks retain the earlier linear reference flows.",
+    "Select exact dated models, provider endpoints, limits and an approved spending ceiling.",
+    "Freeze a verified Harbor source revision and the adapter/controller revision; current Harbor wheel source SHA is unknown.",
+    "Prepare separate live-customer entry configurations; current adaptive runners use offline fixtures only.",
+    "Obtain explicit user confirmation before any real model invocation.",
+    "Coordinate the matched parity plan with the Harbor team before the separate model parity phase."
+  ],
+  "historical_preparation": "preparation/ remains the unchanged audit of the earlier linear controller."
+}

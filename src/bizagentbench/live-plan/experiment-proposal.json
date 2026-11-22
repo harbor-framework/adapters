@@ -1,0 +1,209 @@
+{
+  "kind": "review_only_live_experiment_proposal",
+  "date_local": "2026-11-21",
+  "execution_enabled": false,
+  "user_authorized": false,
+  "authorized_spend_usd": 0,
+  "provider_credentials_accessed": false,
+  "model_calls_made": 0,
+  "team_contacted": false,
+  "candidate_models_not_selected": {
+    "customer": "gpt-5.4-mini-2026-03-17",
+    "assistant": "gpt-5.4-2026-03-05",
+    "reason": "Dated models with documented tool calling and Chat Completions support; price anchors, subject to team choice and account availability.",
+    "configured_endpoint": "https://not-authorized.example.invalid/v1"
+  },
+  "proposed_effective_settings_require_review": {
+    "concurrency": 1,
+    "automatic_episode_retries": 0,
+    "seed": 0,
+    "send_seed": false,
+    "temperature": null,
+    "max_errors": 16,
+    "episode_timeout_seconds": 5400,
+    "role_timeout_seconds": 600,
+    "customer_output_token_cap": 4096,
+    "assistant_output_token_cap": 8192,
+    "customer_reasoning_effort": "none",
+    "assistant_reasoning_effort": "low",
+    "notice": "Output caps and reasoning settings are proposals, not installed runtime changes. Preserve prompt/tool/scoring semantics. Apply identical role settings on both sides and diagnose length truncation. Native max_tokens wire compatibility requires a verified common provider endpoint or documented symmetric transport mapping."
+  },
+  "phases": [
+    {
+      "id": "A0",
+      "kind": "offline_setup",
+      "model_calls": 0,
+      "gate": "Version pins, isolation review, live-only entry wiring, protocol fixtures, and enforceable request-level budget accounting."
+    },
+    {
+      "id": "A1",
+      "kind": "independent_customer_oracle",
+      "tasks": [
+        "case_040",
+        "case_031",
+        "case_001",
+        "case_049",
+        "case_036"
+      ],
+      "sides": [
+        "native",
+        "harbor"
+      ],
+      "repetitions": 1,
+      "episodes": 10,
+      "first_checkpoint": "Run case_040 on each side, then review billed usage and protocol behavior before the remaining four. These two episodes are included in ten.",
+      "paid_roles": [
+        "customer"
+      ],
+      "gate": "Explicit user authorization and funded provider access; this is not formal model parity."
+    },
+    {
+      "id": "A2",
+      "kind": "optional_oracle_extension",
+      "tasks": [
+        "case_021",
+        "case_014",
+        "case_006",
+        "case_007",
+        "case_002"
+      ],
+      "episodes": 10,
+      "gate": "Build and validate the five adaptive controllers; review A1 and obtain scope/budget authorization."
+    },
+    {
+      "id": "A3",
+      "kind": "optional_oracle_remaining40",
+      "episodes": 80,
+      "gate": "Build and qualify remaining controllers; agree required independent-customer oracle coverage with the team. A1+A2+A3=100 episodes, no double counting."
+    },
+    {
+      "id": "B0",
+      "kind": "model_parity_sanity",
+      "tasks": [
+        "case_040",
+        "case_031",
+        "case_001",
+        "case_049",
+        "case_036",
+        "case_021",
+        "case_014",
+        "case_006",
+        "case_007",
+        "case_002"
+      ],
+      "episodes": 20,
+      "paid_roles": [
+        "assistant",
+        "customer"
+      ],
+      "gate": "Team-approved matched HTTPAgent/relay implementation, models, task set and budget; separate user authorization. Diagnostic task set, not a representative score estimate."
+    },
+    {
+      "id": "B1",
+      "kind": "model_parity_full_first_round",
+      "tasks_count": 50,
+      "episodes": 100,
+      "gate": "Both sides of B0 diagnosed; recalibrate cost with long-task usage; approve next tranche."
+    },
+    {
+      "id": "B2",
+      "kind": "model_parity_additional_two_rounds",
+      "tasks_count": 50,
+      "episodes": 200,
+      "order": [
+        "native_r2",
+        "harbor_r2",
+        "native_r3",
+        "harbor_r3"
+      ],
+      "gate": "One full round complete on both sides. B1+B2=300 scored episodes, B0 separate."
+    }
+  ],
+  "acceptance_and_recording": {
+    "oracle": "Record native G/P/F/Strict and customer behavior, including failures. A five-case pilot does not satisfy a full-50 live oracle claim. Never force customer approval or weaken native checks.",
+    "parity": "Report each side's run means and sample SEM over three full runs; compare run-score ranges. Model failures stay in scores, infrastructure failures remain separately classified. Investigate divergence; no best-of retries.",
+    "paths": [
+      "validation/live-experiments/<config-hash>/customer-oracle/<side>/<attempt>",
+      "validation/live-experiments/<config-hash>/model-parity/<side>/<round>/<attempt>"
+    ],
+    "budget_interruption": "Retain incomplete episode and budget-stop reason; do not replace its score or claim completed parity."
+  },
+  "isolation": {
+    "assistant": "Only public assistant messages/tools; no grader, private world, hidden contract or scripted customer answers.",
+    "customer": "Unmodified native customer policy and customer portal tools in its own role; no grader or reference answer injection.",
+    "grader": "Trusted business evidence collected after stopping assistant; fresh separate offline verifier, no model credentials and no scoring feedback during the episode. Native in-process verification artifacts are not exposed to the live assistant."
+  },
+  "blocking_work_before_launch": [
+    "Freeze verified Harbor Git revision and adapter/controller identity; installed wheel alone does not establish source revision.",
+    "Implement live-customer entry wiring without scripted customer fixtures; existing adaptive scripts remain offline-only.",
+    "Validate model endpoint wire semantics, context/output caps and usage reporting without altering benchmark prompts/scoring.",
+    "Implement pre-request cost reservation using actual token accounting and maximum output charges, plus an enforceable gateway/provider cap. Alerts alone are not a hard cap.",
+    "Confirm model/account access, rates including applicable surcharges, and staged explicit approval.",
+    "For B phases, obtain Harbor team agreement, including whether standard-agent comparison is additionally required."
+  ],
+  "budget_scenarios": {
+    "parity_first5": {
+      "standard_candidate": {
+        "base_usd": 82.56,
+        "high_with_retry_reserve_usd": 309.59
+      },
+      "both_roles_mini_candidate": {
+        "base_usd": 27.29,
+        "high_with_retry_reserve_usd": 102.33
+      }
+    },
+    "parity_next5": {
+      "standard_candidate": {
+        "base_usd": 756.61,
+        "high_with_retry_reserve_usd": 2837.3
+      },
+      "both_roles_mini_candidate": {
+        "base_usd": 234.94,
+        "high_with_retry_reserve_usd": 881.03
+      }
+    },
+    "parity_sanity10": {
+      "standard_candidate": {
+        "base_usd": 839.17,
+        "high_with_retry_reserve_usd": 3146.89
+      },
+      "both_roles_mini_candidate": {
+        "base_usd": 262.23,
+        "high_with_retry_reserve_usd": 983.37
+      }
+    },
+    "parity_first_full_round": {
+      "standard_candidate": {
+        "base_usd": 2513.32,
+        "high_with_retry_reserve_usd": 9424.95
+      },
+      "both_roles_mini_candidate": {
+        "base_usd": 795.29,
+        "high_with_retry_reserve_usd": 2982.35
+      }
+    },
+    "parity_additional_two_rounds": {
+      "standard_candidate": {
+        "base_usd": 5026.64,
+        "high_with_retry_reserve_usd": 18849.9
+      },
+      "both_roles_mini_candidate": {
+        "base_usd": 1590.59,
+        "high_with_retry_reserve_usd": 5964.7
+      }
+    },
+    "parity_total_320_episodes": {
+      "standard_candidate": {
+        "base_usd": 8379.13,
+        "high_with_retry_reserve_usd": 31421.74
+      },
+      "both_roles_mini_candidate": {
+        "base_usd": 2648.11,
+        "high_with_retry_reserve_usd": 9930.42
+      }
+    }
+  },
+  "proposed_A1_ceiling_usd_not_authorized": 25,
+  "full_budget_not_requested_for_approval": true,
+  "estimate_source_sha256": "fd32992b63fd55fea31a70e7da3438f4c1ea83a0c56401627014a79ff10fe52a"
+}

@@ -1,0 +1,23 @@
+{
+  "kind": "offline_trajectory_equivalence_not_model_parity",
+  "tasks": [
+    {
+      "task_id": "case_001",
+      "native_reward": 0.0,
+      "harbor_reward": 0.0,
+      "termination": "user_stop",
+      "tool_calls": 1,
+      "full_verdict_equal": true,
+      "forged_main_evidence_ignored": true
+    },
+    {
+      "task_id": "case_031",
+      "native_reward": 0.0,
+      "harbor_reward": 0.0,
+      "termination": "user_stop",
+      "tool_calls": 1,
+      "full_verdict_equal": true,
+      "forged_main_evidence_ignored": true
+    }
+  ]
+}

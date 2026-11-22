@@ -1,0 +1,22 @@
+# Run from the adapters repository root, after generation and oracle completion.
+datasets:
+  - path: datasets/bizagentbench
+agents:
+  - name: oracle
+  # Matched native tool-calling model, after an agreed parity plan:
+  # - import_path: bizagentbench.agent:BizAgentBenchAgent
+  #   model_name: EXACT_MODEL_ID
+  #   kwargs:
+  #     model_config: /absolute/path/to/model.json
+  # Standard CLI agent, for a separate generalization experiment:
+  # - name: codex
+  #   model_name: openai/EXACT_DATED_MODEL_ID
+environment:
+  type: docker
+  force_build: false
+  delete: true
+orchestrator:
+  type: local
+  n_concurrent_trials: 1
+jobs_dir: jobs/bizagentbench
+n_attempts: 1
