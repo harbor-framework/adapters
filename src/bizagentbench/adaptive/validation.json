@@ -1,0 +1,127 @@
+{
+  "kind": "adaptive_reference_offline_validation_not_live_llm_or_model_parity",
+  "supported_tasks": [
+    "case_001",
+    "case_031",
+    "case_036",
+    "case_040",
+    "case_049"
+  ],
+  "full_run_comparisons": [
+    {
+      "task_id": "case_001",
+      "reward": 1.0,
+      "tool_calls": 131,
+      "full_native_harbor_verdict_equal": true,
+      "separate_grader": true,
+      "native_result": "validation/adaptive-native-final/case_001__trial0/result.json",
+      "harbor_trial": "validation/harbor/adaptive-final-v2/bizagentbench-case-001__o4ToeDM",
+      "hashes_sha256": {
+        "native_result": "c56fb8415cc874f44490d1a88b2c873da4a38c68c6efe0191305934bd9dcabf4",
+        "harbor_evidence": "f34b437200f267d390e61b2fb855700301e3f87393f72874080863dc759a7d6c",
+        "separate_verdict": "ffe10e6024fc998f8dc4e0f38f490e80c4c2d92caf6834fc7e0e19518d7b54ff"
+      }
+    },
+    {
+      "task_id": "case_031",
+      "reward": 1.0,
+      "tool_calls": 98,
+      "full_native_harbor_verdict_equal": true,
+      "separate_grader": true,
+      "native_result": "validation/adaptive-native-final/case_031__trial0/result.json",
+      "harbor_trial": "validation/harbor/adaptive-final-v2/bizagentbench-case-031__UXSFptS",
+      "hashes_sha256": {
+        "native_result": "e3f95b4959d9ef104531b52cceffb8dc9deac96374c9fedff6adfe488780c571",
+        "harbor_evidence": "d4f8364237554fa6c362ad365b4509363b21344912ca85dcd28bd72bc1ef5a7f",
+        "separate_verdict": "37cee4bbf83008d916a9fc2fe6127b22638dbd0b0ab8cfcef5aae4d93cee0daf"
+      }
+    },
+    {
+      "task_id": "case_036",
+      "reward": 1.0,
+      "tool_calls": 80,
+      "full_native_harbor_verdict_equal": true,
+      "separate_grader": true,
+      "native_result": "validation/adaptive-native-final/case_036__trial0/result.json",
+      "harbor_trial": "validation/harbor/adaptive-final-v2/bizagentbench-case-036__AVJcjdh",
+      "hashes_sha256": {
+        "native_result": "63594854d1448ac9d6893c33b515a70705fcc8d9d96a65aa4e61a4ddeda70af8",
+        "harbor_evidence": "d2a71e3c523e6b9629a56b50a755f62620238a72bb49728b9b98a9e9ee90602f",
+        "separate_verdict": "cb81630242c67fcce146ee06685aa02be5601d1577cf83b306147a6e16ef2979"
+      }
+    },
+    {
+      "task_id": "case_040",
+      "reward": 1.0,
+      "tool_calls": 71,
+      "full_native_harbor_verdict_equal": true,
+      "separate_grader": true,
+      "native_result": "validation/adaptive-native-final/case_040__trial0/result.json",
+      "harbor_trial": "validation/harbor/adaptive-final-v2/bizagentbench-case-040__EzF86LF",
+      "hashes_sha256": {
+        "native_result": "44fe4b942d6cf17db3e2ae1f3087f14d270f8ce018b4a5898e413c368aefb4ca",
+        "harbor_evidence": "cc274e848ec208eefe8724951cf59280d522c2764f418b5dc89a526557d792d1",
+        "separate_verdict": "b64b706439cad64f3da89552ce3435dd905b9f0a2c77131c7f387b370260fa67"
+      }
+    },
+    {
+      "task_id": "case_049",
+      "reward": 1.0,
+      "tool_calls": 68,
+      "full_native_harbor_verdict_equal": true,
+      "separate_grader": true,
+      "native_result": "validation/adaptive-native-final/case_049__trial0/result.json",
+      "harbor_trial": "validation/harbor/adaptive-final-v2/bizagentbench-case-049__zybfs72",
+      "hashes_sha256": {
+        "native_result": "3af1a4393ee5e0850b30f1cb144cec6aaf931dfaadce7364cc18a261613f779f",
+        "harbor_evidence": "6bf56b5c6fb8c801258eb8c549bddf443f3847d93e13af207758f74329a7cc62",
+        "separate_verdict": "8fd7e58b9ef77e6952fbd5c758bc912dbaea802bf9efcd1e564c5f32da8b5110"
+      }
+    }
+  ],
+  "variation_controls": {
+    "total": 47,
+    "successful_flows": 25,
+    "safe_stops": 22,
+    "all_expected_branches_matched": true,
+    "real_model_calls": 0
+  },
+  "variation_evidence": "validation/adaptive-controls-grader-final/summary.json",
+  "tests": {
+    "passed": 79,
+    "failed": 0,
+    "platform": "Linux",
+    "junit": "validation/unit-adaptive-linux.xml"
+  },
+  "live_model_calls": 0,
+  "live_customer_validated": false,
+  "model_parity_runs": 0,
+  "controller_scope": "Five business-specific plans; structured customer receipts and bounded clarification. Not arbitrary natural-language planning or support for all 50 cases.",
+  "prior_attempts": [
+    {
+      "path": "validation/adaptive-controls-attempt01",
+      "reason": "Case 036 checked a nonexistent refund flag and safely halted. Corrected using public refund_received_minor and fee fields."
+    },
+    {
+      "path": "validation/adaptive-controls-attempt02",
+      "reason": "Intermediate controls before stronger recipient-verification gate and clearer FX-fill error."
+    },
+    {
+      "path": "validation/adaptive-native-attempt01",
+      "reason": "Earlier full native diagnostic before the final public-recipient check."
+    },
+    {
+      "path": "validation/harbor/adaptive-final",
+      "reason": "Offline fixture evaluated a nonexistent shallow parent path during import. Packaged import failed; fixed and retained all original trials."
+    }
+  ],
+  "approval_boundary": "Customer reports cannot authorize writes; native engine rejects forged/pending approval. No user-role tools are emitted by the assistant.",
+  "source_files_sha256": {
+    "src/bizagentbench/adaptive.py": "99fdc41b18e31f34ad0d5460064e9c81cb87998728871e3bd8ea593b31d32f23",
+    "src/bizagentbench/adaptive_plans.py": "c2a196639d7de15e9c4012b7d5d66c63d3c08d36f941420642c8231217d626d3",
+    "src/bizagentbench/adaptive_run.py": "e479a46270eded2d7109fd3755c0df652213cd7d2d2177f3301ea37eb974c032",
+    "tests/fixtures/adaptive_customer.py": "e6ae24ba5ffa8da7429cb2a849d5bb2bee01e79819f932a8e2ce6f768303e902",
+    "tests/fixtures/adaptive_provider.py": "6613701527666c98f3d4424fe3653ce2b9dcbe0ae20780201eebe28ff964cdc9",
+    "tests/test_adaptive.py": "a195c63d5fbc96eb127ee41264f1ad4eac4da2ffa5d1a1794e7bce7f7ce044f0"
+  }
+}

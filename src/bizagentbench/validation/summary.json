@@ -1,0 +1,883 @@
+{
+  "status": "offline_reference_suite_complete_live_validation_pending",
+  "date_local": "2026-11-20",
+  "timezone": "America/Los_Angeles",
+  "repository": "https://github.com/harbor-framework/adapters.git",
+  "branch": "bizagentbench-adapter",
+  "base_revision": "543861e1ad298c5d94f2480e9cbad74587041864",
+  "working_copy": "uncommitted_new_adapter_only",
+  "contract_version": 1,
+  "review_automation_revision": "f2ebf9c297ca57d9b7ce8a046cef4a2e228ca2b2",
+  "upstream_commit": "670ec25cd934ae8c18e18f5c8f91fdfa0bb571d4",
+  "upstream_archive_sha256": "1851b1b057f1884c01a48e74d0afc8ee0cfefd2db038339e8d200e2583968cd7",
+  "harbor_version": "0.26.0",
+  "harbor_git_sha": null,
+  "docker_version": "29.8.0",
+  "python_base": "python:3.12-slim-bookworm@sha256:935c3c5b12357a7e10caa9c1e6ca5692344d97cf229832ef584be2cec9fc03df",
+  "generated_tasks": 50,
+  "unique_registry_names": 50,
+  "separate_verifier_tasks": 50,
+  "unit_tests": {
+    "passed": 61,
+    "failed": 0,
+    "warnings": [
+      "Upstream audioop deprecation on Python 3.12"
+    ],
+    "platform": "Linux",
+    "process_exit_code": 0,
+    "junit": "validation/unit-linux-final.xml",
+    "duration_seconds": 60.592,
+    "harness_setup_retry": "Initial final-suite command omitted PYTHONPATH; the corrected isolated run completed with exit 0."
+  },
+  "upstream_linux_tests": {
+    "passed": 31,
+    "failed": 0,
+    "command": "docker run --rm --network none -w /opt/bizagentbench -e PYTHONPATH=/opt/bizagentbench:/opt/bizagentbench/third_party/tau2-bench/src bizagentbench-build-business python -m unittest discover -s tests -v"
+  },
+  "offline_trajectory_equivalence": {
+    "kind": "offline_trajectory_equivalence_not_model_parity",
+    "tasks": [
+      {
+        "task_id": "case_001",
+        "native_reward": 0.0,
+        "harbor_reward": 0.0,
+        "termination": "user_stop",
+        "tool_calls": 1,
+        "full_verdict_equal": true,
+        "forged_main_evidence_ignored": true
+      },
+      {
+        "task_id": "case_031",
+        "native_reward": 0.0,
+        "harbor_reward": 0.0,
+        "termination": "user_stop",
+        "tool_calls": 1,
+        "full_verdict_equal": true,
+        "forged_main_evidence_ignored": true
+      }
+    ]
+  },
+  "positive_reference_control": {
+    "kind": "offline_trajectory_equivalence_not_model_parity",
+    "coverage": {
+      "constructed": 50,
+      "isolated_construction_pass": 50,
+      "native_scripted_pass": 50,
+      "harbor_scripted_pass": 50,
+      "full_verdict_matches": 50,
+      "live_llm_verified": 0,
+      "model_parity_runs": 0
+    },
+    "report": "validation/scripted-reference-equivalence.json",
+    "tasks": [
+      {
+        "task_id": "case_001",
+        "native_reward": 1.0,
+        "harbor_reward": 1.0,
+        "termination": "user_stop",
+        "tool_calls": 113,
+        "full_verdict_equal": true,
+        "separate_grader": true,
+        "live_llm_verified": false
+      },
+      {
+        "task_id": "case_002",
+        "native_reward": 1.0,
+        "harbor_reward": 1.0,
+        "termination": "user_stop",
+        "tool_calls": 627,
+        "full_verdict_equal": true,
+        "separate_grader": true,
+        "live_llm_verified": false
+      },
+      {
+        "task_id": "case_003",
+        "native_reward": 1.0,
+        "harbor_reward": 1.0,
+        "termination": "user_stop",
+        "tool_calls": 175,
+        "full_verdict_equal": true,
+        "separate_grader": true,
+        "live_llm_verified": false
+      },
+      {
+        "task_id": "case_004",
+        "native_reward": 1.0,
+        "harbor_reward": 1.0,
+        "termination": "user_stop",
+        "tool_calls": 331,
+        "full_verdict_equal": true,
+        "separate_grader": true,
+        "live_llm_verified": false
+      },
+      {
+        "task_id": "case_005",
+        "native_reward": 1.0,
+        "harbor_reward": 1.0,
+        "termination": "user_stop",
+        "tool_calls": 286,
+        "full_verdict_equal": true,
+        "separate_grader": true,
+        "live_llm_verified": false
+      },
+      {
+        "task_id": "case_006",
+        "native_reward": 1.0,
+        "harbor_reward": 1.0,
+        "termination": "user_stop",
+        "tool_calls": 234,
+        "full_verdict_equal": true,
+        "separate_grader": true,
+        "live_llm_verified": false
+      },
+      {
+        "task_id": "case_007",
+        "native_reward": 1.0,
+        "harbor_reward": 1.0,
+        "termination": "user_stop",
+        "tool_calls": 403,
+        "full_verdict_equal": true,
+        "separate_grader": true,
+        "live_llm_verified": false
+      },
+      {
+        "task_id": "case_008",
+        "native_reward": 1.0,
+        "harbor_reward": 1.0,
+        "termination": "user_stop",
+        "tool_calls": 279,
+        "full_verdict_equal": true,
+        "separate_grader": true,
+        "live_llm_verified": false
+      },
+      {
+        "task_id": "case_009",
+        "native_reward": 1.0,
+        "harbor_reward": 1.0,
+        "termination": "user_stop",
+        "tool_calls": 336,
+        "full_verdict_equal": true,
+        "separate_grader": true,
+        "live_llm_verified": false
+      },
+      {
+        "task_id": "case_010",
+        "native_reward": 1.0,
+        "harbor_reward": 1.0,
+        "termination": "user_stop",
+        "tool_calls": 151,
+        "full_verdict_equal": true,
+        "separate_grader": true,
+        "live_llm_verified": false
+      },
+      {
+        "task_id": "case_011",
+        "native_reward": 1.0,
+        "harbor_reward": 1.0,
+        "termination": "user_stop",
+        "tool_calls": 219,
+        "full_verdict_equal": true,
+        "separate_grader": true,
+        "live_llm_verified": false
+      },
+      {
+        "task_id": "case_012",
+        "native_reward": 1.0,
+        "harbor_reward": 1.0,
+        "termination": "user_stop",
+        "tool_calls": 182,
+        "full_verdict_equal": true,
+        "separate_grader": true,
+        "live_llm_verified": false
+      },
+      {
+        "task_id": "case_013",
+        "native_reward": 1.0,
+        "harbor_reward": 1.0,
+        "termination": "user_stop",
+        "tool_calls": 341,
+        "full_verdict_equal": true,
+        "separate_grader": true,
+        "live_llm_verified": false
+      },
+      {
+        "task_id": "case_014",
+        "native_reward": 1.0,
+        "harbor_reward": 1.0,
+        "termination": "user_stop",
+        "tool_calls": 366,
+        "full_verdict_equal": true,
+        "separate_grader": true,
+        "live_llm_verified": false
+      },
+      {
+        "task_id": "case_015",
+        "native_reward": 1.0,
+        "harbor_reward": 1.0,
+        "termination": "user_stop",
+        "tool_calls": 143,
+        "full_verdict_equal": true,
+        "separate_grader": true,
+        "live_llm_verified": false
+      },
+      {
+        "task_id": "case_016",
+        "native_reward": 1.0,
+        "harbor_reward": 1.0,
+        "termination": "user_stop",
+        "tool_calls": 212,
+        "full_verdict_equal": true,
+        "separate_grader": true,
+        "live_llm_verified": false
+      },
+      {
+        "task_id": "case_017",
+        "native_reward": 1.0,
+        "harbor_reward": 1.0,
+        "termination": "user_stop",
+        "tool_calls": 124,
+        "full_verdict_equal": true,
+        "separate_grader": true,
+        "live_llm_verified": false
+      },
+      {
+        "task_id": "case_018",
+        "native_reward": 1.0,
+        "harbor_reward": 1.0,
+        "termination": "user_stop",
+        "tool_calls": 319,
+        "full_verdict_equal": true,
+        "separate_grader": true,
+        "live_llm_verified": false
+      },
+      {
+        "task_id": "case_019",
+        "native_reward": 1.0,
+        "harbor_reward": 1.0,
+        "termination": "user_stop",
+        "tool_calls": 146,
+        "full_verdict_equal": true,
+        "separate_grader": true,
+        "live_llm_verified": false
+      },
+      {
+        "task_id": "case_020",
+        "native_reward": 1.0,
+        "harbor_reward": 1.0,
+        "termination": "user_stop",
+        "tool_calls": 169,
+        "full_verdict_equal": true,
+        "separate_grader": true,
+        "live_llm_verified": false
+      },
+      {
+        "task_id": "case_021",
+        "native_reward": 1.0,
+        "harbor_reward": 1.0,
+        "termination": "user_stop",
+        "tool_calls": 312,
+        "full_verdict_equal": true,
+        "separate_grader": true,
+        "live_llm_verified": false
+      },
+      {
+        "task_id": "case_022",
+        "native_reward": 1.0,
+        "harbor_reward": 1.0,
+        "termination": "user_stop",
+        "tool_calls": 264,
+        "full_verdict_equal": true,
+        "separate_grader": true,
+        "live_llm_verified": false
+      },
+      {
+        "task_id": "case_023",
+        "native_reward": 1.0,
+        "harbor_reward": 1.0,
+        "termination": "user_stop",
+        "tool_calls": 91,
+        "full_verdict_equal": true,
+        "separate_grader": true,
+        "live_llm_verified": false
+      },
+      {
+        "task_id": "case_024",
+        "native_reward": 1.0,
+        "harbor_reward": 1.0,
+        "termination": "user_stop",
+        "tool_calls": 98,
+        "full_verdict_equal": true,
+        "separate_grader": true,
+        "live_llm_verified": false
+      },
+      {
+        "task_id": "case_025",
+        "native_reward": 1.0,
+        "harbor_reward": 1.0,
+        "termination": "user_stop",
+        "tool_calls": 89,
+        "full_verdict_equal": true,
+        "separate_grader": true,
+        "live_llm_verified": false
+      },
+      {
+        "task_id": "case_026",
+        "native_reward": 1.0,
+        "harbor_reward": 1.0,
+        "termination": "user_stop",
+        "tool_calls": 140,
+        "full_verdict_equal": true,
+        "separate_grader": true,
+        "live_llm_verified": false
+      },
+      {
+        "task_id": "case_027",
+        "native_reward": 1.0,
+        "harbor_reward": 1.0,
+        "termination": "user_stop",
+        "tool_calls": 284,
+        "full_verdict_equal": true,
+        "separate_grader": true,
+        "live_llm_verified": false
+      },
+      {
+        "task_id": "case_028",
+        "native_reward": 1.0,
+        "harbor_reward": 1.0,
+        "termination": "user_stop",
+        "tool_calls": 337,
+        "full_verdict_equal": true,
+        "separate_grader": true,
+        "live_llm_verified": false
+      },
+      {
+        "task_id": "case_029",
+        "native_reward": 1.0,
+        "harbor_reward": 1.0,
+        "termination": "user_stop",
+        "tool_calls": 166,
+        "full_verdict_equal": true,
+        "separate_grader": true,
+        "live_llm_verified": false
+      },
+      {
+        "task_id": "case_030",
+        "native_reward": 1.0,
+        "harbor_reward": 1.0,
+        "termination": "user_stop",
+        "tool_calls": 308,
+        "full_verdict_equal": true,
+        "separate_grader": true,
+        "live_llm_verified": false
+      },
+      {
+        "task_id": "case_031",
+        "native_reward": 1.0,
+        "harbor_reward": 1.0,
+        "termination": "user_stop",
+        "tool_calls": 90,
+        "full_verdict_equal": true,
+        "separate_grader": true,
+        "live_llm_verified": false
+      },
+      {
+        "task_id": "case_032",
+        "native_reward": 1.0,
+        "harbor_reward": 1.0,
+        "termination": "user_stop",
+        "tool_calls": 96,
+        "full_verdict_equal": true,
+        "separate_grader": true,
+        "live_llm_verified": false
+      },
+      {
+        "task_id": "case_033",
+        "native_reward": 1.0,
+        "harbor_reward": 1.0,
+        "termination": "user_stop",
+        "tool_calls": 102,
+        "full_verdict_equal": true,
+        "separate_grader": true,
+        "live_llm_verified": false
+      },
+      {
+        "task_id": "case_034",
+        "native_reward": 1.0,
+        "harbor_reward": 1.0,
+        "termination": "user_stop",
+        "tool_calls": 85,
+        "full_verdict_equal": true,
+        "separate_grader": true,
+        "live_llm_verified": false
+      },
+      {
+        "task_id": "case_035",
+        "native_reward": 1.0,
+        "harbor_reward": 1.0,
+        "termination": "user_stop",
+        "tool_calls": 126,
+        "full_verdict_equal": true,
+        "separate_grader": true,
+        "live_llm_verified": false
+      },
+      {
+        "task_id": "case_036",
+        "native_reward": 1.0,
+        "harbor_reward": 1.0,
+        "termination": "user_stop",
+        "tool_calls": 87,
+        "full_verdict_equal": true,
+        "separate_grader": true,
+        "live_llm_verified": false
+      },
+      {
+        "task_id": "case_037",
+        "native_reward": 1.0,
+        "harbor_reward": 1.0,
+        "termination": "user_stop",
+        "tool_calls": 104,
+        "full_verdict_equal": true,
+        "separate_grader": true,
+        "live_llm_verified": false
+      },
+      {
+        "task_id": "case_038",
+        "native_reward": 1.0,
+        "harbor_reward": 1.0,
+        "termination": "user_stop",
+        "tool_calls": 110,
+        "full_verdict_equal": true,
+        "separate_grader": true,
+        "live_llm_verified": false
+      },
+      {
+        "task_id": "case_039",
+        "native_reward": 1.0,
+        "harbor_reward": 1.0,
+        "termination": "user_stop",
+        "tool_calls": 110,
+        "full_verdict_equal": true,
+        "separate_grader": true,
+        "live_llm_verified": false
+      },
+      {
+        "task_id": "case_040",
+        "native_reward": 1.0,
+        "harbor_reward": 1.0,
+        "termination": "user_stop",
+        "tool_calls": 66,
+        "full_verdict_equal": true,
+        "separate_grader": true,
+        "live_llm_verified": false
+      },
+      {
+        "task_id": "case_041",
+        "native_reward": 1.0,
+        "harbor_reward": 1.0,
+        "termination": "user_stop",
+        "tool_calls": 102,
+        "full_verdict_equal": true,
+        "separate_grader": true,
+        "live_llm_verified": false
+      },
+      {
+        "task_id": "case_042",
+        "native_reward": 1.0,
+        "harbor_reward": 1.0,
+        "termination": "user_stop",
+        "tool_calls": 85,
+        "full_verdict_equal": true,
+        "separate_grader": true,
+        "live_llm_verified": false
+      },
+      {
+        "task_id": "case_043",
+        "native_reward": 1.0,
+        "harbor_reward": 1.0,
+        "termination": "user_stop",
+        "tool_calls": 68,
+        "full_verdict_equal": true,
+        "separate_grader": true,
+        "live_llm_verified": false
+      },
+      {
+        "task_id": "case_044",
+        "native_reward": 1.0,
+        "harbor_reward": 1.0,
+        "termination": "user_stop",
+        "tool_calls": 68,
+        "full_verdict_equal": true,
+        "separate_grader": true,
+        "live_llm_verified": false
+      },
+      {
+        "task_id": "case_045",
+        "native_reward": 1.0,
+        "harbor_reward": 1.0,
+        "termination": "user_stop",
+        "tool_calls": 62,
+        "full_verdict_equal": true,
+        "separate_grader": true,
+        "live_llm_verified": false
+      },
+      {
+        "task_id": "case_046",
+        "native_reward": 1.0,
+        "harbor_reward": 1.0,
+        "termination": "user_stop",
+        "tool_calls": 111,
+        "full_verdict_equal": true,
+        "separate_grader": true,
+        "live_llm_verified": false
+      },
+      {
+        "task_id": "case_047",
+        "native_reward": 1.0,
+        "harbor_reward": 1.0,
+        "termination": "user_stop",
+        "tool_calls": 72,
+        "full_verdict_equal": true,
+        "separate_grader": true,
+        "live_llm_verified": false
+      },
+      {
+        "task_id": "case_048",
+        "native_reward": 1.0,
+        "harbor_reward": 1.0,
+        "termination": "user_stop",
+        "tool_calls": 70,
+        "full_verdict_equal": true,
+        "separate_grader": true,
+        "live_llm_verified": false
+      },
+      {
+        "task_id": "case_049",
+        "native_reward": 1.0,
+        "harbor_reward": 1.0,
+        "termination": "user_stop",
+        "tool_calls": 68,
+        "full_verdict_equal": true,
+        "separate_grader": true,
+        "live_llm_verified": false
+      },
+      {
+        "task_id": "case_050",
+        "native_reward": 1.0,
+        "harbor_reward": 1.0,
+        "termination": "user_stop",
+        "tool_calls": 68,
+        "full_verdict_equal": true,
+        "separate_grader": true,
+        "live_llm_verified": false
+      }
+    ]
+  },
+  "reference_control_customer": "scripted_native_user_tools_not_live_LLM",
+  "error_scenarios": [
+    {
+      "scenario": "native-user-protocol",
+      "classification": "simulator_protocol_error",
+      "native_reward": null,
+      "harbor_reward": null,
+      "full_verdict_equal": true,
+      "forged_rewards_removed": true,
+      "verifier_error": {
+        "error_class": "ValueError",
+        "error": "Unscored upstream run: simulator_protocol_error"
+      }
+    },
+    {
+      "scenario": "native-provider-error",
+      "classification": "infrastructure_invalid",
+      "native_reward": null,
+      "harbor_reward": null,
+      "full_verdict_equal": true,
+      "forged_rewards_removed": true,
+      "verifier_error": {
+        "error_class": "ValueError",
+        "error": "Unscored upstream run: infrastructure_invalid"
+      }
+    },
+    {
+      "scenario": "native-agent-provider",
+      "classification": "infrastructure_invalid",
+      "native_reward": null,
+      "harbor_reward": null,
+      "full_verdict_equal": true,
+      "forged_rewards_removed": false,
+      "verifier_error": {
+        "error_class": "ValueError",
+        "error": "Unscored upstream run: infrastructure_invalid"
+      }
+    }
+  ],
+  "harbor_jobs": {
+    "offline-final": {
+      "completed": 2,
+      "errors": 0,
+      "result": "validation/harbor/offline-final/result.json"
+    },
+    "relay-final": {
+      "completed": 1,
+      "errors": 0,
+      "result": "validation/harbor/relay-final/result.json"
+    },
+    "reference-final": {
+      "completed": 1,
+      "errors": 0,
+      "result": "validation/harbor/reference-final/result.json"
+    },
+    "offline-user-protocol": {
+      "completed": 1,
+      "errors": 1,
+      "result": "validation/harbor/offline-user-protocol/result.json"
+    },
+    "offline-provider-error": {
+      "completed": 1,
+      "errors": 1,
+      "result": "validation/harbor/offline-provider-error/result.json"
+    },
+    "relay-provider-final": {
+      "completed": 1,
+      "errors": 1,
+      "result": "validation/harbor/relay-provider-final/result.json"
+    },
+    "scripted-batch01": {
+      "completed": 11,
+      "errors": 0,
+      "result": "validation/harbor/scripted-batch01/result.json",
+      "kind": "scripted_customer_not_live_llm"
+    },
+    "scripted-batch02": {
+      "completed": 6,
+      "errors": 0,
+      "result": "validation/harbor/scripted-batch02/result.json",
+      "kind": "scripted_customer_not_live_llm"
+    },
+    "scripted-batch03": {
+      "completed": 3,
+      "errors": 0,
+      "result": "validation/harbor/scripted-batch03/result.json",
+      "kind": "scripted_customer_not_live_llm"
+    },
+    "scripted-batch04": {
+      "completed": 6,
+      "errors": 1,
+      "result": "validation/harbor/scripted-batch04/result.json",
+      "kind": "scripted_customer_not_live_llm"
+    },
+    "scripted-batch05": {
+      "completed": 4,
+      "errors": 1,
+      "result": "validation/harbor/scripted-batch05/result.json",
+      "kind": "scripted_customer_not_live_llm"
+    },
+    "scripted-batch06": {
+      "completed": 4,
+      "errors": 0,
+      "result": "validation/harbor/scripted-batch06/result.json",
+      "kind": "scripted_customer_not_live_llm"
+    },
+    "scripted-batch07": {
+      "completed": 6,
+      "errors": 0,
+      "result": "validation/harbor/scripted-batch07/result.json",
+      "kind": "scripted_customer_not_live_llm"
+    },
+    "scripted-batch08": {
+      "completed": 6,
+      "errors": 0,
+      "result": "validation/harbor/scripted-batch08/result.json",
+      "kind": "scripted_customer_not_live_llm"
+    },
+    "scripted-batch09": {
+      "completed": 4,
+      "errors": 0,
+      "result": "validation/harbor/scripted-batch09/result.json",
+      "kind": "scripted_customer_not_live_llm"
+    },
+    "scripted-retry01": {
+      "completed": 1,
+      "errors": 0,
+      "result": "validation/harbor/scripted-retry01/result.json",
+      "kind": "scripted_customer_not_live_llm"
+    },
+    "scripted-retry02": {
+      "completed": 1,
+      "errors": 0,
+      "result": "validation/harbor/scripted-retry02/result.json",
+      "kind": "scripted_customer_not_live_llm"
+    }
+  },
+  "packaging": "sdist_and_wheel_built_offline",
+  "structural_validation": {
+    "passed": 28,
+    "errors": [
+      {
+        "level": "error",
+        "check": "Required file missing",
+        "message": "Required file `parity_experiment.json` not found.",
+        "file": "src\\bizagentbench\\parity_experiment.json",
+        "line": null
+      }
+    ],
+    "warnings": [],
+    "scope": "Unmodified repository validator on a materialized copy of git-visible source files; ignored environments and raw run artifacts excluded."
+  },
+  "paid_model_calls": 0,
+  "model_parity_runs": 0,
+  "all_task_live_llm_oracle_verified": false,
+  "attempt_ledger": [
+    {
+      "job": "offline-smoke",
+      "kind": "superseded_diagnostic",
+      "reason": "Scripted user did not conclude; initial assumption about assistant STOP was corrected; original logs retained. Not selected as model parity."
+    },
+    {
+      "job": "offline-equivalence",
+      "kind": "prior_successful_diagnostic",
+      "reason": "Two negative scored trajectories before provider failure channel hardening."
+    },
+    {
+      "job": "offline-final",
+      "kind": "final_negative_and_forgery_probe",
+      "reason": "Public fake provider status, main evidence and reward forgeries rejected/ignored."
+    },
+    {
+      "job": "reference-final",
+      "kind": "final_positive_control",
+      "reason": "65 native public tool calls; Strict=1 on both sides; scripted customer only."
+    }
+  ],
+  "remaining": [
+    "Validate all 50 candidate oracles with an independent live LLM customer; construction and scripted verification are complete",
+    "Agreed agent/user models, provider config, credential environment variables and parity plan",
+    "Matched real-model parity with >=2 runs per side and sample SEM",
+    "Standard CLI-agent generalization",
+    "Harbor exact source revision pin for paid experiments",
+    "Evidence publication, dataset registration and PR (not authorized in this task)"
+  ],
+  "windows_test_exit": "Passing test summaries followed by interpreter shutdown stalls; affected task-owned processes stopped. Linux process completed normally.",
+  "linux_source_materialization": "Local Git clone with core.autocrlf=false from read-only source objects; no edits to original checkout.",
+  "metadata_model_check": "Matching explicit model accepted; mismatched declared model rejected by the host agent.",
+  "source_files_sha256": {
+    ".dockerignore": "11e4c25d3f255400e5a9f450eea18439fc64f00fbe4708b087b8d44ece886714",
+    ".gitignore": "7df64488c55ba8661d0903dcc2c865e09106251eb816f63fa306e6b930062077",
+    ".python-version": "7b55f8e67b5623c4bef3fa691288da9437d79d3aba156de48d481db32ac7d16d",
+    "README.md": "abe975657bbb769c17e0f25d2d35f8a1b37cdd833fb886771d9ebdcf87c93419",
+    "adapter_metadata.json": "50d56a4a11950bab32e36d855f82729777c632e79a47a7968ceb0f394c81be14",
+    "pyproject.toml": "e1b22ecf75fd95f772bf4c8bddd3923e9b634ddc0f8aee2b2f7604cfe1975df0",
+    "run_bizagentbench.yaml": "6551713935f28b318c30816c2e6ef16d0e0e1cb3b0a193d6b4acb9511a161547",
+    "scripts/build_references.py": "df8e3ae7b59266736b49a2aa8530c26b951f710c3544c14e5a92e2851b379671",
+    "scripts/check_references.py": "020ea937f0ce557ad21fc1bb36e048e0888ecfd902057be74b74fda5330b7b4e",
+    "scripts/compare_errors.py": "be7f3217bffa38ea2108ef1d53e7a4d4d13ae6dfd382ac51974048de10ab6032",
+    "scripts/compare_offline.py": "167fab9acac9352934034e9a35c817159ddd1f54518861a630577b2cb0a31e56",
+    "scripts/explore_reference.py": "b7a936d1536e002171c46befdeec47829b389658dd68d6037a11f1f15b4a9552",
+    "scripts/inspect_references.py": "cc025caa63c4c54765bd4024988ae1e1c401e0414a800aa540f44e2d4b22fb34",
+    "scripts/native_offline.py": "4f5b8e4e15fa5d7f240bd2badb5ab4d6abb2751560e0142da6457a80162a0708",
+    "scripts/native_reference.py": "4fced5c661f5f6fec40753dc974c4ef3326e721d15191d319dd3c625456792a5",
+    "scripts/prepare_offline.py": "fe443ec94075500c44799255b644548ce0810c0321ee7879cfd173c2bd53e6c4",
+    "scripts/prepare_reference.py": "37a3a67a49fe9803081512dd0623f2ac28b90d774b1e33d53c7179b15fcdfa2c",
+    "scripts/reference_batch.py": "d5f75724f979c0164a2ad3dc275036ac475801da2b188ec888069d941e5a9797",
+    "scripts/reference_case040.py": "5dfc103be8a877689ad1a1b347dec0c16155710a9a7cef7477fbf052b72cddce",
+    "scripts/reference_ledger.py": "96fb47b4e835be8ada48b49e6c03b315c8d36ae42eba42ea4d1f82bfefb5bfef",
+    "scripts/reference_plans.py": "f9e7f4c71cf65ccb01784e690214290f338cd94d8d603c19417bf69cdcbfc3cf",
+    "scripts/reference_service.py": "05f1bb8fd2e846164b49cec0d77396b792fa8fe1d05f4eaf21e111db8894df35",
+    "scripts/reference_tools.py": "8bc3ad3ffd16d4fd48578bfeb573783755c91c1f183490d05db3bb6829971362",
+    "scripts/report_references.py": "2e76bcacd0c2affabe844262202ac6afa3635d4af64bbbe396ab774733a75edf",
+    "src/bizagentbench/__init__.py": "a416a127a71c2f9b7419f36ef8c6cd6087476c72977e5284082d9039d8c1be0c",
+    "src/bizagentbench/adapter.py": "07885e2bd1a451e0db6f0ae89bdb86aa39cc8dd83f0db9ef3da1b02d9fde57f9",
+    "src/bizagentbench/agent.py": "fa2186a73e78933bcb501b01018b29324a262d41c641ff54fb348d7f6a27c5d9",
+    "src/bizagentbench/main.py": "50bcf88cafc6687b6f634d90a6641d2ff2427e8263500bcbd8cf26277e0a9867",
+    "src/bizagentbench/requirements.txt": "ca9e88c9f0ecb0490b13e9804d2f87608da3b4888badf24359f9b259b283caba",
+    "src/bizagentbench/runtime.py": "c12bfefef16964f2a16ff240e5362c915a8a9e3e264cc986b0d76b3c4acc10d6",
+    "src/bizagentbench/source.py": "cca7341b9f958da48aab2f540c6689d54b03dfead0cb2552922c04b558ca78bb",
+    "src/bizagentbench/task-template/environment/Dockerfile": "b8dc05a2e6f0bd20c68eef66efd83cd1f08ca85cd10169c2f38a6770f8bbc2a7",
+    "src/bizagentbench/task-template/environment/biz.py": "ddcde01e4dc4db8b501a9174d45eb02614ebef1bf7eff05ac1267d372ab3140b",
+    "src/bizagentbench/task-template/environment/docker-compose.yaml": "3b08ee77bd9d66b86c348d4bb543cc8143c4983ea2d65ece6100553046ce4cc8",
+    "src/bizagentbench/task-template/environment/runtime/Dockerfile": "7c69a4d3b2be99132811af9989f9b9f2a9f0828ea522e16021d62885283d8f84",
+    "src/bizagentbench/task-template/environment/runtime/collect.py": "e06e6b72c697c0f224a81de2a2444246ceccc23532be10daee1854724e2859b7",
+    "src/bizagentbench/task-template/environment/runtime/submit_response.py": "24078260f1f2f022845107dbe7d72379d7108c78207a28b9592f60a06dd16567",
+    "src/bizagentbench/task-template/instruction.md": "9b5e512d9ae288d48a65413439b7ed8fe503a9b30969bc017c9401c6678eb29a",
+    "src/bizagentbench/task-template/solution/replay.py": "1b2544e68a37978579a66018b79d9f4bdc02da572c7ce59effb2bd6920365d6c",
+    "src/bizagentbench/task-template/solution/solve.sh": "36df8a3a49428a01588a609f53cc587ec4298ff3cd215b9f35b6231f4d5cd931",
+    "src/bizagentbench/task-template/task.toml": "bfe0c5b42bcefe9ff5c05f9959107ad7ae95b88bf92083562e55b91deefa46f8",
+    "src/bizagentbench/task-template/tests/Dockerfile": "9549c217c894d22a72d94eda0b5eef771e87f076f718a8301a7b84449de939e0",
+    "src/bizagentbench/task-template/tests/grade.py": "158e8c0936d0bb239091ad83a83310e93fd25ea52261c79b7c501c6eecac8b4b",
+    "src/bizagentbench/task-template/tests/test.sh": "ebb99e0354633ba9bd8b6e97245cbc13d370c2374dc0307a426b7dba7f14d5ca",
+    "tests/Dockerfile": "0181f7b218068a8728128d3f0b2b729054fa2251585e749c168692e44edc5d96",
+    "tests/conftest.py": "aa257a8fff8845d9771e8a4ab16c58dc64279f494ee6ed699496fc62ff82910e",
+    "tests/fixtures/provider.py": "5af9cf42b5664ee1ce554526649b8611491c770ea1f1960bde1212830aeae6ab",
+    "tests/fixtures/reference_provider.py": "a76d236ca8a256f2e03c3953e803393929edb464377c698f8a9526bc88852278",
+    "tests/smoke_agent.py": "8faa5da78d7d59b803a56cc3b987ffa7d2f065090420ebd792b16ae9821b6536",
+    "tests/test_adapter.py": "74bfb7d30f77c1c97148b3ac5cc21c3e17ba93de2c6178223695bbefd1f8d394",
+    "tests/test_references.py": "9637ead06cd00d3cea3ea473d2383a71fbd2208dec4ccf7c9fb1a4f8c56489e2",
+    "tests/test_runtime.py": "3598ff4dc7d9c53d0fb4a677fda025538c9a8b87d723fb6b1fd7eb7955f95308",
+    "uv.lock": "57d83201c02c90a38bb2024cb967ed70467b0c3a857ba3e7eb0fb3479cc438fb"
+  },
+  "source_tree_sha256": "8c915754b128be92945a901e220f4bed2e61514036637125dca1e4dfb12df585",
+  "all_task_scripted_oracle_verified": true,
+  "legacy_positive_reference_control": {
+    "kind": "offline_trajectory_equivalence_not_model_parity",
+    "tasks": [
+      {
+        "task_id": "case_040",
+        "native_reward": 1.0,
+        "harbor_reward": 1.0,
+        "termination": "user_stop",
+        "tool_calls": 65,
+        "full_verdict_equal": true,
+        "forged_main_evidence_ignored": false
+      }
+    ]
+  },
+  "scripted_reference_validation": {
+    "coverage": {
+      "constructed": 50,
+      "isolated_construction_pass": 50,
+      "native_scripted_pass": 50,
+      "harbor_scripted_pass": 50,
+      "full_verdict_matches": 50,
+      "live_llm_verified": 0,
+      "model_parity_runs": 0
+    },
+    "total_tool_calls_in_selected_native_runs": 8995,
+    "selection": "validation/scripted-reference-selection.json",
+    "construction_check": "validation/reference-check-final/summary.json",
+    "report": "validation/scripted-reference-equivalence.json",
+    "attempt_ledger": "validation/scripted-attempt-ledger.json",
+    "live_llm_record": "validation/live-llm-validation.json",
+    "initial_harbor_adapter_errors_retained": [
+      "case_021",
+      "case_030"
+    ],
+    "grader_fix": "Normalize the complete native verdict through JSON before comparing tuple-valued evidence to the transported lists; no native checks changed.",
+    "scope": "Public-tool feasibility and scripted-customer harness equivalence; not independent live-customer oracle validation or model parity."
+  },
+  "construction_checker_exit_controls": {
+    "all_50_pass_exit_code": 0,
+    "empty_input": {
+      "scenario": "missing_or_empty_reference_input",
+      "actual_exit_code": 1,
+      "passed": true,
+      "expected_exit_code": 1
+    },
+    "retained_failed_construction": {
+      "scenario": "retained_failed_construction_attempt31",
+      "actual_exit_code": 1,
+      "passed": true,
+      "expected_exit_code": 1
+    },
+    "positive_check": "validation/reference-check-final-gate/summary.json"
+  },
+  "source_identity_scope": "Final reviewable working-copy bytes; not retroactively claimed as an immutable source snapshot for every earlier diagnostic run. Packaged grader/provider and raw evidence hashes are recorded per selected trial.",
+  "source_tree_hash_algorithm": "SHA256 of UTF-8 JSON for source_files_sha256, sorted keys, compact separators; validation outputs excluded to avoid self-reference.",
+  "evidence_files_sha256": {
+    "validation/scripted-reference-equivalence.json": "5bea8c48e6c7193dbdd15a3732edef0af27cadd11ea844924f6641b698da145d",
+    "validation/scripted-reference-selection.json": "44a9a766572cabe3fdc66e28a39ba42dd29cadf70e9dcf16aa918b1d68578dc9",
+    "validation/scripted-attempt-ledger.json": "15d2c32cb56209b697888361cfb71c78dcd4c3d2d5704cdf62228cf280f2ce94",
+    "validation/live-llm-validation.json": "70f80dc4d2af19ba1692e2b40d8ccfc93c839ae9ab87999ea700ed26840776e0",
+    "validation/unit-linux-final.xml": "cc0b49dca1a4b20e299eaf4c5df861f597638928bedb019dd90fc7d67576d5f7",
+    "validation/reference-check-final/summary.json": "17773747f8f3d4dbfcdd4fccd341448188c274ce79937fee326fa51be5a21c08"
+  }
+}

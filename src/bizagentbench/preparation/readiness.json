@@ -1,0 +1,16 @@
+{
+  "kind": "offline_preparation_readiness_not_execution_approval",
+  "offline_preparation_complete": true,
+  "live_launch_ready": false,
+  "live_calls_made": 0,
+  "authorized_spend_usd": 0,
+  "blockers": [
+    "Current linear replay ignores customer/tool feedback; build and qualify a public-response adaptive reference controller.",
+    "Exact dated models, provider endpoints, provider limits and approved spending ceiling are not selected.",
+    "Installed Harbor wheel has no verified Git source SHA; freeze an approved source revision.",
+    "Freeze the adapter/controller source revision and evidence identity for the future experiment.",
+    "Obtain a new explicit user confirmation before any real model invocation.",
+    "Coordinate the matched parity plan before the separate parity phase."
+  ],
+  "scope_note": "Exit 0 means the disabled preparation draft is consistent, never permission to launch."
+}

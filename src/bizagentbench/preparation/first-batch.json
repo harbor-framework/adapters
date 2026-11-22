@@ -1,0 +1,218 @@
+{
+  "kind": "preselected_live_validation_pilot_not_results",
+  "selection_basis": "Public-tool interaction diversity and trace length; purposive diagnostic set, not a random or statistically representative sample. Frozen before live model outcomes.",
+  "tasks": [
+    {
+      "task_id": "case_040",
+      "order": 1,
+      "stage": "pilot5",
+      "reason": "Scoped proof delivery, recipient access and revocation; short approval baseline.",
+      "reference": "validation/references/batch01/case_040",
+      "public_trace_sha256": "fe84bc2c4e6c0ae9a0f66c65e709cda10f7b1e92778ea14ec669c459fb1cbf1f",
+      "tool_calls": 66,
+      "customer_action_counts": {
+        "decide_request": 10,
+        "upload_file": 0,
+        "wait_for_update": 2
+      },
+      "capabilities": [
+        "create_bank_evidence",
+        "deliver_bank_evidence",
+        "issue_scoped_bank_proof_link",
+        "purchase_payment_proof_seal",
+        "revoke_delivered_bank_proof_link",
+        "select_payment_proof_rendering",
+        "set_bank_proof_access_scope",
+        "verify_bank_proof_recipient"
+      ]
+    },
+    {
+      "task_id": "case_031",
+      "order": 2,
+      "stage": "pilot5",
+      "reason": "Supporting-file upload and quarantine/dispute custody; expansion tool profile.",
+      "reference": "validation/references/attempt28/case_031",
+      "public_trace_sha256": "7011398c8462cc0bdcbeb5c04dc9dcaf738eda54a11e4247cef3068b0f16c95a",
+      "tool_calls": 90,
+      "customer_action_counts": {
+        "decide_request": 6,
+        "upload_file": 2,
+        "wait_for_update": 4
+      },
+      "capabilities": [
+        "a_activate_dispute_custody",
+        "a_investigate_incoming_owner",
+        "a_order_trustee_review",
+        "a_partition_quarantined_funds",
+        "a_pay_business_invoice",
+        "a_submit_quarantine_escrow_direction"
+      ]
+    },
+    {
+      "task_id": "case_001",
+      "order": 3,
+      "stage": "pilot5",
+      "reason": "Supporting evidence, FX quotes and delayed bank updates; Operations Desk profile.",
+      "reference": "validation/references/batch04/case_001",
+      "public_trace_sha256": "29f0575dd26b1afa655ac7ffb2c0bb149ad9408d1eab783e45612a3a10e6cf72",
+      "tool_calls": 113,
+      "customer_action_counts": {
+        "decide_request": 8,
+        "upload_file": 2,
+        "wait_for_update": 7
+      },
+      "capabilities": [
+        "assess_evidence",
+        "inspect_multicurrency_quote",
+        "propose_bank_message_amendment",
+        "propose_currency_payment",
+        "propose_fx_execution",
+        "propose_reserve_disbursement",
+        "propose_tax_allocation"
+      ]
+    },
+    {
+      "task_id": "case_049",
+      "order": 4,
+      "stage": "pilot5",
+      "reason": "Beneficiary delivery terms and payment routing; short flow without bank waits.",
+      "reference": "validation/references/batch01/case_049",
+      "public_trace_sha256": "56d43eb6e47e0e02e24f9f2c946a772c218e18b749bf50f75f47c08a62dae667",
+      "tool_calls": 68,
+      "customer_action_counts": {
+        "decide_request": 10,
+        "upload_file": 0,
+        "wait_for_update": 0
+      },
+      "capabilities": [
+        "commit_payment_route",
+        "manage_beneficiary_delivery_terms",
+        "purchase_route_inquiry",
+        "remit_second_supplier_installment"
+      ]
+    },
+    {
+      "task_id": "case_036",
+      "order": 5,
+      "stage": "pilot5",
+      "reason": "Supplier FX settlement and cancellation; repeated bank-update handling.",
+      "reference": "validation/references/batch02/case_036",
+      "public_trace_sha256": "c5d89b50040d06a255239ed39fceb6b5838a2a386d023bba67c006734eaf5cfe",
+      "tool_calls": 87,
+      "customer_action_counts": {
+        "decide_request": 6,
+        "upload_file": 0,
+        "wait_for_update": 14
+      },
+      "capabilities": [
+        "allocate_supplier_credit_portions",
+        "confirm_supplier_fx_settlement",
+        "pay_supplier_foreign_installment",
+        "request_fx_order_cancellation",
+        "request_supplier_credit_advice",
+        "sell_surplus_supplier_currency"
+      ]
+    },
+    {
+      "task_id": "case_021",
+      "order": 6,
+      "stage": "extension5",
+      "reason": "Expense reconciliation and receipt evidence; previously exercised JSON transport comparison.",
+      "reference": "validation/references/batch05/case_021",
+      "public_trace_sha256": "a1dca4b3c187cf4b65a3f4fa1c74dd61a56b8d3f583dd6a4169754878c5bb81c",
+      "tool_calls": 312,
+      "customer_action_counts": {
+        "decide_request": 8,
+        "upload_file": 0,
+        "wait_for_update": 3
+      },
+      "capabilities": [
+        "propose_expense_reconciliation",
+        "propose_payment_split_capture",
+        "propose_service_inquiry"
+      ]
+    },
+    {
+      "task_id": "case_014",
+      "order": 7,
+      "stage": "extension5",
+      "reason": "Joint capital and group clearing; multi-step signatures and dependent actions.",
+      "reference": "validation/references/batch09/case_014",
+      "public_trace_sha256": "dbc9f069c49da7d960d7703bfcd6a6051e88d28f0499160f5b59acf52be624ad",
+      "tool_calls": 366,
+      "customer_action_counts": {
+        "decide_request": 23,
+        "upload_file": 0,
+        "wait_for_update": 2
+      },
+      "capabilities": [
+        "propose_group_clearing",
+        "propose_joint_capital_delivery",
+        "propose_payment_cheque_stop_and_replacement"
+      ]
+    },
+    {
+      "task_id": "case_006",
+      "order": 8,
+      "stage": "extension5",
+      "reason": "Dated collateral and split payments; numerical allocation and delayed updates.",
+      "reference": "validation/references/batch09/case_006",
+      "public_trace_sha256": "9081e7feb0b6ef18306eb01201c9d3819363a5d0c6a9d391d6bb3944ddfc0803",
+      "tool_calls": 234,
+      "customer_action_counts": {
+        "decide_request": 26,
+        "upload_file": 0,
+        "wait_for_update": 4
+      },
+      "capabilities": [
+        "propose_dated_collateral",
+        "propose_joint_capital_delivery",
+        "propose_payment_split_capture",
+        "propose_service_inquiry"
+      ]
+    },
+    {
+      "task_id": "case_007",
+      "order": 9,
+      "stage": "extension5",
+      "reason": "Documentary imports and cross-calendar payment delivery; long dependent flow.",
+      "reference": "validation/references/batch09/case_007",
+      "public_trace_sha256": "8a8d02f7f56db76039c877ce553d6cab1bcf489e341c9bd143d164a5e4a01aeb",
+      "tool_calls": 403,
+      "customer_action_counts": {
+        "decide_request": 17,
+        "upload_file": 0,
+        "wait_for_update": 2
+      },
+      "capabilities": [
+        "propose_documentary_import",
+        "propose_joint_capital_delivery",
+        "propose_payment_cross_calendar_delivery"
+      ]
+    },
+    {
+      "task_id": "case_002",
+      "order": 10,
+      "stage": "extension5",
+      "reason": "Account migration, sweeping and closure; longest recorded reference and repeated approvals.",
+      "reference": "validation/references/batch07/case_002",
+      "public_trace_sha256": "8e07e818c417f056be052777fd05adcdc075e1de49b55981155266ad7030d825",
+      "tool_calls": 627,
+      "customer_action_counts": {
+        "decide_request": 30,
+        "upload_file": 0,
+        "wait_for_update": 15
+      },
+      "capabilities": [
+        "propose_account_sweep",
+        "propose_billing_migration",
+        "propose_desk_account_close",
+        "propose_desk_account_opening",
+        "propose_payout_validation",
+        "propose_rail_binding",
+        "propose_reserve_disbursement",
+        "propose_service_termination"
+      ]
+    }
+  ]
+}

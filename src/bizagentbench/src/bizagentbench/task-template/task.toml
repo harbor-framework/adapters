@@ -1,0 +1,35 @@
+version = "1.0"
+artifacts = [{ source = "/private/runs", service = "business" }]
+
+[task]
+name = "ant-intl/@TASK_NAME@"
+authors = [{ name = "Enhan Zhao" }, { name = "Yongqi Tong" }, { name = "BizAgentBench contributors" }]
+
+[metadata]
+category = "business"
+difficulty = "hard"
+tags = ["bizagentbench", "payments", "multi-turn", "tool-use"]
+
+[agent]
+timeout_sec = @AGENT_TIMEOUT@
+
+[verifier]
+timeout_sec = 120.0
+environment_mode = "separate"
+
+[[verifier.collect]]
+service = "business"
+command = "python -I /service/collect.py"
+timeout_sec = 110.0
+
+[verifier.environment]
+build_timeout_sec = 900.0
+cpus = 1
+memory_mb = 2048
+storage_mb = 4096
+
+[environment]
+build_timeout_sec = 900.0
+cpus = 2
+memory_mb = 4096
+storage_mb = 8192

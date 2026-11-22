@@ -1,0 +1,31 @@
+{
+  "kind": "contribution_requirements_clarification_not_execution_authorization",
+  "date_local": "2026-11-21",
+  "source": "https://www.harbor-index.org/contribute",
+  "source_html_sha256": "50468d2af591188f3ceac15918800524eda254354af706e74c3dd56b8092b9b0",
+  "source_text_sha256": "174e64fb720fcbd5ef75ad5a61ee44b580438710136b40706e4c41b05fdffde6",
+  "parity_model_api": "2077ai",
+  "published_base_url": "https://app.ppapi.ai/",
+  "task_execution_provider": "Daytona",
+  "coordination_contact": "Xiangning Lin @rosierosie_77359 on Discord",
+  "plan_confirmation_before_parity": true,
+  "team_provides": [
+    "Model API key",
+    "Daytona key"
+  ],
+  "stated_funding": "Team covers API costs for parity experiments",
+  "not_established": [
+    "Separate independent-customer oracle funding",
+    "Actual 2077ai model catalog/prices/snapshot identifiers",
+    "Exact API path and provider-specific transport settings",
+    "Daytona compatibility of this adapter sidecar and separate verifier",
+    "Any exception allowing a different provider or local Docker for formal parity"
+  ],
+  "draft_updated": true,
+  "prior_price_estimates": "Retail sensitivity estimates only; not personal spending requirements or 2077ai billing estimates",
+  "execution_enabled": false,
+  "authorized_spend_usd": 0,
+  "model_calls_made": 0,
+  "credentials_accessed": false,
+  "team_contacted": false
+}

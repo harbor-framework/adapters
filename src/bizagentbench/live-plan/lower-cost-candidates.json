@@ -1,0 +1,140 @@
+{
+  "kind": "lower_cost_candidates_not_execution_approval",
+  "date_local": "2026-11-21",
+  "execution_enabled": false,
+  "authorized_spend_usd": 0,
+  "model_calls_made": 0,
+  "grader_invocations": 0,
+  "credentials_accessed": false,
+  "base_estimate_sha256": "fd32992b63fd55fea31a70e7da3438f4c1ea83a0c56401627014a79ff10fe52a",
+  "method": "Reprice identical proxy input and assumed billed output from prior estimate. Both paid roles use the listed model. No cache discount. Stress = baseline * 3.75. Different tokenizers, live turn counts, reasoning and capability are unmeasured. These are neither quotes nor cost ceilings.",
+  "candidates": [
+    {
+      "model_or_rate_scenario": "DeepSeek Flash peak",
+      "prices_usd_per_million": {
+        "uncached_input": 0.3,
+        "output": 1.2,
+        "cached_input": 0.006
+      },
+      "source": "https://api-docs.deepseek.com/quick_start/pricing/",
+      "scenarios": {
+        "customer_pilot5_10_episodes": {
+          "base_usd": 1.33,
+          "stress_usd": 4.97
+        },
+        "parity_pilot5_10_episodes": {
+          "base_usd": 10.04,
+          "stress_usd": 37.64
+        },
+        "parity_sanity10_20_episodes": {
+          "base_usd": 100.38,
+          "stress_usd": 376.41
+        },
+        "parity_full320": {
+          "base_usd": 1003.37,
+          "stress_usd": 3762.64
+        }
+      }
+    },
+    {
+      "model_or_rate_scenario": "DeepSeek Flash off-peak",
+      "prices_usd_per_million": {
+        "uncached_input": 0.15,
+        "output": 0.6,
+        "cached_input": 0.003
+      },
+      "source": "https://api-docs.deepseek.com/quick_start/pricing/",
+      "scenarios": {
+        "customer_pilot5_10_episodes": {
+          "base_usd": 0.66,
+          "stress_usd": 2.49
+        },
+        "parity_pilot5_10_episodes": {
+          "base_usd": 5.02,
+          "stress_usd": 18.82
+        },
+        "parity_sanity10_20_episodes": {
+          "base_usd": 50.19,
+          "stress_usd": 188.2
+        },
+        "parity_full320": {
+          "base_usd": 501.68,
+          "stress_usd": 1881.32
+        }
+      }
+    },
+    {
+      "model_or_rate_scenario": "GPT-6 Luna standard",
+      "prices_usd_per_million": {
+        "uncached_input": 0.1,
+        "output": 0.5,
+        "cached_input": 0.01
+      },
+      "source": "https://developers.openai.com/api/docs/models/gpt-6-luna",
+      "scenarios": {
+        "customer_pilot5_10_episodes": {
+          "base_usd": 0.46,
+          "stress_usd": 1.73
+        },
+        "parity_pilot5_10_episodes": {
+          "base_usd": 3.49,
+          "stress_usd": 13.1
+        },
+        "parity_sanity10_20_episodes": {
+          "base_usd": 34.21,
+          "stress_usd": 128.29
+        },
+        "parity_full320": {
+          "base_usd": 343.77,
+          "stress_usd": 1289.13
+        }
+      }
+    },
+    {
+      "model_or_rate_scenario": "Gemini 3.1 Flash-Lite standard",
+      "prices_usd_per_million": {
+        "uncached_input": 0.25,
+        "output": 1.5,
+        "cached_input": 0.025
+      },
+      "source": "https://aistudio.google.com/docs/pricing#gemini-3.1-flash-lite",
+      "scenarios": {
+        "customer_pilot5_10_episodes": {
+          "base_usd": 1.2,
+          "stress_usd": 4.5
+        },
+        "parity_pilot5_10_episodes": {
+          "base_usd": 9.1,
+          "stress_usd": 34.11
+        },
+        "parity_sanity10_20_episodes": {
+          "base_usd": 87.41,
+          "stress_usd": 327.79
+        },
+        "parity_full320": {
+          "base_usd": 882.7,
+          "stress_usd": 3310.14
+        }
+      }
+    }
+  ],
+  "recommendation": {
+    "first_trial_candidate": "deepseek-flash",
+    "only_next_phase": "independent_customer_oracle_pilot5",
+    "proposed_phase_cap_usd_not_authorized": 10,
+    "parity_first5_proposed_cap_usd_not_authorized": 50,
+    "formal_parity_requires_team_agreement": true
+  },
+  "constraints": [
+    "DeepSeek Flash model alias currently maps to DeepSeek-V4.1-Flash-1017; immutable API snapshot not verified. Resolve version pinning with provider/team before formal parity.",
+    "DeepSeek has time-dependent peak/off-peak rates; neither is a guaranteed rate for a long run.",
+    "DeepSeek defaults to thinking enabled/high; propose explicitly disabled customer thinking, review assistant thinking consistently on both sides.",
+    "GPT-6 Luna Chat Completions tool calling requires reasoning_effort=none; cannot reuse the previous assistant low setting. Verify immutable model ID and transport compatibility.",
+    "Gemini dated model identity and OpenAI-compatible tool/usage semantics still need verification.",
+    "Luna long-context/cache-write/regional fees and Gemini cache storage fees are not modeled.",
+    "Cheap models have not been tested on BizAgentBench. Failed or universally zero results do not by themselves demonstrate useful benchmark fidelity.",
+    "A smaller formal task subset needs Harbor agreement and a defensible selection plan; the current diagnostic five/ten cannot automatically become that subset.",
+    "Do not remove prompts, history or grading conditions merely to reduce costs.",
+    "Existing experimental settings remain unchanged and disabled."
+  ]
+}

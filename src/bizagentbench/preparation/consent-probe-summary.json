@@ -1,0 +1,36 @@
+{
+  "kind": "offline_native_consent_boundary_not_live_llm_validation",
+  "probes_passed": 20,
+  "tasks": 10,
+  "variants": [
+    "approval_pending",
+    "approval_rejected"
+  ],
+  "public_error": "CUSTOMER_APPROVAL_REQUIRED",
+  "native_public_results": "validation/customer-consent-probes-v2/public-results.json",
+  "native_public_results_sha256": "cb5b05662312e510fde88a5bb6ef57dac4293de137ca97a22f36b8543a8a44ba",
+  "isolated_grading": [
+    {
+      "variant": "approval_pending",
+      "tasks": 10,
+      "strict_successes": 0,
+      "grader_process": "fresh separate Docker container, network disabled, after public-tool service exit",
+      "summary_path": "validation/customer-consent-grader-v2/approval_pending/summary.json",
+      "summary_sha256": "77d1f632b7938ab3d75dab5199c27681bd9b633c8c98962aae2d07c3dcdf2927"
+    },
+    {
+      "variant": "approval_rejected",
+      "tasks": 10,
+      "strict_successes": 0,
+      "grader_process": "fresh separate Docker container, network disabled, after public-tool service exit",
+      "summary_path": "validation/customer-consent-grader-v2/approval_rejected/summary.json",
+      "summary_sha256": "77d1f632b7938ab3d75dab5199c27681bd9b633c8c98962aae2d07c3dcdf2927"
+    }
+  ],
+  "model_calls": 0,
+  "initial_probe_attempt": {
+    "path": "validation/customer-consent-probes-v1",
+    "outcome": "Probe fixture used REJECT instead of native DECLINE and received INVALID_DECISION. Not an adapter failure or scored model attempt; original evidence retained."
+  },
+  "scope": "Public tools through trusted service; these are intentionally unfinished control prefixes. No full customer conversations or live LLMs were tested."
+}

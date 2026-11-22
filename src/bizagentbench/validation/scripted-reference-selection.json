@@ -1,0 +1,409 @@
+{
+  "kind": "explicit_offline_reference_selection_not_model_parity",
+  "tasks": [
+    {
+      "task_id": "case_001",
+      "reference": "validation/references/batch04/case_001",
+      "construction_check": "validation/reference-check-final/case_001.json",
+      "native_result": "validation/native-reference-batch04/case_001__trial0/result.json",
+      "harbor_job": "validation/harbor/scripted-batch04",
+      "dataset_task": "../../../datasets/bizagentbench-scripted-batch04/bizagentbench-case-001"
+    },
+    {
+      "task_id": "case_002",
+      "reference": "validation/references/batch07/case_002",
+      "construction_check": "validation/reference-check-final/case_002.json",
+      "native_result": "validation/native-reference-batch07/case_002__trial0/result.json",
+      "harbor_job": "validation/harbor/scripted-batch07",
+      "dataset_task": "../../../datasets/bizagentbench-scripted-batch07/bizagentbench-case-002"
+    },
+    {
+      "task_id": "case_003",
+      "reference": "validation/references/batch07/case_003",
+      "construction_check": "validation/reference-check-final/case_003.json",
+      "native_result": "validation/native-reference-batch07/case_003__trial0/result.json",
+      "harbor_job": "validation/harbor/scripted-batch07",
+      "dataset_task": "../../../datasets/bizagentbench-scripted-batch07/bizagentbench-case-003"
+    },
+    {
+      "task_id": "case_004",
+      "reference": "validation/references/batch07/case_004",
+      "construction_check": "validation/reference-check-final/case_004.json",
+      "native_result": "validation/native-reference-batch07/case_004__trial0/result.json",
+      "harbor_job": "validation/harbor/scripted-batch07",
+      "dataset_task": "../../../datasets/bizagentbench-scripted-batch07/bizagentbench-case-004"
+    },
+    {
+      "task_id": "case_005",
+      "reference": "validation/references/batch07/case_005",
+      "construction_check": "validation/reference-check-final/case_005.json",
+      "native_result": "validation/native-reference-batch07/case_005__trial0/result.json",
+      "harbor_job": "validation/harbor/scripted-batch07",
+      "dataset_task": "../../../datasets/bizagentbench-scripted-batch07/bizagentbench-case-005"
+    },
+    {
+      "task_id": "case_006",
+      "reference": "validation/references/batch09/case_006",
+      "construction_check": "validation/reference-check-final/case_006.json",
+      "native_result": "validation/native-reference-batch09/case_006__trial0/result.json",
+      "harbor_job": "validation/harbor/scripted-batch09",
+      "dataset_task": "../../../datasets/bizagentbench-scripted-batch09/bizagentbench-case-006"
+    },
+    {
+      "task_id": "case_007",
+      "reference": "validation/references/batch09/case_007",
+      "construction_check": "validation/reference-check-final/case_007.json",
+      "native_result": "validation/native-reference-batch09/case_007__trial0/result.json",
+      "harbor_job": "validation/harbor/scripted-batch09",
+      "dataset_task": "../../../datasets/bizagentbench-scripted-batch09/bizagentbench-case-007"
+    },
+    {
+      "task_id": "case_008",
+      "reference": "validation/references/batch08/case_008",
+      "construction_check": "validation/reference-check-final/case_008.json",
+      "native_result": "validation/native-reference-batch08/case_008__trial0/result.json",
+      "harbor_job": "validation/harbor/scripted-batch08",
+      "dataset_task": "../../../datasets/bizagentbench-scripted-batch08/bizagentbench-case-008"
+    },
+    {
+      "task_id": "case_009",
+      "reference": "validation/references/batch08/case_009",
+      "construction_check": "validation/reference-check-final/case_009.json",
+      "native_result": "validation/native-reference-batch08/case_009__trial0/result.json",
+      "harbor_job": "validation/harbor/scripted-batch08",
+      "dataset_task": "../../../datasets/bizagentbench-scripted-batch08/bizagentbench-case-009"
+    },
+    {
+      "task_id": "case_010",
+      "reference": "validation/references/batch08/case_010",
+      "construction_check": "validation/reference-check-final/case_010.json",
+      "native_result": "validation/native-reference-batch08/case_010__trial0/result.json",
+      "harbor_job": "validation/harbor/scripted-batch08",
+      "dataset_task": "../../../datasets/bizagentbench-scripted-batch08/bizagentbench-case-010"
+    },
+    {
+      "task_id": "case_011",
+      "reference": "validation/references/batch08/case_011",
+      "construction_check": "validation/reference-check-final/case_011.json",
+      "native_result": "validation/native-reference-batch08/case_011__trial0/result.json",
+      "harbor_job": "validation/harbor/scripted-batch08",
+      "dataset_task": "../../../datasets/bizagentbench-scripted-batch08/bizagentbench-case-011"
+    },
+    {
+      "task_id": "case_012",
+      "reference": "validation/references/batch08/case_012",
+      "construction_check": "validation/reference-check-final/case_012.json",
+      "native_result": "validation/native-reference-batch08/case_012__trial0/result.json",
+      "harbor_job": "validation/harbor/scripted-batch08",
+      "dataset_task": "../../../datasets/bizagentbench-scripted-batch08/bizagentbench-case-012"
+    },
+    {
+      "task_id": "case_013",
+      "reference": "validation/references/batch09/case_013",
+      "construction_check": "validation/reference-check-final/case_013.json",
+      "native_result": "validation/native-reference-batch09/case_013__trial0/result.json",
+      "harbor_job": "validation/harbor/scripted-batch09",
+      "dataset_task": "../../../datasets/bizagentbench-scripted-batch09/bizagentbench-case-013"
+    },
+    {
+      "task_id": "case_014",
+      "reference": "validation/references/batch09/case_014",
+      "construction_check": "validation/reference-check-final/case_014.json",
+      "native_result": "validation/native-reference-batch09/case_014__trial0/result.json",
+      "harbor_job": "validation/harbor/scripted-batch09",
+      "dataset_task": "../../../datasets/bizagentbench-scripted-batch09/bizagentbench-case-014"
+    },
+    {
+      "task_id": "case_015",
+      "reference": "validation/references/batch08/case_015",
+      "construction_check": "validation/reference-check-final/case_015.json",
+      "native_result": "validation/native-reference-batch08/case_015__trial0/result.json",
+      "harbor_job": "validation/harbor/scripted-batch08",
+      "dataset_task": "../../../datasets/bizagentbench-scripted-batch08/bizagentbench-case-015"
+    },
+    {
+      "task_id": "case_016",
+      "reference": "validation/references/batch07/case_016",
+      "construction_check": "validation/reference-check-final/case_016.json",
+      "native_result": "validation/native-reference-batch07/case_016__trial0/result.json",
+      "harbor_job": "validation/harbor/scripted-batch07",
+      "dataset_task": "../../../datasets/bizagentbench-scripted-batch07/bizagentbench-case-016"
+    },
+    {
+      "task_id": "case_017",
+      "reference": "validation/references/batch06/case_017",
+      "construction_check": "validation/reference-check-final/case_017.json",
+      "native_result": "validation/native-reference-batch06/case_017__trial0/result.json",
+      "harbor_job": "validation/harbor/scripted-batch06",
+      "dataset_task": "../../../datasets/bizagentbench-scripted-batch06/bizagentbench-case-017"
+    },
+    {
+      "task_id": "case_018",
+      "reference": "validation/references/batch06/case_018",
+      "construction_check": "validation/reference-check-final/case_018.json",
+      "native_result": "validation/native-reference-batch06/case_018__trial0/result.json",
+      "harbor_job": "validation/harbor/scripted-batch06",
+      "dataset_task": "../../../datasets/bizagentbench-scripted-batch06/bizagentbench-case-018"
+    },
+    {
+      "task_id": "case_019",
+      "reference": "validation/references/batch06/case_019",
+      "construction_check": "validation/reference-check-final/case_019.json",
+      "native_result": "validation/native-reference-batch06/case_019__trial0/result.json",
+      "harbor_job": "validation/harbor/scripted-batch06",
+      "dataset_task": "../../../datasets/bizagentbench-scripted-batch06/bizagentbench-case-019"
+    },
+    {
+      "task_id": "case_020",
+      "reference": "validation/references/batch07/case_020",
+      "construction_check": "validation/reference-check-final/case_020.json",
+      "native_result": "validation/native-reference-batch07/case_020__trial0/result.json",
+      "harbor_job": "validation/harbor/scripted-batch07",
+      "dataset_task": "../../../datasets/bizagentbench-scripted-batch07/bizagentbench-case-020"
+    },
+    {
+      "task_id": "case_021",
+      "reference": "validation/references/batch05/case_021",
+      "construction_check": "validation/reference-check-final/case_021.json",
+      "native_result": "validation/native-reference-batch05/case_021__trial0/result.json",
+      "harbor_job": "validation/harbor/scripted-retry01",
+      "dataset_task": "../../../datasets/bizagentbench-scripted-retry01/bizagentbench-case-021",
+      "superseded_harbor_job": "validation/harbor/scripted-batch05",
+      "rerun_reason": "Adapter grader compared native Python tuples to JSON lists; full-verdict JSON normalization fixed representation mismatch. Original failure retained."
+    },
+    {
+      "task_id": "case_022",
+      "reference": "validation/references/batch06/case_022",
+      "construction_check": "validation/reference-check-final/case_022.json",
+      "native_result": "validation/native-reference-batch06/case_022__trial0/result.json",
+      "harbor_job": "validation/harbor/scripted-batch06",
+      "dataset_task": "../../../datasets/bizagentbench-scripted-batch06/bizagentbench-case-022"
+    },
+    {
+      "task_id": "case_023",
+      "reference": "validation/references/batch05/case_023",
+      "construction_check": "validation/reference-check-final/case_023.json",
+      "native_result": "validation/native-reference-batch05/case_023__trial0/result.json",
+      "harbor_job": "validation/harbor/scripted-batch05",
+      "dataset_task": "../../../datasets/bizagentbench-scripted-batch05/bizagentbench-case-023"
+    },
+    {
+      "task_id": "case_024",
+      "reference": "validation/references/batch05/case_024",
+      "construction_check": "validation/reference-check-final/case_024.json",
+      "native_result": "validation/native-reference-batch05/case_024__trial0/result.json",
+      "harbor_job": "validation/harbor/scripted-batch05",
+      "dataset_task": "../../../datasets/bizagentbench-scripted-batch05/bizagentbench-case-024"
+    },
+    {
+      "task_id": "case_025",
+      "reference": "validation/references/batch04/case_025",
+      "construction_check": "validation/reference-check-final/case_025.json",
+      "native_result": "validation/native-reference-batch04/case_025__trial0/result.json",
+      "harbor_job": "validation/harbor/scripted-batch04",
+      "dataset_task": "../../../datasets/bizagentbench-scripted-batch04/bizagentbench-case-025"
+    },
+    {
+      "task_id": "case_026",
+      "reference": "validation/references/batch05/case_026",
+      "construction_check": "validation/reference-check-final/case_026.json",
+      "native_result": "validation/native-reference-batch05/case_026__trial0/result.json",
+      "harbor_job": "validation/harbor/scripted-batch05",
+      "dataset_task": "../../../datasets/bizagentbench-scripted-batch05/bizagentbench-case-026"
+    },
+    {
+      "task_id": "case_027",
+      "reference": "validation/references/batch04/case_027",
+      "construction_check": "validation/reference-check-final/case_027.json",
+      "native_result": "validation/native-reference-batch04/case_027__trial0/result.json",
+      "harbor_job": "validation/harbor/scripted-batch04",
+      "dataset_task": "../../../datasets/bizagentbench-scripted-batch04/bizagentbench-case-027"
+    },
+    {
+      "task_id": "case_028",
+      "reference": "validation/references/batch04/case_028",
+      "construction_check": "validation/reference-check-final/case_028.json",
+      "native_result": "validation/native-reference-batch04/case_028__trial0/result.json",
+      "harbor_job": "validation/harbor/scripted-batch04",
+      "dataset_task": "../../../datasets/bizagentbench-scripted-batch04/bizagentbench-case-028"
+    },
+    {
+      "task_id": "case_029",
+      "reference": "validation/references/batch04/case_029",
+      "construction_check": "validation/reference-check-final/case_029.json",
+      "native_result": "validation/native-reference-batch04/case_029__trial0/result.json",
+      "harbor_job": "validation/harbor/scripted-batch04",
+      "dataset_task": "../../../datasets/bizagentbench-scripted-batch04/bizagentbench-case-029"
+    },
+    {
+      "task_id": "case_030",
+      "reference": "validation/references/batch04/case_030",
+      "construction_check": "validation/reference-check-final/case_030.json",
+      "native_result": "validation/native-reference-batch04/case_030__trial0/result.json",
+      "harbor_job": "validation/harbor/scripted-retry02",
+      "dataset_task": "../../../datasets/bizagentbench-scripted-retry02/bizagentbench-case-030",
+      "superseded_harbor_job": "validation/harbor/scripted-batch04",
+      "rerun_reason": "Adapter grader compared native Python tuples to JSON lists; full-verdict JSON normalization fixed representation mismatch. Original failure retained."
+    },
+    {
+      "task_id": "case_031",
+      "reference": "validation/references/attempt28/case_031",
+      "construction_check": "validation/reference-check-final/case_031.json",
+      "native_result": "validation/native-reference-batch03/case_031__trial0/result.json",
+      "harbor_job": "validation/harbor/scripted-batch03",
+      "dataset_task": "../../../datasets/bizagentbench-scripted-batch03/bizagentbench-case-031"
+    },
+    {
+      "task_id": "case_032",
+      "reference": "validation/references/attempt28/case_032",
+      "construction_check": "validation/reference-check-final/case_032.json",
+      "native_result": "validation/native-reference-batch03/case_032__trial0/result.json",
+      "harbor_job": "validation/harbor/scripted-batch03",
+      "dataset_task": "../../../datasets/bizagentbench-scripted-batch03/bizagentbench-case-032"
+    },
+    {
+      "task_id": "case_033",
+      "reference": "validation/references/attempt28/case_033",
+      "construction_check": "validation/reference-check-final/case_033.json",
+      "native_result": "validation/native-reference-batch03/case_033__trial0/result.json",
+      "harbor_job": "validation/harbor/scripted-batch03",
+      "dataset_task": "../../../datasets/bizagentbench-scripted-batch03/bizagentbench-case-033"
+    },
+    {
+      "task_id": "case_034",
+      "reference": "validation/references/batch01/case_034",
+      "construction_check": "validation/reference-check-final/case_034.json",
+      "native_result": "validation/native-reference-batch01/case_034__trial0/result.json",
+      "harbor_job": "validation/harbor/scripted-batch01",
+      "dataset_task": "../../../datasets/bizagentbench-scripted-batch01/bizagentbench-case-034"
+    },
+    {
+      "task_id": "case_035",
+      "reference": "validation/references/batch01/case_035",
+      "construction_check": "validation/reference-check-final/case_035.json",
+      "native_result": "validation/native-reference-batch01/case_035__trial0/result.json",
+      "harbor_job": "validation/harbor/scripted-batch01",
+      "dataset_task": "../../../datasets/bizagentbench-scripted-batch01/bizagentbench-case-035"
+    },
+    {
+      "task_id": "case_036",
+      "reference": "validation/references/batch02/case_036",
+      "construction_check": "validation/reference-check-final/case_036.json",
+      "native_result": "validation/native-reference-batch02/case_036__trial0/result.json",
+      "harbor_job": "validation/harbor/scripted-batch02",
+      "dataset_task": "../../../datasets/bizagentbench-scripted-batch02/bizagentbench-case-036"
+    },
+    {
+      "task_id": "case_037",
+      "reference": "validation/references/batch02/case_037",
+      "construction_check": "validation/reference-check-final/case_037.json",
+      "native_result": "validation/native-reference-batch02/case_037__trial0/result.json",
+      "harbor_job": "validation/harbor/scripted-batch02",
+      "dataset_task": "../../../datasets/bizagentbench-scripted-batch02/bizagentbench-case-037"
+    },
+    {
+      "task_id": "case_038",
+      "reference": "validation/references/batch02/case_038",
+      "construction_check": "validation/reference-check-final/case_038.json",
+      "native_result": "validation/native-reference-batch02/case_038__trial0/result.json",
+      "harbor_job": "validation/harbor/scripted-batch02",
+      "dataset_task": "../../../datasets/bizagentbench-scripted-batch02/bizagentbench-case-038"
+    },
+    {
+      "task_id": "case_039",
+      "reference": "validation/references/batch02/case_039",
+      "construction_check": "validation/reference-check-final/case_039.json",
+      "native_result": "validation/native-reference-batch02/case_039__trial0/result.json",
+      "harbor_job": "validation/harbor/scripted-batch02",
+      "dataset_task": "../../../datasets/bizagentbench-scripted-batch02/bizagentbench-case-039"
+    },
+    {
+      "task_id": "case_040",
+      "reference": "validation/references/batch01/case_040",
+      "construction_check": "validation/reference-check-final/case_040.json",
+      "native_result": "validation/native-reference-batch01/case_040__trial0/result.json",
+      "harbor_job": "validation/harbor/scripted-batch01",
+      "dataset_task": "../../../datasets/bizagentbench-scripted-batch01/bizagentbench-case-040"
+    },
+    {
+      "task_id": "case_041",
+      "reference": "validation/references/batch02/case_041",
+      "construction_check": "validation/reference-check-final/case_041.json",
+      "native_result": "validation/native-reference-batch02/case_041__trial0/result.json",
+      "harbor_job": "validation/harbor/scripted-batch02",
+      "dataset_task": "../../../datasets/bizagentbench-scripted-batch02/bizagentbench-case-041"
+    },
+    {
+      "task_id": "case_042",
+      "reference": "validation/references/batch02/case_042",
+      "construction_check": "validation/reference-check-final/case_042.json",
+      "native_result": "validation/native-reference-batch02/case_042__trial0/result.json",
+      "harbor_job": "validation/harbor/scripted-batch02",
+      "dataset_task": "../../../datasets/bizagentbench-scripted-batch02/bizagentbench-case-042"
+    },
+    {
+      "task_id": "case_043",
+      "reference": "validation/references/batch01/case_043",
+      "construction_check": "validation/reference-check-final/case_043.json",
+      "native_result": "validation/native-reference-batch01/case_043__trial0/result.json",
+      "harbor_job": "validation/harbor/scripted-batch01",
+      "dataset_task": "../../../datasets/bizagentbench-scripted-batch01/bizagentbench-case-043"
+    },
+    {
+      "task_id": "case_044",
+      "reference": "validation/references/batch01/case_044",
+      "construction_check": "validation/reference-check-final/case_044.json",
+      "native_result": "validation/native-reference-batch01/case_044__trial0/result.json",
+      "harbor_job": "validation/harbor/scripted-batch01",
+      "dataset_task": "../../../datasets/bizagentbench-scripted-batch01/bizagentbench-case-044"
+    },
+    {
+      "task_id": "case_045",
+      "reference": "validation/references/batch01/case_045",
+      "construction_check": "validation/reference-check-final/case_045.json",
+      "native_result": "validation/native-reference-batch01/case_045__trial0/result.json",
+      "harbor_job": "validation/harbor/scripted-batch01",
+      "dataset_task": "../../../datasets/bizagentbench-scripted-batch01/bizagentbench-case-045"
+    },
+    {
+      "task_id": "case_046",
+      "reference": "validation/references/batch01/case_046",
+      "construction_check": "validation/reference-check-final/case_046.json",
+      "native_result": "validation/native-reference-batch01/case_046__trial0/result.json",
+      "harbor_job": "validation/harbor/scripted-batch01",
+      "dataset_task": "../../../datasets/bizagentbench-scripted-batch01/bizagentbench-case-046"
+    },
+    {
+      "task_id": "case_047",
+      "reference": "validation/references/batch01/case_047",
+      "construction_check": "validation/reference-check-final/case_047.json",
+      "native_result": "validation/native-reference-batch01/case_047__trial0/result.json",
+      "harbor_job": "validation/harbor/scripted-batch01",
+      "dataset_task": "../../../datasets/bizagentbench-scripted-batch01/bizagentbench-case-047"
+    },
+    {
+      "task_id": "case_048",
+      "reference": "validation/references/batch01/case_048",
+      "construction_check": "validation/reference-check-final/case_048.json",
+      "native_result": "validation/native-reference-batch01/case_048__trial0/result.json",
+      "harbor_job": "validation/harbor/scripted-batch01",
+      "dataset_task": "../../../datasets/bizagentbench-scripted-batch01/bizagentbench-case-048"
+    },
+    {
+      "task_id": "case_049",
+      "reference": "validation/references/batch01/case_049",
+      "construction_check": "validation/reference-check-final/case_049.json",
+      "native_result": "validation/native-reference-batch01/case_049__trial0/result.json",
+      "harbor_job": "validation/harbor/scripted-batch01",
+      "dataset_task": "../../../datasets/bizagentbench-scripted-batch01/bizagentbench-case-049"
+    },
+    {
+      "task_id": "case_050",
+      "reference": "validation/references/batch01/case_050",
+      "construction_check": "validation/reference-check-final/case_050.json",
+      "native_result": "validation/native-reference-batch01/case_050__trial0/result.json",
+      "harbor_job": "validation/harbor/scripted-batch01",
+      "dataset_task": "../../../datasets/bizagentbench-scripted-batch01/bizagentbench-case-050"
+    }
+  ]
+}

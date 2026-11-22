@@ -1,0 +1,40 @@
+[
+  {
+    "adapter_name": "bizagentbench",
+    "adapter_builders": [
+      "QYechang (qiyechang@gmail.com)"
+    ],
+    "original_benchmark": [
+      {
+        "split": "full",
+        "size": 50,
+        "harness": "agent",
+        "supported_agents": [
+          "HTTPAgent@670ec25"
+        ],
+        "adaptable": true,
+        "notes": "Pinned official native runner, independent LLM user, deterministic G/P/F/Strict."
+      }
+    ],
+    "harbor_adapter": [
+      {
+        "split": "full",
+        "adapted_benchmark_size": 50,
+        "parity_benchmark_size": 0,
+        "parity_sampling_rate": 0,
+        "registry_benchmark_size": 0,
+        "added_agents": [
+          "bizagentbench-llm-agent@0.1.0"
+        ],
+        "parity_matching_agents": [
+          "None"
+        ],
+        "parity_unmatching_agents": [
+          "None"
+        ],
+        "parity_costs": "$0",
+        "notes": "WIP: 50 public-tool references pass isolated construction checks and full native/Harbor runs with a scripted customer; all complete verdicts match. Independent live-LLM oracle validation and real-model parity remain unrun and separately recorded. No dataset publication or PR."
+      }
+    ]
+  }
+]
