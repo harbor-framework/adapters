@@ -1,0 +1,342 @@
+[
+  {
+    "adapter_name": "processbench",
+    "agent": "codex@0.161.0",
+    "model": "gpt-5.6-terra",
+    "date": "2026-11-23",
+    "adapted_benchmark_size": 3400,
+    "parity_benchmark_size": 200,
+    "number_of_runs": 3,
+    "notes": "200-task parity subset (--split parity: 50 per subset, stratified by error/correct, seed 42), 3 runs per side with the same codex@0.161.0 and gpt-5.6-terra (reasoning effort xhigh) through an OpenAI-compatible relay. Average F1 is the headline ProcessBench metric (mean of the four subset F1 scores). Error accuracy is accuracy on samples with a process error (label != -1); correct accuracy is accuracy on fully correct samples (label == -1); accuracy is exact match over all samples. Averages are over the four subsets (50 samples each, equal to the pooled value). Per-subset rows follow the averages. The run-score ranges of the two sides overlap for all 20 reported metrics. Harbor side: Harbor 0.21.0 on Daytona sandboxes (1 CPU, 2 GB, as declared by the tasks), 32 concurrent trials, adapter commit 1467787 (adapter code unchanged since) merged with upstream main 543861e. Tasks and environment images are the unmodified adapter output; Harbor installs codex 0.161.0 itself. retry.max_retries=2 for infrastructure errors only; run 2 had 5 retries, all AgentSetupTimeoutError during codex installation, and no trial ended with an error. Original side: XBsleepy/ProcessBench@codex-backend at commit 7d3f127 (which ignores temp dir cleanup errors), data from the Hugging Face dataset Qwen/ProcessBench, codex 0.161.0 run on the host in a fresh working directory and CODEX_HOME per item, upstream extract_answer and F1 code unchanged, 8 concurrent items. The task prompt sent to codex is byte-identical on both sides for all 200 items, and the model, reasoning effort, approval policy and sandbox settings recorded in the codex session files match. Known asymmetry: codex adds its own environment context to the first message, which differs (working directory /tmp/processbench-codex-*/work vs /app, timezone Asia/Shanghai vs UTC). Parity artifacts are not uploaded yet: the push to harborframework/parity-experiments is rejected because that repository is over Hugging Face's 1,000,000-file limit.",
+    "original_parity_repo": "https://github.com/XBsleepy/ProcessBench/tree/codex-backend",
+    "adapter_pr": [
+      "https://github.com/harbor-framework/adapters/pull/70"
+    ],
+    "dataset_pr": [
+      "https://github.com/harbor-framework/harbor-datasets/pull/292"
+    ],
+    "parity_pr": null,
+    "metrics": [
+      {
+        "benchmark_name": "ProcessBench",
+        "metric": "Average F1",
+        "original": "78.4790 ± 0.9496",
+        "harbor": "78.7767 ± 0.3755",
+        "original_runs": [
+          79.4486,
+          76.58,
+          79.4085
+        ],
+        "harbor_runs": [
+          79.1869,
+          79.1164,
+          78.0269
+        ]
+      },
+      {
+        "benchmark_name": "ProcessBench",
+        "metric": "Average accuracy",
+        "original": "79.1667 ± 0.6009",
+        "harbor": "79.0000 ± 0.2887",
+        "original_runs": [
+          79.5,
+          78.0,
+          80.0
+        ],
+        "harbor_runs": [
+          79.5,
+          79.0,
+          78.5
+        ]
+      },
+      {
+        "benchmark_name": "ProcessBench",
+        "metric": "Average error accuracy",
+        "original": "77.1450 ± 0.4440",
+        "harbor": "75.7117 ± 0.4859",
+        "original_runs": [
+          76.7667,
+          76.6384,
+          78.03
+        ],
+        "harbor_runs": [
+          76.6384,
+          75.5015,
+          74.9951
+        ]
+      },
+      {
+        "benchmark_name": "ProcessBench",
+        "metric": "Average correct accuracy",
+        "original": "81.0049 ± 1.5912",
+        "harbor": "83.4355 ± 0.3472",
+        "original_runs": [
+          83.0882,
+          77.8799,
+          82.0466
+        ],
+        "harbor_runs": [
+          83.0882,
+          84.1299,
+          83.0882
+        ]
+      },
+      {
+        "benchmark_name": "ProcessBench",
+        "metric": "gsm8k F1",
+        "original": "84.2670 ± 1.3448",
+        "harbor": "82.2170 ± 1.1878",
+        "original_runs": [
+          86.9565,
+          82.9222,
+          82.9222
+        ],
+        "harbor_runs": [
+          84.4444,
+          80.3883,
+          81.8182
+        ]
+      },
+      {
+        "benchmark_name": "ProcessBench",
+        "metric": "gsm8k accuracy",
+        "original": "85.3333 ± 1.3333",
+        "harbor": "84.0000 ± 1.1547",
+        "original_runs": [
+          88.0,
+          84.0,
+          84.0
+        ],
+        "harbor_runs": [
+          86.0,
+          82.0,
+          84.0
+        ]
+      },
+      {
+        "benchmark_name": "ProcessBench",
+        "metric": "gsm8k error accuracy",
+        "original": "74.3590 ± 1.2821",
+        "harbor": "70.5128 ± 1.2821",
+        "original_runs": [
+          76.9231,
+          73.0769,
+          73.0769
+        ],
+        "harbor_runs": [
+          73.0769,
+          69.2308,
+          69.2308
+        ]
+      },
+      {
+        "benchmark_name": "ProcessBench",
+        "metric": "gsm8k correct accuracy",
+        "original": "97.2222 ± 1.3889",
+        "harbor": "98.6111 ± 1.3889",
+        "original_runs": [
+          100.0,
+          95.8333,
+          95.8333
+        ],
+        "harbor_runs": [
+          100.0,
+          95.8333,
+          100.0
+        ]
+      },
+      {
+        "benchmark_name": "ProcessBench",
+        "metric": "math F1",
+        "original": "80.3926 ± 0.8288",
+        "harbor": "80.3926 ± 0.8288",
+        "original_runs": [
+          78.9474,
+          80.4124,
+          81.8182
+        ],
+        "harbor_runs": [
+          80.4124,
+          78.9474,
+          81.8182
+        ]
+      },
+      {
+        "benchmark_name": "ProcessBench",
+        "metric": "math accuracy",
+        "original": "82.0000 ± 1.1547",
+        "harbor": "82.0000 ± 1.1547",
+        "original_runs": [
+          80.0,
+          82.0,
+          84.0
+        ],
+        "harbor_runs": [
+          82.0,
+          80.0,
+          84.0
+        ]
+      },
+      {
+        "benchmark_name": "ProcessBench",
+        "metric": "math error accuracy",
+        "original": "86.6667 ± 1.9245",
+        "harbor": "86.6667 ± 1.9245",
+        "original_runs": [
+          83.3333,
+          86.6667,
+          90.0
+        ],
+        "harbor_runs": [
+          86.6667,
+          83.3333,
+          90.0
+        ]
+      },
+      {
+        "benchmark_name": "ProcessBench",
+        "metric": "math correct accuracy",
+        "original": "75.0000 ± 0.0000",
+        "harbor": "75.0000 ± 0.0000",
+        "original_runs": [
+          75.0,
+          75.0,
+          75.0
+        ],
+        "harbor_runs": [
+          75.0,
+          75.0,
+          75.0
+        ]
+      },
+      {
+        "benchmark_name": "ProcessBench",
+        "metric": "olympiadbench F1",
+        "original": "78.3589 ± 0.5588",
+        "harbor": "77.7779 ± 1.1398",
+        "original_runs": [
+          78.9177,
+          78.9177,
+          77.2414
+        ],
+        "harbor_runs": [
+          78.9177,
+          78.9177,
+          75.4982
+        ]
+      },
+      {
+        "benchmark_name": "ProcessBench",
+        "metric": "olympiadbench accuracy",
+        "original": "77.3333 ± 0.6667",
+        "harbor": "76.6667 ± 1.3333",
+        "original_runs": [
+          78.0,
+          78.0,
+          76.0
+        ],
+        "harbor_runs": [
+          78.0,
+          78.0,
+          74.0
+        ]
+      },
+      {
+        "benchmark_name": "ProcessBench",
+        "metric": "olympiadbench error accuracy",
+        "original": "74.7475 ± 1.0101",
+        "harbor": "73.7374 ± 2.0202",
+        "original_runs": [
+          75.7576,
+          75.7576,
+          72.7273
+        ],
+        "harbor_runs": [
+          75.7576,
+          75.7576,
+          69.697
+        ]
+      },
+      {
+        "benchmark_name": "ProcessBench",
+        "metric": "olympiadbench correct accuracy",
+        "original": "82.3529 ± 0.0000",
+        "harbor": "82.3529 ± 0.0000",
+        "original_runs": [
+          82.3529,
+          82.3529,
+          82.3529
+        ],
+        "harbor_runs": [
+          82.3529,
+          82.3529,
+          82.3529
+        ]
+      },
+      {
+        "benchmark_name": "ProcessBench",
+        "metric": "omnimath F1",
+        "original": "70.8976 ± 3.5014",
+        "harbor": "74.7194 ± 1.7464",
+        "original_runs": [
+          72.973,
+          64.0678,
+          75.6522
+        ],
+        "harbor_runs": [
+          72.973,
+          78.2123,
+          72.973
+        ]
+      },
+      {
+        "benchmark_name": "ProcessBench",
+        "metric": "omnimath accuracy",
+        "original": "72.0000 ± 2.3094",
+        "harbor": "73.3333 ± 1.3333",
+        "original_runs": [
+          72.0,
+          68.0,
+          76.0
+        ],
+        "harbor_runs": [
+          72.0,
+          76.0,
+          72.0
+        ]
+      },
+      {
+        "benchmark_name": "ProcessBench",
+        "metric": "omnimath error accuracy",
+        "original": "72.8070 ± 1.7544",
+        "harbor": "71.9298 ± 0.8772",
+        "original_runs": [
+          71.0526,
+          71.0526,
+          76.3158
+        ],
+        "harbor_runs": [
+          71.0526,
+          73.6842,
+          71.0526
+        ]
+      },
+      {
+        "benchmark_name": "ProcessBench",
+        "metric": "omnimath correct accuracy",
+        "original": "69.4444 ± 5.5556",
+        "harbor": "77.7778 ± 2.7778",
+        "original_runs": [
+          75.0,
+          58.3333,
+          75.0
+        ],
+        "harbor_runs": [
+          75.0,
+          83.3333,
+          75.0
+        ]
+      }
+    ]
+  }
+]

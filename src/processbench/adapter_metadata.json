@@ -1,0 +1,38 @@
+[
+  {
+    "adapter_name": "processbench",
+    "adapter_builders": [
+      "Jinyi Bai (baijinyi@ruc.edu.cn)"
+    ],
+    "original_benchmark": [
+      {
+        "split": "full",
+        "size": 3400,
+        "harness": "llm",
+        "supported_agents": [
+          "None"
+        ],
+        "adaptable": true,
+        "notes": "Four subsets: gsm8k (400), math (1000), olympiadbench (1000), omnimath (1000). Original harness is direct vLLM generation with the critique prompt; the PRM path (run_eval_prm_rlhflow.py) and voting mode are not adapted."
+      }
+    ],
+    "harbor_adapter": [
+      {
+        "split": "full",
+        "adapted_benchmark_size": 3400,
+        "parity_benchmark_size": 200,
+        "parity_sampling_rate": 0.0588,
+        "registry_benchmark_size": 0,
+        "added_agents": [
+          "None"
+        ],
+        "parity_matching_agents": [
+          "codex@0.161.0+gpt-5.6-terra"
+        ],
+        "parity_unmatching_agents": [],
+        "parity_costs": "$30",
+        "notes": "The adapter covers all 3,400 items and oracle verification passes all of them. Not yet published to the registry; all 3,400 tasks are planned for registration. Parity subset: 200 items (--split parity, 50 per subset, stratified by error/correct, seed 42), codex@0.161.0 with gpt-5.6-terra, 3 runs per side. Average F1 78.48 ± 0.95 (original) vs 78.78 ± 0.38 (Harbor); run ranges overlap for all reported metrics. parity_costs is an approximate total (about $30) for both sides."
+      }
+    ]
+  }
+]
