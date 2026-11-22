@@ -144,7 +144,7 @@ Uncertainty is sample SEM across run scores. All four aggregate accuracy metrics
 and all three difficulty metrics are reported in `parity_experiment.json`.
 
 See [the full analysis](PARITY_REPORT.md), [the evidence release](https://github.com/jialen2/adapters/releases/tag/supergpqa-parity-2026-11-21), and
-[the complete download](https://github.com/jialen2/adapters/releases/download/supergpqa-parity-2026-11-21/SuperGPQA-parity-evidence-2026-11-21.tar.gz). [HF evidence PR #293](https://huggingface.co/datasets/harborframework/parity-experiments/discussions/293) tracks the archive upload. Dataset registration remains pending. [The original-side implementation](https://github.com/jialen2/adapters/tree/fdef3d1469a9ebf213082e9cf2c67b73989115a1/src/supergpqa)
+[the complete download](https://github.com/jialen2/adapters/releases/download/supergpqa-parity-2026-11-21/SuperGPQA-parity-evidence-2026-11-21.tar.gz). [HF evidence PR #293](https://huggingface.co/datasets/harborframework/parity-experiments/discussions/293) tracks the archive upload. [Dataset registration PR #291](https://github.com/harbor-framework/harbor-datasets/pull/291) is submitted; registry publication remains pending. [The original-side implementation](https://github.com/jialen2/adapters/tree/fdef3d1469a9ebf213082e9cf2c67b73989115a1/src/supergpqa)
 is shipped in the adapter fork and reads unmodified pinned upstream function
 bodies. It uses the same single-turn client as the Harbor wrapper.
 
@@ -311,8 +311,7 @@ not be presented as original artifact-collection events.
   exhausted host file handles during a pilot startup. This occurred before
   trial execution and does not count as a completed oracle experiment.
 - Full-bank Oracle and the recorded direct-agent parity experiment are complete.
-  Dataset registration remains pending; the PR stays WIP without
-  manually requested reviewers.
+  [Dataset registration PR #291](https://github.com/harbor-framework/harbor-datasets/pull/291) includes the full bank and fixed parity subset; registry publication remains pending.
 
 ## Installation / Prerequisites
 

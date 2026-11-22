@@ -7,12 +7,14 @@
     "adapted_benchmark_size": 26529,
     "parity_benchmark_size": 100,
     "number_of_runs": 3,
-    "notes": "100-task deterministic subset, seed 42; 3 runs per side; percent units. Requested alias gpt-6-luna; all formal replies reported gpt-6-luna-2026-09-22; dated-ID routing failed and a strict returned-ID guard was used. Same direct API client and symmetric prompts/parameters, Python 3.13.18, Harbor 0.25.0 / ff2a1ef, Docker. User requested cross-round overlap, deviating from the guide ramp-up order; all failed transport attempts are preserved, with no score-based answer selection. Original-side harness lives in the adapter fork and loads pinned upstream function bodies, rather than invoking full upstream infer.py. Billed USD unknown. GitHub evidence: https://github.com/jialen2/adapters/releases/tag/supergpqa-parity-2026-11-21. HF evidence PR #293 created, but upload rejected by shared repo file-count limit; complete evidence and subsequent 300-response separate-verifier validation published at https://huggingface.co/datasets/jialen2/supergpqa-parity-experiments/tree/3b972e12416341af37116fda29edd0bb94181ac3/adapters/supergpqa; root SHA256SUMS SHA-256 cf02a761951411cbb3bd853d1f9e35382b81e67a28583349c2b9b90f237655ff; GitHub backup retained; dataset registration pending.",
+    "notes": "100-task deterministic subset, seed 42; 3 runs per side; percent units. Requested alias gpt-6-luna; all formal replies reported gpt-6-luna-2026-09-22; dated-ID routing failed and a strict returned-ID guard was used. Same direct API client and symmetric prompts/parameters, Python 3.13.18, Harbor 0.25.0 / ff2a1ef, Docker. User requested cross-round overlap, deviating from the guide ramp-up order; all failed transport attempts are preserved, with no score-based answer selection. Original-side harness lives in the adapter fork and loads pinned upstream function bodies, rather than invoking full upstream infer.py. Billed USD unknown. GitHub evidence: https://github.com/jialen2/adapters/releases/tag/supergpqa-parity-2026-11-21. HF evidence PR #293 created, but upload rejected by shared repo file-count limit; complete evidence and subsequent 300-response separate-verifier validation published at https://huggingface.co/datasets/jialen2/supergpqa-parity-experiments/tree/3b972e12416341af37116fda29edd0bb94181ac3/adapters/supergpqa; root SHA256SUMS SHA-256 cf02a761951411cbb3bd853d1f9e35382b81e67a28583349c2b9b90f237655ff; GitHub backup retained; dataset registration PR https://github.com/harbor-framework/harbor-datasets/pull/291 submitted; registry publication pending.",
     "original_parity_repo": "https://github.com/jialen2/adapters/tree/fdef3d1469a9ebf213082e9cf2c67b73989115a1/src/supergpqa",
     "adapter_pr": [
       "https://github.com/harbor-framework/adapters/pull/82"
     ],
-    "dataset_pr": null,
+    "dataset_pr": [
+      "https://github.com/harbor-framework/harbor-datasets/pull/291"
+    ],
     "parity_pr": [
       "https://huggingface.co/datasets/harborframework/parity-experiments/discussions/293"
     ],

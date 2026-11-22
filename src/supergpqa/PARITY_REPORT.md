@@ -184,8 +184,7 @@ saved Harbor terminal output. Oracle does not invoke an evaluation model.
 - [GitHub evidence release](https://github.com/jialen2/adapters/releases/tag/supergpqa-parity-2026-11-21)
 - [Download the complete evidence bundle](https://github.com/jialen2/adapters/releases/download/supergpqa-parity-2026-11-21/SuperGPQA-parity-evidence-2026-11-21.tar.gz)
 - [Hugging Face evidence PR #293](https://huggingface.co/datasets/harborframework/parity-experiments/discussions/293): created, but artifact push was rejected because the shared repository exceeds its 1,000,000-file limit (1,348,025 files after the proposed push). The 46-file payload is available in the GitHub evidence bundle; HF upload requires the repository owners to resolve the limit.
-- Dataset registration: pending; namespace/tag request remains `m-a-p/supergpqa`
-  with `v1.0` and `parity`. This report does not publish the task bank.
+- [Task-bank registration PR #291](https://github.com/harbor-framework/harbor-datasets/pull/291) contains the full 26,529-task bank and fixed 100-task parity payload. Requested identity/tags: `m-a-p/supergpqa@v1.0` and `@parity`; registry publication remains pending. The task bank is separate from this experiment report.
 
 From the adapters repository root with this adapter and Harbor installed:
 
@@ -212,7 +211,7 @@ The bundle follows the guide's `adapters/supergpqa/` layout, including
 formal runs and recovery history are separate compressed archives to preserve
 native logs while limiting file counts. `SHA256SUMS` covers the upload payload.
 The full evidence is published in the pinned personal HF mirror above; the shared HF PR remains blocked. GitHub attachments are retained as a backup.
-Dataset registry publication remains tracked separately.
+Dataset registry publication is tracked in [PR #291](https://github.com/harbor-framework/harbor-datasets/pull/291) and remains pending.
 
 ## Subsequent separate-verifier validation
 
