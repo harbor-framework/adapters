@@ -26,7 +26,6 @@ ARC-AGI-3 is the ARC Prize Foundation's benchmark for measuring an AI system's a
 
 - **Automatic dataset management**: Downloads from HuggingFace (pinned to a fixed revision) and caches locally
 - **Game sidecar**: Runs the actual game object in a separate `game` container (`environment/game_server.py`) that the agent must communicate with using a thin proxy (`environment/play.py`)
-- **Protected verification**: `tests/test.sh` reads the final result directly from the game sidecar over an authenticated HTTP request
 - **Per-task agent timeout**: Scales with the number of actions the original benchmark's own baseline agent used to complete each game (`baseline_actions` from `metadata.json`)
 - **Flexible task generation**: Provides `--limit`, `--overwrite`, `--task-ids`,  `--dataset-root`, and `--dataset-cache-dir` arguments
 
@@ -35,20 +34,23 @@ ARC-AGI-3 is the ARC Prize Foundation's benchmark for measuring an AI system's a
 ```
 arc-agi-3/
 ├── {task_id}/                     # e.g. "ar25-e3c63847"
-│   ├── task.toml                  # Harbor task configuration
-│   ├── instruction.md             # Task instructions for the agent
 │   ├── environment/
+│   │   ├── docker-compose.yaml    # Configure Docker containers
 │   │   ├── Dockerfile             # Agent's container
 │   │   ├── Dockerfile.game        # Game sidecar
-│   │   ├── docker-compose.yaml    # Configure Docker containers
 │   │   ├── game_server.py         # HTTP game server
 │   │   ├── play.py                # Thin proxy to game_server.py
 │   │   ├── <module>.py            # Game implementation
 │   │   └── metadata.json          # Game metadata
 │   ├── solution/
 │   │   └── solve.sh               # Solution script
-│   └── tests/
-│       └── test.sh                # Reads result from sidecar
+│   ├── tests/
+│   │   ├── Dockerfile             # Verifier's container
+│   │   ├── grade.py               # Grades a task
+│   │   ├── test.sh                # Invokes grade.py
+│   │   └── <module>.py            # Game implementation
+│   ├── instruction.md             # Task instructions for the agent
+│   └── task.toml                  # Harbor task configuration
 ```
 
 ## Run Evaluation / Harness in Harbor
@@ -146,6 +148,7 @@ uv sync
 ### 1. Reward 0.0 After Winning
 - Confirm `docker compose logs game` shows the sidecar reporting `state: WIN`
 - Possible that `play.py` did not reach it (e.g. malformed action JSON line)
+- Confirm `/app/actions.jsonl` was collected and replayed corectly by `tests/grade.py`
 
 ### 2. Task Build Fails
 - `depends_on: condition: service_healthy` requires Docker Compose v2+

@@ -9,7 +9,6 @@ from __future__ import annotations
 import json
 import logging
 import re
-import secrets
 import shutil
 from pathlib import Path
 
@@ -103,20 +102,23 @@ class ARCAGI3Adapter:
 
         <output-dir>/
         ├── <task-id-1>/
-        │   ├── instruction.md
-        │   ├── task.toml
+        │   └── environment/
+        │   │   ├── docker-compose.yaml
+        │   │   ├── Dockerfile
+        │   │   ├── Dockerfile.game
+        │   │   ├── game_server.py
+        │   │   ├── play.py
+        │   │   ├── <module>.py
+        │   │   └── metadata.json
         │   ├── solution/
         │   │   └── solve.sh
         │   ├── tests/
-        │   │   └── test.sh
-        │   └── environment/
-        │       ├── Dockerfile
-        │       ├── Dockerfile.game
-        │       ├── docker-compose.yaml
-        │       ├── game_server.py
-        │       ├── play.py
-        │       ├── <module>.py
-        │       └── metadata.json
+        │   │   ├── Dockerfile
+        │   │   ├── grade.py
+        │   │   ├── test.sh
+        │   │   └── <module>.py
+        │   ├── instruction.md
+        │   └── task.toml
         └── ...
         """
         self.dataset_root = self._resolve_dataset_root()
@@ -177,6 +179,7 @@ class ARCAGI3Adapter:
         shutil.copytree(TASK_TEMPLATE_DIR, out_dir)
         shutil.copy2(game_file, out_dir / "environment" / game_file.name)
         shutil.copy2(metadata_file, out_dir / "environment" / "metadata.json")
+        shutil.copy2(game_file, out_dir / "tests" / game_file.name)
 
         source = game_file.read_text()
         class_match = _GAME_CLASS_PATTERN.search(source)
@@ -189,10 +192,6 @@ class ARCAGI3Adapter:
         agent_timeout_sec = max(
             MIN_AGENT_TIMEOUT_SEC, sum(baseline_actions) * SECONDS_PER_BASELINE_ACTION
         )
-
-        # Shared secret that lets tests/test.sh authenticate against the
-        # /result endpoint. Never baked into the agent's container image.
-        result_token = secrets.token_hex(32)
 
         module_substitutions = {
             "__MODULE__": module,
@@ -209,7 +208,11 @@ class ARCAGI3Adapter:
         )
         _render_template(
             out_dir / "environment" / "game_server.py",
-            { **module_substitutions, "{result_token}": result_token },
+            module_substitutions,
+        )
+        _render_template(
+            out_dir / "tests" / "grade.py",
+            module_substitutions,
         )
         _render_template(
             out_dir / "instruction.md",
@@ -226,7 +229,6 @@ class ARCAGI3Adapter:
                 "{task_id}": task_id,
                 "{keywords}": json.dumps(sorted({"arc-agi-3", *tags})),
                 "{agent_timeout_sec}": str(float(agent_timeout_sec)),
-                "{result_token}": result_token,
             },
         )
 

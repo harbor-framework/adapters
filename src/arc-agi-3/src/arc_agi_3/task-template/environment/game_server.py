@@ -4,24 +4,29 @@ ARC-AGI-3 game.
 Runs the actual game object and provides an HTTP API so the agent
 container can play the game without being able to write the result.
 
+Every action is added to the agent's actions log that the agent
+does not have access to. The verifier will use this log to replay
+the entire game and determine whether the agent won or not.
+
 Endpoints:
   GET  /health       - healthcheck
   GET  /observation  - current frame data
   POST /action       - perform one action and returns frame data
-  GET  /result       - current state (requires RESULT_TOKEN)
 """
 
 import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
+from pathlib import Path
 
 from arcengine import ActionInput
 from __MODULE__ import __CLASS_NAME__
 
 PORT = 8000
-RESULT_TOKEN = "{result_token}"
+ACTIONS_LOG_PATH = Path("/app/actions.jsonl")
 
 _game = __CLASS_NAME__()
 _frame = _game.perform_action(ActionInput(id=0))  # RESET: establishes the first frame
+_actions_log = ACTIONS_LOG_PATH.open("a")
 
 
 def _serialize(frame_data):
@@ -43,19 +48,6 @@ class Handler(BaseHTTPRequestHandler):
             self._json(200, { "ok": True })
         elif path == "/observation":
             self._json(200, _serialize(_frame))
-        elif path == "/result":
-            if self._token() != RESULT_TOKEN:
-                self._json(401, { "error": "unauthorized" })
-                return
-
-            self._json(
-                200,
-                {
-                    "state": _frame.state.value,
-                    "levels_completed": _frame.levels_completed,
-                    "win_levels": _frame.win_levels,
-                },
-            )
         else:
             self._json(404, { "error": "not found" })
 
@@ -81,15 +73,10 @@ class Handler(BaseHTTPRequestHandler):
             self._json(400, { "error": str(e) })
             return
 
+        _actions_log.write(json.dumps(body) + "\n")
+        _actions_log.flush()
+
         self._json(200, _serialize(_frame))
-
-    def _token(self):
-        qs = self.path.split("?")[1] if "?" in self.path else ""
-        for part in qs.split("&"):
-            if part.startswith("token="):
-                return part[len("token="):]
-
-        return ""
 
     def _json(self, code, data):
         body = json.dumps(data, default=str).encode()

@@ -13,10 +13,11 @@ category = "interactive-game"
 
 [verifier]
 timeout_sec = 120.0
+environment_mode = "separate"
 
-[verifier.env]
-# Authenticates the verifier against the game sidecar's /result endpoint (see environment/game_server.py).
-RESULT_TOKEN = "{result_token}"
+[[artifacts]]
+source = "/app/actions.jsonl"
+service = "game"
 
 [agent]
 timeout_sec = {agent_timeout_sec}
