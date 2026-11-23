@@ -1,0 +1,6 @@
+# Frozen fixtures and validation provenance hash exact bytes, including the
+# line endings of the original saved evidence. Do not rewrite them on checkout.
+* -text
+
+# Executable POSIX entry points must retain LF on every host.
+*.sh text eol=lf

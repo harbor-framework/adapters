@@ -1,0 +1,20 @@
+[project]
+name = "harbor-balrog-adapter"
+version = "0.1.0"
+description = "Frozen text-only tasks across all six BALROG environments for Harbor"
+readme = "README.md"
+authors = [
+    { name = "QYechang", email = "qiyechang@gmail.com" }
+]
+requires-python = ">=3.12"
+dependencies = []
+
+[project.scripts]
+balrog = "balrog.main:main"
+
+[build-system]
+requires = ["uv_build>=0.12.10,<0.13.0"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "balrog"

@@ -1,0 +1,4483 @@
+{
+  "schema_version": 1,
+  "scope": "BALROG BabyAI only: five configured task types, fixed seeds 0..9",
+  "selection": "Predetermined 0..9 for every task type; no filtering or replacement based on oracle or model results",
+  "ordering": "Seed ascending, then upstream config task order",
+  "source_report_sha256": "843dc4f8ec017fe4a475e6d57fb77715339a591e1d2e0f1f9b90eefed4cbf33b",
+  "source_commits": {
+    "balrog": "b7afe79e3e4265811cfa985ed7c95c4d1a11e3f5",
+    "minigrid": "cf73dd148e51276bd675a37e3bfb0bf2b42329b2"
+  },
+  "task_types": [
+    "goto",
+    "pickup",
+    "open",
+    "putnext",
+    "pick_up_seq_go_to"
+  ],
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+  ],
+  "splits": {
+    "full": [
+      "babyai-goto-seed-0",
+      "babyai-pickup-seed-0",
+      "babyai-open-seed-0",
+      "babyai-putnext-seed-0",
+      "babyai-pick-up-seq-go-to-seed-0",
+      "babyai-goto-seed-1",
+      "babyai-pickup-seed-1",
+      "babyai-open-seed-1",
+      "babyai-putnext-seed-1",
+      "babyai-pick-up-seq-go-to-seed-1",
+      "babyai-goto-seed-2",
+      "babyai-pickup-seed-2",
+      "babyai-open-seed-2",
+      "babyai-putnext-seed-2",
+      "babyai-pick-up-seq-go-to-seed-2",
+      "babyai-goto-seed-3",
+      "babyai-pickup-seed-3",
+      "babyai-open-seed-3",
+      "babyai-putnext-seed-3",
+      "babyai-pick-up-seq-go-to-seed-3",
+      "babyai-goto-seed-4",
+      "babyai-pickup-seed-4",
+      "babyai-open-seed-4",
+      "babyai-putnext-seed-4",
+      "babyai-pick-up-seq-go-to-seed-4",
+      "babyai-goto-seed-5",
+      "babyai-pickup-seed-5",
+      "babyai-open-seed-5",
+      "babyai-putnext-seed-5",
+      "babyai-pick-up-seq-go-to-seed-5",
+      "babyai-goto-seed-6",
+      "babyai-pickup-seed-6",
+      "babyai-open-seed-6",
+      "babyai-putnext-seed-6",
+      "babyai-pick-up-seq-go-to-seed-6",
+      "babyai-goto-seed-7",
+      "babyai-pickup-seed-7",
+      "babyai-open-seed-7",
+      "babyai-putnext-seed-7",
+      "babyai-pick-up-seq-go-to-seed-7",
+      "babyai-goto-seed-8",
+      "babyai-pickup-seed-8",
+      "babyai-open-seed-8",
+      "babyai-putnext-seed-8",
+      "babyai-pick-up-seq-go-to-seed-8",
+      "babyai-goto-seed-9",
+      "babyai-pickup-seed-9",
+      "babyai-open-seed-9",
+      "babyai-putnext-seed-9",
+      "babyai-pick-up-seq-go-to-seed-9"
+    ],
+    "parity": [
+      "babyai-goto-seed-0",
+      "babyai-pickup-seed-0",
+      "babyai-open-seed-0",
+      "babyai-putnext-seed-0",
+      "babyai-pick-up-seq-go-to-seed-0",
+      "babyai-goto-seed-1",
+      "babyai-pickup-seed-1",
+      "babyai-open-seed-1",
+      "babyai-putnext-seed-1",
+      "babyai-pick-up-seq-go-to-seed-1",
+      "babyai-goto-seed-2",
+      "babyai-pickup-seed-2",
+      "babyai-open-seed-2",
+      "babyai-putnext-seed-2",
+      "babyai-pick-up-seq-go-to-seed-2",
+      "babyai-goto-seed-3",
+      "babyai-pickup-seed-3",
+      "babyai-open-seed-3",
+      "babyai-putnext-seed-3",
+      "babyai-pick-up-seq-go-to-seed-3",
+      "babyai-goto-seed-4",
+      "babyai-pickup-seed-4",
+      "babyai-open-seed-4",
+      "babyai-putnext-seed-4",
+      "babyai-pick-up-seq-go-to-seed-4",
+      "babyai-goto-seed-5",
+      "babyai-pickup-seed-5",
+      "babyai-open-seed-5",
+      "babyai-putnext-seed-5",
+      "babyai-pick-up-seq-go-to-seed-5",
+      "babyai-goto-seed-6",
+      "babyai-pickup-seed-6",
+      "babyai-open-seed-6",
+      "babyai-putnext-seed-6",
+      "babyai-pick-up-seq-go-to-seed-6",
+      "babyai-goto-seed-7",
+      "babyai-pickup-seed-7",
+      "babyai-open-seed-7",
+      "babyai-putnext-seed-7",
+      "babyai-pick-up-seq-go-to-seed-7",
+      "babyai-goto-seed-8",
+      "babyai-pickup-seed-8",
+      "babyai-open-seed-8",
+      "babyai-putnext-seed-8",
+      "babyai-pick-up-seq-go-to-seed-8",
+      "babyai-goto-seed-9",
+      "babyai-pickup-seed-9",
+      "babyai-open-seed-9",
+      "babyai-putnext-seed-9",
+      "babyai-pick-up-seq-go-to-seed-9"
+    ],
+    "sanity": [
+      "babyai-goto-seed-0",
+      "babyai-pickup-seed-0",
+      "babyai-open-seed-0",
+      "babyai-putnext-seed-0",
+      "babyai-pick-up-seq-go-to-seed-0"
+    ]
+  },
+  "cases": [
+    {
+      "episode": {
+        "task_id": "babyai-goto-seed-0",
+        "task": "BabyAI-MixedTrainLocal-v0/goto",
+        "seed": 0,
+        "babyai_kwargs": {
+          "num_dists": 0
+        },
+        "expected_mission": "go to the green key",
+        "expected_max_steps": 64,
+        "expected_initial_observation_sha256": "324bd78a3160cb76f7254670034ef39e3c99b72476f6a30a888b563deac83314"
+      },
+      "oracle": {
+        "actions": [
+          "go forward",
+          "go forward",
+          "turn right"
+        ],
+        "expected_initial_observation_sha256": "324bd78a3160cb76f7254670034ef39e3c99b72476f6a30a888b563deac83314",
+        "expected_transitions": [
+          {
+            "observation": "e3329f7db646304b2107f1e22f4a66535a47069a34c7f36ed8ded8cad18655c2",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "27fbf196fe838b2d8a01ec30e40e2a5cf5f62ff168970aa57361d9c22831a200",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "ede8421abca6890650343a8beb137d6c4934d1b7011df2b9a84d69887e5732e0",
+            "executed_action": "turn right",
+            "reward": 0.9578125,
+            "terminated": true,
+            "truncated": false
+          }
+        ],
+        "expected_progression": 1.0
+      }
+    },
+    {
+      "episode": {
+        "task_id": "babyai-pickup-seed-0",
+        "task": "BabyAI-MixedTrainLocal-v0/pickup",
+        "seed": 0,
+        "babyai_kwargs": {
+          "num_dists": 0
+        },
+        "expected_mission": "pick up the green key",
+        "expected_max_steps": 64,
+        "expected_initial_observation_sha256": "b06bdca49ea326f0acc1b4229e9de46fa8fa67bb588ab86fd0bfcf613ea91e33"
+      },
+      "oracle": {
+        "actions": [
+          "go forward",
+          "go forward",
+          "turn right",
+          "pick up"
+        ],
+        "expected_initial_observation_sha256": "b06bdca49ea326f0acc1b4229e9de46fa8fa67bb588ab86fd0bfcf613ea91e33",
+        "expected_transitions": [
+          {
+            "observation": "d58bde5d2d9277a640b6cf55076302504fccdb20f3bf065cbd05321fae5a3738",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "a282674abd451b33d969a8ca1f2df7fd76c1104fe44bcb7fb2fb2cc1ce1fa562",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "46810191a4e5d8e576adb4789669340613df93f82abd84aebaedef9368ce2f53",
+            "executed_action": "turn right",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "27d19c83844d5b147fd95e1fa88e56a5113ce9dc70063881c58b02aa1e8bd61d",
+            "executed_action": "pick up",
+            "reward": 0.94375,
+            "terminated": true,
+            "truncated": false
+          }
+        ],
+        "expected_progression": 1.0
+      }
+    },
+    {
+      "episode": {
+        "task_id": "babyai-open-seed-0",
+        "task": "BabyAI-MixedTrainLocal-v0/open",
+        "seed": 0,
+        "babyai_kwargs": {
+          "num_dists": 0
+        },
+        "expected_mission": "open the blue door",
+        "expected_max_steps": 128,
+        "expected_initial_observation_sha256": "92e306425422d4585bbd80ff2e58c484890f933967f5b9f8f6af07f953955818"
+      },
+      "oracle": {
+        "actions": [
+          "turn right",
+          "turn right",
+          "go forward",
+          "go forward",
+          "go forward",
+          "go forward",
+          "turn left",
+          "go forward",
+          "pick up",
+          "turn right",
+          "go forward",
+          "turn right",
+          "go forward",
+          "turn left",
+          "toggle"
+        ],
+        "expected_initial_observation_sha256": "92e306425422d4585bbd80ff2e58c484890f933967f5b9f8f6af07f953955818",
+        "expected_transitions": [
+          {
+            "observation": "b29bb7cf1dc34817c02ddb17b973994c641f41f10a02561c38d96312a0d8237c",
+            "executed_action": "turn right",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "ab2d86b07a93772893a2671b1ba0e51b2f48648f73ed3137bda06e2382b1ffb9",
+            "executed_action": "turn right",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "6194445359eebfa6f22c4106cf17c1eee02b7f01f27a285bc1e4e6af29a7e619",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "9723debdd4552144afeda84a1282c0e2c34567fc30783cdfd70c06dfe59fd37f",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "b10f68593e720e72e7dcca64c6adbb2b9990b569c946e1d19bc5f0986da68bae",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "e3b40640e5174dceff60ca49c21e221baa1b7859174b4bdd468610a75ff2515b",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "43d375828efefb77f5ccf91cd80fb22cfff0cabff12e069d9871d8198f151864",
+            "executed_action": "turn left",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "986b40e695d814aa163288411c5ad996711d96cc285f3164d514a672db5d05a2",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "6f1cba1a69c6520dac35358e14f698cade0ad0720e7e34aa607cf2645eb2ef6c",
+            "executed_action": "pick up",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "7ab36da03f300c13a1bf1b8f3969e0bf4b0dd1bbbe43dd0db21a5532c1e5f089",
+            "executed_action": "turn right",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "9b36df92f2df34e457ca73d4c58f671cc8a1bed0d8a8d0ed890d29acde956161",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "a9d660ad7773d9ca95ff6db4e58001cb1ceb741d1b3de8b5f457dd9930e90a6d",
+            "executed_action": "turn right",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "75f0ce8003187402c025d5c50674b0d7ac13c792fbc8c67b884c6f72a2cda48f",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "a100593c848dc039bff5fdb9d2307230528017f3574a0cfe3e0a37c5efeab390",
+            "executed_action": "turn left",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "3349ed7fc01c6c61627eebf7c9f95aec7ce56795b4929d6026140cf7639f8a60",
+            "executed_action": "toggle",
+            "reward": 0.89453125,
+            "terminated": true,
+            "truncated": false
+          }
+        ],
+        "expected_progression": 1.0
+      }
+    },
+    {
+      "episode": {
+        "task_id": "babyai-putnext-seed-0",
+        "task": "BabyAI-MixedTrainLocal-v0/putnext",
+        "seed": 0,
+        "babyai_kwargs": {
+          "num_dists": 0
+        },
+        "expected_mission": "put the green key next to the yellow key",
+        "expected_max_steps": 128,
+        "expected_initial_observation_sha256": "69bc69c05616f50f738f229802ba2255c5cd4aa16143d1958fb5474a6b2d32d9"
+      },
+      "oracle": {
+        "actions": [
+          "go forward",
+          "go forward",
+          "turn right",
+          "pick up",
+          "turn right",
+          "drop"
+        ],
+        "expected_initial_observation_sha256": "69bc69c05616f50f738f229802ba2255c5cd4aa16143d1958fb5474a6b2d32d9",
+        "expected_transitions": [
+          {
+            "observation": "09885f4ad8ba616583c8e63710862749882bc4dbe015ec2dc42168c8cd1b5c52",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "05378fcef22fb9858eef7e652fb4a29f8b33deb4a7c8d371eb9673ce23d79da1",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "81f1e9cd77fbfc84748b3e328153dc978269ecca02cbf2675c1c6e5e6614b818",
+            "executed_action": "turn right",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "6a7db1e7183e01468e7b0a91809ef049f1bb95b13ae51ce6b4d1e84ff850b86d",
+            "executed_action": "pick up",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "53c103088b4d483c20713063a20abc623bda2ab61b5be2dc0ce636f611139dec",
+            "executed_action": "turn right",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "95b90e30f5b7067dc4f740affbd677cc3cef21e333e19eab536d9432b07a9aa8",
+            "executed_action": "drop",
+            "reward": 0.9578125,
+            "terminated": true,
+            "truncated": false
+          }
+        ],
+        "expected_progression": 1.0
+      }
+    },
+    {
+      "episode": {
+        "task_id": "babyai-pick-up-seq-go-to-seed-0",
+        "task": "BabyAI-MixedTrainLocal-v0/pick_up_seq_go_to",
+        "seed": 0,
+        "babyai_kwargs": {
+          "num_dists": 0
+        },
+        "expected_mission": "pick up the green key, then go to the yellow key",
+        "expected_max_steps": 128,
+        "expected_initial_observation_sha256": "c44e434b89ef6dc2f861438d59785fd52587284c063fa3ec30822f236df68f23"
+      },
+      "oracle": {
+        "actions": [
+          "go forward",
+          "go forward",
+          "turn right",
+          "pick up",
+          "drop",
+          "turn right",
+          "go forward",
+          "turn right"
+        ],
+        "expected_initial_observation_sha256": "c44e434b89ef6dc2f861438d59785fd52587284c063fa3ec30822f236df68f23",
+        "expected_transitions": [
+          {
+            "observation": "f80964a4a202cc255ebc3f58bcecc18ea6e9f4119ad85477e84144417edf1736",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "ffa75d745b565cee0a0f493702160073234b6e82eeaf825d243b1c72a86c8ff3",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "81fef59b8c039fdbf77018fe57e294a43288eafadf4a44e64dca183815f6fe47",
+            "executed_action": "turn right",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "dd4994247c9af32e44f27d3b0788a13b85558d577ca5d53b4a29973cd884b91e",
+            "executed_action": "pick up",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "81fef59b8c039fdbf77018fe57e294a43288eafadf4a44e64dca183815f6fe47",
+            "executed_action": "drop",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "bdffef42681afbddf02bb6c22fbbb9aedf3eb489f4807ddb7abafd586d432bbd",
+            "executed_action": "turn right",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "45916600a5c43b4171020369bd18d92c746f8f7509a141e5b29daa4dc437a3fd",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "669a3ad5fdcff725c8eb36457a1ad5e5b91b1d717cc094b9b3f1915dd0fd6a85",
+            "executed_action": "turn right",
+            "reward": 0.94375,
+            "terminated": true,
+            "truncated": false
+          }
+        ],
+        "expected_progression": 1.0
+      }
+    },
+    {
+      "episode": {
+        "task_id": "babyai-goto-seed-1",
+        "task": "BabyAI-MixedTrainLocal-v0/goto",
+        "seed": 1,
+        "babyai_kwargs": {
+          "num_dists": 0
+        },
+        "expected_mission": "go to the yellow key",
+        "expected_max_steps": 64,
+        "expected_initial_observation_sha256": "477951e87d04b9a80bd78b8643b3520311e1cf4322c57f4397ce319e1008d0a7"
+      },
+      "oracle": {
+        "actions": [
+          "turn right",
+          "turn right",
+          "go forward",
+          "go forward",
+          "turn right",
+          "go forward"
+        ],
+        "expected_initial_observation_sha256": "477951e87d04b9a80bd78b8643b3520311e1cf4322c57f4397ce319e1008d0a7",
+        "expected_transitions": [
+          {
+            "observation": "b5ceb3b02101d1bfe3af51265fe78ff4622f654485c08911bf4528b76f2dd7fa",
+            "executed_action": "turn right",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "b5d7e343492bd8c0d808841d5cb82510b59168fbda1b285a0877258f81dd834e",
+            "executed_action": "turn right",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "edc02ef040acec97ceaa2afa2ec6327b19cb0f2ac362de300bbba11d7f6d75a4",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "0e2e11c9b682472efa3d01b246ea8cd15fd6f67cea3019385f669e31cc580d92",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "8372959ad9f472a38ab1790cbb6db8909d6ff89ce04d9a07fefd5bb422df375d",
+            "executed_action": "turn right",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "63f6855a17170f3de1bbefe3ea56ec75f2722cfdb80ea1163775b4023cd44a1a",
+            "executed_action": "go forward",
+            "reward": 0.915625,
+            "terminated": true,
+            "truncated": false
+          }
+        ],
+        "expected_progression": 1.0
+      }
+    },
+    {
+      "episode": {
+        "task_id": "babyai-pickup-seed-1",
+        "task": "BabyAI-MixedTrainLocal-v0/pickup",
+        "seed": 1,
+        "babyai_kwargs": {
+          "num_dists": 0
+        },
+        "expected_mission": "pick up the yellow key",
+        "expected_max_steps": 64,
+        "expected_initial_observation_sha256": "ef1daa946e7dd5bae0110a69d8628ef16cec92acfba96593b17f640f25875eb0"
+      },
+      "oracle": {
+        "actions": [
+          "turn right",
+          "turn right",
+          "go forward",
+          "go forward",
+          "turn right",
+          "go forward",
+          "pick up"
+        ],
+        "expected_initial_observation_sha256": "ef1daa946e7dd5bae0110a69d8628ef16cec92acfba96593b17f640f25875eb0",
+        "expected_transitions": [
+          {
+            "observation": "0337f09649047efdba5d5ee47072a3de63029be346cb2a4efe50a74e43b79a08",
+            "executed_action": "turn right",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "0d20c782bbaeb1cd5699947dfaafd37faceca232fa584ffd7f212ad5970af093",
+            "executed_action": "turn right",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "882cc969eaf0aadddc05aa8ccba93843bc9297ad5b75c5e423431a9a33912b23",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "cc7519b654959be3c9204ddf248c8bf654f781932ca7846b8d1fd46e41211d56",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "c121c3ac213b64191134b636f27f39cd579eb45bd72db2fca3887e648af22d55",
+            "executed_action": "turn right",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "d468881c322b88f4464e05887c91886d8eaae0dad8c13cd66f98a1e2b2da49ad",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "c749b897ccc76e683da7cca5b1c3e0687146babf0ebd51eaaef6cdfca40e1b45",
+            "executed_action": "pick up",
+            "reward": 0.9015625,
+            "terminated": true,
+            "truncated": false
+          }
+        ],
+        "expected_progression": 1.0
+      }
+    },
+    {
+      "episode": {
+        "task_id": "babyai-open-seed-1",
+        "task": "BabyAI-MixedTrainLocal-v0/open",
+        "seed": 1,
+        "babyai_kwargs": {
+          "num_dists": 0
+        },
+        "expected_mission": "open the purple door",
+        "expected_max_steps": 128,
+        "expected_initial_observation_sha256": "114d2793774de658dfa01b03f412108b53827e7cb1a18c47e2c76ccd6f51af2c"
+      },
+      "oracle": {
+        "actions": [
+          "turn right",
+          "turn right",
+          "go forward",
+          "pick up",
+          "go forward",
+          "turn left",
+          "go forward",
+          "turn right",
+          "toggle"
+        ],
+        "expected_initial_observation_sha256": "114d2793774de658dfa01b03f412108b53827e7cb1a18c47e2c76ccd6f51af2c",
+        "expected_transitions": [
+          {
+            "observation": "bf210a6c779dd88545558ad908aba0343b8ada89bc44860a6b383cff5b4abea9",
+            "executed_action": "turn right",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "ffddaa5aa717289e403483ee9a01bbc0865154c207d9159d2c2605361ef148d7",
+            "executed_action": "turn right",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "4d687d2e8b6f481e671e86b57f43835f29deb88093fd8937983d9ab3deb7d2f4",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "316d7084c39ebc53af253be65542cc4545f2589342508665559a7d41a347c43d",
+            "executed_action": "pick up",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "45cce2198cec7173250c56057843ce4ae626188dbc3ef94572084c36a2a0261e",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "074651d0ec3a34170fb9090f0c685c3f002fa2a10be877f70c0bd78171ebcbff",
+            "executed_action": "turn left",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "1a65c0c0d19b49dc2083f7126df2a432eae602bf4cca1b38d8629038a828b249",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "91b17ee77ff9cb8cbd56e00f3cfec377a2fa12729ec33050951052ceb9240df4",
+            "executed_action": "turn right",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "8382c80b62d71820ad7dac85eb77c335e8d49898bc2e70630557257409f1cc7f",
+            "executed_action": "toggle",
+            "reward": 0.93671875,
+            "terminated": true,
+            "truncated": false
+          }
+        ],
+        "expected_progression": 1.0
+      }
+    },
+    {
+      "episode": {
+        "task_id": "babyai-putnext-seed-1",
+        "task": "BabyAI-MixedTrainLocal-v0/putnext",
+        "seed": 1,
+        "babyai_kwargs": {
+          "num_dists": 0
+        },
+        "expected_mission": "put the purple ball next to the yellow ball",
+        "expected_max_steps": 128,
+        "expected_initial_observation_sha256": "a0039bd972285d303ce791e91a5a7b617baa0f8918a9f6f46ec830048013cb2d"
+      },
+      "oracle": {
+        "actions": [
+          "go forward",
+          "go forward",
+          "go forward",
+          "pick up",
+          "go forward",
+          "turn right",
+          "go forward",
+          "drop"
+        ],
+        "expected_initial_observation_sha256": "a0039bd972285d303ce791e91a5a7b617baa0f8918a9f6f46ec830048013cb2d",
+        "expected_transitions": [
+          {
+            "observation": "ffd6fb7ae5c1edee3be3a01960c73029b7f57f38654c1606dc42034cf4dda394",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "a452fee60db34fe15911cd248b482154b7c2857fd062057793c771b9dbd739c5",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "876b8da3330fe5db418a9a0874af0f8751f5a0f9918ff4f2b5a11dfe94d76aa7",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "8f38199317263561afb9018dd25a9e23a69f2ee4d09f7f80147c2c1693ce6da1",
+            "executed_action": "pick up",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "9b69ea95d0fa8670ccf77bf7b5c6cc4a3a03eac3ea0a05ba320c7bd93bd48b7f",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "6cdfbc7759b90683cb9154491196523b8ea6ba4a09264776774f99bb7b7960df",
+            "executed_action": "turn right",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "9f3ba5fad1602df54ec7b11609f7b328025fcfb12b14b299dc3936501b312850",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "b854eff28c4e5f998fced60fbd0c93344d00564a4377f48f3b9554b3687bb879",
+            "executed_action": "drop",
+            "reward": 0.94375,
+            "terminated": true,
+            "truncated": false
+          }
+        ],
+        "expected_progression": 1.0
+      }
+    },
+    {
+      "episode": {
+        "task_id": "babyai-pick-up-seq-go-to-seed-1",
+        "task": "BabyAI-MixedTrainLocal-v0/pick_up_seq_go_to",
+        "seed": 1,
+        "babyai_kwargs": {
+          "num_dists": 0
+        },
+        "expected_mission": "go to a yellow key after you pick up a yellow key",
+        "expected_max_steps": 128,
+        "expected_initial_observation_sha256": "c0b4fe0111c6755eda0770991f287756c06cb90ad8d4f0f7b0e609891881eada"
+      },
+      "oracle": {
+        "actions": [
+          "turn right",
+          "turn right",
+          "go forward",
+          "go forward",
+          "turn right",
+          "pick up"
+        ],
+        "expected_initial_observation_sha256": "c0b4fe0111c6755eda0770991f287756c06cb90ad8d4f0f7b0e609891881eada",
+        "expected_transitions": [
+          {
+            "observation": "31738f7b37e09a21b6b5ad495137554ab4ec2b169f0cbb4d9f10ab730d8825fa",
+            "executed_action": "turn right",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "7179e9144fc6957a18b8af09d733ccfc1daff17800d974667abb4ae3b8a1ec1c",
+            "executed_action": "turn right",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "d6197d7864a307a7ce755fdd57a85f1153b2aa200da178e0fce95831e520186d",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "6c9a6743c9b91b3a7ebd103bbdbb4a71bcd3ef5452af1ca77dcf129ce62f09a3",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "9c126aa3ecc85c511dbc752192cca993463ea7a9a73e13950a68cf8166fadeb8",
+            "executed_action": "turn right",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "2f411f51e255fd998517d80b1855eecf4e0076648968a293e016f01bd511e44a",
+            "executed_action": "pick up",
+            "reward": 0.9578125,
+            "terminated": true,
+            "truncated": false
+          }
+        ],
+        "expected_progression": 1.0
+      }
+    },
+    {
+      "episode": {
+        "task_id": "babyai-goto-seed-2",
+        "task": "BabyAI-MixedTrainLocal-v0/goto",
+        "seed": 2,
+        "babyai_kwargs": {
+          "num_dists": 0
+        },
+        "expected_mission": "go to the grey key",
+        "expected_max_steps": 64,
+        "expected_initial_observation_sha256": "c64c0813cef0d6e0cc42d0c84c6f2e415b0ce5efbad1aeda1ce1c65fa38003e4"
+      },
+      "oracle": {
+        "actions": [
+          "go forward"
+        ],
+        "expected_initial_observation_sha256": "c64c0813cef0d6e0cc42d0c84c6f2e415b0ce5efbad1aeda1ce1c65fa38003e4",
+        "expected_transitions": [
+          {
+            "observation": "c30c82cf83e7681b837cc5b4acb7cfd28e8f88b67b988a2f49f596834d4fe580",
+            "executed_action": "go forward",
+            "reward": 0.9859375,
+            "terminated": true,
+            "truncated": false
+          }
+        ],
+        "expected_progression": 1.0
+      }
+    },
+    {
+      "episode": {
+        "task_id": "babyai-pickup-seed-2",
+        "task": "BabyAI-MixedTrainLocal-v0/pickup",
+        "seed": 2,
+        "babyai_kwargs": {
+          "num_dists": 0
+        },
+        "expected_mission": "pick up the grey key",
+        "expected_max_steps": 64,
+        "expected_initial_observation_sha256": "f5edf41a377808c9695526c976d2c4ff594d7d55b45bcad1bed1ff076f9a8c34"
+      },
+      "oracle": {
+        "actions": [
+          "go forward",
+          "pick up"
+        ],
+        "expected_initial_observation_sha256": "f5edf41a377808c9695526c976d2c4ff594d7d55b45bcad1bed1ff076f9a8c34",
+        "expected_transitions": [
+          {
+            "observation": "ba25e21cb1f55c8f9c24532dc8b524ff99a1b4a29ac7debb9ddb0e3ce199e9f4",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "6aa74b587f00623d2b754cc6e8d4537c4525f2b3d5063c87c9ce500d7698879d",
+            "executed_action": "pick up",
+            "reward": 0.971875,
+            "terminated": true,
+            "truncated": false
+          }
+        ],
+        "expected_progression": 1.0
+      }
+    },
+    {
+      "episode": {
+        "task_id": "babyai-open-seed-2",
+        "task": "BabyAI-MixedTrainLocal-v0/open",
+        "seed": 2,
+        "babyai_kwargs": {
+          "num_dists": 0
+        },
+        "expected_mission": "open the yellow door",
+        "expected_max_steps": 128,
+        "expected_initial_observation_sha256": "6f9aea893dac4b6aeb6ed3b8ab5f979d44ee7589d40e82daad287ee61d67edfe"
+      },
+      "oracle": {
+        "actions": [
+          "go forward",
+          "turn left",
+          "go forward",
+          "go forward",
+          "pick up",
+          "turn right",
+          "go forward",
+          "turn right",
+          "go forward",
+          "turn left",
+          "toggle"
+        ],
+        "expected_initial_observation_sha256": "6f9aea893dac4b6aeb6ed3b8ab5f979d44ee7589d40e82daad287ee61d67edfe",
+        "expected_transitions": [
+          {
+            "observation": "1b86908b001b5309224dc936f664d0a3b040974a8de55250da241fda684aafe9",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "01b866b6d1730f3b55e59738176d48a3a9d4c7247054afd36588db672c11191c",
+            "executed_action": "turn left",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "60031685e19643457d5875b44b60f35e6b2f63e7ec96bd6c1c1ec23be037f83e",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "229c180c4398f82f9a27947c1ebc4010a3fabff415746636b1ea086758edbfa1",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "9c79b8ef466c154156ba75ae6a02bca7a9458606ceedee866c2129f59f3127dd",
+            "executed_action": "pick up",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "3a1289be17552695719912576adb67fb739dfbc795bb47e42056ff23e9090d55",
+            "executed_action": "turn right",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "54bbbae8c4da74118f744b34147575bede4caaedf6d25cb90b5bcce1502f4df9",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "3e377ec2f8da4711552356003dd18bdb0d21533783ae60280a7a9389c61fe107",
+            "executed_action": "turn right",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "d08a5e8ca57d9bc92ba4ea16ce570823a524dde7aab9bda527a8180d77324632",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "205aa41ed1f20b55ef9aa21d3d073b47e50c2a932b60796b3d4b39497a222a83",
+            "executed_action": "turn left",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "dffb0d0975c0d4a84769861aeffa675023429c0b48cb100b4ae18314c0afbd9a",
+            "executed_action": "toggle",
+            "reward": 0.92265625,
+            "terminated": true,
+            "truncated": false
+          }
+        ],
+        "expected_progression": 1.0
+      }
+    },
+    {
+      "episode": {
+        "task_id": "babyai-putnext-seed-2",
+        "task": "BabyAI-MixedTrainLocal-v0/putnext",
+        "seed": 2,
+        "babyai_kwargs": {
+          "num_dists": 0
+        },
+        "expected_mission": "put the yellow ball next to the red ball",
+        "expected_max_steps": 128,
+        "expected_initial_observation_sha256": "cffb15ae337e1c22790aa83c9d0f4298db4f953ae158bdacd1333b9d54d5458b"
+      },
+      "oracle": {
+        "actions": [
+          "turn right",
+          "go forward",
+          "go forward",
+          "go forward",
+          "turn right",
+          "go forward",
+          "go forward",
+          "pick up",
+          "turn right",
+          "turn right",
+          "go forward",
+          "drop"
+        ],
+        "expected_initial_observation_sha256": "cffb15ae337e1c22790aa83c9d0f4298db4f953ae158bdacd1333b9d54d5458b",
+        "expected_transitions": [
+          {
+            "observation": "6af45cf5cb41d1c85089544dfa59f492cd36c80e194ce759c9f37c5a07d533d4",
+            "executed_action": "turn right",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "978df320cf0778392c3d1c43cf5f80e29498f423b4d233f8e71a14a917722fce",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "22b65e81cd019e3c2a15f82499ea7ccfdb0541ff2307579192b0d6be934cb42e",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "0a12ca3316f02b260678116c979b3857d374365d9d3302280d3f7bd8705ece22",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "19797929b41f9a8b4f51fd5cdcc949f1ec0cd06d5b2ba9891b0905eadae196b0",
+            "executed_action": "turn right",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "b09a9730365256dbc7384db6870260f4491e6836d899839592499a2d042b4e43",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "36cbde727241cb7e20b5e01661bc404a1b0856c6b6b927f93e92feaf204dbc84",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "0ecc2971d77f587dbcd904f3741d6739a02ebd3dac9996ca2ee1440811ec5ecd",
+            "executed_action": "pick up",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "58eff42c19964509c4641fbc7936e84f65ec4a70c996a682088053cfcf72beff",
+            "executed_action": "turn right",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "98c315fbc340ecb0a240fcf197c87dae20169634b8494b111d98279f67b881ac",
+            "executed_action": "turn right",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "76f2af71de477e2a21a0df92b3b0e9c5daef7d012c1098ad76cd8ef3d04a8a19",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "63d118ded6c9a45b2bd2b31388875b4ecc9280ac2e810339fdbe91d75414902a",
+            "executed_action": "drop",
+            "reward": 0.915625,
+            "terminated": true,
+            "truncated": false
+          }
+        ],
+        "expected_progression": 1.0
+      }
+    },
+    {
+      "episode": {
+        "task_id": "babyai-pick-up-seq-go-to-seed-2",
+        "task": "BabyAI-MixedTrainLocal-v0/pick_up_seq_go_to",
+        "seed": 2,
+        "babyai_kwargs": {
+          "num_dists": 0
+        },
+        "expected_mission": "go to the grey key after you pick up the grey box",
+        "expected_max_steps": 128,
+        "expected_initial_observation_sha256": "7cc715e7afffe5f4c551f89d40f391e8598743c57545466e63409c6806d0972e"
+      },
+      "oracle": {
+        "actions": [
+          "turn left",
+          "go forward",
+          "go forward",
+          "turn left",
+          "go forward",
+          "go forward",
+          "pick up",
+          "drop",
+          "turn left",
+          "go forward",
+          "turn left",
+          "go forward",
+          "go forward"
+        ],
+        "expected_initial_observation_sha256": "7cc715e7afffe5f4c551f89d40f391e8598743c57545466e63409c6806d0972e",
+        "expected_transitions": [
+          {
+            "observation": "476d4ac8f38bfb76f64713d46e0e437710dfbba750952bd0b5cbb5a55db9f7a2",
+            "executed_action": "turn left",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "b32da334b92f44ea79c7290631f8dac590d397500a936b07bf01d1c30c55027b",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "03bae3da03845239866500625d16294ccd51187f6d19a3c7f153947bb4f45180",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "6616a96a0f07e03659fe64af514f8da60bca66a7f89f911cb0f141611dddd01c",
+            "executed_action": "turn left",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "199a1be63ef8017fdbbc16ff66b87cacb115fe24a834055cad02defb45067999",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "8571b4de019dc110db8d877068a31be078fbec509a91c04726a28f4a3be15db3",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "077477d12552df92928b05ded96dd3f5ae7191f10f2313944a38f4e62f882331",
+            "executed_action": "pick up",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "8571b4de019dc110db8d877068a31be078fbec509a91c04726a28f4a3be15db3",
+            "executed_action": "drop",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "3adeaafe2c3e18888b4ab48a460426d9856c042131cd9c561fa4ed11d96c6f9c",
+            "executed_action": "turn left",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "bf6dfc07e1253809f2c8cbe904266889bd4f25d56f8a9c5e1a0b3c4b042ebe0b",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "ee5a4326347e5814e154d7b9d0d9f91ffdda8320a3e453681b23aebdf1dfbd8d",
+            "executed_action": "turn left",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "edf5342178d9cb8573a1b49db2a63f0ac2c84ea64bf4f6184eb47c085c2d0d57",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "ce1ed2c3540e4dd7b13de141910a1fe1909295d739d4e8c136cc63783e5f2d1d",
+            "executed_action": "go forward",
+            "reward": 0.90859375,
+            "terminated": true,
+            "truncated": false
+          }
+        ],
+        "expected_progression": 1.0
+      }
+    },
+    {
+      "episode": {
+        "task_id": "babyai-goto-seed-3",
+        "task": "BabyAI-MixedTrainLocal-v0/goto",
+        "seed": 3,
+        "babyai_kwargs": {
+          "num_dists": 0
+        },
+        "expected_mission": "go to the red box",
+        "expected_max_steps": 64,
+        "expected_initial_observation_sha256": "9ba46a5ece05a379a6ad22c7cfa1a7ab15bfee6c54faf50688d57117d1da97b7"
+      },
+      "oracle": {
+        "actions": [
+          "go forward",
+          "go forward",
+          "turn right",
+          "go forward",
+          "go forward"
+        ],
+        "expected_initial_observation_sha256": "9ba46a5ece05a379a6ad22c7cfa1a7ab15bfee6c54faf50688d57117d1da97b7",
+        "expected_transitions": [
+          {
+            "observation": "8adbf327d89ef3a168437913a35ed2b165ba48c6c0e77d6c4b87561628fc157c",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "4c1146182fad7f8a201a01eb76374c334ff2710d2d74588333fa42c1de84d79f",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "d081b8d1648a47c4e7c425f4ef0d5206e60bdcf5ed8ddcd161bc838e28198fc4",
+            "executed_action": "turn right",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "fd4de49d94b58d0d98cdd6215cb499de30d8c7c99a54db3bef7e7bf179a66c09",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "048a8187140ed5719e5534f3172410921b1280229b058e9028d698f8caf5fc17",
+            "executed_action": "go forward",
+            "reward": 0.9296875,
+            "terminated": true,
+            "truncated": false
+          }
+        ],
+        "expected_progression": 1.0
+      }
+    },
+    {
+      "episode": {
+        "task_id": "babyai-pickup-seed-3",
+        "task": "BabyAI-MixedTrainLocal-v0/pickup",
+        "seed": 3,
+        "babyai_kwargs": {
+          "num_dists": 0
+        },
+        "expected_mission": "pick up the red box",
+        "expected_max_steps": 64,
+        "expected_initial_observation_sha256": "f548f304883e79b5b97e8426329ba9848fbc784e0f903bf16952eaa7448d76fb"
+      },
+      "oracle": {
+        "actions": [
+          "go forward",
+          "go forward",
+          "turn right",
+          "go forward",
+          "go forward",
+          "pick up"
+        ],
+        "expected_initial_observation_sha256": "f548f304883e79b5b97e8426329ba9848fbc784e0f903bf16952eaa7448d76fb",
+        "expected_transitions": [
+          {
+            "observation": "3b1bdb18d22854d59a02fb27b416ecc23edd2bc32c8b3034c586514de53010e1",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "f80f151bf9c2229f1b7ab2a03a6c3f0c6eba3cb408855f5fd35eb52615efaee4",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "0c07fbfbdd1d2fb5fa772bc1752e75ef8ffb7cbd10b86a90b88ee4eb90b72854",
+            "executed_action": "turn right",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "c146db2fa9bf55b1e64bc416383aa6f4978395b18b8fc9bd1e6077853f7662f8",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "e0915d428a4ee48706eac28e604365f43b1ba29f14a3aa005635e7da98018c3b",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "f5152133ad366eb2a8f39a3bae56d007599440c5a0bb80ac0f3adfa01a2acf61",
+            "executed_action": "pick up",
+            "reward": 0.915625,
+            "terminated": true,
+            "truncated": false
+          }
+        ],
+        "expected_progression": 1.0
+      }
+    },
+    {
+      "episode": {
+        "task_id": "babyai-open-seed-3",
+        "task": "BabyAI-MixedTrainLocal-v0/open",
+        "seed": 3,
+        "babyai_kwargs": {
+          "num_dists": 0
+        },
+        "expected_mission": "open the yellow door",
+        "expected_max_steps": 128,
+        "expected_initial_observation_sha256": "c81e8e52ed2454b83ee0355edb7880fa757fc1cde0614453f9252db9fe646925"
+      },
+      "oracle": {
+        "actions": [
+          "turn left",
+          "go forward",
+          "go forward",
+          "go forward",
+          "turn left",
+          "go forward",
+          "pick up",
+          "turn left",
+          "go forward",
+          "go forward",
+          "go forward",
+          "turn left",
+          "go forward",
+          "go forward",
+          "go forward",
+          "go forward",
+          "toggle"
+        ],
+        "expected_initial_observation_sha256": "c81e8e52ed2454b83ee0355edb7880fa757fc1cde0614453f9252db9fe646925",
+        "expected_transitions": [
+          {
+            "observation": "e8fa0bf96e63f46c3e22f8d5fc0464547a309920e985d36b0cf405e5734e19aa",
+            "executed_action": "turn left",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "e89cf7a55f3a51b19bebcc05c1fbe90797bd28f0702c5008ef600674cff70c3a",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "2ee306ceb39f841e7104eba847aed937998159ca3a9b5bdb547ae32177dcb15f",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "13c663f28844e9673b110290ee8c2ae8f63cc090ab5077ec1969617a856c84ed",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "2cf0259d71339cbb212a2f6c1c0885fb1cb7b301f05e52c1f389c6c9bd6559b2",
+            "executed_action": "turn left",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "66949c7e5160387159b2309808f1d1c7270e53b3e460ea42feb2035539e7875c",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "04a82d005099fc1a07a2c6b9416b5a219ca2b541899d70920f9b6a67a75bb230",
+            "executed_action": "pick up",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "9c79b8ef466c154156ba75ae6a02bca7a9458606ceedee866c2129f59f3127dd",
+            "executed_action": "turn left",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "d30e5df0e9438ceeceddcd7e626df0b0f0bd9dcb792087746781ae918d97d27e",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "ff2dfd0e5205d84171b317eeed654fb6933deb47fc16d029300bc394dbe3238e",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "af20ece131b4409b2a110eb306f830af15128b1c281a60782dd145f9a06bcf0f",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "7e507a4f98d0245c0e315eeefcfd537c6a9955258da2081ac36efff60f806269",
+            "executed_action": "turn left",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "29e63755455b8332fc9237dd2b4ed62da14e9d151d8c1e8b4ab1abc8e1a7540b",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "ab73f56d1f18838d38dad56acdb2927d7abf4572fc898adf1aa45acc79bfdb2e",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "41b613ca151a359395f673495eac70a066c8f4c4e5741c581c7d7a1bb2a6280d",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "6598203ba52953fd653cbd56583a39319e137b51b32580b9483d9f58c916cf46",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "86d844c2a945fd2f6f7a72816b4a5203c0af3cdf8d8fc7015ec3cd785de5fbc0",
+            "executed_action": "toggle",
+            "reward": 0.88046875,
+            "terminated": true,
+            "truncated": false
+          }
+        ],
+        "expected_progression": 1.0
+      }
+    },
+    {
+      "episode": {
+        "task_id": "babyai-putnext-seed-3",
+        "task": "BabyAI-MixedTrainLocal-v0/putnext",
+        "seed": 3,
+        "babyai_kwargs": {
+          "num_dists": 0
+        },
+        "expected_mission": "put the grey key next to the red box",
+        "expected_max_steps": 128,
+        "expected_initial_observation_sha256": "4aacaa0ad6d74f5437fe22d4a9b72728870459c89f93a61590fff0a788523c34"
+      },
+      "oracle": {
+        "actions": [
+          "turn right",
+          "go forward",
+          "go forward",
+          "go forward",
+          "pick up",
+          "turn left",
+          "drop"
+        ],
+        "expected_initial_observation_sha256": "4aacaa0ad6d74f5437fe22d4a9b72728870459c89f93a61590fff0a788523c34",
+        "expected_transitions": [
+          {
+            "observation": "f5f1fcb59bf55d0e4962e34092ebbc448ac02b57e2d4518eea3cc8b401ce564e",
+            "executed_action": "turn right",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "16351396ebc5dcb78005e7586fc99dcf270409ff7d436548025966ee1cfe5e47",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "c476bf1b0bff50c004879dbab4322309e9a2a2bdaae43aee0a5e32515203fc59",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "926af8f988e59ab73419a53fbf899d13ddbb8b8a7821d1888eba2c0e961aac2c",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "a889297f8dc305ab1f631039cba36d7af555f561e0e5c28b575d453d012aa6c0",
+            "executed_action": "pick up",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "100f6e7b4890188f3f626c4c8b622837df66634194308590988fad04b424d425",
+            "executed_action": "turn left",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "155803ee48a5d728644763d6679d5ef71b735e2eccfdb50c760ee521db536f22",
+            "executed_action": "drop",
+            "reward": 0.95078125,
+            "terminated": true,
+            "truncated": false
+          }
+        ],
+        "expected_progression": 1.0
+      }
+    },
+    {
+      "episode": {
+        "task_id": "babyai-pick-up-seq-go-to-seed-3",
+        "task": "BabyAI-MixedTrainLocal-v0/pick_up_seq_go_to",
+        "seed": 3,
+        "babyai_kwargs": {
+          "num_dists": 0
+        },
+        "expected_mission": "pick up the grey key, then go to the red box",
+        "expected_max_steps": 128,
+        "expected_initial_observation_sha256": "5310cb1c721f22d5418f7e3b42c096a1a3af7049fcae1acd4b863dd9dd4647e9"
+      },
+      "oracle": {
+        "actions": [
+          "turn right",
+          "go forward",
+          "go forward",
+          "go forward",
+          "pick up",
+          "drop",
+          "turn left",
+          "go forward"
+        ],
+        "expected_initial_observation_sha256": "5310cb1c721f22d5418f7e3b42c096a1a3af7049fcae1acd4b863dd9dd4647e9",
+        "expected_transitions": [
+          {
+            "observation": "fa087b1a0e996c3563e703c9fb8a365e783da6adf4743de38b2088c6828d0968",
+            "executed_action": "turn right",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "92e50d03aef2cf44f7b6a79b5295a284ee838cc96237fdb7b30367758adf7a6a",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "7e9fac79d5bf4387db42f092634a45759bdbcd6a519588611c1213fc510a419c",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "4041684c72740448504fe5b6911a32a6d1135aa5a08ee4d19a03a095bcc649b9",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "24720dcf2a3d98e19f3c51daf27f7f7ebd1aba985691eac21a6017be1c117e94",
+            "executed_action": "pick up",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "4041684c72740448504fe5b6911a32a6d1135aa5a08ee4d19a03a095bcc649b9",
+            "executed_action": "drop",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "c4157eb1e68dcb8c2f087d0e2a0ec339318b61b9e126216ba82e452e40af46f2",
+            "executed_action": "turn left",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "e6a2c62d0137541cda763b65c9ba0fb56dce789204446840f509b7270c085eac",
+            "executed_action": "go forward",
+            "reward": 0.94375,
+            "terminated": true,
+            "truncated": false
+          }
+        ],
+        "expected_progression": 1.0
+      }
+    },
+    {
+      "episode": {
+        "task_id": "babyai-goto-seed-4",
+        "task": "BabyAI-MixedTrainLocal-v0/goto",
+        "seed": 4,
+        "babyai_kwargs": {
+          "num_dists": 0
+        },
+        "expected_mission": "go to the grey ball",
+        "expected_max_steps": 64,
+        "expected_initial_observation_sha256": "76e3afd0532ef547f40bea54b84da41f64e1b9408d1815fc070c4672b21e4d6a"
+      },
+      "oracle": {
+        "actions": [
+          "turn left",
+          "go forward",
+          "go forward"
+        ],
+        "expected_initial_observation_sha256": "76e3afd0532ef547f40bea54b84da41f64e1b9408d1815fc070c4672b21e4d6a",
+        "expected_transitions": [
+          {
+            "observation": "dba139ef979443e63abedf0f8a34d341a1d02de79ff8118eba45568d485e814b",
+            "executed_action": "turn left",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "765d5bbe6f0ebd3c9c8481cb9c793ba1cafec35f6e5ee2396af793f4e2e7db1f",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "ed7d754a8e22649d6c8c4ec35dcbfae086cdbd2a1d5c3d5a4b1669b14ca73232",
+            "executed_action": "go forward",
+            "reward": 0.9578125,
+            "terminated": true,
+            "truncated": false
+          }
+        ],
+        "expected_progression": 1.0
+      }
+    },
+    {
+      "episode": {
+        "task_id": "babyai-pickup-seed-4",
+        "task": "BabyAI-MixedTrainLocal-v0/pickup",
+        "seed": 4,
+        "babyai_kwargs": {
+          "num_dists": 0
+        },
+        "expected_mission": "pick up the grey ball",
+        "expected_max_steps": 64,
+        "expected_initial_observation_sha256": "d6dce8152b3ed244b4b654b9378060272896f994ea41a74d5b698e79b7ccb723"
+      },
+      "oracle": {
+        "actions": [
+          "turn left",
+          "go forward",
+          "go forward",
+          "pick up"
+        ],
+        "expected_initial_observation_sha256": "d6dce8152b3ed244b4b654b9378060272896f994ea41a74d5b698e79b7ccb723",
+        "expected_transitions": [
+          {
+            "observation": "495704497924dc08bbf8dddf224f38e669783063226d3a04351142ad04777a30",
+            "executed_action": "turn left",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "5422d24934e44c41d3b98cca12ee2dddbe022f0b60223d7c285b151ecb3e8846",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "818c05416a437924bef4bb9718f25395465fa463f759f026b50c0d5c84c52684",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "eb870367d2f880d2ce2f303dfdeffaefbbf8a5615cf6cdf4c176b8d424cb2634",
+            "executed_action": "pick up",
+            "reward": 0.94375,
+            "terminated": true,
+            "truncated": false
+          }
+        ],
+        "expected_progression": 1.0
+      }
+    },
+    {
+      "episode": {
+        "task_id": "babyai-open-seed-4",
+        "task": "BabyAI-MixedTrainLocal-v0/open",
+        "seed": 4,
+        "babyai_kwargs": {
+          "num_dists": 0
+        },
+        "expected_mission": "open the door",
+        "expected_max_steps": 128,
+        "expected_initial_observation_sha256": "a13e84ce00f415a1eeb4989a17ab1babf6e9e0c36cc0ff934400ff7fa0931b3f"
+      },
+      "oracle": {
+        "actions": [
+          "turn right",
+          "turn right",
+          "go forward",
+          "go forward",
+          "go forward",
+          "go forward",
+          "turn left",
+          "pick up",
+          "go forward",
+          "go forward",
+          "toggle"
+        ],
+        "expected_initial_observation_sha256": "a13e84ce00f415a1eeb4989a17ab1babf6e9e0c36cc0ff934400ff7fa0931b3f",
+        "expected_transitions": [
+          {
+            "observation": "a61cabf6ff9c72b4eab800e19a9b9ce53d4dbd5308d8046d39962844c6ef702e",
+            "executed_action": "turn right",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "e4092503017f37548d8608902dbe80201adc023ceed6f69f8f2f1a7e94d0f40b",
+            "executed_action": "turn right",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "ab851e268d74ee0c269c6d20c669a0f9d9288a0d01c05ffaaa15c053ab45139d",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "44151d72fd358d53aa0383e89ae0840c117f3d86db90fa1066a0af7dc93b06a9",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "3434d1cc33697d48b39d717f882a463dac3e8dcd32d1e3d687b3333286c6c224",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "2190ffda4e0540fae75c6706c42b2056dc84d58d725bad20f52cd2e24705e2c1",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "12240cce8f74e77c4451cd446d3fa405edfbff21061dd4ef2badacc11829f7df",
+            "executed_action": "turn left",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "aeab6bb4c61c2fe02ac463d615cbdddd4e068dd0ec6673c5b430fc6bbcc7d190",
+            "executed_action": "pick up",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "20c1b662c5fa13d4536c1634e6616006b121a538980a599408b274da358107c5",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "2debba681b7feec8a907e9ae9dffdef0b1b3d44a0ea9e9610c29cb0bdafad525",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "26d5135caebb2224c27f0a8a88da296dad467c738707d241a412ba6347912c8b",
+            "executed_action": "toggle",
+            "reward": 0.92265625,
+            "terminated": true,
+            "truncated": false
+          }
+        ],
+        "expected_progression": 1.0
+      }
+    },
+    {
+      "episode": {
+        "task_id": "babyai-putnext-seed-4",
+        "task": "BabyAI-MixedTrainLocal-v0/putnext",
+        "seed": 4,
+        "babyai_kwargs": {
+          "num_dists": 0
+        },
+        "expected_mission": "put the green box next to the grey ball",
+        "expected_max_steps": 128,
+        "expected_initial_observation_sha256": "87fb471dbb4122e3944c2a76991236bcac542efa3ae3af45f08b2c333ae924d5"
+      },
+      "oracle": {
+        "actions": [
+          "turn right",
+          "turn right",
+          "go forward",
+          "go forward",
+          "go forward",
+          "turn right",
+          "go forward",
+          "go forward",
+          "pick up",
+          "go forward",
+          "turn right",
+          "go forward",
+          "drop"
+        ],
+        "expected_initial_observation_sha256": "87fb471dbb4122e3944c2a76991236bcac542efa3ae3af45f08b2c333ae924d5",
+        "expected_transitions": [
+          {
+            "observation": "e9af625de2257a4ed1a6b806b69ff884a6b43944a0a7caef130636f026f06188",
+            "executed_action": "turn right",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "e7bb4a4a0072da3c7480c663fced4459bd2bd19bc8f938e79471facb3277108b",
+            "executed_action": "turn right",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "888c5bf9c4842c95fc9ef09a8eb7a9383385463d7dea3423f875d8c4d17f278a",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "1a26233d8b5a6f8e08c1aed482bc299c9b91894ef0d073edb3e0a1fd257013e6",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "f266997346fbfb517f2732ea183047746052c722f647586e43f63bf52a09a287",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "bc88a2780bc01b2fa58b4e0483727943f2c573385f1bfd2f26fa08a80533cc57",
+            "executed_action": "turn right",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "852d7ddbd23b67054d600929815245a16eb3f6ce1eee8f11ebb00037b94b448d",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "c2e23a160d97bd57a92c03fb1c8c5d6016b4afe23e5e6306f5876a71fcb1634b",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "0b8c5b4620f50d4cd08c57f6efee5fe213a90899fec932d10a6467d41c617e84",
+            "executed_action": "pick up",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "2c1fae73096cf919c2c26c8f1dbf0ba416d338a09524d977c1b28a3a096ab2bb",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "504928db895b7f898baf075d7c6471c896012edf99707c32c4df7e72eab8e2ab",
+            "executed_action": "turn right",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "9d0b479157a9e63683de4cd78869607cd07e91d858eea468b2b6713521816182",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "3f09f5ea584bc6686c312fbecb89f921fad064f94027ea7f426022e450f88eba",
+            "executed_action": "drop",
+            "reward": 0.90859375,
+            "terminated": true,
+            "truncated": false
+          }
+        ],
+        "expected_progression": 1.0
+      }
+    },
+    {
+      "episode": {
+        "task_id": "babyai-pick-up-seq-go-to-seed-4",
+        "task": "BabyAI-MixedTrainLocal-v0/pick_up_seq_go_to",
+        "seed": 4,
+        "babyai_kwargs": {
+          "num_dists": 0
+        },
+        "expected_mission": "go to the grey ball after you pick up the green box",
+        "expected_max_steps": 128,
+        "expected_initial_observation_sha256": "2e1b557d504cfb8b6cb7d24e06fe8689ed4fb663581d861da1de0851c95e2c69"
+      },
+      "oracle": {
+        "actions": [
+          "turn right",
+          "turn right",
+          "go forward",
+          "go forward",
+          "go forward",
+          "turn right",
+          "go forward",
+          "go forward",
+          "pick up",
+          "drop",
+          "turn right",
+          "go forward",
+          "go forward",
+          "go forward",
+          "turn left"
+        ],
+        "expected_initial_observation_sha256": "2e1b557d504cfb8b6cb7d24e06fe8689ed4fb663581d861da1de0851c95e2c69",
+        "expected_transitions": [
+          {
+            "observation": "63bb4d17cb69667951393f8a3a07f0d9625b68af315c864f59af030a5ed6ac42",
+            "executed_action": "turn right",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "23bf0da01caefc8b5cb6b910e325fc15febff27d8ac24d92a2ae3e48fb4a9976",
+            "executed_action": "turn right",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "5f4c1b71bb927043d4fd7e566e50a51c98591513b28ffd3227ffd3a2696e4648",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "664c46a2d95e864b6676917e9a061d9dc40409882c5d69611de5ef5bc514b837",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "befc11d244dcd16058a9c67f1f857f251661ca13bf37832f06e659742098ae30",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "be31bb517c6545cd5cbf6610390d7b6abd78fa0c4aead83adeefbd1927a44ff6",
+            "executed_action": "turn right",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "bd5fb8a2b123c2ef8f8517882625b2747af8fe4c386c217a4ffe4b8539e5d5fd",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "c3a8934ff0a4cc05f6679f598f1b0820b8ef7ad7c63123689dffb49538220363",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "8d77466db88e24dd4f8624accc6f1bd096299c6a348ec5e16acf84b9601f4651",
+            "executed_action": "pick up",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "c3a8934ff0a4cc05f6679f598f1b0820b8ef7ad7c63123689dffb49538220363",
+            "executed_action": "drop",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "1748ecfa48c5c1e9cb87aad0291f33df03d3a8e3808658076f069db141d2b8a4",
+            "executed_action": "turn right",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "29175e8308e11fb78e26972dc849d3eafb2657880c990074d1acec63e14cad10",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "c8511e03b05d415e8ad4c9e52e6f43ffb82f5267dca0f522abe471e0f190b647",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "7ae225dbbe2a8bd7575025038223403a9e0703d84270d582ff29c177876a8ddf",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "7b57d617c1a5dd93b8a64045ccca1829e90e5fd96df1f349c4e6e0e132473385",
+            "executed_action": "turn left",
+            "reward": 0.89453125,
+            "terminated": true,
+            "truncated": false
+          }
+        ],
+        "expected_progression": 1.0
+      }
+    },
+    {
+      "episode": {
+        "task_id": "babyai-goto-seed-5",
+        "task": "BabyAI-MixedTrainLocal-v0/goto",
+        "seed": 5,
+        "babyai_kwargs": {
+          "num_dists": 0
+        },
+        "expected_mission": "go to the red ball",
+        "expected_max_steps": 64,
+        "expected_initial_observation_sha256": "c1f82670b16fc2f53924052f951951765acc62dabfa2d8cc6dd38daff24bcd19"
+      },
+      "oracle": {
+        "actions": [
+          "turn left",
+          "go forward",
+          "turn left"
+        ],
+        "expected_initial_observation_sha256": "c1f82670b16fc2f53924052f951951765acc62dabfa2d8cc6dd38daff24bcd19",
+        "expected_transitions": [
+          {
+            "observation": "b458c098edaf58af3515506932d2efb975b858d79421a56e3f83cd8fa81123ff",
+            "executed_action": "turn left",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "b3ccb3f01756c7009275f7a5ab65981e508001a152f766e58febf77e726f7259",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "19fdddccdd7dec1f25593dee54f436831041dc1abb672f505d77e84203125090",
+            "executed_action": "turn left",
+            "reward": 0.9578125,
+            "terminated": true,
+            "truncated": false
+          }
+        ],
+        "expected_progression": 1.0
+      }
+    },
+    {
+      "episode": {
+        "task_id": "babyai-pickup-seed-5",
+        "task": "BabyAI-MixedTrainLocal-v0/pickup",
+        "seed": 5,
+        "babyai_kwargs": {
+          "num_dists": 0
+        },
+        "expected_mission": "pick up the red ball",
+        "expected_max_steps": 64,
+        "expected_initial_observation_sha256": "6bc2e30701bb841211a50be6917be1c78aaa2194dbca4f3e1769a75fd9babb71"
+      },
+      "oracle": {
+        "actions": [
+          "turn left",
+          "go forward",
+          "turn left",
+          "pick up"
+        ],
+        "expected_initial_observation_sha256": "6bc2e30701bb841211a50be6917be1c78aaa2194dbca4f3e1769a75fd9babb71",
+        "expected_transitions": [
+          {
+            "observation": "74fee6ac7d1f8b975e1acc2fd092e74118fc20e91221bce1c41945a765204225",
+            "executed_action": "turn left",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "7cd8dcff1bb2abf7371dfb331bdee11a7452ef16d619eb34a9828a513d96db92",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "b2dfc323320c63671c16c1a76d3cd5387fefef505d69ffc06d35be60cb5b5916",
+            "executed_action": "turn left",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "efc71ffaf3df1adca48af5d4f66cdd9b8acda61ecebdde3cf025256fe121a9ce",
+            "executed_action": "pick up",
+            "reward": 0.94375,
+            "terminated": true,
+            "truncated": false
+          }
+        ],
+        "expected_progression": 1.0
+      }
+    },
+    {
+      "episode": {
+        "task_id": "babyai-open-seed-5",
+        "task": "BabyAI-MixedTrainLocal-v0/open",
+        "seed": 5,
+        "babyai_kwargs": {
+          "num_dists": 0
+        },
+        "expected_mission": "open the door",
+        "expected_max_steps": 128,
+        "expected_initial_observation_sha256": "2624247cd6040779ac57c7a74a98de1573d2af5406e9d1a1b3df7ef55ca115ba"
+      },
+      "oracle": {
+        "actions": [
+          "turn left",
+          "go forward",
+          "go forward",
+          "go forward",
+          "turn left",
+          "go forward",
+          "go forward",
+          "pick up",
+          "turn left",
+          "go forward",
+          "go forward",
+          "turn left",
+          "go forward",
+          "go forward",
+          "go forward",
+          "toggle"
+        ],
+        "expected_initial_observation_sha256": "2624247cd6040779ac57c7a74a98de1573d2af5406e9d1a1b3df7ef55ca115ba",
+        "expected_transitions": [
+          {
+            "observation": "36e28c983baecd15d80544a59f090ec8bc4deebc1a6b6ee38953075250acc482",
+            "executed_action": "turn left",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "4c0adf69fd5ad44020e40b83b30b301ccddfd35abcca2fa6c6539470c3359059",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "7991dae0ac4a6c9dfd558a50f7ec1fb558718ed9e491ec0640853f0f7c0948a2",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "125f72855f1291f1c889c1c50a9dd931335dd2f5d7c36baaf07954191c46f5b1",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "0a63e94edd735c1c822d3fbfd8f2696aafd1c1328a32e20ad75c696bf89362ad",
+            "executed_action": "turn left",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "23bf5af5eec740a8c520533a8990c10adba67b9c692eec0db54260de83958c26",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "eceb628d79fc08dceef41b96fb5342841d92e5d454b39e45ea87960e109e698c",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "2b009464730b59ce0fbe628762798c93c3c7f7ca19503f60ae24bedc231b1d4b",
+            "executed_action": "pick up",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "8f91e3f29d7be904ac2a60b6cfc1d4ca6744365cac415c47bcea59c464c16438",
+            "executed_action": "turn left",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "2b009464730b59ce0fbe628762798c93c3c7f7ca19503f60ae24bedc231b1d4b",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "29162e4379232a290f92963beed399135127353374b34ccf1c7e00703bbe7b6c",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "e4ce64269f8bcb0366698cf93964f07260d8dbef9c28b2b62144a6776bb21a3c",
+            "executed_action": "turn left",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "2a58e57f3e5e5e57812b46fd2fa22fac2492c6a3f7ed8b1d596cc90bbdca7e18",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "835cd6225acc3cef9b1b16f70f3ce2f47d30ee4b43c4ca747e5c3a398e9d4328",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "ea7777fb88478cd017fb75ce33dbb9d99e5f097e6f782487b3efadc0a38a7cc4",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "75773bc0217c800436a3a6e6b48daf3498c9a85369959b92818fa692993d51cf",
+            "executed_action": "toggle",
+            "reward": 0.8875,
+            "terminated": true,
+            "truncated": false
+          }
+        ],
+        "expected_progression": 1.0
+      }
+    },
+    {
+      "episode": {
+        "task_id": "babyai-putnext-seed-5",
+        "task": "BabyAI-MixedTrainLocal-v0/putnext",
+        "seed": 5,
+        "babyai_kwargs": {
+          "num_dists": 0
+        },
+        "expected_mission": "put the red ball next to the green box",
+        "expected_max_steps": 128,
+        "expected_initial_observation_sha256": "0984b1ad102406d162d599d7d8123632af07947d29101cce73ac75de88742766"
+      },
+      "oracle": {
+        "actions": [
+          "turn left",
+          "go forward",
+          "turn left",
+          "pick up",
+          "go forward",
+          "drop"
+        ],
+        "expected_initial_observation_sha256": "0984b1ad102406d162d599d7d8123632af07947d29101cce73ac75de88742766",
+        "expected_transitions": [
+          {
+            "observation": "64f59b66bcd0986fd38e84ff57c84397d51b4aefa7e6b34c9958b11ea99d47c3",
+            "executed_action": "turn left",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "09826b0eb0a6af949e2f4afb588634172de0fc47ce056a5aca33b62b3dfe15fb",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "3fc5f7d3ff7c6ad79d597714992b6ccb13db958dcfead655745e5434297bc1c2",
+            "executed_action": "turn left",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "ee7d674a53aade2db0e417801c3d881cc2b68ab239afb174f302c9ea654e1026",
+            "executed_action": "pick up",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "30851dbbb17312f5ded8a9c76f82d57238b866dce63bb0cd2d436e1e6d3d9e04",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "c713e597343e28e76e7558e0e2b1e9cac8aaf5ec8ecdd8f58c9380cbd194c0fc",
+            "executed_action": "drop",
+            "reward": 0.9578125,
+            "terminated": true,
+            "truncated": false
+          }
+        ],
+        "expected_progression": 1.0
+      }
+    },
+    {
+      "episode": {
+        "task_id": "babyai-pick-up-seq-go-to-seed-5",
+        "task": "BabyAI-MixedTrainLocal-v0/pick_up_seq_go_to",
+        "seed": 5,
+        "babyai_kwargs": {
+          "num_dists": 0
+        },
+        "expected_mission": "pick up the red ball, then go to the green box",
+        "expected_max_steps": 128,
+        "expected_initial_observation_sha256": "1c8c2bcc6fe75a9133a40001d6009632500fdac58074b96463fe81370a24d2c9"
+      },
+      "oracle": {
+        "actions": [
+          "turn left",
+          "go forward",
+          "turn left",
+          "pick up",
+          "drop",
+          "turn right",
+          "go forward",
+          "turn left",
+          "go forward"
+        ],
+        "expected_initial_observation_sha256": "1c8c2bcc6fe75a9133a40001d6009632500fdac58074b96463fe81370a24d2c9",
+        "expected_transitions": [
+          {
+            "observation": "2565bd3f33059a49c70ff2a16ec906611b6b64b5c1d21242023f5c56c7f567b4",
+            "executed_action": "turn left",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "3020c9d087adf0884542a903f070fca87934d75b515336b85bda301892586a0e",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "6d92ac10f6c1de08fbbed5370ef69b16d6f76cb41e3ae83b09fa9e361436ecb8",
+            "executed_action": "turn left",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "13789cc880f347aa68a8ce1bcafe6040a39a338e20f8d3b5104891cde1aeba13",
+            "executed_action": "pick up",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "6d92ac10f6c1de08fbbed5370ef69b16d6f76cb41e3ae83b09fa9e361436ecb8",
+            "executed_action": "drop",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "3020c9d087adf0884542a903f070fca87934d75b515336b85bda301892586a0e",
+            "executed_action": "turn right",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "ffc7d15753cafa1f2060f2fc35a78a8e7147e07745f247e1a3d174e6159a37a8",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "6fdd8bdb5c3041f01c53238924069b04c369d54e434e98d60e180710ea02e1ab",
+            "executed_action": "turn left",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "f6fad67b1592adadd254526f5d4cf23c29db8280d6f082555c5f6ea3099f32f6",
+            "executed_action": "go forward",
+            "reward": 0.93671875,
+            "terminated": true,
+            "truncated": false
+          }
+        ],
+        "expected_progression": 1.0
+      }
+    },
+    {
+      "episode": {
+        "task_id": "babyai-goto-seed-6",
+        "task": "BabyAI-MixedTrainLocal-v0/goto",
+        "seed": 6,
+        "babyai_kwargs": {
+          "num_dists": 0
+        },
+        "expected_mission": "go to the grey box",
+        "expected_max_steps": 64,
+        "expected_initial_observation_sha256": "2ebfcb30c8f36807d2d1ac1a154068fe28ba2fad74fe0f8d8f28f4f8dbe5f63a"
+      },
+      "oracle": {
+        "actions": [
+          "go forward",
+          "turn left"
+        ],
+        "expected_initial_observation_sha256": "2ebfcb30c8f36807d2d1ac1a154068fe28ba2fad74fe0f8d8f28f4f8dbe5f63a",
+        "expected_transitions": [
+          {
+            "observation": "797332dee2b6120f41c2f9c770afe1337a28089c5ef8f98fbb535e3af1f7cd86",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "5efac3e8c3be4e94ec202513c35a1f659f925524a80f4129f16ff2719f5bc98d",
+            "executed_action": "turn left",
+            "reward": 0.971875,
+            "terminated": true,
+            "truncated": false
+          }
+        ],
+        "expected_progression": 1.0
+      }
+    },
+    {
+      "episode": {
+        "task_id": "babyai-pickup-seed-6",
+        "task": "BabyAI-MixedTrainLocal-v0/pickup",
+        "seed": 6,
+        "babyai_kwargs": {
+          "num_dists": 0
+        },
+        "expected_mission": "pick up the grey box",
+        "expected_max_steps": 64,
+        "expected_initial_observation_sha256": "a26ad4e469484c90df558bce331e6ec8744192e93e2beb5fe2305e160cad7b2e"
+      },
+      "oracle": {
+        "actions": [
+          "go forward",
+          "turn left",
+          "pick up"
+        ],
+        "expected_initial_observation_sha256": "a26ad4e469484c90df558bce331e6ec8744192e93e2beb5fe2305e160cad7b2e",
+        "expected_transitions": [
+          {
+            "observation": "30c248e75b29af6379f43c02fe68a12dde24de47ed1a868099d9cfdef600db26",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "aea0a7b00ba73f3d16e97331b4a250d5ab6693b361151c191ae4ff763ac0d14b",
+            "executed_action": "turn left",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "f1bd079263bef3c3e0e42553bdddbef7cad6eff18821cc6e64336717cbd54486",
+            "executed_action": "pick up",
+            "reward": 0.9578125,
+            "terminated": true,
+            "truncated": false
+          }
+        ],
+        "expected_progression": 1.0
+      }
+    },
+    {
+      "episode": {
+        "task_id": "babyai-open-seed-6",
+        "task": "BabyAI-MixedTrainLocal-v0/open",
+        "seed": 6,
+        "babyai_kwargs": {
+          "num_dists": 0
+        },
+        "expected_mission": "open the blue door",
+        "expected_max_steps": 128,
+        "expected_initial_observation_sha256": "fe3a876dc376d7c820d94384f66db1a22c9cae4e5af4a23c38f1063f36848162"
+      },
+      "oracle": {
+        "actions": [
+          "turn left",
+          "turn left",
+          "go forward",
+          "go forward",
+          "go forward",
+          "go forward",
+          "go forward",
+          "turn right",
+          "go forward",
+          "pick up",
+          "go forward",
+          "turn right",
+          "go forward",
+          "go forward",
+          "go forward",
+          "go forward",
+          "go forward",
+          "toggle"
+        ],
+        "expected_initial_observation_sha256": "fe3a876dc376d7c820d94384f66db1a22c9cae4e5af4a23c38f1063f36848162",
+        "expected_transitions": [
+          {
+            "observation": "897e5d2507e5e69d9a9dd76f7d58d87205c0a0f9d2a68e074918cecc1cb9dada",
+            "executed_action": "turn left",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "2ddaa6422ed3e03548237115647cf3eb225bc8c00fbfee9044515068aebd6521",
+            "executed_action": "turn left",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "9002c03fb81a87dc18d415632303a90289266dd04d57c1e7cc9d6eea04b96eb6",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "255fc5258c094e51e250e50ac014d32d52d73d784f2e6c2037f38965f0529e2f",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "3b79fc0a26e4a3f6f9d71efdfedbe9f80bf8bb43bef54504f752e0e55d34e356",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "395255fab609eff9de2699457f95bda7241c377d64f0477eb85fb49ead200e21",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "239608f926bb4745e5f38080fe535176d123aad71fc3310fe4f47270ae6c4a53",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "05783e2a9358d7ad95773bf9266a4f73689159063aa82efe46c93cf7b44f5bce",
+            "executed_action": "turn right",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "0e8916fc527cce20bb84701afe262dc2869a76d6247e5df63dc47da09df61aa2",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "aec21f8068a437c2d701b61e9ffe931e9624cc5f259a9eb5659118c96a187bcc",
+            "executed_action": "pick up",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "719c52c7a4f525ed3551eceef74fb4470a2601340a43d2a19cfccc65d7698a37",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "96bae0c105ec90c7d7ce47ba46f6540fba00f1b7c4d75c7429d00f268d27b6d8",
+            "executed_action": "turn right",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "4581b1710f8b9f2255a8638ea5bef54b1c487806d1c0d046826cb416dc98fd72",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "e496c87d520222ab8a01b4156d1e8fdb0af4e9ab52b4ccbacb07f5558a8a9362",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "6035f4b8cd2a8b2c7308ca41a630c07c6ca5a992b674c641668f98e3bb8fbcc1",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "f5d56b0086cc6ef7534f0364dec6079d867da6192129cdcf19d142259519353a",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "a9dc95eea49e7d5bdd2309e51ea1f3e5cdabe518c6b2e2837d8ff42c885cd3eb",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "84f2e4e16e97ac0eb5986f8d83eb22a7cbb8021409d162bfdf39649d85473166",
+            "executed_action": "toggle",
+            "reward": 0.8734375,
+            "terminated": true,
+            "truncated": false
+          }
+        ],
+        "expected_progression": 1.0
+      }
+    },
+    {
+      "episode": {
+        "task_id": "babyai-putnext-seed-6",
+        "task": "BabyAI-MixedTrainLocal-v0/putnext",
+        "seed": 6,
+        "babyai_kwargs": {
+          "num_dists": 0
+        },
+        "expected_mission": "put the grey ball next to the grey box",
+        "expected_max_steps": 128,
+        "expected_initial_observation_sha256": "b7b7b0a525c7e7c5ecb8cea582e376550c27e5a54621a2a7f6cfab50651dfe68"
+      },
+      "oracle": {
+        "actions": [
+          "turn right",
+          "go forward",
+          "turn right",
+          "go forward",
+          "pick up",
+          "turn right",
+          "go forward",
+          "go forward",
+          "turn right",
+          "drop"
+        ],
+        "expected_initial_observation_sha256": "b7b7b0a525c7e7c5ecb8cea582e376550c27e5a54621a2a7f6cfab50651dfe68",
+        "expected_transitions": [
+          {
+            "observation": "d56ca3fcecad16b5accdaece1e77d7c78a56f5a41470c233a2ae0fe17ebc52dd",
+            "executed_action": "turn right",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "46f33e3f08db67700b1bbb30201a9c9a76c552464910cd2f8e6c7f2ca89a9fd8",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "6e2bbce7d75dfc58eff7595db152ddf5d9a91dc7fe9daeec447c6ce8dbba111a",
+            "executed_action": "turn right",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "6f329f2ba65db0d8cea54b46779e8ef019ee72936499527b5824da021a2db13c",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "76666ae8ddcdb126547a64f369df68dda35e2ef6ff5fd1297ab20371b396d17a",
+            "executed_action": "pick up",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "7ff12d4076997d57e567c0c0dfc732d50d67c5b1486e0a758e447f9a6acad56d",
+            "executed_action": "turn right",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "9573a1bbee31454239eb2e9eb9444f2a7a953b2294e46b9896d5b96009bc7b86",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "e29fec23e3f533e1769bd21db6990442d83e346bc9aab962fe088665db95bd1a",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "39b272e376b4a5cf3f233a73b994c9313de3c48c54c5046727bc5dcf3df8de87",
+            "executed_action": "turn right",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "d24d7b10bf48dbb7bd0aa49815f79710987ec8d39a8a4290f2cc1584972985cd",
+            "executed_action": "drop",
+            "reward": 0.9296875,
+            "terminated": true,
+            "truncated": false
+          }
+        ],
+        "expected_progression": 1.0
+      }
+    },
+    {
+      "episode": {
+        "task_id": "babyai-pick-up-seq-go-to-seed-6",
+        "task": "BabyAI-MixedTrainLocal-v0/pick_up_seq_go_to",
+        "seed": 6,
+        "babyai_kwargs": {
+          "num_dists": 0
+        },
+        "expected_mission": "go to the grey box after you pick up the grey ball",
+        "expected_max_steps": 128,
+        "expected_initial_observation_sha256": "65874821e0e47af3c6aca9f67b66a71bcda68f2f9e8d080ba91b46c5cbe4518b"
+      },
+      "oracle": {
+        "actions": [
+          "turn right",
+          "go forward",
+          "turn right",
+          "go forward",
+          "pick up",
+          "drop",
+          "turn right",
+          "go forward",
+          "go forward",
+          "turn right",
+          "go forward"
+        ],
+        "expected_initial_observation_sha256": "65874821e0e47af3c6aca9f67b66a71bcda68f2f9e8d080ba91b46c5cbe4518b",
+        "expected_transitions": [
+          {
+            "observation": "264ec9296575fd12ad27c54fc7039c3e15a640bfd0354a86a3e0d6ab457012e3",
+            "executed_action": "turn right",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "fb89c968e97699bf0907d893a5c89abb92fe3417fa2ad405133ad80cec9a105f",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "b9add3080915328b24ba109f1b65ff01ad33944c883c2ddeb844045cf3c5b377",
+            "executed_action": "turn right",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "12e76933e5945cbd750710b4395c2fca0b43f4372294be0bc9a298ddb3a4d711",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "d59f98f361475ad7a246635973a8e0b3659be9814906511f106ab4b538a436f0",
+            "executed_action": "pick up",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "12e76933e5945cbd750710b4395c2fca0b43f4372294be0bc9a298ddb3a4d711",
+            "executed_action": "drop",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "bc20731780c8a25ff977ad1a01a32027d46ebbcc37a3ad42015f1e7e56149fef",
+            "executed_action": "turn right",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "463382940e676473c0499392231cd9485d23b75d879c8f547b9939c7240e9a35",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "eda00d01ad0421a94e721f7b4b0b4729bb4c7e12f5a365e892b9bbd92b0e6c53",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "c281c24a117524dd88b8de629e418996134d1d3cf154cd77de4a0be55ea9442b",
+            "executed_action": "turn right",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "bfb137356cbda23f0d6ddc4c68e1e057c33dc3b39a42a3c7da1252a98fa197f5",
+            "executed_action": "go forward",
+            "reward": 0.92265625,
+            "terminated": true,
+            "truncated": false
+          }
+        ],
+        "expected_progression": 1.0
+      }
+    },
+    {
+      "episode": {
+        "task_id": "babyai-goto-seed-7",
+        "task": "BabyAI-MixedTrainLocal-v0/goto",
+        "seed": 7,
+        "babyai_kwargs": {
+          "num_dists": 0
+        },
+        "expected_mission": "go to the green key",
+        "expected_max_steps": 64,
+        "expected_initial_observation_sha256": "2827321d7410333e005be89c80817934a13c4779a53cbf57ef8c2cc55735ee05"
+      },
+      "oracle": {
+        "actions": [
+          "go forward",
+          "go forward",
+          "go forward",
+          "go forward",
+          "turn left",
+          "go forward"
+        ],
+        "expected_initial_observation_sha256": "2827321d7410333e005be89c80817934a13c4779a53cbf57ef8c2cc55735ee05",
+        "expected_transitions": [
+          {
+            "observation": "47366f0b49ec812a32efb0e529b99d9e045c0e5ec4a47493ef5df334a806a913",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "d6ed4bc87311d51237dc45bc7490a2e9216f572d3af5fc23fa58c62766653ea5",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "ab7601cdf57ba89b3e43464bc150f5b1b1fa1f67a315cc288db17d152b2c278d",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "a3303a02fbebca51bd583366bf5c455fcf0ab796c5700454c6d6b3d2b4edc9b6",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "e3f59c2b706b47c482749e9f5ee7db7fddd850b6d9d4e5ad97c18f8d76c66453",
+            "executed_action": "turn left",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "660de9a7985eaf127043dec1765adef2dcd8d7a23d1b262f6e55847352945d56",
+            "executed_action": "go forward",
+            "reward": 0.915625,
+            "terminated": true,
+            "truncated": false
+          }
+        ],
+        "expected_progression": 1.0
+      }
+    },
+    {
+      "episode": {
+        "task_id": "babyai-pickup-seed-7",
+        "task": "BabyAI-MixedTrainLocal-v0/pickup",
+        "seed": 7,
+        "babyai_kwargs": {
+          "num_dists": 0
+        },
+        "expected_mission": "pick up the green key",
+        "expected_max_steps": 64,
+        "expected_initial_observation_sha256": "dd245a8e0ca7fa5933d4a4b9a64c00678e2465b2ddca471d299cf489961c3e4e"
+      },
+      "oracle": {
+        "actions": [
+          "go forward",
+          "go forward",
+          "go forward",
+          "go forward",
+          "turn left",
+          "go forward",
+          "pick up"
+        ],
+        "expected_initial_observation_sha256": "dd245a8e0ca7fa5933d4a4b9a64c00678e2465b2ddca471d299cf489961c3e4e",
+        "expected_transitions": [
+          {
+            "observation": "3ac0f8f36062139478b60324594f41613ba10ce03714e18b16e2af3bf3f811e1",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "77c94321b946520d93e73f1708c801925489e8fde49a58da03bf1e36c3616b0f",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "452f441b943badbc286543294349775839cae0dfa713cd03371109b05702cda7",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "6324fdd04863d1ecc2da155f091ddf803b0001054c8591c3bacaa9b58eb214fd",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "5426f15cacbef5d8b296281effa32d682e0bcdf97e83d17068617d73829acf13",
+            "executed_action": "turn left",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "e3f8032087bf10f7e709faf7e6ce7fd4e6145a9d94ed3711802893689ab7361d",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "386171e9c19fb85dc44fae6aa181df8872aea31dd4a16825123dbaaa65f11391",
+            "executed_action": "pick up",
+            "reward": 0.9015625,
+            "terminated": true,
+            "truncated": false
+          }
+        ],
+        "expected_progression": 1.0
+      }
+    },
+    {
+      "episode": {
+        "task_id": "babyai-open-seed-7",
+        "task": "BabyAI-MixedTrainLocal-v0/open",
+        "seed": 7,
+        "babyai_kwargs": {
+          "num_dists": 0
+        },
+        "expected_mission": "open the door",
+        "expected_max_steps": 128,
+        "expected_initial_observation_sha256": "a89e9d59c1d56bbbfb09b5a9262d6d0baabdc02eb1d97b44c3f7ddb87a1da023"
+      },
+      "oracle": {
+        "actions": [
+          "turn right",
+          "turn right",
+          "turn right",
+          "turn left",
+          "turn left",
+          "pick up",
+          "turn right",
+          "go forward",
+          "go forward",
+          "turn right",
+          "go forward",
+          "go forward",
+          "go forward",
+          "toggle"
+        ],
+        "expected_initial_observation_sha256": "a89e9d59c1d56bbbfb09b5a9262d6d0baabdc02eb1d97b44c3f7ddb87a1da023",
+        "expected_transitions": [
+          {
+            "observation": "3d4c261e3fefef4b78f391c48d56ecd9497349c9fb7edc3f92e757e5863f38c3",
+            "executed_action": "turn right",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "346bf00af911b97338fa9a133b5dc3e3db86733ac3104b29d74b4de00d4f1dfe",
+            "executed_action": "turn right",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "f859605026601c2bff372cf0d7073d76dd416e17a6beddebdd9d662871893a07",
+            "executed_action": "turn right",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "346bf00af911b97338fa9a133b5dc3e3db86733ac3104b29d74b4de00d4f1dfe",
+            "executed_action": "turn left",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "3d4c261e3fefef4b78f391c48d56ecd9497349c9fb7edc3f92e757e5863f38c3",
+            "executed_action": "turn left",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "7d585e2e30c3a4806045226889aef5e96010f0126adf86be76004a874faa950f",
+            "executed_action": "pick up",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "6fe96654900452e7b63d546f7b65797964efa466ad0f5192c9560294c81bdf43",
+            "executed_action": "turn right",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "e98e030399f5fa9b77598a032f233d387d7b93587979cb72fd8085b68fa798af",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "90121571f0e088819b3f12701f6d0803f0c8bb47ed2f0308b126f7423cadcc08",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "583ff069e41e22b2bd334c361e3b787569eb63ff68c4ef241390198ee1e34b51",
+            "executed_action": "turn right",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "a71dc58507bafa79effe9e9fe5181eaf259823d650d78d7caccbe65766d6bb7a",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "38c0d749f71d0f6f61b562590cdcc52c8ce3f12e431cbbbf55e673e0ef44192b",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "4434474c7bdbc7c9f9c5062f08f6b0515f881469ed70981901912a851f91d4aa",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "f0476eaede27ece9140a4f3b0cfa68384a7cf9ab4d98fb041cfcccf42277adca",
+            "executed_action": "toggle",
+            "reward": 0.9015625,
+            "terminated": true,
+            "truncated": false
+          }
+        ],
+        "expected_progression": 1.0
+      }
+    },
+    {
+      "episode": {
+        "task_id": "babyai-putnext-seed-7",
+        "task": "BabyAI-MixedTrainLocal-v0/putnext",
+        "seed": 7,
+        "babyai_kwargs": {
+          "num_dists": 0
+        },
+        "expected_mission": "put the yellow ball next to the grey key",
+        "expected_max_steps": 128,
+        "expected_initial_observation_sha256": "7982f802289a3120f9fdfe62c5a68678c21408f26861eeb40f66ff4c172662a3"
+      },
+      "oracle": {
+        "actions": [
+          "turn right",
+          "turn right",
+          "go forward",
+          "pick up",
+          "go forward",
+          "go forward",
+          "go forward",
+          "turn right",
+          "drop"
+        ],
+        "expected_initial_observation_sha256": "7982f802289a3120f9fdfe62c5a68678c21408f26861eeb40f66ff4c172662a3",
+        "expected_transitions": [
+          {
+            "observation": "a0fbcb140c0938b62153a922020e7e25e7ca7b37c94394a23b6b870b4b068eec",
+            "executed_action": "turn right",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "ca849fe290047a74f5f1a6bf46130495394594c5b7c0c342689cee2195b4eaac",
+            "executed_action": "turn right",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "e5c47bfb476d3efe24cee5027900e399b8c2fb06a0304629c5773882adcffbe2",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "429c94a6aca49c125d759fab137ebe5829172d7316c1e4b243abe0e1ba6dda69",
+            "executed_action": "pick up",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "032cac3f9404b130bb1b91ac895d3a1115f3adb2dc5efa413457842870440abf",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "ededdb56920ff63df096fa16b00728602f4d391c4318a4c900a55096a1780bf1",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "48ca2d7d0996d2e7464bdc7f4224a7b6617b1cd0841a8b8424b0bbcae32a6dd9",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "a2683cb88d4727d414c7f90278159c201cee62ec532f595d86b373b76d9a8015",
+            "executed_action": "turn right",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "1027072bfdfadd0ee23cbe34ebc26ade46799661fc65b1961f9fa03a3fabd6a2",
+            "executed_action": "drop",
+            "reward": 0.93671875,
+            "terminated": true,
+            "truncated": false
+          }
+        ],
+        "expected_progression": 1.0
+      }
+    },
+    {
+      "episode": {
+        "task_id": "babyai-pick-up-seq-go-to-seed-7",
+        "task": "BabyAI-MixedTrainLocal-v0/pick_up_seq_go_to",
+        "seed": 7,
+        "babyai_kwargs": {
+          "num_dists": 0
+        },
+        "expected_mission": "go to the green box after you pick up the purple ball",
+        "expected_max_steps": 128,
+        "expected_initial_observation_sha256": "71aafdee1eb19ea10d9eada5e76e62fac1435394312043b1914f996e8aaa6875"
+      },
+      "oracle": {
+        "actions": [
+          "go forward",
+          "go forward",
+          "turn right",
+          "go forward",
+          "pick up",
+          "drop",
+          "turn right",
+          "go forward",
+          "turn left",
+          "go forward"
+        ],
+        "expected_initial_observation_sha256": "71aafdee1eb19ea10d9eada5e76e62fac1435394312043b1914f996e8aaa6875",
+        "expected_transitions": [
+          {
+            "observation": "8464f0c0fd2eeb2430ad4f0b969310ad1cdd08d8e560f4e5cfc9aad5557240c4",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "aff173d5207eb18f8f97aa5cc8b6fa00f878ab834384b0059a902bdac54c2a40",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "b1b436c9ad771bc75c7ab25f106091419112622c37cc941abbd0752a2e59705b",
+            "executed_action": "turn right",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "8c582893b3cb4c079bb9cebd860f02e0c4ff8bdbbe2ac9f82e7dd70aad9f27f6",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "806c82f72363d6c6420924a2814282e292631723b71013272cdb9ca759c69dab",
+            "executed_action": "pick up",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "8c582893b3cb4c079bb9cebd860f02e0c4ff8bdbbe2ac9f82e7dd70aad9f27f6",
+            "executed_action": "drop",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "49f2b16e2857e7d2e141d7d1669053496e57d8934176bb02e76045ffdcb121e5",
+            "executed_action": "turn right",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "ac0504d6d54fa39697bcd3fab9c4351a41e67357f8df332e7ffe160f7f1c502f",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "ab69f185b1290ca52062526f78cb624fa6b63b36cdd08fc7e7a2bdbe1f162e7f",
+            "executed_action": "turn left",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "3217f2c66ba4880dcceb784d87797b75c7f096c02033bf5c968664f8d660188e",
+            "executed_action": "go forward",
+            "reward": 0.9296875,
+            "terminated": true,
+            "truncated": false
+          }
+        ],
+        "expected_progression": 1.0
+      }
+    },
+    {
+      "episode": {
+        "task_id": "babyai-goto-seed-8",
+        "task": "BabyAI-MixedTrainLocal-v0/goto",
+        "seed": 8,
+        "babyai_kwargs": {
+          "num_dists": 0
+        },
+        "expected_mission": "go to the yellow key",
+        "expected_max_steps": 64,
+        "expected_initial_observation_sha256": "9ba0f1ebfa3c570776c09ca6f761e7408a8edf5df0f01b5b29b8aa7075b9cec8"
+      },
+      "oracle": {
+        "actions": [
+          "turn right",
+          "go forward",
+          "go forward",
+          "go forward",
+          "turn right",
+          "go forward",
+          "go forward"
+        ],
+        "expected_initial_observation_sha256": "9ba0f1ebfa3c570776c09ca6f761e7408a8edf5df0f01b5b29b8aa7075b9cec8",
+        "expected_transitions": [
+          {
+            "observation": "ef9f6e0368b7c41b922070ec3da2725c1d94106806be65d1079c6481b8d48c82",
+            "executed_action": "turn right",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "82fc60585c34ca6344bad74dd61dddd3cd181d360f1e8327ef1c8a2cf6617d27",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "1462cf3c7ba4734900153a449461fb5bbb0dad87df4f5ac78815d3a75acb9b05",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "387454e2f08a506b144239e133b6c3bccea08c73e22a7e8d4024de44a733034e",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "56712f5636d9e49fe76408e6172b5ce89a979fba96003a3299851da8f92c7419",
+            "executed_action": "turn right",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "292ad36d2fe1e97ed7f11cd328bb419c7d03a214fe8e45d7c489a2ddf941f444",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "c61aad4e6a7f412221bc13d3b134d22534a9181b8b1b827f0ae9fbc4590958bf",
+            "executed_action": "go forward",
+            "reward": 0.9015625,
+            "terminated": true,
+            "truncated": false
+          }
+        ],
+        "expected_progression": 1.0
+      }
+    },
+    {
+      "episode": {
+        "task_id": "babyai-pickup-seed-8",
+        "task": "BabyAI-MixedTrainLocal-v0/pickup",
+        "seed": 8,
+        "babyai_kwargs": {
+          "num_dists": 0
+        },
+        "expected_mission": "pick up the yellow key",
+        "expected_max_steps": 64,
+        "expected_initial_observation_sha256": "8d225704260714eb21ae8e2bce7428feb1160163224454babcc9dce61193ef0b"
+      },
+      "oracle": {
+        "actions": [
+          "turn right",
+          "go forward",
+          "go forward",
+          "go forward",
+          "turn right",
+          "go forward",
+          "go forward",
+          "pick up"
+        ],
+        "expected_initial_observation_sha256": "8d225704260714eb21ae8e2bce7428feb1160163224454babcc9dce61193ef0b",
+        "expected_transitions": [
+          {
+            "observation": "18cae82488cade45536ff7f912d83e2444be4c9db73353a1d722f3fc9753cbd1",
+            "executed_action": "turn right",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "5143a9908bcbdbedc1a9e8550cbf938dab0da0d8b679ba4ff275c9f6c174170c",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "a6e0cd1e6812c75fc2b8dfdbd618fbab97b948d549cf229c66dbe9ca6914ab74",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "4da7f3af5027fb15b9ab8fec49d3b36ba48c6c0d709b0b642a93f8f626516016",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "aa0caf9a9b52676db78df586e17bed11813f6a2af7d3db8a17179a3bc03e22e8",
+            "executed_action": "turn right",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "6028cfc6eab8eb01e64b2dff84352554fcb9a80d6012b5beab2c56322daed9d0",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "2424799f94ebd6b49b61133f3981d9839ce2131034ac9056c7fe5b7649d7fcc6",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "3b67d62d2f6a5652e5779a14bd1ea4bd757769f581366b20c70dfb96f20fcbf1",
+            "executed_action": "pick up",
+            "reward": 0.8875,
+            "terminated": true,
+            "truncated": false
+          }
+        ],
+        "expected_progression": 1.0
+      }
+    },
+    {
+      "episode": {
+        "task_id": "babyai-open-seed-8",
+        "task": "BabyAI-MixedTrainLocal-v0/open",
+        "seed": 8,
+        "babyai_kwargs": {
+          "num_dists": 0
+        },
+        "expected_mission": "open the door",
+        "expected_max_steps": 128,
+        "expected_initial_observation_sha256": "6f9dbe60ffbba9352a7729b94b7d8461b7f0cab3da8bb38a7f90f5e28ac31698"
+      },
+      "oracle": {
+        "actions": [
+          "turn right",
+          "go forward",
+          "pick up",
+          "turn left",
+          "go forward",
+          "go forward",
+          "go forward",
+          "turn left",
+          "go forward",
+          "turn right",
+          "toggle"
+        ],
+        "expected_initial_observation_sha256": "6f9dbe60ffbba9352a7729b94b7d8461b7f0cab3da8bb38a7f90f5e28ac31698",
+        "expected_transitions": [
+          {
+            "observation": "23bf5af5eec740a8c520533a8990c10adba67b9c692eec0db54260de83958c26",
+            "executed_action": "turn right",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "eceb628d79fc08dceef41b96fb5342841d92e5d454b39e45ea87960e109e698c",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "8f91e3f29d7be904ac2a60b6cfc1d4ca6744365cac415c47bcea59c464c16438",
+            "executed_action": "pick up",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "63b051d6af83f90d109c5df45c21800d2555f8bbb47a59892cc2a288c5e02a12",
+            "executed_action": "turn left",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "82e0ec4ecd3d84ab9333a01ca9b47bb289e2f78f3f33b8db8ab0d434aa27f0a8",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "8129f7b90f60a109d545d0a5687f46133d65a077a2fc07ad759da5c242606bac",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "1557a17433e73aac97f75b57dd2b19a10b5b1c67e71323eff28492c90920bcae",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "dc5bfe4369dd607ce1f1dd23631ddef71ce30027b8b4befe7f2f6408bbdab90c",
+            "executed_action": "turn left",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "055de8e280f11e9b52e4ca0c3f901822d36d31cd54bfe32b0be3003c0515f623",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "f0d9308ed2a2244a05b53d3fc9ac664210fd6bf6d9948d96073c87c66f94526c",
+            "executed_action": "turn right",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "ede479a4507413e33931e3172cda30f9760aa4431e88d2b97711d25c8851f265",
+            "executed_action": "toggle",
+            "reward": 0.92265625,
+            "terminated": true,
+            "truncated": false
+          }
+        ],
+        "expected_progression": 1.0
+      }
+    },
+    {
+      "episode": {
+        "task_id": "babyai-putnext-seed-8",
+        "task": "BabyAI-MixedTrainLocal-v0/putnext",
+        "seed": 8,
+        "babyai_kwargs": {
+          "num_dists": 0
+        },
+        "expected_mission": "put the yellow key next to the red ball",
+        "expected_max_steps": 128,
+        "expected_initial_observation_sha256": "6af0df65802f0f045ce4e437b073ef77bf28afb21cd24be5c523b92ea4b50c43"
+      },
+      "oracle": {
+        "actions": [
+          "turn right",
+          "go forward",
+          "go forward",
+          "go forward",
+          "turn right",
+          "go forward",
+          "go forward",
+          "pick up",
+          "go forward",
+          "turn right",
+          "drop"
+        ],
+        "expected_initial_observation_sha256": "6af0df65802f0f045ce4e437b073ef77bf28afb21cd24be5c523b92ea4b50c43",
+        "expected_transitions": [
+          {
+            "observation": "14ba1c81a1e87699d7ec38c5c8c067414a58d98babda9523faf8f48d7a2a2177",
+            "executed_action": "turn right",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "ceb09e07a2c89a31337c3f88c4ba82b4b69c9ec47c2b6d40083b1f7ef25f34eb",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "09062e5acecab548005d51aa4026021e1f7bebbbc2280a7a7ce282cdcc5f03d7",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "2404b3b43dbd69745a165cd5af3d1096c22fd18aafceb98f53917a9e76862f4b",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "b5bf229b086364d41b77b78131216d979ab594f5101890fd2a508b45206f6186",
+            "executed_action": "turn right",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "42856bd401d39ebbfd9e4653a16a8b1cb13759b7adc01a9b09a13f5a440cd7cf",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "d57916848017209e5596612c383a2bdfd34f271918c0003ab8c0c39fe2fbcd51",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "f0aebda73d828ae580dc18b05b71f60ab09d4ef7fb019111217dfbbb8ae39b81",
+            "executed_action": "pick up",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "7ed16851a9282d7d55338593244ca0780e179ae038dd09e88754dc9931e35f0f",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "ede54c467c11be25c9da7f784fc8537c05a22dc999e391206f255684cf4a3df1",
+            "executed_action": "turn right",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "9678774382e6ab2577b288c1d40d9f9a05b58e1c0ecc9edb6b35264995117b47",
+            "executed_action": "drop",
+            "reward": 0.92265625,
+            "terminated": true,
+            "truncated": false
+          }
+        ],
+        "expected_progression": 1.0
+      }
+    },
+    {
+      "episode": {
+        "task_id": "babyai-pick-up-seq-go-to-seed-8",
+        "task": "BabyAI-MixedTrainLocal-v0/pick_up_seq_go_to",
+        "seed": 8,
+        "babyai_kwargs": {
+          "num_dists": 0
+        },
+        "expected_mission": "pick up the yellow key, then go to the red ball",
+        "expected_max_steps": 128,
+        "expected_initial_observation_sha256": "5556d3a0b742ce0a44b99b3bf1be2b99762ebb4e11480581aac24175deaf52f5"
+      },
+      "oracle": {
+        "actions": [
+          "turn right",
+          "go forward",
+          "go forward",
+          "go forward",
+          "turn right",
+          "go forward",
+          "go forward",
+          "pick up",
+          "drop",
+          "turn right"
+        ],
+        "expected_initial_observation_sha256": "5556d3a0b742ce0a44b99b3bf1be2b99762ebb4e11480581aac24175deaf52f5",
+        "expected_transitions": [
+          {
+            "observation": "ffbfacdc5e7d8ad85671f3e0c05cb4cc4b89228bb5f246ca4ca945bb170f7ec9",
+            "executed_action": "turn right",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "d931851650edc8710868b6d4e4635c64aca8b95654bb1ca536063a0b304a7397",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "597a37587f03329c04cc47b54d31b076254b37772b564a5dda455284e386256a",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "3009b6de47128c46a145184bfa5de6e04a176b10819df4df81d653b8a4a7be87",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "df1262e7f21ca35f3aac5a69990eaa11a05bdd0b66266a397f6c2409cceded50",
+            "executed_action": "turn right",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "2357c197ed1975f57e976cd0bd6f6424d3c95f9d0ca5349b04668c0fae00c24d",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "dee66a8e26a909a5d0cecdb1badcd7782ad24885d25805e182b25f1c20c8a018",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "7fb60aa26dd777e9ee2533c3fb246520c2fff2ff9fbd34d89b6dba00a76c646d",
+            "executed_action": "pick up",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "dee66a8e26a909a5d0cecdb1badcd7782ad24885d25805e182b25f1c20c8a018",
+            "executed_action": "drop",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "3648c85a34b5457930fada4c5e7865dfc746c1ab13edb9570dea1506fd90c8bf",
+            "executed_action": "turn right",
+            "reward": 0.9296875,
+            "terminated": true,
+            "truncated": false
+          }
+        ],
+        "expected_progression": 1.0
+      }
+    },
+    {
+      "episode": {
+        "task_id": "babyai-goto-seed-9",
+        "task": "BabyAI-MixedTrainLocal-v0/goto",
+        "seed": 9,
+        "babyai_kwargs": {
+          "num_dists": 0
+        },
+        "expected_mission": "go to the green key",
+        "expected_max_steps": 64,
+        "expected_initial_observation_sha256": "613cd099910f35058936b8c3b4faafcebc25d50b5c219d8f7cf877fb9d2a28be"
+      },
+      "oracle": {
+        "actions": [
+          "go forward",
+          "turn right"
+        ],
+        "expected_initial_observation_sha256": "613cd099910f35058936b8c3b4faafcebc25d50b5c219d8f7cf877fb9d2a28be",
+        "expected_transitions": [
+          {
+            "observation": "64a417b9c17f3474a0c96e89d92873c13af7d7e58b7613a2f7c893ebb6e55ea3",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "660de9a7985eaf127043dec1765adef2dcd8d7a23d1b262f6e55847352945d56",
+            "executed_action": "turn right",
+            "reward": 0.971875,
+            "terminated": true,
+            "truncated": false
+          }
+        ],
+        "expected_progression": 1.0
+      }
+    },
+    {
+      "episode": {
+        "task_id": "babyai-pickup-seed-9",
+        "task": "BabyAI-MixedTrainLocal-v0/pickup",
+        "seed": 9,
+        "babyai_kwargs": {
+          "num_dists": 0
+        },
+        "expected_mission": "pick up the green key",
+        "expected_max_steps": 64,
+        "expected_initial_observation_sha256": "c59dfa670da4939e2a183ca1ebc28b9989016b48453ca4b558465e4d9d62adf1"
+      },
+      "oracle": {
+        "actions": [
+          "go forward",
+          "turn right",
+          "pick up"
+        ],
+        "expected_initial_observation_sha256": "c59dfa670da4939e2a183ca1ebc28b9989016b48453ca4b558465e4d9d62adf1",
+        "expected_transitions": [
+          {
+            "observation": "df0c5d12c2834e2a706b4b8be4f55aeaff326ad2e43973b1957cd1bd57db594c",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "e3f8032087bf10f7e709faf7e6ce7fd4e6145a9d94ed3711802893689ab7361d",
+            "executed_action": "turn right",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "ca358006d3a2a9637261b7ebcb77bdf88c4feabdf25282b91e05feb0bc58a6d6",
+            "executed_action": "pick up",
+            "reward": 0.9578125,
+            "terminated": true,
+            "truncated": false
+          }
+        ],
+        "expected_progression": 1.0
+      }
+    },
+    {
+      "episode": {
+        "task_id": "babyai-open-seed-9",
+        "task": "BabyAI-MixedTrainLocal-v0/open",
+        "seed": 9,
+        "babyai_kwargs": {
+          "num_dists": 0
+        },
+        "expected_mission": "open the door",
+        "expected_max_steps": 128,
+        "expected_initial_observation_sha256": "680a756cc05128c8d403f9b3ef68b5acea55f13fe6a744e13eb7d166dbbb41f6"
+      },
+      "oracle": {
+        "actions": [
+          "turn left",
+          "go forward",
+          "turn left",
+          "pick up",
+          "go forward",
+          "turn right",
+          "go forward",
+          "go forward",
+          "go forward",
+          "go forward",
+          "toggle"
+        ],
+        "expected_initial_observation_sha256": "680a756cc05128c8d403f9b3ef68b5acea55f13fe6a744e13eb7d166dbbb41f6",
+        "expected_transitions": [
+          {
+            "observation": "7c885dd4770958501240a9353e060a7e30de5e09473595176ba28efcfa9fa373",
+            "executed_action": "turn left",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "e01b12ec7f111ee65ffb98b1d966647007a88b70fe1c712fe739cabc3e61b431",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "f49d55cb8cd1eb2b22e62e635a3196b81e270463ba004d2eb887deb697732e28",
+            "executed_action": "turn left",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "9696b23718c50c921ad32d2498adb8cd9578bd29ef48255a3919fd97fc8cbd5e",
+            "executed_action": "pick up",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "407b1d3a30866352d5a251feb020fb5b646b9d7925b3454909bd81ca2ee19fa3",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "46d116bbb313d707a4188119dad9bdaf3f91b34a259adcc6b5832cac7f35801c",
+            "executed_action": "turn right",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "01fcd51c05a3405135dc4a202fd931164aa4566d7f3d4e8dbe4b2890d1152fb7",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "cad19b77ffa54246cc3d131513c1c1991f05fdfed813b6d9094db2d9997f3aa9",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "c79601604668c2470e5fd7ef1feae270f17f9e50a7c02d8020c1827a3603f396",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "3f321e4a2f4e8289d97b746f906f96ac2ba529648139e3bc7dfdea8894a44f05",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "7de9680e94e1476b3d731f2aebd60b7dc6f5cfbaf2fbdc51ac63e15dd7b909a3",
+            "executed_action": "toggle",
+            "reward": 0.92265625,
+            "terminated": true,
+            "truncated": false
+          }
+        ],
+        "expected_progression": 1.0
+      }
+    },
+    {
+      "episode": {
+        "task_id": "babyai-putnext-seed-9",
+        "task": "BabyAI-MixedTrainLocal-v0/putnext",
+        "seed": 9,
+        "babyai_kwargs": {
+          "num_dists": 0
+        },
+        "expected_mission": "put the red ball next to the green key",
+        "expected_max_steps": 128,
+        "expected_initial_observation_sha256": "19d56ff27ab1e20d96b8bd2193a7db290167f5afd152063df4e4b7103faf1d76"
+      },
+      "oracle": {
+        "actions": [
+          "turn right",
+          "go forward",
+          "go forward",
+          "go forward",
+          "turn left",
+          "pick up",
+          "go forward",
+          "turn left",
+          "drop"
+        ],
+        "expected_initial_observation_sha256": "19d56ff27ab1e20d96b8bd2193a7db290167f5afd152063df4e4b7103faf1d76",
+        "expected_transitions": [
+          {
+            "observation": "adec698a8a7c394520f6887c8a6fefe43ececa23da5bfe2d4998f1205391ae88",
+            "executed_action": "turn right",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "588137d3b002e3bde8fb4624010728d84b00890f466e34d651a13a3337961e51",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "171a63257c9d41bedbeb307d6e3704ab8a41a4164c746004ef4298f5188c850f",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "19ec2c9492e26e58fbec80eb14fa8e3cd7b3a3ecc6e08231818a0e5514c6d9fc",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "0bd9ab7a4fe8f0d3349651e90375f26be396b3e010f29fd3006cd841d0c69470",
+            "executed_action": "turn left",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "3d20a79acdec9b74964f5138718da16afc172d8a4b83122a3705da04c318a7e8",
+            "executed_action": "pick up",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "d0f4bebca6c2af27de200537e881a515624716b6ba3d6e8a116b665f743c1d22",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "d1910a3f2e310d68fcd8b2b80510f95d02c79f2a33a8cc5a7b57f5c2b2f2b221",
+            "executed_action": "turn left",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "897114e5d11219735790211206270b1dba17f6f08287da550db14db568ae3b05",
+            "executed_action": "drop",
+            "reward": 0.93671875,
+            "terminated": true,
+            "truncated": false
+          }
+        ],
+        "expected_progression": 1.0
+      }
+    },
+    {
+      "episode": {
+        "task_id": "babyai-pick-up-seq-go-to-seed-9",
+        "task": "BabyAI-MixedTrainLocal-v0/pick_up_seq_go_to",
+        "seed": 9,
+        "babyai_kwargs": {
+          "num_dists": 0
+        },
+        "expected_mission": "pick up the red ball, then go to the green key",
+        "expected_max_steps": 128,
+        "expected_initial_observation_sha256": "db42fb2562c551905abe7b8a9a433240bdbb050c80bfec1dc3bd0d0ffce1d9f9"
+      },
+      "oracle": {
+        "actions": [
+          "turn right",
+          "go forward",
+          "go forward",
+          "go forward",
+          "turn left",
+          "pick up",
+          "drop",
+          "turn left",
+          "go forward",
+          "go forward",
+          "turn right"
+        ],
+        "expected_initial_observation_sha256": "db42fb2562c551905abe7b8a9a433240bdbb050c80bfec1dc3bd0d0ffce1d9f9",
+        "expected_transitions": [
+          {
+            "observation": "f6844eff1d98c729832db44d735ec4b843f8d17a105baefa5fad7f8778eb4289",
+            "executed_action": "turn right",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "38585ebbc0f5dc5b4e4992e6098eb33bbc5c2321804f488e368675e8a09b843e",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "6c6fca34e6767ff540ec3d7a1b8e53e738bebf64e830bde2adb8ec1cb0ef4a12",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "03a44d30bd29bf2a8ea74abf8e7eeb5ac355ca428dc00e7f8401ececafd9ebb7",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "be239e37e57ee59ea9af402097874e6a70cba1ed5996a5823fd880837ba38322",
+            "executed_action": "turn left",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "1f6b31b3bffa5c9736b5197a48845c70b5fb363dfaa7d987d5ab568f91cd09c5",
+            "executed_action": "pick up",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "be239e37e57ee59ea9af402097874e6a70cba1ed5996a5823fd880837ba38322",
+            "executed_action": "drop",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "11da70f55941495f42b4fd91045aa5ec7c2ace05f582d6ee362a0dcb900ae4d5",
+            "executed_action": "turn left",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "3333c4a1d620eed48dd55ca51a7a897fdfb8183555c0a455b0307c5f0bed47ac",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "ba0dde27e90caf091a6dfd5579d0156006a2b3362b99b04e5424475f556ca826",
+            "executed_action": "go forward",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false
+          },
+          {
+            "observation": "76ac0584966b120aa73776077ef2473ccb1d49ae8a51e376d05f06dd3cdf3f6e",
+            "executed_action": "turn right",
+            "reward": 0.92265625,
+            "terminated": true,
+            "truncated": false
+          }
+        ],
+        "expected_progression": 1.0
+      }
+    }
+  ]
+}

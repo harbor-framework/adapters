@@ -1,0 +1,11 @@
+{
+  "task_id": "babyai-goto-seed-0",
+  "task": "BabyAI-MixedTrainLocal-v0/goto",
+  "seed": 0,
+  "babyai_kwargs": {
+    "num_dists": 0
+  },
+  "expected_mission": "go to the green key",
+  "expected_max_steps": 64,
+  "expected_initial_observation_sha256": "324bd78a3160cb76f7254670034ef39e3c99b72476f6a30a888b563deac83314"
+}

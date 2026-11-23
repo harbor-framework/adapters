@@ -1,0 +1,215 @@
+{
+  "schema_version": 1,
+  "harbor_version": "0.26.0",
+  "environment": "docker",
+  "repository_base_commit": "6b081a6f9a5c254771bc58b719ddc81a7cf2c7bf",
+  "execution_revision_note": "Uncommitted separate-verifier migration on this base; exact generated task hashes below.",
+  "task_id": "babyai-goto-seed-0",
+  "scope": "One representative frozen BabyAI task, two submissions, one artifact-only regrade.",
+  "correct_submission": [
+    "go forward",
+    "go forward",
+    "turn right"
+  ],
+  "wrong_submission": {
+    "action": "turn left",
+    "repeat": 64
+  },
+  "control_only_changed_files": [
+    "solution/solve.sh",
+    "solution/wrong_actions.py"
+  ],
+  "trials": {
+    "correct": {
+      "trial_id": "7021e44f-666a-43a6-9d84-4271e0edf7ee",
+      "trial_name": "babyai-goto-seed-0__sdSUCHS",
+      "workspace_path": "research/harbor-jobs/separate-verifier-babyai-correct-v2/babyai-goto-seed-0__sdSUCHS",
+      "task_checksum": "821a936c58c4ce40796ca12111921a92befbeca2c865f300b2fa16382c894bba",
+      "started_at": "2026-11-20T10:06:19.334188Z",
+      "finished_at": "2026-11-20T10:06:58.724941Z",
+      "reward": 1.0,
+      "native_progression": 1.0,
+      "steps": 3,
+      "terminated": true,
+      "truncated": false,
+      "replay_verified": true,
+      "verifier_environment_mode": "separate",
+      "exception_info": null,
+      "artifact_manifest": [
+        {
+          "source": "/logs/artifacts",
+          "destination": "artifacts/logs/artifacts",
+          "type": "directory",
+          "status": "ok",
+          "service": null,
+          "exclude": []
+        },
+        {
+          "source": "/var/lib/balrog/result.json",
+          "destination": "artifacts/var/lib/balrog/result.json",
+          "type": "file",
+          "status": "ok",
+          "service": "game",
+          "exclude": []
+        }
+      ],
+      "files_sha256": {
+        "result.json": "729cbe60330f3d83568023f740eb1abea64b23d12ce9f2df0d44df6571f68eb4",
+        "agent/oracle.txt": "0ea896f0796e5ee391371cdab2cbf4ca932115d11be36180287b0427b91cb80d",
+        "artifacts/manifest.json": "dcc5490f8ca7ef55449ed80851fcd475bfb27ca94a5f231579a45364dc03f37e",
+        "artifacts/var/lib/balrog/result.json": "60c0bdaea553f880651b83afdbfa5f36bd900bbb106b002f7e9d3755257b03b2",
+        "verifier/result.json": "c3a296932cc99b86028e6025a7145026636d4f5dbcf6f4c4a3cd9a7ad8478ed4",
+        "verifier/reward.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+        "verifier/test-stdout.txt": "fd50eac5058123bfa99e71d1fc0e0399d5e21656a4f1def84b9bf8046ea8a74c",
+        "trial.log": "3def9db3aaa424f425de59d8910c2c7d2b0ceb92749b55cd7450eaa36572b10a"
+      },
+      "job_result_sha256": "db4b77d1615b86d297cde6dce662beb68c535800f4700375dcaf291544efce06"
+    },
+    "wrong": {
+      "trial_id": "9725b17d-2807-435a-8747-6ec58d44e0be",
+      "trial_name": "babyai-goto-seed-0__9YcJD7N",
+      "workspace_path": "research/harbor-jobs/separate-verifier-babyai-wrong-v2/babyai-goto-seed-0__9YcJD7N",
+      "task_checksum": "f592e147b63a1ce7e8135edb4c07abc48709b11fd810118d8aba69e74add962c",
+      "started_at": "2026-11-20T10:07:22.091480Z",
+      "finished_at": "2026-11-20T10:08:07.739188Z",
+      "reward": 0.0,
+      "native_progression": 0.0,
+      "steps": 64,
+      "terminated": false,
+      "truncated": true,
+      "replay_verified": true,
+      "verifier_environment_mode": "separate",
+      "exception_info": null,
+      "artifact_manifest": [
+        {
+          "source": "/logs/artifacts",
+          "destination": "artifacts/logs/artifacts",
+          "type": "directory",
+          "status": "ok",
+          "service": null,
+          "exclude": []
+        },
+        {
+          "source": "/var/lib/balrog/result.json",
+          "destination": "artifacts/var/lib/balrog/result.json",
+          "type": "file",
+          "status": "ok",
+          "service": "game",
+          "exclude": []
+        }
+      ],
+      "files_sha256": {
+        "result.json": "4a7415e5399e30243cbd1ca2179333d11d602279218bd765dd89ef48ed95463f",
+        "agent/oracle.txt": "39683e38bf56556b0b24c05ac11aad931d66d1c0c2b950f915a6179534fcf092",
+        "artifacts/manifest.json": "dcc5490f8ca7ef55449ed80851fcd475bfb27ca94a5f231579a45364dc03f37e",
+        "artifacts/var/lib/balrog/result.json": "317df34df17d492cd9a229ef418a268dc0c93a086ea3ff09f14c2d8395145c3f",
+        "verifier/result.json": "24d62ef7c97204a1df5e13c1b317ea96900ace94db87504065d9338b4f82e16d",
+        "verifier/reward.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "verifier/test-stdout.txt": "b3f32c65fbb55351f0dfca2431cbf6eddd98584b121593a951867234a1ec0cde",
+        "trial.log": "3def9db3aaa424f425de59d8910c2c7d2b0ceb92749b55cd7450eaa36572b10a"
+      },
+      "job_result_sha256": "715efd85f9bb46a704fb6d232a515241f7b376c1ed984cfeb22f916730ae2a29"
+    },
+    "regrade_correct": {
+      "trial_id": "c2d9d5a1-90dd-4804-ac9d-951fd1dc7aa1",
+      "trial_name": "babyai-correct-separate-regrade-v2",
+      "workspace_path": "research/separate-verifier-v2/regrades/babyai-correct-separate-regrade-v2",
+      "task_checksum": "821a936c58c4ce40796ca12111921a92befbeca2c865f300b2fa16382c894bba",
+      "started_at": "2026-11-20T10:07:54.756467Z",
+      "finished_at": "2026-11-20T10:08:12.510509Z",
+      "reward": 1.0,
+      "native_progression": 1.0,
+      "steps": 3,
+      "terminated": true,
+      "truncated": false,
+      "replay_verified": true,
+      "verifier_environment_mode": "separate",
+      "exception_info": null,
+      "artifact_manifest": [
+        {
+          "source": "/logs/artifacts",
+          "destination": "artifacts/logs/artifacts",
+          "type": "directory",
+          "status": "ok",
+          "service": null,
+          "exclude": []
+        },
+        {
+          "source": "/var/lib/balrog/result.json",
+          "destination": "artifacts/var/lib/balrog/result.json",
+          "type": "file",
+          "status": "ok",
+          "service": "game",
+          "exclude": []
+        }
+      ],
+      "files_sha256": {
+        "result.json": "163f623cc2b345db0272d20602bc67128781daa4b52f9276501ad3eb4250f8fa",
+        "agent/oracle.txt": "0ea896f0796e5ee391371cdab2cbf4ca932115d11be36180287b0427b91cb80d",
+        "artifacts/manifest.json": "dcc5490f8ca7ef55449ed80851fcd475bfb27ca94a5f231579a45364dc03f37e",
+        "artifacts/var/lib/balrog/result.json": "60c0bdaea553f880651b83afdbfa5f36bd900bbb106b002f7e9d3755257b03b2",
+        "verifier/result.json": "c3a296932cc99b86028e6025a7145026636d4f5dbcf6f4c4a3cd9a7ad8478ed4",
+        "verifier/reward.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+        "verifier/test-stdout.txt": "fd50eac5058123bfa99e71d1fc0e0399d5e21656a4f1def84b9bf8046ea8a74c",
+        "trial.log": "3474507a4115ed406106852d0b6677e0b76f7b391e1553d2c2d437f9d20237da"
+      },
+      "agent_rerun": false,
+      "game_rerun": false,
+      "source_trial_id": "7021e44f-666a-43a6-9d84-4271e0edf7ee"
+    }
+  },
+  "generated_task_files_sha256": {
+    "environment/docker-compose.yaml": "3ed326cf46bc265ffeec2291eca59fcb7661d0d17ab947c5bc02016fa42e08a9",
+    "environment/Dockerfile": "4051c020af5ee5d7d0ec6b7028c7b64372a26eeded36837b5e9616d58f2d73ff",
+    "environment/Dockerfile.game": "f7658360543858170dc376e8e07c17fb5ad1f414c23b15b16a8782f9be1b23d4",
+    "environment/episode.json": "9960804d0c933c8a3f19fe7ab5e0005863a0b5613d9641dd17ad02079708387a",
+    "environment/export_result.py": "69a24c92f6d55b2f57d0566571e72d99971165543a9d3c40f54ae8b5502a4d29",
+    "environment/game_server.py": "9a3237d76fcbe8cbff773b520a7e23a86efd4d0b982418007525cd506874c2f5",
+    "environment/play.py": "63efa1b8e297cac8bac3dd82254e016b9dd3a32a521137791d60b1566bf0452f",
+    "environment/requirements-agent.in": "8fb18fcc0fedfc40eab2dd809db0ca44e112e631d1a34190a7bf29f7492a70da",
+    "environment/requirements-agent.lock": "e5ad8adbe63dfd3780ef5e804c7d85655289222ea56ece285a003052c7497cbe",
+    "environment/vendor/balrog.tar.gz": "32ceba9536e6e42f71dae0b556ba3bece983ade6720d63790477694c11e4ac17",
+    "environment/vendor/manifest.json": "4a16c61b6a3b6b92c2e0b12605a806491b508f6c1cafc497db19857f31855102",
+    "environment/vendor/minigrid.tar.gz": "7a93f30ff83bb40ad555b5e9341d4083ea20fba98c9d7ded657b3f294ea99341",
+    "instruction.md": "e67760f904909b57aef18d8c7e5ecbb70965f4b9b3e70a97465f52b8bbe1cda3",
+    "solution/oracle_actions.json": "35e1bbf81ef9188b1c9ce43ce4879b6e8c13a1848df3223b336a15553ec17180",
+    "solution/replay_oracle.py": "9ba7f6f5f71e71cde78f15105eb8c90ef5207030faa04a0c2e5e078f408acd4a",
+    "solution/solve.sh": "1d2bf62a5bbbcbae490666c35bf616d593734f171c3075e1d63c4c8f59a82acf",
+    "task.toml": "151bddde656f9dd5f48c1c987384b77359d7dc9fd59da01670331164c52042a7",
+    "tests/Dockerfile": "2e1574e7693520b3ed4d6e48d39d9442d87b566cfbc0e5102d6b858a81d05316",
+    "tests/task_config.json": "9960804d0c933c8a3f19fe7ab5e0005863a0b5613d9641dd17ad02079708387a",
+    "tests/test.sh": "7627be573e10b8dd14e2002f29439739d3073381cccaf409bde0de06ee83212d",
+    "tests/verifier.py": "7998eadaffcc46cb05e1609bc3e10041c023a6f620399aad89ffc2f5deb257c0"
+  },
+  "wrong_task_files_sha256": {
+    "environment/docker-compose.yaml": "3ed326cf46bc265ffeec2291eca59fcb7661d0d17ab947c5bc02016fa42e08a9",
+    "environment/Dockerfile": "4051c020af5ee5d7d0ec6b7028c7b64372a26eeded36837b5e9616d58f2d73ff",
+    "environment/Dockerfile.game": "f7658360543858170dc376e8e07c17fb5ad1f414c23b15b16a8782f9be1b23d4",
+    "environment/episode.json": "9960804d0c933c8a3f19fe7ab5e0005863a0b5613d9641dd17ad02079708387a",
+    "environment/export_result.py": "69a24c92f6d55b2f57d0566571e72d99971165543a9d3c40f54ae8b5502a4d29",
+    "environment/game_server.py": "9a3237d76fcbe8cbff773b520a7e23a86efd4d0b982418007525cd506874c2f5",
+    "environment/play.py": "63efa1b8e297cac8bac3dd82254e016b9dd3a32a521137791d60b1566bf0452f",
+    "environment/requirements-agent.in": "8fb18fcc0fedfc40eab2dd809db0ca44e112e631d1a34190a7bf29f7492a70da",
+    "environment/requirements-agent.lock": "e5ad8adbe63dfd3780ef5e804c7d85655289222ea56ece285a003052c7497cbe",
+    "environment/vendor/balrog.tar.gz": "32ceba9536e6e42f71dae0b556ba3bece983ade6720d63790477694c11e4ac17",
+    "environment/vendor/manifest.json": "4a16c61b6a3b6b92c2e0b12605a806491b508f6c1cafc497db19857f31855102",
+    "environment/vendor/minigrid.tar.gz": "7a93f30ff83bb40ad555b5e9341d4083ea20fba98c9d7ded657b3f294ea99341",
+    "instruction.md": "e67760f904909b57aef18d8c7e5ecbb70965f4b9b3e70a97465f52b8bbe1cda3",
+    "solution/oracle_actions.json": "35e1bbf81ef9188b1c9ce43ce4879b6e8c13a1848df3223b336a15553ec17180",
+    "solution/replay_oracle.py": "9ba7f6f5f71e71cde78f15105eb8c90ef5207030faa04a0c2e5e078f408acd4a",
+    "solution/solve.sh": "20a0f90fa92882011b53c222abba20e4601a5834f1527547274782eeba18529c",
+    "solution/wrong_actions.py": "054e86ae64b764a07609825ea3f496007accd1ba7f87e31800dfca351d8cb26d",
+    "task.toml": "151bddde656f9dd5f48c1c987384b77359d7dc9fd59da01670331164c52042a7",
+    "tests/Dockerfile": "2e1574e7693520b3ed4d6e48d39d9442d87b566cfbc0e5102d6b858a81d05316",
+    "tests/task_config.json": "9960804d0c933c8a3f19fe7ab5e0005863a0b5613d9641dd17ad02079708387a",
+    "tests/test.sh": "7627be573e10b8dd14e2002f29439739d3073381cccaf409bde0de06ee83212d",
+    "tests/verifier.py": "7998eadaffcc46cb05e1609bc3e10041c023a6f620399aad89ffc2f5deb257c0"
+  },
+  "evidence_retention": "All original jobs, generated tasks, submissions, logs and artifact manifests retained locally. Not uploaded to Hugging Face.",
+  "limitations": [
+    "No full six-environment oracle rerun in this migration check.",
+    "Historical 239/255 full-score baseline predates the separate verifier.",
+    "No model parity experiment or model API calls.",
+    "Hashes are integrity records, not signatures or attested image provenance."
+  ]
+}

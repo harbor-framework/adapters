@@ -1,0 +1,417 @@
+{
+  "schema_version": 1,
+  "scope": "Bounded adapted AutoAscend controller research; native fresh-process replay evidence only",
+  "integrity_audit_status": "HOST_V2_REPORT_INTEGRITY_PASSED",
+  "fixed_seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "started_at": "2026-11-21T10:39:50.331744+00:00",
+  "controller_cap": 10000,
+  "wall_timeout_seconds": 900,
+  "native_action_budget": 100000,
+  "native_no_turn_progress_timeout": 150,
+  "total_actions": 49451,
+  "mean_actual_progression": 0.03377614879586564,
+  "outcome_counts": {
+    "bounded_controller_cap_reached": 4,
+    "native_done_not_ascended": 1
+  },
+  "nonempty_exact_replays": 5,
+  "native_ascensions": 0,
+  "protected_files_unchanged": 91,
+  "scorer_patch_applied": false,
+  "active_original_scorer_ceiling": 0.8067964442444019,
+  "official_full_oracles_added": 0,
+  "model_api_calls": 0,
+  "not_model_parity": true,
+  "v2_harbor_task_validation_performed": false,
+  "controller_errors": 0,
+  "all_seeds_maximum_depth": 1,
+  "total_descend_key_62_actions": 0,
+  "confirmed_wield_events": 7,
+  "v1_comparison": {
+    "v1_controller_cap": 2000,
+    "v1_wall_timeout_seconds": 300,
+    "v1_total_actions": 9140,
+    "v1_mean_actual_progression": 0.020344989568140043
+  },
+  "cases": [
+    {
+      "seed": 0,
+      "actions": 10000,
+      "status": "controller_cap",
+      "outcome": "bounded_controller_cap_reached",
+      "actual_progression": 0.036887590648350246,
+      "native_end_reason": null,
+      "controller_error": false,
+      "terminated": false,
+      "truncated": false,
+      "native_ascended": false,
+      "ended_alive": true,
+      "native_episode_active_at_stop": true,
+      "final_depth": 1,
+      "max_depth": 1,
+      "final_experience_level": 6,
+      "max_experience_level": 6,
+      "final_experience_points": 336,
+      "max_experience_points": 336,
+      "native_internal_steps": 10782,
+      "descend_key_62_count": 0,
+      "error": "Controller probe action cap reached; native budget unchanged",
+      "wield_confirmation_events": [],
+      "wield_confirmed_count": 0,
+      "wield_unconfirmed_count": 0,
+      "v1_prefix_comparison": {
+        "shared_transitions": 2000,
+        "all_shared_transitions_identical": true,
+        "entire_v1_prefix_retained": true,
+        "v1_actions": 2000,
+        "v1_status": "controller_cap"
+      },
+      "v1": {
+        "actions": 2000,
+        "status": "controller_cap",
+        "actual_progression": 0.02081163581974355,
+        "max_depth": 1,
+        "max_experience_level": 3,
+        "error": "Controller probe action cap reached; native budget unchanged"
+      },
+      "evidence": {
+        "case": {
+          "logical_path": "research/nle_autoascend_results/five_seed_v2_10000/seed-0.json",
+          "sha256": "e8b7bb50446ebf18450e88b89deba855dfa27a7103c61333b967fb2398f29215"
+        },
+        "replay": {
+          "logical_path": "research/nle_autoascend_results/five_seed_v2_10000/seed-0-replay.json",
+          "sha256": "394a04db10b19620bab32063ad44595fd4a87fd6d228d04e9d38c58dd5648412"
+        },
+        "fresh_process": true,
+        "all_transitions_equal": true,
+        "steps": 10000,
+        "first_difference": null,
+        "trace_sha256": "54d16ae0a08d8358128471ceb34b43bfee9f8fb84cb471b34f17723415e796ff",
+        "source_case_sha256": "e8b7bb50446ebf18450e88b89deba855dfa27a7103c61333b967fb2398f29215"
+      }
+    },
+    {
+      "seed": 1,
+      "actions": 10000,
+      "status": "controller_cap",
+      "outcome": "bounded_controller_cap_reached",
+      "actual_progression": 0.036887590648350246,
+      "native_end_reason": null,
+      "controller_error": false,
+      "terminated": false,
+      "truncated": false,
+      "native_ascended": false,
+      "ended_alive": true,
+      "native_episode_active_at_stop": true,
+      "final_depth": 1,
+      "max_depth": 1,
+      "final_experience_level": 6,
+      "max_experience_level": 6,
+      "final_experience_points": 338,
+      "max_experience_points": 338,
+      "native_internal_steps": 10337,
+      "descend_key_62_count": 0,
+      "error": "Controller probe action cap reached; native budget unchanged",
+      "wield_confirmation_events": [
+        {
+          "bot_step": 1140,
+          "letter": "a",
+          "message": "Hachi drops a crude arrow.",
+          "confirmed": true
+        },
+        {
+          "bot_step": 1459,
+          "letter": "a",
+          "message": "Hachi bites the newt.  The newt is killed!",
+          "confirmed": true
+        },
+        {
+          "bot_step": 6242,
+          "letter": "a",
+          "message": "The wererat misses!",
+          "confirmed": true
+        },
+        {
+          "bot_step": 6370,
+          "letter": "a",
+          "message": "Hachi bites the dwarf zombie.  The dwarf zombie is destroyed!",
+          "confirmed": true
+        },
+        {
+          "bot_step": 9537,
+          "letter": "a",
+          "message": "The giant rat is killed!",
+          "confirmed": true
+        },
+        {
+          "bot_step": 9599,
+          "letter": "a",
+          "message": "The giant rat is killed!",
+          "confirmed": true
+        },
+        {
+          "bot_step": 9604,
+          "letter": "c",
+          "message": "The coyote is killed!",
+          "confirmed": true
+        }
+      ],
+      "wield_confirmed_count": 7,
+      "wield_unconfirmed_count": 0,
+      "v1_prefix_comparison": {
+        "shared_transitions": 1140,
+        "all_shared_transitions_identical": true,
+        "entire_v1_prefix_retained": true,
+        "v1_actions": 1140,
+        "v1_status": "controller_error"
+      },
+      "v1": {
+        "actions": 1140,
+        "status": "controller_error",
+        "actual_progression": 0.01847840456172601,
+        "max_depth": 1,
+        "max_experience_level": 2,
+        "error": {
+          "type": "AssertionError",
+          "message": "('Hachi drops a crude arrow.', [])"
+        }
+      },
+      "evidence": {
+        "case": {
+          "logical_path": "research/nle_autoascend_results/five_seed_v2_10000/seed-1.json",
+          "sha256": "452ed76fa8b23d58c117344ab59a75087e21ce5821e23364ce884b06a904f7af"
+        },
+        "replay": {
+          "logical_path": "research/nle_autoascend_results/five_seed_v2_10000/seed-1-replay.json",
+          "sha256": "76013ca42b5c6fe69ec6d70f7822e2fcc1bb74995568bf58afff00dafd891c48"
+        },
+        "fresh_process": true,
+        "all_transitions_equal": true,
+        "steps": 10000,
+        "first_difference": null,
+        "trace_sha256": "0ecd779713e72feeb60be297e4608dc735183e88f52dbb0172146b7d1a062886",
+        "source_case_sha256": "452ed76fa8b23d58c117344ab59a75087e21ce5821e23364ce884b06a904f7af"
+      }
+    },
+    {
+      "seed": 2,
+      "actions": 10000,
+      "status": "controller_cap",
+      "outcome": "bounded_controller_cap_reached",
+      "actual_progression": 0.036887590648350246,
+      "native_end_reason": null,
+      "controller_error": false,
+      "terminated": false,
+      "truncated": false,
+      "native_ascended": false,
+      "ended_alive": true,
+      "native_episode_active_at_stop": true,
+      "final_depth": 1,
+      "max_depth": 1,
+      "final_experience_level": 6,
+      "max_experience_level": 6,
+      "final_experience_points": 373,
+      "max_experience_points": 373,
+      "native_internal_steps": 10847,
+      "descend_key_62_count": 0,
+      "error": "Controller probe action cap reached; native budget unchanged",
+      "wield_confirmation_events": [],
+      "wield_confirmed_count": 0,
+      "wield_unconfirmed_count": 0,
+      "v1_prefix_comparison": {
+        "shared_transitions": 2000,
+        "all_shared_transitions_identical": true,
+        "entire_v1_prefix_retained": true,
+        "v1_actions": 2000,
+        "v1_status": "controller_cap"
+      },
+      "v1": {
+        "actions": 2000,
+        "status": "controller_cap",
+        "actual_progression": 0.02081163581974355,
+        "max_depth": 1,
+        "max_experience_level": 3,
+        "error": "Controller probe action cap reached; native budget unchanged"
+      },
+      "evidence": {
+        "case": {
+          "logical_path": "research/nle_autoascend_results/five_seed_v2_10000/seed-2.json",
+          "sha256": "9b9b2ae026f0954ebc3f8f6cae9c4ac35c6d09caa4750600042f4590deabed45"
+        },
+        "replay": {
+          "logical_path": "research/nle_autoascend_results/five_seed_v2_10000/seed-2-replay.json",
+          "sha256": "289fcbb5759c8614f32a9f7a5774ddad8b55834b72423128e1e328b3cd7dfb86"
+        },
+        "fresh_process": true,
+        "all_transitions_equal": true,
+        "steps": 10000,
+        "first_difference": null,
+        "trace_sha256": "aa55901218669cc4c3ae6eb28940fc38064c3231a28f0120c1224c558fa51621",
+        "source_case_sha256": "9b9b2ae026f0954ebc3f8f6cae9c4ac35c6d09caa4750600042f4590deabed45"
+      }
+    },
+    {
+      "seed": 3,
+      "actions": 10000,
+      "status": "controller_cap",
+      "outcome": "bounded_controller_cap_reached",
+      "actual_progression": 0.029108986017138745,
+      "native_end_reason": null,
+      "controller_error": false,
+      "terminated": false,
+      "truncated": false,
+      "native_ascended": false,
+      "ended_alive": true,
+      "native_episode_active_at_stop": true,
+      "final_depth": 1,
+      "max_depth": 1,
+      "final_experience_level": 5,
+      "max_experience_level": 5,
+      "final_experience_points": 254,
+      "max_experience_points": 254,
+      "native_internal_steps": 12466,
+      "descend_key_62_count": 0,
+      "error": "Controller probe action cap reached; native budget unchanged",
+      "wield_confirmation_events": [],
+      "wield_confirmed_count": 0,
+      "wield_unconfirmed_count": 0,
+      "v1_prefix_comparison": {
+        "shared_transitions": 2000,
+        "all_shared_transitions_identical": true,
+        "entire_v1_prefix_retained": true,
+        "v1_actions": 2000,
+        "v1_status": "controller_cap"
+      },
+      "v1": {
+        "actions": 2000,
+        "status": "controller_cap",
+        "actual_progression": 0.02081163581974355,
+        "max_depth": 1,
+        "max_experience_level": 3,
+        "error": "Controller probe action cap reached; native budget unchanged"
+      },
+      "evidence": {
+        "case": {
+          "logical_path": "research/nle_autoascend_results/five_seed_v2_10000/seed-3.json",
+          "sha256": "3ff693ade9e0e5e21faed0adc7f3154816310a312a1a3e9f337591148779f766"
+        },
+        "replay": {
+          "logical_path": "research/nle_autoascend_results/five_seed_v2_10000/seed-3-replay.json",
+          "sha256": "9629d2982bdb03bab65e03ec172ff7da0e5579052cfa7b035068c57891a77dbe"
+        },
+        "fresh_process": true,
+        "all_transitions_equal": true,
+        "steps": 10000,
+        "first_difference": null,
+        "trace_sha256": "b873298429990420e7fb1e7d7380f78b8926b56fdd05762113cdf52305ee9c35",
+        "source_case_sha256": "3ff693ade9e0e5e21faed0adc7f3154816310a312a1a3e9f337591148779f766"
+      }
+    },
+    {
+      "seed": 4,
+      "actions": 9451,
+      "status": "native_done",
+      "outcome": "native_done_not_ascended",
+      "actual_progression": 0.029108986017138745,
+      "native_end_reason": "DEATH: starved to death.",
+      "controller_error": false,
+      "terminated": true,
+      "truncated": false,
+      "native_ascended": false,
+      "ended_alive": false,
+      "native_episode_active_at_stop": false,
+      "final_depth": 0,
+      "max_depth": 1,
+      "final_experience_level": 0,
+      "max_experience_level": 5,
+      "final_experience_points": 0,
+      "max_experience_points": 238,
+      "native_internal_steps": 14076,
+      "descend_key_62_count": 0,
+      "error": null,
+      "wield_confirmation_events": [],
+      "wield_confirmed_count": 0,
+      "wield_unconfirmed_count": 0,
+      "v1_prefix_comparison": {
+        "shared_transitions": 2000,
+        "all_shared_transitions_identical": true,
+        "entire_v1_prefix_retained": true,
+        "v1_actions": 2000,
+        "v1_status": "controller_cap"
+      },
+      "v1": {
+        "actions": 2000,
+        "status": "controller_cap",
+        "actual_progression": 0.02081163581974355,
+        "max_depth": 1,
+        "max_experience_level": 3,
+        "error": "Controller probe action cap reached; native budget unchanged"
+      },
+      "evidence": {
+        "case": {
+          "logical_path": "research/nle_autoascend_results/five_seed_v2_10000/seed-4.json",
+          "sha256": "609c658073f3e3816e9dd7de148c00113134f430f90c461dbf8a524ba84a4004"
+        },
+        "replay": {
+          "logical_path": "research/nle_autoascend_results/five_seed_v2_10000/seed-4-replay.json",
+          "sha256": "1d2b415750f1ce8cb7b27fea7996a05c0990905cea7d9cc9032f5e84cbf603ff"
+        },
+        "fresh_process": true,
+        "all_transitions_equal": true,
+        "steps": 9451,
+        "first_difference": null,
+        "trace_sha256": "598d702b7e82498c734f00504208592ed7cb406e0acb2e7b1ad83a1a6b1260ab",
+        "source_case_sha256": "609c658073f3e3816e9dd7de148c00113134f430f90c461dbf8a524ba84a4004"
+      }
+    }
+  ],
+  "source_artifacts": {
+    "summary": {
+      "logical_path": "research/nle_autoascend_v2_summary.json",
+      "sha256": "50c3b771ad146efad4bd97f0c9e33996c572bcc8c9b282b53a79dafaf3bd4295"
+    },
+    "audit": {
+      "logical_path": "research/nle_autoascend_results/five_seed_v2_10000_audit.json",
+      "sha256": "fe71d07682b23bba9f60842ca127bfde238c12b75f1159294b90a0ab5e9eb4f4"
+    },
+    "report": {
+      "logical_path": "research/nle_autoascend_v2_report.md",
+      "sha256": "bc3a00f325933e50807de8535c137f383998248f3ee0d96934e3740666ca3168"
+    }
+  },
+  "source_pins": {
+    "bridge_sha256": "15cdc23f3c250b4b675f7bc1e4c8c3201c7ed9e80be17d41591cf579ef62b4c2",
+    "batch_sha256": "e14ac2ab57f5752bccd9761ef43ae5a848b6f35507ce307d7427b11957db630b",
+    "plan_sha256": "faaa7afbacc44cabbb0b26570ded54e3a596ffae89f5d1f2958bc97668ad330e",
+    "summary_sha256": "8de7f3a069a5f1979a367f0d1e6ec501e040dfc68036a4f59e312b4a97653bf0",
+    "checker_sha256": "422aa67ed51c0fb9007d70f6bd55c2afca86bd0fa6a4226474facbb3b10a9855",
+    "helper_sha256": "df94a523db0f4b61842d21bff197e85001277e49d830d7e19583b04fb01f1bd2",
+    "original_scorer_sha256": "7c267bd24c9a78a15176b53738849cb9ce480849c031c6a77021869e0f5aa8f2"
+  },
+  "fixture_sha256": "a3dd82982886f5f1897529883c194dc960889a9a68baa9764ee3c8b08c502a0e",
+  "native_action_inventory_sha256": "8369cc9f0a924848f59b530f5652854414113bc89ca7bb0ad194d7f8c92c0de0",
+  "runtime": {
+    "sha256": "5e3eea7aaae0908dae35771f91741cc2b01600e85f7d01a9b9e1b057fd2016c5",
+    "image": "sha256:45eca5388fe179ec7ede2a1b4dffac4b5795a6b3df39aeeb44a7516784baf60a",
+    "network_mode": "none",
+    "memory_bytes": 1073741824,
+    "nano_cpus": 1000000000,
+    "recorded_runtime_only_not_new_docker_inspection": true
+  },
+  "evidence_availability": "Full raw records, logs, frozen sources and audit remain local under the logical research paths; no raw artifacts uploaded. These paths are identifiers, not repository download links.",
+  "limitations": [
+    "Not model parity, not a complete NLE oracle, and no v2 Harbor task replay.",
+    "The host audit inspects saved evidence; it is not a new game execution.",
+    "V1 and v2 differ in both the wield-confirmation handling and research action/wall limits; score gains cannot be attributed solely to the assertion fix.",
+    "Native termination reason is compared between saved runs, not independently recalculated from raw tty arrays.",
+    "Maximum depth and XP metrics scan every recorded native_blstats row; seed 4 has zeroed terminal stats after starvation.",
+    "The original scorer, official oracle fixtures and production code remain unchanged; scorer proposal unapplied."
+  ]
+}

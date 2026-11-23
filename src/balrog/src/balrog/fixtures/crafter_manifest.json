@@ -1,0 +1,2781 @@
+{
+  "schema_version": 1,
+  "env_name": "crafter",
+  "source_commits": {
+    "balrog": "b7afe79e3e4265811cfa985ed7c95c4d1a11e3f5"
+  },
+  "dependency_versions": {
+    "crafter": "1.8.3",
+    "scipy": "1.15.3",
+    "ruamel.yaml": "0.17.40",
+    "imageio": "2.37.0",
+    "opensimplex": "0.4.5.1"
+  },
+  "scope": "default task, constructor seeds 0-9, original 2000-action budget; no outcome-based filtering",
+  "oracle_status": "Missing full 22-achievement oracles; partial reference traces only",
+  "cases": [
+    {
+      "episode": {
+        "env_name": "crafter",
+        "task": "default",
+        "task_id": "crafter-default-seed-0",
+        "seed": 0,
+        "crafter_kwargs": {
+          "area": [
+            64,
+            64
+          ],
+          "view": [
+            9,
+            9
+          ],
+          "size": [
+            256,
+            256
+          ],
+          "reward": true,
+          "seed": 0,
+          "max_episode_steps": 2000,
+          "unique_items": true,
+          "precise_location": false,
+          "skip_items": [],
+          "edge_only_items": []
+        },
+        "expected_max_steps": 2000,
+        "expected_initial_observation_sha256": "dab335aff671349411c1855b751b84ca9e5dda5a82d71410222cbcf8216f52c5"
+      },
+      "oracle": null,
+      "reference": {
+        "kind": "partial_progress_diagnostic_not_full_oracle",
+        "actions": [
+          "Move West",
+          "Move North",
+          "Move North",
+          "Move North",
+          "Move North",
+          "Do",
+          "Move West",
+          "Move West",
+          "Move North",
+          "Move West",
+          "Move West",
+          "Move West",
+          "Move West",
+          "Do",
+          "Move East",
+          "Move South",
+          "Do"
+        ],
+        "expected_progression": 0.09090909090909091,
+        "expected_terminated": false,
+        "expected_truncated": false,
+        "expected_initial_observation_sha256": "dab335aff671349411c1855b751b84ca9e5dda5a82d71410222cbcf8216f52c5",
+        "expected_transitions": [
+          {
+            "step": 0,
+            "raw_action": "Move West",
+            "executed_action": "Move West",
+            "observation_sha256": "4ac906aa5bd58b0c08d54951270697f953d25781d586d6377c54f424158a89cc",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 1,
+            "raw_action": "Move North",
+            "executed_action": "Move North",
+            "observation_sha256": "9d929f850941077415d25f0d04d1445840cd94c2fc8204880a7845f61ffd1818",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 2,
+            "raw_action": "Move North",
+            "executed_action": "Move North",
+            "observation_sha256": "179bf35f60e27f2bcf17b0cdf52bdf13801f59f288cc109eb791a269948f2aa3",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 3,
+            "raw_action": "Move North",
+            "executed_action": "Move North",
+            "observation_sha256": "ebc642b3b6b99d92138e22a5bf402b864be3c06199e24ef78c2bbd49b7c62baa",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 4,
+            "raw_action": "Move North",
+            "executed_action": "Move North",
+            "observation_sha256": "ebc642b3b6b99d92138e22a5bf402b864be3c06199e24ef78c2bbd49b7c62baa",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 5,
+            "raw_action": "Do",
+            "executed_action": "Do",
+            "observation_sha256": "432488744306f6e8c339b803bbfe40f8416f72df6d044311e65c7afcebdd4c5d",
+            "reward": 1.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 6,
+            "raw_action": "Move West",
+            "executed_action": "Move West",
+            "observation_sha256": "644dcca4fc31e95c91ff659f8af855cf0cb36409939acf6cf5f089c830c52fee",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 7,
+            "raw_action": "Move West",
+            "executed_action": "Move West",
+            "observation_sha256": "58fe5d679fc9bafa33b50a8ac2e5b0bffd960fbbc3e1cc421e23d4760047992a",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 8,
+            "raw_action": "Move North",
+            "executed_action": "Move North",
+            "observation_sha256": "90568bd4f0be7f45144a0e187f3097cc48a3dc269dff36a82432f6ed3bf834b3",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 9,
+            "raw_action": "Move West",
+            "executed_action": "Move West",
+            "observation_sha256": "dc72f102030ea71bf489cdae18518a9626f90b2eb84ed02e2284faf629e8f66e",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 10,
+            "raw_action": "Move West",
+            "executed_action": "Move West",
+            "observation_sha256": "5f97b71f06bbfa6a0b00453e9eafb170e2efcba1f147cab61a1e1d42dd30bd7d",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 11,
+            "raw_action": "Move West",
+            "executed_action": "Move West",
+            "observation_sha256": "d4dbc4a012b586b25c005ba6054957bde740c4c46e20dfcf50a9c1489750da9d",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 12,
+            "raw_action": "Move West",
+            "executed_action": "Move West",
+            "observation_sha256": "d4dbc4a012b586b25c005ba6054957bde740c4c46e20dfcf50a9c1489750da9d",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 13,
+            "raw_action": "Do",
+            "executed_action": "Do",
+            "observation_sha256": "d4dbc4a012b586b25c005ba6054957bde740c4c46e20dfcf50a9c1489750da9d",
+            "reward": 1.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 14,
+            "raw_action": "Move East",
+            "executed_action": "Move East",
+            "observation_sha256": "5f97b71f06bbfa6a0b00453e9eafb170e2efcba1f147cab61a1e1d42dd30bd7d",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 15,
+            "raw_action": "Move South",
+            "executed_action": "Move South",
+            "observation_sha256": "b922786ac1158170aed048eb92dae814d6d5f5bc694381e09e041dd7e705714a",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 16,
+            "raw_action": "Do",
+            "executed_action": "Do",
+            "observation_sha256": "7ffd6a05538b5d6d8e1259814bb4ccd2cbdd3576de7c0e1451773616da012264",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          }
+        ]
+      },
+      "validation": {
+        "replay_verified": true,
+        "progression": 0.09090909090909091,
+        "steps": 17,
+        "full_oracle_available": false
+      }
+    },
+    {
+      "episode": {
+        "env_name": "crafter",
+        "task": "default",
+        "task_id": "crafter-default-seed-1",
+        "seed": 1,
+        "crafter_kwargs": {
+          "area": [
+            64,
+            64
+          ],
+          "view": [
+            9,
+            9
+          ],
+          "size": [
+            256,
+            256
+          ],
+          "reward": true,
+          "seed": 1,
+          "max_episode_steps": 2000,
+          "unique_items": true,
+          "precise_location": false,
+          "skip_items": [],
+          "edge_only_items": []
+        },
+        "expected_max_steps": 2000,
+        "expected_initial_observation_sha256": "71ae1822ec4e0a15d4f78edc322ba77e083d226a3e973cbae203b9a2bd1a3b3e"
+      },
+      "oracle": null,
+      "reference": {
+        "kind": "partial_progress_diagnostic_not_full_oracle",
+        "actions": [
+          "Move East",
+          "Move East",
+          "Move East",
+          "Move East",
+          "Do",
+          "Move East",
+          "Move East",
+          "Move East",
+          "Move East",
+          "Move South",
+          "Move East",
+          "Move South",
+          "Move South",
+          "Move East",
+          "Move East",
+          "Move East",
+          "Move East",
+          "Move East",
+          "Move East",
+          "Move East",
+          "Do",
+          "Move South",
+          "Do"
+        ],
+        "expected_progression": 0.09090909090909091,
+        "expected_terminated": false,
+        "expected_truncated": false,
+        "expected_initial_observation_sha256": "71ae1822ec4e0a15d4f78edc322ba77e083d226a3e973cbae203b9a2bd1a3b3e",
+        "expected_transitions": [
+          {
+            "step": 0,
+            "raw_action": "Move East",
+            "executed_action": "Move East",
+            "observation_sha256": "10ecd72d46f1358a75509f018d07c3e19fed22993699ecfdb1c00943ce787db8",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 1,
+            "raw_action": "Move East",
+            "executed_action": "Move East",
+            "observation_sha256": "11fdded9eb2a8b00fc72a3926b25fb9a286d38568e05fd287b970650c5278ca0",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 2,
+            "raw_action": "Move East",
+            "executed_action": "Move East",
+            "observation_sha256": "04233bb2f7e5a79d1978c5c80506244e6ffc36d546f0508f3ff007dbcaff348d",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 3,
+            "raw_action": "Move East",
+            "executed_action": "Move East",
+            "observation_sha256": "04233bb2f7e5a79d1978c5c80506244e6ffc36d546f0508f3ff007dbcaff348d",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 4,
+            "raw_action": "Do",
+            "executed_action": "Do",
+            "observation_sha256": "d5740bdbd9e7129fa3d8c8259dd5a5fae282018f7a94584fa5e45350e57d5840",
+            "reward": 1.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 5,
+            "raw_action": "Move East",
+            "executed_action": "Move East",
+            "observation_sha256": "73b6d1b5b0d07f8bbbfe53671577808e384c700f3d6c4165bf9f2d38b2079bd2",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 6,
+            "raw_action": "Move East",
+            "executed_action": "Move East",
+            "observation_sha256": "110cb6130ffafe81ee96fc02e460a58d65490571b123a2e2f725b35ddca4996c",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 7,
+            "raw_action": "Move East",
+            "executed_action": "Move East",
+            "observation_sha256": "0aa3e1906f66ebb562083900f82a122133452bce4a5ee91ee5531de15a3a7c3b",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 8,
+            "raw_action": "Move East",
+            "executed_action": "Move East",
+            "observation_sha256": "d68d1dc66bb6d348e4385469cbc5167b014a1445bdffafce56fd9cd3cb29f777",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 9,
+            "raw_action": "Move South",
+            "executed_action": "Move South",
+            "observation_sha256": "044920975f55fb15bf6c73e2e49576e6b88b09a94f5ddc7a628211440a57f0c3",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 10,
+            "raw_action": "Move East",
+            "executed_action": "Move East",
+            "observation_sha256": "0bf6f0ec341ba71092fed93bbad6eceba52f1402a01dfb7d7bbc0b9806170324",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 11,
+            "raw_action": "Move South",
+            "executed_action": "Move South",
+            "observation_sha256": "b8a54457b730e04b25dcedbd071920e9a63336a121d3d68ce6a25c9a893a08d0",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 12,
+            "raw_action": "Move South",
+            "executed_action": "Move South",
+            "observation_sha256": "f73d3a55a31882a1f92b84f635c3aee9ed5d8ea70ae132094b03c85cbeb2e3ae",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 13,
+            "raw_action": "Move East",
+            "executed_action": "Move East",
+            "observation_sha256": "1b21dedcef8752eab1ce64b84596561b98b3dd602638fdd6f5c9b2dc126ae150",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 14,
+            "raw_action": "Move East",
+            "executed_action": "Move East",
+            "observation_sha256": "c6ec66c100d6bc08290da0027b17d4765b6e966ee7b47281825abfe5a52ebec2",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 15,
+            "raw_action": "Move East",
+            "executed_action": "Move East",
+            "observation_sha256": "a5b444300b30b4aa0186da0d3188c86a0bbd3fd878e01a2ef26e6f093bcbcac8",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 16,
+            "raw_action": "Move East",
+            "executed_action": "Move East",
+            "observation_sha256": "e335d4cca276cdbe0d070afb7fa66a7f5095fcfa711a20907f035912ac7496c1",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 17,
+            "raw_action": "Move East",
+            "executed_action": "Move East",
+            "observation_sha256": "18f994eff14fb24caa9116b61986719c81acb33a254aafd5b8f9225b2ea240fd",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 18,
+            "raw_action": "Move East",
+            "executed_action": "Move East",
+            "observation_sha256": "ce9c3b2c3824611eb5cc10cca7c998b9a3492a3f3e6e58c9084d783587baaf9b",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 19,
+            "raw_action": "Move East",
+            "executed_action": "Move East",
+            "observation_sha256": "a0e3af01a6fe68aba944dba846d050ed152152b062c03ffd0e15d6a4aeb9b924",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 20,
+            "raw_action": "Do",
+            "executed_action": "Do",
+            "observation_sha256": "8029cf3c299fcc3666bdc2cac320beeddba939974befdf6158f3b89444797bd7",
+            "reward": 1.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 21,
+            "raw_action": "Move South",
+            "executed_action": "Move South",
+            "observation_sha256": "338c4457c11566811f5b48e71b619e2aea2063536bfd9697c5698acebce87f19",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 22,
+            "raw_action": "Do",
+            "executed_action": "Do",
+            "observation_sha256": "405c13c7fed212af1794a99c56f9209ca2f541142cac59d7f7061711dde2ac5a",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          }
+        ]
+      },
+      "validation": {
+        "replay_verified": true,
+        "progression": 0.09090909090909091,
+        "steps": 23,
+        "full_oracle_available": false
+      }
+    },
+    {
+      "episode": {
+        "env_name": "crafter",
+        "task": "default",
+        "task_id": "crafter-default-seed-2",
+        "seed": 2,
+        "crafter_kwargs": {
+          "area": [
+            64,
+            64
+          ],
+          "view": [
+            9,
+            9
+          ],
+          "size": [
+            256,
+            256
+          ],
+          "reward": true,
+          "seed": 2,
+          "max_episode_steps": 2000,
+          "unique_items": true,
+          "precise_location": false,
+          "skip_items": [],
+          "edge_only_items": []
+        },
+        "expected_max_steps": 2000,
+        "expected_initial_observation_sha256": "a443cc774291229cff3141320a6ec280ad989b3ef6f7f525373a3a8dc1608a34"
+      },
+      "oracle": null,
+      "reference": {
+        "kind": "partial_progress_diagnostic_not_full_oracle",
+        "actions": [
+          "Move West",
+          "Move West",
+          "Move West",
+          "Move South",
+          "Move South",
+          "Do",
+          "Move East",
+          "Move South",
+          "Move South",
+          "Move South",
+          "Move South",
+          "Move South",
+          "Do",
+          "Move West",
+          "Do"
+        ],
+        "expected_progression": 0.09090909090909091,
+        "expected_terminated": false,
+        "expected_truncated": false,
+        "expected_initial_observation_sha256": "a443cc774291229cff3141320a6ec280ad989b3ef6f7f525373a3a8dc1608a34",
+        "expected_transitions": [
+          {
+            "step": 0,
+            "raw_action": "Move West",
+            "executed_action": "Move West",
+            "observation_sha256": "1a2e445a6fe010d135316bcfa7ba59c6096323c5ce913d42800fd0fa101002d0",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 1,
+            "raw_action": "Move West",
+            "executed_action": "Move West",
+            "observation_sha256": "dc27bc5ea570bba76f6ca0ae92c881c4ed0da54894c5843718a0ad427c9accfc",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 2,
+            "raw_action": "Move West",
+            "executed_action": "Move West",
+            "observation_sha256": "91e03ccbfc1f2182290e7e4e9da4d0c9fbc800dccd4beffa31b6d8ff03575bcf",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 3,
+            "raw_action": "Move South",
+            "executed_action": "Move South",
+            "observation_sha256": "31337bae0093e6db544c3a5f48fa1e4c91fe16d8def9013245ba4e17cbb7b04c",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 4,
+            "raw_action": "Move South",
+            "executed_action": "Move South",
+            "observation_sha256": "31337bae0093e6db544c3a5f48fa1e4c91fe16d8def9013245ba4e17cbb7b04c",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 5,
+            "raw_action": "Do",
+            "executed_action": "Do",
+            "observation_sha256": "81a5916306c006b4f378a6511e21b9bc8dac8a19b038a2eff8707fd4c46b0f10",
+            "reward": 1.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 6,
+            "raw_action": "Move East",
+            "executed_action": "Move East",
+            "observation_sha256": "4908a5b154b5b9dcc8e16b3696d0fe5393f132e7a99d348d00b4083736b05402",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 7,
+            "raw_action": "Move South",
+            "executed_action": "Move South",
+            "observation_sha256": "0a77dd22c4f30eab2f41f5e538e4334783a8c629af319278b6ffc05d91cefc21",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 8,
+            "raw_action": "Move South",
+            "executed_action": "Move South",
+            "observation_sha256": "de7f221eeb467f076c4376dc1d78112998df3c349ac316a6ab8c5cb05d8eb4c3",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 9,
+            "raw_action": "Move South",
+            "executed_action": "Move South",
+            "observation_sha256": "257d9d6b743dfd0414b44b2d4e445699a5cd0a470d7e829593907888d6dd7b5a",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 10,
+            "raw_action": "Move South",
+            "executed_action": "Move South",
+            "observation_sha256": "3b6997205f00aff83df7a5ba277b1a9bd17803e4c071bd62239beb2fe4ead144",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 11,
+            "raw_action": "Move South",
+            "executed_action": "Move South",
+            "observation_sha256": "3b6997205f00aff83df7a5ba277b1a9bd17803e4c071bd62239beb2fe4ead144",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 12,
+            "raw_action": "Do",
+            "executed_action": "Do",
+            "observation_sha256": "3b6997205f00aff83df7a5ba277b1a9bd17803e4c071bd62239beb2fe4ead144",
+            "reward": 1.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 13,
+            "raw_action": "Move West",
+            "executed_action": "Move West",
+            "observation_sha256": "0bad83bdf1f76d855ce23e07b43c9d745a0410c7b523c65bdbbad059cd4792c5",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 14,
+            "raw_action": "Do",
+            "executed_action": "Do",
+            "observation_sha256": "c13678950af8a12ac94c4e0a9e76726040319a81683470f58e58253ca4630256",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          }
+        ]
+      },
+      "validation": {
+        "replay_verified": true,
+        "progression": 0.09090909090909091,
+        "steps": 15,
+        "full_oracle_available": false
+      }
+    },
+    {
+      "episode": {
+        "env_name": "crafter",
+        "task": "default",
+        "task_id": "crafter-default-seed-3",
+        "seed": 3,
+        "crafter_kwargs": {
+          "area": [
+            64,
+            64
+          ],
+          "view": [
+            9,
+            9
+          ],
+          "size": [
+            256,
+            256
+          ],
+          "reward": true,
+          "seed": 3,
+          "max_episode_steps": 2000,
+          "unique_items": true,
+          "precise_location": false,
+          "skip_items": [],
+          "edge_only_items": []
+        },
+        "expected_max_steps": 2000,
+        "expected_initial_observation_sha256": "561a1555a9b967eeb0791ef54b87010e14f5ec5630ce61f6a6b82ff450ca189f"
+      },
+      "oracle": null,
+      "reference": {
+        "kind": "partial_progress_diagnostic_not_full_oracle",
+        "actions": [
+          "Move West",
+          "Move West",
+          "Move West",
+          "Move West",
+          "Move West",
+          "Do",
+          "Move East",
+          "Move East",
+          "Move East",
+          "Move East",
+          "Move East",
+          "Move South",
+          "Move South",
+          "Move South",
+          "Move South",
+          "Move South",
+          "Move South",
+          "Do",
+          "Move West",
+          "Move West",
+          "Move West",
+          "Do"
+        ],
+        "expected_progression": 0.09090909090909091,
+        "expected_terminated": false,
+        "expected_truncated": false,
+        "expected_initial_observation_sha256": "561a1555a9b967eeb0791ef54b87010e14f5ec5630ce61f6a6b82ff450ca189f",
+        "expected_transitions": [
+          {
+            "step": 0,
+            "raw_action": "Move West",
+            "executed_action": "Move West",
+            "observation_sha256": "40550216e9585b81e5ce436026f1b3e79c2fe881adb29624844573e7e3b122ed",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 1,
+            "raw_action": "Move West",
+            "executed_action": "Move West",
+            "observation_sha256": "374214f60d6a917ff38da211c23187a9606dc5006d6327d8a43018c8dca03dad",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 2,
+            "raw_action": "Move West",
+            "executed_action": "Move West",
+            "observation_sha256": "e83a2a3e5e8c4e2a9b6c84ff368beeed1d5cef9034bc5a28d64e1127ce6261c2",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 3,
+            "raw_action": "Move West",
+            "executed_action": "Move West",
+            "observation_sha256": "7cee727ab5dd52fae042c887b2ac89a041e228c5708f8bbdc6360e3311494efb",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 4,
+            "raw_action": "Move West",
+            "executed_action": "Move West",
+            "observation_sha256": "7cee727ab5dd52fae042c887b2ac89a041e228c5708f8bbdc6360e3311494efb",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 5,
+            "raw_action": "Do",
+            "executed_action": "Do",
+            "observation_sha256": "740ea8c3a7a941bc6f361bc6b61f3a5d2d48a5370f3b5adb6e79c77c16082b93",
+            "reward": 1.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 6,
+            "raw_action": "Move East",
+            "executed_action": "Move East",
+            "observation_sha256": "2e1a85846725a6da3595e30f2708f55c5c8321ba1689fd847b74a547aa597a98",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 7,
+            "raw_action": "Move East",
+            "executed_action": "Move East",
+            "observation_sha256": "1b5f9d6cdb124df224a0d6c7b75d4ba6c1c07bde2607367ca94228ee6966fbc4",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 8,
+            "raw_action": "Move East",
+            "executed_action": "Move East",
+            "observation_sha256": "0f536cd3e4dbf361614172fb3035d01369a52678ef111bd785473c7be63586b0",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 9,
+            "raw_action": "Move East",
+            "executed_action": "Move East",
+            "observation_sha256": "965a37f579014f94263f7ba297cbbc6873ecbdcbfeb560d63f41f819d5cea72c",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 10,
+            "raw_action": "Move East",
+            "executed_action": "Move East",
+            "observation_sha256": "1d1fb73f387dad9c2ce16a4ed61bf12436da98ffa320c68290e8208899f60522",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 11,
+            "raw_action": "Move South",
+            "executed_action": "Move South",
+            "observation_sha256": "3d4c496f27ec22f7cc94146749563b617cf955d1e0f0b9b3298b422ff2518b37",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 12,
+            "raw_action": "Move South",
+            "executed_action": "Move South",
+            "observation_sha256": "dd2fcfa3d175c0a0276ef2daa4d5a2816ed3b59a9c769fa0c3900f792cf828e3",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 13,
+            "raw_action": "Move South",
+            "executed_action": "Move South",
+            "observation_sha256": "15658876255ec94411490155b9f20803c20f26ef6ff8a9c396b7416f5a28c2ce",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 14,
+            "raw_action": "Move South",
+            "executed_action": "Move South",
+            "observation_sha256": "47b86af4112b4eba49ea221630e715048c0eaceb494de62c6ced8a5d4c57c17d",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 15,
+            "raw_action": "Move South",
+            "executed_action": "Move South",
+            "observation_sha256": "1c7d24166b81c78d079a60d3e524148c64233870f863f3d472a492736e2163dc",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 16,
+            "raw_action": "Move South",
+            "executed_action": "Move South",
+            "observation_sha256": "1c7d24166b81c78d079a60d3e524148c64233870f863f3d472a492736e2163dc",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 17,
+            "raw_action": "Do",
+            "executed_action": "Do",
+            "observation_sha256": "1c7d24166b81c78d079a60d3e524148c64233870f863f3d472a492736e2163dc",
+            "reward": 1.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 18,
+            "raw_action": "Move West",
+            "executed_action": "Move West",
+            "observation_sha256": "dd54c9106052edc3fb5e867ebf7128a1f91f3a10ef964268510aa7d980bac9c3",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 19,
+            "raw_action": "Move West",
+            "executed_action": "Move West",
+            "observation_sha256": "486b92e486c267c6ff758e18f09273e24f863ec0b06a2e3569a20c9071bb7cd0",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 20,
+            "raw_action": "Move West",
+            "executed_action": "Move West",
+            "observation_sha256": "486b92e486c267c6ff758e18f09273e24f863ec0b06a2e3569a20c9071bb7cd0",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 21,
+            "raw_action": "Do",
+            "executed_action": "Do",
+            "observation_sha256": "b2eeeaf12a8c159101008f0a4a2cdd01ad23e30a7975aa273a8e4c71d9d9e579",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          }
+        ]
+      },
+      "validation": {
+        "replay_verified": true,
+        "progression": 0.09090909090909091,
+        "steps": 22,
+        "full_oracle_available": false
+      }
+    },
+    {
+      "episode": {
+        "env_name": "crafter",
+        "task": "default",
+        "task_id": "crafter-default-seed-4",
+        "seed": 4,
+        "crafter_kwargs": {
+          "area": [
+            64,
+            64
+          ],
+          "view": [
+            9,
+            9
+          ],
+          "size": [
+            256,
+            256
+          ],
+          "reward": true,
+          "seed": 4,
+          "max_episode_steps": 2000,
+          "unique_items": true,
+          "precise_location": false,
+          "skip_items": [],
+          "edge_only_items": []
+        },
+        "expected_max_steps": 2000,
+        "expected_initial_observation_sha256": "2b91826612b6f33a917415c3ee7632be215da3f918e00ddee54e8c78f8916e19"
+      },
+      "oracle": null,
+      "reference": {
+        "kind": "partial_progress_diagnostic_not_full_oracle",
+        "actions": [
+          "Move West",
+          "Move West",
+          "Move West",
+          "Move South",
+          "Move South",
+          "Move South",
+          "Do",
+          "Move South",
+          "Move South",
+          "Move South",
+          "Do",
+          "Move West",
+          "Move North",
+          "Do"
+        ],
+        "expected_progression": 0.09090909090909091,
+        "expected_terminated": false,
+        "expected_truncated": false,
+        "expected_initial_observation_sha256": "2b91826612b6f33a917415c3ee7632be215da3f918e00ddee54e8c78f8916e19",
+        "expected_transitions": [
+          {
+            "step": 0,
+            "raw_action": "Move West",
+            "executed_action": "Move West",
+            "observation_sha256": "f7c5e3d2a7663574bd00e25440e14f573094e3dfcebc3f065e4f6655e4358ca6",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 1,
+            "raw_action": "Move West",
+            "executed_action": "Move West",
+            "observation_sha256": "ad5418161d32496d546490ec7eaff05248c51103872751d11d0563fdc3ec8de1",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 2,
+            "raw_action": "Move West",
+            "executed_action": "Move West",
+            "observation_sha256": "e34ff0dd93522391ad8c28aac99acfd5590cce3e039e08bf6b6eeff985c36b13",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 3,
+            "raw_action": "Move South",
+            "executed_action": "Move South",
+            "observation_sha256": "2c72968bd923001a8c100e3f508d4ec0457aaaed49a36cce07b2d3aaeb3efa44",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 4,
+            "raw_action": "Move South",
+            "executed_action": "Move South",
+            "observation_sha256": "6f997850b0dc2a39e042b18f47ec189399b9b2332a1a5eca1370e0d879e8770b",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 5,
+            "raw_action": "Move South",
+            "executed_action": "Move South",
+            "observation_sha256": "6f997850b0dc2a39e042b18f47ec189399b9b2332a1a5eca1370e0d879e8770b",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 6,
+            "raw_action": "Do",
+            "executed_action": "Do",
+            "observation_sha256": "044a6de44c6df648453c3a39a22868ae3681a6ede8d2fbe1220df71fb0e2a145",
+            "reward": 1.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 7,
+            "raw_action": "Move South",
+            "executed_action": "Move South",
+            "observation_sha256": "f1f643b63daf9f0c58f40e848d7998d4d92ad28d0f723dc75b8ca49b3b9d73ac",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 8,
+            "raw_action": "Move South",
+            "executed_action": "Move South",
+            "observation_sha256": "6c978cdb8ea303116565d5e9c72f5bd4d26b21cc08becea60b98e570dbacf56c",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 9,
+            "raw_action": "Move South",
+            "executed_action": "Move South",
+            "observation_sha256": "6c978cdb8ea303116565d5e9c72f5bd4d26b21cc08becea60b98e570dbacf56c",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 10,
+            "raw_action": "Do",
+            "executed_action": "Do",
+            "observation_sha256": "6c978cdb8ea303116565d5e9c72f5bd4d26b21cc08becea60b98e570dbacf56c",
+            "reward": 1.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 11,
+            "raw_action": "Move West",
+            "executed_action": "Move West",
+            "observation_sha256": "772be639130fa9724d010b58fa1bb5076443144ee3899cc07e3424cbfbc89ab0",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 12,
+            "raw_action": "Move North",
+            "executed_action": "Move North",
+            "observation_sha256": "036cc76733fada1b643bdb8996925bd5f4316b36f7d20f353198e148171fcef2",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 13,
+            "raw_action": "Do",
+            "executed_action": "Do",
+            "observation_sha256": "4bda7f8fe81cb7d64b08187648ad60d28921d10b058f36f6f7ee7a8a408645b1",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          }
+        ]
+      },
+      "validation": {
+        "replay_verified": true,
+        "progression": 0.09090909090909091,
+        "steps": 14,
+        "full_oracle_available": false
+      }
+    },
+    {
+      "episode": {
+        "env_name": "crafter",
+        "task": "default",
+        "task_id": "crafter-default-seed-5",
+        "seed": 5,
+        "crafter_kwargs": {
+          "area": [
+            64,
+            64
+          ],
+          "view": [
+            9,
+            9
+          ],
+          "size": [
+            256,
+            256
+          ],
+          "reward": true,
+          "seed": 5,
+          "max_episode_steps": 2000,
+          "unique_items": true,
+          "precise_location": false,
+          "skip_items": [],
+          "edge_only_items": []
+        },
+        "expected_max_steps": 2000,
+        "expected_initial_observation_sha256": "44408844566d2f725abe1c51faedd58995f3663d97bfbf6d882b983b5fa55241"
+      },
+      "oracle": null,
+      "reference": {
+        "kind": "partial_progress_diagnostic_not_full_oracle",
+        "actions": [
+          "Move West",
+          "Move West",
+          "Move South",
+          "Move South",
+          "Move South",
+          "Move South",
+          "Move South",
+          "Do",
+          "Move West",
+          "Do",
+          "Move North",
+          "Move West",
+          "Move West",
+          "Move West",
+          "Move North",
+          "Move North",
+          "Move North",
+          "Move West",
+          "Move North",
+          "Move North",
+          "Do"
+        ],
+        "expected_progression": 0.09090909090909091,
+        "expected_terminated": false,
+        "expected_truncated": false,
+        "expected_initial_observation_sha256": "44408844566d2f725abe1c51faedd58995f3663d97bfbf6d882b983b5fa55241",
+        "expected_transitions": [
+          {
+            "step": 0,
+            "raw_action": "Move West",
+            "executed_action": "Move West",
+            "observation_sha256": "982138d7b3667fce18fec639767cab8ec1ec8beafcd8e386361e1af340f1cebf",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 1,
+            "raw_action": "Move West",
+            "executed_action": "Move West",
+            "observation_sha256": "a34137f4f8f350a456d6bdc8ee85106bad390e26286800c0e706209ded418591",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 2,
+            "raw_action": "Move South",
+            "executed_action": "Move South",
+            "observation_sha256": "361c0d2f0f727e8788113a79939a13ce204c36a25fda29448fb28bff18c866d6",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 3,
+            "raw_action": "Move South",
+            "executed_action": "Move South",
+            "observation_sha256": "1aeef1774897375129f5ad456ca6bd8390bbf8d0bd59c41c74851a992345db95",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 4,
+            "raw_action": "Move South",
+            "executed_action": "Move South",
+            "observation_sha256": "bdfcbec917b8a05ca1a0c53df880c8e2bd87ea8fca82e06471c2540ab38cf626",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 5,
+            "raw_action": "Move South",
+            "executed_action": "Move South",
+            "observation_sha256": "06e465d7c0edc25e4b1deae2515db12c992d4c133a6aa88b084bd34388498c09",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 6,
+            "raw_action": "Move South",
+            "executed_action": "Move South",
+            "observation_sha256": "06e465d7c0edc25e4b1deae2515db12c992d4c133a6aa88b084bd34388498c09",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 7,
+            "raw_action": "Do",
+            "executed_action": "Do",
+            "observation_sha256": "42612ee05e2aa9267398a259eb585d5bfd6e78d32e782b663cf2950c6f25506c",
+            "reward": 1.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 8,
+            "raw_action": "Move West",
+            "executed_action": "Move West",
+            "observation_sha256": "d6c6097c387444f22bd233986ee0d8ce4fccc3846684b1610738c4951c799bdb",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 9,
+            "raw_action": "Do",
+            "executed_action": "Do",
+            "observation_sha256": "d6c6097c387444f22bd233986ee0d8ce4fccc3846684b1610738c4951c799bdb",
+            "reward": 1.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 10,
+            "raw_action": "Move North",
+            "executed_action": "Move North",
+            "observation_sha256": "7415671596d1f10b35c03a10af06054fcfe9593871547ab5654e44654ad1c06b",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 11,
+            "raw_action": "Move West",
+            "executed_action": "Move West",
+            "observation_sha256": "73bc057d63677901d15573f463783b315e848aafb5136e44397c27efc9f057cc",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 12,
+            "raw_action": "Move West",
+            "executed_action": "Move West",
+            "observation_sha256": "457606f8afbdf397bc1c40895b14eebf45b8128b963785fede4ea7299a9ec495",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 13,
+            "raw_action": "Move West",
+            "executed_action": "Move West",
+            "observation_sha256": "3e2475edace729253c6fd13d543302ba1b6c4ccdfff7bf5f6c387fe8e04c2d46",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 14,
+            "raw_action": "Move North",
+            "executed_action": "Move North",
+            "observation_sha256": "196423efd7302cf70de8f4abdc817802f497dd01a195e371924d807356e8de95",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 15,
+            "raw_action": "Move North",
+            "executed_action": "Move North",
+            "observation_sha256": "ff5095a1042ae98f3d8d84b17e6c66d9ef103fb8f8fc717632547e8e3d43bede",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 16,
+            "raw_action": "Move North",
+            "executed_action": "Move North",
+            "observation_sha256": "3e52997acc1045cca04d1e0e9546f947d36460de1da965fa2c45a7c5bd039897",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 17,
+            "raw_action": "Move West",
+            "executed_action": "Move West",
+            "observation_sha256": "bbc23a8f23feea693ffbeb0b321e5d03dd33b017a30d2f8b2f072230c55ca79e",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 18,
+            "raw_action": "Move North",
+            "executed_action": "Move North",
+            "observation_sha256": "39fe7ed1cd9fe6955ca5b37d6af6e22887f36ebe4102d42e93f83e34e886c025",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 19,
+            "raw_action": "Move North",
+            "executed_action": "Move North",
+            "observation_sha256": "39fe7ed1cd9fe6955ca5b37d6af6e22887f36ebe4102d42e93f83e34e886c025",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 20,
+            "raw_action": "Do",
+            "executed_action": "Do",
+            "observation_sha256": "e29bc9533c8b11a81e2d7f0316240c5f507841ef74784324767a36795a50f24e",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          }
+        ]
+      },
+      "validation": {
+        "replay_verified": true,
+        "progression": 0.09090909090909091,
+        "steps": 21,
+        "full_oracle_available": false
+      }
+    },
+    {
+      "episode": {
+        "env_name": "crafter",
+        "task": "default",
+        "task_id": "crafter-default-seed-6",
+        "seed": 6,
+        "crafter_kwargs": {
+          "area": [
+            64,
+            64
+          ],
+          "view": [
+            9,
+            9
+          ],
+          "size": [
+            256,
+            256
+          ],
+          "reward": true,
+          "seed": 6,
+          "max_episode_steps": 2000,
+          "unique_items": true,
+          "precise_location": false,
+          "skip_items": [],
+          "edge_only_items": []
+        },
+        "expected_max_steps": 2000,
+        "expected_initial_observation_sha256": "9e470786e0e3e69fdfd8d3f8f499a00b0e35b9928569363f226d60e08485445a"
+      },
+      "oracle": null,
+      "reference": {
+        "kind": "partial_progress_diagnostic_not_full_oracle",
+        "actions": [
+          "Move West",
+          "Move West",
+          "Move West",
+          "Move West",
+          "Move West",
+          "Move West",
+          "Do",
+          "Move South",
+          "Move South",
+          "Move South",
+          "Move South",
+          "Move West",
+          "Move South",
+          "Move South",
+          "Move South",
+          "Move West",
+          "Move South",
+          "Move West",
+          "Move West",
+          "Move South",
+          "Move South",
+          "Move South",
+          "Do",
+          "Move East",
+          "Move East",
+          "Move North",
+          "Do"
+        ],
+        "expected_progression": 0.09090909090909091,
+        "expected_terminated": false,
+        "expected_truncated": false,
+        "expected_initial_observation_sha256": "9e470786e0e3e69fdfd8d3f8f499a00b0e35b9928569363f226d60e08485445a",
+        "expected_transitions": [
+          {
+            "step": 0,
+            "raw_action": "Move West",
+            "executed_action": "Move West",
+            "observation_sha256": "83352d397dde953b595bd071b7cd4dd6dd86fe243e2c4b7b2d84a00e476f45d6",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 1,
+            "raw_action": "Move West",
+            "executed_action": "Move West",
+            "observation_sha256": "78d82fce6ffa1c43e5010416620bce2799a3ef3432c458443d00f4baccde28ef",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 2,
+            "raw_action": "Move West",
+            "executed_action": "Move West",
+            "observation_sha256": "7beff34e2a54cec0e8e9edb56a9bb9ac66ac5667b42d3cde764b149404536b72",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 3,
+            "raw_action": "Move West",
+            "executed_action": "Move West",
+            "observation_sha256": "dc0402caf58d8e075c3b3481638c3ffa0c9caf2f120c078b4fbb98184d0302ab",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 4,
+            "raw_action": "Move West",
+            "executed_action": "Move West",
+            "observation_sha256": "f2cdf71ff4173bb604f130fca9701fa5675b6d85297f84fa18d3297595c5a39d",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 5,
+            "raw_action": "Move West",
+            "executed_action": "Move West",
+            "observation_sha256": "79ac8053805a45212221656f10b97b1ccb8cf5987ff3196cc1205c34af8b013b",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 6,
+            "raw_action": "Do",
+            "executed_action": "Do",
+            "observation_sha256": "88390183fdf1e8a96b83c56a8934683b855282a0f4e420902870b475db1cb6c0",
+            "reward": 1.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 7,
+            "raw_action": "Move South",
+            "executed_action": "Move South",
+            "observation_sha256": "2c8af9ea86dd20f1187102f81ac862b19edee68166b329eb3291ef192258c4d0",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 8,
+            "raw_action": "Move South",
+            "executed_action": "Move South",
+            "observation_sha256": "0f4ba7edbe9cf29dc2819f74df19ec7dca71256de72fb476826353ee789c6d24",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 9,
+            "raw_action": "Move South",
+            "executed_action": "Move South",
+            "observation_sha256": "a8b783b5b3432aa8118cbf4ef3f55c889cf659b552f8e7a683050d36b47bcc7c",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 10,
+            "raw_action": "Move South",
+            "executed_action": "Move South",
+            "observation_sha256": "5c78e1b7c552aee985bdd4ad9452a6358feb0185eb2cff77be547366e49e4dee",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 11,
+            "raw_action": "Move West",
+            "executed_action": "Move West",
+            "observation_sha256": "0aab4526b9f81e4f6a130404c9f1fe17aa76304b19168ed1a0593c57885ef537",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 12,
+            "raw_action": "Move South",
+            "executed_action": "Move South",
+            "observation_sha256": "d39dac848b44597964c12a55049178abfa5de353dc00c652fa098338ff284de3",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 13,
+            "raw_action": "Move South",
+            "executed_action": "Move South",
+            "observation_sha256": "d19f97574a10d2e52c338d319626bebea988e6ec7b3c63e8c105a30440bdebaf",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 14,
+            "raw_action": "Move South",
+            "executed_action": "Move South",
+            "observation_sha256": "a7e3ea421699f48998050612ab4a1b81956a3e664a5b04108640c0e22e3aca83",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 15,
+            "raw_action": "Move West",
+            "executed_action": "Move West",
+            "observation_sha256": "0380a84fc74b2a717ac9667c2f02e63c400fd8cfa3630fcf853c736b39df8b6b",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 16,
+            "raw_action": "Move South",
+            "executed_action": "Move South",
+            "observation_sha256": "fa0027fd715db353e9fd85a25d0c070ba3cc8588c68cc463995cbd991d30d45d",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 17,
+            "raw_action": "Move West",
+            "executed_action": "Move West",
+            "observation_sha256": "ef1e958ccfab6c09d0f2d859089f80d1a5814ac5d6ffcdb9843789baa67aa5bb",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 18,
+            "raw_action": "Move West",
+            "executed_action": "Move West",
+            "observation_sha256": "5132ccfcdbe275ed82496d7f704971a9ef7cf8c149efaaf28e3188455e231f2f",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 19,
+            "raw_action": "Move South",
+            "executed_action": "Move South",
+            "observation_sha256": "cc4ba3e6be4ab7383c7e3f62fdd0ee9aaf44cf3b4fae4780edb89e3f5376c72b",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 20,
+            "raw_action": "Move South",
+            "executed_action": "Move South",
+            "observation_sha256": "b38ceda7aab855b367ffeb4347c26c741af49c5cb47385fa88d1d8cb2fe40ec4",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 21,
+            "raw_action": "Move South",
+            "executed_action": "Move South",
+            "observation_sha256": "b38ceda7aab855b367ffeb4347c26c741af49c5cb47385fa88d1d8cb2fe40ec4",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 22,
+            "raw_action": "Do",
+            "executed_action": "Do",
+            "observation_sha256": "4240199f61f557b5c564b5cccf0c969cb9eb5167d11327c63a4c2d1254ff3e21",
+            "reward": 1.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 23,
+            "raw_action": "Move East",
+            "executed_action": "Move East",
+            "observation_sha256": "c42ff1ea6181c79a82e727fb07d229a74029ed668b5529f26073268eb83c71c4",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 24,
+            "raw_action": "Move East",
+            "executed_action": "Move East",
+            "observation_sha256": "c90101874528a6fa307b7bb3abfc3a7b87e7a3b42fa7851b277aee219c4802ca",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 25,
+            "raw_action": "Move North",
+            "executed_action": "Move North",
+            "observation_sha256": "71d8beab99bcce7177c1bbb69149691628597e4ece610a583169df3bfbdcdfd2",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 26,
+            "raw_action": "Do",
+            "executed_action": "Do",
+            "observation_sha256": "e2a393bc4fbba109a406e5c0c6c1cee637e7ea786d7935e77f122468bcff3205",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          }
+        ]
+      },
+      "validation": {
+        "replay_verified": true,
+        "progression": 0.09090909090909091,
+        "steps": 27,
+        "full_oracle_available": false
+      }
+    },
+    {
+      "episode": {
+        "env_name": "crafter",
+        "task": "default",
+        "task_id": "crafter-default-seed-7",
+        "seed": 7,
+        "crafter_kwargs": {
+          "area": [
+            64,
+            64
+          ],
+          "view": [
+            9,
+            9
+          ],
+          "size": [
+            256,
+            256
+          ],
+          "reward": true,
+          "seed": 7,
+          "max_episode_steps": 2000,
+          "unique_items": true,
+          "precise_location": false,
+          "skip_items": [],
+          "edge_only_items": []
+        },
+        "expected_max_steps": 2000,
+        "expected_initial_observation_sha256": "2ad718ac1ff7302b0173fd0a17eab13ec5c7e888fa24628bd3e8fa1073a1a877"
+      },
+      "oracle": null,
+      "reference": {
+        "kind": "partial_progress_diagnostic_not_full_oracle",
+        "actions": [
+          "Move East",
+          "Move East",
+          "Move East",
+          "Move North",
+          "Move North",
+          "Do",
+          "Move East",
+          "Move East",
+          "Move East",
+          "Move East",
+          "Move East",
+          "Do",
+          "Move West",
+          "Move South",
+          "Move South",
+          "Move South",
+          "Move South",
+          "Move South",
+          "Do"
+        ],
+        "expected_progression": 0.09090909090909091,
+        "expected_terminated": false,
+        "expected_truncated": false,
+        "expected_initial_observation_sha256": "2ad718ac1ff7302b0173fd0a17eab13ec5c7e888fa24628bd3e8fa1073a1a877",
+        "expected_transitions": [
+          {
+            "step": 0,
+            "raw_action": "Move East",
+            "executed_action": "Move East",
+            "observation_sha256": "5f952d57c2f4f1c2d01c440958926ed71f7354b4ba49ae679dba3ca3ebd30314",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 1,
+            "raw_action": "Move East",
+            "executed_action": "Move East",
+            "observation_sha256": "e53603cff115efbea97ce3c746ceb3e483cdae228b73a4a5a215553832aa6fbd",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 2,
+            "raw_action": "Move East",
+            "executed_action": "Move East",
+            "observation_sha256": "9f980ba848742590ea9f94608c3a8a4e233f05d418065be051581b3e06546305",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 3,
+            "raw_action": "Move North",
+            "executed_action": "Move North",
+            "observation_sha256": "b389c6dd38f0abdfcf13f4135ebba0911561df64dc1abc9589acc1823ef706f4",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 4,
+            "raw_action": "Move North",
+            "executed_action": "Move North",
+            "observation_sha256": "b389c6dd38f0abdfcf13f4135ebba0911561df64dc1abc9589acc1823ef706f4",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 5,
+            "raw_action": "Do",
+            "executed_action": "Do",
+            "observation_sha256": "535afb018b9f25703f94bbbc08b50567eb256a1c077ffe70a33eabf7ea4d33b2",
+            "reward": 1.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 6,
+            "raw_action": "Move East",
+            "executed_action": "Move East",
+            "observation_sha256": "09bd6727f098a05c9f22f8360beed41b203cfe1827cf3764aebebf62429fd0b4",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 7,
+            "raw_action": "Move East",
+            "executed_action": "Move East",
+            "observation_sha256": "f48709ec76879386e87545d33463f960adec44277325bfc42d5555106db92055",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 8,
+            "raw_action": "Move East",
+            "executed_action": "Move East",
+            "observation_sha256": "b4fd6f103c3b56bc6d18ef416464b475b9b8b60cee8c5aec2e8e536c1e75dcad",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 9,
+            "raw_action": "Move East",
+            "executed_action": "Move East",
+            "observation_sha256": "650ce483d4f2a487902f1c992d8420a14d796f290d333e13f930afed0ef4e69c",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 10,
+            "raw_action": "Move East",
+            "executed_action": "Move East",
+            "observation_sha256": "650ce483d4f2a487902f1c992d8420a14d796f290d333e13f930afed0ef4e69c",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 11,
+            "raw_action": "Do",
+            "executed_action": "Do",
+            "observation_sha256": "650ce483d4f2a487902f1c992d8420a14d796f290d333e13f930afed0ef4e69c",
+            "reward": 1.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 12,
+            "raw_action": "Move West",
+            "executed_action": "Move West",
+            "observation_sha256": "b4fd6f103c3b56bc6d18ef416464b475b9b8b60cee8c5aec2e8e536c1e75dcad",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 13,
+            "raw_action": "Move South",
+            "executed_action": "Move South",
+            "observation_sha256": "97169bea4ed773c0f8937be445f30630d9bada93532dd8e019499dc20ffe12cb",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 14,
+            "raw_action": "Move South",
+            "executed_action": "Move South",
+            "observation_sha256": "73b6ae44290309bf3083bde6963157c676c8937923e6ad184a590abb879f3d08",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 15,
+            "raw_action": "Move South",
+            "executed_action": "Move South",
+            "observation_sha256": "a958ccae5f818ffb5542c9814cb543a9220cf615fdf7eedf3b5231b4b8bb1356",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 16,
+            "raw_action": "Move South",
+            "executed_action": "Move South",
+            "observation_sha256": "f713d14c4a731581743dd7b94ed69b20aedd893cd938c78b442562c183241724",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 17,
+            "raw_action": "Move South",
+            "executed_action": "Move South",
+            "observation_sha256": "f713d14c4a731581743dd7b94ed69b20aedd893cd938c78b442562c183241724",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 18,
+            "raw_action": "Do",
+            "executed_action": "Do",
+            "observation_sha256": "fb620c29823053946352864e0fa301e7f816f2b8bcf77cf28f8dfabd54e6f496",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          }
+        ]
+      },
+      "validation": {
+        "replay_verified": true,
+        "progression": 0.09090909090909091,
+        "steps": 19,
+        "full_oracle_available": false
+      }
+    },
+    {
+      "episode": {
+        "env_name": "crafter",
+        "task": "default",
+        "task_id": "crafter-default-seed-8",
+        "seed": 8,
+        "crafter_kwargs": {
+          "area": [
+            64,
+            64
+          ],
+          "view": [
+            9,
+            9
+          ],
+          "size": [
+            256,
+            256
+          ],
+          "reward": true,
+          "seed": 8,
+          "max_episode_steps": 2000,
+          "unique_items": true,
+          "precise_location": false,
+          "skip_items": [],
+          "edge_only_items": []
+        },
+        "expected_max_steps": 2000,
+        "expected_initial_observation_sha256": "982138d7b3667fce18fec639767cab8ec1ec8beafcd8e386361e1af340f1cebf"
+      },
+      "oracle": null,
+      "reference": {
+        "kind": "partial_progress_diagnostic_not_full_oracle",
+        "actions": [
+          "Move South",
+          "Move South",
+          "Move South",
+          "Move South",
+          "Move South",
+          "Do",
+          "Move East",
+          "Move East",
+          "Move South",
+          "Move South",
+          "Move South",
+          "Move South",
+          "Do",
+          "Move West",
+          "Move North",
+          "Do"
+        ],
+        "expected_progression": 0.09090909090909091,
+        "expected_terminated": false,
+        "expected_truncated": false,
+        "expected_initial_observation_sha256": "982138d7b3667fce18fec639767cab8ec1ec8beafcd8e386361e1af340f1cebf",
+        "expected_transitions": [
+          {
+            "step": 0,
+            "raw_action": "Move South",
+            "executed_action": "Move South",
+            "observation_sha256": "982138d7b3667fce18fec639767cab8ec1ec8beafcd8e386361e1af340f1cebf",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 1,
+            "raw_action": "Move South",
+            "executed_action": "Move South",
+            "observation_sha256": "fd262aa9d2e6e0badb7e0d012ef4a511d6699c6e029a2faf7942c84a2e204a0f",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 2,
+            "raw_action": "Move South",
+            "executed_action": "Move South",
+            "observation_sha256": "f669082576ce1048f2a986d9fc8d5942a05c1e0f90e115c6db6063f8789cedee",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 3,
+            "raw_action": "Move South",
+            "executed_action": "Move South",
+            "observation_sha256": "03ae60d5e9d1b582a38799aecfcc7cfa623aca6c92b538c0c8b0c0ae9619a50d",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 4,
+            "raw_action": "Move South",
+            "executed_action": "Move South",
+            "observation_sha256": "03ae60d5e9d1b582a38799aecfcc7cfa623aca6c92b538c0c8b0c0ae9619a50d",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 5,
+            "raw_action": "Do",
+            "executed_action": "Do",
+            "observation_sha256": "27c03975a700328c840993b85dbd52bfab47090ec81c22e0ebd60ee2ea79bd12",
+            "reward": 1.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 6,
+            "raw_action": "Move East",
+            "executed_action": "Move East",
+            "observation_sha256": "91749298f0b5a634a03756196e3275797d417977bd82b1670de8cf479991ffc2",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 7,
+            "raw_action": "Move East",
+            "executed_action": "Move East",
+            "observation_sha256": "27fd1ebd0a77f6a42be8082712e540929c6740db9f0f3bae0cbac1f286fcd98c",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 8,
+            "raw_action": "Move South",
+            "executed_action": "Move South",
+            "observation_sha256": "be0dd62dcc288fd09913907c471bf224adb2055712145ea0769ce97f34dcf474",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 9,
+            "raw_action": "Move South",
+            "executed_action": "Move South",
+            "observation_sha256": "be0fbc3a86721aa63fe83d6127c48c3d356641c93bcdf1bff08e721c2da7de5b",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 10,
+            "raw_action": "Move South",
+            "executed_action": "Move South",
+            "observation_sha256": "8bd93b30495558a8ddc9bc4ccebaf5131f27efc1efcb419be607358fd4711255",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 11,
+            "raw_action": "Move South",
+            "executed_action": "Move South",
+            "observation_sha256": "e416edf1fb9b1d5aaf8c2b737dea21293c3f8043bd99cf14e35bf8c61c7c0cc8",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 12,
+            "raw_action": "Do",
+            "executed_action": "Do",
+            "observation_sha256": "e416edf1fb9b1d5aaf8c2b737dea21293c3f8043bd99cf14e35bf8c61c7c0cc8",
+            "reward": 1.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 13,
+            "raw_action": "Move West",
+            "executed_action": "Move West",
+            "observation_sha256": "202d172b2e6a246b69ea390fa5cb5ce5906447ea0ee7a922dc6e392b90fced94",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 14,
+            "raw_action": "Move North",
+            "executed_action": "Move North",
+            "observation_sha256": "893cfb7ef929cb51141503dc3411b9207009878c3b32c4ca5ae63969d4906972",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 15,
+            "raw_action": "Do",
+            "executed_action": "Do",
+            "observation_sha256": "98f68d8a6f5ab0deb25863994efe16ed9e6be785e3651f7c9a65ffc4c187ffb9",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          }
+        ]
+      },
+      "validation": {
+        "replay_verified": true,
+        "progression": 0.09090909090909091,
+        "steps": 16,
+        "full_oracle_available": false
+      }
+    },
+    {
+      "episode": {
+        "env_name": "crafter",
+        "task": "default",
+        "task_id": "crafter-default-seed-9",
+        "seed": 9,
+        "crafter_kwargs": {
+          "area": [
+            64,
+            64
+          ],
+          "view": [
+            9,
+            9
+          ],
+          "size": [
+            256,
+            256
+          ],
+          "reward": true,
+          "seed": 9,
+          "max_episode_steps": 2000,
+          "unique_items": true,
+          "precise_location": false,
+          "skip_items": [],
+          "edge_only_items": []
+        },
+        "expected_max_steps": 2000,
+        "expected_initial_observation_sha256": "890cead1399e32d42e506f28603a37ed84c3ced1338a9f57d61240bc4776cc03"
+      },
+      "oracle": null,
+      "reference": {
+        "kind": "partial_progress_diagnostic_not_full_oracle",
+        "actions": [
+          "Move East",
+          "Move East",
+          "Move East",
+          "Move East",
+          "Move North",
+          "Move North",
+          "Do",
+          "Move West",
+          "Move West",
+          "Move West",
+          "Move West",
+          "Move West",
+          "Move South",
+          "Move South",
+          "Move South",
+          "Move South",
+          "Move South",
+          "Move South",
+          "Move South",
+          "Move South",
+          "Move South",
+          "Do",
+          "Move West",
+          "Move West",
+          "Move West",
+          "Move West",
+          "Move West",
+          "Move North",
+          "Move North",
+          "Do"
+        ],
+        "expected_progression": 0.09090909090909091,
+        "expected_terminated": false,
+        "expected_truncated": false,
+        "expected_initial_observation_sha256": "890cead1399e32d42e506f28603a37ed84c3ced1338a9f57d61240bc4776cc03",
+        "expected_transitions": [
+          {
+            "step": 0,
+            "raw_action": "Move East",
+            "executed_action": "Move East",
+            "observation_sha256": "2ad718ac1ff7302b0173fd0a17eab13ec5c7e888fa24628bd3e8fa1073a1a877",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 1,
+            "raw_action": "Move East",
+            "executed_action": "Move East",
+            "observation_sha256": "5f952d57c2f4f1c2d01c440958926ed71f7354b4ba49ae679dba3ca3ebd30314",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 2,
+            "raw_action": "Move East",
+            "executed_action": "Move East",
+            "observation_sha256": "3ce92d8562e32d4ea40a7fc8e70c6d8fc566945055237986769e14b785438f58",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 3,
+            "raw_action": "Move East",
+            "executed_action": "Move East",
+            "observation_sha256": "4828154f920d24f9b38c16fe2c3e8eeaf121a094fa5954d04c987572423465f6",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 4,
+            "raw_action": "Move North",
+            "executed_action": "Move North",
+            "observation_sha256": "087eaadd601d086a46b0b7e9cf05c3873dcccd438ec69f1e75c1af7502b2c137",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 5,
+            "raw_action": "Move North",
+            "executed_action": "Move North",
+            "observation_sha256": "087eaadd601d086a46b0b7e9cf05c3873dcccd438ec69f1e75c1af7502b2c137",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 6,
+            "raw_action": "Do",
+            "executed_action": "Do",
+            "observation_sha256": "5c4cdad5d5e658e0fd2d16f814dfad1f94693ea8ac70402c6660025d0682602d",
+            "reward": 1.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 7,
+            "raw_action": "Move West",
+            "executed_action": "Move West",
+            "observation_sha256": "15a29d82b9e8c57bc3e203e3748a9dce50c0476f05ab30ef0e194478b74f2d25",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 8,
+            "raw_action": "Move West",
+            "executed_action": "Move West",
+            "observation_sha256": "9dee5f837fea0e66e4d803d33e5915fbc6b2455b92a6c17bf2f38e8002ff6ef6",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 9,
+            "raw_action": "Move West",
+            "executed_action": "Move West",
+            "observation_sha256": "9dbc8fa0b6cefce7edcfdb8139634d3aabbb8eec10a00db7309a2d2834c48702",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 10,
+            "raw_action": "Move West",
+            "executed_action": "Move West",
+            "observation_sha256": "73a14725a01883a59c7c80ce561d053c9366fcf19f3f5185f7d085006eaa5ba1",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 11,
+            "raw_action": "Move West",
+            "executed_action": "Move West",
+            "observation_sha256": "eeffe0b80269e88abe0166938498b460d42cf2fe304a019572e8245f1b906495",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 12,
+            "raw_action": "Move South",
+            "executed_action": "Move South",
+            "observation_sha256": "1d1fb73f387dad9c2ce16a4ed61bf12436da98ffa320c68290e8208899f60522",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 13,
+            "raw_action": "Move South",
+            "executed_action": "Move South",
+            "observation_sha256": "1d1fb73f387dad9c2ce16a4ed61bf12436da98ffa320c68290e8208899f60522",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 14,
+            "raw_action": "Move South",
+            "executed_action": "Move South",
+            "observation_sha256": "1d1fb73f387dad9c2ce16a4ed61bf12436da98ffa320c68290e8208899f60522",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 15,
+            "raw_action": "Move South",
+            "executed_action": "Move South",
+            "observation_sha256": "1d1fb73f387dad9c2ce16a4ed61bf12436da98ffa320c68290e8208899f60522",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 16,
+            "raw_action": "Move South",
+            "executed_action": "Move South",
+            "observation_sha256": "1d66772ec7a4b1ca189763bd32ad004997c8f8c8463f403d3905f73deec9404f",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 17,
+            "raw_action": "Move South",
+            "executed_action": "Move South",
+            "observation_sha256": "5af3bbb15b776925137a0ba457fc07f3f153bf1ebbfef045bd8d50e0439ebefb",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 18,
+            "raw_action": "Move South",
+            "executed_action": "Move South",
+            "observation_sha256": "4288a5c5d3f1dba3da52629735b1a9c7d372ce0ac91e873b2f31e3f76b9a4d2e",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 19,
+            "raw_action": "Move South",
+            "executed_action": "Move South",
+            "observation_sha256": "ab1cb09eafaaf4b7ad7ff460897a5a88886c4f7f24ab4702e0a85c6f49b82100",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 20,
+            "raw_action": "Move South",
+            "executed_action": "Move South",
+            "observation_sha256": "ab1cb09eafaaf4b7ad7ff460897a5a88886c4f7f24ab4702e0a85c6f49b82100",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 21,
+            "raw_action": "Do",
+            "executed_action": "Do",
+            "observation_sha256": "b6d531e5614a3026125c85aca5f8f7cba36709edbb1b17ae85992e1f668ac58c",
+            "reward": 1.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 22,
+            "raw_action": "Move West",
+            "executed_action": "Move West",
+            "observation_sha256": "b8fb27bcf17f57f90c58b83fe9f8408ea9c5e32fb57b528ec4957e15fd71d405",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 23,
+            "raw_action": "Move West",
+            "executed_action": "Move West",
+            "observation_sha256": "1f3d339bfa528ba325918cd3b1a2de9300b33858370e281937b9d2c7212792d0",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 24,
+            "raw_action": "Move West",
+            "executed_action": "Move West",
+            "observation_sha256": "5b64a85da06079dfa817a52e13c8b360b02ad6f43b56742c7b326eff9609ce42",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 25,
+            "raw_action": "Move West",
+            "executed_action": "Move West",
+            "observation_sha256": "1f237813b1ba4de8d1024420cd069690343c1cfac3302b49a65e23b0ed14b4f8",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 26,
+            "raw_action": "Move West",
+            "executed_action": "Move West",
+            "observation_sha256": "025c9fd3cc562520db970b311fb1151197d740b19aa157fc278e051eef76c395",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 27,
+            "raw_action": "Move North",
+            "executed_action": "Move North",
+            "observation_sha256": "f59eea8ed094ef9aaea73dd5a1a0ec82622d39e9ad21367418895f01e002f8bf",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 28,
+            "raw_action": "Move North",
+            "executed_action": "Move North",
+            "observation_sha256": "f59eea8ed094ef9aaea73dd5a1a0ec82622d39e9ad21367418895f01e002f8bf",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          },
+          {
+            "step": 29,
+            "raw_action": "Do",
+            "executed_action": "Do",
+            "observation_sha256": "b7d245d964787bd3fcf19102cc0d38db704a1e78dc250e18b98592025e45596c",
+            "reward": 0.0,
+            "terminated": false,
+            "truncated": false,
+            "budget_exhausted": false
+          }
+        ]
+      },
+      "validation": {
+        "replay_verified": true,
+        "progression": 0.09090909090909091,
+        "steps": 30,
+        "full_oracle_available": false
+      }
+    }
+  ],
+  "splits": {
+    "full": [
+      "crafter-default-seed-0",
+      "crafter-default-seed-1",
+      "crafter-default-seed-2",
+      "crafter-default-seed-3",
+      "crafter-default-seed-4",
+      "crafter-default-seed-5",
+      "crafter-default-seed-6",
+      "crafter-default-seed-7",
+      "crafter-default-seed-8",
+      "crafter-default-seed-9"
+    ],
+    "parity": [
+      "crafter-default-seed-0",
+      "crafter-default-seed-1",
+      "crafter-default-seed-2",
+      "crafter-default-seed-3",
+      "crafter-default-seed-4",
+      "crafter-default-seed-5",
+      "crafter-default-seed-6",
+      "crafter-default-seed-7",
+      "crafter-default-seed-8",
+      "crafter-default-seed-9"
+    ],
+    "sanity": [
+      "crafter-default-seed-0"
+    ]
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "status": "offline_synthetic_unit_proof_only",
+  "game_ascensions_obtained": 0,
+  "official_source_modified": false,
+  "source_sha256_normalized_lf": "7c267bd24c9a78a15176b53738849cb9ce480849c031c6a77021869e0f5aa8f2",
+  "balrog_pin": "b7afe79e3e4265811cfa985ed7c95c4d1a11e3f5",
+  "active_achievement_count": 80,
+  "inactive_achievements": {
+    "Astral Plane": 0.8745866562925501,
+    "Home 1": 0.3661126311920611,
+    "Home 2": 0.5461852317697947,
+    "Home 3": 0.5493249297123614,
+    "Home 4": 0.561057980620522,
+    "Home 5": 0.5655729909652877,
+    "You ascend t": 1.0
+  },
+  "syntactic_tight_upper_bound": 0.8067964442444019,
+  "upper_bound_key": "Dlvl:50",
+  "actual_fixed_seed_game_attainability_of_upper_bound": "not established",
+  "progression_write_expressions": [
+    "ACHIEVEMENTS[xp]",
+    "ACHIEVEMENTS[dlvl]"
+  ],
+  "exhaustive_boundary_cases": 2550,
+  "synthetic_ascension_original_score": 0.8067964442444019,
+  "candidate_tests": [
+    {
+      "name": "native_terminal_ascension_scores_one",
+      "passed": true
+    },
+    {
+      "name": "native_terminal_ascension_achievement",
+      "passed": true
+    },
+    {
+      "name": "false_flag_keeps_partial_score",
+      "passed": true
+    },
+    {
+      "name": "missing_flag_keeps_partial_score",
+      "passed": true
+    },
+    {
+      "name": "nonterminal_flag_does_not_award_one",
+      "passed": true
+    },
+    {
+      "name": "ascension_text_alone_is_not_success",
+      "passed": true
+    },
+    {
+      "name": "large_reward_is_not_success",
+      "passed": true
+    },
+    {
+      "name": "minihack_base_progress_unchanged",
+      "passed": true
+    },
+    {
+      "name": "all_5100_nonascension_cases_unchanged",
+      "passed": true
+    },
+    {
+      "name": "terminal_zeroed_stats_still_ascends",
+      "passed": true
+    }
+  ],
+  "nonascension_equivalence_cases": 5100,
+  "candidate_scope": "terminal native ascension only; does not implement Home or Astral Plane milestones",
+  "schema_version": 1,
+  "included_in_baseline": false,
+  "candidate_approved": false,
+  "candidate_applied_to_benchmark": false,
+  "interpretation": "Source-derived scorer ceiling and synthetic boundary/unit checks, not a game trajectory attaining that ceiling or ascension.",
+  "source_url": "https://github.com/balrog-ai/BALROG/blob/b7afe79e3e4265811cfa985ed7c95c4d1a11e3f5/balrog/environments/nle/progress.py"
+}

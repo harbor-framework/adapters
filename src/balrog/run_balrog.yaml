@@ -1,0 +1,26 @@
+# Run from the adapters repository root after --environments all generation.
+# Some references are diagnostic partial trajectories, not complete oracles.
+jobs_dir: jobs
+n_attempts: 1
+timeout_multiplier: 1.0
+n_concurrent_trials: 2
+quiet: false
+retry:
+  max_retries: 0
+environment:
+  type: docker
+  force_build: false
+  delete: true
+  kwargs:
+    auto_mounting: false
+agents:
+  - name: oracle
+# Negative control (replace the agents block above):
+# agents:
+#   - name: nop
+# Model experiments require an agreed parity plan and API credentials:
+# agents:
+#   - name: codex
+#     model_name: <exact-model-identifier>
+datasets:
+  - path: datasets/balrog-six-games

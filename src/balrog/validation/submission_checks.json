@@ -1,0 +1,183 @@
+{
+  "status": "OFFLINE_SUBMISSION_CHECKS_WITH_DISCLOSED_PARITY_VALIDATOR_GAP",
+  "date": "2026-11-18",
+  "review_base": "543861e1ad298c5d94f2480e9cbad74587041864",
+  "unit": {
+    "total": 54,
+    "passed": 53,
+    "skipped": 1,
+    "saved_log": "balrog_submission_unittest_final.log",
+    "saved_log_sha256": "64449f8943d43b71c44b9243baba63078cddd2ede273020b63addfad3e6ac759",
+    "raw_log_published": false,
+    "skip_reason": "Windows host does not permit creating symlinks"
+  },
+  "runtime": {
+    "test_runtime.py": {
+      "total": 10,
+      "passed": 10,
+      "skipped": 0,
+      "saved_log": "submission_test_runtime.py.log",
+      "saved_log_sha256": "d1504f82f83cafde996561557c1c1f05b6f74d53825c07e7eb642c3963dbe719",
+      "raw_log_published": false
+    },
+    "test_parity.py": {
+      "total": 9,
+      "passed": 9,
+      "skipped": 0,
+      "saved_log": "submission_test_parity.py.log",
+      "saved_log_sha256": "38de9602b3f234395fe973303395597505737a97590ab549511f118b8b9ffa1d",
+      "raw_log_published": false
+    },
+    "test_native_batch.py": {
+      "total": 7,
+      "passed": 7,
+      "skipped": 0,
+      "saved_log": "submission_test_native_batch.py.log",
+      "saved_log_sha256": "812a3616fad0323d5a03e50e469a263a18afa292d94475bb6f5fac8189e1c4f8",
+      "raw_log_published": false
+    },
+    "test_crafter_failure_policy.py": {
+      "total": 6,
+      "passed": 6,
+      "skipped": 0,
+      "saved_log": "submission_test_crafter_failure_policy.py.log",
+      "saved_log_sha256": "28cc9648369f5bfa7c9c3c7ad19a5969193ae91d6bf9563efc68ebe9675b8da1",
+      "raw_log_published": false
+    },
+    "test_suite_verification.py": {
+      "total": 8,
+      "passed": 8,
+      "skipped": 0,
+      "saved_log": "submission_test_suite_verification.py.log",
+      "saved_log_sha256": "052561bbffdadaeb9063479384edb83d9df6609e69a6ae481d63cb974bb3f00c",
+      "raw_log_published": false
+    },
+    "test_bridge.py": {
+      "total": 4,
+      "passed": 4,
+      "skipped": 0,
+      "saved_log": "submission_test_bridge.py.log",
+      "saved_log_sha256": "c9f4834d277fc1666477694f84dc3e1cf550d233da32f97a2567312ef71e296b",
+      "raw_log_published": false
+    }
+  },
+  "runtime_passed": 44,
+  "structural_validator": {
+    "adapter_name": "balrog",
+    "errors": [
+      {
+        "level": "error",
+        "check": "Parity JSON structure",
+        "message": "Must be a non-empty JSON array.",
+        "file": "src/balrog/parity_experiment.json",
+        "line": 1
+      }
+    ],
+    "warnings": [
+      {
+        "level": "warning",
+        "check": "Reward output",
+        "file": "src/balrog/src/balrog/task-template/tests/test.sh",
+        "line": 1
+      },
+      {
+        "level": "warning",
+        "check": "Cross-validation: adapter_name mismatch",
+        "file": "src/balrog/adapter_metadata.json",
+        "line": null
+      }
+    ],
+    "preexisting_errors": [],
+    "passed": [
+      "`README.md` exists",
+      "`parity_experiment.json` exists",
+      "`adapter_metadata.json` exists",
+      "`src/balrog/` package exists",
+      "`src/balrog/adapter.py` exists",
+      "`src/balrog/main.py` exists",
+      "`src/balrog/task-template/` directory exists",
+      "`src/balrog/task-template/task.toml` exists",
+      "`src/balrog/task-template/instruction.md` exists",
+      "`src/balrog/task-template/environment/Dockerfile` exists",
+      "`src/balrog/task-template/tests/test.sh` exists",
+      "`src/balrog/task-template/solution/solve.sh` exists",
+      "Template `[task].name` present",
+      "Template `[task].authors` present",
+      "Parity PR links are non-empty with valid URLs",
+      "`adapter_metadata.json` is valid JSON array",
+      "README section `Overview` present",
+      "README section `What is` present",
+      "README section `Adapter Features` present",
+      "README section `Generated Task Structure` present",
+      "README section `Run Evaluation` present",
+      "README section `Usage` present",
+      "README section `Parity` present",
+      "README section `Notes & Caveats` present",
+      "README section `Installation / Prerequisites` present",
+      "README section `Citation` present",
+      "README section `Authors & Contributions` present",
+      "Parity table column count correct",
+      "No canary strings found"
+    ]
+  },
+  "packaging": {
+    "status": "PACKAGING_AND_SIX_ENVIRONMENT_GENERATION_PASSED",
+    "gameplay_rerun": false,
+    "wheel_sha256": "9ccf5ce2c9d79d4d902a9514b1a7b3e9bf8d53ee3f0dbd2a0eb56d4fa3f9351f",
+    "wheel_module_files_checked": 37,
+    "cases": [
+      {
+        "task_id": "babyai-goto-seed-0",
+        "environment": "babyai",
+        "native_budget": 64,
+        "generated": true
+      },
+      {
+        "task_id": "babaisai-make-win-distr-obj-rule-seed-0",
+        "environment": "babaisai",
+        "native_budget": 100,
+        "generated": true
+      },
+      {
+        "task_id": "textworld-treasure-hunter-seed-0",
+        "environment": "textworld",
+        "native_budget": 80,
+        "generated": true
+      },
+      {
+        "task_id": "crafter-default-seed-0",
+        "environment": "crafter",
+        "native_budget": 2000,
+        "generated": true
+      },
+      {
+        "task_id": "nle-nethackchallenge-v0-seed-0",
+        "environment": "nle",
+        "native_budget": 100000,
+        "generated": true
+      },
+      {
+        "task_id": "minihack-boxoban-hard-v0-seed-0",
+        "environment": "minihack",
+        "native_budget": 100,
+        "generated": true
+      }
+    ],
+    "model_api_calls": 0
+  },
+  "source_distribution_built": true,
+  "changed_generator_source_sha256": {
+    "src/balrog/main.py": "cf08df7f9be63ec7aa5f8a3880e1f47561447deb4fe89450cc0e75a1d251f45f",
+    "src/balrog/suite.py": "1d35907ad99888c75a51a3fa5243a236f409cc057fe0bf0f852ed3e2e358c120"
+  },
+  "docker_gameplay_rerun": false,
+  "model_api_calls": 0,
+  "notes": [
+    "The first unit-test launch could not write uv's sandbox cache. The reported run uses a writable workspace-local cache.",
+    "The first packaging checker omitted the legacy BabyAI environment discriminator. It was corrected and all six cases were regenerated and checked in a separate preserved directory; no native episode setting changed.",
+    "The structural validator is intentionally not passing because real parity results do not yet exist. The reward-output warning is a shell-script heuristic; the delegated Python verifier writes the required file.",
+    "Wheel contents were compared against all 37 runtime module files. Generation used the uv project CLI; it was not a gameplay or installed-wheel execution test."
+  ],
+  "schema_version": 1,
+  "evidence_kind": "saved_test_and_packaging_reports_no_gameplay_rerun"
+}

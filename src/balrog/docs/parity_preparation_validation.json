@@ -1,0 +1,894 @@
+{
+  "artifact_availability": "Compact report committed; raw generated tasks, build logs and local trial artifacts retained locally. No Hugging Face upload or remote-run evidence is claimed.",
+  "current_native_producer_check": {
+    "actions": 3,
+    "actual_current_native_producer": true,
+    "all_evidence_files_sha256": {
+      "OFFLINE_TEST_ONLY.json": "4f26ccd4348c72109c6b41b7ccf78a7663b7d5d8860d1cc91d472bea3d472cfb",
+      "container-attempt1.log": "8de43fc846c73b0ddbc9786a58536ce135762ad0d1ed7729220f886910023d66",
+      "container.log": "eb7ac85aa164825fb7e0c032dbbc35a83a977fbb9a11acb38edb00e57ae3bbed",
+      "native-batch.log": "7fa2eaacee119284f4cebcaf10c76628b830801b2433107521a94f4cf9bc7633",
+      "native/babyai-goto-seed-0/episode_result.json": "394d25cdf32875af39e100b91afc7de5aa80776c6561e06674d4e406b07eb572",
+      "native/babyai-goto-seed-0/model_calls.json": "1136b8b7056a76d77fb60e87598ce4c10eca25c0db6d892e308bcd8e91fa46df",
+      "native/babyai-goto-seed-0/original/babyai/BabyAI-MixedTrainLocal-v0/goto/BabyAI-MixedTrainLocal-v0/goto_run_00.csv": "9e1ab1dc991cae7d8b4ba5e3c80a9f7a4ce4adbf4dc51ec8daa175420789c281",
+      "native/babyai-goto-seed-0/original/babyai/BabyAI-MixedTrainLocal-v0/goto/BabyAI-MixedTrainLocal-v0/goto_run_00.json": "1fa2cd4f636c8e0cc60c120d5bfa79eb52e203cfc0728bb812ec7522e005f149",
+      "native/babyai-goto-seed-0/original_episode_result.json": "a376402ef25947327f914895c9e186ffb618b8ad691a3183027547b569951185",
+      "native/babyai-goto-seed-0/trajectory.json": "26dbfb62cfba46bd147fa8e4c21133a1ccbe55422d5b0e581a9c217daed14b37",
+      "native/inputs/babyai-goto-seed-0.json": "9a94072f3080907e10d455cdb67d1b64c6cec62c981e76dc51ed9f48a8b7c024",
+      "native/inputs/parity_runner.py": "ca3144f7be11e74a1ee66dfe420e3431f7b7fcc5dd63c01ba4857ae88d313915",
+      "native/inputs/settings.json": "fa61a281ca1201bf48ad26dd0af052737e1dfbdae80460ffb4086f198bac21c8",
+      "native/run_status.json": "7fc1608d72aff889df0be56a294245b3ef237cc82407a041fa7c76610b97ec88",
+      "producer-check.json": "f8332664bbb0765599d48d32137451105bc4cd9583becb43ac79b586dbd3b175",
+      "sdk_requests.json": "b33b24af59a1ac7de96fdf47504a0fdb382899c10caf76e154a076f9dbe8e68d",
+      "submitted-inputs/episodes.json": "f91a37fe942c4f1f484f0294b33f76542d191f6af401be30b11a95751b74d783",
+      "submitted-inputs/settings.json": "f718f7951367b9c5a8d0fb104e61edbbd51c3164846099e93faaef3bbe12496c",
+      "validation-input-metadata.json": "13e9699b15d6509dcc2c5af75b75cf28dfd73274557f346e786d179dc74a1829"
+    },
+    "cloud_resources_created": 0,
+    "external_model_requests": 0,
+    "legacy_envelope_adaptation": false,
+    "limitation": "Local current-producer/result-validator compatibility, not Daytona remote execution or model parity.",
+    "local_scripted_http_calls": 3,
+    "native_batch_sha256": "9e73e13c0d24e1b82f845617334447cf2891833af3ab2ea58c38e715e0557ec6",
+    "native_daytona_sha256": "e6cc89752b6a54abf3864a62a0b4a03f30311a62eee1954e46e61494cc8b32e5",
+    "native_daytona_validate_results": "accepted",
+    "native_files_sha256": {
+      "babyai-goto-seed-0/episode_result.json": "394d25cdf32875af39e100b91afc7de5aa80776c6561e06674d4e406b07eb572",
+      "babyai-goto-seed-0/model_calls.json": "1136b8b7056a76d77fb60e87598ce4c10eca25c0db6d892e308bcd8e91fa46df",
+      "babyai-goto-seed-0/original/babyai/BabyAI-MixedTrainLocal-v0/goto/BabyAI-MixedTrainLocal-v0/goto_run_00.csv": "9e1ab1dc991cae7d8b4ba5e3c80a9f7a4ce4adbf4dc51ec8daa175420789c281",
+      "babyai-goto-seed-0/original/babyai/BabyAI-MixedTrainLocal-v0/goto/BabyAI-MixedTrainLocal-v0/goto_run_00.json": "1fa2cd4f636c8e0cc60c120d5bfa79eb52e203cfc0728bb812ec7522e005f149",
+      "babyai-goto-seed-0/original_episode_result.json": "a376402ef25947327f914895c9e186ffb618b8ad691a3183027547b569951185",
+      "babyai-goto-seed-0/trajectory.json": "26dbfb62cfba46bd147fa8e4c21133a1ccbe55422d5b0e581a9c217daed14b37",
+      "inputs/babyai-goto-seed-0.json": "9a94072f3080907e10d455cdb67d1b64c6cec62c981e76dc51ed9f48a8b7c024",
+      "inputs/parity_runner.py": "ca3144f7be11e74a1ee66dfe420e3431f7b7fcc5dd63c01ba4857ae88d313915",
+      "inputs/settings.json": "fa61a281ca1201bf48ad26dd0af052737e1dfbdae80460ffb4086f198bac21c8",
+      "run_status.json": "7fc1608d72aff889df0be56a294245b3ef237cc82407a041fa7c76610b97ec88"
+    },
+    "parity_runner_sha256": "ca3144f7be11e74a1ee66dfe420e3431f7b7fcc5dd63c01ba4857ae88d313915",
+    "producer_artifacts_modified": false,
+    "real_api_keys_used": false,
+    "score": 1.0,
+    "status": "passed"
+  },
+  "daytona": {
+    "harbor_launcher_provider_option": true,
+    "native_fake_lifecycle_tests_passed": 10,
+    "native_launcher_providers": [
+      "docker",
+      "daytona"
+    ],
+    "needs": "Validate both implemented paths remotely, including exact runtime inventory, sidecars, protected result collection, separate verifier and deletion, after credentials and platform confirmation.",
+    "no_key_source_audit_sha256": "0f8a4ab3294a0b1891f5ed715c16d9e9f2af58931b531721637183b5cb0713a9",
+    "status": "SCHEMA_AND_SOURCE_COMPATIBLE_REMOTE_RUNTIME_UNTESTED"
+  },
+  "daytona_sandboxes_created": 0,
+  "final_preparation": {
+    "all_ten_tasks_regenerated_with_current_launchers": true,
+    "differences_from_reference_run_inputs": "Only the freshly generated private RESULT_TOKEN in each task's Compose config; all game, oracle, verifier, source archive and dependency-lock bytes identical.",
+    "receipt_sha256": "d1dba7e244a770bcce0e2ffe2888086b721083b405c30fecfe91bc53cda5974f",
+    "token_only_changes": [
+      "babaisai/babaisai-make-win-seed-0/environment/docker-compose.yaml",
+      "babaisai/babaisai-two-room-make-you-make-win-seed-0/environment/docker-compose.yaml",
+      "babyai/babyai-goto-seed-0/environment/docker-compose.yaml",
+      "babyai/babyai-putnext-seed-0/environment/docker-compose.yaml",
+      "crafter/crafter-default-seed-0/environment/docker-compose.yaml",
+      "minihack/minihack-mazewalk-9x9-v0-seed-0/environment/docker-compose.yaml",
+      "minihack/minihack-quest-easy-v0-seed-0/environment/docker-compose.yaml",
+      "nle/nle-nethackchallenge-v0-seed-0/environment/docker-compose.yaml",
+      "textworld/textworld-the-cooking-game-seed-0/environment/docker-compose.yaml",
+      "textworld/textworld-treasure-hunter-seed-0/environment/docker-compose.yaml"
+    ]
+  },
+  "harbor_version": "0.27.0",
+  "historical_255_task_harbor_version": "0.26.0",
+  "historical_evidence": "The prior 255-task run and V45/AutoAscend research remain separate; no score, fixture, oracle promotion or scoring-patch change.",
+  "host_daytona_extra_check": {
+    "active_lock_entries": 148,
+    "all_entries_exact_hashed": true,
+    "daytona_version": "0.233.0",
+    "harbor_lock_requirement": [
+      "harbor==0.27.0"
+    ],
+    "harbor_version": "0.27.0",
+    "installed_vs_lock_drift": {},
+    "lock_entries": 149,
+    "lock_sha256": "35c840d80ccb59c403e6989d39dc0b70fe0b378b5a4d08cbdc0b2df5d410add9",
+    "model_or_provider_requests": 0,
+    "new_installed_count": 148,
+    "new_packages": {
+      "aiofiles": "25.1.0",
+      "aiohttp-retry": "2.9.1",
+      "bidict": "0.24.1",
+      "daytona": "0.233.0",
+      "daytona-analytics-api-client": "0.233.0",
+      "daytona-analytics-api-client-async": "0.233.0",
+      "daytona-api-client": "0.233.0",
+      "daytona-api-client-async": "0.233.0",
+      "daytona-toolbox-api-client": "0.233.0",
+      "daytona-toolbox-api-client-async": "0.233.0",
+      "deprecated": "1.3.1",
+      "googleapis-common-protos": "1.76.0",
+      "httpx-ws": "0.10.0",
+      "obstore": "0.11.1",
+      "opentelemetry-exporter-http-transport": "0.66b2",
+      "opentelemetry-exporter-otlp-common": "0.66b2",
+      "opentelemetry-exporter-otlp-proto-common": "1.45.2",
+      "opentelemetry-exporter-otlp-proto-http": "1.45.2",
+      "opentelemetry-instrumentation": "0.66b2",
+      "opentelemetry-instrumentation-aiohttp-client": "0.66b2",
+      "opentelemetry-proto": "1.45.2",
+      "opentelemetry-sdk": "1.45.2",
+      "opentelemetry-semantic-conventions": "0.66b2",
+      "opentelemetry-util-http": "0.66b2",
+      "protobuf": "7.36.2",
+      "python-engineio": "4.15.1",
+      "python-socketio": "5.18.1",
+      "simple-websocket": "1.1.0",
+      "websocket-client": "1.9.2",
+      "wrapt": "2.5.2",
+      "wsproto": "1.3.2"
+    },
+    "old_core_versions_changed": {},
+    "old_installed_count": 117,
+    "provider_optional_sdk_available": true,
+    "provider_options_parse_passed": true,
+    "sdk_or_provider_instantiated": false,
+    "status": "DAYTONA_SDK_HOST_LOCK_AUDIT_PASSED"
+  },
+  "host_tests": {
+    "log_sha256": "271f91faed743b9c6d4b3ce294198e26e1bf338591e7359c7b97a795873412df",
+    "passed": 100,
+    "skip": "Windows symlink creation permission",
+    "skipped": 1,
+    "total": 101
+  },
+  "initial_reference_attempt": {
+    "log_sha256": "6b4bb435230334a1e9e2d55110e1dc934b325d307f3167cdbd47fe0712b0af41",
+    "outcome": "Docker preflight failed before any trial started; no score produced",
+    "preserved_separately": true
+  },
+  "known_wrong_control": {
+    "all_full_oracles": false,
+    "by_environment": {
+      "babyai": {
+        "count": 1,
+        "full_oracle_count": 0,
+        "full_reward_count": 0,
+        "mean_progression": 0.0
+      }
+    },
+    "changed_control_inputs": [
+      "solution/oracle_actions.json",
+      "solution/replay_oracle.py"
+    ],
+    "checks": [
+      {
+        "env_name": "babyai",
+        "full_oracle": false,
+        "full_reward": false,
+        "legacy_reward_rounding": false,
+        "native_transitions_checked": false,
+        "progression": 0.0,
+        "replay_verified": true,
+        "steps": 64,
+        "task_id": "babyai-goto-seed-0",
+        "validation_level": "server_replay_and_native_final_score_only"
+      }
+    ],
+    "control": "64 legal left turns; native budget exhausted without mission success",
+    "count": 1,
+    "grader_inputs_unchanged": true,
+    "job_result_sha256": "8cf9e8b90c677650f201bfeea99dd5b282430a15c7cc0eebe0ec70f53c39625b",
+    "job_started_at_utc": "2026-11-23T00:47:10.988747+00:00",
+    "model_api_calls": 0,
+    "naive_timestamp_interpretation": {
+      "job_start_utc_offset_seconds": -28800,
+      "source": "explicit offset"
+    },
+    "note": "Partial and diagnostic traces are not complete oracles. Missing native transition fixtures are explicitly marked. No model parity was run.",
+    "original_task_inputs_unchanged": true,
+    "protected_artifact": {
+      "artifact_sha256": "317df34df17d492cd9a229ef418a268dc0c93a086ea3ff09f14c2d8395145c3f",
+      "manifest_entry": {
+        "destination": "artifacts/var/lib/balrog/result.json",
+        "exclude": [],
+        "service": "game",
+        "source": "/var/lib/balrog/result.json",
+        "status": "ok",
+        "type": "file"
+      },
+      "manifest_sha256": "dcc5490f8ca7ef55449ed80851fcd475bfb27ca94a5f231579a45364dc03f37e"
+    },
+    "status": "reference_scores_and_replay_verified",
+    "verifier_environment_mode": "separate"
+  },
+  "manifest_sha256": {
+    "babaisai": "a964af4929f89a5b2bbee15e5c56bdf335e2e11085aa399dfc49be759330c8e4",
+    "babyai": "d5d483dc479094ae79cdcaba5d9772a9c81845408a48ad51060221434d8159de",
+    "crafter": "213cfb8a5b4bc6d8ee02ac19a777a743849f1f3e5ee6fe19b8a252576c23997b",
+    "minihack": "e640441628c2642c7b8d886d82f9d49916a9dbb9819d174776afcc70b87065fe",
+    "nle": "a3dd82982886f5f1897529883c194dc960889a9a68baa9764ee3c8b08c502a0e",
+    "textworld": "cf50d349b327712c44f429af45b8830f9f1cc2ba10cf45f0452cee47c83aaa5f"
+  },
+  "model_api_calls": 0,
+  "native_action_allowance_per_side": 102752,
+  "package": {
+    "frozen_cases_from_wheel": 255,
+    "isolated_wheel_import_passed": true,
+    "package_files_byte_verified_in_both_wheel_and_sdist": 54,
+    "runtime_guard_in_wheel": true,
+    "sdist_sha256": "dda1197ba4c49042111296710c85be12bad7c086e81bc6374e8934bc03afa2ca",
+    "six_runtime_locks_staged_and_verified": {
+      "babaisai": 62,
+      "babyai": 50,
+      "crafter": 57,
+      "minihack": 52,
+      "nle": 51,
+      "textworld": 84
+    },
+    "status": "FINAL_PACKAGE_RESOURCE_AUDIT_PASSED",
+    "wheel_sha256": "9bb576fd6a6b1cc65e145af53bf5d94fc5acbc97bd7f963ee957dbbf5dcc3dd7"
+  },
+  "parity_approved": false,
+  "parity_results": [],
+  "pins": {
+    "agent_lock_sha256": "7e208b3b21875767e115996fe05cac20491393ecfea8bb52efc12e0babfc3af8",
+    "host_lock_sha256": "35c840d80ccb59c403e6989d39dc0b70fe0b378b5a4d08cbdc0b2df5d410add9",
+    "launchers": {
+      "native_daytona.py": "e6cc89752b6a54abf3864a62a0b4a03f30311a62eee1954e46e61494cc8b32e5",
+      "parity_launch.py": "64da5a1fa5b183a441bc473ea9015a0f44087d9432483ed77939fc6602ebc3e8",
+      "prepare_parity.py": "315b471ac62a577e26ce9629800acded25fd6fcbd1cb69da1a9fc96a7b6db6de",
+      "run_harbor.py": "01085420732f2615277cff71f4fa0bcf88c3000b39a7632599d85e044723a4b4",
+      "run_native.py": "daf208b078d788943417734da51f5c9c24dcc9c36d0017fe481c4974c16b2785"
+    },
+    "runtime_inventory_sha256": "638a25f29590661ee17d24dccbc78c8c0995dec5db0587c09c0e476100ee133f",
+    "selection_plan_sha256": "73ac2f6520b3143961ff964945de735ae9d547d6ae28065420b6332241f9bdf6",
+    "settings_sha256": "36bb815fab38937f98dae4b1608216d747bdc275a4b3cfb8a4ba41e50a517b27"
+  },
+  "prepared_on": "2026-11-22",
+  "public_dry_runs": {
+    "combinations": "six environments x two sides x Docker / Daytona",
+    "credentials_file": "intentionally nonexistent",
+    "passed": 24,
+    "runtime_output_created": false,
+    "summary_sha256": "fcc54566a0ff7dbd04a32b26ec1502b964303fc72b914537e5b04566aeff4e28"
+  },
+  "recovery": "Docker Desktop engine exited during builds. Full VM process inspection confirmed no remaining container workloads. A graceful restart timed out; only verified Docker Desktop processes and the empty docker-desktop distro were restarted. Other WSL distributions were preserved. Remaining builds and reference jobs ran sequentially. No OOM cause is claimed.",
+  "runtime_validation": {
+    "api_credentials_used": false,
+    "baba_opencv_baseline_binary_equivalence": {
+      "baseline_pip_check": "baba 0.0.1 requires opencv-python, which is not installed.",
+      "equal": true,
+      "files": 91,
+      "locked_pip_check": "No broken requirements found."
+    },
+    "builds": {
+      "agent": {
+        "context_sha256": "3c5e28b5913ed4307dca821f6167df44b1b03e5d8761845f656a48c3e41de796",
+        "duration_seconds": 31.87,
+        "earlier_attempts": [
+          {
+            "path": "research/runtime-lock-build-20261122/build-agent-attempt1.json",
+            "sha256": "3b15b1a9ae8b67dd89134bb0029b0e61976ce028f8d4443938a053658f449104"
+          }
+        ],
+        "image": "harbor-balrog-locked-agent:20261122",
+        "image_id": "sha256:dbf3d3759026099a75dafb06c833da7c06dcc11d84f8cb8ebcc2975e6c503448",
+        "log": {
+          "path": "research/runtime-lock-build-20261122/build-agent.log",
+          "sha256": "f0c70b2a510e2818e6605a98c8f7417d13c816e82af9d804f76c8444bc7f78a4"
+        },
+        "record": {
+          "path": "research/runtime-lock-build-20261122/build-agent.json",
+          "sha256": "4ce377ff1118657e379bacad15e79dcb634d5886969b4eaa1205b2899cfa9a19"
+        },
+        "returncode": 0
+      },
+      "babaisai": {
+        "context_sha256": "2b60f41146ca405a4da960f2d39f2dea1d23df6cb18dfdd401d7b763cf3428e2",
+        "duration_seconds": 132.33,
+        "image": "harbor-balrog-locked-babaisai:20261122",
+        "image_id": "sha256:674c337f3f09342c4723d146f7e549738ec4efa294dd1a02b4baa927a22b6058",
+        "log": {
+          "path": "research/runtime-lock-build-20261122/build-babaisai.log",
+          "sha256": "e885b90a62a0181b96325b543b9c8a64a66c9dd598c662d0c72a8779de252c75"
+        },
+        "record": {
+          "path": "research/runtime-lock-build-20261122/build-babaisai.json",
+          "sha256": "75931250811106c5ffe5bfbeea28a7df57db7e4fbf253f71630e9a689518c594"
+        },
+        "returncode": 0
+      },
+      "babyai": {
+        "context_sha256": "3c5e28b5913ed4307dca821f6167df44b1b03e5d8761845f656a48c3e41de796",
+        "duration_seconds": 95.09,
+        "image": "harbor-balrog-locked-babyai:20261122",
+        "image_id": "sha256:a16e1b4090a8e10e6ef29dd0dccdbd36119f0a42236e1a1cacb73411e8809085",
+        "log": {
+          "path": "research/runtime-lock-build-20261122/build-babyai.log",
+          "sha256": "ac55b449fcc08fe9ec243890c30c6ff3c192f877ac65688005d32fded217e9b7"
+        },
+        "record": {
+          "path": "research/runtime-lock-build-20261122/build-babyai.json",
+          "sha256": "60ec0132ed22646745978fcf38ad8fb2ff9fa8c4fc21d44eec4a674aa1d2b21f"
+        },
+        "returncode": 0
+      },
+      "crafter": {
+        "context_sha256": "38f6b222dde7c05d85af070040ac4105d0ff8dc09a551d9f6a1b72baa39c85fb",
+        "duration_seconds": 128.93,
+        "image": "harbor-balrog-locked-crafter:20261122",
+        "image_id": "sha256:0f26b0a4bda98945af3ca2070f7c55e72aefbf85e87a0447d8625e91f12f78c1",
+        "log": {
+          "path": "research/runtime-lock-build-20261122/build-crafter.log",
+          "sha256": "3e6330951c0aeb269356eeb723429ad88d63533db456a05f298e7bc707d5af65"
+        },
+        "record": {
+          "path": "research/runtime-lock-build-20261122/build-crafter.json",
+          "sha256": "aa8f7d8afc4c8f104def938d2b1102f077a655c38707ad6e2580f1563eac3877"
+        },
+        "returncode": 0
+      },
+      "minihack": {
+        "context_sha256": "dd12f63b6f7aba13b38eb8e290ee2655d86d71f4a26b112da35f4b64c6974658",
+        "duration_seconds": 63.3,
+        "earlier_attempts": [
+          {
+            "path": "research/runtime-lock-build-20261122/build-minihack-attempt1.json",
+            "sha256": "5632fab5f15df4f0689ce40adffec6611b41bb522d3134df29b7897e1bfb3cb6"
+          }
+        ],
+        "image": "harbor-balrog-locked-minihack:20261122",
+        "image_id": "sha256:7e14271265d8eb1a6c7f8496ad2f681a470cdbbcbe18ccb1e352cd931906055a",
+        "log": {
+          "path": "research/runtime-lock-build-20261122/build-minihack.log",
+          "sha256": "b006439da9693395010145153eaa180a23f04f66d6a195bc6896a6e1f639db9f"
+        },
+        "record": {
+          "path": "research/runtime-lock-build-20261122/build-minihack.json",
+          "sha256": "e26f12b9c3361c5b17ce8a5398cb03037d6553477c5abdef98186312326fa12f"
+        },
+        "returncode": 0
+      },
+      "nle": {
+        "context_sha256": "09470c4cf3c677fe38c1eed595d35250d28e3bdbad1e25498f14b3f6a0e4962a",
+        "duration_seconds": 91.63,
+        "image": "harbor-balrog-locked-nle:20261122",
+        "image_id": "sha256:6b5e1e4481f5c6df7a06c51829890173353714fbab47c3d10d14515cdfb01e92",
+        "log": {
+          "path": "research/runtime-lock-build-20261122/build-nle.log",
+          "sha256": "eb58e8ad75c3ce5c3f6ecd97ce7df2d31fffbb90bd8437b363137a0ab47f0555"
+        },
+        "record": {
+          "path": "research/runtime-lock-build-20261122/build-nle.json",
+          "sha256": "d077c264315356749c88fddf5b33a9b62bfd80f1751900cb36ae4b2826aa47bb"
+        },
+        "returncode": 0
+      },
+      "textworld": {
+        "context_sha256": "49331df0ab2c964f2d815843593c08f01268f3cd9ffb8f92bc51025ba060365c",
+        "duration_seconds": 303.96,
+        "image": "harbor-balrog-locked-textworld:20261122",
+        "image_id": "sha256:03df8e909f4d9ce29e25777a661baecc0447574fc0ed55e36b0ae9d5147d76af",
+        "log": {
+          "path": "research/runtime-lock-build-20261122/build-textworld.log",
+          "sha256": "13e9680815d752d4e8349c48402329ae9b9567baa46ffc227bcb1b01d1e8dc57"
+        },
+        "record": {
+          "path": "research/runtime-lock-build-20261122/build-textworld.json",
+          "sha256": "29c17194153d522efe8484d5e5bde5bf718f0f730c9569958ec6e08bb032144b"
+        },
+        "returncode": 0
+      },
+      "verifier": {
+        "context_sha256": "7dfb570afb0e4ff3c69cc99684362ea200f9249ebba4e72098d7cadfb699f948",
+        "duration_seconds": 4.97,
+        "image": "harbor-balrog-locked-verifier:20261122",
+        "image_id": "sha256:38a7e01434b871c8630bfa7988ffa48de2b804639ddcae613bc546e8ab9be5af",
+        "log": {
+          "path": "research/runtime-lock-build-20261122/build-verifier.log",
+          "sha256": "cd1597897b2ba2c655ef0b8d757c6ad93ea87656278ff6448a927b3df4dcac35"
+        },
+        "record": {
+          "path": "research/runtime-lock-build-20261122/build-verifier.json",
+          "sha256": "730014f1c11113206159c7be2c4554a3feafcae50b88cd0aab9ef2dd3ebb9e94"
+        },
+        "returncode": 0
+      }
+    },
+    "cache_policy": "All builds use --no-cache. The digest-pinned Python base is locally available; Docker does not re-pull its identical layers.",
+    "complete": true,
+    "detailed_validation": {
+      "path": "research/runtime-lock-build-20261122/validation.json",
+      "sha256": "00529fb06729056ee741135367e8e4bec11dbc178cfc14b88d424e58b8b1ab9e"
+    },
+    "frozen_resets_checked": 255,
+    "limitations": [
+      "All 255 frozen initial observations were checked, but only one frozen reference trajectory per environment was replayed by this validation.",
+      "Package/source/base/apt inputs are pinned and checked; this does not claim bit-for-bit identical image output or model parity."
+    ],
+    "model_calls": 0,
+    "native": {
+      "babaisai": {
+        "frozen_resets": 120,
+        "log": {
+          "path": "research/runtime-lock-build-20261122/native-babaisai.log",
+          "sha256": "4598c099734739b3f5d858bfcb6a92c5915c441814b2bf90cd6535bf60ec00ee"
+        },
+        "passed": true,
+        "record": {
+          "path": "research/runtime-lock-build-20261122/native-babaisai.json",
+          "sha256": "33dcdd833e76b16889bfd488034047cbc0addd3110989aea809f21186166f76b"
+        },
+        "reference_count": 1,
+        "references": [
+          {
+            "actual_progression": 1.0,
+            "expected_progression": 1.0,
+            "frozen_transitions_equal": true,
+            "replay_progression": 1.0,
+            "replay_verified": true,
+            "scoring_mode": "deterministic_replay",
+            "steps": 15,
+            "task_id": "babaisai-make-win-distr-obj-rule-seed-0"
+          }
+        ]
+      },
+      "babyai": {
+        "frozen_resets": 50,
+        "log": {
+          "path": "research/runtime-lock-build-20261122/native-babyai.log",
+          "sha256": "8b232c7071768eee26cbae30fc92e7ec0986e312bbb4888c99928b5cab4c83a9"
+        },
+        "passed": true,
+        "record": {
+          "path": "research/runtime-lock-build-20261122/native-babyai.json",
+          "sha256": "1b4ba5f96f050536473843f9515b3ac6d63f22883705c294500b14ddc5c5591b"
+        },
+        "reference_count": 1,
+        "references": [
+          {
+            "actual_progression": 1.0,
+            "expected_progression": 1.0,
+            "frozen_transitions_equal": true,
+            "replay_progression": 1.0,
+            "replay_verified": true,
+            "scoring_mode": "deterministic_replay",
+            "steps": 3,
+            "task_id": "babyai-goto-seed-0"
+          }
+        ]
+      },
+      "crafter": {
+        "frozen_resets": 10,
+        "log": {
+          "path": "research/runtime-lock-build-20261122/native-crafter.log",
+          "sha256": "5127af094dafe014dc283de24090aafe90b785246ec06fd71e17130270af4aa0"
+        },
+        "passed": true,
+        "record": {
+          "path": "research/runtime-lock-build-20261122/native-crafter.json",
+          "sha256": "75a6334e9b10f1883ff8093a923bbd507fb7c7648994874afdce0f72328a1040"
+        },
+        "reference_count": 1,
+        "references": [
+          {
+            "actual_progression": 0.09090909090909091,
+            "expected_progression": 0.09090909090909091,
+            "frozen_transitions_equal": true,
+            "replay_progression": 0.09090909090909091,
+            "replay_verified": true,
+            "scoring_mode": "deterministic_replay",
+            "steps": 17,
+            "task_id": "crafter-default-seed-0"
+          }
+        ]
+      },
+      "minihack": {
+        "frozen_resets": 40,
+        "log": {
+          "path": "research/runtime-lock-build-20261122/native-minihack.log",
+          "sha256": "67f31092910313d95f00213d0921c2b4a61f4c12ea1cfcff02756dd0c2b57ba5"
+        },
+        "passed": true,
+        "record": {
+          "path": "research/runtime-lock-build-20261122/native-minihack.json",
+          "sha256": "01329efe7ebacb84cc19bfc80a24c2600021282ba11fa97c8849629d0f7bdec0"
+        },
+        "reference_count": 1,
+        "references": [
+          {
+            "actual_progression": 0.0,
+            "expected_progression": 0.0,
+            "frozen_transitions_equal": true,
+            "replay_progression": 0.0,
+            "replay_verified": true,
+            "scoring_mode": "deterministic_replay",
+            "steps": 100,
+            "task_id": "minihack-boxoban-hard-v0-seed-0"
+          }
+        ]
+      },
+      "nle": {
+        "frozen_resets": 5,
+        "log": {
+          "path": "research/runtime-lock-build-20261122/native-nle.log",
+          "sha256": "1f53219ed12f41175f46b8df9d9f94ba0345ce022746a4d864b615004d6f4a10"
+        },
+        "passed": true,
+        "record": {
+          "path": "research/runtime-lock-build-20261122/native-nle.json",
+          "sha256": "942217f399b913330315537d3439a83653eeb3dd7bacb6dcc6e0aca0d328aa80"
+        },
+        "reference_count": 1,
+        "references": [
+          {
+            "actual_progression": 0.0,
+            "expected_progression": 0.0,
+            "frozen_transitions_equal": true,
+            "replay_progression": 0.0,
+            "replay_verified": true,
+            "scoring_mode": "deterministic_replay",
+            "steps": 8,
+            "task_id": "nle-nethackchallenge-v0-seed-0"
+          }
+        ]
+      },
+      "textworld": {
+        "frozen_resets": 30,
+        "log": {
+          "path": "research/runtime-lock-build-20261122/native-textworld.log",
+          "sha256": "f82d6873d4cdc392cfb9fc569e20653ca17a7b225c70d69a8393274ed3684451"
+        },
+        "passed": true,
+        "record": {
+          "path": "research/runtime-lock-build-20261122/native-textworld.json",
+          "sha256": "d018fba7da50dc1499f58e4dc598051361a36f0bfc902a874664b6cfcb58504b"
+        },
+        "reference_count": 1,
+        "references": [
+          {
+            "actual_progression": 1.0,
+            "expected_progression": 1.0,
+            "frozen_transitions_equal": true,
+            "replay_progression": 1.0,
+            "replay_verified": true,
+            "scoring_mode": "deterministic_replay",
+            "steps": 20,
+            "task_id": "textworld-treasure-hunter-seed-0"
+          }
+        ]
+      }
+    },
+    "pip_checks_passed": 8,
+    "recovered_engine_outage": {
+      "path": "research/runtime-lock-build-20261122/engine-outage.json",
+      "sha256": "cb99035f77308d6819b9d0a41972159a77d152705d3ef71438713a2d19c3892a"
+    },
+    "schema_version": 1,
+    "scope": "No-cache runtime builds and frozen native references; not model parity.",
+    "successful_builds": 8,
+    "target": "CPython 3.10 / Linux amd64"
+  },
+  "schema_version": 1,
+  "scope_unchanged": true,
+  "status": "LOCAL_NO_KEY_PREPARATION_VALIDATED_REMOTE_PARITY_PENDING",
+  "structural_validator": {
+    "errors": [
+      "parity_experiment.json remains empty until real experiments"
+    ],
+    "passed": 29,
+    "warnings": [
+      "reward output delegated by test.sh to verifier.py",
+      "empty parity has no adapter_name"
+    ]
+  },
+  "task_counts_by_environment": {
+    "babaisai": 2,
+    "babyai": 2,
+    "crafter": 1,
+    "minihack": 2,
+    "nle": 1,
+    "textworld": 2
+  },
+  "task_ids": [
+    "babyai-goto-seed-0",
+    "babyai-putnext-seed-0",
+    "babaisai-make-win-seed-0",
+    "babaisai-two-room-make-you-make-win-seed-0",
+    "textworld-treasure-hunter-seed-0",
+    "textworld-the-cooking-game-seed-0",
+    "crafter-default-seed-0",
+    "nle-nethackchallenge-v0-seed-0",
+    "minihack-mazewalk-9x9-v0-seed-0",
+    "minihack-quest-easy-v0-seed-0"
+  ],
+  "ten_task_reference_validation": {
+    "all_replays_verified": true,
+    "all_separate_verifiers": true,
+    "checks": [
+      {
+        "env_name": "babaisai",
+        "full_oracle": true,
+        "full_reward": true,
+        "legacy_reward_rounding": false,
+        "native_transitions_checked": true,
+        "progression": 1.0,
+        "protected_artifact": {
+          "artifact_sha256": "77eaaa3034e9ab76eceb04566611456bbc49172969269d71ff77b4726043b5d9",
+          "manifest_entry": {
+            "destination": "artifacts/var/lib/balrog/result.json",
+            "exclude": [],
+            "service": "game",
+            "source": "/var/lib/balrog/result.json",
+            "status": "ok",
+            "type": "file"
+          },
+          "manifest_sha256": "dcc5490f8ca7ef55449ed80851fcd475bfb27ca94a5f231579a45364dc03f37e"
+        },
+        "replay_verified": true,
+        "steps": 16,
+        "task_checksum": "8bcf18afd4a3743247ec7e09ec735b21f07c69ad693be2ec0e8d28e29bc02511",
+        "task_id": "babaisai-make-win-seed-0",
+        "trial_result_sha256": "02ea8822d7616760c6e5b3963556691237081558183cf01377c33464bdceb9ac",
+        "validation_level": "native_transitions_and_server_replay",
+        "verifier_environment_mode": "separate"
+      },
+      {
+        "env_name": "babaisai",
+        "full_oracle": true,
+        "full_reward": true,
+        "legacy_reward_rounding": false,
+        "native_transitions_checked": true,
+        "progression": 1.0,
+        "protected_artifact": {
+          "artifact_sha256": "3b54700fe17d719572339c00085a66ddabd547ef7d7e16b6d8492b200276d535",
+          "manifest_entry": {
+            "destination": "artifacts/var/lib/balrog/result.json",
+            "exclude": [],
+            "service": "game",
+            "source": "/var/lib/balrog/result.json",
+            "status": "ok",
+            "type": "file"
+          },
+          "manifest_sha256": "dcc5490f8ca7ef55449ed80851fcd475bfb27ca94a5f231579a45364dc03f37e"
+        },
+        "replay_verified": true,
+        "steps": 21,
+        "task_checksum": "8bbb8b6456270afe8321279822d6d219e7d4a43ecfc70979aad79728014aa6bd",
+        "task_id": "babaisai-two-room-make-you-make-win-seed-0",
+        "trial_result_sha256": "e3b9e7abd8a3e61bae4c8cef3e8c6d16a5d8641c21a64f690b7989e5c61c3a11",
+        "validation_level": "native_transitions_and_server_replay",
+        "verifier_environment_mode": "separate"
+      },
+      {
+        "env_name": "babyai",
+        "full_oracle": true,
+        "full_reward": true,
+        "legacy_reward_rounding": false,
+        "native_transitions_checked": true,
+        "progression": 1.0,
+        "protected_artifact": {
+          "artifact_sha256": "60c0bdaea553f880651b83afdbfa5f36bd900bbb106b002f7e9d3755257b03b2",
+          "manifest_entry": {
+            "destination": "artifacts/var/lib/balrog/result.json",
+            "exclude": [],
+            "service": "game",
+            "source": "/var/lib/balrog/result.json",
+            "status": "ok",
+            "type": "file"
+          },
+          "manifest_sha256": "dcc5490f8ca7ef55449ed80851fcd475bfb27ca94a5f231579a45364dc03f37e"
+        },
+        "replay_verified": true,
+        "steps": 3,
+        "task_checksum": "d1f31ccc3e9eaee9c5efe4eb438b7e7fbdd7e6e2f7b062f34b8fc608a965b3bd",
+        "task_id": "babyai-goto-seed-0",
+        "trial_result_sha256": "ac0d44349e040cab4c252f56e3054d613fee6f1c0da56405424e0e45d69622c2",
+        "validation_level": "native_transitions_and_server_replay",
+        "verifier_environment_mode": "separate"
+      },
+      {
+        "env_name": "babyai",
+        "full_oracle": true,
+        "full_reward": true,
+        "legacy_reward_rounding": false,
+        "native_transitions_checked": true,
+        "progression": 1.0,
+        "protected_artifact": {
+          "artifact_sha256": "d1d44cdade8f47c3c2b8c67d7e20675c160b0de88faca83050e74c7accb113ca",
+          "manifest_entry": {
+            "destination": "artifacts/var/lib/balrog/result.json",
+            "exclude": [],
+            "service": "game",
+            "source": "/var/lib/balrog/result.json",
+            "status": "ok",
+            "type": "file"
+          },
+          "manifest_sha256": "dcc5490f8ca7ef55449ed80851fcd475bfb27ca94a5f231579a45364dc03f37e"
+        },
+        "replay_verified": true,
+        "steps": 6,
+        "task_checksum": "d982152be1a8bbbabc3cc3a664fe126ec1dc0a52dcf109ea9d7ce9c91a5f8f3e",
+        "task_id": "babyai-putnext-seed-0",
+        "trial_result_sha256": "4cc9b582bd098160fd1414e3d1326596850ebdcff92f47d6c79aa5d3b9719069",
+        "validation_level": "native_transitions_and_server_replay",
+        "verifier_environment_mode": "separate"
+      },
+      {
+        "env_name": "crafter",
+        "full_oracle": false,
+        "full_reward": false,
+        "legacy_reward_rounding": false,
+        "native_transitions_checked": true,
+        "progression": 0.09090909090909091,
+        "protected_artifact": {
+          "artifact_sha256": "7ab7902f322cb1110b67051ff46a3a04bf53d8ec3a610be768654382dad61d8a",
+          "manifest_entry": {
+            "destination": "artifacts/var/lib/balrog/result.json",
+            "exclude": [],
+            "service": "game",
+            "source": "/var/lib/balrog/result.json",
+            "status": "ok",
+            "type": "file"
+          },
+          "manifest_sha256": "dcc5490f8ca7ef55449ed80851fcd475bfb27ca94a5f231579a45364dc03f37e"
+        },
+        "replay_verified": true,
+        "steps": 17,
+        "task_checksum": "2f272b046c10fcb21e13bf4b13e7ea0f9a9854ef557ecb5bf5c88ec474058f0a",
+        "task_id": "crafter-default-seed-0",
+        "trial_result_sha256": "2d8993bc02a8b2746607a46f67d7b5307169fd57c1056e5c5bab07b21f3e65ba",
+        "validation_level": "native_transitions_and_server_replay",
+        "verifier_environment_mode": "separate"
+      },
+      {
+        "env_name": "minihack",
+        "full_oracle": true,
+        "full_reward": true,
+        "legacy_reward_rounding": false,
+        "native_transitions_checked": true,
+        "progression": 1.0,
+        "protected_artifact": {
+          "artifact_sha256": "e2b4bb46ef33b62c464582e36bc4ba4e35e3f0eff84babfe9b9ac297cc4a7115",
+          "manifest_entry": {
+            "destination": "artifacts/var/lib/balrog/result.json",
+            "exclude": [],
+            "service": "game",
+            "source": "/var/lib/balrog/result.json",
+            "status": "ok",
+            "type": "file"
+          },
+          "manifest_sha256": "dcc5490f8ca7ef55449ed80851fcd475bfb27ca94a5f231579a45364dc03f37e"
+        },
+        "replay_verified": true,
+        "steps": 6,
+        "task_checksum": "472af3584218fe8f09d356827c3ddca1d623f016e6d687c246cffd2e5f28914d",
+        "task_id": "minihack-mazewalk-9x9-v0-seed-0",
+        "trial_result_sha256": "d7e0458cc8d0a543056d466046fd0ff2b1fdfca1e62da6de326e58c19202f1d2",
+        "validation_level": "native_transitions_and_server_replay",
+        "verifier_environment_mode": "separate"
+      },
+      {
+        "env_name": "minihack",
+        "full_oracle": true,
+        "full_reward": true,
+        "legacy_reward_rounding": false,
+        "native_transitions_checked": true,
+        "progression": 1.0,
+        "protected_artifact": {
+          "artifact_sha256": "424217c62edffb127c88e8912ecf9986f0d0b0a72be9f238827eb9fcb76e08a8",
+          "manifest_entry": {
+            "destination": "artifacts/var/lib/balrog/result.json",
+            "exclude": [],
+            "service": "game",
+            "source": "/var/lib/balrog/result.json",
+            "status": "ok",
+            "type": "file"
+          },
+          "manifest_sha256": "dcc5490f8ca7ef55449ed80851fcd475bfb27ca94a5f231579a45364dc03f37e"
+        },
+        "replay_verified": true,
+        "steps": 35,
+        "task_checksum": "66cefa7fba6d358150f1eb743776b23009240f3d56e08c71d7c42d4959a4c4bc",
+        "task_id": "minihack-quest-easy-v0-seed-0",
+        "trial_result_sha256": "c696631d7f5e755c45578132e1f7ce18089a9f79bbfb0287a817521b8d5e36c6",
+        "validation_level": "native_transitions_and_server_replay",
+        "verifier_environment_mode": "separate"
+      },
+      {
+        "env_name": "nle",
+        "full_oracle": false,
+        "full_reward": false,
+        "legacy_reward_rounding": false,
+        "native_transitions_checked": true,
+        "progression": 0.0,
+        "protected_artifact": {
+          "artifact_sha256": "9ad8fe6593f45ba0a4253ae6116e184b08316b48a8fbe5ebaf2176d553bea5d9",
+          "manifest_entry": {
+            "destination": "artifacts/var/lib/balrog/result.json",
+            "exclude": [],
+            "service": "game",
+            "source": "/var/lib/balrog/result.json",
+            "status": "ok",
+            "type": "file"
+          },
+          "manifest_sha256": "dcc5490f8ca7ef55449ed80851fcd475bfb27ca94a5f231579a45364dc03f37e"
+        },
+        "replay_verified": true,
+        "steps": 8,
+        "task_checksum": "159b6ac8ca3eec5f17425fac0a8ff8d794606bc6231fedeabc40bcc8790e5b8e",
+        "task_id": "nle-nethackchallenge-v0-seed-0",
+        "trial_result_sha256": "ab35761c644197a33dd3555c1b89799c0b39db45f262cb7e48a3719622e8d39f",
+        "validation_level": "native_transitions_and_server_replay",
+        "verifier_environment_mode": "separate"
+      },
+      {
+        "env_name": "textworld",
+        "full_oracle": true,
+        "full_reward": true,
+        "legacy_reward_rounding": false,
+        "native_transitions_checked": true,
+        "progression": 1.0,
+        "protected_artifact": {
+          "artifact_sha256": "b1199eba19dcf27ee3633380fbb217e6150fbd58e68982c1cbec0b63e5171194",
+          "manifest_entry": {
+            "destination": "artifacts/var/lib/balrog/result.json",
+            "exclude": [],
+            "service": "game",
+            "source": "/var/lib/balrog/result.json",
+            "status": "ok",
+            "type": "file"
+          },
+          "manifest_sha256": "dcc5490f8ca7ef55449ed80851fcd475bfb27ca94a5f231579a45364dc03f37e"
+        },
+        "replay_verified": true,
+        "steps": 65,
+        "task_checksum": "7e4af1809294ef11d478fb808f3406a8aee937dfbcd75e0effcea9bb49f90996",
+        "task_id": "textworld-the-cooking-game-seed-0",
+        "trial_result_sha256": "7e4380ef79acea8b8302f330a8b3efa11bc9881203bc1188735d93c948df05ce",
+        "validation_level": "native_transitions_and_server_replay",
+        "verifier_environment_mode": "separate"
+      },
+      {
+        "env_name": "textworld",
+        "full_oracle": true,
+        "full_reward": true,
+        "legacy_reward_rounding": false,
+        "native_transitions_checked": true,
+        "progression": 1.0,
+        "protected_artifact": {
+          "artifact_sha256": "1955f2d1a8b5125b91f0b2fa423b34c182e40501680fa82d37434433a934a5f4",
+          "manifest_entry": {
+            "destination": "artifacts/var/lib/balrog/result.json",
+            "exclude": [],
+            "service": "game",
+            "source": "/var/lib/balrog/result.json",
+            "status": "ok",
+            "type": "file"
+          },
+          "manifest_sha256": "dcc5490f8ca7ef55449ed80851fcd475bfb27ca94a5f231579a45364dc03f37e"
+        },
+        "replay_verified": true,
+        "steps": 20,
+        "task_checksum": "dcb1d050f700498cc72a9291905d7f2721eae5c2b80a972e63d3aa0fea120286",
+        "task_id": "textworld-treasure-hunter-seed-0",
+        "trial_result_sha256": "11ceea1013b36f70b028479bfbf3a1950600b6a0d6c4fd048039e94cad2e7001",
+        "validation_level": "native_transitions_and_server_replay",
+        "verifier_environment_mode": "separate"
+      }
+    ],
+    "completed": 10,
+    "diagnostic_references": 2,
+    "exceptions": 0,
+    "full_reward": 8,
+    "harbor_version": "0.27.0",
+    "job_config_sha256": "f89f958490bea94f287bdcbf1c34b4048e2d4ea3522d0bb260d780cf2efe292f",
+    "job_result_sha256": "bff83f1664ba42968c910a2c59de83c1d7acd07bb405b23df44f21fa009952a0",
+    "model_api_calls": 0,
+    "preparation_sha256": "7a952fed9c1ef1f3adaa309c8f0af1678ac8c2b8bb9b658dc1d98b3030bd62b1",
+    "retries": 0,
+    "scope": "Ten predetermined original references, not model sanity/parity or the full 255-task run",
+    "status": "TEN_LOCKED_REFERENCE_SCORES_AND_REPLAYS_VERIFIED"
+  }
+}

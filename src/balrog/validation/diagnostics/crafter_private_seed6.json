@@ -1,0 +1,64 @@
+{
+  "status": "PROTOTYPE_PRIVILEGED_ORACLE_NOT_APPROVED",
+  "job_id": "4aaeaf01-5952-4a2d-95ac-9db7fcbff38b",
+  "job_finished": true,
+  "one_completed_trial_zero_errors": true,
+  "trial_job_and_task_identity_checked": true,
+  "reward_valid": true,
+  "job_trial_time_order_utc": [
+    "2026-11-18T00:31:20.182949+00:00",
+    "2026-11-18T00:31:20.399808+00:00",
+    "2026-11-18T00:32:17.660319+00:00",
+    "2026-11-18T00:32:17.753501+00:00"
+  ],
+  "naive_job_time_offset": "UTC-08:00 (America/Los_Angeles on 2026-11-17)",
+  "harbor_task_name": "balrog-private-prototype/crafter-seed-6",
+  "host_agent": {
+    "name": "balrog-private-reference-prototype",
+    "version": "0.1-research-not-approved",
+    "model_info": null
+  },
+  "native_seed": 6,
+  "native_budget": 2000,
+  "controller_limit": 2000,
+  "steps": 725,
+  "native_progression": 1.0,
+  "controller_snapshot_native_progression": 1.0,
+  "verifier_progression": 1.0,
+  "harbor_reward": 1.0,
+  "all_actions_match_authoritative_log": true,
+  "source_and_critical_game_files_unchanged": true,
+  "game_permissions_checked": true,
+  "normal_container_isolation_verified_after_controller": true,
+  "host_agent_sha256": "bc960c526e4e914f3fd3909a1a1dcf1e8fe76ccea8bd5fee15d9677aa05dc6f2",
+  "controller_error": null,
+  "missing_achievements": [],
+  "terminated": false,
+  "truncated": false,
+  "replay_verified": false,
+  "replay_diagnostic": {
+    "code": "crafter_native_object_order_nondeterminism",
+    "first_divergent_step": 25,
+    "message": "Replay differs at step 25"
+  },
+  "full_oracle_available": false,
+  "model_api_calls": 0,
+  "artifact_sha256": {
+    "result.json": "ab271a237cd94111f1de35cebec7e98211ef75a76cc7b2a49140fd82030607f1",
+    "verifier/result.json": "af4f24d5b6afd6fc58f6a807e8353c8d8a6ce136ac64fde5ced89af09a28d12f",
+    "verifier/reward.txt": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+    "agent/private-reference-install.json": "2128e94699f7b0c42171b4976ae6c4a3051d2735720be6794bef928937bf539c",
+    "agent/private-reference-summary.json": "ff07a75044adfa2ba16d3cd7ace99be99b0704c3d81f727db6593d608339619b"
+  },
+  "schema_version": 1,
+  "included_in_baseline": false,
+  "proposal_approved": false,
+  "scoring_mode": "authoritative_native_state",
+  "isolation_checks": {
+    "checks_passed": true,
+    "game_has_no_shared_mounts": true,
+    "separate_pid_and_ipc_namespaces": true,
+    "no_host_ports": true
+  },
+  "interpretation": "One privileged adaptive-controller Harbor trial, seed 6. The native score is 1, but fresh action replay diverges. This is neither an approved full oracle nor model parity; the private controller is not packaged."
+}

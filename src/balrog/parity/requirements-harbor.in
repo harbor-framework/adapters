@@ -1,0 +1,2 @@
+# Host harness only. Native games and model clients have their own image locks.
+harbor[daytona]==0.27.0

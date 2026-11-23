@@ -1,0 +1,32 @@
+{
+  "actions": [
+    "go forward",
+    "go forward",
+    "turn right"
+  ],
+  "expected_initial_observation_sha256": "324bd78a3160cb76f7254670034ef39e3c99b72476f6a30a888b563deac83314",
+  "expected_transitions": [
+    {
+      "observation": "e3329f7db646304b2107f1e22f4a66535a47069a34c7f36ed8ded8cad18655c2",
+      "executed_action": "go forward",
+      "reward": 0.0,
+      "terminated": false,
+      "truncated": false
+    },
+    {
+      "observation": "27fbf196fe838b2d8a01ec30e40e2a5cf5f62ff168970aa57361d9c22831a200",
+      "executed_action": "go forward",
+      "reward": 0.0,
+      "terminated": false,
+      "truncated": false
+    },
+    {
+      "observation": "ede8421abca6890650343a8beb137d6c4934d1b7011df2b9a84d69887e5732e0",
+      "executed_action": "turn right",
+      "reward": 0.9578125,
+      "terminated": true,
+      "truncated": false
+    }
+  ],
+  "expected_progression": 1.0
+}

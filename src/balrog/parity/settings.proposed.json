@@ -1,0 +1,23 @@
+{
+  "api_base_url": "https://app.ppapi.ai/v1",
+  "agent": {
+    "type": "naive",
+    "max_text_history": 16,
+    "max_image_history": 0
+  },
+  "client": {
+    "client_name": "openai",
+    "model_id": "gpt-4o-mini-2024-07-18",
+    "generate_kwargs": {
+      "temperature": 1,
+      "max_tokens": 8192
+    },
+    "timeout": 60,
+    "max_retries": 5,
+    "delay": 2,
+    "alternate_roles": false
+  },
+  "limits": {
+    "max_model_calls": 100000
+  }
+}

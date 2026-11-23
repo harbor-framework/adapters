@@ -1,0 +1,798 @@
+{
+  "schema_version": 1,
+  "repository_review_base": {
+    "repository": "https://github.com/harbor-framework/adapters",
+    "commit": "543861e1ad298c5d94f2480e9cbad74587041864",
+    "meaning": "Current PR review base; not the execution commit of earlier experiments."
+  },
+  "historical_execution_adapter_commit": null,
+  "historical_execution_commit_limitation": "The local uncommitted adapter had no recorded git commit for these experiments. Raw Harbor task checksums and saved report hashes are retained. Generated snapshot byte hashes were observed during packaging and are not independently attested execution image digests.",
+  "recorded_baseline_summary_runtime_sha256": "9a3237d76fcbe8cbff773b520a7e23a86efd4d0b982418007525cd506874c2f5",
+  "recorded_baseline_runtime_meaning": "Value saved by the six-environment summary; individual jobs used earlier generated snapshots and this is not asserted to be their common runtime hash.",
+  "review_snapshot_file_sha256": {
+    "src/balrog/runtime-dockerfiles/babaisai.Dockerfile": "8796697d8fb706c97602c75df0ebd86097d8e6b6276bc8d53c1e790a14fea81d",
+    "src/balrog/runtime-dockerfiles/crafter.Dockerfile": "e99c3e6e165e88e7fb8772e9be0c0224bb8db33e50c5b2579364face16f5e3b1",
+    "src/balrog/runtime-dockerfiles/minihack.Dockerfile": "9b6afedf4a9f785653aa5b40de8fe5f5d68a4bad874953c22b777b90f71d931a",
+    "src/balrog/runtime-dockerfiles/nle.Dockerfile": "d216bbe2e09f165e2c3295fcc9362ae566aa39b7c28916ca4ffe393b864ef3c1",
+    "src/balrog/runtime-dockerfiles/textworld.Dockerfile": "48778eca6333b0faa1e6a64637a419c3abd7e3619dd4ad0ef7c2f85b4c967839",
+    "src/balrog/task-template/environment/game_server.py": "9a3237d76fcbe8cbff773b520a7e23a86efd4d0b982418007525cd506874c2f5",
+    "src/balrog/task-template/environment/play.py": "63efa1b8e297cac8bac3dd82254e016b9dd3a32a521137791d60b1566bf0452f",
+    "src/balrog/task-template/solution/replay_oracle.py": "9ba7f6f5f71e71cde78f15105eb8c90ef5207030faa04a0c2e5e078f408acd4a",
+    "src/balrog/task-template/tests/verifier.py": "63eb147200a8c950c90363871b62aa84d27aff717c0bcf1ecb212dd24f4b1ad1",
+    "src/balrog/task-template/environment/Dockerfile": "4051c020af5ee5d7d0ec6b7028c7b64372a26eeded36837b5e9616d58f2d73ff",
+    "src/balrog/task-template/environment/Dockerfile.game": "420459605111fb6ba3f2470350d44eb7b452c2e9abe7be3ad473040658c0bf73",
+    "src/balrog/task-template/environment/requirements-agent.lock": "e5ad8adbe63dfd3780ef5e804c7d85655289222ea56ece285a003052c7497cbe",
+    "src/balrog/fixtures/textworld_requirements.lock": "cc9bf77114498b386479fdfb421248d375874349c73b784a6bc0fcd187f4152e",
+    "scripts/check_suite_reference.py": "336e701062131c761c3c1d4f66ce2342cf5773ef7051631f4d01c5b4e68ea428",
+    "scripts/check_oracle.py": "41361373a2e0a4f12111820d968a90845e946ca95fb5825e0cebbabc0985f5b8",
+    "scripts/build_validation_bundle.py": "90efda5e08e23b8cc6449124d3e2ac947f1b703f0af85883d6ef386c94f3a33e"
+  },
+  "runtime_pins": {
+    "harbor_reported_version": "0.26.0",
+    "python_image": "python:3.10-slim-bookworm@sha256:5be5aaecb962a41567bc8041f1e9e3432cb085b037fe057f9a562630b2e4b370",
+    "crafter": "1.8.3",
+    "balrog-nle": "0.9.0",
+    "limitation": "Source/build pins and saved task snapshots, not a complete runtime SBOM or attested image inventory."
+  },
+  "fixture_manifests": {
+    "babyai": {
+      "path": "src/balrog/fixtures/manifest.json",
+      "sha256": "d5d483dc479094ae79cdcaba5d9772a9c81845408a48ad51060221434d8159de",
+      "source_commits": {
+        "balrog": "b7afe79e3e4265811cfa985ed7c95c4d1a11e3f5",
+        "minigrid": "cf73dd148e51276bd675a37e3bfb0bf2b42329b2"
+      },
+      "count": 50
+    },
+    "babaisai": {
+      "path": "src/balrog/fixtures/babaisai_manifest.json",
+      "sha256": "a964af4929f89a5b2bbee15e5c56bdf335e2e11085aa399dfc49be759330c8e4",
+      "source_commits": {
+        "balrog": "b7afe79e3e4265811cfa985ed7c95c4d1a11e3f5",
+        "baba": "40ae1b29dbc67f2ecea06cc161ed5ca51719e5e3"
+      },
+      "count": 120
+    },
+    "textworld": {
+      "path": "src/balrog/fixtures/textworld_manifest.json",
+      "sha256": "cf50d349b327712c44f429af45b8830f9f1cc2ba10cf45f0452cee47c83aaa5f",
+      "source_commits": {
+        "balrog": "b7afe79e3e4265811cfa985ed7c95c4d1a11e3f5",
+        "textworld": "1d56f4765e7b28f04a68eff0bce5a6fe6ecd1a9f",
+        "assets": "bcb4052e6de36a4389e666acd374832cfab1a042"
+      },
+      "count": 30
+    },
+    "crafter": {
+      "path": "src/balrog/fixtures/crafter_manifest.json",
+      "sha256": "213cfb8a5b4bc6d8ee02ac19a777a743849f1f3e5ee6fe19b8a252576c23997b",
+      "source_commits": {
+        "balrog": "b7afe79e3e4265811cfa985ed7c95c4d1a11e3f5"
+      },
+      "count": 10
+    },
+    "minihack": {
+      "path": "src/balrog/fixtures/minihack_manifest.json",
+      "sha256": "e640441628c2642c7b8d886d82f9d49916a9dbb9819d174776afcc70b87065fe",
+      "source_commits": {
+        "balrog": "b7afe79e3e4265811cfa985ed7c95c4d1a11e3f5",
+        "minihack": "3ecb6da4eadcac7a4dbc5f8e801ccf636e34d7ec",
+        "boxoban_levels": "78011d8c86ad423bfb2e1005012393b4c3c24409"
+      },
+      "count": 40
+    },
+    "nle": {
+      "path": "src/balrog/fixtures/nle_manifest.json",
+      "sha256": "a3dd82982886f5f1897529883c194dc960889a9a68baa9764ee3c8b08c502a0e",
+      "source_commits": {
+        "balrog": "b7afe79e3e4265811cfa985ed7c95c4d1a11e3f5",
+        "minihack": "3ecb6da4eadcac7a4dbc5f8e801ccf636e34d7ec",
+        "boxoban_levels": "78011d8c86ad423bfb2e1005012393b4c3c24409"
+      },
+      "count": 5
+    }
+  },
+  "runtime_source_archives": {
+    "crafter": [],
+    "nle": [],
+    "babaisai": [
+      {
+        "archive": "babaisai.tar.gz",
+        "commit": "40ae1b29dbc67f2ecea06cc161ed5ca51719e5e3",
+        "sha256": "774c78a46e843f8b9ed31cdaea519d3b4b83f28972b00576860a93d398db0c0d"
+      }
+    ],
+    "minihack": [
+      {
+        "archive": "minihack.tar.gz",
+        "commit": "3ecb6da4eadcac7a4dbc5f8e801ccf636e34d7ec",
+        "sha256": "9f32872c28aac77de4afc02becde98d8cc7cbff84112d8ece0add9a5b106dd5f"
+      },
+      {
+        "archive": "boxoban.tar.gz",
+        "commit": "78011d8c86ad423bfb2e1005012393b4c3c24409",
+        "sha256": "aa83b1134089068dbc3d5abca9d63c4aa66b412ec190c381a53756be52b7a623"
+      }
+    ],
+    "textworld": [
+      {
+        "archive": "textworld.tar.gz",
+        "commit": "1d56f4765e7b28f04a68eff0bce5a6fe6ecd1a9f",
+        "sha256": "3b53c1446b53fdc7ff59f8215d994bc156ea8577b2e578dcfddde08ae289f681"
+      },
+      {
+        "archive": "assets.tar.gz",
+        "commit": "bcb4052e6de36a4389e666acd374832cfab1a042",
+        "sha256": "8be1269838fad9d5d05a6c5f69fa2ecee6451b562e902d12b1f1d326f21c991f"
+      }
+    ]
+  },
+  "baseline_jobs": {
+    "babyai": {
+      "source_id": "research/harbor-jobs/babyai-full-oracle/result.json",
+      "sha256": "838887a5e5e423e003edbf64ce79fed00c9cffec1f9ecb255e9091a4c46e851d",
+      "job_id": "509793c1-0753-40b0-91c0-a8e97b762903",
+      "schema_version": 1,
+      "started_at": "2026-11-16T15:45:43.827367",
+      "finished_at": "2026-11-16T15:54:37.269291",
+      "n_total_trials": 50,
+      "statistics": {
+        "n_completed_trials": 50,
+        "n_errored_trials": 0,
+        "n_cancelled_trials": 0,
+        "n_running_trials": 0,
+        "n_pending_trials": 0,
+        "n_retries": 0
+      },
+      "generated_snapshot_file_hashes_observed_at_packaging": {
+        "babyai": {
+          "environment/game_server.py": [
+            "67435f473b386e67f73e8a064ce03ef900be62ea728ed61432032211c96d3e14"
+          ],
+          "environment/Dockerfile": [
+            "4051c020af5ee5d7d0ec6b7028c7b64372a26eeded36837b5e9616d58f2d73ff"
+          ],
+          "environment/Dockerfile.game": [
+            "420459605111fb6ba3f2470350d44eb7b452c2e9abe7be3ad473040658c0bf73"
+          ],
+          "environment/requirements-agent.lock": [
+            "e5ad8adbe63dfd3780ef5e804c7d85655289222ea56ece285a003052c7497cbe"
+          ],
+          "tests/verifier.py": [
+            "4ac395dff99f1352642c4df710955dae106825c142139d83d99fae6a21e5b0f9"
+          ],
+          "tests/test.sh": [
+            "7627be573e10b8dd14e2002f29439739d3073381cccaf409bde0de06ee83212d"
+          ],
+          "task.toml": [
+            "02bb9c755df0178feac2165c14f4b25188c57f8642105ff11f10fb09a0277bbc",
+            "129bffe2720fc553065868b839048eb88dad61310eb53256090bb0354dccfd3b",
+            "15b60903c7154bacea6e1e8dbb60b64b9db11ae1c35b282a5b1d545db6683f0f",
+            "174571c2221733284d76f4ff6351633629b7321dde5c201d43706c96fe48cacd",
+            "194b4612ca4968ee71368ca89dc61647368754ac5343a753912e7664052727ac",
+            "1d2f2d1514058ed5532f9664294d66dab45610b2e3e1fde451a564c02afacf03",
+            "1eb14de5044f744705f83b72a9e6f1150ee14674e279482f9ae723bf6f29b1eb",
+            "1f8332fbec7cad05ef2d3fb9620271750794d194262deecbc25a9ac4c5783d1d",
+            "23ca873ff936f4a6f6a3cc017dfaf74942f5cd4f2c4994741cc0abb4de2ae532",
+            "2591e6f1c90d87c0adc3f47861780cf719bfaf5fbcc966b90883bf82c9fb6344",
+            "29066a39f786d20119f0dd1361ebf0b811cfa769d546f282a867f46bada3e637",
+            "2ef7107bc76c9167bf8701b32d905bd8d8744fcb131bd02daf2b48b64759fa9a",
+            "3dcc01e1cbbeb35cd433ffc1d292e28b4d9ee71d971eeeea2a69745641a93740",
+            "46b04b6f75fe1f1347fa96d08c67ceb26e8483b3488cc10cfe4a5b32641c585a",
+            "489c9840668c9e2ef98ca3292d315b378e8cb95ad6e7e1d954b1866fde3a2cd1",
+            "490248b0680f4afcab0a26774a9109d9ecdae0de2f54c9caeeface7eabb15be4",
+            "4ee8a46a54632c9352992571ebe77ab317f2b2022cefa763989e1ba979f42743",
+            "5088b19cad818b506e14a5ae9e521a015d47a6864b6b27a0a3b14c2d07deba1e",
+            "5831deb449f8ea574c5246580237ae2a6cd4958ba4df9ecb72dd51211e0213e2",
+            "5fbc3c6078eb5386734caedbdb3718cec5433ec3a1dee6ced61017464c9cc660",
+            "640479ed6d1bca68da8db0712b60fe5b28cd7df98212c6f2c67ba7f40e98a21b",
+            "65a8d4133260c9eae32c18454588a77f10000daeb2eaea20c5158485e22da114",
+            "666631e9e59d27f02c215aa0650d3753fba4ec12660c45a2afbef025b408fa0d",
+            "750e7c48357f4a4bd6bf9afb53ee4510d620242883966ba277191b6b0a8eec41",
+            "79fed1bd03ed5cf3fbf8b8b93ebde696fb5e7ae6179cdc3badc854427ab87f7c",
+            "832d6ab43bbe92482c47822aac344f7fbc0c9150ace771376494ad69ecf70eac",
+            "85c29f37dc365a8f9e427f2398954e4b7039a30882108ad8973f22a4e6372ba0",
+            "8d2a2c51f7bfa8e4a35dae3fa870857a13da3673b79486d411ffae80cb0f02ab",
+            "9accc60f62820c146e1e4e9a930f7457dad0d2eb565fca3fcaffa0f3d1af3d8d",
+            "9f44161066c81296f15f50490e909758984634cfbe883c5cd82e93003944ec98",
+            "af355066918f9d4503d927455ea8c7412602e4c4ec0b8aa874d63be2e66f90e9",
+            "af6c16ca784680a9efee892a86f717d7e94505e0a4bb251d3ea3911f75bc1c05",
+            "b106d3c4f1735d4641654d601eeea99ffc4e2d944e14ca22874e3eb677d296fb",
+            "b454c9a4e6905081cff08ef8a9d255b0ca9503a989c287c03e0504eafc02cd15",
+            "b870a7d4bcbb08711f1ef48772755803633f316a6749b4465a6a2a5231168d7e",
+            "bace47bbfc69e3151ffcf43cd018cf6bac9b085a78693ec2ee2d3bde2ebe45a5",
+            "bbb5e0d39d8fc3fb82b86813d0f7c5ba3e254f6543dc91685f746da14b71ceec",
+            "bd18b2306b11e75c9172e522982f409dbbf46519bfa49c580fe6b6ef43ee223a",
+            "c9125bb1a1b5f6601c875d2406a34ce5dfcf6bde74e700bfd579506a23503f08",
+            "c9df55911c98ea45f9e845a41e2be6638f868bb6ee2f7e32cefa5998e0f461e7",
+            "d5432513b7cb3bf035c74d2aa84443abb5b746aaeca0599ff850939096876515",
+            "de9c74c2923eedc026f8972d04cd19e7f3fe1bb988208409ae1b5ea4785aaf6c",
+            "dfdac8a93666b32fd9b2b631e26948e39f850d03f1e70a3e98f02a68ca94a2ce",
+            "e0a5518159333654a703fb221d599dc6cd8bf0cc0dad9c5efcb330efddec78df",
+            "e906dc5be42541ba5d2f7bfa0838cd463b5608f5cb4ad7479e2e0ab26724a63d",
+            "ecbaf0b8cc75231a9125cf17f614c34ca19305078b04cdc33a0982e5076c6758",
+            "edac9ae7da5c7fad52ceddcc15be2ba6b29da3cf5b944f2d6d637ea1c3afaeda",
+            "f23130e64d6a8c82b095c9d9b72b5e084ea5b0c32d3988c6a6bd791299964422",
+            "f61afdff960b55e3187cfc7d6b769324eabc16ddef3d39604fee21f058eb41c5",
+            "f76b6de998074898f7f484fa19c79c479258f2df2aef1c06cd31c8fbe7d98b06"
+          ]
+        }
+      }
+    },
+    "babaisai": {
+      "source_id": "research/harbor-jobs/babaisai-full-oracle-v2/result.json",
+      "sha256": "4e3418a801fc3b4966cf5782ac47a34f3b9f760565ae33619e6cb3d10c6d4bb2",
+      "job_id": "d31fa20e-9678-4f85-8183-690d686dcca0",
+      "schema_version": 1,
+      "started_at": "2026-11-16T18:51:59.802968",
+      "finished_at": "2026-11-16T19:35:24.229874",
+      "n_total_trials": 120,
+      "statistics": {
+        "n_completed_trials": 120,
+        "n_errored_trials": 0,
+        "n_cancelled_trials": 0,
+        "n_running_trials": 0,
+        "n_pending_trials": 0,
+        "n_retries": 0
+      },
+      "generated_snapshot_file_hashes_observed_at_packaging": {
+        "babaisai": {
+          "environment/game_server.py": [
+            "80930054bfa3beb9622d8c159582b10a3d74d25facedd5ed996cbd6798ebaa73"
+          ],
+          "environment/Dockerfile": [
+            "4051c020af5ee5d7d0ec6b7028c7b64372a26eeded36837b5e9616d58f2d73ff"
+          ],
+          "environment/Dockerfile.game": [
+            "8796697d8fb706c97602c75df0ebd86097d8e6b6276bc8d53c1e790a14fea81d"
+          ],
+          "environment/requirements-agent.lock": [
+            "e5ad8adbe63dfd3780ef5e804c7d85655289222ea56ece285a003052c7497cbe"
+          ],
+          "tests/verifier.py": [
+            "545c2c864364d3e6fe8f9284af04e78778a6e7ead54cfe161e34cefcadbd2849"
+          ],
+          "tests/test.sh": [
+            "7627be573e10b8dd14e2002f29439739d3073381cccaf409bde0de06ee83212d"
+          ],
+          "task.toml": [
+            "003d024ee9de9e9e93720a995dcf3dee61da1b143ab12b6678a8b032cbde91ac",
+            "038f8eff6792ad4afa89ac9dbe80bf6d145a4af5e59d6737f7ceab0683a1d69b",
+            "04abc151f5ce06db6dba738d931ff6533bb1a6281d5fa504b24b4186c5c03c05",
+            "04c0db1096f5ac63bef914ae6aa04505d3b030a639feab294303295b9105aa6f",
+            "07d0ba8a042f312ce9d146faf28774f8ec5bd59a6fe1d443292475e72feb0197",
+            "0ad62ef6d6f968c968636b8735a6a8eacefc85ee2e41d29706fe1e5a0a02ea71",
+            "0b500c9522fdd2ef27560ac649ae4b2433b003a0a8fc2919fd34a084c368d3f6",
+            "0fa763b7cd10ee1b09d181dac2aac23ebb2fec68c5555f71b4c579881d8d3ce8",
+            "1178a94a0eb6040684807556dc357d3f4f1070ed40551efde5408a5800d92dcc",
+            "11c1ebd00573c0fa7a096ba98164c9cd2ea20624ce7d5f0970a68fd98ab26692",
+            "123626af393c416a54fcae0cddeddda6f9e7ca396c490f17452bfb02dce379b9",
+            "12542b708e6534353fd10f40f168cf4b90707bfee9c6c4502b2f2965ab3769a8",
+            "140cc3a7cb1d948f47e663954bba895e5a4d0fb40f6e005f8af7c238d5d27303",
+            "1512393479b1dab240c8c576620b09a37c9aad0c822e1a01ee4e576b46b26a71",
+            "171c1cdba9d06604ef68f15d27330d7f242726b32c4a691d91d273312de8d5fd",
+            "1c6409965d5f3b290e7ac8fb355342973b0becc6c27d8671b0fbd8971d6a1b64",
+            "1f7c76c316b8a8992d92e580b9fc3949bbf6a010d4b4d7ad3697768ed4c39059",
+            "21159316c7f801c91f2bb9335499e5ca7f51cd3b8d4563dd11e99334c93d8c35",
+            "2250075baf9d4406a41536226cf71099f92d9b863f8a22af9325279ca4f71e0c",
+            "25eea02715722037b76ffc89f5d58ae546a6920d9c2a2eb2ee8e63799c4bd511",
+            "26a53cf7076e8637d6afaf90c2aeeacad4532245e7c121abff9bbd31a0947872",
+            "26c639a41cfb7404ddf643d0a81d4a066ff1a529f6bf57fa95c23837085bd47a",
+            "283137d9d5e9d6dfb7b989ddf96f4a68b09bed67f5fec319a8c6cb47c6bb9157",
+            "2ab89210d677a445eab433adee84de77c71e5363af81e439b5a5da8624909e52",
+            "313e6258dddabbb91e13f5ad5be6c4275748b43eee7212289c435c459cbb0370",
+            "3298f888e46a0049ad5f1b82306b70b093984a7e6314721f24a09bff96e364b7",
+            "337e9bb535e4a07e827f8ce56220f5a26f2256839c204a2034cf5ec97f4f7244",
+            "36de7208266feeac6e1822fe3db83f455e3d288fdf562c8813e1f79c489e7a89",
+            "3a94ef59da335351c0065f45115b8065c768c44a2b9a66dfb78d1bc543f29400",
+            "3c28cb09f063f75ed77828cdef815046e89696a0dbd2d43303a0847c143b508c",
+            "3da67c9888408c04e81d5a92acce8172f28e667be6e7315f84ac15d886df1614",
+            "406ad801aadd95db0b95a8bb34a8235d15ec6aebd2f2f612507f91f6d37e6537",
+            "41323998d4f03320a8f662b42850cd54660a7b83979d41d396cb32d2ad592f27",
+            "4168aa7a547d7723885ca904bf9718bfb4f769831506f75e760429efbd705584",
+            "4248867c6a809df063ab547f7779b14c355ed62b29559d2008a2d9162c70045a",
+            "42ace8aac855b209cb80acf2583f1cfa93b1cc0236639560f8646b97bad8b196",
+            "4446ee785308e095114b8ccf4777fcd724615887aa0d550a82b6b9029829e4ce",
+            "45af12705d42a720ca102a55341729110c7ae78780a26f3324b06802d879d99e",
+            "45f32f3d75d502bede172976341cadd58b28e00bd4a3a19f6b145b9206657494",
+            "4675022edac4c35366cfef690914c2aae931b81998f8f97c16afc901b2050975",
+            "4fcb24fb67a1440a70d2c31fcc479059239fc6a2cfa1212ef8f0ab5b5cf4c1e1",
+            "574671be9c208589b2e7d0e8dc226087b776b8ac64951679865afdb6a9fe51cd",
+            "57a33a182c1ffe92f40c03707702184e6118bb3b6f1ffc85f473a14bb33f306d",
+            "57c855be8ab8c39b3f94e77564bbab8fb1d67dfd559b783f196b144ecdc8b97b",
+            "586382655f42a309d92be734252df613010b5e33b8919e5e6fd3f9c70ba152ff",
+            "5a5e06764069138277d63ecc1367a45cb4ab0a8b7d809759a6ae416e92333910",
+            "5b7c116127d1ea028770ac831436e63ebfdce841811871ce3c525678eac0bfb4",
+            "5dd972f1bc982698d38d520c12cf8f6852fb7e4c205b6037d025e1783da571ac",
+            "5e66f0879cc6d421c7a9a217fe5a16e2aece3557f5ed302d83a230241355dc00",
+            "5f624e237c6402dcb8e0b2e7a4912a1cb04cf0efe3432cf722f88aa091eab750",
+            "65190ed36ca08d8e37b04e9c347439905582fd8a98dbec37afc8fd608cc62c03",
+            "679e7c8f953d053b5b90b985313cf407aa4c6f797119e17ef7f4425ae67edb61",
+            "693fec51803fe70d375fa5c5ecf1d1898e0ea7d68a4ca5160b30f09b6087f4d0",
+            "6a3cb55b7cfb675ba5463a1ccef482a35e56b87d7437f9e382b5192db84a3267",
+            "6b0bf0e04ea5892f8846905f55b3fbe3b550df4496a45becc001698044723116",
+            "6b18a27992441e1c0c59210cfc268d4b73dd7e0b3d718ce9e5ebc3dde9248990",
+            "6b2017d3d188dc22be22040e9a8f97db8c486415efcad8827dcca0633329dfd6",
+            "6b270ed787d5edb84799ac5cc4d21413aa02d2bba3c9ca6aa52f0e92cacada75",
+            "6dcfcf5b858f52bf19f199e948989588564bdbb88b04cf40349ce16cc7637db4",
+            "6f1e6218b8fd647c263ba215948534caa1be6cd9e9d51cbac2250bc41fcf3340",
+            "711e25277aafb2e2be1cb8d0a95b3a541b20e0a62b181bd223df6faa605c9e54",
+            "7155f2f5394e64ac24b0da2d68073076ca74ea8a2bbaecf5b201ccc3b8e9a61f",
+            "71a7bdd78e767eb79caf4eb62f39fbb8d64fac3de8e4d3cf3e667a8a603c588e",
+            "728ea6093caf65d75d802baf0a24659962b692d9bf61a41b7128e089a2386690",
+            "7446cad85fa14f33da3e65774e528167af2a386ea201b5c88db8c9508d65473c",
+            "7b946f538c8202c00b32fd47b702f44683745803e49f97fad6b0f51ef9ac9d9e",
+            "7df0ce135d36273d0939873ab9d543cc98e2a61999ee976ad38da0c8f65dee10",
+            "7e0c444d1fda853030b25281170fbdf4e0ba24770ac87fba1ceede66161c6369",
+            "7fb980345d726fbf70e6fa89aacff25eb898c15f0cd4031c09e7b6a3b1bf7edf",
+            "8075c3a19f042c39aa047013f74b89c5c4abfb8b7dd692306e300e86cb797d3b",
+            "83194f925ce80229c3eed6c6cae6be98284e9f0b8674763518b039a38bb96008",
+            "8380b5f19f186baacc24e258d33b7fce5f70f66a7d1d5ed524229dbddf207d5f",
+            "8a7647edf2416e8650cc0cf3975986ef2807abecf03af22768efa7aa64be4614",
+            "8bd6254f978fdd1bd2ca9b61c8a59d1f19083552d3a2e36cfd10a006703cc268",
+            "8cf0c5101df6048d4f888c200bf976984938fe069982dab68d5556460a80ff0d",
+            "8d2b4c2eb618199ff22fbf150be6f5a19bdd6260b6fcf2ddd1eafa63372fcae7",
+            "8e252f212400b813602e3a3bfbfe9563ea6248b95de43f489a7c49ceb034d47e",
+            "90017691afb95e2017a0504ecb11d3f8d91f7dd48b65d242196eb6403f598700",
+            "949d4a93f43f5c5a298ca058dbee0dabf2b12a686ffacdab80a3251484c8d72b",
+            "a15abeafd08e871320acef5ccea940793d69eb909b33de189fb29c1a2183d780",
+            "a294b5f29105358649be4041e826e535bbe5c2b3a5f382e985c82881aa6c4807",
+            "a7928de6a34570d8ac1c46be9b839e893a977de490736e8fa49b432388b62762",
+            "aac6d937da8f8ff608ca48ab64f97b5cfa991710b916a52c66dc59950ddaaf1e",
+            "ac1e5ce023cfbca7b6bd61376fbc98e4e086f9d78a709600eb6dba7e933291f1",
+            "aed67a5dc62a4e218578ae2583fc3ab5acf7c5c4688603a55568cfebdc3e9eac",
+            "afd00fcf917d7b8b8e3f6c0a6ed544aaa5149bae5c027c0c00f50534c5c7208b",
+            "b07281d3d5e79e157a18d950c01cd07ccb3d3b52a3f506dd70d846ac68150fe3",
+            "b08bef26ce42a869094f2d187e30f1a57263f6ac655a34f4cfd27bab73e65fc6",
+            "b1cab1081085d0dda9b622bbe8cffb8a109c27a80a9566dd2b21f44cbe1c049c",
+            "b487fdd5a05549bca3fcae8a23442145875c9cfb129cccd0538f5a2fcecafd4b",
+            "b81f1cdab70558462a4dccda8ad18d7c82fd107333c2d9a7b082225e6023a6fd",
+            "b926d6dc00335bb793350ab8a579c57ca191747215b745a51d62587cd0055409",
+            "ba784efafe456fda25a131a5fd73f53c8385e7d9871fae09bca19c1c7295d2ac",
+            "bb8ba773e37e536ec3a9994ccc7a9f96d3dbce141ca958412547482672c9c6a2",
+            "bc31e8c719576cec566c4ed3dc32dc3d4764d6110d79ba6eb2a6dcb64515735a",
+            "be018db7d163057fd966f9dd6d4147aed208c607fb8958d19dd3d6528b0ab9e2",
+            "c00fd91111386bc46ce6b37a502d5b3ffe2669dca011c6e7dc972fc2aa885268",
+            "c20f2c035861e3ca80cb0eb53735f81136555af3cc3bc0a40559640f6f45ed80",
+            "c8251cf4e3232b3abd939f7e81db4f735575cb1367874496b06ba5d26b4abb69",
+            "ccca4550d0866254c74d05f25523bfde33b0709bee409f86d908fdc51d2b7e4f",
+            "cf323974a23057f5c5502e210a34ec44c1147d90c4d8d9b375f2877dbba1714d",
+            "d8b8a4c1934f8eba6bccd5f20e2932b4273115e7d52efa4e2c9184b0d9134bf2",
+            "d9e37075480f6794675f25157f13da6faade231d9a5356289536773806fc0557",
+            "db1e213f0fb906e6e87185750912201cf3c613b3a5f43691eaedb40c03e2c59c",
+            "e22bf04418773afcfc83632375f92ed6e132589f4a6e5dde092fd3c9d44bc2ec",
+            "e3a052890bf07afbda07e32ca078e5007c2ba97b12bf8dbefa10a06082c122fb",
+            "e3be55b00b3e1fe11006c8dc08358206c4c50441de2967ff04d59abbf7d4392e",
+            "e4d5c61cc06e2c1e2110fa4cf1e519dc2a1c6353daadf8da431d86a5da6ab55e",
+            "e50d0748d0b84a3dffc18d1140ea23a1a1b07c0a448cfcb0b5760d55f4899545",
+            "e744b72dba450d560990df25b0c598b0e6972eee953021916522c4df30ef869f",
+            "ed46aca56d0cef73821a4ab9e41004102bfb6c4c2de592d69bcf2369d1df2b10",
+            "eda042e79fa9fb25873195d48ce10a3dd3c3ec53e59f9b8e3fe49e08823178fc",
+            "ee81bbd6f0bb8634ca0734b131d3add16b53e1eeeaec2dfca12c5fe22b930412",
+            "f1995480ed8242ae3fc9e503328094b491233341e1006eef354c650e8cf336e2",
+            "f372d96af90280da5350f693374c2520da1e5a768fcdeee8117507c44a5c0fdb",
+            "f487c8fe160dd65ec9c565b8ac2f65811a4d2b07f67e248d1e0fa262af167469",
+            "f9a185760e42ea3bbc5e42877652c2494a743b28eefeb91c99fd6c7e3275c9e2",
+            "fb7d02302644aece8af70b24ec6df01121f8a8fae9562b80d1386bb9007feab9",
+            "fdfbd151b0df25aa4200f6ea80db33f504fa20fa1ca21ce7d17289b7e7cfcc4c",
+            "ff1273f40c4f1c1809ed18cd938fb67003435dc871f65b99dc347756e6424e28"
+          ]
+        }
+      }
+    },
+    "textworld": {
+      "source_id": "research/harbor-jobs/textworld-full-oracle-v2/result.json",
+      "sha256": "3122061ef07a1850e54611ca0bb4f470dc8aec83905b9801a7760683d9c8fe3d",
+      "job_id": "289c1ac0-773e-4179-a3e3-e5a81a86f723",
+      "schema_version": 1,
+      "started_at": "2026-11-16T19:07:30.069656",
+      "finished_at": "2026-11-16T19:25:56.955952",
+      "n_total_trials": 30,
+      "statistics": {
+        "n_completed_trials": 30,
+        "n_errored_trials": 0,
+        "n_cancelled_trials": 0,
+        "n_running_trials": 0,
+        "n_pending_trials": 0,
+        "n_retries": 0
+      },
+      "generated_snapshot_file_hashes_observed_at_packaging": {
+        "textworld": {
+          "environment/game_server.py": [
+            "80930054bfa3beb9622d8c159582b10a3d74d25facedd5ed996cbd6798ebaa73"
+          ],
+          "environment/Dockerfile": [
+            "4051c020af5ee5d7d0ec6b7028c7b64372a26eeded36837b5e9616d58f2d73ff"
+          ],
+          "environment/Dockerfile.game": [
+            "48778eca6333b0faa1e6a64637a419c3abd7e3619dd4ad0ef7c2f85b4c967839"
+          ],
+          "environment/requirements-agent.lock": [
+            "e5ad8adbe63dfd3780ef5e804c7d85655289222ea56ece285a003052c7497cbe"
+          ],
+          "tests/verifier.py": [
+            "797410485b02c984e715aec176c1eded228a1fa1d9ae6acce2ff7612e179e5b8"
+          ],
+          "tests/test.sh": [
+            "7627be573e10b8dd14e2002f29439739d3073381cccaf409bde0de06ee83212d"
+          ],
+          "task.toml": [
+            "07dcde1391568cdf9bbf88e4abb254ed5a237fe7147c6a6439e5eb0639a23781",
+            "1280f70eba3489e2a9c1452361ef2be6dfeb90bfe0d6a288a2f00916ecb039e4",
+            "27e09839db4b665e21addfc8e81c2ddf88703abe0b0e1d5ef6a3455db3c928b5",
+            "3c016db21c25a849b1a3eebf38468cc6d06f2cf64e0459ec07fa50b865ef44b5",
+            "4c335bbd20514ceda9e1c36c3d677dac32caa0097510aafdf299cd88ff7c4a8a",
+            "4fc2711fc04dc564e092d3480855a22150d12d7579924b5aac54f58148c9cbf7",
+            "516c68ee5eacf7e9a766ec60dcac2b9c022191a362c317003a62a2c598912dd8",
+            "5270e90e58f7bf25a8bd9e79ee511f432d104373f3efb04c2d3ed5a683364a88",
+            "5f56ad18708808e21d48766da3e86fb1f2768757b04776609d9d90c95e7cf06f",
+            "6f29f66841de56b45804a09922621cdb2827d314dc3aaa82ac2b88c5946dd23a",
+            "781dc889ed11ca04a56f6f12ae1712682194614c24dc560df698bfa3a7cbd47b",
+            "7915db4776d2d576d1f73a369a17b695d1bd4d3d143bd7c22b06ecd906fb4766",
+            "7aa7adf43c05169044a2b4555c754e0e24f6c2d2b35b14ee62504b8907864529",
+            "8533d9bf21306ddd86493da8aea034061bfb72bb474b10e2582d376d2c0288f3",
+            "935763f212e089ad0fb4a994f65bab5d8fe190f8ae27035809aaf23e7aa4f5d6",
+            "9f0c5cb629ad9ed7c4c8f3baa29090d0b69c3cbb1b2ae1788dc22681ed6f50b2",
+            "9fd26979ef35d94adbd283105ad153951bb2909522a5ef98d09f5cff162985ba",
+            "9ff2cbeacb8f598740efa0c7e55587d9d621b4134c33162061fb38d4fa79b556",
+            "a92856dbf53c0d1a2911e5939b571b17d2b1d37fd0a5d2ccdd8bee93ff8f058d",
+            "b9199cd81fad000cd44fc382e46febac2a0eee6ac50eee743cdc8c91fedeff2d",
+            "b9c0dd34e04b001b06b38c8926ca476ed8c156fb187ffbd9a9680155eb1a5176",
+            "c14f4db1fe62d3653d40695553a91f4f25562ad97485333cf547d5b367cd3a5d",
+            "c9384f9cec2480f3ecb8b84d9a277abf7e814320c137d4e83cd9587af1057203",
+            "d664210bc5200f732d995a2c92f21be1cdc14b86702242309b369bbb0aa25bf9",
+            "d9ae19e88754a1dc94c404d8c2530c418c575f86db28a9ccfc03871580667c56",
+            "e4dbce0c046a4246775c9741f7f0281085ec785c85b96213c45397bccdc0623a",
+            "e641a9f5ddb149713b756266ac199271a7fc17a55bf84e066413a530fbd820ad",
+            "ec8f93af04070a1602aed73e15fa410a9c71a5060f26a89ccf6704ede0f771e9",
+            "f015785a7baa95ce665558fe19c272b548180f774e019ae34da9418d99df4b8a",
+            "fa88db3180da53f97a993606f0538245e3ef9e6d1d3922bbbfe2188de60b4d6b"
+          ]
+        }
+      }
+    },
+    "crafter": {
+      "source_id": "research/harbor-jobs/crafter-full-reference/result.json",
+      "sha256": "a272ab1c4a2c37c1a9dca51787344dcbc94b4dcc4b8dd32c6531469b19254446",
+      "job_id": "904af5c8-c0d2-40d6-9ecd-9b101bde3400",
+      "schema_version": 1,
+      "started_at": "2026-11-16T18:59:25.408442",
+      "finished_at": "2026-11-16T19:06:14.634097",
+      "n_total_trials": 10,
+      "statistics": {
+        "n_completed_trials": 10,
+        "n_errored_trials": 0,
+        "n_cancelled_trials": 0,
+        "n_running_trials": 0,
+        "n_pending_trials": 0,
+        "n_retries": 0
+      },
+      "generated_snapshot_file_hashes_observed_at_packaging": {
+        "crafter": {
+          "environment/game_server.py": [
+            "80930054bfa3beb9622d8c159582b10a3d74d25facedd5ed996cbd6798ebaa73"
+          ],
+          "environment/Dockerfile": [
+            "4051c020af5ee5d7d0ec6b7028c7b64372a26eeded36837b5e9616d58f2d73ff"
+          ],
+          "environment/Dockerfile.game": [
+            "e99c3e6e165e88e7fb8772e9be0c0224bb8db33e50c5b2579364face16f5e3b1"
+          ],
+          "environment/requirements-agent.lock": [
+            "e5ad8adbe63dfd3780ef5e804c7d85655289222ea56ece285a003052c7497cbe"
+          ],
+          "tests/verifier.py": [
+            "545c2c864364d3e6fe8f9284af04e78778a6e7ead54cfe161e34cefcadbd2849"
+          ],
+          "tests/test.sh": [
+            "7627be573e10b8dd14e2002f29439739d3073381cccaf409bde0de06ee83212d"
+          ],
+          "task.toml": [
+            "0dd712d2fa04fcd358509a0ff0875e74e8cb07c639c506b5e6af01a91d37239a",
+            "30f20d45a9a2db67e6aa012af48f9bb1456ed6e506c063d516dda14d0f0da158",
+            "311b70556c9b391277ac55326b9476622a64907cb571d19ee014614b794c065c",
+            "3adf4e69eff3568d18adadc8330fcca87c304e8e7aec743bb3ba573acfbae1f2",
+            "4f43e4f3e117c1037bc0724f1dc1c63a10ecc0924e6829c546b1cb007ad4ceb6",
+            "52b5980f26cbf4672804076a23f9fb889b6fbd680317440e7a317113452234d6",
+            "7eb91911b8608b017cf9d90ab73363e30e4be104a02672e0567942711b955bd4",
+            "a557ff2d1a8f6febaa3b2782bb92bbe28d3d95552d5f4712923c3510566e1957",
+            "d2ac38b019717a73c9f7fe2d1cceec98d8c1ed69191ac8cf10427806db6fd79f",
+            "f8c6025c5b49873a7d5d0ff98c2add77cb29f508e676b783224ed6c793713785"
+          ]
+        }
+      }
+    },
+    "minihack_nle": {
+      "source_id": "research/harbor-jobs/nle-minihack-native-order/result.json",
+      "sha256": "11d215ee4e8453b27ff70b7ff3da957ddab93d6d0d156d658eefb4be1165add6",
+      "job_id": "1186f194-bb4d-4e37-ade9-325d839e6567",
+      "schema_version": 1,
+      "started_at": "2026-11-16T19:33:38.326214",
+      "finished_at": "2026-11-16T19:44:21.774865",
+      "n_total_trials": 45,
+      "statistics": {
+        "n_completed_trials": 45,
+        "n_errored_trials": 0,
+        "n_cancelled_trials": 0,
+        "n_running_trials": 0,
+        "n_pending_trials": 0,
+        "n_retries": 0
+      },
+      "generated_snapshot_file_hashes_observed_at_packaging": {
+        "minihack": {
+          "environment/game_server.py": [
+            "7e18a9ca025f585a380645393daf6b8020b7bdf8dd18bb752a8c0081042a9bd9"
+          ],
+          "environment/Dockerfile": [
+            "4051c020af5ee5d7d0ec6b7028c7b64372a26eeded36837b5e9616d58f2d73ff"
+          ],
+          "environment/Dockerfile.game": [
+            "9b6afedf4a9f785653aa5b40de8fe5f5d68a4bad874953c22b777b90f71d931a"
+          ],
+          "environment/requirements-agent.lock": [
+            "e5ad8adbe63dfd3780ef5e804c7d85655289222ea56ece285a003052c7497cbe"
+          ],
+          "tests/verifier.py": [
+            "13dd7dbdcea994c6dbdb9334ec2c3f71d4d3f1a563f90d9198ea7305a065f6b0"
+          ],
+          "tests/test.sh": [
+            "7627be573e10b8dd14e2002f29439739d3073381cccaf409bde0de06ee83212d"
+          ],
+          "task.toml": [
+            "008ca17ddc8f61e6fcaf1fd4682183ede6cb0199d1d14dc723d4dff03c5d2cb5",
+            "02938784bff8d52e1c38202919230c896567e0830db99e98db21a962364479fb",
+            "073d46b647aac274f60af1ce3b468cddea9dde5ce670f23726dc0ca8e5452f78",
+            "07e60246eefdfb735f46cdf0ab74366c4bddd59863008679a005319b2d9dd840",
+            "085ddb7eee13bf78807b093423f1de7d666e9cb774f2fcbd2bb6790f6d336cc7",
+            "172cd87e9aa1caaca3b55a74562f446c571057185413bccf746ae4f43b8c1e3a",
+            "1d7320e979c27c5e5fe439142d9ab1283f8af503c4b2e8dfde5721dfe8b07cbf",
+            "374d19065d98e3fb763d9f0adb8df756db72cf9c814dadb13a6f477d930424ff",
+            "3a5d1c4f31d9b31e3b58a97f3a2e797bb62d9c205b07fa9e6d51b3f3bca03004",
+            "3c433bc80ca2d5c302cd06509e40dcc997e86712881bc69029c6ba0b8624b06f",
+            "42161c863b7f5b407145d8a0bb27b210c3ca2f933511f21a78de7970ddaa6186",
+            "439ad2756af94f3e9033cd7aa9a46be8e47d377508b33f78d765b6d73c8fbdcc",
+            "4dafc1e9e8d98fe9854a803f831255095b5edf254d23c7b116fdf55a129bfc1b",
+            "5478cc560907442f7972e66fdd7644c6f5e6692611b08af69c05876509a12d38",
+            "5970ad8c0ef53a4da9b0c35e387a39c1621c1d7ea19c69184b5bb4c944721054",
+            "5dd41fa92a1e8c8c0c20d65977da03469b18e8c43bdb374e1ecd6af594902f1c",
+            "5fa76a8b17be68a175810fb1729029d5070822230df700568c22701ab13f6cb5",
+            "607e628af0795da211cdefd734b683fe94b0c03c7a8f3178623bdee7376663c5",
+            "6972015f67a35b668fff491185adb82e0c5627799fb9748ec0f7b2131459e8ed",
+            "7694d7ec2005f9d9a592e39e352cd15c46527ded2d8fb3a92131a659edc4982d",
+            "88cfc53f35257508aa13ae8085802144368a53790d6f6aaf38b55afc40cc157e",
+            "8d019e0cd496dcc45d93ac31f515668846d34d46c43b7147a42196f5333dd5ca",
+            "9e1df24aeffda64f49a9350613eb0fb9aaad83c7815283a47f8fd887598343ca",
+            "aac8f77abe18b2e64b1934d2d2476a3f0e045c5052dc270a812e5ec83914fa8b",
+            "b12dd4e223849f01c3cf87a0569e7d4908c7e9ae5ee91bfb9313638b3d441f9b",
+            "b67148da1077ac6343da2bd812cacdc0b605c270c45a6811b5c77e2ec40cde41",
+            "be8ad19815060448e13bb7a7e11e191e1c5254e97eb840656b7749200855a911",
+            "c6f7a37f20c061ac7f41814be5b6d3fd2ab7ab1e0894ae89e4d171698cf2d72a",
+            "d1d8b5a129c7e164decab35c572874ac372ca4276368a6d9478bc1224c272194",
+            "d33eef47c2ee074edac25aac5ccd80a7e92c15533ac71a7e2704c8da8f6320bd",
+            "d62778717144e6c4b2c05e2b69a23696bad1786ea4f956f84641471d810c62ca",
+            "d8393ee1211279af80746608e5da1589022f9b72de00de351fee5c83ca18e218",
+            "dc5af4181941920515180daedfc786242dac02671fceb6c060b6dec835c22b3f",
+            "decf9ac9d6734e6786daac4a426e98e9305381beaffa71bc0017c4b6b02c90fa",
+            "dfc941dc530ea121f678689d859f8b07f6972795fe36dc4e5702c1a73d4a1cc8",
+            "e1bd0526e72622bcaa10ce059c19ebd828ab9602174b028d2c176e9dbf3bc654",
+            "ed38a0edb062c3c443033805e5614b0c513df14285d96932278d83aa5bc239b6",
+            "f57f09bbe716b3488a47cf35cd3884e5a91c00c169412d9c22588f41a8808d12",
+            "f596d3bfa80f4af36be33cd894563432965b1ca2e445ae270d09be286abac51d",
+            "f9d3ea5499e05edd9e3cd8ab4901e133d3c491300a64934165f8d517fca68964"
+          ]
+        },
+        "nle": {
+          "environment/game_server.py": [
+            "7e18a9ca025f585a380645393daf6b8020b7bdf8dd18bb752a8c0081042a9bd9"
+          ],
+          "environment/Dockerfile": [
+            "4051c020af5ee5d7d0ec6b7028c7b64372a26eeded36837b5e9616d58f2d73ff"
+          ],
+          "environment/Dockerfile.game": [
+            "d216bbe2e09f165e2c3295fcc9362ae566aa39b7c28916ca4ffe393b864ef3c1"
+          ],
+          "environment/requirements-agent.lock": [
+            "e5ad8adbe63dfd3780ef5e804c7d85655289222ea56ece285a003052c7497cbe"
+          ],
+          "tests/verifier.py": [
+            "13dd7dbdcea994c6dbdb9334ec2c3f71d4d3f1a563f90d9198ea7305a065f6b0"
+          ],
+          "tests/test.sh": [
+            "7627be573e10b8dd14e2002f29439739d3073381cccaf409bde0de06ee83212d"
+          ],
+          "task.toml": [
+            "033ba09a7ff8e7ccdce1a111c8080dd28b73088fa7d98a06030a71d52e66b89e",
+            "49b30c99b2af5c71fe31ac357dd24e1afd5b1970cdd371ebb1824f6866d702e9",
+            "64cd1e592aeb16f96278ba496400b94e7363a144835e9290317ba038a161585c",
+            "86c6934ca6b4d135de092f16ac7e696defa825871ecf57eca4c6004f0193c4ce",
+            "e5e37814039179ae377e6e44a2584cb88dc43a6040bedb1556dfcd61cf0d47f6"
+          ]
+        }
+      }
+    }
+  },
+  "raw_source_inventory": [
+    {
+      "workspace_relative_path": "research/balrog_six_environment_validation.json",
+      "sha256": "190da32f40cf6e29ff5f06dbae5b4396630978669fe0572c574591da1b8551f7",
+      "bytes": 4100,
+      "raw_artifact_packaged": false
+    },
+    {
+      "workspace_relative_path": "research/babyai_oracle_full_validation.json",
+      "sha256": "96af733ff39628f3a5c96c18916e21e2371dab67e519aadab27b9113a2888494",
+      "bytes": 17384,
+      "raw_artifact_packaged": false
+    },
+    {
+      "workspace_relative_path": "research/harbor-jobs/babyai-full-oracle/result.json",
+      "sha256": "838887a5e5e423e003edbf64ce79fed00c9cffec1f9ecb255e9091a4c46e851d",
+      "bytes": 4304,
+      "raw_artifact_packaged": false
+    },
+    {
+      "workspace_relative_path": "research/babaisai_full_harbor_validation.json",
+      "sha256": "bf01a7833d717274467ec7e333f1a28df9365aaceb1f4c257a75694b82fd4148",
+      "bytes": 48645,
+      "raw_artifact_packaged": false
+    },
+    {
+      "workspace_relative_path": "research/harbor-jobs/babaisai-full-oracle-v2/result.json",
+      "sha256": "4e3418a801fc3b4966cf5782ac47a34f3b9f760565ae33619e6cb3d10c6d4bb2",
+      "bytes": 9946,
+      "raw_artifact_packaged": false
+    },
+    {
+      "workspace_relative_path": "research/textworld_full_harbor_validation.json",
+      "sha256": "33076feeec63833d065da71584cd0d161dcb82c69fb1fc9df3656aeb57a6f405",
+      "bytes": 12285,
+      "raw_artifact_packaged": false
+    },
+    {
+      "workspace_relative_path": "research/harbor-jobs/textworld-full-oracle-v2/result.json",
+      "sha256": "3122061ef07a1850e54611ca0bb4f470dc8aec83905b9801a7760683d9c8fe3d",
+      "bytes": 3330,
+      "raw_artifact_packaged": false
+    },
+    {
+      "workspace_relative_path": "research/crafter_full_harbor_validation.json",
+      "sha256": "d6a2701213ebbf37f168dbe9ed22cd57123466e2e3ac2e3addc1581c53f60196",
+      "bytes": 4658,
+      "raw_artifact_packaged": false
+    },
+    {
+      "workspace_relative_path": "research/harbor-jobs/crafter-full-reference/result.json",
+      "sha256": "a272ab1c4a2c37c1a9dca51787344dcbc94b4dcc4b8dd32c6531469b19254446",
+      "bytes": 1797,
+      "raw_artifact_packaged": false
+    },
+    {
+      "workspace_relative_path": "research/nle_minihack_full_harbor_validation.json",
+      "sha256": "cfae7716d86bd6574f78cc04675a67d5b6e13d77b746667cea46ebe756032da8",
+      "bytes": 18155,
+      "raw_artifact_packaged": false
+    },
+    {
+      "workspace_relative_path": "research/harbor-jobs/nle-minihack-native-order/result.json",
+      "sha256": "11d215ee4e8453b27ff70b7ff3da957ddab93d6d0d156d658eefb4be1165add6",
+      "bytes": 4553,
+      "raw_artifact_packaged": false
+    },
+    {
+      "workspace_relative_path": "research/minihack_budget_proposal_harbor_validation.json",
+      "sha256": "c5375c6214276cf7861fe487c03297921963a6c3e575a02c7712c0a416ab204c",
+      "bytes": 20635,
+      "raw_artifact_packaged": false
+    },
+    {
+      "workspace_relative_path": "research/minihack_oracle_audit_v2_proof.json",
+      "sha256": "267521f6b51b7263bc465dffc5680ff828fd06e7f2c8e4870b314717f80bc0a7",
+      "bytes": 5506,
+      "raw_artifact_packaged": false
+    },
+    {
+      "workspace_relative_path": "research/crafter_private_harbor_full_validation.json",
+      "sha256": "d96dc6568d368c9bba770db630ba71c8bfc916ec5358ec8612ce25ab1dd2fe39",
+      "bytes": 3049,
+      "raw_artifact_packaged": false
+    },
+    {
+      "workspace_relative_path": "research/crafter_private_full_docker_boundary.json",
+      "sha256": "28c5f075667e4cd04f5e2f77bf0ecc4f0ffc8c8a3fbfc4e8b2d66b96e03edee5",
+      "bytes": 984,
+      "raw_artifact_packaged": false
+    },
+    {
+      "workspace_relative_path": "research/crafter_v4_tactics_audit.json",
+      "sha256": "4ceda237d75c7de77ed6ab19d6631322dbd2925add8deccad36599db48f373b6",
+      "bytes": 11943,
+      "raw_artifact_packaged": false
+    },
+    {
+      "workspace_relative_path": "research/nle_oracle_audit_v2_proof/report.json",
+      "sha256": "90052dbfb92b65f1bc649407f155cddd84974f6629ede6c4e748768f4d950880",
+      "bytes": 2172,
+      "raw_artifact_packaged": false
+    },
+    {
+      "workspace_relative_path": "research/crafter_determinism_report.json",
+      "sha256": "faeada69c264e478912551652d51a94295ee5049c714a27bfb8460654deaee8e",
+      "bytes": 35129,
+      "raw_artifact_packaged": false
+    },
+    {
+      "workspace_relative_path": "research/minihack_zero_all.json",
+      "sha256": "09dfbeddb7e1a19e8e538bb3ab026926cad2f596909fabc64f79a53de453f455",
+      "bytes": 9723,
+      "raw_artifact_packaged": false
+    },
+    {
+      "workspace_relative_path": "research/balrog_submission_packaging.json",
+      "sha256": "7e1fc36c0d6060b375f1eb6578d4e17644438a12d7ed998039f526949dcc33b4",
+      "bytes": 1182,
+      "raw_artifact_packaged": false
+    },
+    {
+      "workspace_relative_path": "research/balrog_submission_structure.json",
+      "sha256": "b9f3e10eb673220beb3171609398ac762a4f1a4837f970774d229fe1c131fdca",
+      "bytes": 2404,
+      "raw_artifact_packaged": false
+    },
+    {
+      "workspace_relative_path": "research/balrog_submission_checks.json",
+      "sha256": "f9e60f0a557f7e99fcd7a180a813b8ad1130ea181e80ed482f3e46c1612610f0",
+      "bytes": 7056,
+      "raw_artifact_packaged": false
+    },
+    {
+      "workspace_relative_path": "research/balrog_submission_unittest_final.log",
+      "sha256": "64449f8943d43b71c44b9243baba63078cddd2ede273020b63addfad3e6ac759",
+      "bytes": 8892,
+      "raw_artifact_packaged": false
+    },
+    {
+      "workspace_relative_path": "research/submission_test_runtime.py.log",
+      "sha256": "d1504f82f83cafde996561557c1c1f05b6f74d53825c07e7eb642c3963dbe719",
+      "bytes": 52850,
+      "raw_artifact_packaged": false
+    },
+    {
+      "workspace_relative_path": "research/submission_test_parity.py.log",
+      "sha256": "38de9602b3f234395fe973303395597505737a97590ab549511f118b8b9ffa1d",
+      "bytes": 54945,
+      "raw_artifact_packaged": false
+    },
+    {
+      "workspace_relative_path": "research/submission_test_native_batch.py.log",
+      "sha256": "812a3616fad0323d5a03e50e469a263a18afa292d94475bb6f5fac8189e1c4f8",
+      "bytes": 665,
+      "raw_artifact_packaged": false
+    },
+    {
+      "workspace_relative_path": "research/submission_test_crafter_failure_policy.py.log",
+      "sha256": "28cc9648369f5bfa7c9c3c7ad19a5969193ae91d6bf9563efc68ebe9675b8da1",
+      "bytes": 782,
+      "raw_artifact_packaged": false
+    },
+    {
+      "workspace_relative_path": "research/submission_test_suite_verification.py.log",
+      "sha256": "052561bbffdadaeb9063479384edb83d9df6609e69a6ae481d63cb974bb3f00c",
+      "bytes": 784,
+      "raw_artifact_packaged": false
+    },
+    {
+      "workspace_relative_path": "research/submission_test_bridge.py.log",
+      "sha256": "c9f4834d277fc1666477694f84dc3e1cf550d233da32f97a2567312ef71e296b",
+      "bytes": 571,
+      "raw_artifact_packaged": false
+    }
+  ],
+  "packaging": {
+    "gameplay_rerun": false,
+    "paid_api_calls": 0,
+    "raw_jobs_uploaded": false,
+    "game_assets_uploaded": false,
+    "research_controllers_uploaded": false,
+    "sanitization": "Explicit field selection; excludes host absolute paths, environment values, grading credentials, generated Compose files and private controllers."
+  }
+}
