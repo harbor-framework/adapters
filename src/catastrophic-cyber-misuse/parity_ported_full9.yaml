@@ -1,0 +1,22 @@
+job_name: parity-3cb-ported-9
+jobs_dir: jobs
+n_attempts: 3
+timeout_multiplier: 1.0
+orchestrator:
+  type: local
+  n_concurrent_trials: 4
+  quiet: false
+environment:
+  type: docker
+  force_build: false
+  delete: true
+  env:
+    - OPENAI_API_KEY=${OPENAI_API_KEY}
+    - OPENAI_BASE_URL=${OPENAI_BASE_URL}
+agents:
+  - name:
+    import_path: catastrophic_cyber_misuse.parity_agent:ThreeCBParityAgent
+    model_name: openai/gpt-5-mini
+    override_timeout_sec: 2400
+datasets:
+  - path: datasets/catastrophic-cyber-misuse-parity
