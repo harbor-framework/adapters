@@ -1,0 +1,50 @@
+[
+  {
+    "adapter_name": "threedcodebench",
+    "agent": "codex@0.171.0",
+    "model": "gpt-5.4-mini",
+    "date": "2026-11-23",
+    "adapted_benchmark_size": 212,
+    "parity_benchmark_size": 50,
+    "number_of_runs": 3,
+    "notes": "Text-to-3D, coding-agent setting. Parity subset: 50 of the 212 tasks drawn at random (random.Random(0) for the first 20, random.Random(1) for 30 more from the rest; `--split parity`, listed in src/threedcodebench/parity.py). Both sides ran Codex CLI 0.171.0 with gpt-5.4-mini (model-default reasoning) through the same OpenAI-compatible endpoint, with the upstream prompt and a 600 s agent budget; the original side ran upstream's tasks/coding_agent/run_codex_agent.sh unchanged except for the Blender path. Metrics are the four Table 2 metrics: executability over all tasks, and SigLIP-2 text-image, Uni3D 3D-3D and Chamfer distance (cd_yawmin, lower is better) as conditional means over tasks with a value. Executability, Uni3D and Chamfer run-score ranges overlap. SigLIP-2 ranges do not (original 0.1406-0.1418, Harbor 0.1438-0.1476); the README documents the investigation: the two scorers give the same SigLIP-2 on the same scripts (all 300 scripts cross-scored both ways, mean difference below 1e-4), Codex sends identical API requests on both sides apart from the working-directory path, and the paired per-task difference is +0.0045 with SE 0.0041 (p = 0.27). One Harbor trial (leafheart-seed0, run 2) hit AgentSetupTimeoutError before the agent started and was re-run with `harbor jobs resume -f AgentSetupTimeoutError`. Each run was executed as two jobs (20 + 30 tasks) because the subset was extended from 20 to 50 tasks. Parity and oracle artifacts (all attempts, aggregation scripts) are in a personal HF dataset while the shared parity-experiments repo is over its file limit (adapters#129), pinned at commit 71bb3917ccfb993c188dd75050c1d7274d0aa09f; its SHA256SUMS (11,798 files) has SHA-256 12d7cef3f411205913c272b2777e3e14e579a656813bb4272f7102717351f51e.",
+    "original_parity_repo": "https://github.com/ZhenbangDu/3dcodebench/tree/harbor-parity",
+    "adapter_pr": ["https://github.com/harbor-framework/adapters/pull/99"],
+    "dataset_pr": ["https://github.com/harbor-framework/harbor-datasets/pull/297"],
+    "parity_pr": ["https://huggingface.co/datasets/ZhenbangDu/threedcodebench-parity/tree/71bb3917ccfb993c188dd75050c1d7274d0aa09f/adapters/threedcodebench"],
+    "metrics": [
+      {
+        "benchmark_name": "3DCodeBench",
+        "metric": "executability",
+        "original": "1.0000 ± 0.0000",
+        "harbor": "1.0000 ± 0.0000",
+        "original_runs": [1.0, 1.0, 1.0],
+        "harbor_runs": [1.0, 1.0, 1.0]
+      },
+      {
+        "benchmark_name": "3DCodeBench",
+        "metric": "siglip2_text_image (conditional mean)",
+        "original": "0.1412 ± 0.0003",
+        "harbor": "0.1456 ± 0.0011",
+        "original_runs": [0.140558, 0.141131, 0.141762],
+        "harbor_runs": [0.145508, 0.147564, 0.143787]
+      },
+      {
+        "benchmark_name": "3DCodeBench",
+        "metric": "uni3d_3d_3d (conditional mean)",
+        "original": "0.4000 ± 0.0033",
+        "harbor": "0.3901 ± 0.0022",
+        "original_runs": [0.405502, 0.400438, 0.394028],
+        "harbor_runs": [0.387988, 0.38769, 0.394522]
+      },
+      {
+        "benchmark_name": "3DCodeBench",
+        "metric": "chamfer_distance cd_yawmin (conditional mean, lower is better)",
+        "original": "0.0762 ± 0.0038",
+        "harbor": "0.0716 ± 0.0016",
+        "original_runs": [0.077246, 0.06908, 0.082229],
+        "harbor_runs": [0.071184, 0.069167, 0.074493]
+      }
+    ]
+  }
+]

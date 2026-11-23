@@ -1,0 +1,38 @@
+[
+  {
+    "adapter_name": "threedcodebench",
+    "adapter_builders": ["Zhenbang Du (zdu89@gatech.edu)"],
+    "original_benchmark": [
+      {
+        "split": "text_to_3d",
+        "size": 212,
+        "harness": "agent",
+        "supported_agents": ["claude-code@unspecified", "codex@unspecified", "gemini-cli@unspecified", "antigravity@unspecified"],
+        "adaptable": true,
+        "notes": "Coding-agent setting (tasks/coding_agent/run_*_agent.sh @ 42c7780). Neither the scripts nor the paper pin CLI versions. Upstream also has single-shot and multi-turn LLM harnesses for the same 212 instances."
+      },
+      {
+        "split": "image_to_3d",
+        "size": 212,
+        "harness": "agent",
+        "supported_agents": ["claude-code@unspecified", "codex@unspecified", "gemini-cli@unspecified", "antigravity@unspecified"],
+        "adaptable": true,
+        "notes": "Not included in this version. Upstream publishes image-to-3D coding-agent runs (agent_logs/image_to_3D_agent, 4 reference views per object under 3DCodeBench_ModelLogs/inputs/), but the paper's coding-agent results (Table 2) cover text-to-3D only."
+      }
+    ],
+    "harbor_adapter": [
+      {
+        "split": "text_to_3d",
+        "adapted_benchmark_size": 212,
+        "parity_benchmark_size": 50,
+        "parity_sampling_rate": 0.2358,
+        "registry_benchmark_size": 212,
+        "added_agents": ["None"],
+        "parity_matching_agents": ["codex@0.171.0+gpt-5.4-mini"],
+        "parity_unmatching_agents": ["None"],
+        "parity_costs": "$7.4",
+        "notes": "Parity on a random 50-task subset (--split parity), 3 runs per side, Codex CLI 0.171.0 with gpt-5.4-mini. Executability, Uni3D and Chamfer run-score ranges overlap. SigLIP-2 ranges do not (original 0.1412 ± 0.0003, Harbor 0.1456 ± 0.0011); the README documents equivalent scoring on the same scripts and a per-task gap within sampling noise (p = 0.27). Oracle: 212/212. Reward = upstream executability; Chamfer distance, SigLIP-2 text-image and Uni3D 3D-3D similarity (the other Table 2 metrics, computed on CPU) in /logs/verifier/metrics.json. Re-scoring upstream's published GPT-5.4 mini Codex CLI scripts reproduces Table 2 (exec 1.000, SigLIP-2 0.155 vs 0.154, Uni3D 0.444 vs 0.450, CD 0.072 vs 0.072)."
+      }
+    ]
+  }
+]
