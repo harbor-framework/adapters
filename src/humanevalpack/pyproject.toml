@@ -1,0 +1,22 @@
+[project]
+name = "harbor-humanevalpack-adapter"
+version = "0.1.0"
+description = "Harbor adapter for HumanEvalPack (HumanEvalFix, multi-language bug repair)"
+readme = "README.md"
+authors = [
+    { name = "Feikai Gao", email = "mingqwqqaq@gmail.com" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "datasets>=3.0,<5",
+]
+
+[project.scripts]
+humanevalpack = "humanevalpack.main:main"
+
+[build-system]
+requires = ["uv_build>=0.11.7,<0.12.0"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "humanevalpack"

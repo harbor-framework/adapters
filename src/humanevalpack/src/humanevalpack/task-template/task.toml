@@ -1,0 +1,39 @@
+schema_version = "1.0"
+
+[task]
+name = "bigcode/humanevalpack__{task_id}"
+description = "HumanEvalFix ({language}): fix the bug in {entry_point}"
+# From the OctoPack BibTeX (arXiv:2308.07124)
+authors = [
+  { name = "Niklas Muennighoff" },
+  { name = "Qian Liu" },
+  { name = "Armel Zebaze" },
+  { name = "Qinkai Zheng" },
+  { name = "Binyuan Hui" },
+  { name = "Terry Yue Zhuo" },
+  { name = "Swayam Singh" },
+  { name = "Xiangru Tang" },
+  { name = "Leandro von Werra" },
+  { name = "Shayne Longpre" },
+]
+keywords = ["humanevalpack", "humanevalfix", "debugging", "{language_key}"]
+
+[metadata]
+difficulty = "{difficulty}"
+category = "debugging"
+source = "bigcode/humanevalpack"
+source_task_id = "{source_task_id}"
+bug_type = "{bug_type}"
+failure_symptoms = "{failure_symptoms}"
+
+[verifier]
+timeout_sec = {verifier_timeout}
+
+[agent]
+timeout_sec = 600.0
+
+[environment]
+build_timeout_sec = {build_timeout}
+cpus = 1
+memory_mb = 4096
+storage_mb = 10240

@@ -1,0 +1,30 @@
+[
+  {
+    "adapter_name": "humanevalpack",
+    "adapter_builders": ["Feikai Gao (mingqwqqaq@gmail.com)"],
+    "original_benchmark": [
+      {
+        "split": "humanevalfixtests-{js,java,go,cpp,rust}",
+        "size": 820,
+        "harness": "llm",
+        "supported_agents": ["None"],
+        "adaptable": true,
+        "notes": "HumanEvalFix (tests variant) from bigcode/humanevalpack, 164 problems per language, evaluated with bigcode-evaluation-harness + Muennighoff/code_eval_octopack. The Python subset (164) is already covered by the humanevalfix adapter and can be generated here with --languages python."
+      }
+    ],
+    "harbor_adapter": [
+      {
+        "split": "full",
+        "adapted_benchmark_size": 818,
+        "parity_benchmark_size": null,
+        "parity_sampling_rate": null,
+        "registry_benchmark_size": null,
+        "added_agents": ["None"],
+        "parity_matching_agents": [],
+        "parity_unmatching_agents": null,
+        "parity_costs": null,
+        "notes": "Parity not yet run; agent, model and number of runs pending agreement with the Harbor team."
+      }
+    ]
+  }
+]
