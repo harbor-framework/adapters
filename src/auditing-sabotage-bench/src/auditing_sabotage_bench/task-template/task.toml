@@ -42,8 +42,8 @@ memory_mb = 2048
 storage_mb = 4096
 
 [agent]
-# Upstream sets no time limit; 2 hours covers the no-experiments audits in practice.
-timeout_sec = 7200.0
+# Upstream sets no time limit. Audits usually take 5-30 minutes; 4 hours leaves room for slow API endpoints.
+timeout_sec = 14400.0
 
 [environment]
 build_timeout_sec = 1800.0
