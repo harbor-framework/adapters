@@ -1,0 +1,25 @@
+# Reference run config for SREGym-Lite (17 problems; upstream --suite sregym-lite).
+# Each trial starts a privileged SREGym sidecar (private dockerd + 4-node KIND
+# cluster, ~8 vCPU / 16 GB), so keep concurrency low.
+jobs_dir: jobs
+n_attempts: 1
+timeout_multiplier: 1.0
+orchestrator:
+  type: local
+  n_concurrent_trials: 2
+  quiet: false
+environment:
+  type: docker
+  delete: true
+  # Do not put the judge key or model here: `environment.env` reaches the
+  # agent's container. The sidecar reads SREGYM_JUDGE_MODEL, OPENAI_API_KEY
+  # (or the judge provider's key), SREGYM_REGISTRY_MIRRORS and, for oracle
+  # runs only, SREGYM_ENABLE_ORACLE=1 from the shell running `harbor run`.
+agents:
+  - name: oracle
+  # - name: claude-code
+  #   model_name: anthropic/claude-sonnet-4-5-20250929
+  # - name: codex
+  #   model_name: openai/gpt-5
+datasets:
+  - path: datasets/sregym-lite

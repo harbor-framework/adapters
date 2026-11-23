@@ -1,0 +1,15 @@
+--- a/sregym/generators/fault/inject_otel.py	2026-11-22 14:15:25
++++ b/sregym/generators/fault/inject_otel.py	2026-11-22 14:15:26
+@@ -18,7 +18,11 @@
+     "paymentFailure": ["payment"],
+     "paymentUnreachable": ["checkout"],
+     "productCatalogFailure": ["product-catalog"],
+-    "kafkaQueueProblems": ["kafka"],
++    # Harbor adapter: the flag is read by checkout (extra producer messages)
++    # and fraud-detection (per-record consumer sleep), not by the broker.
++    # Restarting the broker, which has no persistent storage, deletes the
++    # `orders` topic and leaves accounting's consumer stuck after recovery.
++    "kafkaQueueProblems": ["checkout", "fraud-detection"],
+     "imageSlowLoad": ["frontend"],
+     "loadGeneratorFloodHomepage": ["load-generator"],
+     "failedReadinessProbe": ["cart"],
