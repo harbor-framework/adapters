@@ -1,0 +1,30 @@
+[
+  {
+    "adapter_name": "finsearchcomp",
+    "adapter_builders": ["Salliberg"],
+    "original_benchmark": [
+      {
+        "split": "full",
+        "size": 635,
+        "harness": "llm",
+        "supported_agents": ["None"],
+        "adaptable": true,
+        "notes": "635 questions: T1 time-sensitive data fetching (244), T2 simple historical lookup (219), T3 complex historical investigation (172). Upstream answers each question with one model call plus a search tool, graded by an LLM judge (0/1)."
+      }
+    ],
+    "harbor_adapter": [
+      {
+        "split": "full",
+        "adapted_benchmark_size": 593,
+        "parity_benchmark_size": 33,
+        "parity_sampling_rate": 0.0556,
+        "registry_benchmark_size": 593,
+        "added_agents": ["None"],
+        "parity_matching_agents": ["claude-code@2.1.329+claude-haiku-5-5"],
+        "parity_unmatching_agents": ["None"],
+        "parity_costs": null,
+        "notes": "593 tasks: T1 202 (the AkShare-answerable T1 questions, minus one that upstream cannot grade), T2 219, T3 172. Parity on 33 T2/T3 tasks, 3 runs per side, judge gpt-5.4."
+      }
+    ]
+  }
+]

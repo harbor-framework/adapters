@@ -1,0 +1,21 @@
+[project]
+name = "harbor-finsearchcomp-adapter"
+version = "0.1.0"
+description = "Harbor adapter for FinSearchComp (financial search and reasoning)"
+readme = "README.md"
+requires-python = ">=3.11.5"
+dependencies = []
+
+[project.optional-dependencies]
+# Only needed to embed a T1 market snapshot (--t1-snapshot-dir).
+t1 = ["akshare==1.20.43", "pandas>=2.2"]
+
+[project.scripts]
+finsearchcomp = "finsearchcomp.main:main"
+
+[build-system]
+requires = ["uv_build>=0.9.18,<0.10.0"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "finsearchcomp"
