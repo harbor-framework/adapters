@@ -1,0 +1,29 @@
+version = "1.0"
+artifacts = ["/workspace/solution.json"]
+
+[task]
+name = "flashinfer-ai/flashinfer-bench--@@TASK_ID@@"
+version = "0.1.0"
+authors = [{ name = "FlashInfer team" }]
+
+[metadata]
+difficulty = "hard"
+category = "programming"
+tags = ["gpu", "cuda", "kernel-optimization", "flashinfer-bench"]
+
+[agent]
+timeout_sec = 14400.0
+
+[verifier]
+timeout_sec = @@VERIFIER_TIMEOUT@@
+# Recreate the image and transfer the submission, not agent-modified libraries,
+# evaluator configuration, caches, or background processes.
+environment_mode = "separate"
+
+[environment]
+build_timeout_sec = 3600.0
+cpus = 8
+memory_mb = 65536
+storage_mb = 102400
+gpus = 1
+gpu_types = ["@@TARGET_GPU@@"]
