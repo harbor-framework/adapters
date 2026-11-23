@@ -9,7 +9,9 @@
     "number_of_runs": 0,
     "notes": "Planned, not run. SREGym-Lite (17), claude-code on both sides (upstream claudecode driver vs Harbor claude-code), same dated agent model and pinned diagnosis judge, 3 runs per side. Metrics: mitigation success rate (primary, pending team confirmation) and diagnosis success rate.",
     "original_parity_repo": "https://github.com/SREGym/SREGym",
-    "adapter_pr": [],
+    "adapter_pr": [
+      "https://github.com/harbor-framework/adapters/pull/139"
+    ],
     "dataset_pr": [],
     "parity_pr": [],
     "metrics": [
