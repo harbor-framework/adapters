@@ -1,0 +1,80 @@
+[
+  {
+    "adapter_name": "sregym",
+    "adapter_builders": [
+      "Yuan Gao (ygao31@uw.edu)"
+    ],
+    "original_benchmark": [
+      {
+        "split": "sregym-lite",
+        "size": 17,
+        "harness": "agent",
+        "supported_agents": [
+          "claudecode",
+          "codex",
+          "stratus",
+          "gemini",
+          "opencode",
+          "copilot",
+          "cursor"
+        ],
+        "adaptable": true,
+        "notes": "Upstream SREGym-Lite suite (sregym/conductor/problem_sets.py) at commit ac60c642. Upstream agents are not version-pinned (agents.yaml agent_version: null); versions will be pinned for parity."
+      },
+      {
+        "split": "full",
+        "size": 222,
+        "harness": "agent",
+        "supported_agents": [
+          "claudecode",
+          "codex",
+          "stratus",
+          "gemini",
+          "opencode",
+          "copilot",
+          "cursor"
+        ],
+        "adaptable": true,
+        "notes": "All 222 registered problems at ac60c642 (the default campaign without --suite/tasklist.yml), including Incident Arena ports. 6 cannot run on an emulated KIND cluster (see harbor_adapter notes)."
+      }
+    ],
+    "harbor_adapter": [
+      {
+        "split": "sregym-lite",
+        "adapted_benchmark_size": 17,
+        "parity_benchmark_size": 0,
+        "parity_sampling_rate": 0.0,
+        "registry_benchmark_size": 0,
+        "added_agents": [
+          "None"
+        ],
+        "parity_matching_agents": [
+          "None"
+        ],
+        "parity_unmatching_agents": [
+          "None"
+        ],
+        "parity_costs": "$0",
+        "notes": "Oracle: 17/17 pass on both stages (diagnosis via SREGym LLM judge gpt-5-2025-08-07, and mitigation); one environment-start error on the first pass passed on retry. Parity pending (planned on this split)."
+      },
+      {
+        "split": "full",
+        "adapted_benchmark_size": 216,
+        "parity_benchmark_size": 0,
+        "parity_sampling_rate": 0.0,
+        "registry_benchmark_size": 0,
+        "added_agents": [
+          "None"
+        ],
+        "parity_matching_agents": [
+          "None"
+        ],
+        "parity_unmatching_agents": [
+          "None"
+        ],
+        "parity_costs": "$0",
+        "notes": "Excluded (6): node_clock_drift_hotel_reservation (non-emulated cluster only), kubelet_crash (needs node access), latent_sector_error, latent_sector_error_saleor, silent_data_corruption, silent_data_corruption_frappe (khaos hardware faults). Oracle pending."
+      }
+    ]
+  }
+]

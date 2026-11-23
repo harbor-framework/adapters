@@ -1,0 +1,60 @@
+# Harbor runs the agent and verifier in `main` (unprivileged). The SREGym
+# backend (private Docker daemon + 4-node KIND cluster + SREGym conductor and
+# filtering Kubernetes API proxy) runs in the privileged `sregym` sidecar.
+# The agent only ever sees what an upstream SREGym agent sees: a kubeconfig
+# for the filtering proxy and the conductor API.
+services:
+  main:
+    depends_on:
+      sregym:
+        condition: service_healthy
+    environment:
+      KUBECONFIG: /etc/kube/config
+      API_HOSTNAME: host.docker.internal
+      API_PORT: "8000"
+    volumes:
+      - sregym-shared:/etc/kube:ro
+
+  sregym:
+    image: {sidecar_image}
+    pull_policy: {sidecar_pull_policy}
+    privileged: true
+    cgroup: private
+    stop_grace_period: 60s
+    environment:
+      PROBLEM_ID: "{problem_id}"
+      SREGYM_AGENT_TIMEOUT: "{conductor_agent_timeout}"
+      SREGYM_JUDGE_MODEL: ${SREGYM_JUDGE_MODEL:-{judge_model}}
+      HARBOR_ORACLE_TOKEN: "{oracle_token}"
+      # Oracle endpoints are disabled unless an oracle run sets this to 1.
+      HARBOR_ENABLE_ORACLE: ${SREGYM_ENABLE_ORACLE:-0}
+      HARBOR_SHARED_DIR: /harbor-shared
+      SREGYM_REGISTRY_MIRRORS: ${SREGYM_REGISTRY_MIRRORS:-}
+      # Debug only, e.g. "mitigation" (upstream --stages). Unset for real runs.
+      SREGYM_STAGES: ${SREGYM_STAGES:-}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      OPENAI_BASE_URL: ${OPENAI_BASE_URL:-}
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+      JUDGE_API_BASE: ${JUDGE_API_BASE:-}
+      JUDGE_API_KEY: ${JUDGE_API_KEY:-}
+    volumes:
+      - sregym-shared:/harbor-shared
+    networks:
+      default:
+        aliases:
+          - host.docker.internal
+    deploy:
+      resources:
+        limits:
+          cpus: "{sidecar_cpus}"
+          memory: {sidecar_memory}
+    healthcheck:
+      test: ["CMD", "/opt/harbor/healthcheck.sh"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: {sidecar_start_period}s
+
+volumes:
+  sregym-shared:

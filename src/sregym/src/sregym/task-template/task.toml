@@ -1,0 +1,52 @@
+schema_version = "1.0"
+
+[task]
+name = "sregym/{task_name}"
+description = "SREGym problem {problem_id}: diagnose and mitigate a live incident in the {app_name} application on a Kubernetes cluster."
+authors = [
+    { name = "Jackson Clark", email = "jclark58@illinois.edu" },
+    { name = "Yiming Su" },
+    { name = "Saad Mohammad Rafid Pial" },
+    { name = "Yifang Tian" },
+    { name = "Lily Gniedziejko" },
+    { name = "Hans-Arno Jacobsen" },
+    { name = "Yinfang Chen" },
+    { name = "Tianyin Xu" },
+]
+keywords = {keywords}
+
+[metadata]
+difficulty = "hard"
+category = "sre"
+sregym_problem_id = "{problem_id}"
+sregym_commit = "{sregym_commit}"
+sregym_app = "{app_class}"
+sregym_suites = {suites}
+
+[verifier]
+user = "root"
+# Waiting for SREGym's mitigation oracle (and diagnosis judge) to finish plus
+# conductor cleanup.
+timeout_sec = {verifier_timeout}
+
+[agent]
+timeout_sec = {agent_timeout}
+user = "agent"
+# Agent egress: the SREGym backend and model provider APIs only.
+{agent_network}
+
+[environment]
+# Covers sidecar start: private dockerd, 4-node KIND cluster, app deployment,
+# baseline traffic, fault injection and propagation.
+build_timeout_sec = {build_timeout}
+cpus = 2
+memory_mb = 4096
+storage_mb = 10240
+
+# SREGym backend logs from the sidecar: the conductor's output, its results
+# directory, and DinD/KIND logs. Collected also when the environment fails to
+# start. The agent never sees them.
+[[artifacts]]
+source = "/opt/sregym/results"
+destination = "sregym-sidecar"
+service = "sregym"

@@ -1,0 +1,19 @@
+--- a/sregym/observer/prometheus/prometheus/values.yaml
++++ b/sregym/observer/prometheus/prometheus/values.yaml
+@@ -941,12 +941,15 @@
+                 summary: "Abnormal request rate: {{ $labels.service_name }}"
+                 description: "Service {{ $labels.service_name }} in namespace {{ $labels.namespace }} is receiving an unusually high request rate (current: {{ $value | printf \"%.1f\" }} req/s)."
+ 
++            # Harbor adapter patch: exclude accounting. Its Kafka-consumer spans exceed
++            # 5 s in a healthy astronomy-shop, so this alert never resolved after
++            # SREGym#1176 added the namespace label to span metrics.
+             - alert: HighRequestLatency
+               expr: |
+                 histogram_quantile(0.95,
+                   sum by (le, service_name, namespace) (
+                     rate(traces_span_metrics_duration_milliseconds_bucket{
+-                      service_name!~"load-generator|flagd|kafka|valkey-cart|postgresql",
++                      service_name!~"load-generator|flagd|kafka|valkey-cart|postgresql|accounting",
+                       namespace=~"astronomy-shop|hotel-reservation|blueprint-hotel-reservation|social-network"
+                     }[2m])
+                   )

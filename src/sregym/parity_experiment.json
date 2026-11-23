@@ -1,0 +1,26 @@
+[
+  {
+    "adapter_name": "sregym",
+    "agent": "claude-code@TBD",
+    "model": "TBD",
+    "date": "TBD",
+    "adapted_benchmark_size": 17,
+    "parity_benchmark_size": 17,
+    "number_of_runs": 0,
+    "notes": "Planned, not run. SREGym-Lite (17), claude-code on both sides (upstream claudecode driver vs Harbor claude-code), same dated agent model and pinned diagnosis judge, 3 runs per side. Metrics: mitigation success rate (primary, pending team confirmation) and diagnosis success rate.",
+    "original_parity_repo": "https://github.com/SREGym/SREGym",
+    "adapter_pr": [],
+    "dataset_pr": [],
+    "parity_pr": [],
+    "metrics": [
+      {
+        "benchmark_name": "SREGym-Lite",
+        "metric": "mitigation_success_rate",
+        "original": "TBD",
+        "harbor": "TBD",
+        "original_runs": [],
+        "harbor_runs": []
+      }
+    ]
+  }
+]

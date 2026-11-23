@@ -1,0 +1,24 @@
+--- a/kind/setup_kind_cluster.sh	2026-11-22 10:19:29
++++ b/kind/setup_kind_cluster.sh	2026-11-22 10:19:31
+@@ -55,7 +55,20 @@
+ if [[ -n ${KIND_CLUSTER_NAME:-} ]]; then
+     CREATE_ARGS+=(--name "${KIND_CLUSTER_NAME}")
+ fi
+-kind create cluster "${CREATE_ARGS[@]}"
++# Harbor adapter: node boot can miss kind's readiness log line when the host
++# disk is saturated (several DinD clusters starting together), which fails the
++# whole trial before the problem starts. Retry from a clean cluster.
++for attempt in 1 2 3; do
++    if kind create cluster "${CREATE_ARGS[@]}"; then
++        break
++    fi
++    if [[ ${attempt} == 3 ]]; then
++        exit 1
++    fi
++    echo "kind create cluster failed (attempt ${attempt}); retrying"
++    kind delete cluster ${KIND_CLUSTER_NAME:+--name "${KIND_CLUSTER_NAME}"} || true
++    sleep $((attempt * 30))
++done
+ 
+ echo "==> Step 2b: Drop host DNS search domains from the nodes"
+ # Docker copies the host's "search" list into each node's /etc/resolv.conf and
