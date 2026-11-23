@@ -282,9 +282,11 @@ def shell_harness_paths(root: Path) -> dict[str, Path]:
     return {name: root / name for name in ("lib", "handoff", "pinned", "tmp-in", "state", "logs", "eval-hf", "home")}
 
 
-def run_collect(tasks: Path, root: Path, home: Path, record: Path) -> subprocess.CompletedProcess:
+def run_collect(tasks: Path, root: Path, home: Path, record: Path, pack_args: str = "") -> subprocess.CompletedProcess:
     """Run collect.sh as it runs in the agent's sandbox, with stand-ins for the user switch."""
     script = (tasks / FIRST_TASK / "environment" / "collect.sh").read_text()
+    assert script.count('--out "${HANDOFF}"; then') == 1
+    script = script.replace('--out "${HANDOFF}"; then', f'--out "${{HANDOFF}}" {pack_args}; then')
     lib = root / "lib"
     lib.mkdir(exist_ok=True)
     shutil.copy(tasks / FIRST_TASK / "environment" / "handoff.py", lib / "handoff.py")
@@ -367,11 +369,15 @@ def test_collect_and_receive_hand_the_home_over(tasks: Path, agent_home) -> None
     assert "ready for the verifier" in log and f"-> {agent_home.target}" in log
     # Harbor carries the declared files over; nothing else of the agent's sandbox comes along.
     staging = agent_home.root / "staging" / "hub"
+    before = tree(agent_home.home)
     received = run_receive(tasks, root, staging)
     assert received.stdout.splitlines()[-1] == "received", received.stdout + received.stderr
     home = root / "home"
+    # The verifier's home is what the agent left, not what the image had.
     assert not (home / "task" / "from-the-image").exists()
-    assert (home / "task" / "start_server.sh").read_text() == "#!/bin/bash\nexec vllm serve\n"
+    expected = {key: row for key, row in before.items() if not key.startswith("hf_cache/xet") and key != "task/pipe"}
+    expected["task/setuid"] = ("file", 0o755, before["task/setuid"][2])
+    assert tree(home) == expected
     weights = agent_home.blobs["model.safetensors"][0]
     assert (home / "task" / "weights.safetensors").stat().st_ino == (
         home / "hf_cache" / "hub" / "models--org--name" / "blobs" / weights
@@ -380,6 +386,35 @@ def test_collect_and_receive_hand_the_home_over(tasks: Path, agent_home) -> None
     assert (root / "state" / "tmp" / name / "engine" / "plan.bin").read_bytes() == b"plan"
     assert json.loads((root / "logs" / "handoff.json").read_text())["model"]["revision"] == "rev1"
     assert not (root / "pinned").exists() and not (root / "tmp-in").exists()
+
+
+def test_the_task_directory_exists_when_the_verifier_ends(tasks: Path, tmp_path: Path) -> None:
+    # Harbor starts its later commands in the task directory, also after a failed hand-off.
+    finish = shell_function((tasks / FIRST_TASK / "tests" / "test.sh").read_text(), "finish")
+    (tmp_path / "logs").mkdir()
+    (tmp_path / "home").mkdir()
+    task = tmp_path / "home" / "task"
+    harness = f'LOGS={tmp_path / "logs"}; TASK={task}; WATCHER_PID=""\n{finish}\nfinish'
+    bash(harness, check=True)
+    assert task.is_dir()
+    # Whatever the hand-off put there stays as it is.
+    task.rmdir()
+    task.symlink_to(tmp_path / "nowhere")
+    bash(harness, check=True)
+    assert task.is_symlink() and not (tmp_path / "nowhere").exists()
+
+
+def test_a_handoff_that_cannot_be_packed_leaves_no_parts(tasks: Path, agent_home) -> None:
+    root = agent_home.root / "shell"
+    root.mkdir()
+    # More parts than task.toml declares: the pack stops after the last one.
+    collected = run_collect(tasks, root, agent_home.home, agent_home.record, "--part-bytes 1024")
+    assert collected.returncode == 1
+    assert sorted(path.name for path in (root / "handoff").iterdir()) == ["collect.log"]
+    assert "ERROR: could not pack the hand-off" in (root / "handoff" / "collect.log").read_text()
+    # Without the parts and the marker, the verifier gives no reward.
+    result = run_receive(tasks, root, agent_home.root / "staging" / "hub")
+    assert result.returncode == 3 and "the hand-off from the agent's sandbox is missing" in result.stdout
 
 
 def test_the_verifier_refuses_a_handoff_that_is_missing_or_damaged(tasks: Path, agent_home) -> None:
@@ -873,12 +908,15 @@ def agent_home(tmp_path: Path):
         "repository": "hf_cache/hub/models--org--name",
         "blobs": [{"name": blob, "size": len(data)} for blob, data in blobs.values()],
     }))
-    (repository / "blobs" / blobs["tokenizer.model"][0]).write_bytes(b"the agent's tokenizer")
+    # The agent's change keeps the file's size, so only its content tells.
+    (repository / "blobs" / blobs["tokenizer.model"][0]).write_bytes(other[::-1])
     (home / "hf_cache" / "token").write_text("hf_secret")
     # The agent links the weights into its task directory, and copies them once more.
     os.link(repository / "blobs" / blobs["model.safetensors"][0], task / "weights.safetensors")
     (task / "weights-copy.safetensors").write_bytes(weights)
     (task / "weights-copy.safetensors").chmod(0o600)
+    # A file of the same size with other content is the agent's own and must travel.
+    (task / "quantized.safetensors").write_bytes(os.urandom(len(weights)))
     # A /tmp target, and one inside it that must not be archived twice.
     scratch = Path(tempfile.mkdtemp(prefix="ib-handoff-", dir="/tmp"))
     (scratch / "engine").mkdir()
@@ -922,7 +960,8 @@ def test_the_handoff_rebuilds_the_agents_home(agent_home) -> None:
         ("home/task/weights-copy.safetensors", "copy", 0o600),
         ("home/task/weights.safetensors", "link", 0o644),
     ]
-    assert manifest["stream_bytes"] < len(agent_home.weights)
+    # Of the four files of the weights' size, only the agent's own is in the stream.
+    assert len(agent_home.weights) < manifest["stream_bytes"] < 2 * len(agent_home.weights)
     assert manifest["tmp_targets"] == [agent_home.target]
     verified = run_handoff("verify", agent_home.out, "--model", "org/name", "--revision", "rev1")
     assert verified.returncode == 0, verified.stdout + verified.stderr
@@ -962,12 +1001,12 @@ def test_read_only_directories_get_their_modes_after_the_model_files(agent_home)
 
 def test_a_large_handoff_comes_in_parts(agent_home) -> None:
     (agent_home.home / "task" / "engine.plan").write_bytes(os.urandom(300_000))
-    manifest = pack_home(agent_home, "--part-bytes", 65536)
+    manifest = pack_home(agent_home, "--part-bytes", 262144)
     names = [part["name"] for part in manifest["parts"]]
     assert len(names) > 3 and names == [f"part.{index:03d}" for index in range(len(names))]
     header = load_handoff().PART_HEADER_BYTES
     assert sum(part["bytes"] - header for part in manifest["parts"]) == manifest["stream_bytes"]
-    assert all(part["bytes"] <= 65536 + header for part in manifest["parts"])
+    assert all(part["bytes"] <= 262144 + header for part in manifest["parts"])
     # Harbor's secret scrubbing rewrites a file only if its first 8 KiB has no NUL byte.
     for name in names:
         assert b"\0" in (agent_home.out / name).read_bytes()[:8192]
@@ -999,6 +1038,27 @@ def test_a_damaged_or_foreign_handoff_is_refused(agent_home) -> None:
     assert result.returncode != 0 and b"is for hf_cache/hub/models--org--name at rev1" in result.stderr
     (agent_home.out / "manifest.json").unlink()
     assert run_handoff("verify", agent_home.out, "--model", "org/name", "--revision", "rev1").returncode != 0
+
+
+def test_a_model_file_changed_in_place_travels(agent_home) -> None:
+    # One byte differs and the sizes do not: weights that the agent edited, in LFS or not.
+    blobs = agent_home.home / "hf_cache" / "hub" / "models--org--name" / "blobs"
+    for name in ("model.safetensors", "config.json"):
+        path = blobs / agent_home.blobs[name][0]
+        data = bytearray(path.read_bytes())
+        data[len(data) // 2] ^= 1
+        path.write_bytes(data)
+    manifest = pack_home(agent_home)
+    assert manifest["model"]["left_out"] == []
+    assert manifest["model"]["changed"] == sorted(blob for blob, _ in agent_home.blobs.values())
+    result = unpack_handoff(agent_home.out, agent_home.dest, agent_home.tmp, agent_home.staging)
+    assert result.returncode == 0, result.stdout + result.stderr
+    for name in ("model.safetensors", "config.json", "tokenizer.model"):
+        blob = agent_home.blobs[name][0]
+        unpacked = agent_home.dest / "hf_cache" / "hub" / "models--org--name" / "blobs" / blob
+        assert unpacked.read_bytes() == (blobs / blob).read_bytes() != agent_home.blobs[name][1]
+    # The fresh download keeps its files: none of them was put back.
+    assert len(list((agent_home.staging / "models--org--name" / "blobs").iterdir())) == 3
 
 
 def test_a_model_file_behind_a_symbolic_link_is_handed_off(agent_home) -> None:
@@ -1039,6 +1099,10 @@ def test_a_tmp_target_that_shares_files_with_the_home_is_unpacked(agent_home) ->
     unpacked = agent_home.tmp / scratch.name
     assert (unpacked / "engine" / "launcher").read_text() == "#!/bin/bash\nexec vllm serve\n"
     assert (unpacked / "weights" / "w.bin").read_bytes() == agent_home.weights
+    # Root keeps this snapshot, so it shares no file with the home, which the agent can write.
+    blob = agent_home.dest / "hf_cache" / "hub" / "models--org--name" / "blobs" / weights
+    assert (unpacked / "weights" / "w.bin").stat().st_ino != blob.stat().st_ino
+    assert (unpacked / "engine" / "launcher").stat().st_ino != (agent_home.dest / "task" / "start_server.sh").stat().st_ino
 
 
 def test_the_record_says_whether_the_agent_had_the_same_gpu(tasks: Path) -> None:

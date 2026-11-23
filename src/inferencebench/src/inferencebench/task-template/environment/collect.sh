@@ -99,6 +99,8 @@ as_agent /bin/rm -f /home/agent/hf_cache/token /home/agent/hf_cache/stored_token
 phase "packing /home/agent ($(du -sh /home/agent | cut -f1))"
 if ! python3 -I "${LIB}/handoff.py" pack --home /home/agent --record "${RECORD}" \
     --tmp-list "${WORK}/tmp.list" --out "${HANDOFF}"; then
+    # Harbor would still carry the parts of an unfinished hand-off to the verifier.
+    rm -f "${HANDOFF}"/part.* "${HANDOFF}/manifest.json"
     phase "ERROR: could not pack the hand-off"
     exit 1
 fi

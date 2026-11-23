@@ -8,8 +8,9 @@ single transfer is larger than a part. The stream leaves out the model files tha
 healthcheck downloaded and that are still unchanged, because the verifier downloads the same
 revision; a hard link to such a file or a copy of it elsewhere is recorded in the manifest
 instead of its content. It also leaves out the xet client's download cache. Symbolic links are
-kept as they are, hard links within the home or within the /tmp targets stay hard links, and
-sockets, pipes, and device files are left out. Each part starts with a header that holds a NUL
+kept as they are, hard links within the home or within the /tmp targets stay hard links (a /tmp
+file that is linked to a file in the home gets a copy of its own), and sockets, pipes, and device
+files are left out. Each part starts with a header that holds a NUL
 byte, so that Harbor's secret scrubbing, which rewrites text files, leaves every part as it is.
 
 verify runs as root in the verifier's sandbox and checks the parts against the manifest.
@@ -45,7 +46,6 @@ from pathlib import Path, PurePosixPath
 MANIFEST = "manifest.json"
 PART = "part.{:03d}"
 PART_HEADER_BYTES = 512
-PART_NAME = re.compile(r"part\.[0-9]{3}")
 # Harbor cannot download a file above 5 GiB from Modal (harbor-framework/harbor#3924).
 PART_BYTES = 2 << 30
 # task.toml declares this many parts (adapter.HANDOFF_PARTS), so the hand-off holds up to 80 GiB.
@@ -566,7 +566,9 @@ def place_model_files(manifest: dict, extractor: Extractor, staging: Path) -> in
         if os.path.lexists(target):
             raise SystemExit(f"{target} exists, although the hand-off recorded it as a model file")
         source = home.joinpath(*blobs_dir, entry["blob"])
-        if entry["kind"] == "link":
+        # Root keeps the /tmp targets for every server start, so they get copies: a hard link
+        # would let the agent's processes change them through the file in the home.
+        if entry["kind"] == "link" and top == HOME:
             try:
                 os.link(source, target, follow_symlinks=False)
                 continue
@@ -617,6 +619,8 @@ def main() -> None:
     command.add_argument("--staging", type=Path, required=True, help="the fresh download's hub cache")
     command.set_defaults(run=unpack)
     args = parser.parse_args()
+    # A file name need not be valid UTF-8, and a log line must not fail on one.
+    sys.stdout.reconfigure(errors="backslashreplace")
     args.run(args)
 
 

@@ -66,6 +66,9 @@ finish() {
     [ -z "${WATCHER_PID}" ] || kill "${WATCHER_PID}" 2> /dev/null
     # Harbor reads this directory as the host user when it is a bind mount.
     chmod 755 "${LOGS}"
+    # Harbor starts its later commands, such as the download of these logs, in the task
+    # directory, which is missing if the hand-off could not be unpacked.
+    [ -e "${TASK}" ] || [ -L "${TASK}" ] || mkdir -p "${TASK}" 2> /dev/null
 }
 trap finish EXIT
 
