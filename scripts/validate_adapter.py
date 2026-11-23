@@ -839,6 +839,12 @@ def check_no_canary(d: Path, r: AdapterReport) -> None:
     for path in sorted(d.rglob("*")):
         if not path.is_file():
             continue
+        # Skip virtualenvs: dependencies are not adapter files, and Harbor
+        # >=0.25 ships the canary GUID itself (cli/init.py generates canary
+        # strings for `harbor init --task --include-canary-strings`), which
+        # would false-positive on any adapter with a synced .venv.
+        if ".venv" in path.parts:
+            continue
         if path.suffix not in _TEXT_EXTENSIONS and path.name not in _TEXT_NAMES:
             continue
         try:
