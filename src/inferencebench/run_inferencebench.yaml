@@ -1,0 +1,22 @@
+# Oracle verification on a host with Docker and an NVIDIA H100 GPU. Keep n_concurrent_trials
+# at 1: Harbor's Docker environment asks for one GPU by count and does not choose which, so
+# concurrent trials can land on the same GPU and distort each other's measurements.
+# The oracle is judged like any other run, so the host needs HF_TOKEN and a judge credential
+# (ANTHROPIC_API_KEY or CLAUDE_CODE_OAUTH_TOKEN); without one, no trial is evaluated or graded.
+# For an agent run, use inferencebench_parity.yaml with `environment.type: docker`.
+# From the repository root, one task at a time (see "Oracle pilot" in the README):
+#   uv run --project src/inferencebench --with harbor==0.26.0 harbor run -c src/inferencebench/run_inferencebench.yaml \
+#       -p datasets/inferencebench -i inferencebench-a-mistral-7b-21-1337
+jobs_dir: jobs
+n_attempts: 1
+timeout_multiplier: 1.0
+n_concurrent_trials: 1
+quiet: false
+environment:
+  type: docker
+  force_build: false
+  delete: true
+agents:
+  - name: oracle
+datasets:
+  - path: datasets/inferencebench

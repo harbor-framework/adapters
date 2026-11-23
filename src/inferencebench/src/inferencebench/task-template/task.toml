@@ -1,0 +1,86 @@
+schema_version = "1.4"
+# The hand-off that collect.sh writes in the agent's sandbox. Harbor downloads each file on its
+# own and uploads it to the same path in the verifier's sandbox; parts that a smaller hand-off
+# does not need are missing, which Harbor skips.
+artifacts = {handoff_artifacts}
+
+[task]
+name = "aisa-group/{task_id}"
+description = "InferenceBench scenario {scenario_key}: deploy and optimize an inference server for {base_model}"
+authors = [
+    { name = "Jehyeok Yeon" },
+    { name = "Ben Rank" },
+    { name = "Maksym Andriushchenko" },
+]
+keywords = ["inferencebench", "llm-inference", "serving", "optimization", "gpu"]
+
+[metadata]
+category = "llm-inference"
+difficulty = "hard"
+source = "InferenceBench"
+scenario = "{scenario}"
+base_model = "{base_model}"
+agent_seed = "{agent_seed}"
+eval_seed = "{eval_seed}"
+num_hours = "{num_hours}"
+model_revision = "{model_revision}"
+upstream_commit = "{upstream_commit}"
+
+[environment]
+gpus = 1
+# Modal uses the first entry, as upstream does. Daytona does not accept the "!" form.
+gpu_types = ["H100!", "H100"]
+cpus = 16
+memory_mb = 180000
+storage_mb = 409600
+build_timeout_sec = 3600.0
+workdir = "/home/agent/task"
+
+[environment.healthcheck]
+# download_model.py fills the agent's cache with the pinned revision of the model and records
+# which files it wrote, so that collect.sh can leave those that the agent did not change out of
+# the hand-off to the verifier.
+command = "test -f /timer_start || { python3 /usr/local/lib/inferencebench/download_model.py --record /var/lib/inferencebench/pinned_model.json && chown -R agent:agent /home/agent/hf_cache && date +%s > /timer_start; }"
+interval_sec = 10
+timeout_sec = 3600
+start_period_sec = 0
+retries = 5
+
+[environment.env]
+HF_TOKEN = "${HF_TOKEN}"
+NUM_HOURS = "{num_hours}"
+INFERENCE_BENCH_SCENARIO = "{scenario}"
+INFERENCE_BENCH_BASE_MODEL = "{base_model}"
+INFERENCE_BENCH_MODEL_REVISION = "{model_revision}"
+INFERENCE_BENCH_DATASET_SEED = "{agent_seed}"
+# As upstream's agents/common.sh: Claude Code may wait for a long command in the foreground.
+BASH_MAX_TIMEOUT_MS = "36000000"
+{shared_env}
+
+[agent]
+timeout_sec = {agent_timeout_sec}
+user = "agent"
+
+# The verifier runs in a new sandbox, which Harbor makes from a copy of [environment]: the same
+# image, GPU, resources, and variables. The collect hook below stops the agent's processes and
+# packs its work into the artifacts above; test.sh unpacks it and restarts the agent's own
+# launcher there. See "Separate verifier" in the README.
+[verifier]
+timeout_sec = 43200.0
+environment_mode = "separate"
+
+# The judge's credential. A trial without a valid judge verdict is ungraded and gets no reward:
+# without a credential, test.sh skips the evaluation; if the judge fails, it still measures the
+# server. INFERENCE_BENCH_JUDGE=off makes the run an unscored diagnostic run without the judge.
+[verifier.env]
+CLAUDE_CODE_OAUTH_TOKEN = "${CLAUDE_CODE_OAUTH_TOKEN:-}"
+ANTHROPIC_API_KEY = "${ANTHROPIC_API_KEY:-}"
+ANTHROPIC_BASE_URL = "${ANTHROPIC_BASE_URL:-}"
+INFERENCE_BENCH_JUDGE = "${INFERENCE_BENCH_JUDGE:-required}"
+INFERENCE_BENCH_DATASET_SEED = "{eval_seed}"
+
+[[verifier.collect]]
+service = "main"
+user = "root"
+timeout_sec = 3600.0
+command = "/bin/bash /usr/local/bin/collect.sh"
