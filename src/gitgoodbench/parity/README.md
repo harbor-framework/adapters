@@ -113,12 +113,14 @@ and newer install the agent without that change.
   prompts the harness wrote, except for the repository path
   (`/workspace/repo` instead of `/usr/code/<repository>`).
 * **Ref of the incoming parent.** Both sides keep the incoming parent
-  reachable through a ref. In the parity runs it was
-  `refs/gitgoodbench/incoming` on both sides. The Harbor tasks renamed it to
-  `refs/scenario/incoming` on 2026-11-15, after the parity runs, so that no
-  ref names the benchmark. The reference harness keeps the old name. The
-  instruction does not mention the ref; its name appears in the transcripts
-  of 64 of the 180 runs on each side.
+  reachable through a ref. In the parity runs the ref was called
+  `refs/gitgoodbench/incoming` on both sides, so an agent that listed the
+  refs could read the benchmark's name. That happened in 64 of the 180 runs
+  on each side. The name does not help with the task: the ground-truth merge
+  commit is in neither container, neither side can reach GitHub, and both
+  sides saw the same name. The Harbor tasks renamed the ref to
+  `refs/scenario/incoming` on 2026-11-15, after the parity runs. The
+  reference harness keeps the old name.
 * **Shell.** Both sides execute the agent's commands with `/bin/sh -c`:
   mini-swe-agent's `LocalEnvironment` inside the Harbor sandbox, and the
   harness's `ExistingContainerEnvironment` through `docker exec`.
@@ -151,6 +153,23 @@ and newer install the agent without that change.
   archived. Their trajectories contain no replacement ref, grafts file,
   commit-graph or write to the object store, the cases in which the two
   versions differ.
+
+  Three more changes followed on 2026-11-22, again after the parity runs:
+
+  * The verifier runs in its own container (`environment_mode = "separate"`)
+    with its own Git and Python, and receives the `.git` directory of the
+    agent's repository as an artifact. Harbor saves that directory in the
+    trial directory (`artifacts/repo.git`), so the final state of every new
+    run is archived and can be graded again.
+  * The verifier checks that the merge is concluded, which the original
+    does with `git status`: no unmerged paths in the index and no merge,
+    cherry-pick, revert or rebase in progress. In the 75 solved Harbor runs
+    `merge_in_progress` is false in every `verifier/details.json`, and no
+    run starts such an operation after its last commit, so the check
+    changes none of the recorded verdicts.
+  * The history up to the merge parents is kept in an object store next to
+    the repository (Git alternates), so that `.git` holds only what the
+    agent adds. Git commands behave the same.
 * **Git version / architecture.** Original side: Git 2.43 on ubuntu:24.04
   (arm64) in our runs; Harbor side: Git 2.39 on python:3.12-slim-bookworm
   (Daytona, x86_64). Both use the `ort` merge strategy.
@@ -167,7 +186,7 @@ Oracle and negative control (environment and verifier check, 1 run each):
 | Side | Oracle | No-op agent |
 |------|--------|-------------|
 | Original (reference harness) | 60/60 (`results/oracle-original-side.jsonl`, 2026-10-18) | 0/2 on the smoke samples |
-| Harbor adapter (Daytona) | 60/60, no exceptions (`results/oracle-harbor-daytona.json`, 2026-11-15, on the registered tasks; one trial, `apache-ignite-merge-0001`, was re-run with `harbor jobs resume` after its sandbox did not start within the build timeout) | 0 on the negative controls in the adapter README |
+| Harbor adapter (Daytona) | 60/60, no exceptions (`results/oracle-harbor-daytona.json`, 2026-11-22, Harbor 0.27.0, separate verifier, on the registered tasks). Full split: 445/445 (`results/oracle-harbor-daytona-full.json`; one trial re-run after a Daytona API error) | 0 on the negative controls in the adapter README |
 
 Six samples (`android_wear_os_samples_merge_0000`, `dask_dask_merge_0000`, `duckduckgo_android_merge_0003`, `farama_foundation_gymnasium_merge_0000`, `jetbrains_exposed_merge_0004`, `vitorpamplona_amethyst_merge_0002`) have a scenario commit that is no longer reachable from any branch of the repository, so the original clone-based setup cannot check it out; the reference harness fetches such commits by id (`ensure_scenario_commits`), which is what the Harbor task images do. Without that fallback these six samples would fail on the original side.
 
