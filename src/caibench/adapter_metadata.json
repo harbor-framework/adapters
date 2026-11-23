@@ -12,7 +12,7 @@
         "harness": "llm",
         "supported_agents": null,
         "adaptable": true,
-        "notes": "CAIBench benchmark with X tasks."
+        "notes": "CAIBench cybsecurity/privacy knowledge benchmark with 16,820 tasks."
       }
     ],
     "harbor_adapter": [

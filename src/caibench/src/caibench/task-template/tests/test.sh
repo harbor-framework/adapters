@@ -5,6 +5,8 @@
 # tests/grade.py reads tests/expected.json and /logs/agent/,
 # then writes a float reward to /logs/verifier/reward.txt.
 
+echo "Grading CAIBench task..."
+
 mkdir -p /logs/verifier
 
 python3 /tests/grade.py

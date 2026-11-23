@@ -301,16 +301,17 @@ class CAIBenchAdapter:
 
         <output-dir>/
         ├── cybermetric__<id>/
-        │   ├── instruction.md
-        │   ├── task.toml
+        │   ├── environment/
+        │   │   └── Dockerfile
         │   ├── solution/
         │   │   └── solve.sh
         │   ├── tests/
+        │   │   ├── Dockerfile
         │   │   ├── test.sh
         │   │   ├── grade.py
         │   │   └── expected.json
-        │   └── environment/
-        │       └── Dockerfile
+        │   ├── instruction.md
+        │   └── task.toml
         ├── seceval__<id>/
         │   └── ...
         ├── cti_bench_mcq__<id>/

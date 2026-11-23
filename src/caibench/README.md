@@ -44,16 +44,17 @@ CAIBench is Alias Robotics' benchmark for evaluating agent capabilities in offen
 ```
 caibench/
 ├── {task_id}/               # e.g. "cti_bench_vsp__00412
-│   ├── task.toml            # Harbor task configuration
-│   ├── instruction.md       # Task instructions for the agent
 │   ├── environment/
 │   │   └── Dockerfile       # Agent's container
 │   ├── solution/
 │   │   └── solve.sh         # Echoes correct answer
-│   └── tests/
-│       ├── test.sh          # Invokes grade.py
-│       ├── grade.py         # Grades a task
-│       └── expected.json    # Expected solution
+│   ├── tests/
+│   │   ├── Dockerfile       # Verifier's container
+│   │   ├── test.sh          # Invokes grade.py
+│   │   ├── grade.py         # Grades a task
+│   │   └── expected.json    # Expected solution
+│   ├── instruction.md       # Task instructions for the agent
+│   └── task.toml            # Harbor task configuration
 ```
 
 ## Run Evaluation / Harness in Harbor
@@ -150,7 +151,7 @@ uv sync
 - Check network access rather than credentials
 
 ### 2. CTI-Bench VSP Tasks Fail
-- Verify the `cvss` Python package installed cleanly in `environment/Dockerfile` (`pip install cvss==3.4`)
+- Verify the `cvss` Python package installed cleanly in `tests/Dockerfile` (`pip install cvss==3.4`)
 - Confirm the agent's answer is a well-formed CVSS 3.1 vector string
 - Malformed vector strings result in reward 0.0 instead of erroring
 
