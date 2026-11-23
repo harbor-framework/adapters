@@ -1,0 +1,34 @@
+# Template: the adapter fills the placeholders in braces (fm_bench/adapter.py).
+version = "1.0"
+
+[task]
+name = "fm-bench/{task_id}"
+# the authors of FM-Bench, not of this adapter
+authors = [
+    { name = "Tianyou Wang" },
+    { name = "Chongyang Gao", email = "chongyanggao2026@u.northwestern.edu" },
+]
+keywords = ["games", "long-horizon", "management", "tool-use"]
+
+[metadata]
+difficulty = "hard"
+category = "games"
+tags = ["fm-bench", "solo", "{years}-year"]
+seed_id = "{seed_id}"
+
+[agent]
+# one game is several hundred decision stops; a model run takes hours
+timeout_sec = {agent_timeout}
+
+[verifier]
+timeout_sec = 600.0
+
+[verifier.env]
+# shown to the game sidecar to read the settled result (tests/test.sh)
+RESULT_TOKEN = "{result_token}"
+
+[environment]
+build_timeout_sec = 900.0
+cpus = 2
+memory_mb = 4096
+storage_mb = 10240

@@ -1,0 +1,28 @@
+{
+ "config": {
+  "draft": {
+   "enabled": true
+  },
+  "market_ai": {
+   "sealed_bids": true
+  },
+  "opponents": {
+   "tier_mix": "555"
+  },
+  "revival": {
+   "enabled": true
+  }
+ },
+ "exact": {
+  "1": 108.5141
+ },
+ "final_state_hash": {
+  "1": "9ed3a17fe7a316c5a5a88af2341c8bdc"
+ },
+ "measured_on": "Linux Python 3.13.9",
+ "oracle": "harbor_adapter/oracle_v4.py (default configuration)",
+ "reference": {
+  "1": 108.51
+ },
+ "track_years": 20
+}

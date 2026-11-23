@@ -1,0 +1,30 @@
+[
+  {
+    "adapter_name": "fm-bench",
+    "adapter_builders": ["Chongyang Gao (chongyanggao2026@u.northwestern.edu)"],
+    "original_benchmark": [
+      {
+        "split": "solo-20y",
+        "size": 1,
+        "harness": "llm",
+        "supported_agents": ["None"],
+        "adaptable": true,
+        "notes": "Solo track, 20 in-game years, one task in the public reference world (seed 1). The paper averages over seeds 1, 1024 and 2026; the adapter replaces the other seeds with repeated attempts. The original harness is a custom per-stop LLM loop (runner/llm_agent.py), not a Harbor-compatible agent. The multi-agent Arena track is operated by the authors and is not adapted."
+      }
+    ],
+    "harbor_adapter": [
+      {
+        "split": "solo-20y",
+        "adapted_benchmark_size": 1,
+        "parity_benchmark_size": 1,
+        "parity_sampling_rate": 1.0,
+        "registry_benchmark_size": 1,
+        "added_agents": ["fm-bench-parity-agent@1.0.0"],
+        "parity_matching_agents": ["None"],
+        "parity_unmatching_agents": ["None"],
+        "parity_costs": null,
+        "notes": "Parity not run yet. One parity run is one game of the task. Two metrics: s_final is the original composite score, uncapped; reward is clip(S_final / reference, 0, 1), where reference is the oracle's S_final in the same world."
+      }
+    ]
+  }
+]

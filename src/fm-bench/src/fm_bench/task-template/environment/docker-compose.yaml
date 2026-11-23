@@ -1,0 +1,24 @@
+# Harbor merges this file over its own compose file. `main` is the agent
+# container (./Dockerfile); `game` is the sidecar that holds the engine and the
+# world. There is no `ports:` entry: the game is reachable only on the task's
+# own compose network, as http://game:8080.
+services:
+  main:
+    depends_on:
+      game:
+        condition: service_healthy  # the agent starts once the world is built
+  game:
+    build:
+      context: ./game
+    restart: "no"  # a restart would silently start a new game
+    environment:
+      - FM_SEED={seed}
+      - FM_YEARS={years}
+      - FM_REFERENCE={reference}
+      - RESULT_TOKEN={result_token}
+    healthcheck:
+      test: ["CMD-SHELL", "python3 -c \"import urllib.request; urllib.request.urlopen('http://localhost:8080/health')\""]
+      interval: 5s
+      timeout: 10s
+      retries: 12
+      start_period: 30s
