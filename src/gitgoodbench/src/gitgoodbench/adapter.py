@@ -14,11 +14,15 @@ id in ``tests/config.json`` (used by the verifier) and the conflict hunks
 quoted in ``instruction.md`` (replayed with ``git merge-tree``, exactly as the
 original harness quotes them after running ``git merge`` in its container).
 Neither the agent phase nor the verifier needs network access afterwards.
+
+The verifier runs in its own container (``tests/Dockerfile``) and receives the
+``.git`` directory of the agent's repository as an artifact.
 """
 
 from __future__ import annotations
 
 import ast
+import hashlib
 import io
 import json
 import os
@@ -47,6 +51,20 @@ GROUND_TRUTH_REF = "refs/gitgoodbench/ground-truth"
 GROUND_TRUTH_BUNDLE = "ground_truth.bundle"
 CONFLICT_BEGIN = "<<<<<<<"
 CONFLICT_END = ">>>>>>>"
+
+# Samples that are not converted, with the reason. All are in the full dataset.
+_HUNKS_DIFFER = "Git produces {found} conflict hunks, the dataset records {recorded}"
+EXCLUDED_SAMPLES = {
+    "alluxio-alluxio-merge-0000": _HUNKS_DIFFER.format(found=1, recorded=2),
+    "pinterest-teletraan-merge-0003": _HUNKS_DIFFER.format(found=2, recorded=5),
+    "spring-projects-spring-security-merge-0036": _HUNKS_DIFFER.format(
+        found=5, recorded=6
+    ),
+    "apache-sedona-merge-0000": (
+        "the files the dataset lists as conflicted are not in conflict"
+    ),
+    "microsoft-olive-merge-0000": "the repository is no longer on GitHub",
+}
 
 
 def sanitize_task_id(value: str) -> str:
@@ -161,16 +179,17 @@ def conflict_sections(
     ).readlines()
     sections: list[ConflictSection] = []
     begin: int | None = None
-    local_marker = f"{CONFLICT_BEGIN} {local_label}"
+    # Git writes longer markers for some conflicts (eight characters when both
+    # sides renamed the file), and renamed files get a ":<path>" suffix after
+    # the label.
+    local_marker = re.compile(
+        rf"({re.escape(CONFLICT_BEGIN)}<*) {re.escape(local_label)}(?=[:\r\n])"
+    )
     for index, line in enumerate(lines):
         if CONFLICT_BEGIN in line:
-            # Renamed files get a ":<path>" suffix after the label.
-            if line.startswith(local_marker) and line[len(local_marker) :][:1] in (
-                ":",
-                "\n",
-                "\r",
-            ):
-                lines[index] = f"{CONFLICT_BEGIN} HEAD" + line[len(local_marker) :]
+            marker = local_marker.match(line)
+            if marker:
+                lines[index] = f"{marker.group(1)} HEAD" + line[marker.end() :]
             begin = index
         elif CONFLICT_END in line and begin is not None:
             sections.append(
@@ -199,6 +218,14 @@ class ScenarioFacts:
     @property
     def files_with_conflicts(self) -> list[str]:
         return sorted({conflict.file for conflict in self.conflicts})
+
+    @property
+    def conflicts_text(self) -> str:
+        """Every conflict hunk in the ``<CONFLICT-i>`` tags of the original prompt."""
+        return "".join(
+            f"<CONFLICT-{i}>\nFile: {c.file}\n{c.content}</CONFLICT-{i}>\n"
+            for i, c in enumerate(self.conflicts)
+        )
 
 
 @dataclass(frozen=True)
@@ -278,7 +305,10 @@ class GitGoodBenchAdapter:
         return HF_DATASETS[self.split]
 
     def build_tasks(self, rows: Iterable[dict[str, Any]]) -> list[GitGoodBenchTask]:
-        """Convert every ``merge`` sample into a task; other sample types are skipped."""
+        """Convert every ``merge`` sample into a task.
+
+        Other sample types and the samples in ``EXCLUDED_SAMPLES`` are skipped.
+        """
         tasks: list[GitGoodBenchTask] = []
         seen: set[str] = set()
         for row in rows:
@@ -291,6 +321,12 @@ class GitGoodBenchAdapter:
             if task_id in seen:
                 raise ValueError(f"Duplicate task id {task_id}")
             seen.add(task_id)
+            if task_id in EXCLUDED_SAMPLES:
+                print(
+                    f"NOTE: {task_id} is not converted: {EXCLUDED_SAMPLES[task_id]}",
+                    file=sys.stderr,
+                )
+                continue
             tasks.append(
                 GitGoodBenchTask(
                     task_id=task_id,
@@ -334,10 +370,7 @@ class GitGoodBenchAdapter:
             "total_number_of_merge_conflicts": str(len(facts.conflicts)),
             "commit_temporal_ordering": facts.commit_temporal_ordering,
             "files_with_conflicts": "\n".join(facts.files_with_conflicts),
-            "all_merge_conflicts": "".join(
-                f"<CONFLICT-{i}>\nFile: {c.file}\n{c.content}</CONFLICT-{i}>\n"
-                for i, c in enumerate(facts.conflicts)
-            ),
+            "all_merge_conflicts": facts.conflicts_text,
         }
         return render(template, values)
 
@@ -360,8 +393,15 @@ class GitGoodBenchAdapter:
         }
         return render(template, values)
 
-    def _scenario_config(self, task: GitGoodBenchTask) -> dict[str, Any]:
-        """Build-time description of the scenario (consumed by setup_scenario.py)."""
+    def _scenario_config(
+        self, task: GitGoodBenchTask, facts: ScenarioFacts
+    ) -> dict[str, Any]:
+        """Build-time description of the scenario (consumed by setup_scenario.py).
+
+        The digest lets the image build check that the merge it runs stops on
+        the conflict hunks quoted in the instruction, which were produced by
+        the Git of the machine that generated the task.
+        """
         return {
             "task_id": task.task_id,
             "source_id": task.source_id,
@@ -370,6 +410,9 @@ class GitGoodBenchAdapter:
             "repo_url": task.repo_url,
             "programming_language": task.programming_language,
             "scenario": task.scenario,
+            "conflict_hunks_sha256": hashlib.sha256(
+                facts.conflicts_text.encode()
+            ).hexdigest(),
         }
 
     def _verifier_config(
@@ -597,10 +640,10 @@ class GitGoodBenchAdapter:
             task_dir / "environment" / "setup_scenario.py",
         )
         (task_dir / "environment" / "scenario.json").write_text(
-            json.dumps(self._scenario_config(task), indent=2) + "\n"
+            json.dumps(self._scenario_config(task, facts), indent=2) + "\n"
         )
 
-        for name in ("test.sh", "evaluate.py"):
+        for name in ("Dockerfile", "test.sh", "evaluate.py"):
             shutil.copy2(TEMPLATE_DIR / "tests" / name, task_dir / "tests" / name)
         (task_dir / "tests" / "test.sh").chmod(0o755)
         (task_dir / "tests" / "config.json").write_text(

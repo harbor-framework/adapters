@@ -1,10 +1,14 @@
 from __future__ import annotations
 
+import hashlib
+import importlib.util
+import json
 import os
 import re
 import shutil
 import subprocess
 import sys
+import tomllib
 from pathlib import Path
 
 import pytest
@@ -13,6 +17,7 @@ ADAPTER_SRC = Path(__file__).resolve().parents[1] / "src"
 sys.path.insert(0, str(ADAPTER_SRC))
 
 from gitgoodbench.adapter import (  # noqa: E402
+    EXCLUDED_SAMPLES,
     ConflictSection,
     GitGoodBenchAdapter,
     GitGoodBenchTask,
@@ -76,6 +81,21 @@ def test_conflict_sections_relabel_local_side_and_keep_incoming_label():
         f"<<<<<<< HEAD:gym/core.py\nours2\n=======\ntheirs2\n"
         f">>>>>>> {INCOMING}:gym/core.py\n"
     )
+
+
+@pytest.mark.unit
+def test_conflict_sections_relabel_longer_markers():
+    # Git marks a conflict in a file that both sides renamed with eight
+    # characters and adds the path to the labels.
+    content = (
+        f"<<<<<<<< {LOCAL}:new/a.py\nx\n========\ny\n>>>>>>>> {INCOMING}:new/b.py\n"
+    ).encode()
+
+    sections = conflict_sections("new/a.py", content, local_label=LOCAL)
+
+    assert [s.content for s in sections] == [
+        f"<<<<<<<< HEAD:new/a.py\nx\n========\ny\n>>>>>>>> {INCOMING}:new/b.py\n"
+    ]
 
 
 @pytest.mark.unit
@@ -157,6 +177,45 @@ def test_generate_task_writes_task_and_replaces_old_one(
     assert (task_dir / "instruction.md").is_file()
     assert (task_dir / "tests" / "config.json").is_file()
     assert not list(tmp_path.glob(".*.tmp"))
+
+    # The verifier runs in its own container, built from tests/Dockerfile, and
+    # receives the repository's .git directory.
+    assert (task_dir / "tests" / "Dockerfile").is_file()
+    config = tomllib.loads((task_dir / "task.toml").read_text())
+    assert config["verifier"]["environment_mode"] == "separate"
+    assert config["artifacts"] == [
+        {"source": "/workspace/repo/.git", "destination": "repo.git"}
+    ]
+
+    # The image build checks the conflicts it produces against this digest of
+    # the hunks quoted in the instruction.
+    facts = make_facts()
+    assert facts.conflicts_text in (task_dir / "instruction.md").read_text()
+    scenario = json.loads((task_dir / "environment" / "scenario.json").read_text())
+    assert scenario["conflict_hunks_sha256"] == (
+        hashlib.sha256(facts.conflicts_text.encode()).hexdigest()
+    )
+
+
+@pytest.mark.unit
+def test_excluded_samples_are_not_converted(tmp_path: Path):
+    adapter = GitGoodBenchAdapter(output_dir=tmp_path)
+    excluded = next(iter(EXCLUDED_SAMPLES))
+    rows = [
+        {
+            "id": sample_id,
+            "name": "owner/repository",
+            "programming_language": "java",
+            "difficulty": "easy",
+            "sample_type": "merge",
+            "scenario": {"merge_commit_hash": "0" * 40, "parents": [LOCAL, INCOMING]},
+        }
+        for sample_id in (excluded.replace("-", "_"), "owner_repository_merge_0000")
+    ]
+
+    tasks = adapter.build_tasks(rows)
+
+    assert [task.task_id for task in tasks] == ["owner-repository-merge-0000"]
 
 
 @pytest.mark.unit
@@ -425,3 +484,50 @@ def test_replayed_merge_that_disagrees_with_the_dataset_is_an_error(
     adapter = GitGoodBenchAdapter(output_dir=tmp_path / "out")
     with pytest.raises(RuntimeError, match=message):
         adapter._replay_merge(merge_repo.task(**scenario), merge_repo.path)
+
+
+# The image build ---------------------------------------------------------------
+#
+# setup_scenario.py runs the merge with the Git of the task image and compares
+# the conflicts it finds with the ones the instruction quotes.
+
+SETUP_SCENARIO_PY = (
+    ADAPTER_SRC / "gitgoodbench/task-template/environment/setup_scenario.py"
+)
+
+
+def load_setup_scenario(repo: Path, monkeypatch: pytest.MonkeyPatch):
+    spec = importlib.util.spec_from_file_location("setup_scenario", SETUP_SCENARIO_PY)
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    monkeypatch.setattr(module, "REPO_DIR", str(repo))
+    return module
+
+
+@needs_git
+@pytest.mark.unit
+def test_image_build_finds_the_hunks_the_instruction_quotes(
+    merge_repo: MergeRepo, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+):
+    adapter = GitGoodBenchAdapter(output_dir=tmp_path / "out", overwrite=True)
+    task = merge_repo.task()
+    conflicts, unlisted = adapter._replay_merge(task, merge_repo.path)
+    facts = ScenarioFacts(
+        ground_truth_tree="1" * 40,
+        commit_temporal_ordering=commit_temporal_ordering(200, 100),
+        conflicts=conflicts,
+        unlisted_conflict_files=unlisted,
+    )
+    config = adapter._scenario_config(task, facts)
+
+    # The merge as the task image runs it, in the working tree.
+    merge_repo.git("checkout", "-q", "-b", "current-scenario-branch", merge_repo.local)
+    merge_repo.git("merge", merge_repo.incoming)
+    setup = load_setup_scenario(merge_repo.path, monkeypatch)
+
+    assert setup.conflict_hunks([CONFLICTED_FILE]) == facts.conflicts_text
+    setup.check_conflicts(config)
+
+    with pytest.raises(RuntimeError, match="differ from the ones quoted"):
+        setup.check_conflicts({**config, "conflict_hunks_sha256": "0" * 64})

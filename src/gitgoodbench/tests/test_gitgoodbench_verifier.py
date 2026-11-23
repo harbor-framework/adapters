@@ -1,16 +1,19 @@
 """Controls for the GitGoodBench verifier (``task-template/tests/evaluate.py``).
 
 Every test builds a small merge scenario the way the task image does (two
-commits that conflict, the merge started and stopped on
-``current-scenario-branch``, refs packed by ``git gc``), leaves the repository
-in a state an agent could leave it in and runs the verifier on it. A concluded
-merge with the ground-truth tree must be accepted; every other state is a
-negative control and must be rejected. The last group of controls covers
-repositories in which Git itself reports the expected tree or history although
-the commits on the branch do not record it (replacement objects, grafts, a
-forged commit-graph, tampered commit objects). The group after that covers the
-reward file: a reward planted in the log directory before grading is replaced
-by the verdict and does not survive a verifier that stops without one.
+commits that conflict, kept in an object store next to the repository, and the
+merge started and stopped on ``current-scenario-branch``), leaves the
+repository in a state an agent could leave it in and runs the verifier on what
+the verifier container receives: a copy of the repository's ``.git`` directory.
+A concluded merge with the ground-truth tree must be accepted; every other
+state is a negative control and must be rejected. One group of controls covers
+repositories in which the right commit is on the branch while the merge is not
+concluded. Another covers repositories in which Git itself reports the expected
+tree or history although the commits on the branch do not record it
+(replacement objects, grafts, a forged commit-graph, tampered commit objects).
+The last group covers the reward file: a reward that is in the log directory
+before grading is replaced by the verdict and does not survive a verifier that
+stops without one.
 """
 
 from __future__ import annotations
@@ -58,6 +61,7 @@ class Scenario:
     """A merge scenario in the state the task image leaves it in."""
 
     def __init__(self, root: Path):
+        self.root = root
         self.repo = root / "repo"
         self.repo.mkdir()
         self.env = {
@@ -69,34 +73,55 @@ class Scenario:
             "GIT_COMMITTER_NAME": "vcs-agent",
             "GIT_COMMITTER_EMAIL": "vcs@agent.takeover",
         }
-        self.git("init", "-q", "-b", "setup")
+        # The project the scenario was mined from: two commits that conflict.
+        upstream = root / "upstream"
+        upstream.mkdir()
+        self.git("init", "-q", "-b", "local", cwd=upstream)
+        (upstream / "README.md").write_text("scenario\n")
+        (upstream / CONFLICTED_FILE).write_text("value = 0\n")
+        self.git("add", ".", cwd=upstream)
+        self.git("commit", "-q", "-m", "root", cwd=upstream)
+        root_commit = self.git("rev-parse", "HEAD", cwd=upstream)
+
+        (upstream / CONFLICTED_FILE).write_text("value = 1\n")
+        self.git("commit", "-q", "-am", "local change", cwd=upstream)
+        self.base = self.git("rev-parse", "HEAD", cwd=upstream)
+
+        self.git("checkout", "-q", "-b", "incoming", root_commit, cwd=upstream)
+        (upstream / CONFLICTED_FILE).write_text("value = 2\n")
+        self.git("commit", "-q", "-am", "incoming change", cwd=upstream)
+        self.incoming = self.git("rev-parse", "HEAD", cwd=upstream)
+
+        # Same end state as environment/setup_scenario.py: the history up to
+        # the merge parents in an object store of its own, and a repository
+        # that borrows it and holds only what is added afterwards.
+        history = root / "history.git"
+        history.mkdir()
+        self.git("init", "-q", "--bare", cwd=history)
+        self.git(
+            "fetch",
+            "--no-tags",
+            "--quiet",
+            str(upstream),
+            "refs/heads/local:refs/scenario/local",
+            "refs/heads/incoming:refs/scenario/incoming",
+            cwd=history,
+        )
+        self.git("reflog", "expire", "--expire=now", "--all", cwd=history)
+        self.git("gc", "--prune=now", "--quiet", cwd=history)
+
+        self.git("init", "-q")
+        alternates = self.repo / ".git" / "objects" / "info" / "alternates"
+        alternates.write_text(f"{history / 'objects'}\n")
         self.git("config", "gc.auto", "0")
-        self.write("README.md", "scenario\n")
-        self.write(CONFLICTED_FILE, "value = 0\n")
-        self.git("add", ".")
-        self.git("commit", "-q", "-m", "root")
-        root_commit = self.git("rev-parse", "HEAD")
-
-        self.write(CONFLICTED_FILE, "value = 1\n")
-        self.git("commit", "-q", "-am", "local change")
-        self.base = self.git("rev-parse", "HEAD")
-
-        self.git("checkout", "-q", "--detach", root_commit)
-        self.write(CONFLICTED_FILE, "value = 2\n")
-        self.git("commit", "-q", "-am", "incoming change")
-        self.incoming = self.git("rev-parse", "HEAD")
+        self.git("checkout", "-q", "-b", BRANCH, self.base)
+        self.git("update-ref", "refs/scenario/incoming", self.incoming)
 
         # The ground-truth tree is known to the verifier only (tests/config.json).
         # Its id depends on nothing but the file contents, so it is computed
         # without leaving the merge result in the repository.
         self.ground_truth_tree = self.tree_with(RESOLUTION, write=False)
 
-        # Same end state as environment/setup_scenario.py.
-        self.git("checkout", "-q", "-b", BRANCH, self.base)
-        self.git("update-ref", "refs/scenario/incoming", self.incoming)
-        self.git("branch", "-q", "-D", "setup")
-        self.git("reflog", "expire", "--expire=now", "--all")
-        self.git("gc", "--prune=now", "--quiet")
         merge = self.run_git("merge", self.incoming)
         if merge.returncode != 1 or "CONFLICT" not in merge.stdout + merge.stderr:
             raise RuntimeError(f"Expected a conflicting merge: {merge.stderr}")
@@ -111,19 +136,19 @@ class Scenario:
         }
 
     def run_git(
-        self, *args: str, stdin: str | None = None
+        self, *args: str, stdin: str | None = None, cwd: Path | None = None
     ) -> subprocess.CompletedProcess:
         return subprocess.run(
             ["git", *args],
-            cwd=self.repo,
+            cwd=cwd or self.repo,
             env=self.env,
             input=stdin,
             text=True,
             capture_output=True,
         )
 
-    def git(self, *args: str, stdin: str | None = None) -> str:
-        result = self.run_git(*args, stdin=stdin)
+    def git(self, *args: str, stdin: str | None = None, cwd: Path | None = None) -> str:
+        result = self.run_git(*args, stdin=stdin, cwd=cwd)
         if result.returncode != 0:
             raise RuntimeError(f"git {' '.join(args)} failed: {result.stderr}")
         return result.stdout.strip()
@@ -170,6 +195,39 @@ class Scenario:
         self.write(CONFLICTED_FILE, RESOLUTION)
         self.git("commit", "-q", "-am", "resolve by hand")
         return middle, self.head()
+
+    def point_branch_at_merge_commit(self, content: str = RESOLUTION) -> str:
+        """Put a correct merge commit on the branch with plumbing commands,
+        without touching the index, the working tree or the merge state."""
+        commit = self.dangling_merge_commit(content)
+        self.git("update-ref", f"refs/heads/{BRANCH}", commit)
+        return commit
+
+    def add_unmerged_entries(self, path: str = CONFLICTED_FILE) -> None:
+        """Give ``path`` the three index stages of a conflict."""
+        blobs = [
+            self.git("hash-object", "-w", "--stdin", stdin=f"value = {stage}\n")
+            for stage in (1, 2, 3)
+        ]
+        self.git(
+            "update-index",
+            "--index-info",
+            stdin=f"0 {'0' * 40}\t{path}\n"
+            + "".join(
+                f"100644 {blob} {stage}\t{path}\n"
+                for stage, blob in enumerate(blobs, start=1)
+            ),
+        )
+
+    def hand_over(self) -> Path:
+        """What the verifier container receives: a copy of the repository's
+        ``.git`` at the path of the repository, and nothing else."""
+        target = self.root / "verifier" / "repo"
+        shutil.rmtree(target.parent, ignore_errors=True)
+        target.mkdir(parents=True)
+        if (self.repo / ".git").is_dir():
+            shutil.copytree(self.repo / ".git", target / ".git")
+        return target
 
     def tamper_with_commit(self, object_id: str) -> tuple[Path, bytes]:
         """Overwrite the loose object of a commit with a copy that also names
@@ -221,7 +279,7 @@ def scenario(tmp_path: Path) -> Scenario:
 def grade(
     verifier: ModuleType, scenario: Scenario, monkeypatch: pytest.MonkeyPatch
 ) -> tuple[bool, dict]:
-    monkeypatch.setattr(verifier, "REPO_DIR", scenario.repo)
+    monkeypatch.setattr(verifier, "REPO_DIR", scenario.hand_over())
     details: dict = {}
     return verifier.evaluate_merge(scenario.config, details), details
 
@@ -269,7 +327,26 @@ def test_untouched_scenario_is_rejected(
 
     assert not solved
     assert details["merge_in_progress"] is True
-    assert details["parents_not_in_history"] == [scenario.incoming]
+    assert details["operations_in_progress"] == ["merge"]
+    assert details["unmerged_paths"] == [CONFLICTED_FILE]
+
+
+def test_earlier_history_is_not_handed_over(scenario: Scenario):
+    # The verifier grades without the commits that existed before the agent
+    # started: the copy of .git it receives does not contain them.
+    scenario.conclude_merge()
+    handed_over = scenario.hand_over() / ".git"
+    (handed_over / "objects" / "info" / "alternates").unlink()
+
+    for commit in (scenario.base, scenario.incoming):
+        present = scenario.run_git(
+            "--git-dir", str(handed_over), "cat-file", "-e", commit
+        )
+        assert present.returncode != 0
+    present = scenario.run_git(
+        "--git-dir", str(handed_over), "cat-file", "-e", scenario.head()
+    )
+    assert present.returncode == 0
 
 
 def test_committed_conflict_markers_are_rejected(
@@ -355,6 +432,83 @@ def test_hostile_configuration_and_hooks_are_not_executed(
 
     assert not solved
     assert not executed.exists()
+
+
+# Negative controls: the merge is not concluded ------------------------------
+#
+# The original harness runs `git status` and fails the scenario when the output
+# mentions unmerged paths or a conflict.
+
+
+def test_resolution_staged_but_not_committed_is_rejected(
+    verifier: ModuleType, scenario: Scenario, monkeypatch: pytest.MonkeyPatch
+):
+    scenario.write(CONFLICTED_FILE, RESOLUTION)
+    scenario.git("add", CONFLICTED_FILE)
+    assert "still merging" in scenario.git("status")
+
+    solved, details = grade(verifier, scenario, monkeypatch)
+
+    assert not solved
+    assert details["operations_in_progress"] == ["merge"]
+    assert details["unmerged_paths"] == []
+
+
+def test_merge_commit_on_the_branch_while_the_merge_is_in_progress_is_rejected(
+    verifier: ModuleType, scenario: Scenario, monkeypatch: pytest.MonkeyPatch
+):
+    # The branch holds a correct merge commit, but the merge was never
+    # concluded: the index still has the conflict.
+    head = scenario.point_branch_at_merge_commit()
+    assert scenario.git("rev-parse", f"{head}^{{tree}}") == scenario.ground_truth_tree
+    assert "unmerged" in scenario.git("status").lower()
+
+    solved, details = grade(verifier, scenario, monkeypatch)
+
+    assert not solved
+    assert details["operations_in_progress"] == ["merge"]
+    assert details["unmerged_paths"] == [CONFLICTED_FILE]
+
+
+def test_unmerged_paths_after_the_merge_are_rejected(
+    verifier: ModuleType, scenario: Scenario, monkeypatch: pytest.MonkeyPatch
+):
+    scenario.conclude_merge()
+    scenario.add_unmerged_entries()
+    assert "unmerged" in scenario.git("status").lower()
+
+    solved, details = grade(verifier, scenario, monkeypatch)
+
+    assert not solved
+    assert details["operations_in_progress"] == []
+    assert details["unmerged_paths"] == [CONFLICTED_FILE]
+
+
+@pytest.mark.parametrize("operation", ["cherry-pick", "revert"])
+def test_operation_started_after_the_merge_is_rejected(
+    verifier: ModuleType,
+    scenario: Scenario,
+    monkeypatch: pytest.MonkeyPatch,
+    operation: str,
+):
+    # A correct merge, then a cherry-pick or revert that stops on a conflict.
+    scenario.conclude_merge()
+    other = scenario.git(
+        "commit-tree",
+        scenario.tree_with("value = 7\n"),
+        "-p",
+        scenario.incoming,
+        "-m",
+        "other",
+    )
+    stopped = scenario.run_git(operation, "--no-edit", other)
+    assert stopped.returncode != 0
+    assert "conflict" in scenario.git("status").lower()
+
+    solved, details = grade(verifier, scenario, monkeypatch)
+
+    assert not solved
+    assert details["operations_in_progress"] == [operation]
 
 
 # Negative controls: Git reports what the commits do not record --------------
@@ -483,16 +637,22 @@ def log_dir(
     tmp_path: Path,
     monkeypatch: pytest.MonkeyPatch,
 ) -> Path:
-    """The verifier's log directory with a reward of 1 already in it, as an
-    agent could leave it while it works, and the entry point (``main``)
-    pointed at the scenario."""
+    """The verifier's log directory with a reward of 1 already in it and the
+    entry point (``main``) pointed at the scenario, which is handed over when
+    grading starts."""
     log_dir = tmp_path / "logs"
     log_dir.mkdir()
     (log_dir / "reward.txt").write_text("1\n")
     (log_dir / "reward.json").write_text('{"reward": 1}\n')
     config = tmp_path / "config.json"
     config.write_text(json.dumps(scenario.config))
-    monkeypatch.setattr(verifier, "REPO_DIR", scenario.repo)
+    evaluate_merge = verifier.evaluate_merge
+
+    def evaluate_handed_over(config: dict, details: dict) -> bool:
+        monkeypatch.setattr(verifier, "REPO_DIR", scenario.hand_over())
+        return evaluate_merge(config, details)
+
+    monkeypatch.setattr(verifier, "evaluate_merge", evaluate_handed_over)
     monkeypatch.setattr(verifier, "LOG_DIR", log_dir)
     monkeypatch.setattr(verifier, "CONFIG_PATH", config)
     return log_dir
@@ -546,8 +706,8 @@ def test_planted_reward_does_not_survive_a_crashing_verifier(
     tmp_path: Path,
     monkeypatch: pytest.MonkeyPatch,
 ):
-    # Git is gone from the image (an agent can delete it), so the verifier
-    # cannot run it: an error nothing in the verifier expects.
+    # Git is missing from the image, so the verifier cannot run it: an error
+    # nothing in the verifier expects.
     empty = tmp_path / "no-git-here"
     empty.mkdir()
     monkeypatch.setenv("PATH", str(empty))

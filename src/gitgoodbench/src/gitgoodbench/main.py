@@ -56,7 +56,7 @@ def main() -> None:
         "--split",
         choices=sorted(HF_DATASETS),
         default="lite",
-        help="lite: GitGoodBench Lite (60 merge tasks, default); full: GitGoodBench (450 merge tasks)",
+        help="lite: GitGoodBench Lite (60 merge tasks, default); full: GitGoodBench (445 merge tasks)",
     )
     parser.add_argument(
         "--dataset-path",

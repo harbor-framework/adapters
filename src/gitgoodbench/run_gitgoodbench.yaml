@@ -21,6 +21,6 @@ agents:
   #   model_name: anthropic/claude-haiku-4-5
 datasets:
   # Generate with: cd src/gitgoodbench && uv run gitgoodbench
-  # (GitGoodBench Lite, 60 merge tasks). For the 450 merge tasks of the full
+  # (GitGoodBench Lite, 60 merge tasks). For the 445 merge tasks of the full
   # dataset: uv run gitgoodbench --split full  ->  datasets/gitgoodbench-full
   - path: datasets/gitgoodbench
