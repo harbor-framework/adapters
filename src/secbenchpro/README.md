@@ -13,6 +13,24 @@ This adapter converts [SEC-bench Pro](https://github.com/SEC-bench/SEC-bench-Pro
 
 The adapter renders every task from a SEC-bench Pro checkout pinned at commit `a6cedddd`; the 344 count is the complete upstream snapshot and no task is excluded. Licensing is MIT, matching upstream. The main adaptation is the scoring path: instead of the upstream Python grading harness, each task carries a self-contained shell verifier that runs the PoC against the three images and invokes an LLM judge. The judge prompt and verdict schema follow the pinned upstream `judge.py` and Jinja prompts; retries and response parsing live in a shared client.
 
+## Oracle Validation
+
+SEC-bench Pro ships reference PoCs, but its oracle is not deterministic. Across 8 full-344 runs (2026-11-12; 2751/2752 valid judgments; infrastructure failures were retried separately):
+
+| Result | Tasks | Share |
+|---|---:|---:|
+| 8/8 solved (stable) | 278 | 80.8% |
+| 1/8–7/8 (variance) | 56 | 16.3% |
+| 0/8 (under investigation) | 10 | 2.9% |
+
+The per-round solved rate was 88.1%–93.3% (overall 91.3% of valid judgments). The variance is judge/target-side rather than conversion-side: upstream `GRADING.md` documents flaky race, GC-layout and JIT-tiering targets, and the judge has `verified` / `unsure` / `illegal` outcomes. The 10 stable-0 tasks are:
+
+- Linux (6): `CVE-2020-36791`, `CVE-2024-26582`, `CVE-2024-26800`, `CVE-2024-26824`, `CVE-2025-38083`, `CVE-2026-23231`
+- SpiderMonkey (3): `sm-1886849`, `sm-1895123`, `sm-1985224`
+- V8 (1): `v8-417636716`
+
+Their judge reasons are still being reviewed. Because a single-run 100% oracle is not achievable for this benchmark, we would appreciate maintainer guidance on the acceptance criterion (documented exclusions or a multi-attempt pass rule). We do not claim 100%.
+
 ## What is SEC-bench Pro?
 
 SEC-bench Pro ([UIUC](https://github.com/SEC-bench/SEC-bench-Pro)) evaluates AI agents on real-world vulnerability reproduction. Given a vulnerable codebase and a vulnerability description, agents must write a PoC (JavaScript for V8/SpiderMonkey, C for Linux) that triggers the bug. Scoring executes the PoC against three Docker images (vulnerable, fixed, latest) and classifies the result with an LLM judge (`verified` / `unsure` / `illegal`).
@@ -273,7 +291,7 @@ The published reference is snapshot **260617** (V8 103 + SpiderMonkey 104 + Linu
 - **JS verifier container**: PoCs run with `--network none`, `--cap-drop ALL` plus `SETUID`/`SETGID`/`KILL`/`DAC_READ_SEARCH`, `no-new-privileges`, and the official 8 GB / 4 CPU / 512 PID limits. The root filesystem stays writable and the PoC is staged with `docker cp`, so the official `--read-only` root and immutable-snapshot hash check are not applied.
 - **Claude Code sandbox**: use `SecbenchProClaudeCode` (see [Agents](#agents)) to reproduce the official Bash sandbox policy. The parity numbers above were produced by a runner enforcing the same policy; they have not been re-run with the shipped agent class. A stock `claude-code` agent is not sandbox-equivalent.
 - **Large images**: each task pulls three prebuilt images; the full dataset needs substantial disk and bandwidth on first run.
-- **Oracle stability baseline (diagnostic, not a parity score)**: 8-round full-344 repetition produced 278/344 = 80.8% all-1 after infrastructure reruns (258/344 = 75.0% raw), per-round mean 90.4%; 55 tasks show judge-side verdict variance; 10 tasks consistently score 0 (8 have verified fixes pending approval). See `parity_experiment.json` for details.
+- **Oracle stability baseline (diagnostic, not a parity score)**: 8-round full-344 repetition produced 278/344 = 80.8% all-1 after infrastructure reruns (258/344 = 75.0% raw), per-round mean 90.4%; 56 tasks show judge-side verdict variance; 10 tasks consistently score 0 and are under review. See the Oracle Validation section.
 
 ## Installation / Prerequisites
 
