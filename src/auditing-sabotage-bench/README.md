@@ -130,7 +130,7 @@ Parity is pending. Planned setup, to be confirmed with the Harbor team before an
 | | |
 |---|---|
 | Agent / model | `claude-code@2.0.76` (the version upstream pins) + `claude-haiku-4-5-20251001` (low-cost; parity checks the adapter, not the model), identical settings on both sides |
-| Original side | A parity fork of upstream at `38de58c` (link to follow, recorded as `original_parity_repo`) running the upstream Inspect harness (`blue_teaming.run_comparison`, `--prompt no_experiments`), changed only so both sides get the same input: the prompt is sent as the user message, byte-identical to `instruction.md` (rendered prompt + user message + report-file sentence); a recreated `compose.yaml` sandbox on this adapter's environment image (upstream gitignores it); `inspect-ai`/`inspect-swe` pinned from PyPI; a script computing the same per-task reward as `tests/grade.py` |
+| Original side | A [parity fork](https://github.com/invi-bhagyesh/auditing-sabotage-bench/tree/harbor-parity) of upstream at `38de58c` (recorded as `original_parity_repo`) running the upstream Inspect harness (`blue_teaming.run_comparison`, `--prompt no_experiments`), changed only so both sides get the same input: the prompt is sent as the user message, byte-identical to `instruction.md` (rendered prompt + user message + report-file sentence); a recreated `compose.yaml` sandbox on this adapter's environment image (upstream gitignores it); `inspect-ai`/`inspect-swe` pinned from PyPI; a script computing the same per-task reward as `tests/grade.py` |
 | Harbor side | This adapter, same agent version, model and tool restrictions (`disallowed_tools=WebSearch,Agent`) |
 | Judge | Upstream rubric judge, `claude-opus-4-6`, on both sides |
 | Tasks | All 20 core tasks (`--subset normal`). A 5–10% sample would be 1–2 tasks, too few to compare, and 20 audits with a low-cost model are cheap. A 5-task sanity check on both sides first |
@@ -145,8 +145,9 @@ Parity is pending. Planned setup, to be confirmed with the Harbor team before an
 Reproduction:
 
 ```bash
-# Original side: the parity fork of upstream @38de58c (link to follow); its harbor_parity/README.md
+# Original side: the parity fork of upstream @38de58c; its harbor_parity/README.md
 # lists every change. Rewards per task are computed with harbor_parity/score.py.
+git clone -b harbor-parity https://github.com/invi-bhagyesh/auditing-sabotage-bench && cd auditing-sabotage-bench
 uv sync
 uv run python -m blue_teaming.run_comparison claude-haiku-4-5 --prompt no_experiments --subset normal --epochs 3
 uv run python -m harbor_parity.score logs/claude-haiku-4-5
