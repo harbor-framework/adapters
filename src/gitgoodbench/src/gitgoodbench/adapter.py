@@ -171,13 +171,14 @@ def git_bytes(*args: str, cwd: Path, work_tree: Path | None = None) -> bytes:
 
 
 def attributes_worktree(repository: Path, commit: str, destination: Path) -> Path:
-    """Write the ``.gitattributes`` files of ``commit`` into ``destination``.
+    """Write the files of ``commit`` that change how Git shows commits.
 
-    The original harness runs ``git diff`` and ``git show`` in a checkout,
-    where these files decide for example which function names appear in hunk
-    headers. With this directory as the work tree the same commands give the
-    same output without a checkout, which would depend on the file system of
-    the machine that generates the tasks.
+    The original harness runs ``git diff`` and ``git show`` in a checkout.
+    There the ``.gitattributes`` files decide for example which function
+    names appear in hunk headers, and ``.mailmap`` rewrites author names.
+    With ``destination`` as the work tree the same commands give the same
+    output without a checkout, which would depend on the file system of the
+    machine that generates the tasks.
     """
     destination.mkdir(parents=True, exist_ok=True)
     listing = git_bytes("ls-tree", "-r", "-z", commit, cwd=repository)
@@ -189,7 +190,7 @@ def attributes_worktree(repository: Path, commit: str, destination: Path) -> Pat
         if fields[0] not in (b"100644", b"100755"):
             continue
         parts = os.fsdecode(name).split("/")
-        if parts[-1] != ".gitattributes":
+        if parts[-1] != ".gitattributes" and parts != [".mailmap"]:
             continue
         if any(part in ("", ".", "..", ".git") for part in parts):
             continue

@@ -61,6 +61,7 @@ from evaluate import (
 
 GROUND_TRUTH_DIR = Path("/opt/scenario/ground-truth.git")
 ATTRIBUTES_FILE = ".gitattributes"
+MAILMAP_FILE = ".mailmap"
 # A branch that does not lead back to the start of the scenario is not walked
 # further than this.
 MAX_COMMITS = 1000
@@ -162,12 +163,13 @@ class HistoryView:
         return commits if found else None
 
     def attributes_of(self, commit: str) -> Path:
-        """A directory with the ``.gitattributes`` files of ``commit``.
+        """A directory with the files of ``commit`` that change how Git shows
+        commits: its ``.gitattributes`` files and its ``.mailmap``.
 
         The original runs ``git show`` in a checkout, where these files decide
-        for example which function names appear in hunk headers. Used as the
-        work tree, this directory gives the same output without checking the
-        commit out.
+        for example which function names appear in hunk headers and how
+        authors are named. Used as the work tree, this directory gives the
+        same output without checking the commit out.
         """
         work_tree = Path(tempfile.mkdtemp(prefix="attributes-", dir=self.root))
         listing = self.run("ls-tree", "-r", "-z", commit).stdout
@@ -179,7 +181,7 @@ class HistoryView:
             if fields[0] not in (b"100644", b"100755"):
                 continue
             parts = os.fsdecode(name).split("/")
-            if parts[-1] != ATTRIBUTES_FILE:
+            if parts[-1] != ATTRIBUTES_FILE and parts != [MAILMAP_FILE]:
                 continue
             if any(part in ("", ".", "..", ".git") for part in parts):
                 continue

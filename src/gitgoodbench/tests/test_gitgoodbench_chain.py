@@ -87,7 +87,9 @@ class Upstream:
     """The project a sample was mined from: a commit and a chain of three
     commits that all change the same file."""
 
-    def __init__(self, root: Path, attributes: str | None = None):
+    def __init__(
+        self, root: Path, attributes: str | None = None, mailmap: str | None = None
+    ):
         self.path = root / "upstream"
         (self.path / "src").mkdir(parents=True)
         (self.path / "docs").mkdir()
@@ -97,6 +99,8 @@ class Upstream:
         (self.path / OTHER_FILE).write_text("notes\n")
         if attributes is not None:
             (self.path / ".gitattributes").write_text(attributes)
+        if mailmap is not None:
+            (self.path / ".mailmap").write_text(mailmap)
         self.base = self.commit("root")
 
         lines[2] = "line 3 changed"
@@ -270,6 +274,23 @@ def test_prepare_chain_reads_attributes_of_the_commits(
 
     assert b"Binary files" in facts.file_changes
     assert facts.hunk_count == 0
+
+
+def test_prepare_chain_reads_the_mailmap_of_the_commits(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+):
+    """The original shows the commits in a checkout, where .mailmap applies."""
+    project = Upstream(
+        tmp_path, mailmap="Jane Doe <jane@example.org> <vcs@agent.takeover>\n"
+    )
+    monkeypatch.setattr(
+        GitGoodBenchTask, "repo_url", property(lambda self: project.url)
+    )
+
+    facts = GitGoodBenchAdapter(tmp_path / "out").prepare_chain(project.task("rebase"))
+
+    assert facts.participating_commits.count("Author: Jane Doe <jane@example.org>") == 3
+    assert "vcs-agent" not in facts.participating_commits
 
 
 def test_prepare_chain_refuses_what_the_original_cannot_set_up(
@@ -622,6 +643,23 @@ def test_iterative_committing_shows_only_the_file_of_the_scenario(
     assert "change line 31 and the notes" in prompt
     assert f"diff --git a/{FILE} b/{FILE}" in prompt
     assert OTHER_FILE not in prompt and "new.txt" not in prompt
+
+
+def test_histories_are_shown_with_the_mailmap_of_their_newest_commit(
+    tmp_path: Path, verifier: Verifier
+):
+    project = Upstream(
+        tmp_path, mailmap="Jane Doe <jane@example.org> <vcs@agent.takeover>\n"
+    )
+    scenario = HandedOver(tmp_path, project, "chunk")
+    scenario.commit_file("rewritten\n", "UPDATE: Rewrite the file")
+    verifier.judge_prefers("agent", project.newest)
+
+    verifier.run(scenario)
+
+    original = (verifier.logs / "ground_truth_history.txt").read_text()
+    assert original.count("Author: Jane Doe <jane@example.org>") == 3
+    assert "Author: Jane Doe" in (verifier.logs / "agent_history.txt").read_text()
 
 
 def test_branch_that_left_the_scenario_is_not_solved(
