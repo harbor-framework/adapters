@@ -26,5 +26,6 @@ agents:
     extra_allowed_hosts:
       - app-us.ppapi.ai
 datasets:
-  # Generate with: cd src/gitgoodbench && uv run gitgoodbench
+  # The merge tasks, which the recorded parity runs cover. Generate with:
+  # cd src/gitgoodbench && uv run gitgoodbench --scenario-types merge
   - path: datasets/gitgoodbench

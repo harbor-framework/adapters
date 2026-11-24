@@ -4,10 +4,10 @@
     "agent": "mini-swe-agent@2.4.6",
     "model": "deepseek-v4-1-flash-260910",
     "date": "2026-10-27",
-    "adapted_benchmark_size": 60,
+    "adapted_benchmark_size": 178,
     "parity_benchmark_size": 60,
     "number_of_runs": 3,
-    "notes": "The released baseline agent cannot be run, so the original side is a reference harness (original_parity_repo; parity/reference-harness.patch on JetBrains-Research/git-good-bench@b11ae6cd92be2b8b96e237d379427e04ad59c455) that runs the same CLI agent in the original scenario container with the original setup and scoring. Both sides: mini-swe-agent 2.4.6 with litellm 1.91.1, deepseek-v4-1-flash-260910 (requested as deepseek-v4.1-flash), 30 minute agent timeout, same prompt, 3 runs over the 60 Lite merge samples. Harbor side: harbor-framework/harbor at 357c5e74020fc0890d69fb3a7db610896b9ce57d on Daytona. The run settings and the differences between the two sides are in parity/README.md. Result files: https://huggingface.co/datasets/yanggwendy/gitgoodbench-parity, until the shared parity repository accepts uploads again.",
+    "notes": "The released baseline agent cannot be run, so the original side is a reference harness (original_parity_repo; parity/reference-harness.patch on JetBrains-Research/git-good-bench@b11ae6cd92be2b8b96e237d379427e04ad59c455) that runs the same CLI agent in the original scenario container with the original setup and scoring. Both sides: mini-swe-agent 2.4.6 with litellm 1.91.1, deepseek-v4-1-flash-260910 (requested as deepseek-v4.1-flash), 30 minute agent timeout, same prompt, 3 runs over the 60 Lite merge samples; the 118 interactive rebase and iterative committing tasks were added afterwards and have no parity run yet. Harbor side: harbor-framework/harbor at 357c5e74020fc0890d69fb3a7db610896b9ce57d on Daytona. The run settings and the differences between the two sides are in parity/README.md. Result files: https://huggingface.co/datasets/yanggwendy/gitgoodbench-parity, until the shared parity repository accepts uploads again.",
     "original_parity_repo": "https://github.com/YanggWendy/git-good-bench/tree/0375616a91a58e495b370908918d01991bc6ebf4",
     "adapter_pr": [
       "https://github.com/harbor-framework/adapters/pull/78",

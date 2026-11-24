@@ -7,31 +7,31 @@
     "original_benchmark": [
       {
         "split": "lite",
-        "size": 120,
+        "size": 180,
         "harness": "agent",
         "supported_agents": [
           "mini-swe-agent@2.4.6"
         ],
         "adaptable": true,
-        "notes": "JetBrains/git_good_bench-lite: 120 samples, 60 merge and 60 file_commit_chain. The adapter converts the 60 merge samples. The paper reports its baseline on this set. The released baseline agent cannot be run, as its first author confirmed on the adapter PR; the agent listed is the one the reference harness runs (original_parity_repo in parity_experiment.json)."
+        "notes": "JetBrains/git_good_bench-lite: 120 samples, 60 merge and 60 file_commit_chain. Every file_commit_chain sample is used by two scenarios (interactive rebase, iterative committing), which gives the 180 scenarios the paper reports its baseline on. The released baseline agent cannot be run, as its first author confirmed on the adapter PR; the agent listed is the one the reference harness runs (original_parity_repo in parity_experiment.json)."
       },
       {
         "split": "full",
-        "size": 900,
+        "size": 1350,
         "harness": "agent",
         "supported_agents": [
           "None"
         ],
         "adaptable": true,
-        "notes": "JetBrains/git_good_bench: 900 samples, 450 merge and 450 file_commit_chain, disjoint from Lite. --split full converts 445 of the 450 merge samples, which pass the oracle; 5 are excluded (README, Notes & Caveats). They are not registered and have no parity run."
+        "notes": "JetBrains/git_good_bench: 900 samples, 450 merge and 450 file_commit_chain, 1,350 scenarios, disjoint from Lite. --split full converts 1,343 of them, which pass the oracle; 5 merge samples and 1 file_commit_chain sample are excluded (README, Notes & Caveats). They are not registered and have no parity run."
       }
     ],
     "harbor_adapter": [
       {
         "split": "lite",
-        "adapted_benchmark_size": 60,
+        "adapted_benchmark_size": 178,
         "parity_benchmark_size": 60,
-        "parity_sampling_rate": 1.0,
+        "parity_sampling_rate": 0.3371,
         "registry_benchmark_size": 0,
         "added_agents": [
           "None"
@@ -43,7 +43,7 @@
           "None"
         ],
         "parity_costs": "$13",
-        "notes": "Parity against the reference harness in parity/: both sides ran mini-swe-agent 2.4.6 with deepseek-v4-1-flash-260910, 3 runs over all 60 tasks. Oracle 60/60. registry_benchmark_size is 0 until the dataset PR is merged; the registered dataset will hold these 60 tasks. parity_costs is an estimate from the token usage of the 360 trajectories at DeepSeek's list prices of 2026-11-15: the sponsored API access is not billed per call, and sandbox compute is not included."
+        "notes": "178 tasks: 60 merge, 59 interactive rebase and 59 iterative committing; one file_commit_chain sample of Lite cannot be set up by the original harness and is excluded. Oracle 178/178 with ORACLE_MODE=true. Parity against the reference harness in parity/ covers the 60 merge tasks: both sides ran mini-swe-agent 2.4.6 with deepseek-v4-1-flash-260910, 3 runs. The parity runs of the two judge-scored scenarios are not done yet. registry_benchmark_size is 0 until the dataset PR is merged. parity_costs is an estimate from the token usage of the 360 trajectories at DeepSeek's list prices of 2026-11-15: the sponsored API access is not billed per call, and sandbox compute is not included."
       }
     ]
   }

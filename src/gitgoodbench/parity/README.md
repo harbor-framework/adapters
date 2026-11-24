@@ -1,9 +1,12 @@
-# GitGoodBench parity (merge conflict resolution)
+# GitGoodBench parity
 
 The parity experiment runs the same CLI coding agent, model and provider on
-the original GitGoodBench harness and on the Harbor adapter, 3 runs each over
-the 60 GitGoodBench Lite merge samples, and compares the solve rates (exact
-match against the ground-truth merge commit).
+the original GitGoodBench harness and on the Harbor adapter, 3 runs each, and
+compares the solve rates. The runs so far cover merge conflict resolution: the
+60 GitGoodBench Lite merge samples, scored by exact match against the
+ground-truth merge commit. The harness also runs interactive rebase and
+iterative committing, see [the section on these scenarios](#interactive-rebase-and-iterative-committing);
+their parity runs are not done yet.
 
 ## Why the original side is a reconstructed harness
 
@@ -28,10 +31,11 @@ two missing pieces and leaves the scenario setup
 | Scoring | `Evaluator._evaluate_diff_between_head_and`: `git status` must not mention conflicts and `git diff <merge commit> current-scenario-branch` must be empty | unchanged |
 | Loop | `run_agent_client.py` (`llm_client = ...`, `runner.arun()` undefined) | `run_cli_agent_benchmark.py`: clone once per sample, then per run setup, agent, evaluation, teardown; resumable JSONL results, shards |
 
-Two one-line fixes were needed to import the released code: the stripped LLM
-call in `Evaluator._prompt_model_with` was left with invalid syntax, and the
-`ytsaurus-client` import in `schemas.py` is made optional. Neither touches the
-merge evaluation.
+Three one-line fixes were needed to import the released code: the stripped LLM
+call in `Evaluator._prompt_model_with` was left with invalid syntax, the
+`Chat` class its judge prompts are built with has no import, and the
+`ytsaurus-client` import in `schemas.py` is made optional. None touches the
+evaluation logic.
 
 ## Agent and model (both sides)
 
@@ -67,7 +71,8 @@ python -m src.agent_client.summarize_cli_agent_results results/mswea-deepseek-v4
 
 `--shard k/n` runs disjoint subsets in parallel processes (each with its own
 container); `--agent oracle` commits the ground-truth merge (expected 100%),
-`--agent nop` does nothing (expected 0%). The image defaults to
+`--agent nop` does nothing (expected 0%). `--scenario-types chunk rebase`
+selects the judge-scored scenarios. The image defaults to
 `python:3.10-slim`, the base of the original harness container; our runs used
 `--build-arg BASE_IMAGE=ubuntu:24.04` (Git 2.43 instead of 2.39) because Docker
 Hub pulls were not available on the machine that ran them.
@@ -75,7 +80,7 @@ Hub pulls were not available on the machine that ran them.
 ## Running the Harbor side
 
 ```bash
-cd src/gitgoodbench && uv run gitgoodbench && cd ../..   # 60 tasks -> datasets/gitgoodbench
+cd src/gitgoodbench && uv run gitgoodbench --scenario-types merge && cd ../..   # 60 tasks -> datasets/gitgoodbench
 export OPENAI_API_KEY=<key> OPENAI_BASE_URL=<OpenAI-compatible endpoint>
 harbor run -c src/gitgoodbench/parity/run_gitgoodbench_parity.yaml
 ```
@@ -118,9 +123,9 @@ and newer install the agent without that change.
   refs could read the benchmark's name. That happened in 64 of the 180 runs
   on each side. The name does not help with the task: the ground-truth merge
   commit is in neither container, neither side can reach GitHub, and both
-  sides saw the same name. The Harbor tasks renamed the ref to
-  `refs/scenario/incoming` on 2026-11-15, after the parity runs. The
-  reference harness keeps the old name.
+  sides saw the same name. Both sides have renamed the ref to
+  `refs/scenario/incoming` since: the Harbor tasks on 2026-11-15 and the
+  reference harness on 2026-11-23.
 * **Shell.** Both sides execute the agent's commands with `/bin/sh -c`:
   mini-swe-agent's `LocalEnvironment` inside the Harbor sandbox, and the
   harness's `ExistingContainerEnvironment` through `docker exec`.
@@ -179,14 +184,89 @@ and newer install the agent without that change.
   (argilla) and breaks deleting tags that differ only by case. The parity
   runs used a case-sensitive APFS volume. The Harbor side runs on Linux.
 
+## Interactive rebase and iterative committing
+
+Each `file_commit_chain` sample is a file that was changed in 3 to 6
+consecutive commits and gives two scenarios. The harness runs them with
+`--scenario-types chunk rebase` since commit `6c6b90f` of its `harbor-parity`
+branch (`reference-harness-file-commit-chain.patch`); the Harbor adapter
+generates one task for each (`<sample>-chunk`, `<sample>-rebase`).
+
+| Piece | Original (released) | Reference harness | Harbor task |
+|-------|---------------------|-------------------|-------------|
+| Setup, interactive rebase | newest commit checked out on `current-scenario-branch`, `git rebase -i HEAD~N` started and paused before the first commit (`_setup_clean_local_branch_before_push`) | unchanged | image built to the same state; the build fails if the todo list does not hold the commits quoted in the instruction |
+| Setup, iterative committing | commit before the chain checked out; the changes of the chain written to `file_changes.patch` (the file of the scenario) and `all_changes.patch` (other files) in a checkout (`_setup_iteratively_chunk_staged_diff_into_commits`) | unchanged | same state; the two patch files are computed from the commits when the task is generated |
+| Prompt, interactive rebase | `PromptProvider._USER_PROMPT_REBASE`: the commits of the rebase in `<COMMIT-i>` tags, tools `update_rebase_todo_list`, `execute_rebase`, `show_changes_in` | same overview, commits, instructions and key requirements; the tool section is replaced by: edit `.git/rebase-merge/git-rebase-todo`, run `git rebase --continue`, and write `reword` and `squash` as `pick` or `fixup` followed by `exec git commit --amend -m`, which is how the original `execute_rebase` writes the todo list | same text (`instruction.md`) |
+| Prompt, iterative committing | `PromptProvider._USER_PROMPT_CHUNK`: the hunks of the file as `HUNK-N`, tools `commit_changes_in`, `commit_remaining_changes` | same overview, hunks and instructions; the tool section is replaced by the two patch files and the commands the tools run (`git apply --whitespace=fix`, `git add <file>`, `git commit -m`, then `git apply --allow-empty --whitespace=fix all_changes.patch`) | same text |
+| Scoring | `Evaluator._run_llm_as_a_judge_evaluation_for_git_histories`: both histories rendered with `git show`, judged twice with swapped positions, solved if the agent's history is preferred both times. The LLM client is not part of the release | `Evaluator` unchanged; `utils/judge.py` and `utils/judge_client.py` provide the client | `tests/evaluate_history.py`, a port of the Evaluator, with the same `judge.py` |
+
+The judge is asked through an OpenAI-compatible chat completions API with the
+system and user prompts of the Evaluator, temperature 0 and its response
+schema, which are the settings the released code passes to its client.
+`JUDGE_MODEL` selects the model on both sides.
+
+With `--hide-ground-truth` the harness reduces the clone to what the Harbor
+image contains before the agent starts. For iterative committing the commits
+of the chain are moved to a bundle on the host and pruned from the clone; the
+bundle is fetched back before the Evaluator runs. For interactive rebase the
+commits of the chain are the agent's input and stay. In both scenarios the
+`origin` remote and every ref except `current-scenario-branch` are removed and
+the container is detached from its networks.
+
+The reference solution is the history the original developer pushed. The
+judge can only call it a tie, which the rule of the paper scores as unsolved.
+The first author agreed that a tie may count as solved
+([comment](https://github.com/harbor-framework/harbor/pull/3327#issuecomment-5905634867)).
+Oracle runs use that on both sides and for the oracle only: with
+`--oracle-mode` (harness) or `ORACLE_MODE=true` (Harbor) a history made of
+exactly the original commits is solved without asking the judge. Agent runs
+do not set it.
+
+Checks of the shared setup:
+
+* For each converted sample, 59 in Lite and 449 in the full split, the setup
+  commands of the original harness were run in a Linux container with Git
+  2.39, in a repository that holds the same commits as the Harbor image. The
+  two patch files they write are byte for byte the ones the Harbor task ships,
+  and the commits of the paused rebase, shown with `git show`, are the
+  `<COMMIT-i>` blocks of the Harbor instruction.
+* The prompts of the harness are generated from the instruction templates of
+  the adapter. In the oracle run of the harness on Lite, the prompt of each of
+  the 118 scenarios is the Harbor instruction except for the repository path
+  and the length of abbreviated ids (see below).
+* `judge.py` is the same file on both sides.
+
+Differences between the two sides in these scenarios:
+
+* **Where the commits are rendered.** The Evaluator runs `git show` in a
+  checkout of the repository. The Harbor verifier has no checkout; it reads
+  the `.gitattributes` files and the `.mailmap` of the same commits, so that
+  hunk headers name the same functions and authors are shown under the same
+  names.
+* **Abbreviated ids.** Git chooses the length of abbreviated object ids by
+  the number of objects in the repository. The harness works in a full clone,
+  where the `index` lines of a diff and the rebase todo list show up to 10
+  characters in the Lite repositories. The Harbor image holds only the commits
+  of the scenario and shows 7. This affects the commits quoted in the
+  instruction, the two patch files, the todo list and the histories shown to
+  the judge.
+* **Histories the Evaluator cannot read.** The Evaluator raises an error when
+  `git show` output is not valid UTF-8, and it does not return when the branch
+  no longer contains the commit before the chain. The harness records the
+  first as an error and stops the second before the Evaluator starts. The
+  Harbor verifier scores both as unsolved.
+* **Excluded sample.** `coil_kt_coil_file_commit_chain_0003` cannot be set up
+  by the original harness (the working tree is modified right after the
+  checkout, so the rebase does not start) and has no Harbor tasks.
+
 ## Results
 
 Oracle and negative control (environment and verifier check, 1 run each):
 
 | Side | Oracle | No-op agent |
 |------|--------|-------------|
-| Original (reference harness) | 60/60 (`results/oracle-original-side.jsonl`, 2026-10-18) | 0/2 on the smoke samples |
-| Harbor adapter (Daytona) | 60/60, no exceptions (`results/oracle-harbor-daytona.json`, 2026-11-22, Harbor 0.27.0, separate verifier, on the registered tasks). Full split: 445/445 (`results/oracle-harbor-daytona-full.json`; one trial re-run after a Daytona API error) | 0 on the negative controls in the adapter README |
+| Original (reference harness) | merge 60/60 (`results/oracle-original-side.jsonl`, 2026-10-18). Interactive rebase 59/59 and iterative committing 59/59 with `--oracle-mode` (`results/oracle-original-side-file-commit-chain.jsonl`, 2026-11-24 UTC). The file also holds the excluded sample: its rebase ends with the setup error `cannot rebase: You have unstaged changes` | 0/2 on the smoke samples |
+| Harbor adapter (Daytona) | 178/178, no exceptions: merge 60/60, interactive rebase 59/59, iterative committing 59/59 (`results/oracle-harbor-daytona.json`, 2026-11-23, Harbor 0.27.0, `ORACLE_MODE=true`, on the registered tasks). Full split: 1,343/1,343, of which 1,342 in `results/oracle-harbor-daytona-full.json` and one in `results/oracle-harbor-daytona-full-rerun.json` (see the adapter README) | 0 on the negative controls in the adapter README |
 
 Six samples (`android_wear_os_samples_merge_0000`, `dask_dask_merge_0000`, `duckduckgo_android_merge_0003`, `farama_foundation_gymnasium_merge_0000`, `jetbrains_exposed_merge_0004`, `vitorpamplona_amethyst_merge_0002`) have a scenario commit that is no longer reachable from any branch of the repository, so the original clone-based setup cannot check it out; the reference harness fetches such commits by id (`ensure_scenario_commits`), which is what the Harbor task images do. Without that fallback these six samples would fail on the original side.
 
@@ -236,7 +316,9 @@ with a Daytona `502` while its sandbox was created and was re-run with
 `harbor jobs resume -f DaytonaBadGatewayError`; the job finished with 180
 trials and no exceptions.
 
-Files in `results/`: `oracle-original-side.jsonl` and `oracle-harbor-daytona.json`
+Files in `results/`: `oracle-original-side.jsonl`,
+`oracle-original-side-file-commit-chain.jsonl`, `oracle-harbor-daytona.json`,
+`oracle-harbor-daytona-full.json` and `oracle-harbor-daytona-full-rerun.json`
 (oracle checks), `mswea-deepseek-v4.1-flash-aligned-original-side.jsonl`
 (every run of the reference harness, one record per sample and run; every
 record carries a `teardown_error` because the upstream teardown checks out
