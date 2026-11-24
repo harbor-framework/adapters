@@ -1,0 +1,32 @@
+# Oracle replay configuration: executes the curated reference solutions
+# in src/gdm_stealth/custom_agent/oracle_solutions.py through the same
+# host-side checkers as the parity agent (see README "Oracle").
+#
+# Role models below are the closest OpenRouter-available substitutes
+# for the upstream defaults (the pinned preview IDs are not listed on
+# OpenRouter). Point GDM_RATER_BASE_URL at Google's OpenAI-compatible
+# endpoint and drop the openrouter/ prefixes to use the exact
+# upstream IDs from task metadata instead.
+#
+# Run from repo root, with GDM_RATER_BASE_URL/GDM_RATER_API_KEY set:
+#   PYTHONPATH=src/gdm-stealth/src harbor run -c src/gdm-stealth/oracle_gdm-stealth.yaml
+jobs_dir: jobs
+n_attempts: 1
+timeout_multiplier: 1.0
+orchestrator:
+  type: local
+  n_concurrent_trials: 1
+  quiet: false
+environment:
+  type: docker
+  force_build: false
+  delete: true
+agents:
+  - import_path: gdm_stealth.custom_agent.oracle_agent:GDMStealthOracleAgent
+    kwargs:
+      rater_model: openrouter/google/gemini-2.5-pro
+      judger_model: openrouter/google/gemini-2.5-flash
+      chat_model: openrouter/google/gemini-2.5-flash
+      candidate_offset: 0
+datasets:
+  - path: datasets/gdm-stealth
