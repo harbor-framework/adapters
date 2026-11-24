@@ -4,8 +4,9 @@
 # pinned commit (same Ubuntu release, apt packages, Node, Playwright, Playwright MCP,
 # agent CLI and Python evaluator dependencies), so rendering, fonts and the scorer
 # match the original benchmark. The only edits are: the runtime is taken from a
-# pinned git checkout instead of a local build context, and the empty-default
-# PLAYWRIGHT_DOWNLOAD_HOST mirror override is dropped.
+# pinned git checkout instead of a local build context, the empty-default
+# PLAYWRIGHT_DOWNLOAD_HOST mirror override is dropped, and rb-harbor/patch_scorer.py
+# repairs a hang in the scorer's Playwright timeout path.
 FROM ubuntu:24.04
 
 ARG NODE_VERSION=22.18.0
@@ -110,6 +111,7 @@ ENV RB_TASK_ID={task_id} \
 COPY rb-harbor/ /opt/rb-harbor/
 RUN chmod 0755 /opt/rb-harbor/*.sh /opt/rb-harbor/*.py \
     && ln -s /opt/rb-harbor/ensure-reference.sh /usr/local/bin/rb-ensure-reference \
+    && python3 /opt/rb-harbor/patch_scorer.py \
     && RB_DATASET="${RB_DATASET}" RB_DATASET_REVISION="${RB_DATASET_REVISION}" \
        python3 /opt/rb-harbor/fetch_reference.py \
     && python3 /opt/rb-harbor/prepare_task.py
