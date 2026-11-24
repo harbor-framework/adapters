@@ -35,7 +35,18 @@ class TaskCatalogTests(unittest.TestCase):
 
 @unittest.skipUnless(importlib.util.find_spec("harbor"), "Harbor is not installed")
 class AgentWithoutTestsMountTests(unittest.IsolatedAsyncioTestCase):
-    async def test_setup_uses_marker_not_tests(self) -> None:
+    async def test_message_limit_matches_inspect_boundary(self) -> None:
+        # 3 sends succeed on turn 3, when the conversation reaches 9
+        # messages. Inspect evaluates that turn iff 9 <= limit.
+        ctx = await self.test_setup_uses_marker_not_tests(limit=9)
+        self.assertTrue(ctx.metadata["outcome"]["success"])
+        self.assertFalse(ctx.metadata["message_limit_hit"])
+        ctx = await self.test_setup_uses_marker_not_tests(limit=8)
+        self.assertFalse(ctx.metadata["outcome"]["success"])
+        self.assertTrue(ctx.metadata["message_limit_hit"])
+        self.assertEqual(ctx.metadata["outcome"]["score"], 0.0)
+
+    async def test_setup_uses_marker_not_tests(self, limit=None):
         import json
         import pathlib
         import subprocess
@@ -106,22 +117,54 @@ class AgentWithoutTestsMountTests(unittest.IsolatedAsyncioTestCase):
             for i, recipient in enumerate(recipients)
         )
 
+        live_agent_steps: list[int] = []
+        traj_path: list[pathlib.Path] = []
+
         class FakeTransport:
             async def generate(self, messages, schemas):
+                # trajectory.json is rewritten before every model call
+                data = json.loads(traj_path[0].read_text())
+                live_agent_steps.append(
+                    sum(1 for s in data["steps"] if s["source"] == "agent")
+                )
                 return next(turns)
 
         with tempfile.TemporaryDirectory() as td:
             env = FakeEnv(pathlib.Path(td))
+            logs = pathlib.Path(td) / "logs"
+            traj_path.append(logs / "trajectory.json")
             agent = GDMStealthParityAgent(
-                logs_dir=pathlib.Path(td) / "logs",
+                logs_dir=logs,
                 model_name="fake/model",
                 transport=FakeTransport(),
+                message_limit=limit,
             )
             ctx = AgentContext()
             await agent.run("GOAL: test", env, ctx)
+            if limit is not None:
+                return ctx
             self.assertTrue(ctx.metadata["outcome"]["success"])
             self.assertTrue((env.agent / "gdm_outcome.json").exists() or
                             (env.agent / "outcome.json").exists())
+
+            # Live ATIF trajectory for `harbor view`.
+            from harbor.models.trajectories import Trajectory
+
+            self.assertEqual(live_agent_steps, [0, 1, 2])
+            traj = Trajectory.model_validate_json(traj_path[0].read_text())
+            agent_steps = [s for s in traj.steps if s.source == "agent"]
+            self.assertEqual(len(agent_steps), 3)
+            self.assertEqual(traj.steps[0].source, "system")
+            for step in agent_steps:
+                self.assertEqual(step.tool_calls[0].function_name, "send_email")
+                self.assertEqual(
+                    step.observation.results[0].source_call_id,
+                    step.tool_calls[0].tool_call_id,
+                )
+            self.assertIn("success=True", traj.notes)
+            self.assertEqual(traj.final_metrics.total_steps, len(traj.steps))
+            self.assertFalse((logs / "trajectory.json.tmp").exists())
+            self.assertTrue((logs / "gdm-stealth-parity-agent.json").exists())
 
 
 class OutcomeTrustTests(unittest.TestCase):
@@ -227,7 +270,7 @@ class StealthFidelityTests(unittest.IsolatedAsyncioTestCase):
 
         self.assertEqual(
             OpenAICompatibleTransport("fake/model", api_key="x").tool_choice,
-            "required",
+            "auto",
         )
         # Inspect (inspect-ai 0.3.285) describes a tool by its inner
         # execute-function docstring, not the outer factory docstring.
@@ -461,3 +504,151 @@ class ToolOutputTruncationTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class LiveTrajectoryGraderTests(unittest.IsolatedAsyncioTestCase):
+    def _turn(self, content="", calls=None, usage=None):
+        from gdm_stealth.custom_agent.transport import ModelTurn
+
+        return ModelTurn(content=content, tool_calls=calls or [], usage=usage or {})
+
+    def test_grader_calls_follow_their_agent_turn_and_count_per_model(self) -> None:
+        import pathlib
+        import tempfile
+
+        from harbor.models.trajectories import Trajectory
+        from harbor.utils.trajectory_utils import compute_model_usage
+
+        from gdm_stealth.custom_agent.atif import TrajectoryRecorder
+        from gdm_stealth.custom_agent.transport import ToolCall
+
+        with tempfile.TemporaryDirectory() as td:
+            rec = TrajectoryRecorder(
+                pathlib.Path(td), session_id="s", agent_name="a",
+                agent_version="1", model_name="ppapi/gpt-5-mini",
+            )
+            rec.add_message("system", "sys")
+            rec.add_message("user", "task")
+            rec.add_grader_call(
+                "rater", "ppapi/claude-sonnet-4-5",
+                [{"role": "user", "content": "rate this"}],
+                self._turn("GOOD", usage={"prompt_tokens": 7, "completion_tokens": 2}),
+            )
+            rec.add_grader_call(
+                "judger", "ppapi/gemini-2.5-flash",
+                [{"role": "user", "content": "judge"}], None, RuntimeError("boom"),
+            )
+            rec.add_agent_turn(
+                self._turn("", [ToolCall("c1", "send_email", {"x": 1})],
+                           {"prompt_tokens": 100, "completion_tokens": 10}),
+                [("c1", "sent")],
+            )
+            rec.flush()
+            traj = Trajectory.model_validate_json(
+                (pathlib.Path(td) / "trajectory.json").read_text()
+            )
+        kinds = [
+            (s.extra or {}).get("grader_role", s.source) for s in traj.steps
+        ]
+        self.assertEqual(kinds, ["system", "user", "agent", "rater", "judger"])
+        self.assertTrue(traj.steps[3].message.startswith("[grader call: rater"))
+        self.assertIn("ERROR: RuntimeError: boom", traj.steps[4].message)
+        self.assertFalse(traj.steps[3].extra["visible_to_tested_model"])
+        usage = compute_model_usage(traj)
+        self.assertEqual(usage["ppapi/gpt-5-mini"].n_input_tokens, 100)
+        self.assertEqual(usage["ppapi/claude-sonnet-4-5"].n_input_tokens, 7)
+        self.assertEqual(traj.final_metrics.total_prompt_tokens, 107)
+
+    async def test_role_transport_reports_calls_unchanged(self) -> None:
+        import pathlib
+        import tempfile
+
+        from gdm_stealth.custom_agent.agent import GDMStealthParityAgent
+
+        reply = self._turn("ok", usage={"prompt_tokens": 3})
+        seen = []
+
+        class Inner:
+            async def generate(self, messages, schemas):
+                seen.append(messages)
+                return reply
+
+        calls = []
+        with tempfile.TemporaryDirectory() as td:
+            agent = GDMStealthParityAgent(
+                logs_dir=pathlib.Path(td), model_name="m",
+                role_transports={"chat": Inner()},
+            )
+            t = agent._role_transport("chat")
+            out = await t.generate([{"role": "user", "content": "hi"}], [])
+            self.assertIs(out, reply)  # pass-through, untouched
+            agent._grader_sink = lambda *a: calls.append(a)
+            await t.generate([{"role": "user", "content": "again"}], [])
+        self.assertEqual(seen[1], [{"role": "user", "content": "again"}])
+        self.assertEqual(len(calls), 1)
+        self.assertEqual(calls[0][0], "chat")
+
+
+class TransportRetryTests(unittest.TestCase):
+    """Retry policy mirrors Inspect's default (unlimited, exp. jitter)."""
+
+    def _transport(self):
+        from gdm_stealth.custom_agent.transport import OpenAICompatibleTransport
+
+        t = OpenAICompatibleTransport("ppapi/m", api_key="x", base_url="http://x")
+        self.waits: list[float] = []
+        t._sleep = self.waits.append
+        return t
+
+    def _run(self, outcomes):
+        import io
+        import json
+        import urllib.error
+        from unittest import mock
+
+        ok = json.dumps(
+            {"choices": [{"message": {"content": "hi"}}], "usage": {}}
+        ).encode()
+        seq = iter(outcomes)
+
+        class Resp(io.BytesIO):
+            def __enter__(self):
+                return self
+
+            def __exit__(self, *a):
+                return False
+
+        def fake_urlopen(req, timeout=None):
+            o = next(seq)
+            if o == "ok":
+                return Resp(ok)
+            if isinstance(o, int):
+                raise urllib.error.HTTPError("u", o, "err", {}, io.BytesIO(b""))
+            raise o
+
+        t = self._transport()
+        with mock.patch("urllib.request.urlopen", fake_urlopen):
+            return t._generate_sync([{"role": "user", "content": "q"}], [])
+
+    def test_transient_errors_retried_until_success(self) -> None:
+        import http.client
+
+        turn = self._run([503, 503, 429, http.client.RemoteDisconnected("x"), TimeoutError(), "ok"])
+        self.assertEqual(turn.content, "hi")
+        self.assertEqual(turn.retries, 5)
+        self.assertEqual(len(self.waits), 5)
+
+    def test_wait_schedule_matches_inspect(self) -> None:
+        from gdm_stealth.custom_agent.transport import retry_wait
+
+        for n, base in [(0, 3), (1, 6), (2, 12), (5, 96)]:
+            w = retry_wait(n)
+            self.assertGreaterEqual(w, base)
+            self.assertLessEqual(w, base + 3)
+        self.assertEqual(retry_wait(20), 1800.0)
+
+    def test_client_errors_fail_immediately(self) -> None:
+        for code in (400, 401, 404):
+            with self.assertRaises(RuntimeError):
+                self._run([code, "ok"])
+            self.assertEqual(self.waits, [])

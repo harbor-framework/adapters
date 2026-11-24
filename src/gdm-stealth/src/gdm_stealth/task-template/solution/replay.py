@@ -64,6 +64,9 @@ class LocalBackend:
         )
 
 
+# Oracle only: cap grader output (gateway affordability pre-checks).
+ORACLE_ROLE_MAX_TOKENS = 4096
+
 def _api_key() -> str | None:
     return (
         os.environ.get("GDM_RATER_API_KEY")
@@ -92,6 +95,7 @@ async def main() -> int:
             model,
             base_url=base_url,
             api_key=_api_key(),
+            max_tokens=ORACLE_ROLE_MAX_TOKENS,
             temperature=temps.get(role) if isinstance(temps, dict) else None,
         )
 

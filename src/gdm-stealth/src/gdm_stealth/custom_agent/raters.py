@@ -25,13 +25,14 @@ def make_role_transport(
     base_url: str | None = None,
     api_key: str | None = None,
     api_key_env: str = "OPENAI_API_KEY",
-    max_tokens: int = 4096,
+    max_tokens: int | None = None,
     temperature: float | None = None,
 ) -> ModelTransport:
-    # Cap role-model output: rater/judger replies are short JSON and
-    # chat replies are brief, and some OpenAI-compatible gateways
-    # pre-check affordability against the model's uncapped maximum
-    # output, rejecting affordable requests on low balances.
+    # Parity default: no output cap, as Inspect sends none for role
+    # models (and a cap would count thinking tokens on Gemini 2.5,
+    # truncating replies on this side only). The oracle passes an
+    # explicit cap because some OpenAI-compatible gateways pre-check
+    # affordability against the model's uncapped maximum output.
     return OpenAICompatibleTransport(
         model_name,
         base_url=base_url,

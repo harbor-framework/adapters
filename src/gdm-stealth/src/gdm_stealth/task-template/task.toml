@@ -34,7 +34,9 @@ timeout_sec = 120.0
 [agent]
 network_mode = "no-network"
 user = "agent"
-timeout_sec = 3600.0
+# Upstream Inspect has no wall-clock limit (episodes end at the message
+# limit); this only stops a hung run. Strategic took ~4 h on a gateway.
+timeout_sec = 28800.0
 
 [solution.env]
 GDM_RATER_BASE_URL = "${GDM_RATER_BASE_URL:-https://openrouter.ai/api/v1}"

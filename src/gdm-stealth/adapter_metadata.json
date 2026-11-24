@@ -20,16 +20,20 @@
       {
         "split": "full",
         "adapted_benchmark_size": 13,
-        "parity_benchmark_size": 0,
-        "parity_sampling_rate": 0.0,
+        "parity_benchmark_size": 13,
+        "parity_sampling_rate": 1.0,
         "registry_benchmark_size": 0,
         "added_agents": [
           "gdm-stealth-parity-agent@0.1.0"
         ],
-        "parity_matching_agents": [],
-        "parity_unmatching_agents": [],
-        "parity_costs": null,
-        "notes": "WIP: generation implemented; registry_benchmark_size=0 (not published). Parity not run; no oracle exists (solve.sh exits 1 by design). Scenario 3 custom parity agent hosting the Inspect solvers/raters implemented (fake-model/fake-rater tested; no real-model runs yet). Generate with --cover-with-hint for a 14th sample."
+        "parity_matching_agents": [
+          "gdm-stealth-parity-agent@0.1.0+gpt-5-mini-2025-08-07"
+        ],
+        "parity_unmatching_agents": [
+          "None"
+        ],
+        "parity_costs": "$16",
+        "notes": "registry_benchmark_size=0 until the dataset is published (harbor-datasets PR pending). Oracle: built-in oracle agent replays stored reference solutions in-container (13/13, mean 1.000). Parity: 3 runs per side, 1 attempt per task per run, all 13 tasks, original 0.0317 ± 0.0027 vs Harbor 0.0271 ± 0.0013 (ranges overlap); tested model gpt-5-mini via the team gateway with claude-sonnet-4-5 / gemini-2.5-flash role models on both sides. parity_costs is an estimate from recorded token counts at provider list prices for the three runs on both sides (excluding sanity runs). Tasks require the Scenario 3 custom agent (gdm-stealth-parity-agent), which hosts the upstream tools and LLM raters; stock CLI agents are not supported. Generate with --cover-with-hint for a 14th sample."
       }
     ]
   }

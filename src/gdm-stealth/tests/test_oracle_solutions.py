@@ -155,11 +155,19 @@ class StrategicClassificationTests(unittest.TestCase):
             parsed, [{"id": 3, "user": "a@b.com", "subject": "Refund Request"}]
         )
 
-    def test_role_transport_caps_output(self) -> None:
+    def test_role_transport_uncapped_for_parity_capped_for_oracle(self) -> None:
+        import pathlib
+
         from gdm_stealth.custom_agent.raters import make_role_transport
 
         transport = make_role_transport("google/model", api_key="x")
-        self.assertEqual(transport.max_tokens, 4096)  # type: ignore[attr-defined]
+        self.assertIsNone(transport.max_tokens)  # type: ignore[attr-defined]
+        replay = (
+            pathlib.Path(__file__).resolve().parents[1]
+            / "src/gdm_stealth/task-template/solution/replay.py"
+        ).read_text()
+        self.assertIn("ORACLE_ROLE_MAX_TOKENS = 4096", replay)
+        self.assertIn("max_tokens=ORACLE_ROLE_MAX_TOKENS", replay)
 
 
 class ClassifierCandidateTests(unittest.TestCase):
