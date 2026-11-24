@@ -43,6 +43,14 @@ cpus = 4
 memory_mb = 8192
 storage_mb = {storage_mb}
 
+[environment.env]
+# Optional, for models served from an OpenAI-compatible endpoint: when RB_MODEL_BASE_URL is
+# set the container starts the benchmark's own Claude Code proxy on 127.0.0.1:8000, as the
+# upstream runner does. See "Running Claude Code through the upstream proxy" in the README.
+RB_MODEL_BASE_URL = "${RB_MODEL_BASE_URL:-}"
+RB_MODEL_API_KEY = "${RB_MODEL_API_KEY:-}"
+RB_MODEL = "${RB_MODEL:-}"
+
 [environment.healthcheck]
 command = "rb-ensure-reference"
 interval_sec = 5.0

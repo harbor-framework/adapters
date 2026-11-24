@@ -15,6 +15,7 @@ from __future__ import annotations
 import hashlib
 import importlib
 import json
+import random
 import shutil
 import subprocess
 import sys
@@ -54,7 +55,7 @@ AGENT_NETWORK = {
 # reference and the model endpoint. Harbor adds the agent's model host to this
 # allowlist automatically; pass --allow-agent-host for anything else.
 network_mode = "allowlist"
-allowed_hosts = []""",
+allowed_hosts = [{agent_hosts}]""",
     True: """# Generated with --open-network: the rollout is NOT confined. The scorer's egress
 # gate then caps a run that fetched external content, as upstream does when unisolated.
 network_mode = "public"
@@ -68,6 +69,10 @@ allowed_hosts = [{judge_hosts}]""",
     True: """network_mode = "public"
 """,
 }
+
+# Parity runs on a difficulty-stratified subset: a full run is 50 tasks of up to 20 hours each.
+PARITY_SEED = 20261124
+PARITY_COUNTS = {"easy": 3, "medium": 3, "hard": 4}
 
 TEMPLATE_DIR = Path(__file__).parent / "task-template"
 REFERENCE_SIZES = json.loads((Path(__file__).parent / "reference_sizes.json").read_text())
@@ -99,6 +104,9 @@ class RecreationBenchAdapter:
         dataset_dir: Path | None = None,
         cache_dir: Path = DEFAULT_CACHE_DIR,
         open_network: bool = False,
+        split: str = "full",
+        agent_hosts: list[str] | None = None,
+        verifier_hosts: list[str] | None = None,
         **kwargs,
     ):
         """
@@ -113,6 +121,10 @@ class RecreationBenchAdapter:
             cache_dir: Where the checkout and dataset files are cached.
             open_network: Generate tasks without the network allowlist, for container
                 engines that cannot enforce one (for example Docker Desktop).
+            split: ``full`` for all 50 tasks or ``parity`` for the parity subset.
+            agent_hosts: Extra hosts the agent phase may reach (a model gateway behind the
+                in-container proxy, for example).
+            verifier_hosts: Extra hosts the verifier may reach (a judge endpoint).
         """
         self.output_dir = Path(output_dir)
         self.limit = limit
@@ -122,6 +134,9 @@ class RecreationBenchAdapter:
         self.dataset_dir = Path(dataset_dir).expanduser() if dataset_dir else None
         self.cache_dir = Path(cache_dir).expanduser()
         self.open_network = open_network
+        self.split = split
+        self.agent_hosts = list(agent_hosts or [])
+        self.verifier_hosts = list(verifier_hosts or [])
 
     def _checkout(self) -> Path:
         repo = self.rb_repo or self.cache_dir / f"RecreationWorld-{RB_COMMIT[:12]}"
@@ -139,6 +154,14 @@ class RecreationBenchAdapter:
     def _tasks(self, repo: Path) -> list[WebTask]:
         rows = [json.loads(line) for line in (repo / "tasks" / "web.jsonl").read_text().splitlines() if line.strip()]
         tasks = sorted((WebTask(row["instance_id"], row.get("difficulty", "medium")) for row in rows), key=lambda t: t.slug)
+        if self.split == "parity":
+            rng = random.Random(PARITY_SEED)
+            picked = {
+                task
+                for difficulty, count in PARITY_COUNTS.items()
+                for task in rng.sample([t for t in tasks if t.difficulty == difficulty], count)
+            }
+            tasks = [task for task in tasks if task in picked]
         if self.task_ids:
             wanted = {value.lower() for value in self.task_ids}
             selected = [task for task in tasks if {task.task_id.lower(), task.slug, task.name} & wanted]
@@ -216,7 +239,8 @@ class RecreationBenchAdapter:
             "{rb_commit}": RB_COMMIT,
             "{time_limit}": str(time_limit),
             "{agent_timeout}": str(time_limit * TIMEOUT_MULTIPLIER),
-            "{judge_hosts}": ", ".join(json.dumps(host) for host in JUDGE_HOSTS),
+            "{judge_hosts}": ", ".join(json.dumps(host) for host in [*JUDGE_HOSTS, *self.verifier_hosts]),
+            "{agent_hosts}": ", ".join(json.dumps(host) for host in self.agent_hosts),
             # Base image and scaffold dependencies, plus the packed and the served copy of the site.
             "{storage_mb}": str(max(20480, 16384 + int(2.5 * reference_mb))),
         }

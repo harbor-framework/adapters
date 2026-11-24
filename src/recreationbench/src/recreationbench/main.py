@@ -41,6 +41,12 @@ def main() -> None:
         help="Only generate these task IDs",
     )
     parser.add_argument(
+        "--split",
+        choices=["full", "parity"],
+        default="full",
+        help="full: all 50 Web tasks; parity: the difficulty-stratified parity subset",
+    )
+    parser.add_argument(
         "--rb-repo",
         type=Path,
         default=None,
@@ -58,6 +64,20 @@ def main() -> None:
         help="Generate tasks without the network allowlist (for engines that cannot enforce one, "
         "such as Docker Desktop); not the benchmark's protocol",
     )
+    parser.add_argument(
+        "--allow-agent-host",
+        action="append",
+        default=[],
+        metavar="HOST",
+        help="Extra host the agent phase may reach (repeatable), e.g. the model gateway used with RB_MODEL_BASE_URL",
+    )
+    parser.add_argument(
+        "--allow-verifier-host",
+        action="append",
+        default=[],
+        metavar="HOST",
+        help="Extra host the verifier may reach (repeatable), e.g. a judge endpoint not on the default list",
+    )
     args = parser.parse_args()
 
     adapter = RecreationBenchAdapter(
@@ -68,6 +88,9 @@ def main() -> None:
         rb_repo=args.rb_repo,
         dataset_dir=args.dataset_dir,
         open_network=args.open_network,
+        split=args.split,
+        agent_hosts=args.allow_agent_host,
+        verifier_hosts=args.allow_verifier_host,
     )
 
     adapter.run()

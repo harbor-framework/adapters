@@ -8,6 +8,7 @@ is retried and resumes where it stopped.
 """
 
 import os
+import re
 import shutil
 import sys
 import tarfile
@@ -41,6 +42,31 @@ def download() -> Path:
     raise SystemExit("reference download did not complete")
 
 
+# Tasks whose reference cannot be loaded without the repair below. Eleven other snapshots
+# carry the same frames but load and pass their tests as shipped, so they are left alone.
+REPAIR_BLANK_FRAMES = {"climatewatch.org"}
+BLANK_FRAME = re.compile(rb'(\bsrc=")/(?:[^"]*/)?about:blank"')
+
+
+def repair_blank_frames(site: Path) -> int:
+    """Restore ``<iframe src="about:blank">`` where the snapshot made it a site path.
+
+    Some frozen pages carry ``src="/<page path>/about:blank"``. The upstream static
+    handler answers an unknown path with the root index.html, which holds the same
+    frame, so the page loads the whole application inside itself. On climatewatch.org
+    that never settles: ``load`` does not fire and the browser crashes. The frames are
+    hidden analytics placeholders; nothing visible changes.
+    """
+    count = 0
+    for page in site.rglob("*.html"):
+        data = page.read_bytes()
+        fixed, hits = BLANK_FRAME.subn(rb'\1about:blank"', data)
+        if hits:
+            page.write_bytes(fixed)
+            count += hits
+    return count
+
+
 def pack_site(instance: Path) -> None:
     """The runner reads reference/reference.tar.gz; the dataset ships site/ unpacked."""
     reference = instance / "reference"
@@ -50,6 +76,8 @@ def pack_site(instance: Path) -> None:
         return
     if not (site / "index.html").is_file():
         raise SystemExit(f"reference site is incomplete: {site}")
+    if TASK_ID in REPAIR_BLANK_FRAMES:
+        print(f"repaired {repair_blank_frames(site)} about:blank frame(s) for {TASK_ID}")
     with tarfile.open(archive, "w:gz", compresslevel=1) as tar:
         tar.add(site, arcname="site")
     # The served copy is extracted from the archive; keep one packed copy as input.
