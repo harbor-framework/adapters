@@ -16,77 +16,96 @@ from typing import Any
 
 from .database_data import TRANSACTIONS
 
-TOOL_SCHEMAS: dict[str, dict[str, Any]] = {
-    "bash": {
-        "name": "bash",
-        "description": "Execute a bash command in the sandbox (cwd /home/agent).",
-        "parameters": {
-            "type": "object",
-            "properties": {"script": {"type": "string", "description": "Bash script to execute."}},
-            "required": ["script"],
-        },
-    },
-    "read_files": {
-        "name": "read_files",
-        "description": "Reads the given files. Returns the content of the given files, each wrapped in [start of file] / [end of file] markers.",
-        "parameters": {
-            "type": "object",
-            "properties": {
-                "filepaths": {"type": "array", "items": {"type": "string"}, "description": "The filepaths to read."}
-            },
-            "required": ["filepaths"],
-        },
-    },
-    "list_files": {
-        "name": "list_files",
-        "description": "Lists the files in the given directory in the repository.",
-        "parameters": {
-            "type": "object",
-            "properties": {"directory_path": {"type": "string", "description": "The directory path to list files in."}},
-            "required": ["directory_path"],
-        },
-    },
-    "replace_files": {
-        "name": "replace_files",
-        "description": (
-            "Edits the file in-place replacing all occurrences of "
-            "replace_from. Empty replace_from creates a new file and "
-            "cannot overwrite an existing one."
-        ),
-        "parameters": {
-            "type": "object",
-            "properties": {
-                "filepath": {"type": "string", "description": "The path to the file to edit."},
-                "replace_from": {"type": "string", "description": "The text to replace (all occurrences)."},
-                "replace_with": {"type": "string", "description": "The text to replace with."},
-            },
-            "required": ["filepath", "replace_from", "replace_with"],
-        },
-    },
-    "calculate": {
-        "name": "calculate",
-        "description": "Calculates the result of round(sin(num1) * cos(num2), 2).",
-        "parameters": {
-            "type": "object",
-            "properties": {
-                "num1": {"type": "number", "description": "The first number to calculate."},
-                "num2": {"type": "number", "description": "The second number to calculate."},
-            },
-            "required": ["num1", "num2"],
-        },
-    },
-    "query_database": {
-        "name": "query_database",
-        "description": (
-            "Executes a given SQL query and returns the results as string."
-        ),
-        "parameters": {
-            "type": "object",
-            "properties": {"query": {"type": "string", "description": "The SQL query to execute."}},
-            "required": ["query"],
-        },
-    },
-}
+# Byte-identical to what Inspect (inspect-ai 0.3.285) sends for upstream's
+# tools: openai_chat_tools() over the tool definitions (inner docstrings),
+# with additionalProperties false. Inspect also sends "strict": false, the
+# OpenAI default, which is omitted here. Note upstream's own inconsistency:
+# the real bash tool takes `command`, while the pre-filled oversight_frequency
+# history uses {"script": ...}; both are kept as upstream has them.
+TOOL_SCHEMAS: dict[str, dict[str, Any]] = {'bash': {'description': 'Use this function to execute bash commands.',
+          'name': 'bash',
+          'parameters': {'additionalProperties': False,
+                         'properties': {'command': {'description': 'The bash command '
+                                                                   'to execute.',
+                                                    'type': 'string'}},
+                         'required': ['command'],
+                         'type': 'object'}},
+ 'read_files': {'description': 'Returns the content of the given files.',
+                'name': 'read_files',
+                'parameters': {'additionalProperties': False,
+                               'properties': {'filepaths': {'description': 'The '
+                                                                           'filepaths '
+                                                                           'to read.',
+                                                            'items': {'type': 'string'},
+                                                            'type': 'array'}},
+                               'required': ['filepaths'],
+                               'type': 'object'}},
+ 'list_files': {'description': 'Lists files in the repository.',
+                'name': 'list_files',
+                'parameters': {'additionalProperties': False,
+                               'properties': {'directory_path': {'description': 'The '
+                                                                                'directory '
+                                                                                'path '
+                                                                                'to '
+                                                                                'list '
+                                                                                'files '
+                                                                                'in.',
+                                                                 'type': 'string'}},
+                               'required': ['directory_path'],
+                               'type': 'object'}},
+ 'replace_files': {'description': 'Edits the file in-place with the given replace '
+                                  'statement.\n'
+                                  '\n'
+                                  'It will replace **all** occurrences of '
+                                  '`replace_from`. If `replace_from`\n'
+                                  'is empty, it will create a new file with the given '
+                                  'content, however we\n'
+                                  "don't allow overwriting an existing file.",
+                   'name': 'replace_files',
+                   'parameters': {'additionalProperties': False,
+                                  'properties': {'filepath': {'description': 'The path '
+                                                                             'to the '
+                                                                             'file to '
+                                                                             'edit.',
+                                                              'type': 'string'},
+                                                 'replace_from': {'description': 'The '
+                                                                                 'text '
+                                                                                 'to '
+                                                                                 'replace.',
+                                                                  'type': 'string'},
+                                                 'replace_with': {'description': 'The '
+                                                                                 'text '
+                                                                                 'to '
+                                                                                 'replace '
+                                                                                 'with.',
+                                                                  'type': 'string'}},
+                                  'required': ['filepath',
+                                               'replace_from',
+                                               'replace_with'],
+                                  'type': 'object'}},
+ 'calculate': {'description': 'Calculates the result of round(sin(num1) * cos(num2), '
+                              '2).',
+               'name': 'calculate',
+               'parameters': {'additionalProperties': False,
+                              'properties': {'num1': {'description': 'The first number '
+                                                                     'to calculate.',
+                                                      'type': 'number'},
+                                             'num2': {'description': 'The second '
+                                                                     'number to '
+                                                                     'calculate.',
+                                                      'type': 'number'}},
+                              'required': ['num1', 'num2'],
+                              'type': 'object'}},
+ 'query_database': {'description': 'Executes a given SQL query and returns the results '
+                                   'as string.',
+                    'name': 'query_database',
+                    'parameters': {'additionalProperties': False,
+                                   'properties': {'query': {'description': 'The SQL '
+                                                                           'query to '
+                                                                           'execute.',
+                                                            'type': 'string'}},
+                                   'required': ['query'],
+                                   'type': 'object'}}}
 
 AGENT_USER = "agent"
 AGENT_HOME = "/home/agent"
@@ -155,9 +174,12 @@ class ToolExecutor:
         except Exception as exc:
             return f"Error: {exc}"
 
-    async def _tool_bash(self, script: str, **_: Any) -> str:
-        result = await self._exec(script)
-        return (result.stdout or "") + (result.stderr or "")
+    async def _tool_bash(self, command: str, **_: Any) -> str:
+        # inspect_ai.tool.bash: runs `bash --login -c <command>` and returns
+        # stderr (plus a newline) before stdout.
+        result = await self._exec(f"bash --login -c {shlex.quote(command)}")
+        output = f"{result.stderr}\n" if result.stderr else ""
+        return f"{output}{result.stdout or ''}"
 
     async def _tool_read_files(self, filepaths: list[str], **_: Any) -> str:
         contents, missing = [], []

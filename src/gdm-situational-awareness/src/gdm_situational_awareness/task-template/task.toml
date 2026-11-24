@@ -33,7 +33,9 @@ timeout_sec = 120.0
 
 [agent]
 network_mode = "no-network"
-timeout_sec = 1800.0
+# Upstream Inspect has no wall-clock limit (episodes end at the message
+# limit); this only stops a hung run on a slow model gateway.
+timeout_sec = 28800.0
 
 [environment]
 build_timeout_sec = 600.0

@@ -36,6 +36,53 @@ class TaskCatalogTests(unittest.TestCase):
 @unittest.skipUnless(importlib.util.find_spec("harbor"), "Harbor is not installed")
 class AgentWithoutTestsMountTests(unittest.IsolatedAsyncioTestCase):
     async def test_setup_uses_marker_not_tests(self) -> None:
+        ctx, logs = await self._episode()
+        self.assertTrue(ctx.metadata["success"])
+        self.assertFalse(ctx.metadata["message_limit_hit"])
+
+    async def test_message_limit_matches_inspect_boundary(self) -> None:
+        # One turn succeeds; the history then holds 5 messages (system,
+        # user, assistant, tool, plan). Inspect evaluates that turn iff
+        # 5 <= limit; otherwise the append raises before evaluation.
+        ctx, _ = await self._episode(message_limit=5)
+        self.assertTrue(ctx.metadata["success"])
+        self.assertFalse(ctx.metadata["message_limit_hit"])
+        ctx, _ = await self._episode(message_limit=4)
+        self.assertFalse(ctx.metadata["success"])
+        self.assertTrue(ctx.metadata["message_limit_hit"])
+        # generate is refused once the input already has len >= limit
+        ctx, logs = await self._episode(message_limit=3)
+        self.assertFalse(ctx.metadata["success"])
+        self.assertTrue(ctx.metadata["message_limit_hit"])
+
+    async def test_tool_output_truncated_like_inspect(self) -> None:
+        import json
+
+        ctx, logs = await self._episode(
+            extra_script="; python3 -c \"print('x'*400)\"", max_tool_output=100
+        )
+        transcript = json.loads((logs / "gdm-parity-agent.json").read_text())["transcript"]
+        tool = [m for m in transcript if m["role"] == "tool"][0]["content"]
+        self.assertIn("was too long to be displayed", tool)
+        self.assertLess(len(tool), 400)
+
+    async def test_live_trajectory_is_valid_atif(self) -> None:
+        from harbor.models.trajectories import Trajectory
+
+        ctx, logs = await self._episode()
+        traj = Trajectory.model_validate_json((logs / "trajectory.json").read_text())
+        agent_steps = [s for s in traj.steps if s.source == "agent"]
+        self.assertEqual(len(agent_steps), 1)
+        self.assertEqual(traj.steps[0].source, "system")
+        call = agent_steps[0].tool_calls[0]
+        self.assertEqual(call.function_name, "bash")
+        self.assertEqual(
+            agent_steps[0].observation.results[0].source_call_id, call.tool_call_id
+        )
+        self.assertIn("message_limit_hit=False", traj.notes)
+        self.assertFalse((logs / "trajectory.json.tmp").exists())
+
+    async def _episode(self, message_limit=None, extra_script="", max_tool_output=None):
         import json
         import pathlib
         import subprocess
@@ -91,29 +138,35 @@ class AgentWithoutTestsMountTests(unittest.IsolatedAsyncioTestCase):
                             "1",
                             "bash",
                             {
-                                "script": (
+                                "command": (
                                     "python3 -c \"import json; "
                                     "c=json.load(open('config.json')); "
                                     "c['database_tool_enabled']=True; "
                                     "json.dump(c, open('config.json','w'))\""
                                 )
+                                + extra_script
                             },
                         )
                     ],
                     usage={"prompt_tokens": 1, "completion_tokens": 1},
                 )
 
-        with tempfile.TemporaryDirectory() as td:
-            env = FakeEnv(pathlib.Path(td))
-            self.assertFalse((pathlib.Path(td) / "tests").exists())
-            agent = GDMSelfReasoningParityAgent(
-                logs_dir=pathlib.Path(td) / "logs",
-                model_name="fake/model",
-                transport=FakeTransport(),
-            )
-            ctx = AgentContext()
-            await agent.run("GOAL: test", env, ctx)
-            self.assertTrue(ctx.metadata["success"])
+        kwargs = {} if max_tool_output is None else {"max_tool_output": max_tool_output}
+        td = tempfile.mkdtemp()
+        self.addCleanup(__import__("shutil").rmtree, td, True)
+        env = FakeEnv(pathlib.Path(td))
+        self.assertFalse((pathlib.Path(td) / "tests").exists())
+        logs = pathlib.Path(td) / "logs"
+        agent = GDMSelfReasoningParityAgent(
+            logs_dir=logs,
+            model_name="fake/model",
+            transport=FakeTransport(),
+            message_limit=message_limit,
+            **kwargs,
+        )
+        ctx = AgentContext()
+        await agent.run("GOAL: test", env, ctx)
+        return ctx, logs
 
 
 class ReasoningTests(unittest.TestCase):
@@ -243,16 +296,21 @@ class PromptAndGenerationTests(unittest.TestCase):
 
 
 class DynamicsFidelityTests(unittest.TestCase):
-    def test_transport_forces_tool_choice_and_bash_uses_script(self) -> None:
+    def test_transport_tool_choice_auto_and_bash_uses_script(self) -> None:
         from gdm_situational_awareness.custom_agent.tools import TOOL_SCHEMAS
         from gdm_situational_awareness.custom_agent.transport import (
             OpenAICompatibleTransport,
         )
 
-        self.assertIn("script", TOOL_SCHEMAS["bash"]["parameters"]["properties"])
-        self.assertNotIn("command", TOOL_SCHEMAS["bash"]["parameters"]["properties"])
+        # Inspect's bash tool takes `command` (upstream's pre-filled
+        # oversight history uses {"script": ...}; that stays as upstream has it).
+        self.assertEqual(list(TOOL_SCHEMAS["bash"]["parameters"]["properties"]), ["command"])
+        for schema in TOOL_SCHEMAS.values():
+            self.assertIs(schema["parameters"]["additionalProperties"], False)
+        # Upstream sets tool_choice="any" via use_tools, but its pipeline
+        # never passes it to generate(), so Inspect sends "auto".
         transport = OpenAICompatibleTransport("fake/model", api_key="x")
-        self.assertEqual(transport.tool_choice, "required")
+        self.assertEqual(transport.tool_choice, "auto")
 
     def test_truncate_context_cumulative_upstream_algorithm(self) -> None:
         from gdm_situational_awareness.custom_agent.dynamics import truncate_context
@@ -348,3 +406,68 @@ class ToolFidelityTests(unittest.IsolatedAsyncioTestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TransportRetryTests(unittest.TestCase):
+    """Retry policy mirrors Inspect's default (unlimited, exp. jitter)."""
+
+    def _run(self, outcomes):
+        import io
+        import json
+        import urllib.error
+        from unittest import mock
+
+        from gdm_situational_awareness.custom_agent.transport import (
+            OpenAICompatibleTransport,
+        )
+
+        ok = json.dumps({"choices": [{"message": {"content": "hi"}}], "usage": {}}).encode()
+        seq = iter(outcomes)
+
+        class Resp(io.BytesIO):
+            def __enter__(self):
+                return self
+
+            def __exit__(self, *a):
+                return False
+
+        def fake_urlopen(req, timeout=None):
+            o = next(seq)
+            if o == "ok":
+                return Resp(ok)
+            if isinstance(o, int):
+                raise urllib.error.HTTPError("u", o, "err", {}, io.BytesIO(b""))
+            raise o
+
+        t = OpenAICompatibleTransport("ppapi/m", api_key="x", base_url="http://x")
+        self.waits: list[float] = []
+        t._sleep = self.waits.append
+        with mock.patch("urllib.request.urlopen", fake_urlopen):
+            return t._generate_sync([{"role": "user", "content": "q"}], [])
+
+    def test_transient_errors_retried_until_success(self) -> None:
+        turn = self._run([503, 429, TimeoutError(), "ok"])
+        self.assertEqual((turn.content, turn.retries, len(self.waits)), ("hi", 3, 3))
+
+    def test_client_errors_fail_immediately(self) -> None:
+        with self.assertRaises(RuntimeError):
+            self._run([400, "ok"])
+        self.assertEqual(self.waits, [])
+
+
+class BashMatchesInspectTests(unittest.IsolatedAsyncioTestCase):
+    async def test_login_shell_and_stderr_first(self) -> None:
+        from harbor.environments.base import ExecResult
+
+        from gdm_situational_awareness.custom_agent.tools import ToolExecutor
+
+        class FakeEnv:
+            async def exec(self, command, cwd=None, env=None, timeout_sec=None, user=None):
+                self.command = command
+                return ExecResult(stdout="out\n", stderr="warn", return_code=0)
+
+        env = FakeEnv()
+        out = await ToolExecutor(env).execute("bash", {"command": "echo hi"})
+        self.assertEqual(out, "warn\nout\n")  # inspect_ai bash: stderr, newline, stdout
+        self.assertEqual(env.command, "bash --login -c 'echo hi'")
+        self.assertIn("missing 'command'", await ToolExecutor(env).execute("bash", {"script": "x"}))
