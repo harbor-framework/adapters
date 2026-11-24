@@ -1,0 +1,57 @@
+schema_version = "1.0"
+
+[task]
+name = "{task_name}"
+description = "RecreationBench Web: recreate the running reference site {task_id} from observation."
+authors = [
+{authors}
+]
+keywords = ["recreation", "web", "frontend", "react", "computer-use", "multimodal"]
+
+[metadata]
+difficulty = "{difficulty}"
+category = "web-development"
+tags = ["recreationbench", "web", "software-recreation"]
+source_task_id = "{task_id}"
+source_dataset = "Qwen/RecreationBench@{dataset_revision}"
+source_framework = "QwenLM/RecreationWorld@{rb_commit}"
+
+[agent]
+# The paper's rollout budget: task.json time_limit_seconds ({time_limit}) x the runner's
+# default --timeout-multiplier (10).
+timeout_sec = {agent_timeout}.0
+# As in the original worker, the agent is a non-root account; the reference, the
+# hidden inputs and the scorer are root-only inside the image.
+user = "agent"
+{agent_network}
+
+[verifier]
+timeout_sec = 21600.0
+user = "root"
+{verifier_network}
+
+[verifier.env]
+RB_VLM_KEY = "${RB_VLM_KEY}"
+RB_VLM_BASE_URL = "${RB_VLM_BASE_URL}"
+RB_VLM_MODEL = "${RB_VLM_MODEL}"
+RB_VLM_MAX_CONCURRENCY = "${RB_VLM_MAX_CONCURRENCY:-}"
+RB_AGENT_NETWORK_CONFINED = "${RB_AGENT_NETWORK_CONFINED:-{confined_default}}"
+
+[environment]
+build_timeout_sec = 3600.0
+cpus = 4
+memory_mb = 8192
+storage_mb = {storage_mb}
+
+[environment.healthcheck]
+command = "rb-ensure-reference"
+interval_sec = 5.0
+timeout_sec = 90.0
+start_period_sec = 60.0
+retries = 3
+
+[[environment.mcp_servers]]
+name = "playwright"
+transport = "stdio"
+command = "playwright-mcp"
+args = ["--headless", "--no-sandbox", "--allowed-origins", "http://localhost:*;http://127.0.0.1:*", "--executable-path", "/usr/local/bin/rb-chromium"]

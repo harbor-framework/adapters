@@ -1,0 +1,38 @@
+[
+  {
+    "adapter_name": "recreationbench",
+    "adapter_builders": ["Christian Iacullo (christian@alloy.app)"],
+    "original_benchmark": [
+      {
+        "split": "web",
+        "size": 50,
+        "harness": "agent",
+        "supported_agents": ["claude-code@2.1.177", "codex@0.145.0"],
+        "adaptable": true,
+        "notes": "RecreationBench Web: 50 reference sites, scored by hidden Playwright tests (Prog) and VLM-judged visual assertions (VLM)."
+      },
+      {
+        "split": "ubuntu, macos, windows, android",
+        "size": 200,
+        "harness": "agent",
+        "supported_agents": ["claude-code@2.1.177", "codex@0.145.0"],
+        "adaptable": false,
+        "notes": "50 tasks per platform. They need OS virtual machines or an Android emulator with GUI automation and are not adapted."
+      }
+    ],
+    "harbor_adapter": [
+      {
+        "split": "web",
+        "adapted_benchmark_size": 50,
+        "parity_benchmark_size": 0,
+        "parity_sampling_rate": 0.0,
+        "registry_benchmark_size": 50,
+        "added_agents": ["None"],
+        "parity_matching_agents": ["None"],
+        "parity_unmatching_agents": ["None"],
+        "parity_costs": null,
+        "notes": "Parity not run yet; plan pending agreement with the Harbor team."
+      }
+    ]
+  }
+]

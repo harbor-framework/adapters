@@ -1,0 +1,40 @@
+# Reference config for RecreationBench Web.
+#
+# The verifier needs a VLM judge (the paper uses Qwen3.7-Plus at temperature 0).
+# Export these before running, for every agent including the oracle:
+#   RB_VLM_KEY, RB_VLM_BASE_URL (OpenAI-compatible), RB_VLM_MODEL
+#
+#   harbor run -c src/recreationbench/run_recreationbench.yaml
+jobs_dir: jobs
+n_attempts: 1
+timeout_multiplier: 1.0
+orchestrator:
+  type: local
+  # Each trial is a 4 vCPU / 8 GiB container (the size the benchmark was verified on).
+  n_concurrent_trials: 2
+  quiet: false
+environment:
+  type: docker
+  # type: daytona
+  # type: modal
+  delete: true
+
+# Default: oracle agent (scores the frozen reference against its own hidden tests).
+agents:
+  - name: oracle
+
+# Uncomment to run an agent. The image already carries the CLI versions the paper used.
+# agents:
+#   - name: claude-code
+#     model_name: anthropic/claude-opus-5
+#     kwargs:
+#       version: "2.1.177"
+#
+# agents:
+#   - name: codex
+#     model_name: openai/gpt-6-astra
+#     kwargs:
+#       version: "0.145.0"
+
+datasets:
+  - path: datasets/recreationbench
