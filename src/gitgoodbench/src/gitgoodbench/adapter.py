@@ -1,11 +1,18 @@
 """
-GitGoodBench -> Harbor adapter (merge conflict resolution scenarios).
+GitGoodBench -> Harbor adapter.
 
 GitGoodBench (Lindenbauer et al., REALM @ ACL 2025) evaluates agents on Git
 scenarios mined from permissively licensed Python, Java and Kotlin repositories.
-This adapter converts the ``merge`` samples: a real merge was started and stopped
-with conflicts, and the agent must resolve them and conclude the merge. The
-result is scored by exact match against the ground-truth merge commit.
+The dataset has two sample types, which give three scenarios:
+
+* ``merge`` samples: a real merge was started and stopped with conflicts, and
+  the agent must resolve them and conclude the merge. The result is scored by
+  exact match against the ground-truth merge commit.
+* ``file_commit_chain`` samples: a file that was changed in several consecutive
+  commits. Each sample gives two scenarios. In the interactive rebase scenario
+  the agent cleans up these commits; in the iterative committing scenario it
+  gets their changes uncommitted and splits them into commits. Both are scored
+  by an LLM judge that compares the agent's history with the original one.
 
 Task generation needs ``git`` and network access to GitHub: for every task the
 ground-truth merge commit is fetched once into a scratch repository to produce
@@ -14,6 +21,11 @@ id in ``tests/config.json`` (used by the verifier) and the conflict hunks
 quoted in ``instruction.md`` (replayed with ``git merge-tree``, exactly as the
 original harness quotes them after running ``git merge`` in its container).
 Neither the agent phase nor the verifier needs network access afterwards.
+
+For a ``file_commit_chain`` task the commits of the chain are fetched the same
+way, to quote them in ``instruction.md`` (interactive rebase) or to write the
+patch files of the task and the bundle of the oracle (iterative committing).
+The verifier asks the LLM judge at run time.
 
 The verifier runs in its own container (``tests/Dockerfile``) and receives the
 ``.git`` directory of the agent's repository as an artifact.
@@ -39,20 +51,36 @@ from typing import Any, Iterable
 
 PACKAGE_DIR = Path(__file__).resolve().parent
 TEMPLATE_DIR = PACKAGE_DIR / "task-template"
+CHAIN_TEMPLATE_DIR = PACKAGE_DIR / "task-template-file-commit-chain"
 
 HF_DATASETS = {
     "lite": "JetBrains/git_good_bench-lite",
     "full": "JetBrains/git_good_bench",
 }
-SCENARIO_TYPE = "merge"
-SAMPLE_TYPE = "merge"
+SCENARIO_MERGE = "merge"
+SCENARIO_REBASE = "rebase"
+SCENARIO_CHUNK = "chunk"
+SCENARIO_TYPES = (SCENARIO_MERGE, SCENARIO_REBASE, SCENARIO_CHUNK)
+# Scenarios of each sample type of the dataset, in the order the original
+# harness runs them.
+SCENARIOS_OF_SAMPLE_TYPE = {
+    "merge": (SCENARIO_MERGE,),
+    "file_commit_chain": (SCENARIO_CHUNK, SCENARIO_REBASE),
+}
+# The names the paper uses, recorded in task.toml.
+SCENARIO_NAMES = {
+    SCENARIO_MERGE: "merge",
+    SCENARIO_REBASE: "interactive_rebase",
+    SCENARIO_CHUNK: "iterative_committing",
+}
 TASK_NAME_PREFIX = "jetbrains/gitgoodbench__"
 GROUND_TRUTH_REF = "refs/gitgoodbench/ground-truth"
 GROUND_TRUTH_BUNDLE = "ground_truth.bundle"
 CONFLICT_BEGIN = "<<<<<<<"
 CONFLICT_END = ">>>>>>>"
 
-# Samples that are not converted, with the reason. All are in the full dataset.
+# Samples that are not converted, with the reason. The merge samples are in
+# the full dataset.
 _HUNKS_DIFFER = "Git produces {found} conflict hunks, the dataset records {recorded}"
 EXCLUDED_SAMPLES = {
     "alluxio-alluxio-merge-0000": _HUNKS_DIFFER.format(found=1, recorded=2),
@@ -65,6 +93,20 @@ EXCLUDED_SAMPLES = {
     ),
     "microsoft-olive-merge-0000": "the repository is no longer on GitHub",
 }
+# file_commit_chain samples the original harness cannot set up.
+_NOT_CLEAN = (
+    "the working tree is modified right after a checkout (the repository asks "
+    "for a line-ending conversion of files it stores differently), so the "
+    "rebase cannot start and the patch files contain unrelated changes"
+)
+EXCLUDED_SAMPLES.update(
+    {
+        "coil-kt-coil-file-commit-chain-0003": _NOT_CLEAN,
+        "elastic-elasticsearch-hadoop-file-commit-chain-0001": (
+            "the changes are not valid UTF-8, which the original harness cannot read"
+        ),
+    }
+)
 
 
 def sanitize_task_id(value: str) -> str:
@@ -110,14 +152,105 @@ def git(*args: str, cwd: Path) -> str:
     return git_bytes(*args, cwd=cwd).decode("utf-8", errors="replace").strip()
 
 
-def git_bytes(*args: str, cwd: Path) -> bytes:
+def git_bytes(*args: str, cwd: Path, work_tree: Path | None = None) -> bytes:
+    """Output of a Git command in the repository ``cwd``.
+
+    With ``work_tree`` the command reads its attributes from that directory
+    (see ``attributes_worktree``).
+    """
+    env = git_environment()
+    if work_tree is not None:
+        env.update(GIT_DIR=str(Path(cwd) / ".git"), GIT_WORK_TREE=str(work_tree))
     result = subprocess.run(
-        ["git", *args], cwd=cwd, env=git_environment(), capture_output=True
+        ["git", *args], cwd=work_tree or cwd, env=env, capture_output=True
     )
     if result.returncode != 0:
         stderr = result.stderr.decode("utf-8", errors="replace").strip()
         raise RuntimeError(f"git {' '.join(args)} failed: {stderr}")
     return result.stdout
+
+
+def attributes_worktree(repository: Path, commit: str, destination: Path) -> Path:
+    """Write the ``.gitattributes`` files of ``commit`` into ``destination``.
+
+    The original harness runs ``git diff`` and ``git show`` in a checkout,
+    where these files decide for example which function names appear in hunk
+    headers. With this directory as the work tree the same commands give the
+    same output without a checkout, which would depend on the file system of
+    the machine that generates the tasks.
+    """
+    destination.mkdir(parents=True, exist_ok=True)
+    listing = git_bytes("ls-tree", "-r", "-z", commit, cwd=repository)
+    for entry in listing.split(b"\0"):
+        meta, _, name = entry.partition(b"\t")
+        fields = meta.split()
+        if len(fields) != 3 or fields[1] != b"blob":
+            continue
+        if fields[0] not in (b"100644", b"100755"):
+            continue
+        parts = os.fsdecode(name).split("/")
+        if parts[-1] != ".gitattributes":
+            continue
+        if any(part in ("", ".", "..", ".git") for part in parts):
+            continue
+        target = destination.joinpath(*parts)
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_bytes(
+            git_bytes("cat-file", "blob", fields[2].decode(), cwd=repository)
+        )
+    return destination
+
+
+def remaining_hunks(patch: str) -> tuple[int, str]:
+    """Number of hunks of a patch and their listing for the prompt.
+
+    Port of ``ScenarioEnvironmentManager.get_remaining_hunks``: the hunk
+    headers are replaced with ``HUNK-N:`` and everything before the first hunk
+    is dropped.
+    """
+    lines = patch.splitlines()
+    if len(lines) == 0:
+        return 0, ""
+    formatted_hunks = []
+    hunk_counter = 1
+    have_found_first_hunk = False
+    for line in lines:
+        if line.startswith("@@"):
+            formatted_hunks.append(f"\nHUNK-{hunk_counter}:")
+            hunk_counter += 1
+            have_found_first_hunk = True
+        elif not have_found_first_hunk:
+            continue
+        else:
+            formatted_hunks.append(line)
+    return hunk_counter - 1, "\n".join(formatted_hunks)
+
+
+def without_sections_of(target_file: str, all_changes: str) -> str:
+    """Drop the sections of a patch whose ``diff --git`` line names ``target_file``.
+
+    Port of the post-processing of ``all_changes.patch`` in
+    ``ScenarioEnvironmentManager._setup_iteratively_chunk_staged_diff_into_commits``.
+    """
+    sections: list[str] = []
+    current_section: list[str] = []
+    current_section_has_target = False
+    for line in all_changes.splitlines(True):
+        if line.startswith("diff --git"):
+            if current_section and not current_section_has_target:
+                sections.extend(current_section)
+            current_section = [line]
+            current_section_has_target = target_file in line
+        else:
+            current_section.append(line)
+    if current_section and not current_section_has_target:
+        sections.extend(current_section)
+    return "".join(sections)
+
+
+def read_as_text(content: bytes) -> str:
+    """What Python's text mode reads from a file: UTF-8, universal newlines."""
+    return io.TextIOWrapper(io.BytesIO(content), encoding="utf-8").read()
 
 
 def toml_string(value: str) -> str:
@@ -229,6 +362,27 @@ class ScenarioFacts:
 
 
 @dataclass(frozen=True)
+class ChainFacts:
+    """What a file-commit-chain task needs, derived from the real commits."""
+
+    # The commit before the chain. Iterative committing starts here.
+    base_commit: str
+    # The commits of the chain, oldest first: the rebase todo list.
+    commits: tuple[str, ...]
+    # The two ends of the original history as the original Evaluator finds
+    # them: `git log -n N <newest>` and the commit after those.
+    ground_truth_commits: tuple[str, ...]
+    exit_commit: str
+    # file_changes.patch and all_changes.patch of the original harness.
+    file_changes: bytes
+    all_changes: bytes
+    hunk_count: int
+    hunks: str
+    # The <COMMIT-i> blocks of the interactive rebase prompt.
+    participating_commits: str
+
+
+@dataclass(frozen=True)
 class GitGoodBenchTask:
     task_id: str
     source_id: str
@@ -237,10 +391,23 @@ class GitGoodBenchTask:
     difficulty: str
     scenario: dict[str, Any]
     source_dataset: str
+    scenario_type: str = SCENARIO_MERGE
 
     @property
     def repo_url(self) -> str:
         return f"https://github.com/{self.repository}.git"
+
+    @property
+    def newest_commit(self) -> str:
+        return self.scenario["newest_commit"]
+
+    @property
+    def chain_length(self) -> int:
+        return int(self.scenario["times_seen_consecutively"])
+
+    @property
+    def file(self) -> str:
+        return self.scenario["file"]
 
     @property
     def merge_commit(self) -> str:
@@ -264,11 +431,18 @@ class GitGoodBenchAdapter:
         task_ids: list[str] | None = None,
         split: str = "lite",
         dataset_path: Path | None = None,
+        scenario_types: Iterable[str] | None = None,
         **kwargs: Any,
     ):
         if split not in HF_DATASETS:
             raise ValueError(
                 f"Unknown split {split!r}; expected one of {sorted(HF_DATASETS)}"
+            )
+        self.scenario_types = tuple(scenario_types or SCENARIO_TYPES)
+        unknown = sorted(set(self.scenario_types) - set(SCENARIO_TYPES))
+        if unknown:
+            raise ValueError(
+                f"Unknown scenario types {unknown}; expected some of {SCENARIO_TYPES}"
             )
         self.output_dir = Path(output_dir)
         self.limit = limit
@@ -305,39 +479,53 @@ class GitGoodBenchAdapter:
         return HF_DATASETS[self.split]
 
     def build_tasks(self, rows: Iterable[dict[str, Any]]) -> list[GitGoodBenchTask]:
-        """Convert every ``merge`` sample into a task.
+        """Convert every sample into its tasks.
 
-        Other sample types and the samples in ``EXCLUDED_SAMPLES`` are skipped.
+        A ``merge`` sample gives one task, named after the sample. A
+        ``file_commit_chain`` sample gives two, ``<sample>-chunk`` (iterative
+        committing) and ``<sample>-rebase`` (interactive rebase). Scenario
+        types that were not asked for and the samples in ``EXCLUDED_SAMPLES``
+        are skipped.
         """
         tasks: list[GitGoodBenchTask] = []
         seen: set[str] = set()
         for row in rows:
-            if row["sample_type"] != SAMPLE_TYPE:
+            scenario_types = SCENARIOS_OF_SAMPLE_TYPE.get(row["sample_type"])
+            if scenario_types is None:
                 continue
             scenario = row["scenario"]
             if isinstance(scenario, str):
                 scenario = ast.literal_eval(scenario)
-            task_id = sanitize_task_id(row["id"])
-            if task_id in seen:
-                raise ValueError(f"Duplicate task id {task_id}")
-            seen.add(task_id)
-            if task_id in EXCLUDED_SAMPLES:
+            sample_id = sanitize_task_id(row["id"])
+            if sample_id in seen:
+                raise ValueError(f"Duplicate task id {sample_id}")
+            seen.add(sample_id)
+            scenario_types = [t for t in scenario_types if t in self.scenario_types]
+            if not scenario_types:
+                continue
+            if sample_id in EXCLUDED_SAMPLES:
                 print(
-                    f"NOTE: {task_id} is not converted: {EXCLUDED_SAMPLES[task_id]}",
+                    f"NOTE: {sample_id} is not converted: {EXCLUDED_SAMPLES[sample_id]}",
                     file=sys.stderr,
                 )
                 continue
-            tasks.append(
-                GitGoodBenchTask(
-                    task_id=task_id,
-                    source_id=row["id"],
-                    repository=row["name"],
-                    programming_language=row["programming_language"],
-                    difficulty=row.get("difficulty") or "medium",
-                    scenario=scenario,
-                    source_dataset=self._source_name(),
+            for scenario_type in scenario_types:
+                tasks.append(
+                    GitGoodBenchTask(
+                        task_id=(
+                            sample_id
+                            if scenario_type == SCENARIO_MERGE
+                            else f"{sample_id}-{scenario_type}"
+                        ),
+                        source_id=row["id"],
+                        repository=row["name"],
+                        programming_language=row["programming_language"],
+                        difficulty=row.get("difficulty") or "medium",
+                        scenario=scenario,
+                        source_dataset=self._source_name(),
+                        scenario_type=scenario_type,
+                    )
                 )
-            )
         return sorted(tasks, key=lambda t: t.task_id)
 
     def select_tasks(self, tasks: list[GitGoodBenchTask]) -> list[GitGoodBenchTask]:
@@ -345,12 +533,18 @@ class GitGoodBenchAdapter:
         if self.task_ids:
             # Accept Harbor task names (jetbrains/gitgoodbench__<id>), Harbor task
             # ids and original sample ids, and refuse to silently generate nothing.
+            # A file_commit_chain sample id selects both of its tasks.
             wanted = {normalize_task_id(t) for t in self.task_ids}
             known = {t.task_id for t in tasks}
+            known.update(sanitize_task_id(t.source_id) for t in tasks)
             unknown = sorted(wanted - known)
             if unknown:
                 raise ValueError(f"Unknown task ids: {', '.join(unknown)}")
-            selected = [t for t in selected if t.task_id in wanted]
+            selected = [
+                t
+                for t in selected
+                if t.task_id in wanted or sanitize_task_id(t.source_id) in wanted
+            ]
         if self.limit is not None:
             selected = selected[: self.limit]
         return selected
@@ -405,7 +599,7 @@ class GitGoodBenchAdapter:
         return {
             "task_id": task.task_id,
             "source_id": task.source_id,
-            "scenario_type": SCENARIO_TYPE,
+            "scenario_type": SCENARIO_MERGE,
             "repository": task.repository,
             "repo_url": task.repo_url,
             "programming_language": task.programming_language,
@@ -422,7 +616,7 @@ class GitGoodBenchAdapter:
         return {
             "task_id": task.task_id,
             "source_id": task.source_id,
-            "scenario_type": SCENARIO_TYPE,
+            "scenario_type": SCENARIO_MERGE,
             "repository": task.repository,
             "base_commit": task.base_commit,
             "incoming_commits": task.incoming_commits,
@@ -621,6 +815,9 @@ class GitGoodBenchAdapter:
         (task_dir / "environment").mkdir(parents=True)
         (task_dir / "solution").mkdir()
         (task_dir / "tests").mkdir()
+        if task.scenario_type != SCENARIO_MERGE:
+            self._write_chain_task(task, task_dir)
+            return
 
         shutil.copy2(
             TEMPLATE_DIR / "solution" / "solve.sh", task_dir / "solution" / "solve.sh"
@@ -651,6 +848,302 @@ class GitGoodBenchAdapter:
             + "\n"
         )
 
+    # ------------------------------------------------- file-commit-chain tasks
+
+    def prepare_chain(
+        self, task: GitGoodBenchTask, bundle_path: Path | None = None
+    ) -> ChainFacts:
+        """Fetch the commits of the chain and derive what the task needs.
+
+        A shallow fetch of the newest commit brings in the chain and the commit
+        before it. The original harness then works in a checkout
+        (``ScenarioEnvironmentManager._setup_iteratively_chunk_staged_diff_into_commits``
+        and ``_setup_clean_local_branch_before_push``). The same results are
+        computed here from the commits themselves:
+
+        * ``file_changes.patch`` is the diff of the file between the commit
+          before the chain and its newest commit.
+        * ``all_changes.patch`` is the diff of every file that exists before
+          the chain (the original diffs the index against the work tree, which
+          does not show new files, renames or submodules), without the
+          sections of the file of the scenario.
+        * The rebase todo list is the chain, oldest first.
+
+        ``bundle_path`` receives the commits of the chain for the oracle of the
+        iterative committing scenario; its only prerequisite is the commit
+        before the chain.
+        """
+        newest = task.newest_commit
+        count = task.chain_length
+        with tempfile.TemporaryDirectory(prefix="gitgoodbench-") as tmp:
+            scratch = Path(tmp) / "repository"
+            scratch.mkdir()
+            git("init", "-q", cwd=scratch)
+            git("remote", "add", "origin", task.repo_url, cwd=scratch)
+            last_error: Exception | None = None
+            for attempt in range(1, 4):
+                try:
+                    git(
+                        "fetch",
+                        "--quiet",
+                        "--no-tags",
+                        f"--depth={count + 1}",
+                        "origin",
+                        newest,
+                        cwd=scratch,
+                    )
+                    break
+                except RuntimeError as e:
+                    last_error = e
+                    time.sleep(5 * attempt)
+            else:
+                raise RuntimeError(
+                    f"{task.task_id}: could not fetch {newest} from "
+                    f"{task.repo_url}: {last_error}"
+                )
+
+            base = git("rev-parse", "--verify", f"{newest}~{count}", cwd=scratch)
+            commits: list[str] = []
+            previous = base
+            for line in git(
+                "rev-list", "--reverse", "--parents", f"{base}..{newest}", cwd=scratch
+            ).splitlines():
+                commit, *parents = line.split()
+                if parents != [previous]:
+                    raise RuntimeError(
+                        f"{task.task_id}: the {count} commits before {newest} are "
+                        "not a linear chain"
+                    )
+                commits.append(commit)
+                previous = commit
+            # The two ends of the original history, found with the commands of
+            # the original Evaluator.
+            ground_truth = git(
+                "log", "--format=%H", "-n", str(count), newest, cwd=scratch
+            ).split()
+            exit_commit = git(
+                "log", "--format=%H", "-n", "1", f"--skip={count}", newest, cwd=scratch
+            )
+            if ground_truth != commits[::-1] or exit_commit != base:
+                raise RuntimeError(
+                    f"{task.task_id}: unexpected history before {newest}: "
+                    f"{ground_truth} down to {exit_commit}"
+                )
+            try:
+                git("cat-file", "-e", f"{base}:{task.file}", cwd=scratch)
+            except RuntimeError:
+                raise RuntimeError(
+                    f"{task.task_id}: {task.file} does not exist before the chain, "
+                    "the original harness cannot set the scenario up"
+                ) from None
+
+            newest_attributes = attributes_worktree(
+                scratch, newest, Path(tmp) / "attributes-newest"
+            )
+            diff = ("diff", "--no-renames", "--ignore-submodules=all")
+            file_changes = git_bytes(
+                *diff, base, newest, "--", task.file,
+                cwd=scratch, work_tree=newest_attributes,
+            )  # fmt: skip
+            all_changes = git_bytes(
+                *diff, "--diff-filter=a", base, newest,
+                cwd=scratch, work_tree=newest_attributes,
+            )  # fmt: skip
+            base_attributes = attributes_worktree(
+                scratch, base, Path(tmp) / "attributes-base"
+            )
+            try:
+                # The original reads both patches in text mode and removes the
+                # file of the scenario from all_changes.patch when neither is
+                # empty.
+                file_text = read_as_text(file_changes)
+                all_text = read_as_text(all_changes)
+                if all_text.strip() and file_text.strip():
+                    all_changes = without_sections_of(task.file, all_text).encode()
+                hunk_count, hunks = remaining_hunks(file_changes.decode("utf-8"))
+                participating_commits = "".join(
+                    f"<COMMIT-{i}>\n"
+                    + git_bytes(
+                        "show", commit, cwd=scratch, work_tree=base_attributes
+                    ).decode("utf-8")
+                    + f"\n</COMMIT-{i}>\n"
+                    for i, commit in enumerate(commits)
+                )
+                # The original Evaluator shows the original commits in a
+                # checkout of the newest one.
+                for commit in commits:
+                    git_bytes(
+                        "show", commit, cwd=scratch, work_tree=newest_attributes
+                    ).decode("utf-8")
+            except UnicodeDecodeError:
+                raise RuntimeError(
+                    f"{task.task_id}: the changes of the chain are not valid UTF-8, "
+                    "the original harness cannot read them"
+                ) from None
+
+            if bundle_path is not None:
+                git("update-ref", GROUND_TRUTH_REF, newest, cwd=scratch)
+                git(
+                    "bundle",
+                    "create",
+                    "--quiet",
+                    str(bundle_path.resolve()),
+                    GROUND_TRUTH_REF,
+                    f"^{base}",
+                    cwd=scratch,
+                )
+            return ChainFacts(
+                base_commit=base,
+                commits=tuple(commits),
+                ground_truth_commits=tuple(ground_truth),
+                exit_commit=exit_commit,
+                file_changes=file_changes,
+                all_changes=all_changes,
+                hunk_count=hunk_count,
+                hunks=hunks,
+                participating_commits=participating_commits,
+            )
+
+    def _chain_instruction(self, task: GitGoodBenchTask, facts: ChainFacts) -> str:
+        """The prompt of the original harness with the section on its custom
+        tools replaced by how to work in the checkout (see the README)."""
+        template = (
+            CHAIN_TEMPLATE_DIR / f"instruction-{task.scenario_type}.md"
+        ).read_text()
+        values = {
+            "programming_language": task.programming_language,
+            "times_seen_consecutively": str(task.chain_length),
+            "participating_commits": facts.participating_commits,
+            "file": task.file,
+            "number_of_remaining_hunks": str(facts.hunk_count),
+            "remaining_hunks": facts.hunks,
+        }
+        return render(template, values)
+
+    def _chain_task_toml(self, task: GitGoodBenchTask) -> str:
+        template = (CHAIN_TEMPLATE_DIR / "task.toml").read_text()
+        if task.scenario_type == SCENARIO_REBASE:
+            description = (
+                f"Clean up the last {task.chain_length} commits of a branch of "
+                f"{task.repository} with an interactive rebase."
+            )
+            keyword = "interactive-rebase"
+        else:
+            description = (
+                f"Split uncommitted changes in {task.repository} into a series of "
+                "commits."
+            )
+            keyword = "iterative-committing"
+        values = {
+            "task_id": task.task_id,
+            "description": toml_string(description),
+            "keywords": json.dumps(
+                ["gitgoodbench", "git", keyword, task.programming_language]
+            ),
+            "difficulty": toml_string(task.difficulty),
+            "scenario_type": SCENARIO_NAMES[task.scenario_type],
+            "programming_language": toml_string(task.programming_language),
+            "repository": toml_string(task.repository),
+            "source_id": toml_string(task.source_id),
+            "source_dataset": toml_string(task.source_dataset),
+            "file": toml_string(task.file),
+            "commits": str(task.chain_length),
+            "purity": json.dumps(float(task.scenario["purity"])),
+        }
+        return render(template, values)
+
+    def _chain_scenario_config(
+        self, task: GitGoodBenchTask, facts: ChainFacts
+    ) -> dict[str, Any]:
+        """Build-time description of the scenario (consumed by setup_chain.py).
+
+        Iterative committing starts at the commit before the chain; its image
+        never contains the commits of the chain. The interactive rebase starts
+        at the newest commit, and the image build checks that the todo list
+        holds the commits quoted in the instruction.
+        """
+        config: dict[str, Any] = {
+            "task_id": task.task_id,
+            "source_id": task.source_id,
+            "scenario_type": task.scenario_type,
+            "repository": task.repository,
+            "repo_url": task.repo_url,
+            "programming_language": task.programming_language,
+        }
+        if task.scenario_type == SCENARIO_CHUNK:
+            config["start_commit"] = facts.base_commit
+        else:
+            config["start_commit"] = task.newest_commit
+            config["times_seen_consecutively"] = task.chain_length
+            config["commits"] = list(facts.commits)
+        return config
+
+    def _chain_verifier_config(
+        self, task: GitGoodBenchTask, facts: ChainFacts
+    ) -> dict[str, Any]:
+        """What the verifier needs: where the original history starts and ends.
+
+        The verifier image fetches these commits when it is built.
+        """
+        return {
+            "task_id": task.task_id,
+            "source_id": task.source_id,
+            "scenario_type": task.scenario_type,
+            "repository": task.repository,
+            "repo_url": task.repo_url,
+            "file": task.file,
+            "times_seen_consecutively": task.chain_length,
+            "newest_commit": task.newest_commit,
+            "exit_commit": facts.exit_commit,
+            "ground_truth_commits": list(facts.ground_truth_commits),
+        }
+
+    def _write_chain_task(self, task: GitGoodBenchTask, task_dir: Path) -> None:
+        is_chunk = task.scenario_type == SCENARIO_CHUNK
+        solve = task_dir / "solution" / "solve.sh"
+        shutil.copy2(
+            CHAIN_TEMPLATE_DIR / "solution" / f"solve-{task.scenario_type}.sh", solve
+        )
+        solve.chmod(0o755)
+        facts = self.prepare_chain(
+            task, task_dir / "solution" / GROUND_TRUTH_BUNDLE if is_chunk else None
+        )
+
+        (task_dir / "instruction.md").write_text(self._chain_instruction(task, facts))
+        (task_dir / "task.toml").write_text(self._chain_task_toml(task))
+
+        environment = task_dir / "environment"
+        for name in ("Dockerfile", "setup_chain.py"):
+            shutil.copy2(CHAIN_TEMPLATE_DIR / "environment" / name, environment / name)
+        # setup_chain.py uses the Git helpers of the merge setup.
+        shutil.copy2(
+            TEMPLATE_DIR / "environment" / "setup_scenario.py",
+            environment / "setup_scenario.py",
+        )
+        (environment / "scenario.json").write_text(
+            json.dumps(self._chain_scenario_config(task, facts), indent=2) + "\n"
+        )
+        if is_chunk:
+            (environment / "file_changes.patch").write_bytes(facts.file_changes)
+            (environment / "all_changes.patch").write_bytes(facts.all_changes)
+
+        tests = task_dir / "tests"
+        for name in (
+            "Dockerfile",
+            "test.sh",
+            "evaluate_history.py",
+            "judge.py",
+            "fetch_ground_truth.py",
+        ):
+            shutil.copy2(CHAIN_TEMPLATE_DIR / "tests" / name, tests / name)
+        # evaluate_history.py reads the agent's repository with the helpers of
+        # the merge verifier.
+        shutil.copy2(TEMPLATE_DIR / "tests" / "evaluate.py", tests / "evaluate.py")
+        (tests / "test.sh").chmod(0o755)
+        (tests / "config.json").write_text(
+            json.dumps(self._chain_verifier_config(task, facts), indent=2) + "\n"
+        )
+
     def run(self) -> None:
         if shutil.which("git") is None:
             raise RuntimeError("git is required to generate GitGoodBench tasks")
@@ -659,7 +1152,13 @@ class GitGoodBenchAdapter:
         for index, task in enumerate(tasks, start=1):
             print(f"[{index}/{len(tasks)}] {task.task_id}", flush=True)
             self.generate_task(task)
+        counts = ", ".join(
+            f"{sum(1 for t in tasks if t.scenario_type == scenario_type)} "
+            f"{SCENARIO_NAMES[scenario_type].replace('_', ' ')}"
+            for scenario_type in SCENARIO_TYPES
+            if scenario_type in self.scenario_types
+        )
         print(
-            f"Generated {len(tasks)} merge tasks from {self._source_name()} "
+            f"Generated {len(tasks)} tasks ({counts}) from {self._source_name()} "
             f"in {self.output_dir}"
         )

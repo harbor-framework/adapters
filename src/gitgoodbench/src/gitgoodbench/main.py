@@ -8,7 +8,7 @@ in the Harbor format at the configured output directory.
 import argparse
 from pathlib import Path
 
-from .adapter import HF_DATASETS, GitGoodBenchAdapter
+from .adapter import HF_DATASETS, SCENARIO_TYPES, GitGoodBenchAdapter
 
 # Default output dir: <repo>/datasets/gitgoodbench
 DEFAULT_OUTPUT_DIR = Path(__file__).resolve().parents[4] / "datasets" / "gitgoodbench"
@@ -56,7 +56,17 @@ def main() -> None:
         "--split",
         choices=sorted(HF_DATASETS),
         default="lite",
-        help="lite: GitGoodBench Lite (60 merge tasks, default); full: GitGoodBench (445 merge tasks)",
+        help="lite: GitGoodBench Lite (default); full: GitGoodBench",
+    )
+    parser.add_argument(
+        "--scenario-types",
+        nargs="+",
+        choices=SCENARIO_TYPES,
+        default=None,
+        help=(
+            "Only generate these scenarios (default: all). merge: merge conflict "
+            "resolution; rebase: interactive rebase; chunk: iterative committing"
+        ),
     )
     parser.add_argument(
         "--dataset-path",
@@ -84,6 +94,7 @@ def main() -> None:
         task_ids=args.task_ids,
         split=args.split,
         dataset_path=args.dataset_path,
+        scenario_types=args.scenario_types,
     )
 
     adapter.run()
