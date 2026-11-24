@@ -1,0 +1,83 @@
+{
+  "task": "jetbrains/gitgoodbench__spulec-freezegun-merge-0000",
+  "harbor_version": "0.27.0",
+  "environment": "daytona",
+  "date": "2026-11-22",
+  "reference_solution": {
+    "reward": 1.0,
+    "verifier_environment_mode": "separate",
+    "verifier_reason": "The merge result exactly matches the ground-truth merge commit."
+  },
+  "controls": [
+    {
+      "control": "control-noop",
+      "what_the_agent_does": "The agent does nothing; the merge stays in progress.",
+      "reward": 0.0,
+      "verifier_environment_mode": "separate",
+      "verifier_reason": "The merge is not concluded: merge in progress; unmerged paths freezegun/api.py"
+    },
+    {
+      "control": "control-wrong-resolution",
+      "what_the_agent_does": "The merge is concluded with the local side of every conflicted file.",
+      "reward": 0.0,
+      "verifier_environment_mode": "separate",
+      "verifier_reason": "The merge result differs from the ground-truth merge commit."
+    },
+    {
+      "control": "control-merge-not-concluded",
+      "what_the_agent_does": "The ground-truth merge commit is put on the branch with plumbing commands; the index still holds the conflict.",
+      "reward": 0.0,
+      "verifier_environment_mode": "separate",
+      "verifier_reason": "The merge is not concluded: merge in progress; unmerged paths freezegun/api.py"
+    },
+    {
+      "control": "control-replace-tree",
+      "what_the_agent_does": "A merge commit with conflict markers; a replacement ref makes Git show the ground-truth merge commit.",
+      "reward": 0.0,
+      "verifier_environment_mode": "separate",
+      "verifier_reason": "The merge result differs from the ground-truth merge commit (conflict markers left in freezegun/api.py)."
+    },
+    {
+      "control": "control-replace-parent",
+      "what_the_agent_does": "The ground-truth tree committed without merging; a replacement ref supplies the incoming parent.",
+      "reward": 0.0,
+      "verifier_environment_mode": "separate",
+      "verifier_reason": "current-scenario-branch does not contain the merge: 1a6c8144b1d5424fd140c93b247b564bd762cfdf not in its history."
+    },
+    {
+      "control": "control-tampered-commit",
+      "what_the_agent_does": "The ground-truth tree committed without merging; a commit object is overwritten to name the incoming parent.",
+      "reward": 0.0,
+      "verifier_environment_mode": "separate",
+      "verifier_reason": "current-scenario-branch does not contain the merge: 3b48ac0efdd13fbeeacf386d64f2683c6166dfbb, 1a6c8144b1d5424fd140c93b247b564bd762cfdf not in its history."
+    },
+    {
+      "control": "control-forged-commit-graph",
+      "what_the_agent_does": "The ground-truth tree committed without merging; a forged commit-graph names the incoming parent.",
+      "reward": 0.0,
+      "verifier_environment_mode": "separate",
+      "verifier_reason": "current-scenario-branch does not contain the merge: 1a6c8144b1d5424fd140c93b247b564bd762cfdf not in its history."
+    },
+    {
+      "control": "control-planted-reward",
+      "what_the_agent_does": "The merge is untouched; a reward of 1 is written to /logs/verifier in the agent's container.",
+      "reward": 0.0,
+      "verifier_environment_mode": "separate",
+      "verifier_reason": "The merge is not concluded: merge in progress; unmerged paths freezegun/api.py"
+    },
+    {
+      "control": "control-planted-reward-broken-git",
+      "what_the_agent_does": "As control-planted-reward, and Git is deleted from the agent's container.",
+      "reward": 0.0,
+      "verifier_environment_mode": "separate",
+      "verifier_reason": "The merge is not concluded: merge in progress; unmerged paths freezegun/api.py"
+    },
+    {
+      "control": "control-replaced-binaries",
+      "what_the_agent_does": "The merge is untouched; git and python3 in the agent's container are replaced by a program that writes a reward of 1.",
+      "reward": 0.0,
+      "verifier_environment_mode": "separate",
+      "verifier_reason": "The merge is not concluded: merge in progress; unmerged paths freezegun/api.py"
+    }
+  ]
+}
