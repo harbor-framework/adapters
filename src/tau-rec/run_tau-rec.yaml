@@ -1,0 +1,28 @@
+jobs_dir: jobs
+n_attempts: 1
+timeout_multiplier: 1.0
+n_concurrent_trials: 4
+quiet: false
+# No retries by default: an oracle or parity failure should surface, not be
+# re-rolled. Raise max_retries for long parity sweeps if infra flakes.
+retry:
+  max_retries: 0
+environment:
+  type: docker
+  force_build: false
+  delete: true
+  # env:
+  #   OPENAI_BASE_URL: ${OPENAI_BASE_URL}
+# OPENAI_API_KEY must be exported in the shell that runs harbor: the
+# movie-runtime sidecar's user simulator (gpt-5-mini by default) needs it,
+# for the oracle too.
+agents:
+  - name: oracle
+  # Parity agent: tau-Rec's native LiteLLMAgent behind the MCP sidecar.
+  # - name: tau-rec-parity-agent
+  #   import_path: tau_rec_parity_agent:TauRecParityAgent
+  #   model_name: openai/gpt-5-mini-2025-08-07
+  # - name: codex
+  #   model_name: openai/gpt-5-mini-2025-08-07
+datasets:
+  - path: datasets/tau-rec

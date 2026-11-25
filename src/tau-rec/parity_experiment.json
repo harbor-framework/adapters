@@ -1,0 +1,60 @@
+[
+  {
+    "adapter_name": "tau-rec",
+    "date": "2026-11-19",
+    "adapted_benchmark_size": 60,
+    "parity_benchmark_size": 60,
+    "original_parity_repo": "https://github.com/nbharaths/tau-rec",
+    "adapter_pr": [],
+    "dataset_pr": [],
+    "parity_pr": [],
+    "agent": "tau-rec-parity-agent@1.0",
+    "model": "gpt-5-mini-2025-08-07",
+    "number_of_runs": 3,
+    "notes": "Full 60-task movies-v1 parity. Original side: tau-rec v2.1.0 (commit 8b4c3e6823add74f6c209fff864e2eae6849880c), `tau-rec run --track data --trials 1 --model gpt-5-mini-2025-08-07` (tools mode, keyword retrieval / bm25-v1, max_turns 20, no trial timeout, legacy harness, provider_order none). Harbor side: tau-rec-parity-agent, which runs tau-Rec's own LiteLLMAgent against the movie-runtime MCP sidecar (tau-Rec's own Orchestrator, ToolKit and scorer). User simulator gpt-5-mini at temperature 1.0 on both sides. Metric: mean reward per run over 60 tasks (= pass^1 with one trial per task); scores are mean +/- sample SEM over 3 runs per side; run-score ranges overlap at 40.00%. Pooled pass^1/2/3: Harbor 0.439/0.333/0.283, original 0.383/0.283/0.233; paired per-task delta pass^1 +0.056 (task-bootstrap 95% interval -0.006 to +0.122). pass^4 is not reported because each side has 3 runs; pass^1/2/3 are given. A fidelity diagnostic found no structural difference between the two sides. The system prompt, tool definitions and greeting, and the user-simulator request, were compared in-process for all 60 tasks; first-request token counts were also compared across all 360 trials. Tool results, error text and the abstain path were checked in stubbed-model equivalence tests (3 extra scripted scenarios covering 7 behaviours, all identical, beyond the adapter's own parity-agent tests) and against counts from the real runs (tool-error results 1/3656 original vs 0/3720 Harbor; the same two recommend argument forms on abstain). Harbor scored at or above the original in every round, recommended (rather than abstained) more often (on 21 of the 30 tasks where the recommend count differs; sign test p=0.043, paired permutation p=0.067), and had fewer multi-turn conversations (13% vs 23% of trials with two or more agent turns). These p-values are uncorrected across the several metrics examined. The pattern is consistent with sampling variance, but a systematic difference is not ruled out. The first attempt at round 1 stalled while the host was repeatedly asleep, was stopped by the operator, and was discarded on both sides before round 1 was relaunched. The relaunched round 1 was also interrupted by host sleep; the trials in flight then were task_001-task_008 on Harbor and task_001-task_010 on the original side, and task_001-task_010 were re-run once on both sides and replace the originals. These 3+3 runs predate the adapter's later integrity changes (separate verifier, sidecar-only trace, benchmark data removed from the agent container) and were not repeated in full; after those changes the oracle scored 60/60, and an 8-task parity sanity check scored 5/8 on Harbor and 4/8 on the original (paired delta +0.125, task-bootstrap 95% interval 0 to +0.375 over 8 tasks; the earlier sanity run on the same 8 tasks scored 3/8 on both sides). The parity agent's model requests were not changed by those edits: its tau-Rec Python environment, installed afresh after the change, has a package list (uv pip freeze) identical to the previous environment's, and the in-process request-comparison and stubbed-model equivalence tests still pass.",
+    "metrics": [
+      {
+        "benchmark_name": "tau-rec",
+        "metric": "Average Reward",
+        "original": "38.33% +/- 0.96%",
+        "harbor": "43.89% +/- 2.42%",
+        "original_runs": [
+          36.6667,
+          38.3333,
+          40.0
+        ],
+        "harbor_runs": [
+          43.3333,
+          48.3333,
+          40.0
+        ]
+      }
+    ]
+  },
+  {
+    "adapter_name": "tau-rec",
+    "date": "2026-11-24",
+    "adapted_benchmark_size": 60,
+    "parity_benchmark_size": 60,
+    "original_parity_repo": "https://github.com/nbharaths/tau-rec",
+    "adapter_pr": [],
+    "dataset_pr": [],
+    "parity_pr": [],
+    "agent": "claude-code@2.1.329",
+    "model": "claude-haiku-5-5",
+    "number_of_runs": 1,
+    "notes": "Single run on all 60 tasks with Harbor's standard claude-code agent through the movie-runtime MCP tools; user simulator gpt-5-mini. This run was made after the adapter's integrity changes (separate verifier, sidecar-only trace, benchmark data removed from the agent container); an earlier run before those changes scored 51.67%. One trial (task_025) hit a claude-code installer TLS error during agent setup, before any model call, and Harbor's configured infrastructure retry re-ran it automatically; all 60 tasks are scored (30/60 correct). No original benchmark equivalent; included to show the adapter works with a standard Harbor CLI agent. codex could not be run on the OpenAI account used here (OpenAI rejected the requests with codex_byok_restricted_by_api_credit_promo: the organization is enrolled in the monthly API Credits benefit with ChatGPT subscriptions, which blocks bring-your-own-key Codex usage), so claude-code was used instead.",
+    "metrics": [
+      {
+        "benchmark_name": "tau-rec",
+        "metric": "Average Reward",
+        "original": null,
+        "harbor": "50.00%",
+        "original_runs": [],
+        "harbor_runs": [
+          50.0
+        ]
+      }
+    ]
+  }
+]
