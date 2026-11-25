@@ -1,0 +1,20 @@
+{
+  "depth_error": "not_applicable",
+  "dynamic_iou": 1.0,
+  "emd_step": 1.0,
+  "flow_distribution": "not_applicable",
+  "geophys_dinov3": 1.0,
+  "interpenetration": 1.0,
+  "mesh_clean_faces": 1.0,
+  "mesh_manifold": 1.0,
+  "mesh_no_self_intersection": 1.0,
+  "mesh_watertight": 1.0,
+  "occupancy_dtw": 1.0,
+  "scene_3d": 1.0,
+  "semantic_dinov3": 1.0,
+  "semantic_tips": 1.0,
+  "track2d_dtw": "not_applicable",
+  "trajectory_dtw": 1.0,
+  "uni3d_moge_scene": "not_applicable",
+  "uni3d_point_scene": 1.0
+}

@@ -1,0 +1,29 @@
+# Synthetic oracle: submit each synthetic case's published reference world and score it
+# with the original scorer in the Harbor verifier. Compare the per-case readings with
+# scripts/run_original_sanity.sh and `uv run 4dcodebench-compare` (README).
+#
+#     harbor run -c src/4dcodebench/run_4dcodebench_synthetic_oracle.yaml
+jobs_dir: jobs
+n_attempts: 1
+timeout_multiplier: 1.0
+
+datasets:
+  - path: datasets/4dcodebench
+    task_names:
+      - "*synthetic-*"
+
+metrics:
+  - type: uv-script
+    kwargs:
+      script_path: datasets/4dcodebench/metric.py
+
+agents:
+  - name: oracle
+
+environment:
+  type: docker
+  delete: true
+
+orchestrator:
+  type: local
+  n_concurrent_trials: 1

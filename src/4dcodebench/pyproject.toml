@@ -1,0 +1,25 @@
+[project]
+name = "harbor-4dcodebench-adapter"
+version = "0.1.0"
+description = "Harbor adapter for 4DCodeBench, a benchmark of agents on inverse graphics of dynamic scenes"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = []
+
+# A Python module cannot start with a digit, so the package is `harbor_4dcodebench`;
+# the adapter, its command and its dataset are `4dcodebench`.
+[project.scripts]
+4dcodebench = "harbor_4dcodebench.main:main"
+4dcodebench-compare = "harbor_4dcodebench.compare:main"
+
+[build-system]
+requires = ["uv_build>=0.9.18,<0.10.0"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "harbor_4dcodebench"
+
+[dependency-groups]
+dev = [
+    "pytest>=8",
+]

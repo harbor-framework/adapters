@@ -1,0 +1,17 @@
+{
+  "dynamic_iou": 1.0,
+  "emd_step": 1.0,
+  "executable": 1.0,
+  "geophys_dinov3": 1.0,
+  "interpenetration": 0.0,
+  "mesh_clean_faces": 0.9909594985535197,
+  "mesh_manifold": 1.0,
+  "mesh_no_self_intersection": 0.9211668273866924,
+  "mesh_watertight": 1.0,
+  "occupancy_dtw": 1.0,
+  "scene_3d": 1.0,
+  "semantic_dinov3": 1.0,
+  "semantic_tips": 1.0,
+  "trajectory_dtw": 1.0,
+  "uni3d_point_scene": 0.9999999403953552
+}

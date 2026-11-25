@@ -1,0 +1,11 @@
+# The agent renders with Blender on the GPU; harness/runtime/infer.py passes
+# `--gpus all` when CUDA_VISIBLE_DEVICES is unset.
+services:
+  main:
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]

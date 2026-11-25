@@ -1,0 +1,12 @@
+{
+  "dynamic_iou": 0.0,
+  "emd_step": 0.0,
+  "executable": 0.0,
+  "geophys_dinov3": 0.9999996840214932,
+  "occupancy_dtw": 0.0,
+  "scene_3d": 0.0,
+  "semantic_dinov3": 1.0,
+  "semantic_tips": 1.0,
+  "trajectory_dtw": 0.0,
+  "uni3d_point_scene": 0.0
+}

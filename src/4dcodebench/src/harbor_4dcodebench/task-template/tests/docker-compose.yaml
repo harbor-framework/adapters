@@ -1,0 +1,11 @@
+# The scorer rasterises with nvdiffrast and runs DINOv3, TIPS and Uni3D on one GPU
+# (harness/runtime/templates/runtime.example.toml: [scorer.environment] gpus = 1).
+services:
+  main:
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]

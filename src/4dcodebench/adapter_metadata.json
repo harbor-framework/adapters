@@ -1,0 +1,66 @@
+[
+  {
+    "adapter_name": "4dcodebench",
+    "adapter_builders": [
+      "Zeqian Long (zeqian@stanford.edu)"
+    ],
+    "original_benchmark": [
+      {
+        "split": "synthetic",
+        "size": 100,
+        "harness": "agent",
+        "supported_agents": [
+          "claude-code@unpinned",
+          "codex@unpinned",
+          "antigravity-cli@unpinned",
+          "stirrup@0.2.0"
+        ],
+        "adaptable": true,
+        "notes": "Blender, Mantaflow, libuipc, PPF and MPM scenes with released reference 4D worlds. The upstream agent image installs the Claude Code and Codex CLIs from npm without a version pin."
+      },
+      {
+        "split": "real",
+        "size": 100,
+        "harness": "agent",
+        "supported_agents": [
+          "claude-code@unpinned",
+          "codex@unpinned",
+          "antigravity-cli@unpinned",
+          "stirrup@0.2.0"
+        ],
+        "adaptable": true,
+        "notes": "Real videos without a reference 4D world; 23 of the 100 clips are not redistributed and are rebuilt from their public sources by the dataset's prepare_videos.py."
+      }
+    ],
+    "harbor_adapter": [
+      {
+        "split": "synthetic",
+        "adapted_benchmark_size": 100,
+        "parity_benchmark_size": null,
+        "parity_sampling_rate": null,
+        "registry_benchmark_size": null,
+        "added_agents": [
+          "None"
+        ],
+        "parity_matching_agents": [],
+        "parity_unmatching_agents": null,
+        "parity_costs": null,
+        "notes": "Oracle submits the published reference world with a placeholder solution/build.sh. Run on a GPU on all 100 synthetic cases: every reading matched the original scorer exactly on every case. 94 pass both gates; the 6 liquid-only worlds without dynamics/ (B_09, B_11, B_13, B_14, B_19, B_28) fail the original scorer's own world gate; on G_02 and S_02 some metrics are error on both sides under the upstream 32 GiB scorer memory limit. The ceiling is below 1.0 on some metrics for most cases (README, Notes & Caveats). Parity not yet run."
+      },
+      {
+        "split": "real",
+        "adapted_benchmark_size": 100,
+        "parity_benchmark_size": null,
+        "parity_sampling_rate": null,
+        "registry_benchmark_size": null,
+        "added_agents": [
+          "None"
+        ],
+        "parity_matching_agents": [],
+        "parity_unmatching_agents": null,
+        "parity_costs": null,
+        "notes": "Oracle unresolved: the benchmark has no reference 4D world for real cases. Parity not yet run."
+      }
+    ]
+  }
+]

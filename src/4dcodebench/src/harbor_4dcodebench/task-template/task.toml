@@ -1,0 +1,71 @@
+version = "1.0"
+
+# 4DCodeBench case {case_key}, generated from upstream commit {upstream_commit}.
+#
+# Agent: the upstream agent image with the case's /task context and
+# /input/reference.mp4 (environment/Dockerfile). Verifier: a separate container
+# (tests/Dockerfile) with the upstream scorer, its checkpoints and the case's private
+# reference data. Only /workspace/world and /workspace/solution cross from the agent
+# to the verifier, the two directories harness/runtime/infer.py collects.
+artifacts = [
+  { source = "/workspace/world" },
+  { source = "/workspace/solution" },
+]
+
+[task]
+name = "4dcodebench/{task_id}"
+description = "4DCodeBench {kind} case {case_name}: write graphics code whose Blender render reproduces the dynamic scene of a video."
+authors = [
+  { name = "Ruihong Shen" },
+  { name = "Žiga Kovačič" },
+  { name = "Peter Kulits" },
+  { name = "Xingrui Wang" },
+  { name = "Zizhang Li" },
+  { name = "Joshua B. Tenenbaum" },
+  { name = "Alan Yuille" },
+  { name = "Jieneng Chen" },
+  { name = "Jiajun Wu" },
+]
+keywords = ["4dcodebench", "inverse-graphics", "4d-reconstruction", "blender", "physics-simulation", "{kind}"]
+
+[metadata]
+source = "4DCodeBench"
+case = "{case_key}"
+kind = "{kind}"
+category = "inverse-graphics"
+upstream_repository = "{upstream_url}"
+upstream_commit = "{upstream_commit}"
+oracle = "{oracle}"
+
+[agent]
+# harness/runtime/templates/runtime.example.toml: [agent] timeout_sec
+timeout_sec = {agent_timeout_sec}
+{agent_network}
+[verifier]
+# one scorer container per world; [scorer] timeout_sec bounds one container upstream
+timeout_sec = {verifier_timeout_sec}
+user = "root"
+environment_mode = "separate"
+
+[verifier.env]
+# harness/runtime/common.py: thread_environment(cpus) for the scorer container
+OMP_NUM_THREADS = "8"
+MKL_NUM_THREADS = "8"
+OPENBLAS_NUM_THREADS = "8"
+NUMEXPR_NUM_THREADS = "8"
+OPENCV_FOR_THREADS_NUM = "8"
+CV_NUM_THREADS = "8"
+
+[verifier.environment]
+# [scorer.environment] of the upstream runtime template
+build_timeout_sec = {build_timeout_sec}
+network_mode = "no-network"
+cpus = 8
+memory_mb = 32768
+gpus = 1
+workdir = "/workspace"
+
+[environment]
+build_timeout_sec = {build_timeout_sec}
+gpus = 1
+workdir = "/workspace"

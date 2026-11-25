@@ -1,0 +1,26 @@
+[
+  {
+    "adapter_name": "4dcodebench",
+    "agent": "TBD",
+    "model": "TBD",
+    "date": "TBD",
+    "adapted_benchmark_size": 200,
+    "parity_benchmark_size": null,
+    "number_of_runs": null,
+    "notes": "Placeholder: no parity experiment has been run. Agents, models, subset and number of runs are to be agreed with the Harbor team.",
+    "original_parity_repo": null,
+    "adapter_pr": [],
+    "dataset_pr": [],
+    "parity_pr": [],
+    "metrics": [
+      {
+        "benchmark_name": "4DCodeBench",
+        "metric": "TBD",
+        "original": "TBD",
+        "harbor": "TBD",
+        "original_runs": [],
+        "harbor_runs": []
+      }
+    ]
+  }
+]
