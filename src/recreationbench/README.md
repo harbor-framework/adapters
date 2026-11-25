@@ -204,8 +204,8 @@ Links:
 - Original benchmark: https://github.com/QwenLM/RecreationWorld
 - Dataset: https://huggingface.co/datasets/Qwen/RecreationBench
 - Adapter PR: https://github.com/harbor-framework/adapters/pull/144
-- Dataset PR: TBD
-- Parity results PR: TBD
+- Dataset PR: https://github.com/harbor-framework/harbor-datasets/pull/305
+- Parity results PR: https://huggingface.co/datasets/harborframework/parity-experiments/discussions/307 (the result files are not there yet: the shared dataset is over the Hub's file-count limit and rejects every push)
 
 Reproduction, original side: build `providers/web/Dockerfile` at the pinned commit and run `rb-web-sandbox-run` per task with `RB_AGENT_CLI`, `RB_MODEL`, `USE_VLM_JUDGE=true`, the judge settings and `TIMEOUT_MULTIPLIER=10`. The fixes that the released entrypoint needs are listed under Notes & Caveats.
 
