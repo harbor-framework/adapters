@@ -1,0 +1,50 @@
+[
+  {
+    "adapter_name": "prbench",
+    "adapter_builders": [
+      "Qumeng Sun (41225783+Mike-7777777@users.noreply.github.com)"
+    ],
+    "original_benchmark": [
+      {
+        "split": "finance",
+        "size": 600,
+        "harness": "llm",
+        "supported_agents": [
+          "None"
+        ],
+        "adaptable": true,
+        "notes": "PRBench Finance (Scale AI, arXiv 2511.11562): expert-written conversations graded against weighted rubric criteria by an LLM judge (o4-mini in the paper). finance_hard (300) is a subset of these records."
+      },
+      {
+        "split": "legal",
+        "size": 500,
+        "harness": "llm",
+        "supported_agents": [
+          "None"
+        ],
+        "adaptable": true,
+        "notes": "PRBench Legal. legal_hard (250) is a subset of these records."
+      }
+    ],
+    "harbor_adapter": [
+      {
+        "split": "full",
+        "adapted_benchmark_size": 1100,
+        "parity_benchmark_size": 200,
+        "parity_sampling_rate": 0.1818,
+        "registry_benchmark_size": 1100,
+        "added_agents": [
+          "None"
+        ],
+        "parity_matching_agents": [
+          "claude-code@2.1.322+claude-haiku-5-5"
+        ],
+        "parity_unmatching_agents": [
+          "None"
+        ],
+        "parity_costs": "$202",
+        "notes": "Oracle and nop runs cover all 1100 tasks: on Harbor 0.27.0 at this revision, where ORACLE_MODE=true gives reward 1.0 only to the reply of solution/solve.sh (checked by sha256), and on Harbor 0.26.0 at the parity revision. Parity on a 200-task subset (--split parity), 100 per domain, stratified by hard-subset membership and topic: two runs per side, run ranges overlap on both domains and overall, paired per-task difference +0.0002 +/- 0.0059 (SE). parity_costs is an upper bound for the two runs (the endpoint's total usage over the two runs)."
+      }
+    ]
+  }
+]
