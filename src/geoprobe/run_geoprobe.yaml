@@ -1,0 +1,28 @@
+datasets:
+  - path: datasets/geoprobe
+
+# Default: reference-answer replay; does not call a model.
+agents:
+  - name: oracle
+
+# Explicit on the pinned Harbor baseline; do not average sparse error fields.
+metrics:
+  - type: uv-script
+    kwargs:
+      script_path: datasets/geoprobe/metric.py
+
+# Native parity agent, after agreeing an exact model and settings with the team:
+# agents:
+#   - import_path: geoprobe.agent:GeoProbeNativeAgent
+#     model_name: EXACT_NATIVE_MODEL_ID
+#
+# Standard CLI-agent evaluation is a separate condition, not native parity:
+# agents:
+#   - name: codex
+#     model_name: openai/EXACT_MODEL_ID
+
+environment:
+  type: docker
+  delete: true
+
+n_concurrent_trials: 4

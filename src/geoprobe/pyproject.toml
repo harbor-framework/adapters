@@ -1,0 +1,30 @@
+[project]
+name = "harbor-geoprobe-adapter"
+version = "0.1.0"
+description = "GeoProbe visual geometry tasks for Harbor"
+readme = "README.md"
+authors = [
+    { name = "Yizhao Chen", email = "545114583@qq.com" }
+]
+requires-python = ">=3.12"
+dependencies = ["numpy==1.26.4", "pillow==11.3.0"]
+
+[project.optional-dependencies]
+evaluation = ["harbor @ git+https://github.com/harbor-framework/harbor@99218a4611e3bd76e49ce3b5f977e8c8134ad3ac"]
+test = ["pytest>=8,<9"]
+
+[project.scripts]
+geoprobe = "geoprobe.main:main"
+
+[build-system]
+requires = ["hatchling>=1.27,<2"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/geoprobe"]
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

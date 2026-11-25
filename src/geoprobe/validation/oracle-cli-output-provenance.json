@@ -1,0 +1,23 @@
+{
+  "kind": "rendered_cli_output_not_native_window_screenshot",
+  "captured_at": "2026-11-24T20:14:54-08:00",
+  "command": [
+    "uv",
+    "run",
+    "python",
+    "scripts/check_oracle.py",
+    "--job-dir",
+    "../../../../work/jobs/geoprobe-oracle-168-offline-verifier",
+    "--recovery-job",
+    "../../../../work/jobs/geoprobe-oracle-daemon-recovery",
+    "--data-root",
+    "../../../../work/geoprobe-data",
+    "--output",
+    "../../../../work/geoprobe-oracle-visual-audit.json"
+  ],
+  "working_directory": "src/geoprobe",
+  "exit_code": 0,
+  "transcript_sha256": "dfa3b60eda9ba6e91fb1b39f39e1ef98b85ca26b885a7e40a9a6362183e9e817",
+  "image_sha256": "9933b991da580d24c096501325c5326c19cbde26dd3dce1831ef12329958213a",
+  "scope": "Re-audit of retained completed Docker oracle jobs, not a new Docker evaluation or model parity run"
+}

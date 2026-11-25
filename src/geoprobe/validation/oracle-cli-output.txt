@@ -1,0 +1,8 @@
+GeoProbe oracle audit: CLI output record
+Captured: 2026-11-24T20:14:54-08:00
+Working directory: src/geoprobe
+
+$ uv run python scripts/check_oracle.py --job-dir ../../../../work/jobs/geoprobe-oracle-168-offline-verifier --recovery-job ../../../../work/jobs/geoprobe-oracle-daemon-recovery --data-root ../../../../work/geoprobe-data --output ../../../../work/geoprobe-oracle-visual-audit.json
+{"expected_tasks": 168, "completed_tasks": 168, "failures": [], "missing_samples": []}
+
+[process exit code: 0]

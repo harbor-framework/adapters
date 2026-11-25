@@ -1,0 +1,14 @@
+{
+  "repository": "https://github.com/embodied-agent-arena/embodied-agent-arena",
+  "commit": "ce298e7952b9138fd05796e33a2b8de63a0e404c",
+  "unmodified_files": {
+    "src/embodied_harness/w1_scoring.py": "f0f9db87a0ea86556adebbb63ca8062493416591177fbbb9e759f74e1a956c08",
+    "src/embodied_harness/w1_vlm_scoring.py": "030f74bf48b5755f3c84cacba9f55e3206a562f6a2f6dde7d590f884413827b5",
+    "src/embodied_harness/w1_output.py": "30d35f0068624015e0e49c164538ce796677b702ae0d39f382f79f310c0b29fc",
+    "src/embodied_harness/open_loop_media.py": "99595ad397f4092006fc45ec2125b23a0e8785f7dc3e027981cc53031c2b0e78",
+    "src/embodied_harness/vlm_protocols/motion_protocol.py": "e3a7787ebaab3e7efbed1b9e0a287f37fa9d77729d90a182df94f6cdad187a36",
+    "src/embodied_harness/vlm_protocols/intrinsics_protocol.py": "2d6175db60a49045bd7cf20864554cbd2e4116a31fdb8f8be24f8cbd04c190ed",
+    "src/embodied_harness/vlm_protocols/rt_protocol.py": "f9a022c74f926b8389ea75c4dcf91060ff7a93cd32ad4ced92d66546b3525256",
+    "src/embodied_harness/vlm_protocols/depth_protocol.py": "b17a4e1fba63914847b041be2ea84129ad3a4130d35b6170761f2eac56c3cc8f"
+  }
+}

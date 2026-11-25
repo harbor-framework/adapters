@@ -1,0 +1,4 @@
+services:
+  main:
+    # The native verifier is entirely offline; it does not need a network.
+    network_mode: none

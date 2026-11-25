@@ -1,0 +1,36 @@
+[
+  {
+    "adapter_name": "geoprobe",
+    "adapter_builders": [
+      "Yizhao Chen (545114583@qq.com)"
+    ],
+    "original_benchmark": [
+      {
+        "split": "vlm_test_v1",
+        "size": 168,
+        "harness": "agent",
+        "supported_agents": [
+          "arena-native@ce298e7952b9138fd05796e33a2b8de63a0e404c"
+        ],
+        "adaptable": true,
+        "notes": "Persistent Python loop with sealed multimodal completion; not interchangeable with an unrestricted coding CLI."
+      }
+    ],
+    "harbor_adapter": [
+      {
+        "split": "vlm_test_v1",
+        "adapted_benchmark_size": 168,
+        "parity_benchmark_size": 0,
+        "parity_sampling_rate": 0.0,
+        "registry_benchmark_size": 0,
+        "added_agents": [
+          "geoprobe-native@ce298e7952b9138fd05796e33a2b8de63a0e404c"
+        ],
+        "parity_matching_agents": [],
+        "parity_unmatching_agents": [],
+        "parity_costs": "$0",
+        "notes": "Local implementation in progress. No model parity performed and no dataset published. Continuous native metrics are retained; acceptance of the oracle convention and task-asset redistribution terms require maintainer clarification."
+      }
+    ]
+  }
+]
