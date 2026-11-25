@@ -1,0 +1,40 @@
+[
+  {
+    "adapter_name": "gdm-situational-awareness",
+    "adapter_builders": [
+      "pixel3user (106806012+pixel3user@users.noreply.github.com)"
+    ],
+    "original_benchmark": [
+      {
+        "split": "full",
+        "size": 22,
+        "harness": "agent",
+        "supported_agents": [
+          "None"
+        ],
+        "adaptable": true,
+        "notes": "Upstream is inspect_evals/gdm_self_reasoning (Inspect Evals @ a68dade7efb803ef50c8442d3f16264b293d1414): 11 challenges x 2 hint levels (easy/easy, hard/hard). The upstream harness is a custom Inspect ReAct-style solver, not a Harbor-compatible CLI agent, hence supported_agents=None. Paper reports 50 trials per challenge, solved if >=1 succeeds; Inspect defaults to 10 epochs with at_least_1."
+      }
+    ],
+    "harbor_adapter": [
+      {
+        "split": "full",
+        "adapted_benchmark_size": 22,
+        "parity_benchmark_size": 22,
+        "parity_sampling_rate": 1.0,
+        "registry_benchmark_size": 0,
+        "added_agents": [
+          "gdm-self-reasoning-parity-agent@0.1.0"
+        ],
+        "parity_matching_agents": [
+          "gdm-self-reasoning-parity-agent@0.1.0+gemini-2.5-flash"
+        ],
+        "parity_unmatching_agents": [
+          "None"
+        ],
+        "parity_costs": "$5",
+        "notes": "registry_benchmark_size=0 until the dataset is published (harbor-datasets PR pending). Oracle: scripted reference solutions (upstream ships none), 22/22 at reward 1.0 (final rerun 2026-11-24, separate verifier). Parity: 3 runs per side, 1 attempt per task per run, all 22 tasks, original 0.3182 ± 0.0455 vs Harbor 0.3182 ± 0.0262 (ranges overlap); gemini-2.5-flash via the team gateway on both sides, no grader models. parity_costs is an estimate from recorded token counts at Google list prices for gemini-2.5-flash for the three runs on both sides (excluding sanity runs). Tasks require the Scenario 3 custom agent (gdm-self-reasoning-parity-agent), which reproduces the upstream in-loop dynamics; stock CLI agents do not experience them and are not parity evidence."
+      }
+    ]
+  }
+]
