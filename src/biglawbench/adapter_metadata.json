@@ -1,0 +1,30 @@
+[
+  {
+    "adapter_name": "biglawbench",
+    "adapter_builders": ["Chaitanya Dwivedi (dw.chait@gmail.com)"],
+    "original_benchmark": [
+      {
+        "split": "full",
+        "size": 16,
+        "harness": "None",
+        "supported_agents": ["None"],
+        "adaptable": true,
+        "notes": "Public samples only: 6 BLB-Core tasks + 10 BLB-Workflows/SPA tasks (full sets private; BLB-Retrieval excluded)."
+      }
+    ],
+    "harbor_adapter": [
+      {
+        "split": "full",
+        "adapted_benchmark_size": 16,
+        "parity_benchmark_size": 16,
+        "parity_sampling_rate": 1.0,
+        "registry_benchmark_size": 16,
+        "added_agents": ["None"],
+        "parity_matching_agents": ["codex@0.159.1+openai/gpt-5.4"],
+        "parity_unmatching_agents": ["None"],
+        "parity_costs": "$30",
+        "notes": "Covers all 16 publicly adaptable tasks (6 blb-core + 10 blb-workflows/spa); blb-retrieval (queries only, no gold labels) excluded."
+      }
+    ]
+  }
+]
