@@ -1,0 +1,15 @@
+job_name: gsm8k-parity-smoke
+jobs_dir: runs/gsm8k-parity/harbor
+datasets:
+  - path: datasets/gsm8k-parity-smoke
+agents:
+  - import_path: gsm8k.parity:PairedParityAgent
+    kwargs:
+      profile_path: runs/gsm8k-parity/profile.json
+      scorer_path: runs/gsm8k-parity/dataset.py
+environment:
+  type: docker
+n_concurrent_trials: 1
+n_attempts: 1
+retry:
+  max_retries: 0

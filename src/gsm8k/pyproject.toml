@@ -1,0 +1,18 @@
+[project]
+name = "harbor-gsm8k-adapter"
+version = "0.2.0"
+description = "Reproducible conversion of the original GSM8K dataset to Harbor"
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+dependencies = ["harbor==0.27.0"]
+
+[project.scripts]
+gsm8k = "gsm8k.main:main"
+
+[build-system]
+requires = ["uv_build>=0.9.18,<0.10.0"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "gsm8k"
+source-include = ["src/gsm8k/LICENSE.openai"]

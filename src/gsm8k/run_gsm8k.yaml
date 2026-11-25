@@ -1,0 +1,10 @@
+datasets:
+  - path: datasets/gsm8k-test
+agents:
+  - name: oracle
+environment:
+  type: docker
+n_attempts: 1
+n_concurrent_trials: 4
+retry:
+  max_retries: 0
