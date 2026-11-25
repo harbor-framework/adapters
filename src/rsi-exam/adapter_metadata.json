@@ -1,0 +1,47 @@
+[
+  {
+    "adapter_name": "rsi-exam",
+    "adapter_builders": ["Jack Wang (faldict@ucsc.edu)"],
+    "original_benchmark": [
+      {
+        "split": "public",
+        "size": 35,
+        "harness": "agent",
+        "supported_agents": [
+          "codex+gpt-5.6-sol",
+          "codex+gpt-5.5",
+          "claude-code+claude-opus-5",
+          "claude-code+glm-5.3",
+          "claude-code+deepseek-v4-pro",
+          "qwen-coder+qwen3.8-max",
+          "antigravity-cli+gemini-3.7-flash-high",
+          "grok-build+grok-4.6"
+        ],
+        "adaptable": true,
+        "notes": "Public split of the 88-task benchmark (HF RSI-Exam/RSI-Exam @ 66f54935). Upstream is authored natively in Harbor task format and evaluated with Harbor plus the autoresearch prompt/mount overlay. Upstream does not pin agent versions."
+      },
+      {
+        "split": "private",
+        "size": 53,
+        "harness": "agent",
+        "supported_agents": ["None"],
+        "adaptable": false,
+        "notes": "Held back by the RSI-Exam authors (contact@rsi-exam.ai). If provided locally, the adapter can convert it via --source-dir."
+      }
+    ],
+    "harbor_adapter": [
+      {
+        "split": "public",
+        "adapted_benchmark_size": 35,
+        "parity_benchmark_size": null,
+        "parity_sampling_rate": null,
+        "registry_benchmark_size": null,
+        "added_agents": ["None"],
+        "parity_matching_agents": [],
+        "parity_unmatching_agents": null,
+        "parity_costs": null,
+        "notes": "Tasks copied verbatim; only [task].name is rewritten to rsi-exam/<task_id>. 25 tasks receive a baseline (no-op) solve.sh (24 without an upstream oracle, plus qec_decoder_arena whose upstream oracle cannot run); mbff_banking_placement's upstream oracle gets a prebuild fix. Oracle verified on both sides on the 22 CPU-only tasks: 21/22 identical rewards. Parity pending coordination with the Harbor team (12h/task agent budget; 9 tasks need accelerators (8 NVIDIA GPU, 1 TPU v6e), 4 need task-side LLM API keys)."
+      }
+    ]
+  }
+]

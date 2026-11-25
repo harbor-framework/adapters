@@ -1,0 +1,64 @@
+# Reference job config for RSI-Exam. Run from the adapters repo root:
+#   harbor run -c src/rsi-exam/run_rsi-exam.yaml
+#
+# Default: oracle agent (environment build + sealed-grader smoke test; see README —
+# 11 tasks install the upstream reference, 24 keep the shipped baseline).
+#
+# For real agents, RSI-Exam applies its autoresearch protocol at run time, exactly
+# as upstream does (github.com/aiming-lab/RSI-Exam, "Quick Start"):
+#   export ARB_PROGRAM=$PWD/src/rsi-exam/src/rsi_exam/protocol/autoresearch.md
+#   export ARB_BUDGET_PY=$PWD/src/rsi-exam/src/rsi_exam/protocol/budget.py
+#   export ARB_AGENT_TIMEOUT_SEC=43200      # 12h, matches [agent] timeout_sec
+#   export ARB_OUTPUT_TOKEN_LIMIT=500000
+# then uncomment ONE agent block below together with the
+# `extra_docker_compose` entry under `environment`.
+jobs_dir: jobs
+n_attempts: 1
+timeout_multiplier: 1.0
+orchestrator:
+  type: local
+  n_concurrent_trials: 4
+  quiet: false
+environment:
+  type: docker
+  delete: true
+  # Required for non-oracle agents (mounts /app/AUTORESEARCH.md, /app/TASK.md, /app/budget.py):
+  # extra_docker_compose:
+  #   - src/rsi-exam/src/rsi_exam/protocol/mount.yaml
+agents:
+  - name: oracle
+
+# agents:
+#   - name: claude-code
+#     model_name: claude-opus-5
+#     kwargs:
+#       prompt_template_path: src/rsi-exam/src/rsi_exam/protocol/autoresearch.j2
+#       disallowed_tools: "WebSearch,WebFetch"
+#       reasoning_effort: max
+#     env:
+#       ANTHROPIC_DEFAULT_OPUS_MODEL: claude-opus-5
+#       ANTHROPIC_DEFAULT_SONNET_MODEL: claude-opus-5
+#       ANTHROPIC_DEFAULT_HAIKU_MODEL: claude-opus-5
+#       CLAUDE_CODE_SUBAGENT_MODEL: claude-opus-5
+#     extra_allowed_hosts:
+#       - "*.anthropic.com"
+#       - anthropic.com
+#       - "*.claude.ai"
+#       - claude.ai
+#       - "*.claude.com"
+#       - claude.com
+#
+# agents:
+#   - name: codex
+#     model_name: gpt-5.6-sol
+#     kwargs:
+#       prompt_template_path: src/rsi-exam/src/rsi_exam/protocol/autoresearch.j2
+#       web_search: disabled
+#       reasoning_effort: max
+#     extra_allowed_hosts:
+#       - "*.openai.com"
+#       - openai.com
+#       - "*.chatgpt.com"
+#       - chatgpt.com
+datasets:
+  - path: datasets/rsi-exam

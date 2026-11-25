@@ -1,0 +1,26 @@
+[
+  {
+    "adapter_name": "rsi-exam",
+    "agent": "<agent>@<version>",
+    "model": "<model>",
+    "date": "YYYY-MM-DD",
+    "adapted_benchmark_size": 35,
+    "parity_benchmark_size": null,
+    "number_of_runs": null,
+    "notes": "PENDING: parity plan (agents, models, runs, task subset) to be agreed with the Harbor team before any runs. Upstream evaluates with Harbor itself; both sides must use the same Harbor commit, agent version, model id, protocol files (src/rsi_exam/protocol @ aiming-lab/RSI-Exam 085036f), ARB_* settings and allowed hosts.",
+    "original_parity_repo": "https://github.com/aiming-lab/RSI-Exam",
+    "adapter_pr": ["https://github.com/harbor-framework/adapters/pull/148"],
+    "dataset_pr": [],
+    "parity_pr": [],
+    "metrics": [
+      {
+        "benchmark_name": "RSI-Exam",
+        "metric": "mean normalized hidden-set score",
+        "original": "<mean +/- sample_SEM>",
+        "harbor": "<mean +/- sample_SEM>",
+        "original_runs": [],
+        "harbor_runs": []
+      }
+    ]
+  }
+]
