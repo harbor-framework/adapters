@@ -1,0 +1,40 @@
+[
+  {
+    "adapter_name": "healthbench-professional",
+    "adapter_builders": [
+      "Qumeng Sun (41225783+Mike-7777777@users.noreply.github.com)"
+    ],
+    "original_benchmark": [
+      {
+        "split": "full",
+        "size": 525,
+        "harness": "llm",
+        "supported_agents": [
+          "None"
+        ],
+        "adaptable": true,
+        "notes": "HealthBench Professional (OpenAI, arXiv 2604.27470): 525 real clinician conversations graded against physician-written rubric items by an LLM judge (gpt-5.4-2026-03-05, reasoning low). Original evaluation: simple-evals healthbench_eval.py (652c89d), which the dataset README calls the unofficial external implementation; the original calls a model API directly, with no agent."
+      }
+    ],
+    "harbor_adapter": [
+      {
+        "split": "full",
+        "adapted_benchmark_size": 525,
+        "parity_benchmark_size": 150,
+        "parity_sampling_rate": 0.2857,
+        "registry_benchmark_size": 525,
+        "added_agents": [
+          "None"
+        ],
+        "parity_matching_agents": [
+          "claude-code@2.1.322+claude-haiku-5-5"
+        ],
+        "parity_unmatching_agents": [
+          "None"
+        ],
+        "parity_costs": "$17",
+        "notes": "Oracle: Harbor 0.27.0 with the separate verifier, 523 of 525 tasks reach reward 1.0 (522 on the first attempt, plus caa25e34 with a revised reply, 1.0 in 5 of 5 attempts); in the other two the judge's verdict on one rubric item changes between gradings of the same reply (1.0 in 3 of 4 and in 1 of 4 attempts). Parity on the 150-task stratified subset (--split parity), three runs per side, Harbor 0.27.0; the run ranges overlap. Parity cost about $17 (1- and 10-task checks, three runs per side, timeout reruns): $3.00 agent cost reported by Claude Code, the rest the gpt-5.4 judge (about $2.25 per 150-task run). Registry: openai/healthbench-professional, tags v1.0 (525 tasks) and parity (the 150-task subset) requested."
+      }
+    ]
+  }
+]
