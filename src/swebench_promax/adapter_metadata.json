@@ -1,0 +1,40 @@
+[
+    {
+        "adapter_name": "swebench_promax",
+        "adapter_builders": [
+            "Yuling Shi (yuling.shi@sjtu.edu.cn)"
+        ],
+        "original_benchmark": [
+            {
+                "split": "test",
+                "size": 170,
+                "harness": "agent",
+                "supported_agents": [
+                    "mini-swe-agent@2.4.6"
+                ],
+                "adaptable": true,
+                "notes": "SWE-Bench-ProMax (COLM 2026): 170 large-scale, cross-file code-refactoring tasks in 7 languages (C 20, C++ 22, Go 23, Java 26, Python 29, Rust 22, TypeScript 28). Official harness: src/evaluation/test_run.py, offline grading (--network none), pass iff the eval script exits 0 with OMNIGRIL_EXIT_CODE=0. Agents are run with src/inference/run_mini_swe_agent.py or externally, and their patches graded with test_run.py."
+            }
+        ],
+        "harbor_adapter": [
+            {
+                "split": "test",
+                "adapted_benchmark_size": 170,
+                "parity_benchmark_size": 28,
+                "parity_sampling_rate": 0.165,
+                "registry_benchmark_size": 170,
+                "added_agents": [
+                    "None"
+                ],
+                "parity_matching_agents": [
+                    "mini-swe-agent@2.4.6+deepseek-v4.1-flash"
+                ],
+                "parity_unmatching_agents": [
+                    "None"
+                ],
+                "parity_costs": "$50",
+                "notes": "All 170 tasks adapted. Uses the 2026-11-20 benchmark fix: task images no longer expose upstream commits newer than the base commit (the fix itself was reachable via git in 169/170 images), 21 eval scripts now fail when the build fails (2 tasks used to pass with an empty patch), and 11 images include their offline test dependencies. Tasks run the published images directly via [environment].docker_image, pinned by digest. Oracle validation 2026-11-23 with the published digest-pinned images: harbor run -a oracle gives reward 1.0 on 170/170 tasks and -a nop gives 0.0 on 170/170 (one job per agent, 0 exceptions); original harness: reference patch passes 170/170, empty patch 0/170. Parity: mini-swe-agent@2.4.6 + deepseek-v4.1-flash on 28 tasks, 3 runs per side: original 58.3 ± 3.1, Harbor 53.6 ± 3.6 (run ranges overlap)."
+            }
+        ]
+    }
+]

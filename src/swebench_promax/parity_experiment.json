@@ -1,0 +1,40 @@
+[
+    {
+        "adapter_name": "swebench_promax",
+        "agent": "mini-swe-agent@2.4.6",
+        "model": "deepseek-v4.1-flash",
+        "date": "2026-11-24",
+        "adapted_benchmark_size": 170,
+        "parity_benchmark_size": 28,
+        "number_of_runs": 3,
+        "notes": "28 tasks (4 per language x 7 languages, parity_task_ids.txt), 3 runs per side. mini-swe-agent default `mini` config on both sides. Model: deepseek-v4.1-flash (version DeepSeek-V4.1-Flash-1017) from the official DeepSeek API. 2 h agent time limit per trial on both sides. Original side: src/inference/run_mini_swe_agent.py in the benchmark repo at commit 70b684dc131a (agent on the host, task container with --network none), graded with src/evaluation/test_run.py. Harbor side: Harbor 0.26.0, installed mini-swe-agent, agent network limited to the model endpoint. Files: https://huggingface.co/datasets/swe-bench-promax/SWE-Bench-ProMax-harbor-parity/tree/2b35a0789bf8122d02d0bcea0d4686652bf3713a (the shared parity dataset is over the Hub's file limit).",
+        "original_parity_repo": "https://github.com/key4127/SWE-Bench-ProMax/tree/70b684dc131af777500a6f283fed00ae77612ab5",
+        "adapter_pr": [
+            "https://github.com/harbor-framework/adapters/pull/125"
+        ],
+        "dataset_pr": [
+            "https://github.com/harbor-framework/harbor-datasets/pull/300"
+        ],
+        "parity_pr": [
+            "https://huggingface.co/datasets/harborframework/parity-experiments/discussions/301"
+        ],
+        "metrics": [
+            {
+                "benchmark_name": "SWE-Bench-ProMax",
+                "metric": "Resolved rate (%)",
+                "original": "58.3 ± 3.1",
+                "harbor": "53.6 ± 3.6",
+                "original_runs": [
+                    64.3,
+                    57.1,
+                    53.6
+                ],
+                "harbor_runs": [
+                    60.7,
+                    50.0,
+                    50.0
+                ]
+            }
+        ]
+    }
+]
