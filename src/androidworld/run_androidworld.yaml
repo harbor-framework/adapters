@@ -1,0 +1,34 @@
+# Reference config. Emulator needs linux/amd64 + KVM: use docker on a KVM host (Daytona
+# sandboxes lack /dev/kvm). Generate all 116 tasks (each includes an oracle) first:
+#   cd src/androidworld && uv run androidworld --output-dir ../../datasets/androidworld
+jobs_dir: jobs
+n_attempts: 1
+timeout_multiplier: 1.0
+orchestrator:
+  type: local
+  n_concurrent_trials: 1   # each trial boots a full emulator; raise only with enough CPU/RAM
+  quiet: false
+environment:
+  type: docker
+  # type: daytona
+  force_build: true
+  delete: true
+  # env:
+  #   ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY}
+  #   DAYTONA_API_KEY: ${DAYTONA_API_KEY}
+agents:
+  - name: oracle
+  # - name: t3a-agent
+  #   import_path: androidworld.agents:T3AAgent
+  #   model_name: <provider>/<pinned-dated-model-id>
+  #   env:
+  #     OPENAI_BASE_URL: ${OPENAI_BASE_URL}
+  #     OPENAI_API_KEY: ${OPENAI_API_KEY}
+  #     # or ANTHROPIC_BASE_URL / ANTHROPIC_API_KEY
+  #   kwargs:
+  #     temperature: 0.0
+  #     max_tokens: 1000
+  # - name: claude-code
+  #   model_name: anthropic/claude-haiku-4-5
+datasets:
+  - path: datasets/androidworld

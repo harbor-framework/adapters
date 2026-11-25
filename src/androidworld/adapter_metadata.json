@@ -1,0 +1,36 @@
+[
+  {
+    "adapter_name": "androidworld",
+    "adapter_builders": [
+      "Chaitanya Dwivedi (dw.chait@gmail.com)"
+    ],
+    "original_benchmark": [
+      {
+        "split": "test",
+        "size": 116,
+        "harness": "android_world (M3A/T3A agents, Python env API)",
+        "supported_agents": [
+          "M3A",
+          "T3A",
+          "SeeAct"
+        ],
+        "adaptable": true,
+        "notes": "No oracle shipped upstream; tasks parameterized by seed."
+      }
+    ],
+    "harbor_adapter": [
+      {
+        "split": "test",
+        "adapted_benchmark_size": 116,
+        "parity_benchmark_size": null,
+        "parity_sampling_rate": null,
+        "registry_benchmark_size": null,
+        "added_agents": [],
+        "parity_matching_agents": [],
+        "parity_unmatching_agents": null,
+        "parity_costs": null,
+        "notes": "All 116 tasks have deterministic oracles (76 injection, 25 computed, 15 ui-script); 35-task --split parity proposed; Scenario 3 T3AAgent implemented; emulator requires x86_64 KVM host (Daytona lacks /dev/kvm)."
+      }
+    ]
+  }
+]

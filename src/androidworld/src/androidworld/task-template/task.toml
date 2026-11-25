@@ -1,0 +1,41 @@
+version = "1.0"
+
+[task]
+name = "google-research/androidworld__{task_id}"
+description = "AndroidWorld task {class_name} (seed {seed})"
+authors = [
+    { name = "Christopher Rawles" },
+    { name = "Sarah Clinckemaillie" },
+    { name = "Yifan Chang" },
+    { name = "Jonathan Waltz" },
+    { name = "Gabrielle Lau" },
+    { name = "Marybeth Fair" },
+    { name = "Alice Li" },
+    { name = "William Bishop" },
+    { name = "Wei Li" },
+    { name = "Folawiyo Campbell-Ajala" },
+    { name = "Daniel Toyama" },
+    { name = "Robert Berry" },
+    { name = "Divya Tyamagundlu" },
+    { name = "Timothy Lillicrap" },
+    { name = "Oriana Riva" },
+]
+keywords = ["android", "gui-agent", "mobile", "{family}"]
+
+[metadata]
+difficulty = "{difficulty}"
+category = "mobile-gui"
+tags = ["androidworld", "{family}", "oracle-{oracle_method}", "oracle-kind-{oracle_kind}"]
+
+[agent]
+timeout_sec = 1800.0
+
+[verifier]
+timeout_sec = 1800.0
+
+[environment]
+# Needs linux/amd64 + KVM (nested virtualization) for the Android emulator.
+build_timeout_sec = 3600.0
+cpus = 4
+memory_mb = 8192
+storage_mb = 30720
