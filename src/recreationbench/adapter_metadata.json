@@ -1,0 +1,52 @@
+[
+  {
+    "adapter_name": "recreationbench",
+    "adapter_builders": [
+      "Christian Iacullo (christian@alloy.app)"
+    ],
+    "original_benchmark": [
+      {
+        "split": "web",
+        "size": 50,
+        "harness": "agent",
+        "supported_agents": [
+          "claude-code@2.1.177",
+          "codex@0.145.0"
+        ],
+        "adaptable": true,
+        "notes": "RecreationBench Web: 50 reference sites, scored by hidden Playwright tests (Prog) and VLM-judged visual assertions (VLM)."
+      },
+      {
+        "split": "ubuntu, macos, windows, android",
+        "size": 200,
+        "harness": "agent",
+        "supported_agents": [
+          "claude-code@2.1.177",
+          "codex@0.145.0"
+        ],
+        "adaptable": false,
+        "notes": "50 tasks per platform. They need OS virtual machines or an Android emulator with GUI automation and are not adapted."
+      }
+    ],
+    "harbor_adapter": [
+      {
+        "split": "web",
+        "adapted_benchmark_size": 50,
+        "parity_benchmark_size": 10,
+        "parity_sampling_rate": 0.2,
+        "registry_benchmark_size": 50,
+        "added_agents": [
+          "None"
+        ],
+        "parity_matching_agents": [
+          "claude-code@2.1.177+alibaba/qwen3.7-plus"
+        ],
+        "parity_unmatching_agents": [
+          "None"
+        ],
+        "parity_costs": "About $100 (estimate): roughly 98M input tokens per side over 3 runs of 10 tasks, plus judge calls",
+        "notes": "Parity on a seeded, difficulty-stratified 10-task subset (3 easy, 3 medium, 4 hard), 3 runs per side."
+      }
+    ]
+  }
+]

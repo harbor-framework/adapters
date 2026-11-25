@@ -1,0 +1,40 @@
+[
+  {
+    "adapter_name": "recreationbench",
+    "agent": "claude-code@2.1.177",
+    "model": "alibaba/qwen3.7-plus",
+    "date": "2026-11-25",
+    "adapted_benchmark_size": 50,
+    "parity_benchmark_size": 10,
+    "number_of_runs": 3,
+    "notes": "10-task difficulty-stratified subset (--split parity), 3 runs per side, Harbor 0.25.0 on Modal. Both sides route Claude Code through the upstream rb-claude-code-proxy to alibaba/qwen3.7-plus on an OpenAI-compatible gateway (no dated model ID is published for it) and use the same judge (alibaba/qwen3.7-plus, temperature 0). Run value = mean task score over the 10 tasks, in percent; task score = mean of Prog and VLM; build failures and empty submissions score 0 as upstream scores them. One Harbor trial (astrovia.example, run 2) ended on a model API timeout, which the upstream scorer marks as api_error rather than a model score; it was rerun once and the rerun is the value used. Both sides apply patch_scorer.py (upstream issue QwenLM/RecreationWorld#6). Scores sit near the floor for this model (the paper reports 10.15% on the full Web split) and single tasks flip between 0 and a small score from run to run on both sides.",
+    "original_parity_repo": "https://github.com/QwenLM/RecreationWorld/tree/ee01f2bd014a56f7e17850a5d42002c807b96beb",
+    "adapter_pr": [
+      "https://github.com/harbor-framework/adapters/pull/144"
+    ],
+    "dataset_pr": [
+      "https://github.com/harbor-framework/harbor-datasets/pull/305"
+    ],
+    "parity_pr": [
+      "https://huggingface.co/datasets/harborframework/parity-experiments/discussions/307"
+    ],
+    "metrics": [
+      {
+        "benchmark_name": "RecreationBench Web",
+        "metric": "Task score (mean of Prog and VLM), %",
+        "original": "5.16% +/- 1.02%",
+        "harbor": "5.44% +/- 1.72%",
+        "original_runs": [
+          7.2,
+          4.03,
+          4.24
+        ],
+        "harbor_runs": [
+          6.34,
+          2.12,
+          7.87
+        ]
+      }
+    ]
+  }
+]

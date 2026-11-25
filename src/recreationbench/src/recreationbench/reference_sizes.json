@@ -1,0 +1,252 @@
+{
+  "ablira.example": {
+    "reference_bytes": 201559399,
+    "reference_files": 1419,
+    "tests_bytes": 7378071
+  },
+  "aperlio.example": {
+    "reference_bytes": 634253792,
+    "reference_files": 4174,
+    "tests_bytes": 122968064
+  },
+  "astrovia.example": {
+    "reference_bytes": 119878082,
+    "reference_files": 744,
+    "tests_bytes": 3714792
+  },
+  "borvia.example": {
+    "reference_bytes": 483204783,
+    "reference_files": 2413,
+    "tests_bytes": 36383770
+  },
+  "bramble.example": {
+    "reference_bytes": 52242976,
+    "reference_files": 1246,
+    "tests_bytes": 1528220
+  },
+  "breezel.example": {
+    "reference_bytes": 807401033,
+    "reference_files": 1036,
+    "tests_bytes": 140891564
+  },
+  "buildara.example": {
+    "reference_bytes": 149998498,
+    "reference_files": 885,
+    "tests_bytes": 60246350
+  },
+  "cascora.example": {
+    "reference_bytes": 674504870,
+    "reference_files": 2873,
+    "tests_bytes": 126423772
+  },
+  "climatewatch.org": {
+    "reference_bytes": 200107233,
+    "reference_files": 478,
+    "tests_bytes": 25111790
+  },
+  "corravale.example": {
+    "reference_bytes": 17443021,
+    "reference_files": 243,
+    "tests_bytes": 3078897
+  },
+  "cresvia.example": {
+    "reference_bytes": 366333100,
+    "reference_files": 718,
+    "tests_bytes": 15157986
+  },
+  "detox.github.io": {
+    "reference_bytes": 38512720,
+    "reference_files": 479,
+    "tests_bytes": 66177221
+  },
+  "fluvica.example": {
+    "reference_bytes": 159581817,
+    "reference_files": 1040,
+    "tests_bytes": 18938812
+  },
+  "formora.example": {
+    "reference_bytes": 216815558,
+    "reference_files": 1961,
+    "tests_bytes": 20004589
+  },
+  "fynora.example": {
+    "reference_bytes": 303464142,
+    "reference_files": 1709,
+    "tests_bytes": 63697869
+  },
+  "glyphel.example": {
+    "reference_bytes": 13009547,
+    "reference_files": 1801,
+    "tests_bytes": 29964247
+  },
+  "gradyn.example": {
+    "reference_bytes": 221664175,
+    "reference_files": 644,
+    "tests_bytes": 11116149
+  },
+  "haulvio.example": {
+    "reference_bytes": 62632946,
+    "reference_files": 512,
+    "tests_bytes": 20412875
+  },
+  "inclura.example": {
+    "reference_bytes": 344788957,
+    "reference_files": 1311,
+    "tests_bytes": 133504341
+  },
+  "kartova.example": {
+    "reference_bytes": 219313825,
+    "reference_files": 1748,
+    "tests_bytes": 18606452
+  },
+  "keycloak.org": {
+    "reference_bytes": 37194792,
+    "reference_files": 406,
+    "tests_bytes": 7732148
+  },
+  "klaravo.example": {
+    "reference_bytes": 149714710,
+    "reference_files": 720,
+    "tests_bytes": 5791960
+  },
+  "klavrium.example": {
+    "reference_bytes": 220041012,
+    "reference_files": 611,
+    "tests_bytes": 12007125
+  },
+  "mendova.example": {
+    "reference_bytes": 77131506,
+    "reference_files": 930,
+    "tests_bytes": 36752351
+  },
+  "nimbric.example": {
+    "reference_bytes": 116921876,
+    "reference_files": 717,
+    "tests_bytes": 6282951
+  },
+  "obseron.example": {
+    "reference_bytes": 4060499386,
+    "reference_files": 4249,
+    "tests_bytes": 135858097
+  },
+  "postgresql.org": {
+    "reference_bytes": 461725773,
+    "reference_files": 528,
+    "tests_bytes": 16891703
+  },
+  "praxide.example": {
+    "reference_bytes": 19067731,
+    "reference_files": 259,
+    "tests_bytes": 14708002
+  },
+  "praxora.example": {
+    "reference_bytes": 1030516077,
+    "reference_files": 1088,
+    "tests_bytes": 19931433
+  },
+  "quorvex.example": {
+    "reference_bytes": 186477350,
+    "reference_files": 405,
+    "tests_bytes": 67546088
+  },
+  "rankspire.example": {
+    "reference_bytes": 2969555109,
+    "reference_files": 3518,
+    "tests_bytes": 98967872
+  },
+  "relvyn.example": {
+    "reference_bytes": 108421382,
+    "reference_files": 1296,
+    "tests_bytes": 40852014
+  },
+  "rituvia.example": {
+    "reference_bytes": 118618551,
+    "reference_files": 712,
+    "tests_bytes": 16177062
+  },
+  "rust-lang.org": {
+    "reference_bytes": 27606918,
+    "reference_files": 527,
+    "tests_bytes": 4849616
+  },
+  "sentorra.example": {
+    "reference_bytes": 409667843,
+    "reference_files": 1544,
+    "tests_bytes": 53484820
+  },
+  "sonelio.example": {
+    "reference_bytes": 529192810,
+    "reference_files": 1436,
+    "tests_bytes": 11829823
+  },
+  "sonivex.example": {
+    "reference_bytes": 303267544,
+    "reference_files": 3991,
+    "tests_bytes": 16541960
+  },
+  "streamora.example": {
+    "reference_bytes": 220569307,
+    "reference_files": 856,
+    "tests_bytes": 42745855
+  },
+  "talvio.example": {
+    "reference_bytes": 232824093,
+    "reference_files": 3331,
+    "tests_bytes": 64047620
+  },
+  "terravyn.example": {
+    "reference_bytes": 107086381,
+    "reference_files": 1449,
+    "tests_bytes": 16272941
+  },
+  "vaultera.example": {
+    "reference_bytes": 631743604,
+    "reference_files": 849,
+    "tests_bytes": 124973202
+  },
+  "vellora.example": {
+    "reference_bytes": 340809004,
+    "reference_files": 1129,
+    "tests_bytes": 33283510
+  },
+  "veranthe.example": {
+    "reference_bytes": 179585888,
+    "reference_files": 1201,
+    "tests_bytes": 3522754
+  },
+  "verendale.example": {
+    "reference_bytes": 122969116,
+    "reference_files": 870,
+    "tests_bytes": 7067248
+  },
+  "verentia.example": {
+    "reference_bytes": 1031464419,
+    "reference_files": 4681,
+    "tests_bytes": 22036995
+  },
+  "veridara.example": {
+    "reference_bytes": 1633655431,
+    "reference_files": 2915,
+    "tests_bytes": 10756293
+  },
+  "verrindale.example": {
+    "reference_bytes": 229688109,
+    "reference_files": 1665,
+    "tests_bytes": 6642236
+  },
+  "vizmara.example": {
+    "reference_bytes": 469207466,
+    "reference_files": 4496,
+    "tests_bytes": 27816263
+  },
+  "weavora.example": {
+    "reference_bytes": 128746899,
+    "reference_files": 942,
+    "tests_bytes": 11444757
+  },
+  "webpack.js.org": {
+    "reference_bytes": 146254043,
+    "reference_files": 2012,
+    "tests_bytes": 168436678
+  }
+}
