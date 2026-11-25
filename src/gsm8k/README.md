@@ -53,6 +53,12 @@ uv run --project src/gsm8k --locked gsm8k --split parity \
 
 The original repository supplies the task data, first-marker answer extractor, and an example checkpoint sampler with calculator support. The proposed paired runner uses the same model prompt, single-turn configuration, and tool policy on both sides. The original side scores each raw completion with the pinned `is_correct`. A Harbor-compatible agent makes a separate model request and transports the extracted answer to the native verifier. The proposed shared-agent comparison covers this file transport and grading path. A standard terminal agent would require its own matched system configuration and score table.
 
+### Eight-task sanity
+
+Using two independent requests per task with `gpt-4.1-mini-2025-04-14` and identical payloads, the original scorer awarded 8/8 and native Harbor 0.27.0 on Podman awarded 7/8. The Harbor verifier matched the pinned original scorer when both scored each of the eight Harbor-side responses. For `gsm8k-test-0753`, the original response gave `128`, while the Harbor-side response ended with `#### 86 glasses and 42 plates`. The shared extractor returned `86` and both verifiers awarded zero to that response.
+
+The sanity run separated the two model requests from the Harbor verifier execution. The formal paired runs await maintainer agreement on the agent, model, cohort, and run count.
+
 See the paired harness and reproduction commands in [the proposed parity protocol](PARITY.md).
 
 ## Notes & Caveats
