@@ -20,16 +20,20 @@
       {
         "split": "full",
         "adapted_benchmark_size": 22,
-        "parity_benchmark_size": 0,
-        "parity_sampling_rate": 0.0,
+        "parity_benchmark_size": 22,
+        "parity_sampling_rate": 1.0,
         "registry_benchmark_size": 0,
         "added_agents": [
           "gdm-self-reasoning-parity-agent@0.1.0"
         ],
-        "parity_matching_agents": [],
-        "parity_unmatching_agents": [],
-        "parity_costs": null,
-        "notes": "WIP: generation implemented; registry_benchmark_size=0 because the dataset is not published yet. Parity not run. Scenario 3 custom parity agent implemented (fake-model tested; no real-model runs yet). Scripted oracle solutions (upstream ships none) pass Harbor oracle verification 22/22 at reward 1.0 (2026-11-15, Harbor 0.26.0)."
+        "parity_matching_agents": [
+          "gdm-self-reasoning-parity-agent@0.1.0+gemini-2.5-flash"
+        ],
+        "parity_unmatching_agents": [
+          "None"
+        ],
+        "parity_costs": "$5",
+        "notes": "registry_benchmark_size=0 until the dataset is published (harbor-datasets PR pending). Oracle: scripted reference solutions (upstream ships none), 22/22 at reward 1.0 (final rerun 2026-11-24, separate verifier). Parity: 3 runs per side, 1 attempt per task per run, all 22 tasks, original 0.3182 ± 0.0455 vs Harbor 0.3182 ± 0.0262 (ranges overlap); gemini-2.5-flash via the team gateway on both sides, no grader models. parity_costs is an estimate from recorded token counts at Google list prices for gemini-2.5-flash for the three runs on both sides (excluding sanity runs). Tasks require the Scenario 3 custom agent (gdm-self-reasoning-parity-agent), which reproduces the upstream in-loop dynamics; stock CLI agents do not experience them and are not parity evidence."
       }
     ]
   }
