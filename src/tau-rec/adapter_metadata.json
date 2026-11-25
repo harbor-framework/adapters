@@ -1,0 +1,38 @@
+[
+  {
+    "adapter_name": "tau-rec",
+    "adapter_builders": [
+      "Bharath Sivaram Narasimhan (n.bharath.s@gmail.com)"
+    ],
+    "original_benchmark": [
+      {
+        "split": "full",
+        "size": 60,
+        "harness": "agent",
+        "supported_agents": [
+          "LiteLLMAgent@2.1.0"
+        ],
+        "adaptable": true,
+        "notes": "tau-Rec movies-v1 track (60 tasks) at v2.1.0, commit 8b4c3e6823add74f6c209fff864e2eae6849880c. The native harness is `tau-rec run` with tau-Rec's LiteLLMAgent and an LLM user simulator."
+      }
+    ],
+    "harbor_adapter": [
+      {
+        "split": "full",
+        "adapted_benchmark_size": 60,
+        "parity_benchmark_size": 60,
+        "parity_sampling_rate": 1.0,
+        "registry_benchmark_size": 60,
+        "added_agents": [
+          "tau-rec-parity-agent"
+        ],
+        "parity_matching_agents": [
+          "tau-rec-parity-agent@1.0+gpt-5-mini-2025-08-07"
+        ],
+        "parity_unmatching_agents": null,
+        "parity_costs": 25,
+        "notes": "Full-set parity over all 60 tasks, 3 runs per side. A standard-agent run with claude-code@2.1.329 + claude-haiku-5-5 (1 run, 50.00%) shows the tasks work with a Harbor CLI agent; codex was not usable on the OpenAI account used for these runs."
+      }
+    ]
+  }
+]

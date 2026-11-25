@@ -1,0 +1,22 @@
+[project]
+name = "harbor-tau-rec-adapter"
+version = "0.1.0"
+description = "Harbor adapter for tau-Rec movies-v1 conversational recommendation tasks"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = []
+
+[project.scripts]
+tau-rec = "tau_rec_adapter.main:main"
+
+[build-system]
+requires = ["uv_build>=0.9.26,<0.10.0"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "tau_rec_adapter"
+
+# The tests are async; the Harbor monorepo set this repo-wide.
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
