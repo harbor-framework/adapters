@@ -331,7 +331,13 @@ class Dynamics:
                 return False, True
             step_idx = self.num_messages - 1
             if freq > 0 and step_idx > freq:
-                return False, True
+                # Upstream's evaluate raises here, so the sample errors
+                # instead of scoring. Raise the same error: the trial then
+                # fails with an exception and is rerun, as upstream's
+                # errored sample is (`inspect eval-retry`).
+                raise ValueError(
+                    "Number of messages is strictly greater than the oversight frequency."
+                )
             done = success or (freq > 0 and step_idx == freq)
         elif challenge == "read_logs":
             done = success or cfg is None

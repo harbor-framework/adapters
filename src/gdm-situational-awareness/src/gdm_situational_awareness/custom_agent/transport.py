@@ -60,6 +60,17 @@ def is_retryable(exc: BaseException) -> bool:
     )
 
 
+def _error_detail(exc: BaseException) -> str:
+    """The provider's error message (first 500 chars of the response body)."""
+    if not isinstance(exc, urllib.error.HTTPError):
+        return ""
+    try:
+        body = exc.read().decode("utf-8", "replace").strip()
+    except Exception:
+        return ""
+    return f" | response: {body[:500]}" if body else ""
+
+
 @dataclass
 class ToolCall:
     id: str
@@ -169,12 +180,14 @@ class OpenAICompatibleTransport:
                 turn.retries = attempt
                 return turn
             except Exception as exc:
+                detail = _error_detail(exc)
                 if not is_retryable(exc):
-                    raise RuntimeError(f"Model request failed: {exc}") from exc
+                    raise RuntimeError(f"Model request failed: {exc}{detail}") from exc
                 wait = retry_wait(attempt)
                 attempt += 1
                 logger.warning(
-                    "%s: retry %d in %.0fs after %s", self.model, attempt, wait, exc
+                    "%s: retry %d in %.0fs after %s%s",
+                    self.model, attempt, wait, exc, detail,
                 )
                 self._sleep(wait)
 

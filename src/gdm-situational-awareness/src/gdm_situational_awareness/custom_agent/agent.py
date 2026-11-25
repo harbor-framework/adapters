@@ -185,6 +185,12 @@ class GDMSelfReasoningParityAgent(BaseAgent):
 
         base_tools: list[str] = list(metadata["tools"])
         system_prompt = metadata["system_prompt"]
+        # Upstream get_input_prompt() returns f"""\nYour working directory...""",
+        # and instruction.md keeps that leading newline, but Harbor's task
+        # loader (strip_canary) drops leading blank lines. Restore it so the
+        # model receives upstream's exact prompt.
+        if not instruction.startswith("\n"):
+            instruction = "\n" + instruction
         messages: list[dict[str, Any]] = [
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": instruction},
@@ -486,8 +492,10 @@ class GDMSelfReasoningParityAgent(BaseAgent):
             )
             num_messages += 1
             dynamics.num_messages = num_messages
-            success, done = dynamics.evaluate()
+            # Record the turn first so it is in trajectory.json even when
+            # evaluate() raises (upstream's oversight-frequency overrun).
             recorder.add_agent_turn(turn, shown)
+            success, done = dynamics.evaluate()
             if not turn.tool_calls:
                 recorder.add_message("user", messages[-1]["content"])
             recorder.flush()
