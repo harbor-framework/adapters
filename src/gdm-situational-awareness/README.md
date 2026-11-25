@@ -126,7 +126,7 @@ PYTHONPATH=src/gdm-situational-awareness/src harbor run -p datasets/gdm-situatio
   -m ppapi/gemini-2.5-flash -k 1 -n 11 --job-name sa-run1
 ```
 
-Links: [paper](https://arxiv.org/abs/2505.01420) · [Inspect Evals](https://github.com/UKGovernmentBEIS/inspect_evals) · Adapter PR: [#104](https://github.com/harbor-framework/adapters/pull/104) · Dataset PR: TBD · HF parity PR: TBD
+Links: [paper](https://arxiv.org/abs/2505.01420) · [Inspect Evals](https://github.com/UKGovernmentBEIS/inspect_evals) · Adapter PR: [#104](https://github.com/harbor-framework/adapters/pull/104) · Dataset PR: [harbor-datasets#306](https://github.com/harbor-framework/harbor-datasets/pull/306) · HF parity PR: [#308](https://huggingface.co/datasets/harborframework/parity-experiments/discussions/308) (files pinned at [ColdSlim/gdm-situational-awareness-harbor-parity @ `28e1afe5`](https://huggingface.co/datasets/ColdSlim/gdm-situational-awareness-harbor-parity/tree/28e1afe51b1bb16a2ebee23873931e0a1364ab95/adapters/gdm-situational-awareness) while the shared dataset is over the file limit, #129)
 
 ## Notes & Caveats
 
