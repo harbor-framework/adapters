@@ -177,16 +177,33 @@ Generation clones RecreationWorld at the pinned commit and downloads each task's
 
 ## Comparison with Original Benchmark (Parity)
 
-Parity experiments have not been run yet. The plan is to be agreed with the Harbor team before any run.
+Parity was run on the 10-task `--split parity` subset (3 easy, 3 medium, 4 hard), three runs per side, on 2026-11-25. Both sides run Claude Code 2.1.177 against `alibaba/qwen3.7-plus` through the upstream `rb-claude-code-proxy`, with the same judge and the same scorer patch. The original side is the released `rb-web-sandbox-run` entrypoint at the pinned commit; the Harbor side is Harbor 0.25.0 on Modal.
 
 | Agent | Model | Metric | Runs | Dataset Size | Original (mean ± SEM) | Harbor (mean ± SEM) |
 |-------|-------|--------|------|--------------|-----------------------|---------------------|
-| TBD | TBD | Task score (mean of Prog and VLM) | TBD | TBD | TBD | TBD |
+| claude-code@2.1.177 | alibaba/qwen3.7-plus | Task score (mean of Prog and VLM), % | 3 | 10 (20% of 50) | 5.16 ± 1.02 | 5.44 ± 1.72 |
+
+Per-run means (%): original 7.20, 4.03, 4.24; Harbor 6.34, 2.12, 7.87. Per-task scores, original then Harbor, three runs each:
+
+| Task | Original | Harbor |
+|------|----------|--------|
+| `astrovia.example` | 0.312, 0.000, 0.065 | 0.281, 0.033, 0.313 |
+| `breezel.example` | 0.050, 0.041, 0.000 | 0.036, 0.001, 0.055 |
+| `detox.github.io` | 0.073, 0.000, 0.000 | 0.000, 0.000, 0.084 |
+| `gradyn.example` | 0.001, 0.067, 0.069 | 0.024, 0.000, 0.073 |
+| `kartova.example` | 0.019, 0.019, 0.009 | 0.031, 0.024, 0.000 |
+| `praxide.example` | 0.005, 0.045, 0.062 | 0.000, 0.071, 0.016 |
+| `rituvia.example` | 0.040, 0.039, 0.008 | 0.005, 0.043, 0.070 |
+| `streamora.example` | 0.034, 0.088, 0.086 | 0.088, 0.004, 0.073 |
+| `vaultera.example` | 0.045, 0.035, 0.043 | 0.074, 0.001, 0.042 |
+| `verentia.example` | 0.142, 0.069, 0.083 | 0.094, 0.036, 0.062 |
+
+How to read this: `alibaba/qwen3.7-plus` is the weakest model in the paper (10.15% on the full Web split), so scores sit near the floor and a single task moves between 0 and a small score from run to run on both sides. Zeros are upstream outcomes (build failure or empty submission), not harness failures. One Harbor trial (`astrovia.example`, run 2) ended on a model API timeout, which the upstream scorer reports as `api_error` and not as a model score; it was rerun once and the rerun (0.033) is the value shown.
 
 Links:
 - Original benchmark: https://github.com/QwenLM/RecreationWorld
 - Dataset: https://huggingface.co/datasets/Qwen/RecreationBench
-- Adapter PR: TBD
+- Adapter PR: https://github.com/harbor-framework/adapters/pull/144
 - Dataset PR: TBD
 - Parity results PR: TBD
 
