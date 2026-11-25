@@ -5,9 +5,15 @@
     "adapted_benchmark_size": 60,
     "parity_benchmark_size": 60,
     "original_parity_repo": "https://github.com/nbharaths/tau-rec",
-    "adapter_pr": [],
-    "dataset_pr": [],
-    "parity_pr": [],
+    "adapter_pr": [
+      "https://github.com/harbor-framework/adapters/pull/147"
+    ],
+    "dataset_pr": [
+      "https://github.com/harbor-framework/harbor-datasets/pull/304"
+    ],
+    "parity_pr": [
+      "https://huggingface.co/datasets/harborframework/parity-experiments/discussions/306"
+    ],
     "agent": "tau-rec-parity-agent@1.0",
     "model": "gpt-5-mini-2025-08-07",
     "number_of_runs": 3,
@@ -37,9 +43,15 @@
     "adapted_benchmark_size": 60,
     "parity_benchmark_size": 60,
     "original_parity_repo": "https://github.com/nbharaths/tau-rec",
-    "adapter_pr": [],
-    "dataset_pr": [],
-    "parity_pr": [],
+    "adapter_pr": [
+      "https://github.com/harbor-framework/adapters/pull/147"
+    ],
+    "dataset_pr": [
+      "https://github.com/harbor-framework/harbor-datasets/pull/304"
+    ],
+    "parity_pr": [
+      "https://huggingface.co/datasets/harborframework/parity-experiments/discussions/306"
+    ],
     "agent": "claude-code@2.1.329",
     "model": "claude-haiku-5-5",
     "number_of_runs": 1,
