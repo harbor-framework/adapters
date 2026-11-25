@@ -29,7 +29,7 @@ The task score is the unweighted mean of the two. The paper reports Prog, VLM an
 - **Reference isolation as upstream does it.** The agent runs as the non-root `agent` user (`[agent].user`). The reference site, the dataset input and the scorer are root-only inside the image, and the hidden tests are not in the image at all: Harbor uploads them for the verifier. The agent reaches the reference only over `http://localhost:8100`.
 - **Network confinement.** The upstream rollout runs in a network namespace with routes only to the reference and the model endpoint. The tasks declare `network_mode = "allowlist"` for the agent phase, so Harbor admits the agent's model host and nothing else. The verifier phase is confined to judge endpoints because it builds agent-authored code.
 - **Browser tools through Harbor.** Playwright MCP is declared in `task.toml` with the upstream arguments, so any Harbor agent with MCP support gets the same browser tools. No custom agent is added.
-- **Small task directories.** Each image downloads only its own reference site from the pinned dataset revision at build time (21.6 GB across the 50 tasks, 17 MB to 4.1 GB each). The reference DOM snapshots (`tests/gt/gt_dom`, 2.0 GB across the 50 tasks, read by the scorer's structural and originality checks) are downloaded the same way and stay root-only in the image; the verifier merges the uploaded hidden tests over them. The generated task directories hold the rest of the hidden tests and are 165 MB in total.
+- **Small task directories.** Each image downloads only its own reference site from the pinned dataset revision at build time (21.6 GB across the 50 tasks, 17 MB to 4.1 GB each). The generated task directories hold the hidden tests and are 2.1 GB in total.
 - **Oracle.** RecreationBench has no reference recreation; its oracle is the reference site itself, scored against its own hidden tests through the upstream `--reference-candidate` lane. See Notes & Caveats for the expected oracle scores.
 
 ## Generated Task Structure
@@ -56,7 +56,7 @@ recreationbench/
 │       ├── run_verifier.py           # stages the hidden tests, runs upstream run_agent.py --skip-agent
 │       ├── oracle_token.sha256
 │       └── task/
-│           ├── tests/                # upstream hidden tests and ground truth (static/, interactive/, gt/gt_layout)
+│           ├── tests/                # upstream hidden tests and ground truth (static/, interactive/, gt/)
 │           └── vlm_assertions.json
 ```
 
@@ -173,7 +173,7 @@ Available flags:
 - `--allow-verifier-host`: extra host the verifier may reach (repeatable), for a judge endpoint that is not on the default list
 - `--open-network`: generate tasks without the network allowlist, for engines that cannot enforce one (see Notes & Caveats); not the benchmark's protocol
 
-Generation clones RecreationWorld at the pinned commit and downloads each task's hidden tests (2.0 GB for all 50, of which 165 MB end up in the task directories) into `~/.cache/harbor-recreationbench`. It does not download the reference sites; the task images do.
+Generation clones RecreationWorld at the pinned commit and downloads each task's hidden tests (2.0 GB for all 50) into `~/.cache/harbor-recreationbench`. It does not download the reference sites; the task images do.
 
 ## Comparison with Original Benchmark (Parity)
 
@@ -204,7 +204,7 @@ Links:
 - Original benchmark: https://github.com/QwenLM/RecreationWorld
 - Dataset: https://huggingface.co/datasets/Qwen/RecreationBench
 - Adapter PR: https://github.com/harbor-framework/adapters/pull/144
-- Dataset PR: https://github.com/harbor-framework/harbor-datasets/pull/305
+- Dataset PR: https://github.com/harbor-framework/harbor-datasets/pull/305 (closed: at about 2 GB the dataset is too big for GitHub; it will be submitted to the Hugging Face mirror `harborframework/harbor-datasets` once the parity plan is confirmed)
 - Parity results PR: https://huggingface.co/datasets/harborframework/parity-experiments/discussions/307 (the result files are not there yet: the shared dataset is over the Hub's file-count limit and rejects every push)
 
 Reproduction, original side: build `providers/web/Dockerfile` at the pinned commit and run `rb-web-sandbox-run` per task with `RB_AGENT_CLI`, `RB_MODEL`, `USE_VLM_JUDGE=true`, the judge settings and `TIMEOUT_MULTIPLIER=10`. The fixes that the released entrypoint needs are listed under Notes & Caveats.
@@ -293,7 +293,7 @@ All 50 tasks were run with the oracle agent through Harbor 0.25.0 on Modal (allo
   - The dataset ships `reference/site/` unpacked, but the runner at this commit reads `reference/reference.tar.gz`. The image packs the directory.
   - The released Dockerfile does not install the scaffold's dependencies; without them every post-rollout build fails offline.
 - **One reference snapshot is repaired at build time (`climatewatch.org`).** 56 of its pages carry hidden analytics frames whose `src` was frozen as a site path (`<iframe src="/countries/BRA/about:blank">`) instead of `about:blank`. The upstream static handler answers an unknown path with the root `index.html`, which holds the same frame, so each page loads the whole application inside itself; on this site that never settles, `load` does not fire and Chromium ends with `Page crashed`. With the pinned commit and dataset revision, unmodified, the reference then scores 0.36 against its own tests, both with the original harness (0.359) and through Harbor (0.356) (Prog 0.18: all 232 scripted functional tests time out and no mobile screenshot can be taken), and an agent browsing the reference sees pages that hang. `fetch_reference.py` rewrites those `src` values to `about:blank` (60 attributes, nothing visible changes); after that Prog is 0.992 (232 of 232 scripted tests) and the oracle reward is 0.763. The rest of the gap is a second upstream defect that only affects the oracle: at the mobile viewport this snapshot scrolls inside `<body>` (it was frozen with `ReactModal__Body--open`), the upstream screenshot code excludes `<body>` when it looks for the scrolling element, and every mobile capture of the reference then aborts with `mobile page height changed while capturing`, so its mobile views are scored 0 (VLM 0.534). The screenshot code is run unmodified, so this is left as it is; a recreation that scrolls the document itself does not take that path. Eleven other snapshots carry the same kind of frame (for example `praxide.example` and `verrindale.example`) but load and pass their tests as shipped, so the repair is applied to `climatewatch.org` only and the other 49 references are byte-identical to upstream. An original-side run that includes this task needs the same repair to be comparable; the parity subset does not include it. Reported upstream as [QwenLM/RecreationWorld#5](https://github.com/QwenLM/RecreationWorld/issues/5).
-- **Third-party content.** Six tasks are derived from public websites. Their assets and ground-truth DOM snapshots are downloaded from the upstream dataset at build time and are not redistributed in the generated task directories; the hidden tests for those tasks are.
+- **Third-party content.** Six tasks are derived from public websites. Their assets are downloaded from the upstream dataset at build time and are not redistributed in the generated task directories; the hidden tests and ground-truth DOM snapshots for those tasks are.
 - **One scorer hang is repaired at build time (`patch_scorer.py`).** `evaluation/test_runner.py` gives each Playwright run one hour. A run exceeds that when a weak candidate meets a large test file (the 175 generated functional tests of `praxide.example` took 6,966 s, about 40 s each, when all of them failed). The timeout branch then kills only the `npx` wrapper and awaits `process.wait()`; the node and browser processes keep the output pipes open, the stream buffer is already full, and the wait never returns. The scorer sits idle until the sandbox is killed and no score is written. This happened on the same trial in both the original harness and Harbor, and reproduces in the upstream image with a 25-line asyncio script. The patch (two edits, 10 lines) starts Playwright in its own process group and, on timeout, kills the group and drains the pipes, so the branch returns the `error: timeout` result upstream wrote it to return: that group of tests contributes nothing and scoring continues. Runs that finish within the hour are not affected, so the 50 oracle results stand. The original-side parity runs use the same patch. Reported upstream as [QwenLM/RecreationWorld#6](https://github.com/QwenLM/RecreationWorld/issues/6).
 
 ## Installation / Prerequisites

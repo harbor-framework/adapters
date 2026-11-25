@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 """Download this task's frozen reference from the pinned dataset revision.
 
-Runs at image build time. Only ``web/<task>/reference``, ``instance.json`` and the
-reference DOM snapshots (``tests/gt/gt_dom``, too large to ship in the task directory)
-are fetched; the rest of the hidden tests are not part of the image (Harbor uploads
-them for the verifier, which merges them over this directory). The Hub throttles anonymous clients on many small files, so the download
+Runs at image build time. Only ``web/<task>/reference`` and ``instance.json`` are
+fetched; the hidden tests are not part of the image (Harbor uploads them for the
+verifier). The Hub throttles anonymous clients on many small files, so the download
 is retried and resumes where it stopped.
 """
 
@@ -25,12 +24,7 @@ INPUT_ROOT = Path("/opt/rb-input")
 
 
 def download() -> Path:
-    patterns = [
-        f"web/{TASK_ID}/reference/**",
-        f"web/{TASK_ID}/tests/gt/gt_dom/**",
-        f"web/{TASK_ID}/instance.json",
-        f"web/{TASK_ID}/LICENSE",
-    ]
+    patterns = [f"web/{TASK_ID}/reference/**", f"web/{TASK_ID}/instance.json", f"web/{TASK_ID}/LICENSE"]
     for attempt in range(1, 31):
         try:
             snapshot_download(
@@ -95,8 +89,6 @@ def main() -> None:
     for name in ("task.json", "site_meta.json"):
         if not (instance / "reference" / name).is_file():
             raise SystemExit(f"reference/{name} missing for {TASK_ID}")
-    if not any((instance / "tests" / "gt" / "gt_dom").rglob("dom_snapshot.json")):
-        raise SystemExit(f"reference DOM snapshots missing for {TASK_ID}")
     pack_site(instance)
     shutil.rmtree(INPUT_ROOT / ".cache", ignore_errors=True)
     print(f"reference ready for {TASK_ID}")

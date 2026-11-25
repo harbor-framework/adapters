@@ -251,13 +251,7 @@ class RecreationBenchAdapter:
                 text = text.replace(token, value)
             path.write_text(text)
 
-        # The reference DOM snapshots (tests/gt/gt_dom, 2 GB over the 50 tasks) are 95% of the
-        # hidden tests by size. The task image downloads them with the reference instead.
-        shutil.copytree(
-            tests,
-            task_dir / "tests" / "task" / "tests",
-            ignore=lambda directory, names: ["gt_dom"] if Path(directory).name == "gt" else [],
-        )
+        shutil.copytree(tests, task_dir / "tests" / "task" / "tests")
         assertions = instance / "vlm_assertions.json"
         if assertions.is_file():
             shutil.copy2(assertions, task_dir / "tests" / "task" / "vlm_assertions.json")
