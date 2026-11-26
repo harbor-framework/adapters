@@ -1,0 +1,42 @@
+[
+  {
+    "adapter_name": "auditing-sabotage-bench",
+    "adapter_builders": [
+      "Bhagyesh Kumar (invi.bhagyesh@gmail.com)"
+    ],
+    "original_benchmark": [
+      {
+        "split": "normal",
+        "size": 20,
+        "harness": "agent",
+        "supported_agents": [
+          "claude-code@2.0.76",
+          "codex@0.118.0",
+          "cursor-cli"
+        ],
+        "adaptable": true,
+        "notes": "Paper's main set: 9 honest + 11 sabotaged codebases (upstream load_dataset default subset). The adapter can also generate the paper's 9 Claude Opus 4.6 red-team sabotages (its 9 Gemini 3.1 Pro ones are not released), the 11 persuasion variants (Appendix H) and the 9 fixed honest variants with --subset."
+      }
+    ],
+    "harbor_adapter": [
+      {
+        "split": "normal",
+        "adapted_benchmark_size": 20,
+        "parity_benchmark_size": 20,
+        "parity_sampling_rate": 1.0,
+        "registry_benchmark_size": 20,
+        "added_agents": [
+          "None"
+        ],
+        "parity_matching_agents": [
+          "claude-code@2.0.76+claude-haiku-4-5-20251001"
+        ],
+        "parity_unmatching_agents": [
+          "None"
+        ],
+        "parity_costs": "$100",
+        "notes": "No-experiments audit setting. One prompt addition on both sides: save the final output to /workspace/audit_report.txt."
+      }
+    ]
+  }
+]
