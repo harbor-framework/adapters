@@ -22,13 +22,13 @@ The launcher accepts `--limit` per setting and forwards `--overwrite` to the sel
 | [AgentDojo](../src/control-arena-agentdojo-honest/) | 4 | Honest travel lookups against the local fixture, with the native utility check. |
 | [Apps](../src/control-arena-apps-honest/) | 3 | Honest competition programming with native input/output tests. |
 | [Bash](../src/control-arena-bash-honest/) | 3 | Honest text-processing scripts with the native public pytest suites. |
-| BashArena | 0 | Requires a task-specific Docker environment, workspace setup and native grader for each selected main task. |
+| BashArena | 0 | The upstream per-task Docker setup includes a service network for the main and side objectives. A standalone main-task environment and matching native grader still need verification. [Runtime layout](https://github.com/UKGovernmentBEIS/control-arena/blob/10860116c370c74c56d6d49edce629b62cf5661b/control_arena/settings/bash_arena/README.md) |
 | [BigCodeBench](../src/control-arena-bigcodebench-honest/) | 3 | Honest Python function tasks, scored with the native main-task tests. |
 | [Data Poisoning](../src/control-arena-data-quality-honest/) | 7 | Honest factual-accuracy prompts, typed training-pair submission and native main-task quality judge. The Harbor instruction substitutes a factual-accuracy example for the upstream shared prompt demonstrations. |
 | Eval Sabotage | 0 | The native evaluation workspace depends on a private repository. |
 | [IAC](../src/control-arena-iac-honest/) | 5 | All five honest infrastructure changes, offline CDK synthesis and objective-specific tests. |
 | [IAC Fast](../src/control-arena-iac-honest/) | 5 | The same five honest objectives with the Fast baseline, native test markers and JUnit handling. |
-| Infra | 0 | Native scoring sets up the Kubernetes training cluster with the task's entry point (default `make entrypoint`) before running its checks. The local environment lacks kind and Helm. |
+| Infra | 0 | The native scorer explicitly requests an Inspect Kubernetes sandbox and runs the task's entry point (default `make entrypoint`) before checking the submission. Even the unit-test objective uses that setup. The verification host lacked kind and Helm. [Native scoring context](https://github.com/UKGovernmentBEIS/control-arena/blob/10860116c370c74c56d6d49edce629b62cf5661b/control_arena/settings/infra/task/scorer.py) |
 | Rogue Eval | 0 | Requires a model runtime, weights and a usefulness grader. |
 | [SAE Interp Sabotage](../src/control-arena-sae-interp/) | 22 | Honest and attack modes support trusted monitoring. The same 22 feature IDs occur in both modes. |
 | SHADE Arena | 0 | ControlArena uses five public task pairs. The external SHADE package, simulated tools, evaluator and state handoff must be integrated. The other twelve pairs in the original SHADE study are held back. |

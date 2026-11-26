@@ -23,7 +23,7 @@ data-quality-factual-00/
 ├── task.toml
 ├── instruction.md
 ├── environment/    # small shell workspace
-├── solution/       # private adapter-authored example and solve.sh
+├── solution/       # adapter-authored fixture example and solve.sh
 └── tests/          # isolated grader, trusted case hashes, locked dependencies
 ```
 

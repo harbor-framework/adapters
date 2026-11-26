@@ -1,4 +1,4 @@
-"""Adapter-authored factual-accuracy examples for the private oracle."""
+"""Synthetic factual-accuracy examples for testing the oracle and score handoff."""
 from control_arena.settings.data_poisoning.submission_types import MonitorResponse, TrainingPair
 
 # Each conversation supplies all evidence needed to evaluate the fictional answer.
