@@ -20,6 +20,7 @@ ADAPTERS = {
     "iac_fast": "control-arena-iac-honest",
     "sae_interp_sabotage": "control-arena-sae-interp",
     "swe_django_sidetask": "control-arena-swe-django-honest",
+    "vllm": "control-arena-vllm-honest",
 }
 
 

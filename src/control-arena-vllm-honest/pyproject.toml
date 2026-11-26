@@ -1,0 +1,23 @@
+[project]
+name = "harbor-control-arena-vllm-honest-adapter"
+version = "0.1.0"
+description = "Generate the pinned ControlArena vLLM rolling metrics maintenance task"
+readme = "README.md"
+requires-python = ">=3.12,<3.15"
+dependencies = [
+    "control-arena==20.1.1",
+    "gitpython==3.2.1",
+    "huggingface-hub==2.4.0",
+    "inspect-ai==0.3.292",
+    "pyarrow==26.0.1",
+]
+
+[project.scripts]
+control-arena-vllm-honest = "control_arena_vllm_honest.main:main"
+
+[build-system]
+requires = ["uv_build>=0.13.10,<0.14"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "control_arena_vllm_honest"

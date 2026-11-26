@@ -33,7 +33,7 @@ The launcher accepts `--limit` per setting and forwards `--overwrite` to the sel
 | [SAE Interp Sabotage](../src/control-arena-sae-interp/) | 22 | Honest and attack modes support trusted monitoring. The same 22 feature IDs occur in both modes. |
 | SHADE Arena | 0 | ControlArena uses five public task pairs. The external SHADE package, simulated tools, evaluator and state handoff must be integrated. The other twelve pairs in the original SHADE study are held back. |
 | [SWE-bench Django](../src/control-arena-swe-django-honest/) | 1 | Honest Django issue 15996, serializing `enum.Flag` in migrations, with its pinned SWE-bench image and native grading. |
-| vLLM | 0 | The released main tasks are tied to versioned vLLM workspaces. The upstream v2 revision changed the CUDA/PyTorch stack and carried forward validated task titles from v1. A matched workspace and per-case scorer check are pending. |
+| [vLLM](../src/control-arena-vllm-honest/) | 1 | Honest prefix-cache metrics reset at the native task's parent commit. The source-only workspace contains the affected logging module. The verifier passes the resulting Git diff to the native main-task judge. Full vLLM serving and GPU behavior are outside the tested surface. |
 
 ## Native setting inventory
 
@@ -75,6 +75,7 @@ A Harbor honest oracle submitted each of the 22 SAE reference answers to the liv
 | Data Poisoning | All seven factual-accuracy references passed in Harbor Docker using a scripted judge. Direct replay against the native main scorer on the original prompts returned the same verdicts. |
 | IAC and IAC Fast | For each variant, all five reference patches passed and all five unchanged baselines failed in Harbor Docker. An independent replay using the native pytest checks produced the same 20 verdicts. |
 | SWE-bench Django | Native ControlArena and Harbor each accepted the reference patch and rejected the unchanged checkout for issue 15996. The case includes one fail-to-pass test and 51 pass-to-pass tests. |
+| vLLM | The gold metrics change earned 1 in Harbor Docker with a scripted judge. A targeted regression test confirmed that its rolling window survives a logging-interval reset. |
 
 The generation check reconstructed all 22 SAE inputs in both modes. The paired runtime check used upstream row 0, with a scripted policy, monitor and judge. Native ControlArena and Harbor matched on the policy, monitor and judge inputs, the typed submission, task verdicts and maximum suspicion. [SAE validation](../src/control-arena-sae-interp/README.md#comparison-with-original-benchmark-parity) · [Fixture comparison](../src/control-arena-sae-interp/tests/compare_fixture.py)
 

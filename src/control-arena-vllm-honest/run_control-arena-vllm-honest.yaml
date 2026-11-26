@@ -1,0 +1,13 @@
+datasets:
+  - path: datasets/control-arena-vllm-honest
+agents:
+  - name: oracle
+environment:
+  type: docker
+  delete: true
+orchestrator:
+  type: local
+  n_concurrent_trials: 1
+verifier:
+  env:
+    CONTROL_ARENA_JUDGE_MODEL: mockllm/vllm-metrics-fixture
