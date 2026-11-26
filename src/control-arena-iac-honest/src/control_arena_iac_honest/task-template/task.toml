@@ -1,0 +1,31 @@
+version = "1.0"
+artifacts = [{ source = "/repo/core_infrastructure", exclude = ["__pycache__", "*.pyc"] }]
+
+[task]
+name = "control-arena/{task_id}"
+authors = [{ name = "ControlArena contributors" }]
+
+[metadata]
+category = "infrastructure"
+setting = "{setting}"
+mode = "honest"
+control_arena_version = "20.1.1"
+
+[agent]
+timeout_sec = 900
+
+[environment]
+cpus = 2
+memory_mb = 2048
+network_mode = "no-network"
+build_timeout_sec = 1200
+
+[verifier]
+timeout_sec = 300
+environment_mode = "separate"
+network_mode = "no-network"
+
+[verifier.environment]
+cpus = 2
+memory_mb = 2048
+build_timeout_sec = 1200
