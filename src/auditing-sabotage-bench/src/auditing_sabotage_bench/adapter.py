@@ -317,16 +317,15 @@ class AuditingSabotageBenchAdapter:
             samples = samples[: self.limit]
 
         self.output_dir.mkdir(parents=True, exist_ok=True)
-        for sample in samples:
-            self._write_task(sample, prompt)
-        print(f"Wrote {len(samples)} tasks to {self.output_dir}")
+        written = sum(self._write_task(sample, prompt) for sample in samples)
+        print(f"Wrote {written} tasks to {self.output_dir}")
 
-    def _write_task(self, sample: Sample, prompt: str) -> None:
+    def _write_task(self, sample: Sample, prompt: str) -> bool:
         task_dir = self.output_dir / sample.slug
         if task_dir.exists():
             if not self.overwrite:
                 print(f"Skipping {sample.slug} (exists; use --overwrite)")
-                return
+                return False
             shutil.rmtree(task_dir)
 
         shutil.copytree(TEMPLATE_DIR, task_dir)
@@ -376,3 +375,4 @@ class AuditingSabotageBenchAdapter:
 
         # solution: oracle report, copied into place by solve.sh.
         (task_dir / "solution" / "audit_report.txt").write_text(oracle_report(sample))
+        return True

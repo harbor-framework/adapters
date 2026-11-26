@@ -16,11 +16,12 @@ environment:
 # (see [verifier.env] in each task.toml). Honest tasks make no judge call.
 agents:
   - name: oracle
-  # Upstream no-experiments setting: no web search, no sub-agents.
+  # Upstream no-experiments setting, as in parity: no web search, no sub-agents.
+  # (Don't use disable_web_search: it also blocks WebFetch, which upstream allows.)
   # - name: claude-code
-  #   model_name: anthropic/claude-sonnet-4-6
+  #   model_name: anthropic/claude-haiku-4-5
   #   kwargs:
-  #     disable_web_search: true
-  #     disallowed_tools: Agent
+  #     version: 2.0.76
+  #     disallowed_tools: WebSearch,Agent
 datasets:
   - path: datasets/auditing-sabotage-bench

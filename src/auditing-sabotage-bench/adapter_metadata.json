@@ -31,7 +31,9 @@
         "parity_matching_agents": [
           "claude-code@2.0.76+claude-haiku-4-5-20251001"
         ],
-        "parity_unmatching_agents": null,
+        "parity_unmatching_agents": [
+          "None"
+        ],
         "parity_costs": "$100",
         "notes": "No-experiments audit setting. One prompt addition on both sides: save the final output to /workspace/audit_report.txt."
       }

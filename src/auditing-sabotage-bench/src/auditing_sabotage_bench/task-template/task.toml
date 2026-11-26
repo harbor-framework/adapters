@@ -29,11 +29,13 @@ timeout_sec = 900.0
 [verifier.env]
 # OpenAI-compatible endpoint for the rubric judge. Upstream uses anthropic/claude-opus-4-6;
 # set JUDGE_MODEL to the endpoint's name for it (e.g. anthropic/claude-opus-4.6 on OpenRouter).
-# All optional: honest tasks need no judge, and ANTHROPIC_API_KEY alone uses Anthropic's endpoint.
+# All optional: honest tasks need no judge. JUDGE_API_KEY needs JUDGE_BASE_URL; without it,
+# ANTHROPIC_API_KEY is used with ANTHROPIC_BASE_URL + /v1 if set, else Anthropic's endpoint.
 JUDGE_API_KEY = "${JUDGE_API_KEY:-}"
 JUDGE_BASE_URL = "${JUDGE_BASE_URL:-}"
 JUDGE_MODEL = "${JUDGE_MODEL:-claude-opus-4-6}"
 ANTHROPIC_API_KEY = "${ANTHROPIC_API_KEY:-}"
+ANTHROPIC_BASE_URL = "${ANTHROPIC_BASE_URL:-}"
 
 [verifier.environment]
 build_timeout_sec = 600.0
