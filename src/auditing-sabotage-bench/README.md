@@ -125,22 +125,23 @@ The upstream repository is about 4.4 GB; generated tasks total about 2.1 GB (lar
 
 ## Comparison with Original Benchmark (Parity)
 
-Parity is pending. Planned setup, to be confirmed with the Harbor team before any runs:
+Setup, agreed with the Harbor team:
 
 | | |
 |---|---|
 | Agent / model | `claude-code@2.0.76` (the version upstream pins) + `claude-haiku-4-5-20251001` (low-cost; parity checks the adapter, not the model), identical settings on both sides |
 | Original side | A [parity fork](https://github.com/invi-bhagyesh/auditing-sabotage-bench/tree/harbor-parity) of upstream at `38de58c` (recorded as `original_parity_repo`) running the upstream Inspect harness (`blue_teaming.run_comparison`, `--prompt no_experiments`), changed only so both sides get the same input: the prompt is sent as the user message, byte-identical to `instruction.md` (rendered prompt + user message + report-file sentence); a recreated `compose.yaml` sandbox on this adapter's environment image (upstream gitignores it); `inspect-ai`/`inspect-swe` pinned from PyPI; a script computing the same per-task reward as `tests/grade.py` |
-| Harbor side | This adapter, same agent version, model and tool restrictions (`disallowed_tools=WebSearch,Agent`) |
+| Harbor side | This adapter on Daytona, same agent version, model and tool restrictions (`disallowed_tools=WebSearch,Agent`) |
 | Judge | Upstream rubric judge, `claude-opus-4-6`, on both sides |
-| Tasks | All 20 core tasks (`--subset normal`). A 5–10% sample would be 1–2 tasks, too few to compare, and 20 audits with a low-cost model are cheap. A 5-task sanity check on both sides first |
-| Runs | 3 per side, alternating sides |
-| Metrics | Per-task mean reward on each side, compared by mean squared error across the 20 tasks (primary); overall mean reward ± sample SEM; top-1 fix and mean credence on honest vs. sabotaged tasks (diagnostic) |
-| Est. cost | About $80: 120 Haiku audits plus 66 judge calls |
+| Tasks | All 20 core tasks (`--subset normal`); a 5-task sanity check on both sides first |
+| Runs | 3 per side |
+| Cost | About $100 |
 
 | Agent | Model | Metric | Number of Runs | Dataset Size | Original Benchmark Performance | Harbor Adapter Performance |
 |-------|-------|--------|------------------|--------------|------------------------------|----------------------------|
-| claude-code@TBD | claude-haiku-4-5-20251001 | Mean reward | 3 | 20 | TBD | TBD |
+| claude-code@2.0.76 | claude-haiku-4-5-20251001 | Mean reward | 3 | 20 (100%) | 0.2622 ± 0.0358 | 0.2913 ± 0.0240 |
+
+Runs: original 0.310, 0.192, 0.285; Harbor 0.275, 0.261, 0.339. The run ranges overlap, and the mean squared error between the sides' per-task mean rewards is 0.025 (7 of 20 tasks identical). Endpoints, reruns and other details are in the `notes` of `parity_experiment.json` and under Notes & Caveats.
 
 Reproduction:
 
@@ -173,6 +174,7 @@ harbor run -c src/auditing-sabotage-bench/run_auditing-sabotage-bench.yaml
 - **Judge.** Fix scores come from an LLM judge, so sabotaged-task rewards vary slightly between runs. Use the same judge model on both sides.
 - **Tool restrictions.** Upstream's no-experiments setting disallows only `WebSearch` and `Agent` (sub-agents) for Claude Code 2.0.76. Pass `--ak version=2.0.76 --ak disallowed_tools=WebSearch,Agent` to match. Don't use `--ak disable_web_search=true`: it also blocks `WebFetch`, which upstream allows.
 - **API gateways.** With an Anthropic-compatible gateway (`ANTHROPIC_BASE_URL`), pass the key as `ANTHROPIC_AUTH_TOKEN`, not `ANTHROPIC_API_KEY`. Harbor sets the unused one to an empty string, so Claude Code sends an empty `Authorization: Bearer` header next to `x-api-key`; some gateways (for example New API) then reject the request with 401.
+- **Parity endpoints and reruns.** Endpoints: the first 71 audits (35 original, 36 Harbor) went through 2077AI's PP API gateway; when it stopped answering, the remaining 49 (25 original, 24 Harbor) went through OpenRouter (anthropic/claude-haiku-4.5, judge anthropic/claude-opus-4.6). Requests used the alias claude-haiku-4-5, which both gateways serve as claude-haiku-4-5-20251001, the only Haiku 4.5 snapshot (the PP API does not accept the dated ID). Infrastructure failures (gateway timeouts, Daytona build failures, a host restart) were rerun once and the rerun kept whatever its score; the list is in `parity_experiment.json`. After a timeout caused by the slow gateway, the agent timeout was raised to 4 hours on both sides (upstream sets none).
 - **Sandbox image.** Upstream's `compose.yaml` is not released; this adapter uses `python:3.12-slim` with git, uv and build tools. The agent can install a codebase's locked dependencies with `uv sync`, which needs network access.
 - **Excluded samples.** Upstream `wt_*` work-test samples are not part of the released benchmark. For `red_team`, the paper used 9 Claude Opus 4.6 and 9 Gemini 3.1 Pro sabotages; only the Opus 4.6 ones are released, so `red_team` has 9 tasks. The release also contains 9 Claude Opus 4.5 sabotages that the paper does not use; they are left out. Nine `rt_*_claudeopus46_e1` rubric entries point at workspaces missing from the release and are skipped with a warning.
 

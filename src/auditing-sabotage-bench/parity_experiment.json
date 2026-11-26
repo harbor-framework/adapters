@@ -1,25 +1,35 @@
 [
   {
     "adapter_name": "auditing-sabotage-bench",
-    "agent": "claude-code@pending",
+    "agent": "claude-code@2.0.76",
     "model": "claude-haiku-4-5-20251001",
-    "date": "pending",
+    "date": "2026-11-25",
     "adapted_benchmark_size": 20,
     "parity_benchmark_size": 20,
-    "number_of_runs": null,
-    "notes": "Plan approved; 5-task sanity check passed on both sides (0 errors). All 20 tasks (a 5-10% sample would be 1-2 tasks). Judge: claude-opus-4-6 on both sides. No-experiments audit setting. Primary check: MSE of per-task mean rewards between sides.",
+    "number_of_runs": 3,
+    "notes": "All 20 tasks, 3 runs per side, run order sanity (5 tasks) -> full run -> 3 runs. Judge: claude-opus-4-6 on both sides. No-experiments setting. Run-score ranges overlap (original 0.192-0.310, Harbor 0.261-0.339); MSE of per-task mean rewards 0.0246; 7/20 tasks identical. Endpoints: the first 71 audits (35 original, 36 Harbor) went through 2077AI's PP API gateway; when it stopped answering, the remaining 49 (25 original, 24 Harbor) went through OpenRouter (anthropic/claude-haiku-4.5, judge anthropic/claude-opus-4.6). Requests used the alias claude-haiku-4-5, which both gateways serve as claude-haiku-4-5-20251001, the only Haiku 4.5 snapshot (the PP API does not accept the dated ID). Infrastructure failures, each rerun once and the rerun kept whatever its score: Harbor lazy-alpha AgentTimeoutError (slow gateway; the agent timeout was then raised to 4 h, upstream has none), Daytona SandboxBuildFailedError on hidden-green (1) and hop-jump (4, storage error), multi-pen connection reset during setup; original multi_gem and multi_pen epoch 2 cancelled by a host restart; trials cancelled while the PP API hung. Harbor has no epochs: run i is each task's i-th finished trial.",
     "original_parity_repo": "https://github.com/invi-bhagyesh/auditing-sabotage-bench/tree/harbor-parity",
-    "adapter_pr": ["https://github.com/harbor-framework/adapters/pull/122"],
+    "adapter_pr": [
+      "https://github.com/harbor-framework/adapters/pull/122"
+    ],
     "dataset_pr": [],
     "parity_pr": [],
     "metrics": [
       {
         "benchmark_name": "Auditing Sabotage Bench",
         "metric": "mean_reward",
-        "original": "pending",
-        "harbor": "pending",
-        "original_runs": [],
-        "harbor_runs": []
+        "original": "0.2622 ± 0.0358",
+        "harbor": "0.2913 ± 0.0240",
+        "original_runs": [
+          0.31,
+          0.192,
+          0.2845
+        ],
+        "harbor_runs": [
+          0.275,
+          0.2605,
+          0.3385
+        ]
       }
     ]
   }
