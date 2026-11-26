@@ -1,0 +1,37 @@
+# Reference config for the full MLOps-Bench Harbor dataset.
+#
+# Generate the dataset first (from src/mlops-bench/):
+#   uv run mlops-bench --output-dir ../../datasets/mlops-bench
+# Then, from the adapters repo root:
+#   harbor run -c src/mlops-bench/run_mlops-bench.yaml
+jobs_dir: jobs
+n_attempts: 1
+timeout_multiplier: 1.0
+
+datasets:
+  - path: datasets/mlops-bench
+
+# Default: oracle agent (applies the upstream reference patch; expect reward 1.0 on all tasks)
+agents:
+  - name: oracle
+
+# Uncomment to run with other agents (pin agent versions for comparable runs):
+# agents:
+#   - name: claude-code                      # the parity agent (see run_mlops-bench_parity.yaml)
+#     model_name: anthropic/claude-haiku-4-5
+#     kwargs:
+#       version: "2.1.326"
+#
+# agents:
+#   - name: codex
+#     model_name: openai/gpt-5-mini
+
+environment:
+  type: docker
+  force_build: true
+  delete: true
+
+orchestrator:
+  type: local
+  n_concurrent_trials: 8
+  quiet: false

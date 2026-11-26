@@ -1,0 +1,38 @@
+[
+  {
+    "adapter_name": "mlops-bench",
+    "adapter_builders": [
+      "pixel3user (106806012+pixel3user@users.noreply.github.com)"
+    ],
+    "original_benchmark": [
+      {
+        "split": "full",
+        "size": 212,
+        "harness": "None",
+        "supported_agents": [
+          "None"
+        ],
+        "adaptable": true,
+        "notes": "Upstream ships task workspaces, oracle patches and F2P/P2P tests but no runner or agent integration; the paper evaluated Codex, Claude Code and a LangGraph base agent with an unreleased harness."
+      }
+    ],
+    "harbor_adapter": [
+      {
+        "split": "full",
+        "adapted_benchmark_size": 212,
+        "parity_benchmark_size": null,
+        "parity_sampling_rate": null,
+        "registry_benchmark_size": 212,
+        "added_agents": [
+          "None"
+        ],
+        "parity_matching_agents": [],
+        "parity_unmatching_agents": [
+          "None"
+        ],
+        "parity_costs": null,
+        "notes": "Parity pending; original side will be a minimal runner in a fork of oracle-samples/mlops-bench following the upstream README evaluation protocol."
+      }
+    ]
+  }
+]
