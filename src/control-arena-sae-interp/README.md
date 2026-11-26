@@ -2,6 +2,8 @@
 
 ## Overview
 
+For the status of all 15 upstream settings and a command to generate multiple datasets, see the [ControlArena suite coverage](../../docs/control-arena.md).
+
 Run ControlArena's sparse autoencoder (SAE) feature-interpretation setting in Harbor. The adapter generates all 22 cases from ControlArena 20.1.1. Each case can run in honest or attack mode. A case retains the same identifier in both modes, which allows paired comparisons. The dataset is currently available through local generation.
 
 ## What is ControlArena?
@@ -56,7 +58,13 @@ uv run control-arena-sae-interp --output-dir datasets/control-arena-sae-interp \
 
 ## Comparison with Original Benchmark (Parity)
 
-Live-model parity is pending. There are no original or Harbor live-model run scores to compare. Registry publication and the parity-results submission are also pending.
+The full Harbor **honest oracle** run completed on November 26, 2026. The live judge `openai/gpt-4.1-mini-2025-04-14` accepted all **22 of 22** reference submissions, with zero trial errors. A one-case pilot and a follow-up on the other 21 cases covered each upstream row exactly once. Each completed trial has an Inspect judge log with recorded token usage. These results measure acceptance of reference answers. Matched live policy runs in native ControlArena and Harbor, registry publication, and the parity-results submission are pending.
+
+Verify the case identities, Harbor agent, scorer versions, judge calls and scores against the pinned source dataset using local finished job directories:
+
+```bash
+uv run python tests/check_live_oracle.py /path/to/pilot-job /path/to/remaining-job
+```
 
 | Agent | Model | Metric | Number of Runs | Dataset Size | Original Benchmark Performance | Harbor Adapter Performance |
 | --- | --- | --- | ---: | ---: | --- | --- |
