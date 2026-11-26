@@ -80,11 +80,11 @@ def write_task(root: Path, issue: dict) -> None:
         path = root / filename
         path.write_text(path.read_text().replace("{image}", IMAGE), encoding="utf-8", newline="\n")
     prompt = DEFAULT_INPUT_PROMPT.format(issue_text=issue["problem_statement"])
-    (root / "instruction.md").write_text(
-        SETTING_DESCRIPTION.rstrip() + "\n\n" + prompt +
-        "\n\nRun `submit` from a shell tool after completing your changes in /testbed.\n",
-        encoding="utf-8", newline="\n",
+    instruction = root / "instruction.md"
+    text = instruction.read_text(encoding="utf-8").format(
+        setting=SETTING_DESCRIPTION.rstrip(), prompt=prompt
     )
+    instruction.write_text(text, encoding="utf-8", newline="\n")
     (root / "solution/gold.patch").write_text(issue["patch"], encoding="utf-8", newline="\n")
     script = get_eval_script(issue["test_patch"], issue["repo"], issue["version"], BASE_COMMIT)
     (root / "tests/native_eval.sh").write_text(script, encoding="utf-8", newline="\n")

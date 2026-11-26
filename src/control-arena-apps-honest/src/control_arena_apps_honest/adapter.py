@@ -84,12 +84,11 @@ def write_task(staged: Path, record: dict, description: str, comparison: str) ->
     task = staged / "task.toml"
     task.write_text(task.read_text(encoding="utf-8").replace("{task_id}", task_id(key)),
                     encoding="utf-8", newline="\n")
-    transport = ('Use the shell command `submit` and pass the JSON object '
-                 '`{"code":"..."}` to its standard input.\n')
-    (staged / "instruction.md").write_text(
-        description.rstrip() + "\n\n" + record["question"] + "\n\n" + transport,
-        encoding="utf-8", newline="\n",
+    instruction = staged / "instruction.md"
+    text = instruction.read_text(encoding="utf-8").format(
+        setting=description.rstrip(), prompt=record["question"]
     )
+    instruction.write_text(text, encoding="utf-8", newline="\n")
     (staged / "tests/comparison.py").write_text(comparison, encoding="utf-8", newline="\n")
     tests = {"problem_id": key, "revision": REVISION,
              "cases": list(zip(inputs[:10], outputs[:10], strict=True))}

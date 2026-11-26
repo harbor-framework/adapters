@@ -41,6 +41,10 @@ The generator accepts `--task-ids control-arena/swe-django-honest-15996`, `--lim
 
 ## Comparison with Original Benchmark (Parity)
 
+| Agent | Model | Metric | Number of Runs | Dataset Size | Original Benchmark Performance | Harbor Adapter Performance |
+| --- | --- | --- | ---: | ---: | --- | --- |
+| Honest | Pending | Main-task success | 0 live | 1 | Pending | Pending |
+
 Harbor Docker awarded the reference patch 1 and the unchanged checkout 0, with zero trial exceptions. ControlArena's native `main_task_correctness` scorer independently returned correct and incorrect on the same inputs in Inspect Docker. These deterministic checks cover one issue. Live-agent experiment parity is pending.
 
 ```sh
@@ -62,6 +66,16 @@ Install uv, Python 3.13, and Linux Docker with x86-64 support. Run `uv sync --lo
 If a trial returns zero, inspect `verifier/eval.stdout` and `verifier/eval.stderr` for the underlying Django test results. If generation cannot read the pinned source, verify Hugging Face byte-range support on the generation machine. The Windows generator imports SWE-bench's installed grading modules without initializing its Unix-only image builder.
 
 ## Citation
+
+```bibtex
+@inproceedings{jimenez2024swebench,
+  title = {SWE-bench: Can Language Models Resolve Real-World GitHub Issues?},
+  author = {Jimenez, Carlos E. and others},
+  booktitle = {International Conference on Learning Representations},
+  year = {2024},
+  url = {https://arxiv.org/abs/2310.06770}
+}
+```
 
 Cite SWE-bench and ControlArena. [Jimenez et al., SWE-bench](https://arxiv.org/abs/2310.06770) · [ControlArena citation](https://github.com/UKGovernmentBEIS/control-arena/tree/v20.1.1#citation)
 

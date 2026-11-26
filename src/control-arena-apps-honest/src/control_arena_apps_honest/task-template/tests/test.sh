@@ -1,3 +1,4 @@
 #!/bin/sh
 set -eu
-exec python /tests/grade.py
+python /tests/grade.py
+test -s /logs/verifier/reward.txt

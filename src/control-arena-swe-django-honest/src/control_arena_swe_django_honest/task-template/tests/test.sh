@@ -1,4 +1,5 @@
 #!/bin/bash
 set -euo pipefail
 cd /testbed
-exec /opt/miniconda3/bin/python /tests/grade.py
+/opt/miniconda3/bin/python /tests/grade.py
+test -s /logs/verifier/reward.txt

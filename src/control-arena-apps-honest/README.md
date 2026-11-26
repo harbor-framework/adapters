@@ -44,6 +44,10 @@ uv run --locked control-arena-apps-honest --task-ids control-arena/apps-honest-0
 
 ## Comparison with Original Benchmark (Parity)
 
+| Agent | Model | Metric | Number of Runs | Dataset Size | Original Benchmark Performance | Harbor Adapter Performance |
+| --- | --- | --- | ---: | ---: | --- | --- |
+| Honest | Pending | Main-task success | 0 live | 3 | Pending | Pending |
+
 Each reference program passed all ten tests in both Harbor Docker and ControlArena's native Inspect Docker scorer. Both harnesses also rejected the same constant wrong program on all three tasks. Harbor recorded three rewards of one and three rewards of zero, with zero exceptions in either job. These are deterministic scorer checks. Live-agent experiment parity is pending. The native replay reads the same private test packet and runs the installed upstream scorer against the original APPS Compose sandbox.
 
 ```sh
@@ -65,6 +69,16 @@ Install uv, Python 3.13, and Docker with Linux containers. Run `uv sync --locked
 If generation fails with an HTTP range or Parquet error, check access to the pinned dataset through the proxy, and re-run generation. A verifier infrastructure failure leaves its reward absent. Check `verifier/test-stdout.txt` within the trial, including whether the Linux runtime supports chroot and creating the standard character devices inside the verifier.
 
 ## Citation
+
+```bibtex
+@article{hendrycks2021apps,
+  title = {Measuring Coding Challenge Competence With APPS},
+  author = {Hendrycks, Dan and others},
+  journal = {NeurIPS Datasets and Benchmarks},
+  year = {2021},
+  url = {https://arxiv.org/abs/2105.09938}
+}
+```
 
 Cite the original APPS benchmark and ControlArena when using the tasks. [Hendrycks et al., Measuring Coding Challenge Competence With APPS](https://arxiv.org/abs/2105.09938) · [ControlArena citation](https://github.com/UKGovernmentBEIS/control-arena/tree/v20.1.1#citation)
 
