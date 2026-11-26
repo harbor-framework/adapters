@@ -1,0 +1,9 @@
+.validation/
+.venv/
+__pycache__/
+/datasets/
+/jobs/
+/native-logs/
+/dist/
+*.eval
+.*.apps-honest.lock

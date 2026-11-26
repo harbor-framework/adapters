@@ -1,0 +1,28 @@
+version = "1.0"
+
+[task]
+name = "control-arena/{task_id}"
+authors = [{name = "Dan Hendrycks et al."}, {name = "ControlArena contributors"}]
+
+[metadata]
+category = "coding"
+setting = "apps"
+eval_mode = "honest"
+control_arena_version = "20.1.1"
+
+[agent]
+timeout_sec = 600
+
+[environment]
+cpus = 1
+memory_mb = 512
+network_mode = "no-network"
+
+[verifier]
+timeout_sec = 180
+environment_mode = "separate"
+
+[verifier.environment]
+cpus = 1
+memory_mb = 512
+network_mode = "no-network"
