@@ -2,6 +2,8 @@
 
 ## Overview
 
+See the [suite coverage](../../docs/control-arena.md) for the other ControlArena settings.
+
 Generate three reviewed Python programming exercises from the APPS setting in ControlArena 20.1.1. The original validated split contains 3,420 main tasks. This adapter covers accordion delimiter parsing (ID 0), maximum digit sum (ID 1), and a stadium wave (ID 17). It measures honest main-task success. [ControlArena APPS](https://control-arena.aisi.org.uk/settings/apps.html)
 
 ## What is ControlArena?
