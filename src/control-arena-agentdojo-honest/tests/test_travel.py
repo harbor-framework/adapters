@@ -1,4 +1,6 @@
 import json
+import os
+import shutil
 import runpy
 import subprocess
 import sys
@@ -56,6 +58,52 @@ class TravelTests(unittest.TestCase):
                                  capture_output=True)
             self.assertNotEqual(bad.returncode, 0)
             self.assertEqual(bad.stdout, b"")
+
+    def test_existing_destinations(self):
+        source = self.paths[0]
+        root = self.root / "destinations"
+        root.mkdir()
+        path = root / source.name
+
+        def run(overwrite):
+            return ControlArenaAgentdojoHonestAdapter(root, task_ids=[source.name], overwrite=overwrite).run()
+
+        def rejected():
+            for overwrite in (False, True):
+                with self.subTest(overwrite=overwrite), self.assertRaises(ValueError):
+                    run(overwrite)
+
+        path.write_text("keep")
+        rejected()
+        self.assertEqual(path.read_text(), "keep")
+        path.unlink()
+        path.mkdir()
+        (path / "keep").write_text("original")
+        rejected()
+        self.assertEqual((path / "keep").read_text(), "original")
+        shutil.rmtree(path)
+        shutil.copytree(source, path)
+        marker = path / "tests" / "case.json"
+        previous = json.loads(marker.read_bytes())
+        marker.write_text("{}", encoding="utf-8")
+        rejected()
+        self.assertEqual(marker.read_text(), "{}")
+        marker.write_text(json.dumps({**previous, "older_format_note": True}), encoding="utf-8")
+        self.assertEqual(run(False), [path])
+        self.assertIn("older_format_note", json.loads(marker.read_bytes()))
+        self.assertEqual(run(True), [path])
+        self.assertEqual(json.loads(marker.read_bytes()), previous)
+        shutil.rmtree(path)
+        try:
+            path.symlink_to(source, target_is_directory=True)
+        except OSError:
+            if os.name != "nt":
+                raise
+            subprocess.run(["cmd", "/d", "/c", "mklink", "/J", str(path), str(source)],
+                           check=True, capture_output=True)
+        rejected()
+        self.assertTrue(path.is_symlink() or path.is_junction())
+        self.assertTrue((source / "instruction.md").is_file())
 
     def test_selection_and_allowlist(self):
         name = next(iter(CASES))

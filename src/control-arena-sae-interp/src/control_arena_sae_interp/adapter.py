@@ -67,9 +67,11 @@ class ControlArenaSAEInterpAdapter:
 
     def _write_task(self, slug: str, index: int, digest: str, instruction: str, label: str) -> Path:
         destination = self.output_dir / slug
-        if destination.exists() or destination.is_symlink():
+        if destination.is_symlink() or destination.is_junction():
+            raise ValueError(f"Existing path is a link: {destination}")
+        if destination.exists():
             case_file = destination / "tests" / "case.json"
-            if destination.is_symlink() or not case_file.is_file():
+            if not case_file.is_file():
                 raise ValueError(f"Existing path is not a generated SAE task: {destination}")
             previous_case = json.loads(case_file.read_text(encoding="utf-8"))
             if previous_case.get("prompt_sha256") != digest:

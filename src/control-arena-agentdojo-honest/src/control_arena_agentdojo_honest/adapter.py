@@ -1,6 +1,7 @@
 import inspect
 import json
 import shutil
+import tomllib
 from importlib.metadata import distribution
 from pathlib import Path
 from tempfile import TemporaryDirectory
@@ -48,6 +49,31 @@ def write_lookups(directory: Path, environment, number: int) -> None:
     shutil.copyfile(pkg.locate_file(license_file), directory / "AGENTDOJO-LICENSE")
 
 
+def existing_task(path: Path, identity: dict) -> bool:
+    """Recognize outputs from this adapter, including older markers with extra fields."""
+    config = path / "task.toml"
+    case = path / "tests" / "case.json"
+    if path.is_symlink() or path.is_junction():
+        raise ValueError(f"Existing path is a link: {path}")
+    if not path.exists():
+        return False
+    if any(p.is_symlink() or p.is_junction() for p in (config, case.parent, case)):
+        raise ValueError(f"Existing task metadata is a link: {path}")
+    if not config.is_file() or not case.is_file():
+        raise ValueError(f"Existing path is not the expected generated task: {path}")
+    try:
+        task = tomllib.loads(config.read_text(encoding="utf-8"))
+        marker = json.loads(case.read_bytes())
+    except (OSError, ValueError) as exc:
+        raise ValueError(f"Existing path is not the expected generated task: {path}") from exc
+    if (not isinstance(task.get("task"), dict)
+            or task["task"].get("name") != f"control-arena/{path.name}"
+            or not isinstance(marker, dict)
+            or any(marker.get(key) != value for key, value in identity.items())):
+        raise ValueError(f"Existing task identity differs: {path}")
+    return True
+
+
 class ControlArenaAgentdojoHonestAdapter:
     def __init__(self, output_dir: Path, limit=None, overwrite=False, task_ids=None):
         self.output_dir = Path(output_dir)
@@ -68,10 +94,11 @@ class ControlArenaAgentdojoHonestAdapter:
         paths = []
         for slug in selected:
             path = self.output_dir / slug
-            if path.exists() and not self.overwrite:
+            number = CASES[slug]
+            identity = {"user_task_id": f"user_task_{number}"}
+            if existing_task(path, identity) and not self.overwrite:
                 paths.append(path)
                 continue
-            number = CASES[slug]
             task = suite.get_user_task_by_id(f"user_task_{number}")
             with TemporaryDirectory(dir=self.output_dir) as temporary:
                 staging = Path(temporary) / "new"
@@ -87,7 +114,10 @@ class ControlArenaAgentdojoHonestAdapter:
                     write(script, script.read_text("utf-8"))
                     script.chmod(0o755)
                 previous = Path(temporary) / "previous"
-                if path.exists():
+                if existing_task(path, identity):
+                    if not self.overwrite:
+                        paths.append(path)
+                        continue
                     path.rename(previous)
                 try:
                     staging.rename(path)

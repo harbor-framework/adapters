@@ -44,9 +44,11 @@ def generate(output_dir: Path, task_ids: list[str] | None = None, limit: int | N
             row = rows[slugs[slug]]
             destination = output_dir / slug
             identity = {"setting": "bash", "mode": "honest", "source_id": slugs[slug], "version": dist.version}
-            if destination.exists() or destination.is_symlink():
+            if destination.is_symlink() or destination.is_junction():
+                raise ValueError(f"Existing path is a link: {destination}")
+            if destination.exists():
                 marker = destination / "tests/case.json"
-                if destination.is_symlink() or not marker.is_file() or json.loads(marker.read_text()) != identity:
+                if not marker.is_file() or json.loads(marker.read_text()) != identity:
                     raise ValueError(f"Existing path is not the expected generated task: {destination}")
                 if not overwrite:
                     if oracle_dir is not None and not (destination / "solution/solution.sh").is_file():
