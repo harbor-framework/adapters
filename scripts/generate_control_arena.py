@@ -15,6 +15,7 @@ ADAPTERS = {
     "apps": "control-arena-apps-honest",
     "bash": "control-arena-bash-honest",
     "bigcodebench": "control-arena-bigcodebench-honest",
+    "data_poisoning": "control-arena-data-quality-honest",
     "iac": "control-arena-iac-honest",
     "iac_fast": "control-arena-iac-honest",
     "sae_interp_sabotage": "control-arena-sae-interp",

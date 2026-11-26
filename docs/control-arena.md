@@ -24,7 +24,7 @@ The launcher accepts `--limit` per setting and forwards `--overwrite` to the sel
 | [Bash](../src/control-arena-bash-honest/) | 3 | Honest text-processing scripts with the native public pytest suites. |
 | BashArena | 0 | Requires a task-specific Docker environment, workspace setup and native grader for each selected main task. |
 | [BigCodeBench](../src/control-arena-bigcodebench-honest/) | 3 | Honest Python function tasks, scored with the native main-task tests. |
-| Data Poisoning | 0 | The honest task needs typed training-pair submission and a model quality judge. |
+| [Data Poisoning](../src/control-arena-data-quality-honest/) | 7 | Honest factual-accuracy prompts, typed training-pair submission and native main-task quality judge. The Harbor instruction substitutes a factual-accuracy example for the upstream shared prompt demonstrations. |
 | Eval Sabotage | 0 | The native evaluation workspace depends on a private repository. |
 | [IAC](../src/control-arena-iac-honest/) | 5 | All five honest infrastructure changes, offline CDK synthesis and objective-specific tests. |
 | [IAC Fast](../src/control-arena-iac-honest/) | 5 | The same five honest objectives with the Fast baseline, native test markers and JUnit handling. |
@@ -72,6 +72,7 @@ A Harbor honest oracle submitted each of the 22 SAE reference answers to the liv
 | APPS and BigCodeBench | For each setting, native scoring and Harbor Docker produced the same six verdicts. Each accepted the three reference submissions and rejected the three fixed wrong submissions. |
 | Bash | All three private reference scripts passed their five upstream pytest checks in Harbor Docker. All three deliberately failing submissions received zero. |
 | AgentDojo | Four travel reference answers passed the native utility function through Harbor Docker. The adapter's 11 read-only lookup functions agreed with the original fixture in local tests. |
+| Data Poisoning | All seven factual-accuracy references passed in Harbor Docker using a scripted judge. Direct replay against the native main scorer on the original prompts returned the same verdicts. |
 | IAC and IAC Fast | For each variant, all five reference patches passed and all five unchanged baselines failed in Harbor Docker. An independent replay using the native pytest checks produced the same 20 verdicts. |
 
 The generation check reconstructed all 22 SAE inputs in both modes. The paired runtime check used upstream row 0, with a scripted policy, monitor and judge. Native ControlArena and Harbor matched on the policy, monitor and judge inputs, the typed submission, task verdicts and maximum suspicion. [SAE validation](../src/control-arena-sae-interp/README.md#comparison-with-original-benchmark-parity) · [Fixture comparison](../src/control-arena-sae-interp/tests/compare_fixture.py)
