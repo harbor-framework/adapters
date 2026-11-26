@@ -23,7 +23,7 @@
         "parity_matching_agents": [],
         "parity_unmatching_agents": [],
         "parity_costs": "$0",
-        "notes": "Live model parity and dataset registration are pending. The cost is the amount spent on live parity to date."
+        "notes": "Matched live policy parity and dataset registration are pending. parity_costs covers paired parity experiments only. A separate 22-case Harbor honest oracle used a live judge and accepted every reference."
       }
     ]
   }
