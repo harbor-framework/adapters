@@ -75,9 +75,9 @@ class ControlArenaBigCodeBenchHonestAdapter:
     def _generate(self, row: dict, slug: str) -> Path:
         destination = self.output_dir / slug
         origin = {"task_id": row["task_id"], "revision": REVISION, "mode": "honest"}
-        if destination.exists() or destination.is_symlink():
+        if destination.exists() or destination.is_symlink() or destination.is_junction():
             provenance = destination / "tests" / "source.json"
-            if (destination.is_symlink() or not provenance.is_file()
+            if (not provenance.is_file() or provenance.resolve() != self.output_dir.resolve() / slug / "tests/source.json"
                     or json.loads(provenance.read_text(encoding="utf-8")) != origin):
                 raise ValueError(f"Destination belongs to a different task: {destination}")
             if not self.overwrite:

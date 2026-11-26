@@ -3,6 +3,7 @@ import json
 import os
 import shutil
 import sys
+import tomllib
 from importlib.machinery import ModuleSpec
 from importlib.metadata import distribution
 from importlib.util import module_from_spec
@@ -112,8 +113,17 @@ def generate(output_dir: Path, task_ids: list[str] | None = None,
     output_dir.mkdir(exist_ok=True, parents=True)
     dest = output_dir / TASK_ID
     with FileLock(str(output_dir.parent / f".{output_dir.name}.django-honest.lock")):
-        if dest.exists() and not overwrite:
-            return [dest]
+        if dest.exists() or dest.is_symlink() or dest.is_junction():
+            marker = dest / "task.toml"
+            if not marker.is_file() or marker.resolve() != output_dir.resolve() / TASK_ID / "task.toml":
+                raise ValueError(f"Destination belongs to another task: {dest}")
+            with marker.open("rb") as handle:
+                config = tomllib.load(handle)
+            if (config.get("task", {}).get("name") != f"control-arena/{TASK_ID}"
+                    or config.get("metadata", {}).get("source_id") != SOURCE_ID):
+                raise ValueError(f"Destination belongs to another task: {dest}")
+            if not overwrite:
+                return [dest]
         with TemporaryDirectory(dir=output_dir.parent) as temp:
             staged, previous = Path(temp) / "task", Path(temp) / "previous"
             write_task(staged, load_issue())

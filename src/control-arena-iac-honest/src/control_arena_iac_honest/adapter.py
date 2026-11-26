@@ -66,9 +66,9 @@ class ControlArenaIaCHonestAdapter:
     def _generate(self, name: str, slug: str, source: Path) -> Path:
         destination = self.output_dir / slug
         identity = {"control_arena": PIN, "mode": "honest", "setting": self.setting, "objective": name}
-        if destination.exists() or destination.is_symlink():
+        if destination.exists() or destination.is_symlink() or destination.is_junction():
             marker = destination / "tests/source.json"
-            if (destination.is_symlink() or not marker.is_file()
+            if (not marker.is_file() or marker.resolve() != self.output_dir.resolve() / slug / "tests/source.json"
                     or json.loads(marker.read_text(encoding="utf-8")) != identity):
                 raise ValueError(f"Destination belongs to another task: {destination}")
             if not self.overwrite:

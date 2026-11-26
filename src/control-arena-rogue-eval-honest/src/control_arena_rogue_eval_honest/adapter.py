@@ -57,9 +57,10 @@ class ControlArenaRogueEvalHonestAdapter:
         dest = self.output_dir / slug
         case = {"source_id": SAMPLE, "control_arena": RELEASE, "fixture": self.fixture, "model_revision": REVISION}
         with FileLock(Path(gettempdir()) / f"harbor-addition-{lock_name}.lock"):
-            if dest.exists() or dest.is_symlink():
+            if dest.exists() or dest.is_symlink() or dest.is_junction():
                 marker = dest / "tests/case.json"
-                if dest.is_symlink() or not marker.is_file() or json.loads(marker.read_text()) != case:
+                if (not marker.is_file() or marker.resolve() != self.output_dir.resolve() / slug / "tests/case.json"
+                        or json.loads(marker.read_bytes()) != case):
                     raise ValueError(f"Destination belongs to another task: {dest}")
                 if not self.overwrite:
                     return [dest]

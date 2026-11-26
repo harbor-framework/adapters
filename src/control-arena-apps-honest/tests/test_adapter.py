@@ -32,6 +32,7 @@ class TestAdapter(unittest.TestCase):
             (task,) = generate(root, ["control-arena/apps-honest-0000"])
             self.assertEqual(generate(root, ["apps-honest-0000"]), [task])
             fetch.assert_called_once_with(["0"])
+            self.assertEqual(generate(root, [task.name], overwrite=True), [task])
             prompt = (task / "instruction.md").read_text(encoding="utf-8")
             self.assertIn(record["question"], prompt)
             self.assertNotIn("private", prompt)
@@ -44,6 +45,19 @@ class TestAdapter(unittest.TestCase):
                                      ("1\n2", "1 2"), ("1\n2 ", "1 \n2")]:
                 self.assertEqual(functions["check_solutions_equal"](actual, expected),
                                  check_solutions_equal(actual, expected))
+
+    def test_unrelated_existing_target_is_preserved(self):
+        with tempfile.TemporaryDirectory() as temp, patch("control_arena_apps_honest.adapter.load_records") as fetch:
+            out = Path(temp) / "tasks"
+            task = out / "apps-honest-0000"
+            task.mkdir(parents=True)
+            sentry = task / "keep-me"
+            sentry.write_text("original")
+            for overwrite in (False, True):
+                with self.assertRaisesRegex(ValueError, "another task"):
+                    generate(out, [task.name], overwrite=overwrite)
+            self.assertEqual(sentry.read_text(), "original")
+            fetch.assert_not_called()
 
 
 if __name__ == "__main__":

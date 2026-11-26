@@ -116,8 +116,18 @@ def generate(output_dir: Path, task_ids: list[str] | None = None,
     targets = [output_dir / task_id(key) for key in ids]
     # Serialize replacements on a common output directory without polluting the dataset.
     with FileLock(str(output_dir.parent / f".{output_dir.name}.apps-honest.lock")):
-        pending = [key for key, target in zip(ids, targets, strict=True)
-                   if overwrite or not target.exists()]
+        pending = []
+        for key, target in zip(ids, targets, strict=True):
+            if target.exists() or target.is_symlink() or target.is_junction():
+                marker = target / "tests/cases.json"
+                if not marker.is_file() or marker.resolve() != output_dir.resolve() / target.name / "tests/cases.json":
+                    raise ValueError(f"Destination belongs to another task: {target}")
+                case = json.loads(marker.read_bytes())
+                if not isinstance(case, dict) or (case.get("problem_id"), case.get("revision")) != (key, REVISION):
+                    raise ValueError(f"Destination belongs to another task: {target}")
+                if not overwrite:
+                    continue
+            pending.append(key)
         if not pending:
             return targets
         records = load_records(pending)
