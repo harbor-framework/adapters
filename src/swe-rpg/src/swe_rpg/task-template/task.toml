@@ -1,0 +1,54 @@
+schema_version = "1.0"
+
+artifacts = ["/tmp/submission/model.patch"]
+
+[task]
+name = "Xin-Zhou-smu/swe-rpg__{task_name}"
+authors = [
+    { name = "Xin Zhou" },
+    { name = "Chun Yong Chong" },
+    { name = "Kisub Kim" },
+    { name = "Yun Peng" },
+    { name = "Rui Shu" },
+    { name = "Zihan Wu" },
+    { name = "Xu Han" },
+    { name = "Guowen Yuan" },
+    { name = "Zeyang Zhuang" },
+    { name = "Jounghoon Kim" },
+    { name = "Jeongjin Ju" },
+    { name = "Seongmin Ju" },
+    { name = "Taein Yoon" },
+    { name = "David Lo" },
+]
+keywords = ["software-engineering", "issue-resolution", "{language}"]
+
+[metadata]
+difficulty = "hard"
+category = "issue-resolution"
+upstream_instance_id = "{instance_id}"
+repository = "{repo}"
+base_commit = "{base_commit}"
+language = "{language}"
+upstream_code_revision = "{upstream_code_revision}"
+upstream_data_sha256 = "{upstream_data_sha256}"
+
+[verifier]
+environment_mode = "separate"
+network_mode = "public"
+timeout_sec = 7200.0
+
+# After the agent stops, record its changes against the starting state as one patch.
+[[verifier.collect]]
+command = "mkdir -p /tmp/submission && cd {working_dir} && git add -A && git diff --cached --binary refs/task/start > /tmp/submission/model.patch"
+timeout_sec = 600
+
+[agent]
+network_mode = "public"
+timeout_sec = 3600.0
+
+[environment]
+build_timeout_sec = 3600.0
+cpus = 4
+memory_mb = 8192
+storage_mb = 20480
+gpus = 0

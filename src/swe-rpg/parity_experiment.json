@@ -1,0 +1,24 @@
+[
+  {
+    "adapter_name": "swe-rpg",
+    "agent": "pending",
+    "model": "pending",
+    "date": "pending",
+    "adapted_benchmark_size": 163,
+    "parity_benchmark_size": 16,
+    "number_of_runs": 0,
+    "notes": "Parity experiments have not been run yet. This placeholder keeps the file's structure; every measured field is marked pending and contains no invented data. Planned subset: the 16 tasks in src/swe_rpg/parity_task_ids.txt.",
+    "original_parity_repo": null,
+    "adapter_pr": null,
+    "dataset_pr": null,
+    "parity_pr": null,
+    "metrics": [
+      {
+        "benchmark_name": "swe-rpg",
+        "metric": "resolved rate",
+        "original": "pending",
+        "harbor": "pending"
+      }
+    ]
+  }
+]
