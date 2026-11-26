@@ -2,10 +2,12 @@
 
 # Grades a Petri audit.
 #
-# The transcript is only retrievable from the auditor sidecar using RESULT_TOKEN.
+# The audit's transcript is collected as an artifact.
 #
-# tests/judge.py scores it on the Petri judge dimensions in tests/dimensions/
-# and writes a float reward to /logs/verifier/reward.txt.
+# tests/judge.py scores it on the Petri judge dimensions,
+# then writes a float reward to /logs/verifier/reward.txt
+# and all dimension scores to /logs/verifier/scores.json.
+
 
 echo "Grading Petri audit..."
 

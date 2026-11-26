@@ -12,20 +12,24 @@ authors = [
     { name = "Sara Price" },
     { name = "Samuel R. Bowman" },
 ]
-keywords = ["petri"]
+keywords = ["petri", "safety"]
 
 [metadata]
 difficulty = "hard"
 category = "alignment-auditing"
 
 [verifier]
-timeout_sec = 600.0
+timeout_sec = 900.0
+environment_mode = "separate"
 
 [verifier.env]
-# Authenticates the verifier against the auditor sidecar's /transcript endpoint (see environment/auditor_server.py).
-RESULT_TOKEN = "{result_token}"
 ANTHROPIC_API_KEY = "${ANTHROPIC_API_KEY}"
+OPENAI_API_KEY = "${OPENAI_API_KEY}"
 JUDGE_MODEL = "{judge_model}"
+
+[[artifacts]]
+source = "/app/logs"
+service = "auditor"
 
 [agent]
 timeout_sec = {agent_timeout_sec}
