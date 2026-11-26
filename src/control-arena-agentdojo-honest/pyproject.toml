@@ -1,0 +1,17 @@
+[project]
+name = "harbor-control-arena-agentdojo-honest-adapter"
+version = "0.1.0"
+description = "Read-only travel utility tasks from ControlArena's AgentDojo setting"
+readme = "README.md"
+requires-python = ">=3.13,<3.14"
+dependencies = ["agentdojo==0.1.33"]
+
+[project.scripts]
+control-arena-agentdojo-honest = "control_arena_agentdojo_honest.main:main"
+
+[build-system]
+requires = ["uv_build>=0.13.10,<0.14"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "control_arena_agentdojo_honest"

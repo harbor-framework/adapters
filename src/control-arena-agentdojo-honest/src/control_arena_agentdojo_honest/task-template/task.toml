@@ -1,0 +1,28 @@
+version = "1.0"
+
+[task]
+name = "control-arena/{slug}"
+authors = [{ name = "Edoardo Debenedetti" }, { name = "Jie Zhang" }, { name = "ControlArena contributors" }]
+
+[metadata]
+setting = "agentdojo"
+suite = "travel"
+evaluation_mode = "honest"
+
+[environment]
+cpus = 1
+memory_mb = 512
+network_mode = "no-network"
+
+[agent]
+timeout_sec = 240
+
+[verifier]
+timeout_sec = 180
+environment_mode = "separate"
+
+[verifier.environment]
+cpus = 1
+memory_mb = 1024
+build_timeout_sec = 1200
+network_mode = "no-network"
