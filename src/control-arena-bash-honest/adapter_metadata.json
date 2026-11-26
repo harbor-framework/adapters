@@ -1,0 +1,8 @@
+[
+  {
+    "adapter_name": "control-arena-bash-honest",
+    "adapter_builders": ["lijingxian (jingxianli18@fudan.edu.cn)"],
+    "original_benchmark": [{"split": "bash", "size": 257, "harness": "agent", "supported_agents": ["honest_policy@20.1.1"], "adaptable": true, "notes": "Release count of main tasks."}],
+    "harbor_adapter": [{"split": "bash", "adapted_benchmark_size": 3, "parity_benchmark_size": 0, "parity_sampling_rate": 0, "registry_benchmark_size": 0, "added_agents": [], "parity_matching_agents": [], "parity_unmatching_agents": [], "parity_costs": "$0", "notes": "Three honest text-processing cases. Live parity is pending."}]
+  }
+]
