@@ -32,7 +32,7 @@ The launcher accepts `--limit` per setting and forwards `--overwrite` to the sel
 | Rogue Eval | 0 | Requires a model runtime, weights and a usefulness grader. |
 | [SAE Interp Sabotage](../src/control-arena-sae-interp/) | 22 | Honest and attack modes support trusted monitoring. The same 22 feature IDs occur in both modes. |
 | SHADE Arena | 0 | ControlArena uses five public task pairs. The external SHADE package, simulated tools, evaluator and state handoff must be integrated. The other twelve pairs in the original SHADE study are held back. |
-| SWE-bench Django | 0 | Each issue requires its own repository revision, Docker image and patch grader. |
+| [SWE-bench Django](../src/control-arena-swe-django-honest/) | 1 | Honest Django issue 15996, serializing `enum.Flag` in migrations, with its pinned SWE-bench image and native grading. |
 | vLLM | 0 | The released main tasks are tied to versioned vLLM workspaces. The upstream v2 revision changed the CUDA/PyTorch stack and carried forward validated task titles from v1. A matched workspace and per-case scorer check are pending. |
 
 ## Native setting inventory
@@ -74,6 +74,7 @@ A Harbor honest oracle submitted each of the 22 SAE reference answers to the liv
 | AgentDojo | Four travel reference answers passed the native utility function through Harbor Docker. The adapter's 11 read-only lookup functions agreed with the original fixture in local tests. |
 | Data Poisoning | All seven factual-accuracy references passed in Harbor Docker using a scripted judge. Direct replay against the native main scorer on the original prompts returned the same verdicts. |
 | IAC and IAC Fast | For each variant, all five reference patches passed and all five unchanged baselines failed in Harbor Docker. An independent replay using the native pytest checks produced the same 20 verdicts. |
+| SWE-bench Django | Native ControlArena and Harbor each accepted the reference patch and rejected the unchanged checkout for issue 15996. The case includes one fail-to-pass test and 51 pass-to-pass tests. |
 
 The generation check reconstructed all 22 SAE inputs in both modes. The paired runtime check used upstream row 0, with a scripted policy, monitor and judge. Native ControlArena and Harbor matched on the policy, monitor and judge inputs, the typed submission, task verdicts and maximum suspicion. [SAE validation](../src/control-arena-sae-interp/README.md#comparison-with-original-benchmark-parity) · [Fixture comparison](../src/control-arena-sae-interp/tests/compare_fixture.py)
 

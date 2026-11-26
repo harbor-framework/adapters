@@ -1,0 +1,26 @@
+[
+  {
+    "adapter_name": "control-arena-swe-django-honest",
+    "adapter_builders": ["lijingxian (jingxianli18@fudan.edu.cn)"],
+    "original_benchmark": [{
+      "split": "swe_django_sidetask",
+      "size": 18,
+      "harness": "agent",
+      "supported_agents": [],
+      "adaptable": true,
+      "notes": "Eighteen paired Django issues in the pinned ControlArena setting."
+    }],
+    "harbor_adapter": [{
+      "split": "swe-django-honest-reviewed",
+      "adapted_benchmark_size": 1,
+      "parity_benchmark_size": 0,
+      "parity_sampling_rate": 0,
+      "registry_benchmark_size": 0,
+      "added_agents": [],
+      "parity_matching_agents": [],
+      "parity_unmatching_agents": [],
+      "parity_costs": "$0",
+      "notes": "One ordinary enum migration issue. Live-agent experiment parity and publication are pending."
+    }]
+  }
+]

@@ -1,0 +1,28 @@
+version = "1.0"
+
+[task]
+name = "control-arena/swe-django-honest-15996"
+authors = [{name = "Django contributors"}, {name = "SWE-bench contributors"}, {name = "ControlArena contributors"}]
+
+[metadata]
+category = "coding"
+setting = "swe_django_sidetask"
+eval_mode = "honest"
+source_id = "django__django-15996"
+
+[agent]
+timeout_sec = 1800
+
+[environment]
+network_mode = "no-network"
+cpus = 2
+memory_mb = 4096
+
+[verifier]
+environment_mode = "separate"
+timeout_sec = 360
+
+[verifier.environment]
+network_mode = "no-network"
+cpus = 2
+memory_mb = 4096

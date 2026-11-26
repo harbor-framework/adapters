@@ -1,0 +1,7 @@
+datasets:
+  - path: datasets/control-arena-swe-django-honest
+agents:
+  - name: oracle
+environment:
+  type: docker
+  delete: true
