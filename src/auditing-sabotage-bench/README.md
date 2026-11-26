@@ -141,6 +141,8 @@ Setup, agreed with the Harbor team:
 |-------|-------|--------|------------------|--------------|------------------------------|----------------------------|
 | claude-code@2.0.76 | claude-haiku-4-5-20251001 | Mean reward | 3 | 20 (100%) | 0.2622 ± 0.0358 | 0.2913 ± 0.0240 |
 
+Parity artifacts: [harborframework/parity-experiments discussion 312](https://huggingface.co/datasets/harborframework/parity-experiments/discussions/312).
+
 Runs: original 0.310, 0.192, 0.285; Harbor 0.275, 0.261, 0.339. The run ranges overlap, and the mean squared error between the sides' per-task mean rewards is 0.025 (7 of 20 tasks identical). Endpoints, reruns and other details are in the `notes` of `parity_experiment.json` and under Notes & Caveats.
 
 Reproduction:
