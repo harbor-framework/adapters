@@ -85,3 +85,26 @@ Compare each setting and mode separately. Record the source revision or dataset 
 1. Check that each prompt, fixture and scoring input maps to the intended upstream case. Where a reference is available, run it and a known failing submission in both harnesses. Record infrastructure errors separately from incorrect answers.
 2. Agree with Harbor maintainers on the protocol, eligible settings, matched sample and API budget. Run a live pilot of 5–10 cases per cohort where available, or all cases for a smaller cohort. Follow the release guide's repeated-run and reporting requirements before recording live parity.
 3. Report main-task success by setting and mode. Report side-task success, suspicion and an audit budget only for matching monitored evaluations that produce those quantities. An honest-only run supplies evidence about usefulness. A fixed oracle or scripted policy tests the harness and must be reported separately from live policy performance. [Harbor adapter guide](adapters.mdx) · [Control evaluations](https://control-arena.aisi.org.uk/intro-to-control.html)
+
+### Compare completed scores
+
+The [score comparison script](../scripts/compare_control_arena_scores.py) reads native Inspect score reductions and Harbor trial rewards. It requires no model calls. Create a JSON array with one entry for each matched native sample and Harbor trial. Paths are relative to the manifest file. Preserve the native sample ID's JSON type. For example, APPS uses the string `"0"`.
+
+```json
+[
+  {
+    "native_log": "native/honest.eval",
+    "native_sample_id": "0",
+    "native_scorer": "main_task_success",
+    "harbor_trial": "jobs/oracle/apps-honest-0000__trial",
+    "harbor_task": "control-arena/apps-honest-0000"
+  }
+]
+```
+
+From the repository root, run the script in the locked Inspect environment. It reports both per-case scores, their cohort means and the number of identical verdicts. Use one manifest per setting, mode and matched run. `--require-equal` turns a mismatch into an error for deterministic fixtures. The tool checks task IDs, trial completion, duplicate observations and the selected metric. The experimenter supplies the native-to-Harbor case mapping and verifies the model, protocol and budget.
+
+```bash
+uv run --project src/control-arena-sae-interp --locked python scripts/compare_control_arena_scores.py \
+  pairs.json --metric main_task_success --require-equal
+```
