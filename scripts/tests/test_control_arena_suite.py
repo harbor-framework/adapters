@@ -16,6 +16,10 @@ class ControlArenaSuiteTests(unittest.TestCase):
             config = tomllib.loads((project / "pyproject.toml").read_text(encoding="utf-8"))
             self.assertIn(package, config["project"]["scripts"])
             self.assertTrue((project / "uv.lock").is_file())
+            if config["build-system"]["build-backend"] == "uv_build":
+                default = config["project"]["name"].replace("-", "_")
+                module = config.get("tool", {}).get("uv", {}).get("build-backend", {}).get("module-name", default)
+                self.assertTrue((project / "src" / module / "__init__.py").is_file(), package)
 
     @patch("generate_control_arena.subprocess.run")
     @patch("generate_control_arena.shutil.which", return_value="/test/uv")

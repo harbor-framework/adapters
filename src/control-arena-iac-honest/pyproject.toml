@@ -17,3 +17,6 @@ control-arena-iac-honest = "control_arena_iac_honest.main:main"
 [build-system]
 requires = ["uv_build>=0.13.10,<0.14"]
 build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "control_arena_iac_honest"
