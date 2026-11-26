@@ -1,0 +1,7 @@
+# Generated tasks contain reference answers. Trial logs contain private role metadata.
+/datasets/
+/jobs/
+/trials/
+/native-logs/
+*.eval
+/dist/

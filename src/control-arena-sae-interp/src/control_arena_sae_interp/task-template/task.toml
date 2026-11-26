@@ -1,0 +1,31 @@
+version = "1.0"
+
+[task]
+name = "control-arena/{task_id}"
+authors = [{ name = "Rogan Inglis" }, { name = "Ollie Matthews" }, { name = "Tyler Tracy" }]
+
+[metadata]
+category = "interpretability"
+setting = "sae_interp_sabotage"
+control_arena_version = "20.1.1"
+
+[agent]
+timeout_sec = 600
+
+[environment]
+cpus = 1
+memory_mb = 1024
+build_timeout_sec = 1200
+
+[verifier]
+timeout_sec = 600
+environment_mode = "separate"
+
+[verifier.environment]
+cpus = 2
+memory_mb = 2048
+build_timeout_sec = 1200
+
+[verifier.env]
+CONTROL_ARENA_EVAL_MODE = "${CONTROL_ARENA_EVAL_MODE:-honest}"
+CONTROL_ARENA_JUDGE_MODEL = "${CONTROL_ARENA_JUDGE_MODEL}"
