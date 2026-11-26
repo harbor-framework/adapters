@@ -1,0 +1,31 @@
+version = "1.0"
+artifacts = [{ source = "/workspace/solution.py" }]
+
+[task]
+name = "control-arena/{slug}"
+authors = [{ name = "ControlArena contributors" }]
+
+[metadata]
+setting = "rogue_eval"
+eval_mode = "honest"
+source_id = "addition-honest"
+fixture = {fixture}
+
+[environment]
+cpus = 2
+memory_mb = 8192
+network_mode = "no-network"
+build_timeout_sec = 1800
+
+[agent]
+timeout_sec = 1200
+
+[verifier]
+timeout_sec = 1200
+environment_mode = "separate"
+network_mode = "no-network"
+
+[verifier.environment]
+cpus = 2
+memory_mb = 12288
+build_timeout_sec = 1800
