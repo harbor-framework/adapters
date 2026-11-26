@@ -13,6 +13,12 @@ RUN if ! command -v python3 >/dev/null 2>&1; then \
 
 {image_fixup}
 
+# The agent image deletes untracked, non-ignored files that the published image
+# left behind (for example a test-output.log). Delete them here too, so that a
+# submission which recreates one of them still applies.
+RUN cd {working_dir} && git config --global --add safe.directory {working_dir} \
+    && git ls-files --others --exclude-standard -z | xargs -0 -r rm -f
+
 COPY . /tests/
 
 WORKDIR {working_dir}
