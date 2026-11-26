@@ -318,6 +318,11 @@ class AxionLimitBenchAdapter:
         for arxiv_id in selected:
             if self.limit is not None and written >= self.limit:
                 break
+            # Building an oracle grades it with the scorer, which takes minutes
+            # for the largest references. Skip existing tasks before that.
+            if not self.overwrite and (self.output_dir / task_name(arxiv_id)).exists():
+                logger.info("Skipping existing task %s", task_name(arxiv_id))
+                continue
             task, status = self._build_oracle(arxiv_id)
             if task is None:
                 if UNGRADEABLE.get(arxiv_id) != status:
