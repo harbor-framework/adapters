@@ -1,0 +1,38 @@
+[
+  {
+    "adapter_name": "deepsearchqa",
+    "adapter_builders": [
+      "Erin Wang (erinwang27y@gmail.com)"
+    ],
+    "original_benchmark": [
+      {
+        "split": "eval",
+        "size": 900,
+        "harness": "agent",
+        "supported_agents": [
+          "None"
+        ],
+        "adaptable": true,
+        "notes": "Google DeepMind DeepSearchQA (DSQA-full.csv). Graded by an LLM autorater (Gemini 2.5 Flash) with the official Kaggle starter-notebook prompt; per-prompt precision/recall/F1, F1 primary."
+      }
+    ],
+    "harbor_adapter": [
+      {
+        "split": "full",
+        "adapted_benchmark_size": 900,
+        "parity_benchmark_size": 100,
+        "parity_sampling_rate": 0.1111,
+        "registry_benchmark_size": 900,
+        "added_agents": [
+          "deepsearchqa-frontier-agent"
+        ],
+        "parity_matching_agents": [],
+        "parity_unmatching_agents": [
+          "frontier-agent@0991a7a+deepseek-ai/deepseek-v4.1-flash-1017"
+        ],
+        "parity_costs": "$180",
+        "notes": "Parity on a 100-prompt stratified subset (--split parity, seed 42), 3 runs per side, FrontierAgent ReAct single agent on both sides, judge zai-org/glm-5.3-flash. F1 original 93.87 \u00b1 0.79 vs Harbor 91.28 \u00b1 0.40; run ranges do not overlap (see README and parity_experiment.json for the investigation). Codex generalization run (codex@0.172.0, same model and judge, 1 run): F1 96.83, fully correct 89.0%. Parity cost about $180 in model API usage (agent ~$176 at aiand list prices, judge ~$2); web search (Parallel) and page reading (Jina) are billed separately and not included."
+      }
+    ]
+  }
+]

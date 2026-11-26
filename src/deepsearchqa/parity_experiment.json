@@ -1,0 +1,98 @@
+[
+  {
+    "adapter_name": "deepsearchqa",
+    "agent": "frontier-agent@0991a7a",
+    "model": "deepseek-ai/deepseek-v4.1-flash-1017",
+    "date": "2026-11-22",
+    "adapted_benchmark_size": 900,
+    "parity_benchmark_size": 100,
+    "number_of_runs": 3,
+    "notes": "Scenario 3 (custom agent). Both sides run FrontierAgent's ReAct single agent (ApodexAI/FrontierAgent @ 0991a7a9, stateful-react-agent) in its own Docker image (SANDBOX_BACKEND=container), launched per question by the same launcher (src/deepsearchqa/parity/frontier_launcher.py); the Harbor side wraps it as the DeepSearchQAFrontierAgent BaseAgent, the original side runs it without Harbor. Agent input on both sides is FrontierAgent's _render_instruction(problem); the Harbor wrapper strips the adapter's instruction footer so the agent sees the identical prompt. Web search: Parallel; page reading: Jina. Parity subset: 100 prompts from --split parity (stratified by answer type, seed 42; 66 Set Answer, 34 Single Answer). Metric: per-prompt F1 (primary) and fully-correct rate, in percent. Judge on both sides: zai-org/glm-5.3-flash (temperature 1, max_tokens 32768, reasoning_effort max), official Kaggle autorater prompt; Gemini 2.5 Flash (official autorater) is unavailable to new API keys. Original side passes each row's answer_type to the judge (FrontierAgent's score_answer() omits prompt_type, grading every prompt as Single Answer). Run 1 was first graded with max_tokens 4096, which made the judge return empty output on 3 of 200 answers (reasoning exhausted the budget); all run-1 answers on both sides were then re-graded with 32768 without re-running the agent, and runs 2-3 used 32768 throughout. Agent timeouts (3600 s) score F1 0 on both sides; no trial was excluded (300/300 scored per side). Result: run ranges do NOT overlap (Harbor max 91.77 vs original min 92.61; paired per-prompt difference -2.6 F1 points, bootstrap 95% CI [-4.8, -0.5]). Investigated: (1) judge: Harbor's grade.py on the original run-1 answers gives 95.45 vs FrontierAgent's judge 95.28 (98/99 identical), so the gap is not judge-side; (2) Harbor answer.txt equals the worker's final answer in 300/300 trials; (3) reasoning-runaway frequency, tool calls and durations are similar across sides. The visible asymmetry is 4 malformed final answers on the Harbor side (preamble-only or leaked DSML tool-call markup after FrontierAgent's reasoning-runaway fallback disables thinking) vs 0 on the original side, about 1 F1 point. Two extra runs per side were started and cancelled before any trial completed; they are not reported. Parity artifacts are in https://huggingface.co/datasets/erin0327/deepsearchqa-parity-experiments because harborframework/parity-experiments rejects uploads (over the Hub's 1,000,000-file limit).",
+    "original_parity_repo": "https://github.com/erinwang27y/FrontierAgent/tree/deepsearchqa-parity/deepsearchqa_parity",
+    "adapter_pr": [
+      "https://github.com/harbor-framework/adapters/pull/127"
+    ],
+    "dataset_pr": [
+      "https://github.com/harbor-framework/harbor-datasets/pull/309"
+    ],
+    "parity_pr": [
+      "https://huggingface.co/datasets/erin0327/deepsearchqa-parity-experiments"
+    ],
+    "metrics": [
+      {
+        "benchmark_name": "DeepSearchQA",
+        "metric": "f1",
+        "original": "93.87 ± 0.79",
+        "harbor": "91.28 ± 0.40",
+        "original_runs": [
+          95.33,
+          93.67,
+          92.61
+        ],
+        "harbor_runs": [
+          90.49,
+          91.58,
+          91.77
+        ]
+      },
+      {
+        "benchmark_name": "DeepSearchQA",
+        "metric": "fully_correct_rate",
+        "original": "83.67 ± 0.88",
+        "harbor": "79.67 ± 0.33",
+        "original_runs": [
+          84.0,
+          85.0,
+          82.0
+        ],
+        "harbor_runs": [
+          80.0,
+          80.0,
+          79.0
+        ]
+      }
+    ]
+  },
+  {
+    "adapter_name": "deepsearchqa",
+    "agent": "codex@0.172.0",
+    "model": "deepseek-ai/deepseek-v4.1-flash-1017",
+    "date": "2026-11-23",
+    "adapted_benchmark_size": 900,
+    "parity_benchmark_size": 100,
+    "number_of_runs": 1,
+    "notes": "Generalization run (Scenario 3 requirement): standard Harbor codex agent on the same 100-prompt parity subset, Harbor side only (no original-side counterpart exists). Model served via an OpenAI-compatible Responses endpoint; codex built-in web search disabled (web_search=disabled), so the agent searched with curl inside the task container. Same judge as the FrontierAgent parity (zai-org/glm-5.3-flash, temperature 1, max_tokens 32768, reasoning_effort max). 2 of 100 trials (255, 641) failed with NonZeroAgentExitCodeError when codex context compaction called the remote-compact endpoint, which the gateway rejects; they wrote no answer and score 0.",
+    "original_parity_repo": "https://github.com/erinwang27y/FrontierAgent/tree/deepsearchqa-parity/deepsearchqa_parity",
+    "adapter_pr": [
+      "https://github.com/harbor-framework/adapters/pull/127"
+    ],
+    "dataset_pr": [
+      "https://github.com/harbor-framework/harbor-datasets/pull/309"
+    ],
+    "parity_pr": [
+      "https://huggingface.co/datasets/erin0327/deepsearchqa-parity-experiments"
+    ],
+    "metrics": [
+      {
+        "benchmark_name": "DeepSearchQA",
+        "metric": "f1",
+        "original": "N/A",
+        "harbor": "96.83",
+        "original_runs": [],
+        "harbor_runs": [
+          96.83
+        ]
+      },
+      {
+        "benchmark_name": "DeepSearchQA",
+        "metric": "fully_correct_rate",
+        "original": "N/A",
+        "harbor": "89.00",
+        "original_runs": [],
+        "harbor_runs": [
+          89.0
+        ]
+      }
+    ]
+  }
+]
