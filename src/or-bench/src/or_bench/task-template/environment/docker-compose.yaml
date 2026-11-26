@@ -1,0 +1,7 @@
+# Lets `docker compose down` stop the container at once: `init` runs a PID 1
+# that handles signals, so the default `sleep infinity` exits without waiting
+# for the 10 s stop timeout.
+services:
+  main:
+    init: true
+    stop_grace_period: 0s

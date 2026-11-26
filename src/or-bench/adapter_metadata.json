@@ -1,0 +1,40 @@
+[
+  {
+    "adapter_name": "or-bench",
+    "adapter_builders": [
+      "Jinyi Bai (baijinyi@ruc.edu.cn)"
+    ],
+    "original_benchmark": [
+      {
+        "split": "full",
+        "size": 82333,
+        "harness": "llm",
+        "supported_agents": [
+          "None"
+        ],
+        "adaptable": true,
+        "notes": "Three subsets: or-bench-80k (80,359 seemingly toxic but safe prompts), or-bench-hard-1k (1,319 hard safe prompts; 1,318 of them also appear in 80k), or-bench-toxic (655 toxic prompts). The original harness sends each prompt to the model API with no system prompt; refusals are judged by keyword matching on 80k and by a GPT-4 judge on hard-1k and toxic."
+      }
+    ],
+    "harbor_adapter": [
+      {
+        "split": "full",
+        "adapted_benchmark_size": 82333,
+        "parity_benchmark_size": 300,
+        "parity_sampling_rate": 0.0036,
+        "registry_benchmark_size": 0,
+        "added_agents": [
+          "None"
+        ],
+        "parity_matching_agents": [
+          "codex@0.161.0+gpt-5.6-terra"
+        ],
+        "parity_unmatching_agents": [
+          "None"
+        ],
+        "parity_costs": "$48",
+        "notes": "All three subsets are adapted. By default (--judge auto) 80k is judged by keyword rules and hard-1k and toxic by the upstream three-class LLM judge, as in the paper. Oracle: 80k and toxic are rule-generated; the 1,319 hard-1k answers ship in the repo (see ORACLE_SOLUTIONS.md). Full Harbor oracle run over all 82,333 tasks reached reward 1.0 (judge gpt-5.6-luna) with the earlier shared verifier; a clean-room rerun on Harbor 0.27.0 with the separate verifier covered hard-1k, toxic and 1000 random 80k tasks (the 6 hard-1k misses were LLM-judge noise; their answers were rewritten and pass 10/10 judge calls). Parity: 300-task subset (`--split parity`, 100 per subset, seed 42), codex@0.161.0 + gpt-5.6-terra (agent and judge), 3 runs per side, run ranges overlap on all subsets (see parity_experiment.json). registry_benchmark_size is filled in after the dataset is published."
+      }
+    ]
+  }
+]
