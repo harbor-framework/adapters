@@ -1,0 +1,45 @@
+schema_version = "1.0"
+# The agent's edited workspace is collected after the agent phase and restored
+# at /workspace inside the separate verifier container (see [verifier]).
+artifacts = [
+    { source = "/workspace", exclude = ["__pycache__", ".pytest_cache"] },
+]
+
+[task]
+name = "{{TASK_NAME}}"
+authors = [
+    { name = "Quoc Co Tran", email = "co.tran@oracle.com" },
+    { name = "Hitesh Laxmichand Patel", email = "hitesh.laxmichand.patel@oracle.com" },
+    { name = "Diwakar Mahajan", email = "diwakar.mahajan@oracle.com" },
+    { name = "Kshitij Bakliwal", email = "kshitij.bakliwal@oracle.com" },
+    { name = "Avi Sil", email = "avi.sil@oracle.com" },
+    { name = "Katrin Kirchhoff", email = "katrin.kirchhoff@oracle.com" },
+]
+keywords = ["mlops-bench", "mlops", "{{STAGE_KEYWORD}}", "python"]
+
+[metadata]
+difficulty = "{{DIFFICULTY}}"
+category = "mlops"
+tags = ["mlops", "{{STAGE_KEYWORD}}", "python"]
+source = "https://github.com/oracle-samples/mlops-bench"
+source_commit = "{{SOURCE_COMMIT}}"
+instance_id = "{{INSTANCE_ID}}"
+repo_key = "{{REPO_KEY}}"
+stage = "{{STAGE}}"
+f2p_test_count = {{F2P_COUNT}}
+p2p_test_count = {{P2P_COUNT}}
+
+[verifier]
+# Grade in a dedicated verifier container built from tests/Dockerfile (not the
+# agent's container); only the /workspace artifact is carried over.
+environment_mode = "separate"
+timeout_sec = 300.0
+
+[agent]
+timeout_sec = 1800.0
+
+[environment]
+build_timeout_sec = 600.0
+cpus = 1
+memory_mb = 2048
+storage_mb = 4096

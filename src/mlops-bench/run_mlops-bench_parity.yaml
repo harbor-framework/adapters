@@ -1,0 +1,33 @@
+# Parity config for MLOps-Bench (Harbor side of the parity experiment).
+#
+# Generate the 49-task parity subset first (from src/mlops-bench/):
+#   uv run mlops-bench --split parity --output-dir ../../datasets/mlops-bench-parity
+# Then, from the adapters repo root, with ANTHROPIC_API_KEY (and, for an
+# Anthropic-compatible gateway, ANTHROPIC_BASE_URL) exported:
+#   harbor run -c src/mlops-bench/run_mlops-bench_parity.yaml --job-name mlops-parity-run1
+#
+# The original side runs the same agent, version, model and prompt through
+# harbor_parity/run_parity.py in the parity fork (see README "Comparison with
+# Original Benchmark (Parity)").
+jobs_dir: jobs
+n_attempts: 1
+timeout_multiplier: 1.0
+
+datasets:
+  - path: datasets/mlops-bench-parity
+
+agents:
+  - name: claude-code
+    model_name: anthropic/claude-haiku-4-5
+    kwargs:
+      version: "2.1.326"
+
+environment:
+  type: docker
+  force_build: true
+  delete: true
+
+orchestrator:
+  type: local
+  n_concurrent_trials: 3
+  quiet: false
