@@ -273,7 +273,7 @@ harbor run -c src/mlops-bench/run_mlops-bench_parity.yaml --job-name mlops-parit
 
 Oracle verification is reported under Notes & Caveats.
 
-Links: [paper](https://arxiv.org/abs/2610.23506) · [original benchmark](https://github.com/oracle-samples/mlops-bench) · [parity fork](https://github.com/pixel3user/mlops-bench/tree/harbor-parity) · Adapter PR: pending · Dataset PR: pending · HF parity PR: pending
+Links: [paper](https://arxiv.org/abs/2610.23506) · [original benchmark](https://github.com/oracle-samples/mlops-bench) · [parity fork](https://github.com/pixel3user/mlops-bench/tree/harbor-parity) · Adapter PR: [#154](https://github.com/harbor-framework/adapters/pull/154) · Dataset PR: pending · HF parity PR: pending
 
 ## Notes & Caveats
 
@@ -355,7 +355,7 @@ Links: [paper](https://arxiv.org/abs/2610.23506) · [original benchmark](https:/
 ## Authors & Contributions
 
 Original benchmark: Quoc Co Tran, Hitesh Laxmichand Patel, Diwakar Mahajan, Kshitij
-Bakliwal, Avi Sil and Katrin Kirchhoff (Oracle). Harbor adapter: pixel3user.
+Bakliwal, Avi Sil and Katrin Kirchhoff (Oracle). Harbor adapter: pixel3user ([adapter PR #154](https://github.com/harbor-framework/adapters/pull/154)).
 
 **Issues and Contributions:**
 - Submit issues and pull requests to [harbor-framework/adapters](https://github.com/harbor-framework/adapters)
