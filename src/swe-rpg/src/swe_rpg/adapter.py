@@ -44,6 +44,15 @@ IMAGE_FIXUPS: dict[str, tuple[str, str]] = {
         "# Removing the directories while the image is built avoids the failure.",
         "find {working_dir} -type d -path '*/build/test-results/*' -name 'junit-*' -prune -exec rm -r {} +",
     ),
+    "pylint-dev__pylint-9712": (
+        "The task's Python environment is {working_dir}/venv, and here git does\n"
+        "# not ignore it: the repository's .gitignore does not list it and this\n"
+        "# venv has no .gitignore of its own, unlike the venvs of the other pylint\n"
+        "# tasks. The cleanup of untracked files would delete it, and the rebuild\n"
+        "# and test commands would then fail. Ignore it locally, so the cleanup\n"
+        "# keeps it and it never becomes part of a submitted patch.",
+        "mkdir -p {working_dir}/.git/info && echo 'venv/' >> {working_dir}/.git/info/exclude",
+    ),
 }
 
 
