@@ -1,0 +1,32 @@
+[
+  {
+    "adapter_name": "twinenv-bench",
+    "adapter_builders": [
+      "TraceLite AI (contact@tracelite.ai)"
+    ],
+    "original_benchmark": [
+      {
+        "split": "full",
+        "size": 234,
+        "harness": "agent",
+        "supported_agents": [
+          "claude-code",
+          "codex",
+          "opencode",
+          "openhands"
+        ],
+        "adaptable": true,
+        "notes": "117 counterfactual OS environment adaptation tasks x 2 paired cells (base and target) = 234 Harbor tasks."
+      }
+    ],
+    "harbor_adapter": [
+      {
+        "split": "full",
+        "adapted_benchmark_size": 234,
+        "parity_benchmark_size": 234,
+        "parity_sampling_rate": 1.0,
+        "registry_benchmark_size": 234
+      }
+    ]
+  }
+]
