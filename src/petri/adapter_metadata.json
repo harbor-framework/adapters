@@ -8,20 +8,20 @@
     "original_benchmark": [
       {
         "split": "test",
-        "size": 174,
+        "size": 173,
         "harness": "llm",
         "supported_agents": null,
         "adaptable": true,
-        "notes": "Petri alignment-auditing benchmark with 174 tasks (one per seed instruction)."
+        "notes": "Petri alignment-auditing benchmark with 173 tasks (one per seed instruction)."
       }
     ],
     "harbor_adapter": [
       {
         "split": "test",
-        "adapted_benchmark_size": 174,
-        "parity_benchmark_size": 174,
+        "adapted_benchmark_size": 173,
+        "parity_benchmark_size": 173,
         "parity_sampling_rate": null,
-        "registry_benchmark_size": 174,
+        "registry_benchmark_size": 173,
         "added_agents": [],
         "parity_matching_agents": [],
         "parity_unmatching_agents": null,

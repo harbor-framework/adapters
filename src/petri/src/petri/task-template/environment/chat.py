@@ -1,7 +1,7 @@
 """
 Thin proxy between the agent and the user.
 
-Run this script and feed it one JSON reply per line on stdin, e.g.:
+Run this script and feed it one JSON reply per line on stdin. For example:
     { "reply": "Hello! How can I help?" }
 
 Each line printed back on stdout is the user's next event as JSON:
@@ -63,13 +63,13 @@ for line in sys.stdin:
     try:
         reply = json.loads(line)["reply"]
     except (json.JSONDecodeError, KeyError, TypeError) as e:
-        print(json.dumps({"error": f"invalid reply: {e}"}), flush=True)
+        print(json.dumps({ "error": f"invalid reply: {e}" }), flush=True)
         continue
 
     try:
         events = post("/reply", { "reply": reply })["events"]
     except urllib.error.HTTPError as e:
-        print(json.dumps({"error": e.read().decode()}), flush=True)
+        print(json.dumps({ "error": e.read().decode() }), flush=True)
         continue
 
     if emit(events):

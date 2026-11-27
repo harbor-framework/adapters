@@ -80,8 +80,8 @@ def http_target() -> Agent:
                 state.output = output
                 state.messages.append(output.message)
 
-                # Send reply to auditor
-                context.expect({TOOL_RESULT: set()})
+                # Send reply to target
+                context.expect({ TOOL_RESULT: set() })
                 await context.send_output(output)
                 user_message = await context.user_message()
 
@@ -116,7 +116,7 @@ def _run_audit() -> None:
         inspect_eval(
             task,
             model=AUDITOR_MODEL,
-            model_roles={"auditor": AUDITOR_MODEL, "target": TARGET_MODEL_PLACEHOLDER},
+            model_roles={ "auditor": AUDITOR_MODEL, "target": TARGET_MODEL_PLACEHOLDER },
             log_dir=LOG_DIR,
             display="none",
         )

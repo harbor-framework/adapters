@@ -72,7 +72,7 @@ class PetriAdapter:
             output_dir: The directory to write the generated tasks to.
             limit: The maximum number of tasks to generate.
             overwrite: Whether to overwrite existing tasks.
-            task_ids: The task IDs (seed file names without `.md`) to generate.
+            task_ids: The task IDs to generate.
             dataset_cache_dir: Where to clone the GitHub repo.
             auditor_model: Model the auditor uses to run the audit.
             judge_model: Model the verifier uses to judge the audit.
@@ -103,8 +103,8 @@ class PetriAdapter:
         │   │   └── solve.sh
         │   ├── tests/
         │   │   ├── Dockerfile
-        │   │   └── judge.py
-        │   │   ├── test.sh
+        │   │   ├── judge.py
+        │   │   └── test.sh
         │   ├── instruction.md
         │   └── task.toml
         └── ...
@@ -120,8 +120,6 @@ class PetriAdapter:
 
         for seed_file in seed_files:
             self._generate_task(seed_file)
-
-        logger.info(f"Generated {len(seed_files)} tasks")
 
     def _task_id(self, seed_file: Path) -> str:
         """Return a seed's task_id (e.g., `ai_consciousness_gentle_probe`)."""

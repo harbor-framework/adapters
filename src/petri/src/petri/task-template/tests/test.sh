@@ -8,7 +8,6 @@
 # then writes a float reward to /logs/verifier/reward.txt
 # and all dimension scores to /logs/verifier/scores.json.
 
-
 echo "Grading Petri audit..."
 
 mkdir -p /logs/verifier
