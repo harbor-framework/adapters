@@ -1,0 +1,40 @@
+[
+  {
+    "adapter_name": "swe-rpg",
+    "adapter_builders": [
+      "Jianghao Zhang (jianghz@umich.edu)"
+    ],
+    "original_benchmark": [
+      {
+        "split": "full",
+        "size": 163,
+        "harness": "agent",
+        "supported_agents": [
+          "None"
+        ],
+        "adaptable": true,
+        "notes": "163 issue-resolution instances (85 Java, 78 Python, 31 repositories). The paper evaluates Claude Code, Codex and OpenCode, but the public repository ships only the data, the task images and an evaluator that validates the gold patch; it has no script that runs an agent and none that scores an agent's patch. The benchmark's clarification and planning references, and its LLM-judge failure attribution, are not part of the executable score and are not adapted."
+      }
+    ],
+    "harbor_adapter": [
+      {
+        "split": "full",
+        "adapted_benchmark_size": 163,
+        "parity_benchmark_size": 16,
+        "parity_sampling_rate": 0.098,
+        "registry_benchmark_size": 163,
+        "added_agents": [
+          "None"
+        ],
+        "parity_matching_agents": [
+          "None"
+        ],
+        "parity_unmatching_agents": [
+          "None"
+        ],
+        "parity_costs": null,
+        "notes": "Parity has not been run yet. Planned subset: 16 tasks (8 Java, 8 Python, fixed seed), generated with --split parity."
+      }
+    ]
+  }
+]

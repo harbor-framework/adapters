@@ -1,0 +1,20 @@
+jobs_dir: jobs
+n_attempts: 1
+timeout_multiplier: 1.0
+orchestrator:
+  type: local
+  # Each task asks for 4 CPUs and 8 GB of memory.
+  n_concurrent_trials: 1
+  quiet: false
+environment:
+  # The task images are linux/amd64 only. On other hosts use a cloud sandbox.
+  type: docker
+  # type: daytona
+  force_build: true
+  delete: true
+agents:
+  - name: oracle
+  # - name: claude-code
+  #   model_name: anthropic/claude-haiku-5-5
+datasets:
+  - path: datasets/swe-rpg
