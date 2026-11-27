@@ -128,6 +128,7 @@ Parity experiments have not been run yet. The table will be filled in when they 
 Plan:
 
 - **The original repository cannot run an agent.** It has no agent driver and no way to score an agent's patch; its evaluator only checks the gold patch. Parity therefore needs a small driver added to a fork: start an agent in the pinned task image with the same instruction, take `git diff` against the image's starting working tree, and score that patch with the original evaluator's stages and pass rule
+- **Agent and model**: Claude Code with DeepSeek 4.1 Flash on both sides, as agreed with the Harbor team. The paper also evaluates Claude Code
 - **Subset**: the 16 tasks in `src/swe_rpg/parity_task_ids.txt`, 8 Java and 8 Python, drawn from the sorted instance ids with `random.Random(20261125)`
 - **Runs**: three per side, reported as mean ± sample SEM
 
