@@ -141,7 +141,7 @@ class ARCAGI3Adapter:
             self._generate_task(game_dir)
 
     def _task_id(self, game_dir: Path) -> str | None:
-        """Return a game's task_id (e.g. "ar25-e3c63847")."""
+        """Return a game's task_id (e.g., `ar25-e3c63847`)."""
         metadata_file = next(game_dir.glob("*/metadata.json"), None)
         if metadata_file is None:
             logger.debug(f"Skipping {game_dir.name}: missing metadata.json")
@@ -153,7 +153,7 @@ class ARCAGI3Adapter:
         return task_id
 
     def _generate_task(self, game_dir: Path) -> None:
-        """Generate one Harbor task from a single game's directory (e.g. `environment_files/ar25-e3c63847`)."""
+        """Generate one Harbor task from a single game's directory (e.g., `environment_files/ar25-e3c63847`)."""
         module = game_dir.name
         game_file = next(game_dir.glob(f"*/{module}.py"), None)
         metadata_file = next(game_dir.glob("*/metadata.json"), None)
@@ -174,6 +174,7 @@ class ARCAGI3Adapter:
             if not self.overwrite:
                 logger.debug(f"Skipping {task_id}: already exists at {out_dir}")
                 return
+
             shutil.rmtree(out_dir)
 
         shutil.copytree(TASK_TEMPLATE_DIR, out_dir)

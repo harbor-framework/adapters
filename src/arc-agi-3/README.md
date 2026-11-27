@@ -33,7 +33,7 @@ ARC-AGI-3 is the ARC Prize Foundation's benchmark for measuring an AI system's a
 
 ```
 arc-agi-3/
-├── {task_id}/                     # e.g. "ar25-e3c63847"
+├── {task_id}/                     # e.g., `ar25-e3c63847`
 │   ├── environment/
 │   │   ├── docker-compose.yaml    # Configure Docker containers
 │   │   ├── Dockerfile             # Agent's container
@@ -147,7 +147,7 @@ uv sync
 
 ### 1. Reward 0.0 After Winning
 - Confirm `docker compose logs game` shows the sidecar reporting `state: WIN`
-- Possible that `play.py` did not reach it (e.g. malformed action JSON line)
+- Possible that `play.py` did not reach it (e.g., malformed action JSON line)
 - Confirm `/app/actions.jsonl` was collected and replayed corectly by `tests/grade.py`
 
 ### 2. Task Build Fails

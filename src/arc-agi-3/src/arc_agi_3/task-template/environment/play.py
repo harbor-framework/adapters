@@ -1,7 +1,7 @@
 """
 Thin proxy between the agent and the game server.
 
-Run this script and feed it one JSON action per line on stdin, e.g.:
+Run this script and feed it one JSON action per line on stdin. For example:
     { "id": 1 }
     { "id": 6, "data": { "x": 10, "y": 20 } }
 
