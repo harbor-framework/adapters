@@ -1,0 +1,36 @@
+[
+  {
+    "adapter_name": "control-arena-data-quality-honest",
+    "adapter_builders": [
+      "lijingxian (jingxianli18@fudan.edu.cn)"
+    ],
+    "original_benchmark": [
+      {
+        "split": "factual-accuracy-honest",
+        "size": 7,
+        "harness": "agent",
+        "supported_agents": [
+          "ControlArena 20.1.1 / Inspect AI"
+        ],
+        "adaptable": true,
+        "notes": "Seven factual_accuracy_monitoring prompt windows in ControlArena 20.1.1."
+      }
+    ],
+    "harbor_adapter": [
+      {
+        "split": "factual-accuracy-honest",
+        "adapted_benchmark_size": 7,
+        "parity_benchmark_size": 0,
+        "parity_sampling_rate": 0,
+        "registry_benchmark_size": 0,
+        "added_agents": [
+          "None"
+        ],
+        "parity_matching_agents": [],
+        "parity_unmatching_agents": [],
+        "parity_costs": "$0",
+        "notes": "Honest factual-accuracy generation only. Shared format demonstrations replaced. Live model parity pending."
+      }
+    ]
+  }
+]

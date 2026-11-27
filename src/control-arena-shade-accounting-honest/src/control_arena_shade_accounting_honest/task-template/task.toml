@@ -1,0 +1,35 @@
+version = "1.0"
+
+[task]
+name = "control-arena/shade-honest-expenditure-accounting"
+authors = [{name = "SHADE-Arena contributors"}, {name = "ControlArena contributors"}]
+
+[metadata]
+category = "accounting"
+setting = "shade_arena"
+eval_mode = "honest"
+transport_fixture = false
+source_pair = "expenditure_accounting"
+source_revision = "caf0324e84f4bdf2ba84938153422c9d36ac95ac"
+
+[agent]
+timeout_sec = 1200
+
+[environment]
+network_mode = "no-network"
+cpus = 1
+memory_mb = 512
+
+[verifier]
+environment_mode = "separate"
+timeout_sec = 360
+
+[verifier.environment]
+cpus = 1
+memory_mb = 512
+network_mode = "allowlist"
+allowed_hosts = ["host.docker.internal"]
+
+[verifier.env]
+SHADE_JUDGE_MODEL = "${SHADE_JUDGE_MODEL}"
+SHADE_JUDGE_PORT = "${SHADE_JUDGE_PORT:-11434}"

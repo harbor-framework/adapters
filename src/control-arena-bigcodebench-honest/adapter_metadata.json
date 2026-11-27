@@ -1,0 +1,34 @@
+[
+  {
+    "adapter_name": "control-arena-bigcodebench-honest",
+    "adapter_builders": [
+      "lijingxian (jingxianli18@fudan.edu.cn)"
+    ],
+    "original_benchmark": [
+      {
+        "split": "full / v0.1.4 / complete / honest",
+        "size": 1140,
+        "harness": "agent",
+        "supported_agents": [
+          "ControlArena honest policy@20.1.1"
+        ],
+        "adaptable": true,
+        "notes": "The released full BigCodeBench setting has 1,140 function tasks. The supported retrieval list covers upstream IDs 0, 1 and 2."
+      }
+    ],
+    "harbor_adapter": [
+      {
+        "split": "full / v0.1.4 / complete / honest",
+        "adapted_benchmark_size": 3,
+        "parity_benchmark_size": 0,
+        "parity_sampling_rate": 0,
+        "registry_benchmark_size": 0,
+        "added_agents": [],
+        "parity_matching_agents": [],
+        "parity_unmatching_agents": [],
+        "parity_costs": "$0",
+        "notes": "Main-task functional grading for three reviewed standard-library cases. Live model parity and dataset registration are pending."
+      }
+    ]
+  }
+]

@@ -1,0 +1,10 @@
+datasets:
+  - path: datasets/control-arena-infra-unit-tests-honest
+agents:
+  - name: oracle
+environment:
+  type: docker
+  delete: true
+orchestrator:
+  type: local
+  n_concurrent_trials: 1

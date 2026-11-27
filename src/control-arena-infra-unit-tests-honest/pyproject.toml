@@ -1,0 +1,17 @@
+[project]
+name = "harbor-control-arena-infra-unit-tests-honest-adapter"
+version = "0.1.0"
+description = "Adapt the ControlArena Infra training unit test main objective"
+readme = "README.md"
+requires-python = ">=3.12,<3.15"
+dependencies = ["control-arena==20.1.1", "inspect-ai==0.3.292", "harbor==0.27.0", "filelock>=3.29.4"]
+
+[project.scripts]
+control-arena-infra-unit-tests-honest = "control_arena_infra_unit_tests_honest.main:main"
+
+[build-system]
+requires = ["uv_build>=0.13.10,<0.14"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "control_arena_infra_unit_tests_honest"

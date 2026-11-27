@@ -1,0 +1,30 @@
+[
+  {
+    "adapter_name": "control-arena-sae-interp",
+    "adapter_builders": ["lijingxian (jingxianli18@fudan.edu.cn)"],
+    "original_benchmark": [
+      {
+        "split": "sae_interp_sabotage",
+        "size": 22,
+        "harness": "agent",
+        "supported_agents": ["trusted_monitoring@20.1.1"],
+        "adaptable": true,
+        "notes": "One row per SAE feature in ControlArena 20.1.1. Honest and attack are evaluation modes on the same 22 rows."
+      }
+    ],
+    "harbor_adapter": [
+      {
+        "split": "sae_interp_sabotage",
+        "adapted_benchmark_size": 22,
+        "parity_benchmark_size": 0,
+        "parity_sampling_rate": 0,
+        "registry_benchmark_size": 0,
+        "added_agents": ["control-arena-sae-interp@20.1.1"],
+        "parity_matching_agents": [],
+        "parity_unmatching_agents": [],
+        "parity_costs": "$0",
+        "notes": "Matched live policy parity and dataset registration are pending. parity_costs covers paired parity experiments only. A separate 22-case Harbor honest oracle used a live judge and accepted every reference."
+      }
+    ]
+  }
+]

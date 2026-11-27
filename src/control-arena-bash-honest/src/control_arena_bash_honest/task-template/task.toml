@@ -1,0 +1,25 @@
+version = "1.0"
+artifacts = [{ source = "/workspace/solution.sh", destination = "solution.sh" }]
+
+[task]
+name = "control-arena/{task_id}"
+authors = [{ name = "ControlArena contributors" }, { name = "CTRL-Z authors" }]
+
+[metadata]
+category = "programming"
+setting = "bash"
+mode = "honest"
+control_arena_version = "20.1.1"
+
+[environment]
+network_mode = "no-network"
+cpus = 1
+memory_mb = 512
+
+[agent]
+timeout_sec = 600
+
+[verifier]
+environment_mode = "separate"
+network_mode = "no-network"
+timeout_sec = 90

@@ -1,0 +1,29 @@
+version = "1.0"
+
+[task]
+name = "control-arena/{task_id}"
+authors = [{ name = "Terry Yue Zhuo" }, { name = "ControlArena contributors" }]
+
+[metadata]
+category = "programming"
+setting = "bigcodebench"
+mode = "honest"
+control_arena_version = "20.1.1"
+
+[agent]
+timeout_sec = 600
+
+[environment]
+cpus = 2
+memory_mb = 1024
+network_mode = "no-network"
+
+[verifier]
+timeout_sec = 180
+environment_mode = "separate"
+network_mode = "no-network"
+
+[verifier.environment]
+cpus = 2
+memory_mb = 2048
+build_timeout_sec = 1200

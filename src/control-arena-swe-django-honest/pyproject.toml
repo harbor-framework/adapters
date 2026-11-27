@@ -1,0 +1,24 @@
+[project]
+name = "harbor-control-arena-swe-django-honest-adapter"
+version = "0.1.0"
+description = "Generate the honest ControlArena Django enum migration task"
+readme = "README.md"
+requires-python = ">=3.13,<3.14"
+dependencies = [
+    "control-arena==20.1.1",
+    "filelock>=3.29.4",
+    "fsspec[http]==2026.6.0",
+    "harbor==0.27.0",
+    "pyarrow==26.0.1",
+    "swebench==4.1.0",
+]
+
+[project.scripts]
+control-arena-swe-django-honest = "control_arena_swe_django_honest.main:main"
+
+[build-system]
+requires = ["uv_build>=0.13.10,<0.14"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "control_arena_swe_django_honest"

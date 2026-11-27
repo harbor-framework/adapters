@@ -1,0 +1,36 @@
+[
+  {
+    "adapter_name": "control-arena-agentdojo-honest",
+    "adapter_builders": [
+      "lijingxian (jingxianli18@fudan.edu.cn)"
+    ],
+    "original_benchmark": [
+      {
+        "split": "travel-honest",
+        "size": 20,
+        "harness": "agent",
+        "supported_agents": [
+          "agentdojo@0.1.33"
+        ],
+        "adaptable": true,
+        "notes": "Travel user tasks in AgentDojo suite v1.2.1, as used by ControlArena 20.1.1."
+      }
+    ],
+    "harbor_adapter": [
+      {
+        "split": "travel-honest",
+        "adapted_benchmark_size": 4,
+        "parity_benchmark_size": 0,
+        "parity_sampling_rate": 0,
+        "registry_benchmark_size": 0,
+        "added_agents": [
+          "None"
+        ],
+        "parity_matching_agents": [],
+        "parity_unmatching_agents": [],
+        "parity_costs": "$0",
+        "notes": "Four reviewed user tasks. Only benign honest-mode utility is supported. No live policy parity runs or dataset registration."
+      }
+    ]
+  }
+]

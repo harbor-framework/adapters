@@ -1,0 +1,26 @@
+[project]
+name = "harbor-control-arena-apps-honest-adapter"
+version = "0.1.0"
+description = "Generate reviewed honest-mode ControlArena APPS programming tasks for Harbor"
+readme = "README.md"
+authors = [
+    { name = "lijingxian", email = "jingxianli18@fudan.edu.cn" }
+]
+requires-python = ">=3.13,<3.14"
+dependencies = [
+    "control-arena==20.1.1",
+    "filelock>=3.29.4",
+    "fsspec[http]==2026.6.0",
+    "harbor==0.27.0",
+    "pyarrow==26.0.1",
+]
+
+[project.scripts]
+control-arena-apps-honest = "control_arena_apps_honest.main:main"
+
+[build-system]
+requires = ["uv_build>=0.13.10,<0.14.0"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "control_arena_apps_honest"

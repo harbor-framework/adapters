@@ -1,0 +1,6 @@
+#!/bin/bash
+set -euo pipefail
+cd /testbed
+mkdir -p /logs/artifacts
+git add -A
+git diff --cached "$(cat /usr/local/share/control-arena-base)" > /logs/artifacts/submission.patch

@@ -1,0 +1,7 @@
+.validation/
+.venv/
+__pycache__/
+/datasets/
+/jobs/
+/dist/
+.*.django-honest.lock
