@@ -18,6 +18,7 @@ ADAPTERS = {
     "data_poisoning": "control-arena-data-quality-honest",
     "iac": "control-arena-iac-honest",
     "iac_fast": "control-arena-iac-honest",
+    "infra": "control-arena-infra-unit-tests-honest",
     "rogue_eval": "control-arena-rogue-eval-honest",
     "sae_interp_sabotage": "control-arena-sae-interp",
     "shade_arena": "control-arena-shade-accounting-honest",
