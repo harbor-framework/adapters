@@ -1,0 +1,24 @@
+[
+  {
+    "adapter_name": "axionlimitbench",
+    "agent": "pending",
+    "model": "pending",
+    "date": "pending",
+    "adapted_benchmark_size": 289,
+    "parity_benchmark_size": 30,
+    "number_of_runs": 0,
+    "notes": "Parity experiments have not been run yet. This placeholder keeps the file's structure; every measured field is marked pending and contains no invented data. Planned subset: the 30 tasks in src/axionlimitbench/parity_task_ids.txt.",
+    "original_parity_repo": null,
+    "adapter_pr": null,
+    "dataset_pr": null,
+    "parity_pr": null,
+    "metrics": [
+      {
+        "benchmark_name": "axionlimitbench",
+        "metric": "success rate at 10%",
+        "original": "pending",
+        "harbor": "pending"
+      }
+    ]
+  }
+]

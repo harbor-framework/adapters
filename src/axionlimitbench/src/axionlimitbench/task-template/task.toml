@@ -1,0 +1,35 @@
+schema_version = "1.0"
+
+artifacts = ["/app/result.json"]
+
+[task]
+name = "FaroutYLq/axionlimitbench__{task_name}"
+authors = [
+    { name = "Lanqing Yuan" },
+]
+keywords = ["physics", "scientific-literature", "data-extraction", "{coupling_slug}"]
+
+[metadata]
+difficulty = "hard"
+category = "scientific-data-extraction"
+arxiv_id = "{arxiv_id}"
+arxiv_version = "{arxiv_version}"
+reference_coupling_type = "{coupling_type}"
+upstream_code_revision = "{upstream_code_revision}"
+
+[verifier]
+environment_mode = "separate"
+network_mode = "no-network"
+timeout_sec = {verifier_timeout_sec}
+
+[agent]
+network_mode = "allowlist"
+allowed_hosts = ["arxiv.org", "export.arxiv.org"]
+timeout_sec = 1800.0
+
+[environment]
+build_timeout_sec = 1800.0
+cpus = 2
+memory_mb = 4096
+storage_mb = 10240
+gpus = 0

@@ -1,0 +1,40 @@
+[
+  {
+    "adapter_name": "axionlimitbench",
+    "adapter_builders": [
+      "Jianghao Zhang (jianghz@umich.edu)"
+    ],
+    "original_benchmark": [
+      {
+        "split": "measured-limit pool",
+        "size": 292,
+        "harness": "agent",
+        "supported_agents": [
+          "claude-code"
+        ],
+        "adaptable": true,
+        "notes": "The reference agent is one headless Claude Code session per paper (baselines/agent_claude_code/run_agent.py): seven built-in tools, the task card appended to the system prompt, a 30-minute wall clock. The benchmark lists 292 scorable papers out of a 329-paper measured-limit pool. For three of the 292 the scorer cannot grade any answer (statuses excluded_gt and gt_unusable), and the leaderboard removes such papers from its denominator."
+      }
+    ],
+    "harbor_adapter": [
+      {
+        "split": "full",
+        "adapted_benchmark_size": 289,
+        "parity_benchmark_size": 30,
+        "parity_sampling_rate": 0.104,
+        "registry_benchmark_size": 289,
+        "added_agents": [
+          "None"
+        ],
+        "parity_matching_agents": [
+          "None"
+        ],
+        "parity_unmatching_agents": [
+          "None"
+        ],
+        "parity_costs": null,
+        "notes": "Parity has not been run yet. Planned subset: 30 tasks stratified by coupling type with a fixed seed, generated with --split parity. Excluded: three papers the scorer cannot grade; see README."
+      }
+    ]
+  }
+]
