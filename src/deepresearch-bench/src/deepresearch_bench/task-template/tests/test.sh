@@ -13,8 +13,8 @@ rm -f /logs/verifier/reward.txt /logs/verifier/judgment.json
 # The token is unrelated to the public reference report, so downloading that
 # report does not trigger this path.
 ORACLE_TOKEN_SHA=$(jq -r '.oracle_token_sha256 // empty' /tests/config.json 2>/dev/null || true)
-if [ -n "$ORACLE_TOKEN_SHA" ] && [ -f /workspace/.oracle_token ] \
-    && [ "$(sha256sum /workspace/.oracle_token | cut -d' ' -f1)" = "$ORACLE_TOKEN_SHA" ]; then
+if [ -n "$ORACLE_TOKEN_SHA" ] && [ -f /workspace/oracle_token.txt ] \
+    && [ "$(sha256sum /workspace/oracle_token.txt | cut -d' ' -f1)" = "$ORACLE_TOKEN_SHA" ]; then
     echo "Oracle token verified; skipping LLM judge."
     echo 1.0 > /logs/verifier/reward.txt
     exit 0

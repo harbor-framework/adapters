@@ -35,6 +35,7 @@ The score for a report is the fraction of rubric items scored `1`; the upstream 
 - **Pinned dataset loading**: Downloads `tasks_and_rubrics.jsonl` at the pinned upstream commit and reference reports at the pinned HF revision (`UPSTREAM_COMMIT`, `REPORTS_REVISION` in `adapter.py`). A failed download stops generation, and tasks whose reference report is missing are listed at the end.
 - **Comprehensive Task Generation**: Constructs full Harbor-compliant task environments (`instruction.md`, `task.toml`, `environment/Dockerfile`, `solution/solve.sh`).
 - **Upstream judge, verbatim**: `tests/run_test.py` builds each judge request exactly as upstream `run_evaluation.py` does for markdown reports: the same `PROMPT_TEMPLATE`, `content.task` as the task text (the agent-only "do not view these articles" rule is not shown to the judge), the same rubric/blocked payload, chunk size 50, 10 retries, and 150,000-char truncation. Response parsing and validation are copied verbatim, and scores are aggregated like `aggregate_scores.py`: one entry per unique rubric item per dimension, only numeric scores counted, `-1` kept in the denominator. Only the request path differs (see Notes & Caveats).
+- **Separate verifier**: grading runs in a fresh container built from `tests/Dockerfile` (`[verifier] environment_mode = "separate"`), not in the agent's workspace. Only the declared artifacts (`/workspace/output.md`, `/workspace/oracle_token.txt`) are copied in, so the agent cannot reach the grader, its rubric config or its packages. Separate verification also allows `harbor trial regrade` of saved runs without rerunning the agent.
 - **Oracle detection**: `solve.sh` copies a random per-task token that exists only in `solution/`, and `test.sh` checks it against a hash in `tests/config.json`. A match short-circuits to reward 1.0 without the judge. The token is unrelated to any public file.
 - **Parity Split**: `--split parity` generates a deterministic 33-case subset (`idx % 4 == 1`, evenly spaced across the idx-ordered dataset).
 
@@ -46,12 +47,13 @@ deepresearch-bench/
 │   ├── task.toml                 # Task metadata and resource constraints
 │   ├── instruction.md            # Research prompt and output formatting directions
 │   ├── environment/
-│   │   └── Dockerfile            # Container setup with Python 3.13 and the judge's litellm
+│   │   └── Dockerfile            # Agent container (Python 3.13 and base utilities)
 │   ├── solution/
 │   │   ├── solve.sh              # Oracle solution (copies the token and the reference report)
 │   │   ├── oracle_token.txt      # Random per-task oracle token
 │   │   └── report.pdf            # Reference report (Qwen-3-Max-DeepResearch)
 │   └── tests/
+│       ├── Dockerfile            # Separate verifier image (litellm, jq) bundling tests/
 │       ├── test.sh               # Verifier script (oracle token check + judge orchestration)
 │       ├── run_test.py           # LLM-as-a-Judge LiteLLM grader (upstream-aligned)
 │       └── config.json           # Hidden rubric, blocked refs, oracle token hash
@@ -207,7 +209,7 @@ Every recorded score is traceable in the fork's `parity_harness/artifacts/`: eac
   `[verifier.env]`, scoped to the verifier, never exposed to the agent).
 - **Agent credentials** for whatever research agent you run (e.g. `ANTHROPIC_API_KEY` /
   `ANTHROPIC_BASE_URL` for `claude-code`).
-- The task container provides `jq` and `python3` for `test.sh` / `run_test.py`.
+- The verifier image (`tests/Dockerfile`) provides `jq`, `python3` and `litellm` for `test.sh` / `run_test.py`; the agent image does not include them.
 
 ## Troubleshooting
 

@@ -2,6 +2,10 @@
 
 version = "1.0"
 
+# Agent outputs the separate verifier needs (copied into it before grading).
+# The report is graded; the oracle token is only written by solution/solve.sh.
+artifacts = ["/workspace/output.md", "/workspace/oracle_token.txt"]
+
 # =============================================================================
 # Task Section
 # Task identity, authors, and keywords.
@@ -28,6 +32,9 @@ category = "research"
 # each retried up to 10 times), so the timeout is well above the 600s default.
 [verifier]
 timeout_sec = 1800.0
+# Grade in a fresh container built from tests/Dockerfile, not in the agent's
+# workspace: the agent cannot touch the grader, its config or its packages.
+environment_mode = "separate"
 
 # MODEL_NAME must stay aligned with the upstream DeepResearch-Bench-II judge
 # (gemini-2.5-pro) so Harbor scores remain comparable to upstream scores.

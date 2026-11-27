@@ -4,8 +4,5 @@ WORKDIR /workspace
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
-    git curl jq \
+    git curl \
     && rm -rf /var/lib/apt/lists/*
-
-# Install litellm for the verifier LLM judge
-RUN pip install --no-cache-dir litellm==1.83.14

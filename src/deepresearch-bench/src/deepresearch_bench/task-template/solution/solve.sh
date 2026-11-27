@@ -9,5 +9,5 @@ fi
 # Keep the reference report for inspection; it is not what gets graded.
 cp /solution/report.pdf /workspace/reference_report.pdf
 # The secret token proves the oracle ran; test.sh checks its hash.
-cp /solution/oracle_token.txt /workspace/.oracle_token
+cp /solution/oracle_token.txt /workspace/oracle_token.txt
 echo "Solution completed!"
