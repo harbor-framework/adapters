@@ -16,6 +16,7 @@ from typing import TYPE_CHECKING
 import yaml
 
 from . import DATA_REVISION, MANIFEST_SHA256, UPSTREAM_REVISION
+from .oracle import populate_oracle
 from .release import key, load_upstream, read_manifest, task_id
 from .runtimes import Runtime, load_runtimes, runtime
 
@@ -295,6 +296,12 @@ class Video2WorldAdapter:
             )
             (task / "tests/docker-compose.yaml").write_text(
                 yaml.safe_dump(self._verifier_compose(config), sort_keys=False)
+            )
+            populate_oracle(
+                configuration.evaluator,
+                configuration.profile,
+                self.data / "samples" / row["sample"],
+                task / "solution",
             )
             task.rename(output / task_id(configuration.key))
 

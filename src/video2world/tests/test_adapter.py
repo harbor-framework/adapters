@@ -874,5 +874,229 @@ class UpstreamTests(unittest.TestCase):
             )
 
 
+class OracleConverterTests(unittest.TestCase):
+    def test_cloth_conversion_produces_valid_camera_package(self):
+        import numpy as np
+
+        from video2world.oracle import populate_oracle
+
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            sample = root / "sample"
+            gt = sample / "gt_pkg"
+            (sample / "hidden").mkdir(parents=True)
+            gt.mkdir(parents=True)
+            (sample / "video.mp4").write_bytes(b"mp4")
+            (gt / "report.md").write_text("ok\n")
+            T = np.array(
+                [
+                    [0.0, -1.0, 0.0, 0.5],
+                    [1.0, 0.0, 0.0, -0.2],
+                    [0.0, 0.0, 1.0, 1.0],
+                    [0.0, 0.0, 0.0, 1.0],
+                ]
+            )
+            (sample / "hidden/camera.json").write_text(
+                json.dumps({"extrinsics_base_cam": T.tolist()})
+            )
+            (gt / "scene.json").write_text(
+                json.dumps(
+                    {
+                        "gravity": "table_normal",
+                        "table": {"point": [0.3, 0.0, -0.1], "normal": [0.0, 0.0, 1.0], "z": -0.1},
+                        "cloth": {
+                            "corners": [[0.2, -0.1, -0.1], [0.4, -0.1, -0.1], [0.4, 0.1, -0.1], [0.2, 0.1, -0.1]],
+                            "grid": [5, 5],
+                            "mass": 0.05,
+                            "friction": 1.0,
+                            "young": 1e5,
+                            "poisson": 0.3,
+                            "thickness": 0.001,
+                            "yaw": 0.0,
+                        },
+                    }
+                )
+            )
+            tcp = np.repeat(np.eye(4)[None], 3, axis=0)
+            np.savez(
+                gt / "actions.npz",
+                tcp_pose=tcp,
+                gripper_closure=np.array([0.0, 0.8, 0.2]),
+                fps=np.array(15.0),
+            )
+            sol = root / "solution"
+            ok = populate_oracle("cloth", "droid_cloth", sample, sol)
+            self.assertTrue(ok)
+            self.assertTrue((sol / "pkg/source/video.mp4").is_file())
+            self.assertIn("cp -a", (sol / "solve.sh").read_text())
+            self.assertNotIn("/logs/verifier", (sol / "solve.sh").read_text())
+            proto = json.loads((sol / "pkg/protocol.json").read_text())
+            self.assertEqual(proto["physics_profile"], "droid-cloth-camera/1")
+            scene = json.loads((sol / "pkg/scene.json").read_text())
+            self.assertEqual(set(scene["table"]), {"point", "normal"})
+            self.assertNotIn("yaw", scene["cloth"])
+
+    def test_non_convertible_evaluator_exits_nonzero(self):
+        from video2world.oracle import populate_oracle
+
+        for evaluator, profile in (
+            ("inhouse", "inhouse_provider_native_v2"),
+            ("ego_arm", "ego_arm"),
+            ("ego_bimanual", "ego_bimanual"),
+            ("twin", "twin_rope"),
+            ("twin_toy", "twin_toy"),
+            ("fb", "fb_lamp"),
+            ("fb", "fb_furniture"),
+        ):
+            with self.subTest(evaluator=evaluator, profile=profile), tempfile.TemporaryDirectory() as temp:
+                root = Path(temp)
+                sol = root / "solution"
+                ok = populate_oracle(evaluator, profile, root, sol)
+                self.assertFalse(ok)
+                self.assertFalse((sol / "pkg").exists())
+                self.assertIn("exit 1", (sol / "solve.sh").read_text())
+
+    def test_fb_supported_profiles_remap_robot_uid(self):
+        from video2world.oracle import populate_oracle
+
+        for profile, expected_uid in (("fb_pusht", "xarm7_pusher"), ("fb_droid", "panda_robotiq")):
+            with self.subTest(profile=profile), tempfile.TemporaryDirectory() as temp:
+                root = Path(temp)
+                sample = root / "sample"
+                (sample / "gt_pkg").mkdir(parents=True)
+                (sample / "gt_pkg/protocol.json").write_text(
+                    json.dumps({"robot": {"uid": "widowx250s_bridge", "base_pose": [0, 0, 0, 1, 0, 0, 0]}})
+                )
+                sol = root / "solution"
+                ok = populate_oracle("fb", profile, sample, sol)
+                self.assertTrue(ok)
+                proto = json.loads((sol / "pkg/protocol.json").read_text())
+                self.assertEqual(proto["robot"]["uid"], expected_uid)
+                self.assertIn("cp -a", (sol / "solve.sh").read_text())
+
+    def test_inhouse_candidate_evaluators_copy_candidate_dir(self):
+        from video2world.oracle import INHOUSE_CANDIDATE_EVALUATORS, populate_oracle
+
+        for evaluator in sorted(INHOUSE_CANDIDATE_EVALUATORS):
+            with self.subTest(evaluator=evaluator), tempfile.TemporaryDirectory() as temp:
+                root = Path(temp)
+                sample = root / "sample"
+                (sample / "candidate").mkdir(parents=True)
+                (sample / "candidate/protocol.json").write_text(
+                    json.dumps({"physics_profile": "inhouse_camera_native_v1"})
+                )
+                sol = root / "solution"
+                ok = populate_oracle(evaluator, "inhouse_provider_native_v2", sample, sol)
+                self.assertTrue(ok)
+                self.assertTrue((sol / "pkg/protocol.json").is_file())
+                self.assertIn("cp -a", (sol / "solve.sh").read_text())
+
+    def test_robodojo_usd_conversion_produces_camera_geometry_npz(self):
+        import numpy as np
+        from pxr import Gf, Usd, UsdGeom
+
+        from video2world.oracle import populate_oracle
+
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            sample = root / "sample"
+            gt = sample / "gt_pkg"
+            (sample / "hidden").mkdir(parents=True)
+            (gt / "assets/block").mkdir(parents=True)
+            usd_file = gt / "assets/block/object.usda"
+            stage = Usd.Stage.CreateNew(str(usd_file))
+            UsdGeom.Xform.Define(stage, "/root")
+            mesh = UsdGeom.Mesh.Define(stage, "/root/visual")
+            mesh.CreatePointsAttr([Gf.Vec3f(0, 0, 0), Gf.Vec3f(0.1, 0, 0), Gf.Vec3f(0, 0.2, 0), Gf.Vec3f(0, 0, 0.3)])
+            mesh.CreateFaceVertexCountsAttr([3, 3])
+            mesh.CreateFaceVertexIndicesAttr([0, 1, 2, 0, 1, 3])
+            stage.GetRootLayer().Save()
+
+            np.save(gt / "actions.npy", np.zeros((3, 14), dtype=np.float32))
+            np.savez(
+                gt / "assets/table.npz",
+                vertices=np.array([[0, 0, 0], [1, 0, 0], [0, 1, 0]], dtype=np.float32),
+                face_vertex_counts=np.array([3], dtype=np.int32),
+                face_vertex_indices=np.array([0, 1, 2], dtype=np.int32),
+            )
+            T_wc = np.eye(4)
+            T_wc[:3, 3] = [0.0, -0.5, 1.0]
+            (sample / "hidden/camera.json").write_text(json.dumps({"camera_to_world_ros": T_wc.tolist()}))
+            (gt / "protocol.json").write_text(
+                json.dumps(
+                    {
+                        "protocol_version": "3.0",
+                        "physics_profile": "robodojo_candidate_task_v1",
+                        "task": "test_task",
+                        "embodiment": "x5",
+                        "actions": {"path": "actions.npy", "format": "dual_joint_position_gripper01", "dt": 0.04},
+                    }
+                )
+            )
+            (gt / "scene.json").write_text(
+                json.dumps(
+                    {
+                        "camera": {"focal_px": 288.0},
+                        "objects": [
+                            {
+                                "name": "block",
+                                "asset_path": "assets/block/object.usda",
+                                "pos": [0.0, 0.0, 0.5],
+                                "quat_wxyz": [1.0, 0.0, 0.0, 0.0],
+                                "size": [0.1, 0.2, 0.3],
+                                "scale": [1.0, 1.0, 1.0],
+                                "color": [1.0, 0.0, 0.0],
+                                "mass": 0.2,
+                            }
+                        ],
+                        "props": [],
+                        "table": {
+                            "name": "table",
+                            "geometry_npz": "assets/table.npz",
+                            "pos": [0.0, 0.0, 0.0],
+                            "quat_wxyz": [1.0, 0.0, 0.0, 0.0],
+                            "size": [1.0, 1.0, 0.05],
+                            "scale": [1.0, 1.0, 1.0],
+                            "color": [0.5, 0.5, 0.5],
+                            "mass": 0.0,
+                        },
+                    }
+                )
+            )
+            sol = root / "solution"
+            ok = populate_oracle("robodojo_native_task", "robodojo_candidate_task_v1", sample, sol)
+            self.assertTrue(ok)
+            proto = json.loads((sol / "pkg/protocol.json").read_text())
+            self.assertEqual(proto["physics_profile"], "robodojo_camera_task_v1")
+            self.assertEqual(proto["frame"], "camera_opencv")
+            scene = json.loads((sol / "pkg/scene.json").read_text())
+            self.assertNotIn("asset_path", scene["objects"][0])
+            self.assertEqual(scene["objects"][0]["geometry_npz"], "assets/block.npz")
+            self.assertTrue((sol / "pkg/assets/block.npz").is_file())
+            self.assertEqual(scene["table"]["mass"], 0.1)
+            np.testing.assert_allclose(scene["objects"][0]["pos"], [0.0, 0.5, -0.5])
+
+    def test_decimate_mesh_reduces_high_poly_geometry(self):
+        import numpy as np
+
+        from video2world.oracle import _decimate_mesh
+
+        # Build a 6,000-triangle grid (> max_faces=4000) and confirm decimation reduces faces.
+        gx, gy = np.meshgrid(np.linspace(0, 1, 56), np.linspace(0, 1, 56))
+        verts = np.c_[gx.ravel(), gy.ravel(), np.sin(gx.ravel() * 3.0)].astype(np.float32)
+        tris = []
+        for r in range(55):
+            for c in range(55):
+                i = r * 56 + c
+                tris.append([i, i + 1, i + 56])
+                tris.append([i + 1, i + 57, i + 56])
+        faces = np.asarray(tris, dtype=np.int32)
+        counts = np.full(len(faces), 3, dtype=np.int32)
+        dv, dc, di = _decimate_mesh(verts, counts, faces.reshape(-1), max_faces=1000)
+        self.assertLessEqual(len(dc), 1000)
+        self.assertEqual(len(di), len(dc) * 3)
+        self.assertTrue(np.all(di >= 0) and np.all(di < len(dv)))
+
+
 if __name__ == "__main__":
     unittest.main()

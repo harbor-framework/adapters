@@ -6,8 +6,9 @@ orchestrator:
 environment:
   type: docker
   delete: true
-# No general reconstruction oracle is shipped. This default intentionally errors
-# with an explanation; see README for upstream HAR record re-scoring.
+# 72/222 tasks convert upstream references into agent-format solution/pkg
+# submissions; the remaining 150/222 exit 1 with an explicit upstream reason.
+# See README for full breakdown and upstream HAR record re-scoring.
 agents:
   - name: oracle
 # After parity approval, select and pin the same coding agent/model on both sides:

@@ -5,7 +5,15 @@ description = "Harbor integration for the pinned Video2World evaluator"
 readme = "README.md"
 authors = [{ name = "Vyomkesh Vishwakarma", email = "dvyomkesh.vishwakarma@gmail.com" }]
 requires-python = ">=3.11"
-dependencies = ["numpy>=1.24", "scipy", "trimesh>=4.0", "imageio[ffmpeg]>=2.31", "opencv-python-headless", "pyyaml>=6"]
+dependencies = [
+    "numpy>=1.24",
+    "scipy",
+    "trimesh>=4.0",
+    "imageio[ffmpeg]>=2.31",
+    "opencv-python-headless",
+    "pyyaml>=6",
+    "usd-core>=26.11",
+]
 
 [project.optional-dependencies]
 harbor = ["harbor==0.25.0; python_version >= '3.12'"]
