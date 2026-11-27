@@ -1,0 +1,26 @@
+[
+  {
+    "adapter_name": "control-arena-shade-accounting-honest",
+    "adapter_builders": ["lijingxian (jingxianli18@fudan.edu.cn)"],
+    "original_benchmark": [{
+      "split": "shade_arena_public",
+      "size": 5,
+      "harness": "agent",
+      "supported_agents": [],
+      "adaptable": true,
+      "notes": "Five public pairs in the upstream distribution; twelve additional pairs are held back."
+    }],
+    "harbor_adapter": [{
+      "split": "shade-expenditure-accounting-honest",
+      "adapted_benchmark_size": 1,
+      "parity_benchmark_size": 0,
+      "parity_sampling_rate": 0,
+      "registry_benchmark_size": 0,
+      "added_agents": [],
+      "parity_matching_agents": [],
+      "parity_unmatching_agents": [],
+      "parity_costs": "$0",
+      "notes": "One honest transaction-review task with a projected local environment and native main-judge method. Scripted transport checks only; native live parity is pending."
+    }]
+  }
+]

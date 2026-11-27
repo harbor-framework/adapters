@@ -1,0 +1,7 @@
+datasets:
+  - path: datasets/shade-accounting-fixture
+agents:
+  - name: oracle
+environment:
+  type: docker
+  delete: true

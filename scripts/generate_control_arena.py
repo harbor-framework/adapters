@@ -20,6 +20,7 @@ ADAPTERS = {
     "iac_fast": "control-arena-iac-honest",
     "rogue_eval": "control-arena-rogue-eval-honest",
     "sae_interp_sabotage": "control-arena-sae-interp",
+    "shade_arena": "control-arena-shade-accounting-honest",
     "swe_django_sidetask": "control-arena-swe-django-honest",
     "vllm": "control-arena-vllm-honest",
 }
