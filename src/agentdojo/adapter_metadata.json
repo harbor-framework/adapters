@@ -1,0 +1,68 @@
+[
+  {
+    "adapter_name": "agentdojo",
+    "adapter_builders": [
+      "Jianing Yin (jianingyin@alumni.upenn.edu)"
+    ],
+    "original_benchmark": [
+      {
+        "split": "user",
+        "size": 97,
+        "harness": "agent",
+        "supported_agents": [
+          "None"
+        ],
+        "adaptable": true,
+        "notes": "AgentDojo v1.2.2 (agentdojo==0.1.35): 97 user tasks across the workspace (40), travel (20), banking (16) and slack (21) suites, run without injections. Upstream runs models through its own tool-calling pipeline (system message, tool execution loop); utility is a deterministic check of the final answer, environment and tool calls."
+      },
+      {
+        "split": "attack",
+        "size": 949,
+        "harness": "agent",
+        "supported_agents": [
+          "None"
+        ],
+        "adaptable": true,
+        "notes": "Every user task x injection task pair of a suite (560 + 140 + 144 + 105), with the injections of a registered attack placed in the environment. Utility and security (injection task succeeded) are deterministic checks."
+      }
+    ],
+    "harbor_adapter": [
+      {
+        "split": "user",
+        "adapted_benchmark_size": 97,
+        "parity_benchmark_size": 10,
+        "parity_sampling_rate": 0.10309278350515463,
+        "registry_benchmark_size": 97,
+        "added_agents": [
+          "agentdojo-pipeline@agentdojo-0.1.35"
+        ],
+        "parity_matching_agents": [
+          "agentdojo-pipeline@agentdojo-0.1.35+deepseek-v4-1-flash-261017"
+        ],
+        "parity_unmatching_agents": [
+          "None"
+        ],
+        "parity_costs": null,
+        "notes": "Local parity completed 2026-11-26, three runs per side, matching run ranges on all reported metrics. Clean utility 100% on both sides. Ten tasks in this split; ceiling/floor scores limit broader conclusions. Separate Codex 0.118.0 generalization run on 20 tasks: clean/attacked utility 100%, ASR 0%, zero exceptions. Native runner published; dataset registration submitted as harbor-datasets#313. Sanitized artifacts are published at https://huggingface.co/datasets/Catherine1213/agentdojo-parity-experiments/tree/b866de430b5e256cce9adcd029c6d264abd2eedf/adapters/agentdojo, with remote hash verification and exact aggregate recomputation. Official parity PR #318 links this revision because the shared repository is full. Dataset registry publication remains pending."
+      },
+      {
+        "split": "attack",
+        "adapted_benchmark_size": 949,
+        "parity_benchmark_size": 10,
+        "parity_sampling_rate": 0.01053740779768177,
+        "registry_benchmark_size": 949,
+        "added_agents": [
+          "agentdojo-pipeline@agentdojo-0.1.35"
+        ],
+        "parity_matching_agents": [
+          "agentdojo-pipeline@agentdojo-0.1.35+deepseek-v4-1-flash-261017"
+        ],
+        "parity_unmatching_agents": [
+          "None"
+        ],
+        "parity_costs": null,
+        "notes": "Local parity completed 2026-11-26, three runs per side, matching run ranges on all reported metrics. important_instructions_no_model_name attack; attacked utility original 100%, Harbor 96.67% ± 3.33% sample SEM; targeted ASR 0% on both sides. Ten tasks in this split; ceiling/floor scores limit broader conclusions. Separate Codex 0.118.0 generalization run on 20 tasks: clean/attacked utility 100%, ASR 0%, zero exceptions. Native runner published; dataset registration submitted as harbor-datasets#313. Sanitized artifacts are published at https://huggingface.co/datasets/Catherine1213/agentdojo-parity-experiments/tree/b866de430b5e256cce9adcd029c6d264abd2eedf/adapters/agentdojo, with remote hash verification and exact aggregate recomputation. Official parity PR #318 links this revision because the shared repository is full. Dataset registry publication remains pending."
+      }
+    ]
+  }
+]
