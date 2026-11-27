@@ -43,15 +43,15 @@ CAIBench is Alias Robotics' benchmark for evaluating agent capabilities in offen
 
 ```
 caibench/
-├── {task_id}/               # e.g. "cti_bench_vsp__00412
+├── {task_id}/               # e.g., `cti_bench_vsp__00412`
 │   ├── environment/
 │   │   └── Dockerfile       # Agent's container
 │   ├── solution/
 │   │   └── solve.sh         # Echoes correct answer
 │   ├── tests/
 │   │   ├── Dockerfile       # Verifier's container
-│   │   ├── test.sh          # Invokes grade.py
 │   │   ├── grade.py         # Grades a task
+│   │   ├── test.sh          # Invokes grade.py
 │   │   └── expected.json    # Expected solution
 │   ├── instruction.md       # Task instructions for the agent
 │   └── task.toml            # Harbor task configuration

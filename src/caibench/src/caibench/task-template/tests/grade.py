@@ -316,7 +316,10 @@ def grade_cyberpii_bench(output: str, solution: str) -> float:
     f1 = 2 * (precision * recall) / (precision + recall) if (precision + recall) > 0 else 0
     f2 = 5 * (precision * recall) / (4 * precision + recall) if (precision + recall) > 0 else 0
 
-    print(f"precision={precision:.4f}  recall={recall:.4f}  f1_score={f1:.4f}  f2_score={f2:.4f}")
+    print(f"Precision: {precision:.4f}")
+    print(f"Recall: {recall:.4f}")
+    print(f"F1 score: {f1:.4f}")
+    print(f"F2 score: {f2:.4f}")
 
     return f1
 
@@ -346,7 +349,8 @@ def main() -> int:
 
     REWARD_PATH.parent.mkdir(parents=True, exist_ok=True)
     REWARD_PATH.write_text(str(reward))
-    print(f"eval_type={eval_type}  reward={reward}")
+    print(f"Eval type: {eval_type}")
+    print(f"Reward: {reward}")
 
     return 0 if reward == 1.0 else 1
 

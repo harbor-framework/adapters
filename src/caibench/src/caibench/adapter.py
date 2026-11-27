@@ -307,8 +307,8 @@ class CAIBenchAdapter:
         │   │   └── solve.sh
         │   ├── tests/
         │   │   ├── Dockerfile
-        │   │   ├── test.sh
         │   │   ├── grade.py
+        │   │   ├── test.sh
         │   │   └── expected.json
         │   ├── instruction.md
         │   └── task.toml
