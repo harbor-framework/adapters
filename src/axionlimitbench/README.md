@@ -129,6 +129,7 @@ Parity experiments have not been run yet. The table will be filled in when they 
 Plan:
 
 - **Agent**: Claude Code on both sides. The original benchmark's reference agent already is Claude Code, started by `baselines/agent_claude_code/run_agent.py`
+- **Model**: DeepSeek 4.1 Flash on both sides, as agreed with the Harbor team
 - **Subset**: the 30 tasks in `src/axionlimitbench/parity_task_ids.txt`. They are drawn per coupling type in proportion to the type's share of the dataset, from the sorted task names, with `random.Random(20261125)`
 - **Runs**: three per side, reported as mean ± sample SEM
 - **Metrics**: success rate at 10% (the reward), plus the median residual of compared papers
