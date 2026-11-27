@@ -1,0 +1,27 @@
+version = "1.0"
+artifacts = [{ source = "/workspace/pkg" }]
+
+[task]
+name = "aetherlabsai/video2world-{task_id}"
+authors = [{ name = "Jinzhou Tang" }, { name = "Zijun Zhang" }, { name = "Aether AI and UC San Diego" }]
+
+[metadata]
+category = "programming"
+difficulty = "hard"
+tags = ["video2world", "simulation", "robotics"]
+
+[agent]
+timeout_sec = 10800.0
+
+[verifier]
+environment_mode = "separate"
+timeout_sec = 5700.0
+
+[[verifier.collect]]
+command = "/bin/mkdir -p -- /workspace/pkg"
+
+[environment]
+build_timeout_sec = 1800.0
+cpus = 8
+memory_mb = 32768
+storage_mb = 102400

@@ -1,0 +1,30 @@
+[project]
+name = "harbor-video2world-adapter"
+version = "0.1.0"
+description = "Harbor integration for the pinned Video2World evaluator"
+readme = "README.md"
+authors = [{ name = "Vyomkesh Vishwakarma", email = "dvyomkesh.vishwakarma@gmail.com" }]
+requires-python = ">=3.11"
+dependencies = [
+    "numpy>=1.24",
+    "scipy",
+    "trimesh>=4.0",
+    "imageio[ffmpeg]>=2.31",
+    "opencv-python-headless",
+    "pyyaml>=6",
+    "usd-core>=26.11",
+]
+
+[project.optional-dependencies]
+harbor = ["harbor==0.25.0; python_version >= '3.12'"]
+
+[project.scripts]
+video2world = "video2world.main:main"
+video2world-score = "video2world.scoring:main"
+
+[build-system]
+requires = ["uv_build>=0.8.14,<0.9"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "video2world"

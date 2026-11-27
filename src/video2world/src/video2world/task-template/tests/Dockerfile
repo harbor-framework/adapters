@@ -1,0 +1,6 @@
+ARG RUNTIME_IMAGE
+FROM ${RUNTIME_IMAGE}
+USER root
+COPY . /tests/
+WORKDIR /opt/video2world
+ENTRYPOINT []

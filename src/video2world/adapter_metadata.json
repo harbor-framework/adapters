@@ -1,0 +1,42 @@
+[
+  {
+    "adapter_name": "video2world",
+    "adapter_builders": [
+      "Vyomkesh Vishwakarma (dvyomkesh.vishwakarma@gmail.com)"
+    ],
+    "original_benchmark": [
+      {
+        "split": "full",
+        "size": 222,
+        "harness": "agent",
+        "supported_agents": [
+          "claude-code@unversioned",
+          "codex@unversioned",
+          "opencode@unversioned"
+        ],
+        "adaptable": true,
+        "notes": "Upstream supplies unversioned Claude Code, Codex and OpenCode CLI drivers and a custom-agent interface. Pin CLI/model revisions before parity."
+      }
+    ],
+    "harbor_adapter": [
+      {
+        "split": "full",
+        "adapted_benchmark_size": 222,
+        "parity_benchmark_size": 0,
+        "parity_sampling_rate": 0.0,
+        "registry_benchmark_size": 0,
+        "added_agents": [
+          "None"
+        ],
+        "parity_matching_agents": [
+          "None"
+        ],
+        "parity_unmatching_agents": [
+          "None"
+        ],
+        "parity_costs": "$0",
+        "notes": "Full upstream release; no exclusions. Model parity and registry publication are pending."
+      }
+    ]
+  }
+]
