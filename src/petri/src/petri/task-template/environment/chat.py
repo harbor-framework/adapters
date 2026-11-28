@@ -1,11 +1,10 @@
 """
 Thin proxy between the agent and the user.
 
-Run this script and feed it one JSON reply per line on stdin. For example:
-    { "reply": "Hello! How can I help?" }
+`python3 chat.py` prints the current messages and starts the conversation.
+`python3 chat.py --reply` reads the reply from stdin, sends it, then prints the resulting user message.
 
-Each line printed back on stdout is the user's next event as JSON:
-    { "role": "system" | "user", "content": "..." } or { "done": true }
+Each printed line is the user's next event as JSON: { "role": "system" | "user", "content": "..." } or { "done": true }.
 """
 
 import json
@@ -43,34 +42,14 @@ for _ in range(300):
         time.sleep(1)
 
 
-def emit(events):
-    """Print each event and return True if the conversation is done."""
-    for event in events:
-        print(json.dumps(event), flush=True)
+try:
+    if "--reply" in sys.argv:
+        response = post("/reply", { "reply": sys.stdin.read() })
+    else:
+        response = post("/start", {})
+except urllib.error.HTTPError as e:
+    print(json.dumps({ "error": e.read().decode() }), flush=True)
+    sys.exit(1)
 
-    return any(event.get("done") for event in events)
-
-
-if emit(post("/start", {})["events"]):
-    sys.exit(0)
-
-for line in sys.stdin:
-    line = line.strip()
-
-    if not line:
-        continue
-
-    try:
-        reply = json.loads(line)["reply"]
-    except (json.JSONDecodeError, KeyError, TypeError) as e:
-        print(json.dumps({ "error": f"invalid reply: {e}" }), flush=True)
-        continue
-
-    try:
-        events = post("/reply", { "reply": reply })["events"]
-    except urllib.error.HTTPError as e:
-        print(json.dumps({ "error": e.read().decode() }), flush=True)
-        continue
-
-    if emit(events):
-        break
+for event in response["events"]:
+    print(json.dumps(event), flush=True)

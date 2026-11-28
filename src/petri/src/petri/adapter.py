@@ -16,6 +16,7 @@ logger = logging.getLogger(__name__)
 
 INSPECT_PETRI_REPO = "https://github.com/meridianlabs-ai/inspect_petri.git"
 INSPECT_PETRI_REVISION = "0727facedcd8fe21984700f9a2bc4a0589ee0a85"
+INSPECT_AI_VERSION = "0.3.276"
 SEEDS_DIR = "src/inspect_petri/_seeds/default"
 
 DEFAULT_DATASET_CACHE_DIR = Path.home() / ".cache" / "harbor" / "petri"
