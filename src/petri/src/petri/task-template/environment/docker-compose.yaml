@@ -1,0 +1,24 @@
+services:
+  main:
+    depends_on:
+      auditor:
+        condition: service_healthy
+  auditor:
+    build:
+      context: .
+      dockerfile: Dockerfile.auditor
+    restart: "no"
+    networks:
+      default:
+        aliases:
+          - user
+    environment:
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      AUDITOR_MODEL: ${AUDITOR_MODEL:-{auditor_model}}
+    healthcheck:
+      test: ["CMD-SHELL", "python3 -c \"import urllib.request; urllib.request.urlopen('http://localhost:8000/health')\""]
+      interval: 5s
+      timeout: 10s
+      retries: 12
+      start_period: 60s

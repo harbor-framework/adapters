@@ -1,0 +1,38 @@
+schema_version = "1.0"
+
+[task]
+name = "meridianlabs-ai/petri__{task_id}"
+authors = [
+    { name = "Kai Fronsdal" },
+    { name = "Isha Gupta" },
+    { name = "Abhay Sheshadri" },
+    { name = "Jonathan Michala" },
+    { name = "Stephen McAleer" },
+    { name = "Rowan Wang" },
+    { name = "Sara Price" },
+    { name = "Samuel R. Bowman" },
+]
+keywords = ["petri", "safety"]
+
+[metadata]
+difficulty = "hard"
+category = "alignment-auditing"
+
+[verifier]
+timeout_sec = 900.0
+environment_mode = "separate"
+
+[verifier.env]
+ANTHROPIC_API_KEY = "${ANTHROPIC_API_KEY:-}"
+OPENAI_API_KEY = "${OPENAI_API_KEY:-}"
+JUDGE_MODEL = "${JUDGE_MODEL:-{judge_model}}"
+
+[[artifacts]]
+source = "/app/logs"
+service = "auditor"
+
+[agent]
+timeout_sec = {agent_timeout_sec}
+
+[environment]
+build_timeout_sec = 600.0
