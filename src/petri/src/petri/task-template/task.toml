@@ -23,9 +23,9 @@ timeout_sec = 900.0
 environment_mode = "separate"
 
 [verifier.env]
-ANTHROPIC_API_KEY = "${ANTHROPIC_API_KEY}"
-OPENAI_API_KEY = "${OPENAI_API_KEY}"
-JUDGE_MODEL = "{judge_model}"
+ANTHROPIC_API_KEY = "${ANTHROPIC_API_KEY:-}"
+OPENAI_API_KEY = "${OPENAI_API_KEY:-}"
+JUDGE_MODEL = "${JUDGE_MODEL:-{judge_model}}"
 
 [[artifacts]]
 source = "/app/logs"

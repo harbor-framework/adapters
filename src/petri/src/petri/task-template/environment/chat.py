@@ -44,7 +44,7 @@ for _ in range(300):
 
 try:
     if "--reply" in sys.argv:
-        response = post("/reply", { "reply": sys.stdin.read() })
+        response = post("/reply", { "reply": sys.stdin.read().strip() })
     else:
         response = post("/start", {})
 except urllib.error.HTTPError as e:
