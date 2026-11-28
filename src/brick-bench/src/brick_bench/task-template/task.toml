@@ -1,0 +1,46 @@
+version = "1.0"
+artifacts = ["/work"]
+
+[task]
+name = "@@TASK_NAME@@"
+authors = [
+    { name = "Peter Kulits" },
+    { name = "Yiqing Xu" },
+    { name = "R. Kenny Jones" },
+    { name = "Cordelia Schmid" },
+    { name = "Jiajun Wu" },
+]
+
+[metadata]
+difficulty = "hard"
+category = "@@CATEGORY@@"
+split = "@@SPLIT@@"
+task_id = "@@TASK_ID@@"
+tags = ["3d-design", "lego", "brickagent", "brickbench", "@@SPLIT@@"]
+
+[agent]
+timeout_sec = 7200.0
+
+[verifier]
+environment_mode = "separate"
+timeout_sec = 1800.0
+
+[verifier.env]
+HF_TOKEN = "${HF_TOKEN:-}"
+BRICKBENCH_VLM_MODEL = "${BRICKBENCH_VLM_MODEL:-google/gemma-4-31B-it}"
+BRICKBENCH_VLM_REVISION = "${BRICKBENCH_VLM_REVISION:-842da3794eaa0b77d5f08bae87a17459d91ff475}"
+BRICKBENCH_HF_CACHE_DIR = "${BRICKBENCH_HF_CACHE_DIR:-/opt/hf-cache}"
+BRICKBENCH_RENDER_DEVICE = "${BRICKBENCH_RENDER_DEVICE:-GPU}"
+
+[verifier.environment]
+build_timeout_sec = 3600.0
+cpus = 8
+memory_mb = 65536
+storage_mb = 153600
+gpus = 1
+
+[environment]
+build_timeout_sec = 1800.0
+cpus = 4
+memory_mb = 8192
+storage_mb = 20480

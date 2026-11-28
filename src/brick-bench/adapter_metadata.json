@@ -1,0 +1,36 @@
+[
+  {
+    "adapter_name": "brick-bench",
+    "adapter_builders": [
+      "Harbor Team"
+    ],
+    "original_benchmark": [
+      {
+        "split": "full",
+        "size": 300,
+        "harness": "agent",
+        "supported_agents": [
+          "codex"
+        ],
+        "adaptable": true,
+        "notes": "300 text-conditioned LEGO design tasks across 3 constraint settings (100 model <=400 parts, 100 set 400-4000 parts, 100 alt-build using retail set 10698 inventory) and 10 BrickLink categories (10 tasks each per setting), with 5,270 DSG VQA questions (1,719 model + 2,369 set + 1,182 alt-build). Pinned to kulits/BrickAgent@b3df55e36c669b22ef089b13db1ee841907d09b3."
+      }
+    ],
+    "harbor_adapter": [
+      {
+        "split": "full",
+        "adapted_benchmark_size": 300,
+        "parity_benchmark_size": 0,
+        "parity_sampling_rate": 0.0,
+        "registry_benchmark_size": 0,
+        "added_agents": [
+          "None"
+        ],
+        "parity_matching_agents": [],
+        "parity_unmatching_agents": [],
+        "parity_costs": null,
+        "notes": "WIP adapter awaiting maintainer approval for parity runs and full 300-task oracle sweep. Static generation verified across all 300 tasks; E2E Harbor oracle + negative-control validation performed on 9 representative tasks (3 per setting). Single-trial Harbor reward reports Valid-gated VQA (vqa_gated when valid else 0.0) alongside valid and vqa_flat metrics; pairwise Align/Design ELO remains a multi-system post-run step over saved /logs/verifier/renders/."
+      }
+    ]
+  }
+]
