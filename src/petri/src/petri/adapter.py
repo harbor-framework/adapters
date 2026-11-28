@@ -144,13 +144,17 @@ class PetriAdapter:
         _render_template(
             out_dir / "environment" / "Dockerfile.auditor",
             {
+                "{inspect_ai_version}": INSPECT_AI_VERSION,
                 "{inspect_petri_revision}": INSPECT_PETRI_REVISION,
                 "{seed_file}": seed_file.name,
             },
         )
         _render_template(
             out_dir / "tests" / "Dockerfile",
-            { "{inspect_petri_revision}": INSPECT_PETRI_REVISION },
+            {
+                "{inspect_ai_version}": INSPECT_AI_VERSION,
+                "{inspect_petri_revision}": INSPECT_PETRI_REVISION
+            },
         )
         _render_template(
             out_dir / "environment" / "docker-compose.yaml",
