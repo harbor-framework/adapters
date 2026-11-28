@@ -1,0 +1,30 @@
+# Harbor-side SecCodeBench parity run: Codex CLI with the same version, flags and model as the
+# original side (parity/run_original.sh). Generate the parity subset first:
+#   uv run seccodebench --split parity --output-dir datasets/seccodebench-parity
+# then: harbor run -c src/seccodebench/parity/run_harbor_parity.yaml --env-file <file>
+# with OPENAI_API_KEY and OPENAI_BASE_URL (OpenAI-compatible gateway) in the env file.
+job_name: seccodebench-parity
+jobs_dir: jobs/seccodebench-parity
+n_attempts: 1
+n_concurrent_trials: 2
+# Installing the CLI in a cold task image under load can exceed Harbor's default 360 s
+# agent-setup timeout; this only lengthens setup, never the agent's 300 s task timeout.
+agent_setup_timeout_multiplier: 4.0
+
+environment:
+  type: docker
+  delete: true
+
+agents:
+  - name: codex
+    model_name: openai/deepseek-v4.1-flash
+    kwargs:
+      # keep identical to parity/run_original.sh CLI_VERSION; codex >= 0.17x ignores OPENAI_BASE_URL
+      version: "0.118.0"
+      # Harbor's codex agent exposes no generic `-c` passthrough; the flag value is inserted
+      # verbatim, so this also disables Codex's web_search tool (the gateway rejects it), as
+      # run_original.sh does with `--cli-extra-arg=-c --cli-extra-arg=web_search=disabled`.
+      reasoning_effort: "high -c web_search=disabled"
+
+datasets:
+  - path: datasets/seccodebench-parity

@@ -1,0 +1,8 @@
+# Local-infrastructure override for docker-compose-verifiers.yml (enable with SCB_LOCAL_PODMAN=1).
+# On rootless Podman with NFS-backed storage, chmod/fchmod on files under the container's /tmp
+# fails with EPERM, which kills gunicorn's worker heartbeat in the python-verifier. Putting the
+# heartbeat files on /dev/shm (gunicorn --worker-tmp-dir) avoids it; scoring is unaffected.
+# Not needed on standard Docker hosts.
+services:
+  python-verifier:
+    command: ["gunicorn", "-w", "16", "-b", "0.0.0.0:5000", "--timeout", "120", "--worker-tmp-dir", "/dev/shm", "app:app"]

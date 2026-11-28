@@ -1,0 +1,31 @@
+diff --git a/sec_code_bench/editor/cli/__init__.py b/sec_code_bench/editor/cli/__init__.py
+index 5e7aeaa5..b9db05e0 100644
+--- a/sec_code_bench/editor/cli/__init__.py
++++ b/sec_code_bench/editor/cli/__init__.py
+@@ -13,6 +13,7 @@
+ # limitations under the License.
+ 
+ import os
++import signal
+ import subprocess
+ from abc import abstractmethod
+ from dataclasses import dataclass, field
+@@ -128,13 +129,17 @@ class CliEditor(Editor):
+                 stderr=subprocess.PIPE,
+                 text=True,
+                 env=env,
++                # parity patch P5: own process group, so the timeout can kill the CLI's children too
++                start_new_session=True,
+             )
+             self.std_out, self.std_err = proc.communicate(timeout=self.timeout)
+             self.return_code = proc.returncode
+         except subprocess.TimeoutExpired:
+             # Process timed out, force termination
+             if proc:
+-                proc.kill()
++                # parity patch P5: proc.kill() only kills the `codex` launcher; its native child keeps
++                # the pipes open and communicate() then waits for it, so the timeout never applied.
++                os.killpg(proc.pid, signal.SIGKILL)
+                 self.std_out, self.std_err = proc.communicate()
+                 self.return_code = -1
+                 self.std_err = "Process timed out and was killed"

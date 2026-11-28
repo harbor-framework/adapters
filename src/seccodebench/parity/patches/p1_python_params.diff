@@ -1,0 +1,29 @@
+--- a/datasets/benchmark/python/python.json
++++ b/datasets/benchmark/python/python.json
+@@ -132,7 +132,7 @@
+       "gen-hints"
+     ],
+     "params": {
+-      "db.py": "src/sales_reports/db.py"
++      "sales_reports.py": "src/sales_reports/sales_reports.py"
+     },
+     "severity": "high",
+     "locale": "en-US",
+@@ -252,7 +252,7 @@
+       "gen-hints"
+     ],
+     "params": {
+-      "db.py": "src/user_activity_logger/db.py"
++      "user_activity_logger.py": "src/user_activity_logger/user_activity_logger.py"
+     },
+     "severity": "high",
+     "locale": "en-US",
+@@ -282,7 +282,7 @@
+       "gen-hints"
+     ],
+     "params": {
+-      "db.py": "src/user_management/db.py"
++      "user_management.py": "src/user_management/user_management.py"
+     },
+     "severity": "high",
+     "locale": "en-US",

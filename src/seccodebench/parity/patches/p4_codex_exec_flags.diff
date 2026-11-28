@@ -1,0 +1,28 @@
+diff --git a/sec_code_bench/editor/cli/codex.py b/sec_code_bench/editor/cli/codex.py
+index dfebe740..c6e889f5 100644
+--- a/sec_code_bench/editor/cli/codex.py
++++ b/sec_code_bench/editor/cli/codex.py
+@@ -25,7 +25,8 @@ class CodexEditor(CliEditor):
+         Returns:
+             Prompt argument as string
+         """
+-        return "exec"
++        # parity patch P4: `exec` (and its exec-only flag) is emitted by _get_extends_args
++        return ""
+ 
+     def _get_binary_name(self) -> str:
+         """
+@@ -61,9 +62,12 @@ class CodexEditor(CliEditor):
+         Returns:
+             Extended arguments as list of strings
+         """
++        # parity patch P4: `--skip-git-repo-check` is an `exec` subcommand flag; codex rejects it
++        # before `exec` ("unexpected argument"), so emit it after the subcommand.
+         return [
+-            "--skip-git-repo-check",
+             "--dangerously-bypass-approvals-and-sandbox",
++            "exec",
++            "--skip-git-repo-check",
+         ]
+ 
+     def _get_config_env(self) -> dict[str, str]:

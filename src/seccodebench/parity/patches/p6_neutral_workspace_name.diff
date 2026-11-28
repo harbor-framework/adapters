@@ -1,0 +1,17 @@
+diff --git a/sec_code_bench/e2e.py b/sec_code_bench/e2e.py
+index 0acf78f9..9b5b0b93 100644
+--- a/sec_code_bench/e2e.py
++++ b/sec_code_bench/e2e.py
+@@ -354,7 +354,11 @@ async def run_once(
+         work_dir: Working directory.
+     """
+     # Set up code directory
+-    code_dir = work_dir / f"{testcase.case_id}_{scenario.value}_cycle-{cycle}"
++    # parity patch P6: neutral workspace name. Upstream names the agent's cwd after the case
++    # (e.g. XXEJDOM2_gen_cycle-0), which leaks the vulnerability class into the agent's context;
++    # Harbor's agent works in /app.
++    import hashlib
++    code_dir = work_dir / ("task-" + hashlib.sha1(f"{testcase.case_id}_{scenario.value}_cycle-{cycle}".encode()).hexdigest()[:10])
+     testcase.set_code_paths(cycle, scenario, code_dir)
+ 
+     # Get prompt for this scenario

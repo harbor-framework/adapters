@@ -1,0 +1,50 @@
+version = "1.0"
+
+# Grading runs in a separate verifier (a fresh container from the same image, with
+# tests/ uploaded only there). The agent's only output is the target file.
+artifacts = ["/app/{target_file}"]
+
+[task]
+name = "{task_name}"
+description = "SecCodeBench {language} case {case_id} ({scenario} scenario)"
+authors = [
+  { name = "Longfei Chen" },
+  { name = "Ji Zhao" },
+  { name = "Lanxiao Cui" },
+  { name = "Tong Su" },
+  { name = "Xingbo Pan" },
+  { name = "Ziyang Li" },
+  { name = "Yongxing Wu" },
+  { name = "Qijiang Cao" },
+  { name = "Qiyao Cai" },
+  { name = "Jing Zhang" },
+]
+keywords = ["security", "secure-coding", "seccodebench", "{language}", "{scenario}"]
+
+[metadata]
+difficulty = "medium"
+category = "secure-coding"
+tags = ["security", "{language}", "{scenario}", "severity-{severity}"]
+source = "alibaba/sec-code-bench@{source_commit}"
+case_id = "{case_id}"
+scenario = "{scenario}"
+severity = "{severity}"
+target_file = "{target_file}"
+requires_network_at_verify = {requires_network_at_verify}
+
+[agent]
+timeout_sec = 300.0
+
+[verifier]
+environment_mode = "separate"
+timeout_sec = {verifier_timeout_sec}
+
+[environment]
+build_timeout_sec = 1200.0
+cpus = 2
+memory_mb = 4096
+storage_mb = 10240
+workdir = "/app"
+# The separate verifier reuses this environment definition; some cases need internet
+# at verify time (see requires_network_at_verify), and the upstream E2E agent also had network.
+allow_internet = true

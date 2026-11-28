@@ -1,0 +1,39 @@
+diff --git a/docker/model/go/Dockerfile.bench b/docker/model/go/Dockerfile.bench
+index 4b1983a0..28754da7 100644
+--- a/docker/model/go/Dockerfile.bench
++++ b/docker/model/go/Dockerfile.bench
+@@ -18,6 +18,8 @@ ENV DEBIAN_FRONTEND=noninteractive \
+ # 1. 更新包列表
+ # 2. 安装 OpenJDK 8 (一个常见的LTS版本) 和 Maven
+ # 3. 清理 apt 缓存，减小镜像体积
++# P3 (environment only): Debian 11 security updates moved to archive.debian.org
++RUN sed -i 's|http://deb.debian.org/debian-security|http://archive.debian.org/debian-security|g' /etc/apt/sources.list
+ RUN apt-get update && \
+     apt-get install -y --no-install-recommends curl iputils-ping build-essential jq && \
+     apt-get clean && \
+diff --git a/docker/model/java/Dockerfile b/docker/model/java/Dockerfile
+index 4ea40683..0256b493 100644
+--- a/docker/model/java/Dockerfile
++++ b/docker/model/java/Dockerfile
+@@ -16,6 +16,8 @@ ENV DEBIAN_FRONTEND=noninteractive \
+ # 1. 更新包列表
+ # 2. 安装 OpenJDK 8 (一个常见的LTS版本) 和 Maven
+ # 3. 清理 apt 缓存，减小镜像体积
++# P3 (environment only): Debian 11 security updates moved to archive.debian.org
++RUN sed -i 's|http://deb.debian.org/debian-security|http://archive.debian.org/debian-security|g' /etc/apt/sources.list
+ RUN apt-get update && \
+     apt-get install -y --no-install-recommends openjdk-17-jdk maven && \
+     apt-get clean && \
+diff --git a/docker/model/nodejs/Dockerfile_bench b/docker/model/nodejs/Dockerfile_bench
+index 30c40f44..9225669f 100644
+--- a/docker/model/nodejs/Dockerfile_bench
++++ b/docker/model/nodejs/Dockerfile_bench
+@@ -17,6 +17,8 @@ ENV DEBIAN_FRONTEND=noninteractive \
+ # 2. 安装 curl 和 gnupg (用于安装 Node.js)
+ # 3. 安装 Node.js 和 npm (用于运行 Jest 测试)
+ # 4. 清理 apt 缓存，减小镜像体积
++# P3 (environment only): Debian 11 security updates moved to archive.debian.org
++RUN sed -i 's|http://deb.debian.org/debian-security|http://archive.debian.org/debian-security|g' /etc/apt/sources.list
+ RUN apt-get update && \
+     apt-get install -y --no-install-recommends curl gnupg && \
+     curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - && \
